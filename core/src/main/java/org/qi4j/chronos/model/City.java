@@ -22,7 +22,7 @@ public interface City
 
     String getCommonName();
 
-    String getState();
+    State getState();
 
     Country getCountry();
 }
