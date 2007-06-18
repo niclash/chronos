@@ -22,9 +22,17 @@ public interface Account
 {
     Customer getProjectOwner();
 
+    String getName();
+
     List<Project> getAllProjectsInAccount();
+
+    List<PriceRateSchedule> getPriceRateSchedules();
 
     void addProject( Project project );
 
     void removeProject( Project project );
+
+    void addPriceRateSchedule(PriceRateSchedule priceRateSchedule);
+
+    void removePriceRateSchedule(PriceRateSchedule priceRateSchedule);
 }

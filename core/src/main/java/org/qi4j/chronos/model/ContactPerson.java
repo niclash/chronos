@@ -18,13 +18,13 @@ package org.qi4j.chronos.model;
 
 import java.util.List;
 
-public interface ContactPerson
+public interface ContactPerson extends User
 {
-    String getCommonName();
-
-    String getFullName();
-
     Relationship getRelationship();
 
-    List<Contact> getContactNumber();
+    List<Contact> getContact();
+
+    void addContact(Contact contact);
+
+    void removeContact(Contact contact);
 }

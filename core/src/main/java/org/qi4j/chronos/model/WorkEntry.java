@@ -20,15 +20,11 @@ import java.util.List;
 
 public interface WorkEntry
 {
-    RatedConsultant getConsultant();
-
     String getTitle();
 
     String getDescription();
 
     List<String> getComments();
-
-    int getDayOfYear();
     
     TimeRange getTime();
 }

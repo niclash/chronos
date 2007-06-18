@@ -23,20 +23,38 @@ public interface Project
     String getProjectName();
 
     String getFormalReference();
+
+    ProjectStatus getProjectStatus();
+
+    List<ProjectAssignee> getProjectAssignees();
+
+    ProjectAssignee getProjectLead();
     
-    Customer getCustomer();
+    List<LegalCondition> getLegalConditions();
 
-    ContactPerson getCustomerContactPerson();
+    ContactPerson getPrimaryContactPerson();
 
-    Consultant getLeadConsultant();
+    List<ContactPerson> getCustomerContactPersons();
+    
+    TimeRange getEstimateTime();
 
-    List<RatedConsultant> getConsultants();
+    TimeRange getActualTime();
 
-    List<Condition> getConditions();
+    List<PriceRateSchedule> getPriceRateSchedules();
 
-    TimeRange getTimePeriod();
+    void addProjectAssignee(ProjectAssignee projectAssignee);
 
-    boolean isActive();
+    void removeProjectAssignee(ProjectAssignee projectAssignee);
 
-    boolean isClosed();
+    void addLegalCondition(LegalCondition legalCondition);
+
+    void removeLegalCondition(LegalCondition legalCondition);
+
+    void addContactPerson(ContactPerson contactPerson);
+
+    void removeContactPerson(ContactPerson contactPerson);
+
+    void addPriceRateSchedule(PriceRateSchedule priceRateSchedule);
+
+    void removePriceRateSchedule(PriceRateSchedule priceRateSchedule);
 }

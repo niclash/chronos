@@ -20,5 +20,5 @@ public interface Contact
 {
     String getNumber();
 
-    ContactType getContactNumberType();
+    ContactType getContactType();
 }

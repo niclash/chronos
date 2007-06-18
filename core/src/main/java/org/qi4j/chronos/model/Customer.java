@@ -27,4 +27,14 @@ public interface Customer
     Address getAddress();
 
     List<ContactPerson> getContactPersons();
+
+    List<Account> getAccounts();
+
+    void addContactPerson(ContactPerson contactPerson);
+
+    void removeContactPerson(ContactPerson contactPerson);
+
+    void addAccount(Account account);
+    
+    void removeAccount(Account account);
 }
