@@ -1,20 +1,10 @@
 package org.qi4j.chronos.model;
 
-import java.util.Dictionary;
+import org.qi4j.api.persistence.Identity;
 
-public interface User extends SystemRole
+/**
+ * TODO: Add Gender and credentials
+ */
+public interface User extends Identity, FullName
 {
-    String getFirstName();
-
-    String getLastName();
-
-    Gender getGender();
-
-    LoginUser getLoginUser();
-
-    Dictionary<String, Object> getCredentials();
-
-    void addCredential(String key, Object value);
-
-    void removeCredential(String key);
 }

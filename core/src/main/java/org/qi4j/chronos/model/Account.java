@@ -20,7 +20,7 @@ import java.util.List;
 
 public interface Account
 {
-    Customer getProjectOwner();
+//    Customer getProjectOwner();
 
     String getName();
 
