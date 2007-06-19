@@ -2,7 +2,7 @@ package org.qi4j.chronos.model;
 
 import java.util.List;
 
-public interface Contacts
+public interface Contactable
 {
     List<Contact> getContacts();
 

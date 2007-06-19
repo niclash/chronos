@@ -1,6 +1,11 @@
 package org.qi4j.chronos.model;
 
-public enum Gender
+import org.qi4j.api.annotation.ModifiedBy;
+
+@ModifiedBy(GenderTypeValidator.class)
+public interface Gender
 {
-    Female, Male
+    String getGender();
+
+    void setGender(String gender);
 }
