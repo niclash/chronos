@@ -1,12 +1,13 @@
 package org.qi4j.chronos.model;
 
 import java.util.List;
+import org.qi4j.chronos.model.composites.CommentComposite;
 
 public interface HasComments
 {
-    void addComment(Comment comment);
+    void addComment(CommentComposite comment);
 
-    void removeComment(Comment comment);
+    void removeComment( CommentComposite comment);
 
-    List<Comment> getComments();
+    List<CommentComposite> getComments();
 }
