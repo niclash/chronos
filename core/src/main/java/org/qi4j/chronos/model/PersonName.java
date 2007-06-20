@@ -1,6 +1,6 @@
 package org.qi4j.chronos.model;
 
-public interface FullName
+public interface PersonName
 {
     String getFirstName();
 

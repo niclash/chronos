@@ -16,15 +16,7 @@
  */
 package org.qi4j.chronos.model;
 
-import java.util.List;
-
-public interface WorkEntry
+public enum PriceRateType
 {
-    String getTitle();
-
-    String getDescription();
-
-    List<String> getComments();
-    
-    TimeRange getTime();
+    hourly, daily, monthly, yearly 
 }

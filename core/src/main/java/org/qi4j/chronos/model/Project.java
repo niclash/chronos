@@ -17,6 +17,9 @@
 package org.qi4j.chronos.model;
 
 import java.util.List;
+import org.qi4j.chronos.model.composites.ContactPersonComposite;
+import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
+import org.qi4j.chronos.model.composites.ProjectAssigneeComposite;
 
 public interface Project
 {
@@ -26,35 +29,35 @@ public interface Project
 
     ProjectStatus getProjectStatus();
 
-    List<ProjectAssignee> getProjectAssignees();
+    List<ProjectAssigneeComposite> getProjectAssignees();
 
-    ProjectAssignee getProjectLead();
+    ProjectAssigneeComposite getProjectLead();
     
     List<LegalCondition> getLegalConditions();
 
-    ContactPerson getPrimaryContactPerson();
+    ContactPersonComposite getPrimaryContactPerson();
 
-    List<ContactPerson> getCustomerContactPersons();
+    List<ContactPersonComposite> getCustomerContactPersons();
     
     TimeRange getEstimateTime();
 
     TimeRange getActualTime();
 
-    List<PriceRateSchedule> getPriceRateSchedules();
+    List<PriceRateScheduleComposite> getPriceRateSchedules();
 
-    void addProjectAssignee(ProjectAssignee projectAssignee);
+    void addProjectAssignee( ProjectAssigneeComposite projectAssignee);
 
-    void removeProjectAssignee(ProjectAssignee projectAssignee);
+    void removeProjectAssignee( ProjectAssigneeComposite projectAssignee);
 
     void addLegalCondition(LegalCondition legalCondition);
 
     void removeLegalCondition(LegalCondition legalCondition);
 
-    void addContactPerson(ContactPerson contactPerson);
+    void addContactPerson( ContactPersonComposite contactPerson);
 
-    void removeContactPerson(ContactPerson contactPerson);
+    void removeContactPerson( ContactPersonComposite contactPerson);
 
-    void addPriceRateSchedule(PriceRateSchedule priceRateSchedule);
+    void addPriceRateSchedule( PriceRateScheduleComposite priceRateSchedule);
 
-    void removePriceRateSchedule(PriceRateSchedule priceRateSchedule);
+    void removePriceRateSchedule( PriceRateScheduleComposite priceRateSchedule);
 }

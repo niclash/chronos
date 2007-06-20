@@ -22,5 +22,9 @@ public interface TimeRange
 {
     Date getStartTime();
 
+    void setStartTime(Date startTime);
+
     Date getEndTime();
+
+    void setEndTime(Date endTime);
 }

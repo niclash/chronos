@@ -16,14 +16,14 @@
  */
 package org.qi4j.chronos.model;
 
-import java.util.List;
-
+/**
+ * TODO : Convert to COP
+ */
 public interface Chronos
 {
-    List<Account> getAllAccounts();
-
-    void addAccount( Account account );
-
-    void removeAccount( Account account );
-    
+//    List<Account> getAllAccounts();
+//
+//    void addAccount( Account account );
+//
+//    void removeAccount( Account account );
 }

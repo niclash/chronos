@@ -5,8 +5,4 @@ public interface Contact
     String getContact();
 
     void setContact(String aContact);
-
-    ContactType getContactType();
-
-    void setContactType(ContactType aType);
 }

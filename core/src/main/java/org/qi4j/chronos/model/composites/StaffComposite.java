@@ -16,6 +16,11 @@
  */
 package org.qi4j.chronos.model.composites;
 
-public interface StaffComposite 
+import org.qi4j.api.persistence.composite.PersistentComposite;
+import org.qi4j.chronos.model.Salary;
+import org.qi4j.chronos.model.TimeRange;
+import org.qi4j.chronos.model.composites.UserComposite;
+
+public interface StaffComposite extends UserComposite, TimeRange, Salary, PriceRateComposite, PersistentComposite
 {
 }

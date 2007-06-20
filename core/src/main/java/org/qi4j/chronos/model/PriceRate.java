@@ -1,14 +1,12 @@
 package org.qi4j.chronos.model;
 
-import java.util.List;
-
 public interface PriceRate
 {
-    RateType getRateType();
+    double getPriceRate();
 
-    double getValue();
+    void setPriceRate(double priceRate);
 
-    List<ProjectRole> getProjectRoles();
+    String getPriceRateType();
 
-    TimeRange getTimeRange();
+    void setPriceRateType(String type);
 }

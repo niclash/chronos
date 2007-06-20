@@ -16,7 +16,12 @@
  */
 package org.qi4j.chronos.model;
 
-public enum ContactType
+public interface ContactType
 {
-    phone_office, phone_home, mobile_office, mobile_private, icq, jabber, msn, yahoo, email
+    // We can't really have enum here because there will be too many contact types and
+    // we should be able to add more contact types without changing the code
+//    phone_office, phone_home, mobile_office, mobile_private, icq, jabber, msn, yahoo, email
+    void setContactType(String type);
+
+    String getContactType();
 }

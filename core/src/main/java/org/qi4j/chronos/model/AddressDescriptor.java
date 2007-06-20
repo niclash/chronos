@@ -1,13 +1,14 @@
 package org.qi4j.chronos.model;
 
 import org.qi4j.api.annotation.Uses;
+import org.qi4j.chronos.model.composites.AddressComposite;
 
-public class LocationDescriptor implements Descriptor
+public final class AddressDescriptor implements Descriptor
 {
     private static final String EMPTY_STRING = "";
 
     @Uses
-    private Location location;
+    private AddressComposite address;
     private static final String NEW_LINE = "\n";
     private static final String EMPTY_SPACE = " ";
 
@@ -15,13 +16,19 @@ public class LocationDescriptor implements Descriptor
     {
         StringBuilder displayName = new StringBuilder();
 
-        String address = location.getAddress();
-        appendValueTo( address, displayName );
+        String firstLine = address.getFirstLine();
+        appendValueTo( firstLine, displayName );
 
-        String zipCode = location.getZipCode();
+        String secondLine = address.getSecondLine();
+        appendValueTo( secondLine, displayName );
+
+        String thirdLine = address.getThirdLine();
+        appendValueTo( thirdLine, displayName );
+
+        String zipCode = address.getZipCode();
         appendValueTo( zipCode, displayName );
 
-        String city = location.getCityName();
+        String city = address.getCityName();
 
         if( isNotEmptyString( city ) )
         {
@@ -37,10 +44,10 @@ public class LocationDescriptor implements Descriptor
         }
 
 
-        String state = location.getStateName();
+        String state = address.getStateName();
         appendValueTo( state, displayName );
 
-        String country = location.getCountryName();
+        String country = address.getCountryName();
         appendValueTo( country, displayName );
 
         return displayName.toString();
