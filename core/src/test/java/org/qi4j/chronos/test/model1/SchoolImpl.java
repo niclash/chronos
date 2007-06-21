@@ -1,6 +1,6 @@
 package org.qi4j.chronos.test.model1;
 
-import org.qi4j.chronos.model.modifier.NotNullable;
+import org.qi4j.chronos.model.modifiers.NotNullable;
 
 public class SchoolImpl implements School
 {

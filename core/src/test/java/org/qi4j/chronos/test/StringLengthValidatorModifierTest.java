@@ -1,9 +1,7 @@
 package org.qi4j.chronos.test;
 
-import org.qi4j.chronos.model.modifier.ValidatorModifierException;
-import org.qi4j.chronos.test.model1.StudentComposite1;
+import org.qi4j.chronos.model.modifiers.ValidatorModifierException;
 import org.qi4j.chronos.test.model1.StudentComposite2;
-import org.qi4j.api.annotation.Uses;
 
 public class StringLengthValidatorModifierTest
     extends AbstractTest
