@@ -1,12 +1,14 @@
 package org.qi4j.chronos.model;
 
+import org.qi4j.chronos.model.composites.MoneyComposite;
+
 public interface PriceRate
 {
-    double getPriceRate();
+    MoneyComposite getPriceRate();
 
-    void setPriceRate(double priceRate);
+    void setPriceRate(MoneyComposite priceRate);
 
-    String getPriceRateType();
+    PriceRateType getPriceRateType();
 
-    void setPriceRateType(String type);
+    void setPriceRateType(PriceRateType type);
 }

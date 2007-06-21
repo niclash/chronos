@@ -3,14 +3,28 @@ package org.qi4j.chronos.model;
 import org.qi4j.api.annotation.Uses;
 import org.qi4j.chronos.model.composites.AddressComposite;
 
+/**
+ * Provides implementation example to display an address. Different countries have different ways of displaying address.
+ * For example,
+ *
+ * Albertinkatu 36 B
+ * 00180 HELSINKI
+ * FINLAND
+ * 
+ * and
+ *
+ * 202 King St.
+ * Vic 3000
+ * Australia
+ *
+ */
 public final class AddressDescriptor implements Descriptor
 {
     private static final String EMPTY_STRING = "";
-
-    @Uses
-    private AddressComposite address;
+    private static final String SINGLE_SPACE = " ";
     private static final String NEW_LINE = "\n";
-    private static final String EMPTY_SPACE = " ";
+
+    @Uses private AddressComposite address;
 
     public String getDisplayName()
     {
@@ -34,7 +48,7 @@ public final class AddressDescriptor implements Descriptor
         {
             if( isNotEmptyString( zipCode ) )
             {
-                displayName.append( EMPTY_SPACE );
+                displayName.append( SINGLE_SPACE );
             }
             else if( displayName.length() > 0 )
             {

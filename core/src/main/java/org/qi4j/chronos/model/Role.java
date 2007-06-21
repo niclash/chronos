@@ -4,9 +4,5 @@ public interface Role
 {
     String getRole();
 
-//    List<PriceRate> getPriceRates();
-//
-//    void addPriceRate(PriceRate priceRate);
-//
-//    void removePriceRate(PriceRate priceRate);
+    void setRole(String role);
 }

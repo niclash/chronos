@@ -1,11 +1,8 @@
 package org.qi4j.chronos.model;
 
-import org.qi4j.api.annotation.ModifiedBy;
-
-@ModifiedBy(GenderTypeValidator.class)
 public interface Gender
 {
-    String getGender();
+    GenderType getGender();
 
-    void setGender(String gender);
+    void setGender(GenderType gender);
 }

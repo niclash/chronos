@@ -1,11 +1,10 @@
 package org.qi4j.chronos.model;
 
-/**
- * TODO: Add currency
- */
+import org.qi4j.chronos.model.composites.MoneyComposite;
+
 public interface Salary
 {
-    double getSalary();
+    MoneyComposite getSalary();
 
-    void setSalary(double salary);
+    void setSalary(MoneyComposite salary);
 }
