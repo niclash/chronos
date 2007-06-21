@@ -1,4 +1,4 @@
-package org.qi4j.chronos.model.modifier;
+package org.qi4j.chronos.model.modifiers;
 
 public class ValidatorModifierException extends RuntimeException
 {
