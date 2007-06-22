@@ -1,6 +1,7 @@
 package org.qi4j.chronos.model;
 
 import java.util.List;
+import java.util.Iterator;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 
 public interface HasPriceRateSchedules
@@ -9,5 +10,5 @@ public interface HasPriceRateSchedules
 
     void removePriceRateSchedule( PriceRateScheduleComposite priceRateSchedule );
 
-    List<PriceRateScheduleComposite> getPriceRateScheduleComposites();
+    Iterator<PriceRateScheduleComposite> priceRateScheduleCompositeIterator();
 }

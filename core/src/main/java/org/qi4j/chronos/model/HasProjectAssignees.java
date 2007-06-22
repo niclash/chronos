@@ -2,6 +2,7 @@ package org.qi4j.chronos.model;
 
 import org.qi4j.chronos.model.composites.ProjectAssigneeComposite;
 import java.util.List;
+import java.util.Iterator;
 
 public interface HasProjectAssignees
 {
@@ -9,7 +10,7 @@ public interface HasProjectAssignees
 
     void setProjectLead(ProjectAssigneeComposite lead);
 
-    List<ProjectAssigneeComposite> getProjectAssignees();
+    Iterator<ProjectAssigneeComposite> projectAssigneeIterator();
 
     void addProjectAssignee(ProjectAssigneeComposite assignee);
 

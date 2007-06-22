@@ -8,3 +8,4 @@ public interface HasProjectContacts extends HasContactPersons
 
     void setPrimaryContactPerson(ContactPersonComposite contactPersonComposite);
 }
+

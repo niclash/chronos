@@ -1,6 +1,7 @@
 package org.qi4j.chronos.model;
 
 import java.util.List;
+import java.util.Iterator;
 import org.qi4j.chronos.model.composites.AccountComposite;
 
 public interface HasAccounts
@@ -9,5 +10,5 @@ public interface HasAccounts
 
     void removeAccount(AccountComposite account);
 
-    List<AccountComposite> getAccounts();
+    Iterator<AccountComposite> accountIterator();
 }

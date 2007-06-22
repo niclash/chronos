@@ -1,6 +1,7 @@
 package org.qi4j.chronos.model;
 
 import java.util.List;
+import java.util.Iterator;
 import org.qi4j.chronos.model.composites.ContactComposite;
 
 public interface HasContacts
@@ -9,5 +10,5 @@ public interface HasContacts
 
     void removeContact( ContactComposite contact );
 
-    List<ContactComposite> getContacts();
+    Iterator<ContactComposite> contactIterator();
 }

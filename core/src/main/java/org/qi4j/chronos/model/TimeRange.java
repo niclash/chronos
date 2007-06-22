@@ -17,8 +17,9 @@
 package org.qi4j.chronos.model;
 
 import java.util.Date;
+import java.io.Serializable;
 
-public interface TimeRange
+public interface TimeRange extends Serializable
 {
     Date getStartTime();
 
