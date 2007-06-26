@@ -4,7 +4,7 @@ import java.lang.reflect.Method;
 import org.qi4j.api.annotation.AppliesTo;
 
 @AppliesTo( NotNullable.class )
-public final class NotNullValidatorModifier extends AbstractSetterGetterModifier
+public final class NotNullValidationModifier extends AbstractSetterGetterModifier
 {
     public final void onCallingSetter( Method method, Object[] args )
     {
@@ -14,7 +14,7 @@ public final class NotNullValidatorModifier extends AbstractSetterGetterModifier
 
             final String fieldName = methodName.substring( 3, methodName.length());
 
-            throw new ValidatorModifierException( "[" + fieldName + "] must not be null!" );
+            throw new ValidationException( "[" + fieldName + "] must not be null!" );
         }
     }
 }

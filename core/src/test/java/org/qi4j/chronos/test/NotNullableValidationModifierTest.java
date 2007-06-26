@@ -1,9 +1,9 @@
 package org.qi4j.chronos.test;
 
-import org.qi4j.chronos.model.modifiers.ValidatorModifierException;
+import org.qi4j.chronos.model.modifiers.ValidationException;
 import org.qi4j.chronos.test.model1.StudentComposite1;
 
-public final class NotNullableValidatorModifierTest
+public final class NotNullableValidationModifierTest
     extends AbstractTest
 {
     public void testNotNullValidator()
@@ -14,9 +14,9 @@ public final class NotNullableValidatorModifierTest
         try
         {
             sample.setAddress1( null );
-            fail( "Should throw an ValidatorModifierException" );
+            fail( "Should throw an ValidationException" );
         }
-        catch( ValidatorModifierException e )
+        catch( ValidationException e )
         {
             // expected
         }
@@ -24,9 +24,9 @@ public final class NotNullableValidatorModifierTest
         try
         {
             sample.setSchoolName( null );
-            fail( "Should throw an ValidatorModifierException" );
+            fail( "Should throw an ValidationException" );
         }
-        catch( ValidatorModifierException e )
+        catch( ValidationException e )
         {
             // expected
         }

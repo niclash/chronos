@@ -2,10 +2,10 @@ package org.qi4j.chronos.test;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import org.qi4j.chronos.model.modifiers.ValidatorModifierException;
+import org.qi4j.chronos.model.modifiers.ValidationException;
 import org.qi4j.chronos.test.model1.CourseComposite;
 
-public class TimeRangeValidatorModifierTest
+public class TimeRangeValidationModifierTest
     extends AbstractTest
 {
     public void testTimeRange()
@@ -28,9 +28,9 @@ public class TimeRangeValidatorModifierTest
             {
                 sample.setEndTime( endTime );
 
-                fail( "Should throw a ValidatorModifierException" );
+                fail( "Should throw a ValidationException" );
             }
-            catch( ValidatorModifierException validatorErr )
+            catch( ValidationException validatorErr )
             {
                 //expected
             }

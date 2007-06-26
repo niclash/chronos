@@ -9,6 +9,7 @@ public class AddressImpl implements Address
     private String address1;
     private String address2;
 
+    @StringLength(minLength = 2 )
     public void setAddress1( String address1 )
     {
         this.address1 = address1;

@@ -1,12 +1,12 @@
 package org.qi4j.chronos.model.modifiers;
 
 import java.lang.reflect.Method;
+import org.qi4j.api.InvocationContext;
 import org.qi4j.api.annotation.AppliesTo;
 import org.qi4j.api.annotation.Dependency;
-import org.qi4j.api.InvocationContext;
 
 @AppliesTo( StringLength.class )
-public class StringLengthValidatorModifier extends AbstractSetterGetterModifier
+public class StringLengthValidationModifier extends AbstractSetterGetterModifier
 {
     @Dependency private InvocationContext context;
 
@@ -20,17 +20,36 @@ public class StringLengthValidatorModifier extends AbstractSetterGetterModifier
             final StringLength stringLength = getStringLength( method );
 
             final int maxLength = stringLength.maxLength();
+            final int minLength = stringLength.minLength();
 
-            //check if the give value length is greater than max length.
-            if( value.toString().trim().length() > maxLength )
+            final int strLength = value.toString().trim().length();
+
+            //check if the given string length is less than the specified miniumun length
+            if( minLength > 0 && strLength < minLength )
             {
-                final String methodName = method.getName();
+                final String fieldName = extractMethodName( method );
 
-                final String fieldName = methodName.substring( 3, methodName.length() );
+                throw new ValidationException( "[" + fieldName + "] length must not less than " +
+                                               "the specified minimum length " + minLength );
+            }
 
-                throw new ValidatorModifierException( "[" + fieldName + "] length must not greater than " + maxLength );
+            //check if the given string length is greater than maximun length
+            if( maxLength > 0 && strLength > maxLength )
+            {
+                final String fieldName = extractMethodName( method );
+
+                throw new ValidationException( "[" + fieldName + "] length must not greater than " + maxLength );
             }
         }
+    }
+
+    private String extractMethodName( Method method )
+    {
+        final String methodName = method.getName();
+
+        final String fieldName = methodName.substring( 3, methodName.length() );
+
+        return fieldName;
     }
 
     private StringLength getStringLength( Method method )
