@@ -1,6 +1,6 @@
 package org.qi4j.chronos.test;
 
-import org.qi4j.chronos.model.modifiers.ValidationException;
+import org.qi4j.library.general.model.ValidationException;
 import org.qi4j.chronos.test.model1.StudentComposite2;
 
 public class StringLengthValidationModifierTest

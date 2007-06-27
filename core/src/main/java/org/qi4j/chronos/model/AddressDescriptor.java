@@ -2,6 +2,7 @@ package org.qi4j.chronos.model;
 
 import org.qi4j.api.annotation.Uses;
 import org.qi4j.chronos.model.composites.AddressComposite;
+import org.qi4j.library.general.model.Descriptor;
 
 /**
  * Provides implementation example to display an address. Different countries have different ways of displaying address.
@@ -26,7 +27,7 @@ public final class AddressDescriptor implements Descriptor
 
     @Uses private AddressComposite address;
 
-    public String getDisplayName()
+    public String getDisplayValue()
     {
         StringBuilder displayName = new StringBuilder();
 

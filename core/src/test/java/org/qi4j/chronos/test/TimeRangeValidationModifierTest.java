@@ -2,7 +2,7 @@ package org.qi4j.chronos.test;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import org.qi4j.chronos.model.modifiers.ValidationException;
+import org.qi4j.library.general.model.ValidationException;
 import org.qi4j.chronos.test.model1.CourseComposite;
 
 public class TimeRangeValidationModifierTest
