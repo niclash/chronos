@@ -1,4 +1,4 @@
-package org.qi4j.chronos.model;
+package org.qi4j.chronos.model.mixins;
 
 import java.math.BigDecimal;
 import java.util.Currency;
@@ -9,7 +9,7 @@ import org.qi4j.library.general.model.Money;
 /**
  * Provide the implementation of displaying money. For example: 100 MYR, 1000 USD, 250 AUD.
  */
-public final class MoneyDescriptor implements Descriptor
+public final class MoneyDescriptorMixin implements Descriptor
 {
     @Uses private Money money;
 

@@ -1,7 +1,7 @@
-package org.qi4j.chronos.model;
+package org.qi4j.chronos.model.mixins;
 
 import org.qi4j.api.annotation.Uses;
-import org.qi4j.chronos.model.composites.AddressComposite;
+import org.qi4j.chronos.model.composites.AddressPersistentComposite;
 import org.qi4j.library.general.model.Descriptor;
 
 /**
@@ -19,13 +19,13 @@ import org.qi4j.library.general.model.Descriptor;
  * Australia
  *
  */
-public final class AddressDescriptor implements Descriptor
+public final class AddressDescriptorMixin implements Descriptor
 {
     private static final String EMPTY_STRING = "";
     private static final String SINGLE_SPACE = " ";
     private static final String NEW_LINE = "\n";
 
-    @Uses private AddressComposite address;
+    @Uses private AddressPersistentComposite address;
 
     public String getDisplayValue()
     {
