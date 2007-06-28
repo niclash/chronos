@@ -6,10 +6,11 @@ import org.qi4j.api.annotation.Modifies;
 import org.qi4j.api.annotation.Uses;
 import org.qi4j.chronos.model.composites.AddressPersistentComposite;
 import org.qi4j.chronos.model.composites.CityPersistentComposite;
-import org.qi4j.chronos.model.composites.CountryPersistentComposite;
-import org.qi4j.chronos.model.composites.StatePersistentComposite;
 import org.qi4j.library.general.model.Validatable;
 import org.qi4j.library.general.model.ValidationException;
+import org.qi4j.library.general.model.composites.CityComposite;
+import org.qi4j.library.general.model.composites.CountryComposite;
+import org.qi4j.library.general.model.composites.StateComposite;
 
 public final class CityStateCountryValidationModifier implements Validatable
 {
@@ -19,73 +20,60 @@ public final class CityStateCountryValidationModifier implements Validatable
 
     public void validate() throws ValidationException
     {
-        String cityName = address.getCityName();
-        String countryName = address.getCountryName();
-        String stateName = address.getStateName();
+        CityComposite city = address.getCity();
+        String cityId = city.getIdentity();
 
-        // TODO: replace with query for city with using the specified CityName
-        CityPersistentComposite cityPersistentComposite = repository.getInstance( cityName, CityPersistentComposite.class );
+        CityPersistentComposite cityPersistentComposite = repository.getInstance( cityId, CityPersistentComposite.class );
 
         if( cityPersistentComposite != null )
         {
-            CountryPersistentComposite country = cityPersistentComposite.getCountry();
-            String otherCountryName = country.getCountryName();
+            CountryComposite country = address.getCountry();
+            String countryId = country.getIdentity();
 
-            if( isEqualIgnoreCase( countryName, otherCountryName ) )
+            CountryComposite otherCountry = cityPersistentComposite.getCountry();
+            String otherCountryId = otherCountry.getIdentity();
+
+            if( countryId.equals( otherCountryId ) )
             {
-                if( isNotEmptyString( stateName ) )
+                StateComposite state = address.getState();
+                if( state != null )
                 {
-                    StatePersistentComposite state = cityPersistentComposite.getState();
+                    StateComposite otherState = cityPersistentComposite.getState();
 
-                    if( state != null )
+                    if( otherState != null )
                     {
-                        String otherStateName = state.getStateName();
-                        if( isEqualIgnoreCase( stateName, otherStateName ) )
+                        String stateId = state.getIdentity();
+                        String otherStateId = otherState.getIdentity();
+                        
+                        if( stateId.equals( otherStateId ) )
                         {
                             next.validate();
                         }
                         else
                         {
-                            throw new ValidationException( "City [" + cityName + "] in country [" + countryName +
-                                                           "] is not located in state [" + stateName +
-                                                           "]. It is located in [" + otherStateName + "]" );
+                            throw new ValidationException( "City with id [" + cityId +
+                                                           "] doesn't match with state with id [" + stateId +
+                                                           "]. It matches with state with id [" + stateId + "]" );
                         }
 
                     }
                     else
                     {
-                        throw new ValidationException( "City [" + cityName + "] does not have a state." );
+                        throw new ValidationException( "City with id [" + cityId + "] does not have state." );
                     }
                 }
 
             }
             else
             {
-                throw new ValidationException( "City [" + cityName +
-                                               "] is not located in country [" + countryName +
-                                               "]. It should be located in [" + otherCountryName + "]" );
+                throw new ValidationException( "City with id [" + cityId +
+                                               "] doesn't match with country with id [" + countryId +
+                                               "]. It matches to country with id [" + otherCountryId + "]" );
             }
         }
         else
         {
-            throw new ValidationException( "City [" + cityName + "] does not exist." );
+            throw new ValidationException( "City with id [" + cityId + "] does not exist." );
         }
-    }
-
-    private boolean isNotEmptyString( String value )
-    {
-        return value != null && !"".equals( value );
-    }
-
-    private boolean isEqualIgnoreCase( String value, String otherValue )
-    {
-        if( value != null && otherValue != null )
-        {
-            value = value.toLowerCase();
-            otherValue = otherValue.toLowerCase();
-            return value.equals( otherValue );
-        }
-
-        return false;
     }
 }

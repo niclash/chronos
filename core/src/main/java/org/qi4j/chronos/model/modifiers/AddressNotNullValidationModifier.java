@@ -5,6 +5,8 @@ import org.qi4j.api.annotation.Uses;
 import org.qi4j.chronos.model.composites.AddressPersistentComposite;
 import org.qi4j.library.general.model.Validatable;
 import org.qi4j.library.general.model.ValidationException;
+import org.qi4j.library.general.model.composites.CityComposite;
+import org.qi4j.library.general.model.composites.CountryComposite;
 
 public final class AddressNotNullValidationModifier implements Validatable
 {
@@ -13,19 +15,14 @@ public final class AddressNotNullValidationModifier implements Validatable
 
     public void validate() throws ValidationException
     {
-        String cityName = address.getCityName();
-        String countryName = address.getCountryName();
+        CityComposite city = address.getCity();
+        CountryComposite country = address.getCountry();
 
-        if( isEmptyString( cityName ) || isEmptyString( countryName ) )
+        if( city == null || country == null )
         {
-            throw new ValidationException( "City name and country name must be populated.");
+            throw new ValidationException( "City name and country for address must be populated.");
         }
 
         next.validate();
-    }
-
-    private boolean isEmptyString( String value )
-    {
-        return value == null || "".equals( value );
     }
 }

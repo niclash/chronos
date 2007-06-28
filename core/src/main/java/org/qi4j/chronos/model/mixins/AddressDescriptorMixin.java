@@ -3,21 +3,23 @@ package org.qi4j.chronos.model.mixins;
 import org.qi4j.api.annotation.Uses;
 import org.qi4j.chronos.model.composites.AddressPersistentComposite;
 import org.qi4j.library.general.model.Descriptor;
+import org.qi4j.library.general.model.composites.CityComposite;
+import org.qi4j.library.general.model.composites.StateComposite;
+import org.qi4j.library.general.model.composites.CountryComposite;
 
 /**
  * Provides implementation example to display an address. Different countries have different ways of displaying address.
  * For example,
- *
+ * <p/>
  * Albertinkatu 36 B
  * 00180 HELSINKI
  * FINLAND
- * 
+ * <p/>
  * and
- *
+ * <p/>
  * 202 King St.
  * Vic 3000
  * Australia
- *
  */
 public final class AddressDescriptorMixin implements Descriptor
 {
@@ -43,27 +45,33 @@ public final class AddressDescriptorMixin implements Descriptor
         String zipCode = address.getZipCode();
         appendValueTo( zipCode, displayName );
 
-        String city = address.getCityName();
-
-        if( isNotEmptyString( city ) )
+        CityComposite city = address.getCity();
+        if( city != null )
         {
-            if( isNotEmptyString( zipCode ) )
+            String cityName = city.getName();
+
+            if( isNotEmptyString( cityName ) )
             {
-                displayName.append( SINGLE_SPACE );
+                if( isNotEmptyString( zipCode ) )
+                {
+                    displayName.append( SINGLE_SPACE );
+                }
+                else if( displayName.length() > 0 )
+                {
+                    displayName.append( NEW_LINE );
+                }
+                displayName.append( cityName );
             }
-            else if( displayName.length() > 0 )
-            {
-                displayName.append( NEW_LINE );
-            }
-            displayName.append( city );
         }
 
 
-        String state = address.getStateName();
-        appendValueTo( state, displayName );
+        StateComposite state = address.getState();
+        String stateName = state.getName();
+        appendValueTo( stateName, displayName );
 
-        String country = address.getCountryName();
-        appendValueTo( country, displayName );
+        CountryComposite country = address.getCountry();
+        String countryName = country.getName();
+        appendValueTo( countryName, displayName );
 
         return displayName.toString();
     }
