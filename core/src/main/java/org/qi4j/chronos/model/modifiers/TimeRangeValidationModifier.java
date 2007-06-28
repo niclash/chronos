@@ -3,6 +3,7 @@ package org.qi4j.chronos.model.modifiers;
 import java.util.Date;
 import org.qi4j.api.annotation.Modifies;
 import org.qi4j.chronos.model.TimeRange;
+import org.qi4j.library.general.model.ValidationException;
 
 public class TimeRangeValidationModifier implements TimeRange
 {
@@ -38,10 +39,10 @@ public class TimeRangeValidationModifier implements TimeRange
 
     private void checkTimeRange( Date startTime, Date endTime )
     {
-        if( startTime != null && endTime != null && endTime.before( startTime) )
+        if( startTime != null && endTime != null && endTime.before( startTime ) )
         {
-            throw new ValidationException( "Invalida time range! End Time[" + endTime + "] " +
-                                                  "must be after Start Time[" + startTime + "]!" );
+            throw new ValidationException( "Invalid time range! End Time[" + endTime + "] " +
+                                           "must be after Start Time[" + startTime + "]!" );
         }
     }
 }

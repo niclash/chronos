@@ -4,6 +4,7 @@ import java.lang.reflect.Method;
 import org.qi4j.api.InvocationContext;
 import org.qi4j.api.annotation.AppliesTo;
 import org.qi4j.api.annotation.Dependency;
+import org.qi4j.library.general.model.ValidationException;
 
 @AppliesTo( StringLength.class )
 public class StringLengthValidationModifier extends AbstractSetterGetterModifier
