@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model;
+package org.qi4j.chronos.model.composites.association;
 
 import java.util.List;
 import org.qi4j.chronos.model.composites.ContactPersonComposite;

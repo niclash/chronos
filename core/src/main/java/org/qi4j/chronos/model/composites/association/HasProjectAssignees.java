@@ -1,4 +1,4 @@
-package org.qi4j.chronos.model;
+package org.qi4j.chronos.model.composites.association;
 
 import org.qi4j.chronos.model.composites.ProjectAssigneeComposite;
 import java.util.List;

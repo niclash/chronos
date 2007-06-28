@@ -1,4 +1,4 @@
-package org.qi4j.chronos.model;
+package org.qi4j.chronos.model.composites.association;
 
 import java.util.List;
 import java.util.Iterator;

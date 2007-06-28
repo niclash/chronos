@@ -21,9 +21,9 @@ package org.qi4j.chronos.model;
  */
 public interface Chronos
 {
-//    List<Account> getAllAccounts();
+//    List<AccountEntity> getAllAccounts();
 //
-//    void addAccount( Account account );
+//    void addAccount( AccountEntity account );
 //
-//    void removeAccount( Account account );
+//    void removeAccount( AccountEntity account );
 }
