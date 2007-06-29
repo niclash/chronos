@@ -12,13 +12,29 @@
 */
 package org.qi4j.chronos.model.composites;
 
-import org.qi4j.api.Composite;
-import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.chronos.model.composites.association.HasWorkEntries;
-import org.qi4j.library.framework.properties.PropertiesMixin;
+import org.qi4j.chronos.model.composites.PriceRateComposite;
+import org.qi4j.chronos.model.AbstractTest;
+import org.qi4j.library.general.model.ValidationException;
 
-@ImplementedBy({ PropertiesMixin.class })
-public interface ProjectAssigneeComposite extends RolePersistentComposite, HasWorkEntries, Composite
+public class PriceRateCompositeTest extends AbstractTest
 {
+    public void testPriceRateRoleNotNull()
+    {
+        PriceRateComposite  priceRateComposite = factory.newInstance( PriceRateComposite.class );
+
+        try
+        {
+            priceRateComposite.setRole( null );
+
+            fail( "Should throw ValidationException!");
+        }
+        catch ( ValidationException err )
+        {
+            //expected
+        }
+
+        priceRateComposite.setRole( "Developer" );
+    }
     
 }
+

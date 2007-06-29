@@ -3,8 +3,9 @@ package org.qi4j.chronos.model.composites.association;
 import org.qi4j.chronos.model.composites.ProjectAssigneeComposite;
 import java.util.List;
 import java.util.Iterator;
+import java.io.Serializable;
 
-public interface HasProjectAssignees
+public interface HasProjectAssignees extends Serializable
 {
     ProjectAssigneeComposite getProjectLead();
 

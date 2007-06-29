@@ -1,8 +1,9 @@
 package org.qi4j.chronos.model;
 
 import org.qi4j.library.general.model.Money;
+import java.io.Serializable;
 
-public interface PriceRate
+public interface PriceRate extends Serializable
 {
     Money getPriceRate();
 

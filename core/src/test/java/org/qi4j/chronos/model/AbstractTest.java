@@ -1,4 +1,4 @@
-package org.qi4j.chronos.test;
+package org.qi4j.chronos.model;
 
 import junit.framework.TestCase;
 import org.qi4j.api.CompositeFactory;

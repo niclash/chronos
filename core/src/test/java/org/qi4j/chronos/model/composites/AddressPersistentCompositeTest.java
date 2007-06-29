@@ -1,7 +1,8 @@
-package org.qi4j.chronos.test;
+package org.qi4j.chronos.model.composites;
 
 import org.qi4j.api.persistence.PersistentStorage;
 import org.qi4j.chronos.model.composites.AddressPersistentComposite;
+import org.qi4j.chronos.model.AbstractTest;
 
 public class AddressPersistentCompositeTest extends AbstractTest
 {
