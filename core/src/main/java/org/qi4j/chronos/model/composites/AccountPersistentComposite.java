@@ -20,12 +20,15 @@ import org.qi4j.chronos.model.composites.association.HasPriceRateSchedules;
 import org.qi4j.chronos.model.composites.association.HasProjects;
 import org.qi4j.chronos.model.mixins.AccountNameMixin;
 import org.qi4j.chronos.model.modifiers.NotNullValidationModifier;
+import org.qi4j.chronos.model.modifiers.AccountCreationValidationModifier;
 import org.qi4j.library.framework.properties.PropertiesMixin;
 import org.qi4j.library.general.model.Name;
+import org.qi4j.library.general.model.Validatable;
 import java.io.Serializable;
 
 @ImplementedBy( { AccountNameMixin.class, PropertiesMixin.class } )
-public interface AccountPersistentComposite extends Name, HasPriceRateSchedules, HasProjects, PersistentComposite
+@ModifiedBy({ AccountCreationValidationModifier.class})
+public interface AccountPersistentComposite extends Name, HasPriceRateSchedules, HasProjects, Validatable, PersistentComposite
 {
 
 }
