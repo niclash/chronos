@@ -15,10 +15,10 @@ import org.qi4j.library.general.model.composites.AddressComposite;
  * Persistable {@link org.qi4j.library.general.model.composites.AddressComposite} that attached services including:
  * {@link org.qi4j.library.general.model.Validatable} and {@link org.qi4j.library.general.model.Descriptor}.
  *
- * AddressEntityComposite is an entity.
+ * AddressPersistentComposite is an entity.
  */
 @ModifiedBy( { AddressNotNullValidationModifier.class, CityStateCountryValidationModifier.class } )
 @ImplementedBy( { AddressDescriptorMixin.class, PropertiesMixin.class } )
-public interface AddressEntityComposite extends AddressComposite, Validatable, Descriptor, EntityComposite
+public interface AddressPersistentComposite extends AddressComposite, Validatable, Descriptor, EntityComposite
 {
 }

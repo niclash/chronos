@@ -4,8 +4,7 @@ import org.qi4j.api.EntityRepository;
 import org.qi4j.api.annotation.Dependency;
 import org.qi4j.api.annotation.Modifies;
 import org.qi4j.api.annotation.Uses;
-import org.qi4j.chronos.model.composites.AddressEntityComposite;
-import org.qi4j.chronos.model.composites.CityEntityComposite;
+import org.qi4j.chronos.model.composites.AddressPersistentComposite;
 import org.qi4j.chronos.model.composites.CityPersistentComposite;
 import org.qi4j.library.general.model.Validatable;
 import org.qi4j.library.general.model.ValidationException;
@@ -15,7 +14,7 @@ import org.qi4j.library.general.model.composites.StateComposite;
 
 public final class CityStateCountryValidationModifier implements Validatable
 {
-    @Uses private AddressEntityComposite address;
+    @Uses private AddressPersistentComposite address;
     @Dependency private EntityRepository repository;
     @Modifies private Validatable next;
 
@@ -24,7 +23,7 @@ public final class CityStateCountryValidationModifier implements Validatable
         CityComposite city = address.getCity();
         String cityId = city.getIdentity();
 
-        CityEntityComposite cityPersistentComposite = repository.getInstance( cityId, CityEntityComposite.class );
+        CityPersistentComposite cityPersistentComposite = repository.getInstance( cityId, CityPersistentComposite.class );
 
         if( cityPersistentComposite != null )
         {

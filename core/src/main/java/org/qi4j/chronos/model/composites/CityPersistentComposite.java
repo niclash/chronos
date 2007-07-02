@@ -1,8 +1,8 @@
 package org.qi4j.chronos.model.composites;
 
 import org.qi4j.api.persistence.composite.EntityComposite;
-import org.qi4j.chronos.model.LinkToCountry;
-import org.qi4j.chronos.model.LinkToState;
+import org.qi4j.library.general.model.HasCountry;
+import org.qi4j.library.general.model.HasState;
 import org.qi4j.library.general.model.composites.CityComposite;
 
 /**
@@ -10,8 +10,8 @@ import org.qi4j.library.general.model.composites.CityComposite;
  * {@link org.qi4j.chronos.model.composites.StateEntityComposite} and
  * {@link org.qi4j.chronos.model.composites.CountryEntityComposite}
  * <p/>
- * CityEntityComposite is an entity.
+ * CityPersistentComposite is an entity.
  */
-public interface CityEntityComposite extends CityComposite, LinkToState, LinkToCountry, EntityComposite
+public interface CityPersistentComposite extends CityComposite, HasState, HasCountry, EntityComposite
 {
 }

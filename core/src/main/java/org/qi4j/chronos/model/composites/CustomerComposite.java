@@ -17,6 +17,6 @@ import org.qi4j.chronos.model.NameWithReference;
 import org.qi4j.chronos.model.composites.association.HasAccounts;
 import org.qi4j.chronos.model.composites.association.HasContactPersons;
 
-public interface CustomerComposite extends NameWithReference, HasContactPersons, HasAccounts, AddressEntityComposite, EntityComposite
+public interface CustomerComposite extends NameWithReference, HasContactPersons, HasAccounts, AddressPersistentComposite, EntityComposite
 {
 }

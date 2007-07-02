@@ -13,7 +13,7 @@
 package org.qi4j.chronos.model.mixins;
 
 import org.qi4j.api.annotation.Uses;
-import org.qi4j.chronos.model.composites.AddressEntityComposite;
+import org.qi4j.chronos.model.composites.AddressPersistentComposite;
 import org.qi4j.library.general.model.Descriptor;
 import org.qi4j.library.general.model.composites.CityComposite;
 import org.qi4j.library.general.model.composites.StateComposite;
@@ -39,7 +39,7 @@ public final class AddressDescriptorMixin implements Descriptor
     private static final String SINGLE_SPACE = " ";
     private static final String NEW_LINE = "\n";
 
-    @Uses private AddressEntityComposite address;
+    @Uses private AddressPersistentComposite address;
 
     public String getDisplayValue()
     {
