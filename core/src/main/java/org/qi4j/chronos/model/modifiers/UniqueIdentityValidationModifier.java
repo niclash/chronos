@@ -12,19 +12,19 @@
  */
 package org.qi4j.chronos.model.modifiers;
 
-import org.qi4j.api.CompositeRepository;
+import org.qi4j.api.EntityRepository;
 import org.qi4j.api.annotation.Dependency;
 import org.qi4j.api.annotation.Modifies;
 import org.qi4j.api.annotation.Uses;
-import org.qi4j.api.persistence.composite.PersistentComposite;
+import org.qi4j.api.persistence.composite.EntityComposite;
 import org.qi4j.library.general.model.Validatable;
 import org.qi4j.library.general.model.ValidationException;
 
 public class UniqueIdentityValidationModifier implements Validatable
 {
     @Modifies private Validatable next;
-    @Dependency private CompositeRepository repository;
-    @Uses PersistentComposite composite;
+    @Dependency private EntityRepository repository;
+    @Uses EntityComposite composite;
 
     public void validate() throws ValidationException
     {
@@ -32,7 +32,7 @@ public class UniqueIdentityValidationModifier implements Validatable
 
         if( identity != null )
         {
-            PersistentComposite existingComposite = repository.getInstance( identity, composite.getClass() );
+            EntityComposite existingComposite = repository.getInstance( identity, composite.getClass() );
 
             if( existingComposite != null )
             {

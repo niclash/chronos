@@ -20,7 +20,7 @@ public class AddressPersistentCompositeTest extends AbstractTest
     {
 /*
         AddressPersistentComposite address = factory.newInstance( AddressPersistentComposite.class );
-        address.setPersistentStorage( storage );
+        address.setEntityRepository( storage );
 
         address.setCityName( "Melbourne" );
         address.setCountryName( "Australia" );
