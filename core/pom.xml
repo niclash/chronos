@@ -45,5 +45,9 @@
       <groupId>org.jmock</groupId>
       <artifactId>jmock-junit4</artifactId>
     </dependency>
+    <dependency>
+      <groupId>org.hamcrest</groupId>
+      <artifactId>hamcrest-api</artifactId>
+    </dependency>
   </dependencies>
 </project>

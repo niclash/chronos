@@ -10,17 +10,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.composites;
+package org.qi4j.chronos.model.composites.association;
 
-import org.qi4j.api.persistence.composite.EntityComposite;
-import org.qi4j.chronos.model.NameWithReference;
-import org.qi4j.chronos.model.composites.association.HasAccounts;
-import org.qi4j.chronos.model.composites.association.HasContactPersons;
+import org.qi4j.chronos.model.composites.ContactTypeEntityComposite;
+import java.io.Serializable;
 
 /**
- * Persistable customer entity that contains customer name, customer reference name, address,
- * contact persons and accounts.
+ * Interface to describe association with {@link org.qi4j.chronos.model.composites.ContactTypeEntityComposite}
  */
-public interface CustomerComposite extends NameWithReference, HasContactPersons, HasAccounts, AddressEntityComposite, EntityComposite
+public interface HasContactType<T extends ContactTypeEntityComposite> extends Serializable
 {
+    void setContactType( T contactType );
+
+    T getContactType();
 }

@@ -10,12 +10,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.composites;
+package org.qi4j.chronos.model.composites.association;
 
-import org.qi4j.api.persistence.composite.EntityComposite;
-import org.qi4j.chronos.model.ContactType;
-import org.qi4j.chronos.model.RegularExpression;
+import org.qi4j.chronos.model.composites.RelationshipEntityComposite;
 
-public interface ContactTypeComposite extends ContactType, RegularExpression, EntityComposite
+/**
+ * Generic interface to describe association with relationship.
+ */
+public interface HasRelationship
 {
+    void setRelationship( RelationshipEntityComposite relationship );
+
+    RelationshipEntityComposite getRelationship();
 }

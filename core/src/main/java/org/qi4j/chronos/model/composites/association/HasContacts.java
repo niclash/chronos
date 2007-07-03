@@ -13,15 +13,17 @@
  */
 package org.qi4j.chronos.model.composites.association;
 
-import java.util.List;
 import java.util.Iterator;
-import org.qi4j.chronos.model.composites.ContactComposite;
+import org.qi4j.chronos.model.composites.ContactEntityComposite;
 
+/**
+ * Generic interface to describe association with {@link org.qi4j.chronos.model.composites.ContactEntityComposite}
+ */
 public interface HasContacts
 {
-    void addContact( ContactComposite contact );
+    void addContact( ContactEntityComposite contact );
 
-    void removeContact( ContactComposite contact );
+    void removeContact( ContactEntityComposite contact );
 
-    Iterator<ContactComposite> contactIterator();
+    Iterator<ContactEntityComposite> contactIterator();
 }

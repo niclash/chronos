@@ -1,4 +1,6 @@
-/*  Copyright 2007 Niclas Hedhman.
+/*
+ * Copyright (c) 2007, Niclas Hedhman. All Rights Reserved.
+ * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,9 +18,15 @@
  */
 package org.qi4j.chronos.model;
 
-public interface ContactType
+import java.io.Serializable;
+
+
+/**
+ * Generic interface for a contact type such as home_office, phone_home, mobile_office, 
+ * mobile_private, icq, jabber, msn, yahoo, email.
+ */
+public interface ContactType extends Serializable
 {
-    //    phone_office, phone_home, mobile_office, mobile_private, icq, jabber, msn, yahoo, email
     void setContactType( String type );
 
     String getContactType();

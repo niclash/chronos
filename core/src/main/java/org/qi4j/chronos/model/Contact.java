@@ -13,7 +13,12 @@
  */
 package org.qi4j.chronos.model;
 
-public interface Contact
+import java.io.Serializable;
+
+/**
+ * Generic interface for a contact such as phone number, fax-number, email, msn, etc.
+ */
+public interface Contact extends Serializable
 {
     String getContact();
 

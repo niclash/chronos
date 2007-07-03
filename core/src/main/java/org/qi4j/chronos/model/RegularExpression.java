@@ -12,7 +12,12 @@
  */
 package org.qi4j.chronos.model;
 
-public interface RegularExpression
+import java.io.Serializable;
+
+/**
+ * Generic interface for a regular expression
+ */
+public interface RegularExpression extends Serializable
 {
     void setRegex( String regex );
 

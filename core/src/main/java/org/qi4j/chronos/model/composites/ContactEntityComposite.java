@@ -12,15 +12,20 @@
  */
 package org.qi4j.chronos.model.composites;
 
+import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.api.annotation.ModifiedBy;
 import org.qi4j.api.persistence.composite.EntityComposite;
-import org.qi4j.chronos.model.NameWithReference;
-import org.qi4j.chronos.model.composites.association.HasAccounts;
-import org.qi4j.chronos.model.composites.association.HasContactPersons;
+import org.qi4j.chronos.model.Contact;
+import org.qi4j.chronos.model.modifiers.ContactRegexValidationModifier;
+import org.qi4j.chronos.model.composites.association.HasContactType;
+import org.qi4j.library.framework.properties.PropertiesMixin;
+import org.qi4j.library.general.model.Validatable;
 
 /**
- * Persistable customer entity that contains customer name, customer reference name, address,
- * contact persons and accounts.
+ * Persistable contact entity with validation modifier.
  */
-public interface CustomerComposite extends NameWithReference, HasContactPersons, HasAccounts, AddressEntityComposite, EntityComposite
+@ModifiedBy( { ContactRegexValidationModifier.class } )
+@ImplementedBy( { PropertiesMixin.class } )
+public interface ContactEntityComposite extends Contact, HasContactType<RegexContactTypeEntityComposite>, Validatable, EntityComposite
 {
 }
