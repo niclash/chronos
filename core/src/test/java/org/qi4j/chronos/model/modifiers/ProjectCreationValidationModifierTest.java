@@ -13,7 +13,7 @@
 package org.qi4j.chronos.model.modifiers;
 
 import org.qi4j.chronos.model.AbstractTest;
-import org.qi4j.chronos.model.composites.ProjectPersistentComposite;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.library.general.model.ValidationException;
 
 public class ProjectCreationValidationModifierTest extends AbstractTest
@@ -22,7 +22,7 @@ public class ProjectCreationValidationModifierTest extends AbstractTest
     {
         //TODO  
 
-        ProjectPersistentComposite project = factory.newInstance( ProjectPersistentComposite.class );
+        ProjectEntityComposite project = factory.newInstance( ProjectEntityComposite.class );
 
         try
         {

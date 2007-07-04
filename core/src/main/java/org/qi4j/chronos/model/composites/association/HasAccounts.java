@@ -13,13 +13,13 @@
 package org.qi4j.chronos.model.composites.association;
 
 import java.util.Iterator;
-import org.qi4j.chronos.model.composites.AccountPersistentComposite;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
 
 public interface HasAccounts
 {
-    void addAccount( AccountPersistentComposite account);
+    void addAccount( AccountEntityComposite account);
 
-    void removeAccount( AccountPersistentComposite account);
+    void removeAccount( AccountEntityComposite account);
 
-    Iterator<AccountPersistentComposite> accountIterator();
+    Iterator<AccountEntityComposite> accountIterator();
 }

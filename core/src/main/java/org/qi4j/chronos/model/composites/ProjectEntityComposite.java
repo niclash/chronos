@@ -16,6 +16,8 @@ package org.qi4j.chronos.model.composites;
 import org.qi4j.api.annotation.ImplementedBy;
 import org.qi4j.api.annotation.ModifiedBy;
 import org.qi4j.api.persistence.composite.EntityComposite;
+import org.qi4j.chronos.model.NameWithReference;
+import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.composites.association.HasLegalConditions;
 import org.qi4j.chronos.model.composites.association.HasPriceRateSchedules;
 import org.qi4j.chronos.model.composites.association.HasProjectAssignees;
@@ -28,6 +30,6 @@ import org.qi4j.library.general.model.Validatable;
 
 @ImplementedBy( { PropertiesMixin.class } )
 @ModifiedBy({ ProjectCreationValidationModifier.class})
-public interface ProjectPersistentComposite extends NameWithReferenceComposite, HasProjectTimeRange, HasProjectAssignees, HasLegalConditions, HasProjectContacts, HasPriceRateSchedules, HasProjectStatus, Validatable, EntityComposite
+public interface ProjectEntityComposite extends Project, Validatable, EntityComposite
 {
 }

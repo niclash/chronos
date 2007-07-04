@@ -13,7 +13,7 @@
 package org.qi4j.chronos.model.modifiers;
 
 import org.qi4j.chronos.model.AbstractTest;
-import org.qi4j.chronos.model.composites.AccountPersistentComposite;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.library.general.model.ValidationException;
 
 public class AccountCreationValidationModifierTest extends AbstractTest
@@ -22,7 +22,7 @@ public class AccountCreationValidationModifierTest extends AbstractTest
     {
         //TODO
         
-        AccountPersistentComposite account = factory.newInstance( AccountPersistentComposite.class );
+        AccountEntityComposite account = factory.newInstance( AccountEntityComposite.class );
 
         try
         {

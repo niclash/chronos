@@ -12,7 +12,7 @@
 */
 package org.qi4j.chronos.model.composites;
 
-import org.qi4j.chronos.model.composites.AccountPersistentComposite;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.AbstractTest;
 import org.qi4j.library.general.model.ValidationException;
 
@@ -20,7 +20,7 @@ public class AccountPersistentCompositeTest extends AbstractTest
 {
     public void testAccountNameNotNull()
     {
-        AccountPersistentComposite account = factory.newInstance( AccountPersistentComposite.class );
+        AccountEntityComposite account = factory.newInstance( AccountEntityComposite.class );
 
         try
         {
@@ -37,7 +37,7 @@ public class AccountPersistentCompositeTest extends AbstractTest
 
     public void testAccountIdentityNotNull()
     {
-        AccountPersistentComposite account = factory.newInstance( AccountPersistentComposite.class );
+        AccountEntityComposite account = factory.newInstance( AccountEntityComposite.class );
 
         try
         {
