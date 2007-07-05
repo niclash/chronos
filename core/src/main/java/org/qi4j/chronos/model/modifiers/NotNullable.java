@@ -21,5 +21,5 @@ import java.lang.annotation.ElementType;
 @Target({ ElementType.METHOD })
 public @interface NotNullable
 {
-         
+
 }

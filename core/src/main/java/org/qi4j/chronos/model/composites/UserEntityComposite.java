@@ -11,12 +11,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model;
+package org.qi4j.chronos.model.composites;
 
+import org.qi4j.api.persistence.composite.EntityComposite;
+import org.qi4j.chronos.model.composites.association.HasContacts;
+import org.qi4j.chronos.model.composites.association.HasLogin;
 import org.qi4j.library.general.model.Person;
-import org.qi4j.chronos.model.composites.association.HasCredentials;
 
 
-public interface User extends Person, Login, HasCredentials
+/**
+ * Persistable User entity which has name, gender, login and contacts.
+ */
+public interface UserEntityComposite extends Person, HasLogin, HasContacts, EntityComposite
 {
 }

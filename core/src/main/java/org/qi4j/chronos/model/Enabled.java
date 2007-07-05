@@ -10,17 +10,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.composites.association;
+package org.qi4j.chronos.model;
 
-import java.util.Dictionary;
-import java.util.List;
-import java.util.Iterator;
+import java.io.Serializable;
 
-public interface HasCredentials
+/**
+ * Generic interface for enabling/disabling service.
+ */
+public interface Enabled extends Serializable
 {
-    void addCredential( Dictionary dictionary);
+    void setEnabled( boolean enabled );
 
-    void removeCredential(Dictionary dictionary);
-
-    Iterator<Dictionary> credentialIterator();
+    // TODO: rename to isEnabled
+    boolean getEnabled();
 }

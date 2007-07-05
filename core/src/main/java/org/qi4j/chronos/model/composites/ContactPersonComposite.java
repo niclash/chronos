@@ -12,11 +12,12 @@
  */
 package org.qi4j.chronos.model.composites;
 
-import org.qi4j.api.persistence.composite.EntityComposite;
-import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.model.composites.association.HasContacts;
+import org.qi4j.chronos.model.composites.UserEntityComposite;
 import org.qi4j.chronos.model.composites.association.HasRelationship;
 
-public interface ContactPersonComposite extends User, HasContacts, HasRelationship, EntityComposite
+/**
+ * User of the system that is not considered {@link StaffEntityComposite} and therefore has a relationship information.
+ */
+public interface ContactPersonComposite extends UserEntityComposite, HasRelationship
 {
 }

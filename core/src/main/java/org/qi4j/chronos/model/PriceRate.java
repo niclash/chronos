@@ -20,9 +20,9 @@ public interface PriceRate extends Serializable
 {
     Money getPriceRate();
 
-    void setPriceRate( Money money);
+    void setPriceRate( Money money );
 
     PriceRateType getPriceRateType();
 
-    void setPriceRateType(PriceRateType type);
+    void setPriceRateType( PriceRateType type );
 }

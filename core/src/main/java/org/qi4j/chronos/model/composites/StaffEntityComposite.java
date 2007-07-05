@@ -1,4 +1,6 @@
-/*  Copyright 2007 Niclas Hedhman.
+/*
+ * Copyright 2007 Sianny Halim. All Rights Reserved.
+ * Copyright 2007 Lan Boon Ping. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,14 +18,25 @@
  */
 package org.qi4j.chronos.model.composites;
 
-import org.qi4j.api.persistence.composite.EntityComposite;
 import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.chronos.model.PriceRate;
 import org.qi4j.chronos.model.Salary;
 import org.qi4j.chronos.model.TimeRange;
-import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.composites.association.HasProjectAssignees;
 import org.qi4j.library.framework.properties.PropertiesMixin;
 
+/**
+ * Staff works for the company and hence contains more information on top of the basic user information provided in
+ * {@link org.qi4j.chronos.model.composites.UserEntityComposite} like:
+ * 
+ * <li>
+ * <ol>Start and end employment date
+ * <ol>Salary
+ * <ol>Basic price rate
+ * <ol>Projects that this staff is working on
+ * </li>
+ */
 @ImplementedBy( { PropertiesMixin.class } )
-public interface StaffComposite extends User, TimeRange, Salary, PriceRateComposite, EntityComposite
+public interface StaffEntityComposite extends UserEntityComposite, TimeRange, Salary, PriceRate, HasProjectAssignees
 {
 }
