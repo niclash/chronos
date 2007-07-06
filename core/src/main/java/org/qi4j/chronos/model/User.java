@@ -13,7 +13,6 @@
  */
 package org.qi4j.chronos.model;
 
-import org.qi4j.api.Composite;
 import org.qi4j.chronos.model.composites.association.HasContacts;
 import org.qi4j.chronos.model.composites.association.HasLogin;
 import org.qi4j.library.general.model.Person;
