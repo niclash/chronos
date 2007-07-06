@@ -25,8 +25,8 @@ public interface HasProjectTimeRange extends Serializable
 
     TimeRange getActualTime();
 
-    void setEstimateTime( TimeRange estimateTime);
+    void setEstimateTime( TimeRange estimateTime );
 
-    void setActualTime(TimeRange actualTime);
-    
+    void setActualTime( TimeRange actualTime );
+
 }

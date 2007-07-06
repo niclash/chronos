@@ -19,15 +19,21 @@
 package org.qi4j.chronos.model.composites;
 
 import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.api.annotation.ModifiedBy;
+import org.qi4j.api.persistence.composite.EntityComposite;
 import org.qi4j.chronos.model.PriceRate;
 import org.qi4j.chronos.model.Salary;
 import org.qi4j.chronos.model.TimeRange;
+import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.association.HasProjectAssignees;
+import org.qi4j.chronos.model.modifiers.RequiredFields;
+import org.qi4j.chronos.model.modifiers.RequiredFieldsValidationModifier;
 import org.qi4j.library.framework.properties.PropertiesMixin;
+import org.qi4j.library.general.model.Validatable;
 
 /**
  * Staff works for the company and hence contains more information on top of the basic user information provided in
- * {@link org.qi4j.chronos.model.composites.UserEntityComposite} like:
+ * {@link org.qi4j.chronos.model.User} like:
  * 
  * <li>
  * <ol>Start and end employment date
@@ -36,7 +42,9 @@ import org.qi4j.library.framework.properties.PropertiesMixin;
  * <ol>Projects that this staff is working on
  * </li>
  */
+@ModifiedBy( { RequiredFieldsValidationModifier.class } )
 @ImplementedBy( { PropertiesMixin.class } )
-public interface StaffEntityComposite extends UserEntityComposite, TimeRange, Salary, PriceRate, HasProjectAssignees
+@RequiredFields( { "firstName", "lastName", "gender", "startTime" } )
+public interface StaffEntityComposite extends User, TimeRange, Salary, PriceRate, HasProjectAssignees, Validatable, EntityComposite
 {
 }

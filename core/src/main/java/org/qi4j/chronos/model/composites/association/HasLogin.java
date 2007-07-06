@@ -12,12 +12,13 @@
  */
 package org.qi4j.chronos.model.composites.association;
 
+import java.io.Serializable;
 import org.qi4j.chronos.model.composites.LoginEntityComposite;
 
 /**
  * Describe association with {@link org.qi4j.chronos.model.composites.LoginEntityComposite}
  */
-public interface HasLogin
+public interface HasLogin extends Serializable
 {
     void setLogin( LoginEntityComposite login );
 

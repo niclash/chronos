@@ -13,13 +13,14 @@
  */
 package org.qi4j.chronos.model.composites.association;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import org.qi4j.chronos.model.composites.ContactEntityComposite;
 
 /**
  * Generic interface to describe association with {@link org.qi4j.chronos.model.composites.ContactEntityComposite}
  */
-public interface HasContacts
+public interface HasContacts extends Serializable
 {
     void addContact( ContactEntityComposite contact );
 

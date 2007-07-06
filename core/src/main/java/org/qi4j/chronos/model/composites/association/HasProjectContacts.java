@@ -13,13 +13,13 @@
  */
 package org.qi4j.chronos.model.composites.association;
 
-import org.qi4j.chronos.model.composites.ContactPersonComposite;
+import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import java.io.Serializable;
 
 public interface HasProjectContacts extends HasContactPersons, Serializable
 {
-    ContactPersonComposite getPrimaryContactPerson();
+    ContactPersonEntityComposite getPrimaryContactPerson();
 
-    void setPrimaryContactPerson(ContactPersonComposite contactPersonComposite);
+    void setPrimaryContactPerson( ContactPersonEntityComposite contactPersonComposite);
 }
 

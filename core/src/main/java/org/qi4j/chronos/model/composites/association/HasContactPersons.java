@@ -13,16 +13,15 @@
  */
 package org.qi4j.chronos.model.composites.association;
 
-import java.util.List;
 import java.util.Iterator;
 import java.io.Serializable;
-import org.qi4j.chronos.model.composites.ContactPersonComposite;
+import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 
 public interface HasContactPersons extends Serializable
 {
-    Iterator<ContactPersonComposite> contactPersonIterator();
+    Iterator<ContactPersonEntityComposite> contactPersonIterator();
 
-    void addContactPerson( ContactPersonComposite contactPerson);
+    void addContactPerson( ContactPersonEntityComposite contactPerson);
 
-    void removeContactPerson( ContactPersonComposite contactPerson);
+    void removeContactPerson( ContactPersonEntityComposite contactPerson);
 }

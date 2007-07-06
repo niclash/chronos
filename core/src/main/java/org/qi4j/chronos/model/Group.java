@@ -14,12 +14,12 @@
 package org.qi4j.chronos.model;
 
 import java.util.List;
-import org.qi4j.chronos.model.composites.UserEntityComposite;
+import org.qi4j.chronos.model.User;
 
 /**
  * TODO : Convert to COP
  */
-public interface Group extends UserEntityComposite
+public interface Group extends User
 {
     List<SystemRole> getMembers();
 

@@ -14,17 +14,14 @@ package org.qi4j.chronos.model.composites;
 
 import org.qi4j.chronos.model.AbstractTest;
 import org.qi4j.library.general.model.ValidationException;
-import org.qi4j.library.general.test.model.DummyPersistentStorage;
 
 public class LoginEntityCompositeTest extends AbstractTest
 {
-    public void testNewInstanceLoginEntityComposite() throws Exception
+    public void testValidateLoginEntityComposite() throws Exception
     {
         LoginEntityComposite login = factory.newInstance( LoginEntityComposite.class );
         login.setIdentity( "sianny" );
         login.setPassword( "password" );
-
-        login.setEntityRepository( new DummyPersistentStorage() );
 
         try
         {
@@ -36,12 +33,10 @@ public class LoginEntityCompositeTest extends AbstractTest
         }
     }
 
-    public void testLoginIdNull() throws Exception
+    public void testValidateLoginIdNull() throws Exception
     {
         LoginEntityComposite login = factory.newInstance( LoginEntityComposite.class );
         login.setPassword( "password" );
-
-        login.setEntityRepository( new DummyPersistentStorage() );
 
         try
         {
@@ -54,12 +49,10 @@ public class LoginEntityCompositeTest extends AbstractTest
         }
     }
 
-    public void testPasswordNull() throws Exception
+    public void testValidatePasswordNull() throws Exception
     {
         LoginEntityComposite login = factory.newInstance( LoginEntityComposite.class );
         login.setIdentity( "sianny" );
-
-        login.setEntityRepository( new DummyPersistentStorage() );
 
         try
         {
@@ -72,10 +65,9 @@ public class LoginEntityCompositeTest extends AbstractTest
         }
     }
 
-    public void testLoginIdAndPasswordNull() throws Exception
+    public void testLValidateLoginIdAndPasswordNull() throws Exception
     {
         LoginEntityComposite login = factory.newInstance( LoginEntityComposite.class );
-        login.setEntityRepository( new DummyPersistentStorage() );
 
         try
         {

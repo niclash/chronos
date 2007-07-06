@@ -12,12 +12,13 @@
  */
 package org.qi4j.chronos.model.composites.association;
 
+import java.io.Serializable;
 import org.qi4j.chronos.model.composites.RelationshipEntityComposite;
 
 /**
  * Generic interface to describe association with relationship.
  */
-public interface HasRelationship
+public interface HasRelationship extends Serializable
 {
     void setRelationship( RelationshipEntityComposite relationship );
 

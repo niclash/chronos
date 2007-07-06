@@ -11,17 +11,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.composites;
+package org.qi4j.chronos.model;
 
-import org.qi4j.api.persistence.composite.EntityComposite;
+import org.qi4j.api.Composite;
 import org.qi4j.chronos.model.composites.association.HasContacts;
 import org.qi4j.chronos.model.composites.association.HasLogin;
 import org.qi4j.library.general.model.Person;
 
 
 /**
- * Persistable User entity which has name, gender, login and contacts.
+ * User here is a generic interface instead of entity or value object.
+ * 
+ * The reason why user is not an entity is because in Chronos system,
+ * user must belong to one of the categories below:
+ * <li>
+ * <ol>Staff
+ * <ol>Contact person (customer)
+ * <ol>External consultant
+ * </li>
  */
-public interface UserEntityComposite extends Person, HasLogin, HasContacts, EntityComposite
+public interface User extends Person, HasLogin, HasContacts
 {
 }

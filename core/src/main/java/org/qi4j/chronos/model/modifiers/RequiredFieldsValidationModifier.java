@@ -48,14 +48,24 @@ public class RequiredFieldsValidationModifier<T extends Composite> implements Va
             String[] fieldNames = requiredFields.value();
             StringBuilder nullFieldNames = new StringBuilder();
 
-            for( Method method : methods )
-            {
-                String fieldName = getFieldNameOfNullValue( method, fieldNames );
 
-                if( fieldName != null )
+            for( String fieldName : fieldNames )
+            {
+
+                String methodName = getGetMethodName( fieldName );
+                Object value = getValue( compositeClass, methodName );
+
+                if( value == null )
+                {
+                    methodName = getIteratorMethodName( fieldName );
+                    value = getValue( compositeClass, methodName );
+                }
+
+                if( value == null )
                 {
                     nullFieldNames.append( fieldName ).append( "; " );
                 }
+
             }
 
             if( nullFieldNames.length() > 0 )
@@ -66,32 +76,37 @@ public class RequiredFieldsValidationModifier<T extends Composite> implements Va
         }
     }
 
-    private String getFieldNameOfNullValue( Method method, String[] fieldNames )
+    private String getIteratorMethodName( String fieldName )
     {
-        String methodName = method.getName();
-        for( String fieldName : fieldNames )
-        {
-            if( methodName.equalsIgnoreCase( "get" + fieldName ) )
-            {
-                try
-                {
-                    Object value = method.invoke( objectToValidate );
-                    if( value == null )
-                    {
-                        return fieldName;
-                    }
-                }
-                catch( IllegalAccessException e )
-                {
-                    throw new ValidationException( e );
-                }
-                catch( InvocationTargetException e )
-                {
-                    throw new ValidationException( e );
-                }
-            }
-        }
+        return fieldName.concat( "Iterator" );
+    }
 
-        return null;
+    private String getGetMethodName( String fieldName )
+    {
+        String firstChar = "" + fieldName.charAt( 0 );
+        String uppoerCaseFirstChar = firstChar.toUpperCase();
+        String notFirstChar = fieldName.substring( 1, fieldName.length() );
+        return "get".concat( uppoerCaseFirstChar ).concat( notFirstChar );
+    }
+
+    private Object getValue( Class<? extends Composite> compositeClass, String methodName )
+    {
+        try
+        {
+            Method method = compositeClass.getMethod( methodName );
+            return method.invoke( objectToValidate );
+        }
+        catch( IllegalAccessException e )
+        {
+            throw new ValidationException( e );
+        }
+        catch( InvocationTargetException e )
+        {
+            throw new ValidationException( e );
+        }
+        catch( NoSuchMethodException e )
+        {
+            return null;
+        }
     }
 }
