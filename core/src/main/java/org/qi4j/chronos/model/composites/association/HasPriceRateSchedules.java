@@ -13,16 +13,15 @@
  */
 package org.qi4j.chronos.model.composites.association;
 
-import java.util.List;
-import java.util.Iterator;
 import java.io.Serializable;
-import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
+import java.util.Iterator;
+import org.qi4j.chronos.model.PriceRateSchedule;
 
 public interface HasPriceRateSchedules extends Serializable
 {
-    void addPriceRateSchedule( PriceRateScheduleComposite priceRateSchedule );
+    void addPriceRateSchedule( PriceRateSchedule priceRateSchedule );
 
-    void removePriceRateSchedule( PriceRateScheduleComposite priceRateSchedule );
+    void removePriceRateSchedule( PriceRateSchedule priceRateSchedule );
 
-    Iterator<PriceRateScheduleComposite> priceRateScheduleIterator();
+    Iterator<PriceRateSchedule> priceRateScheduleIterator();
 }

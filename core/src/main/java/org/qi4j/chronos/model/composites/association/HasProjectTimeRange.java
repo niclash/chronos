@@ -16,21 +16,17 @@
  */
 package org.qi4j.chronos.model.composites.association;
 
-import java.util.List;
 import java.io.Serializable;
-import org.qi4j.chronos.model.composites.ContactPersonComposite;
-import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
-import org.qi4j.chronos.model.composites.ProjectAssigneeComposite;
-import org.qi4j.chronos.model.composites.TimeRangeComposite;
+import org.qi4j.chronos.model.TimeRange;
 
 public interface HasProjectTimeRange extends Serializable
 {
-    TimeRangeComposite getEstimateTime();
+    TimeRange getEstimateTime();
 
-    TimeRangeComposite getActualTime();
+    TimeRange getActualTime();
 
-    void setEstimateTime( TimeRangeComposite estimateTime);
+    void setEstimateTime( TimeRange estimateTime);
 
-    void setActualTime(TimeRangeComposite actualTime);
+    void setActualTime(TimeRange actualTime);
     
 }

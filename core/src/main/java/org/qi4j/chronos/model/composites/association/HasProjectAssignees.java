@@ -15,13 +15,13 @@ package org.qi4j.chronos.model.composites.association;
 
 import java.io.Serializable;
 import java.util.Iterator;
-import org.qi4j.chronos.model.composites.ProjectAssigneeComposite;
+import org.qi4j.chronos.model.ProjectAssignee;
 
 public interface HasProjectAssignees extends Serializable
 {
-    Iterator<ProjectAssigneeComposite> projectAssigneeIterator();
+    Iterator<ProjectAssignee> projectAssigneeIterator();
 
-    void addProjectAssignee(ProjectAssigneeComposite assignee);
+    void addProjectAssignee( ProjectAssignee assignee);
 
-    void removeProjectAssignee(ProjectAssigneeComposite assignee);     
+    void removeProjectAssignee(ProjectAssignee assignee);
 }

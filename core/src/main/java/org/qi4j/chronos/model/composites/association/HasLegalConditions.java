@@ -13,16 +13,15 @@
  */
 package org.qi4j.chronos.model.composites.association;
 
-import java.util.List;
-import java.util.Iterator;
 import java.io.Serializable;
-import org.qi4j.chronos.model.composites.LegalConditionComposite;
+import java.util.Iterator;
+import org.qi4j.chronos.model.LegalCondition;
 
 public interface HasLegalConditions extends Serializable
 {
-    void addLegalCondition(LegalConditionComposite legalCondition);
+    void addLegalCondition(LegalCondition legalCondition);
 
-    void removeLegalCondition( LegalConditionComposite legalCondition);
+    void removeLegalCondition( LegalCondition legalCondition);
 
-    Iterator<LegalConditionComposite> legalConditionIterator();
+    Iterator<LegalCondition> legalConditionIterator();
 }

@@ -12,14 +12,14 @@
  */
 package org.qi4j.chronos.model.composites.association;
 
-import org.qi4j.chronos.model.composites.ProjectAssigneeComposite;
+import org.qi4j.chronos.model.ProjectAssignee;
 
 /**
  * Describe association with the leader of project assignees.
  */
 public interface HasLeadProjectAssignee
 {
-    ProjectAssigneeComposite getLeadProjectAssignee();
+    ProjectAssignee getLeadProjectAssignee();
 
-    void setLeadProjectAssignee(ProjectAssigneeComposite lead);
+    void setLeadProjectAssignee(ProjectAssignee lead);
 }

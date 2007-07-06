@@ -13,15 +13,15 @@
  */
 package org.qi4j.chronos.model.composites.association;
 
-import java.util.Iterator;
 import java.io.Serializable;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import java.util.Iterator;
+import org.qi4j.chronos.model.Project;
 
 public interface HasProjects extends Serializable
 {
-    void addProject( ProjectEntityComposite project );
+    void addProject( Project project );
 
-    void removeProject( ProjectEntityComposite project );
+    void removeProject( Project project );
 
-    Iterator<ProjectEntityComposite> projectIterator();
+    Iterator<Project> projectIterator();
 }

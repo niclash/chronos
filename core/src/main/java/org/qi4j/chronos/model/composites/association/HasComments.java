@@ -13,16 +13,15 @@
  */
 package org.qi4j.chronos.model.composites.association;
 
-import java.util.List;
-import java.util.Iterator;
 import java.io.Serializable;
-import org.qi4j.chronos.model.composites.CommentComposite;
+import java.util.Iterator;
+import org.qi4j.chronos.model.Comment;
 
 public interface HasComments extends Serializable
 {
-    void addComment(CommentComposite comment);
+    void addComment( Comment comment);
 
-    void removeComment( CommentComposite comment);
+    void removeComment( Comment comment);
 
-    Iterator<CommentComposite> commentIterator();
+    Iterator<Comment> commentIterator();
 }

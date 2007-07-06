@@ -15,13 +15,13 @@ package org.qi4j.chronos.model.composites.association;
 
 import java.io.Serializable;
 import java.util.Iterator;
-import org.qi4j.chronos.model.composites.WorkEntryComposite;
+import org.qi4j.chronos.model.WorkEntry;
 
 public interface HasWorkEntries extends Serializable
 {
-    void addWorkEntry( WorkEntryComposite workEntry );
+    void addWorkEntry( WorkEntry workEntry );
 
-    void removeWorkEntry( WorkEntryComposite workEntry );
+    void removeWorkEntry( WorkEntry workEntry );
 
-    Iterator<WorkEntryComposite> workEntryIterator();
+    Iterator<WorkEntry> workEntryIterator();
 }
