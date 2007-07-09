@@ -1,5 +1,6 @@
 /*
  * Copyright 2007 Lan Boon Ping. All Rights Reserved.
+ * Copyright 2007 Sianny Halim. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,11 +15,13 @@ package org.qi4j.chronos.model.modifiers;
 
 import java.util.Date;
 import org.qi4j.api.annotation.Modifies;
+import org.qi4j.api.annotation.Uses;
 import org.qi4j.chronos.model.TimeRange;
 import org.qi4j.library.general.model.ValidationException;
 
-public class TimeRangeValidationModifier implements TimeRange
+public final class TimeRangeValidationModifier implements TimeRange
 {
+    @Uses TimeRange meAsTimeRange;
     @Modifies TimeRange next;
 
     public Date getStartTime()
@@ -28,12 +31,7 @@ public class TimeRangeValidationModifier implements TimeRange
 
     public void setStartTime( Date startTime )
     {
-        if( startTime == null )
-        {
-            throw new ValidationException( "[startTime] must not be null!" );
-        }
-
-        final Date endTime = getEndTime();
+        Date endTime = meAsTimeRange.getEndTime();
 
         checkTimeRange( startTime, endTime );
 
@@ -47,12 +45,7 @@ public class TimeRangeValidationModifier implements TimeRange
 
     public void setEndTime( Date endTime )
     {
-        if( endTime == null )
-        {
-            throw new ValidationException( "[endTime] must not be null!" );
-        }
-        
-        final Date startTime = getStartTime();
+        Date startTime = meAsTimeRange.getStartTime();
 
         checkTimeRange( startTime, endTime );
 
