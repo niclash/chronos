@@ -25,7 +25,7 @@ import java.io.Serializable;
  * Generic interface for a contact type such as home_office, phone_home, mobile_office, 
  * mobile_private, icq, jabber, msn, yahoo, email.
  */
-public interface ContactType extends Serializable
+public interface ContactType extends RegularExpression, Serializable
 {
     void setContactType( String type );
 

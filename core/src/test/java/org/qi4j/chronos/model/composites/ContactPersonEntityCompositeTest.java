@@ -14,6 +14,7 @@ package org.qi4j.chronos.model.composites;
 
 import java.util.Iterator;
 import org.qi4j.chronos.model.AbstractTest;
+import org.qi4j.chronos.model.Contact;
 import org.qi4j.library.general.model.GenderType;
 import org.qi4j.library.general.model.ValidationException;
 
@@ -30,8 +31,8 @@ public class ContactPersonEntityCompositeTest extends AbstractTest
         contact.setContact( "siannyhalim@yahoo.com" );
         contactPerson.addContact( contact );
 
-        Iterator<ContactEntityComposite> contactIterator = contactPerson.contactIterator();
-        ContactEntityComposite contactIt = contactIterator.next();
+        Iterator<Contact> contactIterator = contactPerson.contactIterator();
+        Contact contactIt = contactIterator.next();
 
         assertEquals( "siannyhalim@yahoo.com", contactIt.getContact() );
     }

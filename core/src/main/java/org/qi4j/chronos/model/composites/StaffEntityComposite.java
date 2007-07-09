@@ -25,7 +25,7 @@ import org.qi4j.chronos.model.PriceRate;
 import org.qi4j.chronos.model.Salary;
 import org.qi4j.chronos.model.TimeRange;
 import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.model.composites.association.HasProjectAssignees;
+import org.qi4j.chronos.model.associations.HasProjectAssignees;
 import org.qi4j.chronos.model.modifiers.RequiredFields;
 import org.qi4j.chronos.model.modifiers.RequiredFieldsValidationModifier;
 import org.qi4j.library.framework.properties.PropertiesMixin;

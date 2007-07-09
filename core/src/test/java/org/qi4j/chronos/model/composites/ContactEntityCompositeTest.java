@@ -13,6 +13,7 @@
 package org.qi4j.chronos.model.composites;
 
 import org.qi4j.chronos.model.AbstractTest;
+import org.qi4j.chronos.model.ContactType;
 
 public class ContactEntityCompositeTest extends AbstractTest
 {
@@ -20,7 +21,7 @@ public class ContactEntityCompositeTest extends AbstractTest
     {
         ContactEntityComposite contactEntity = factory.newInstance( ContactEntityComposite.class );
 
-        RegexContactTypeEntityComposite contactTypeEntity = factory.newInstance( RegexContactTypeEntityComposite.class );
+        ContactType contactTypeEntity = factory.newInstance( ContactTypeEntityComposite.class );
         contactTypeEntity.setContactType( "phone_number" );
         contactTypeEntity.setRegex( "[0-9]*" );
 

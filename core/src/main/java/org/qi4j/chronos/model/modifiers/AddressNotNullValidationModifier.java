@@ -3,12 +3,9 @@ package org.qi4j.chronos.model.modifiers;
 import org.qi4j.api.annotation.Modifies;
 import org.qi4j.api.annotation.Uses;
 import org.qi4j.chronos.model.composites.ValidatableAddressEntityComposite;
+import org.qi4j.library.general.model.City;
 import org.qi4j.library.general.model.Validatable;
 import org.qi4j.library.general.model.ValidationException;
-import org.qi4j.library.general.model.City;
-import org.qi4j.library.general.model.Country;
-import org.qi4j.library.general.model.composites.CityEntityComposite;
-import org.qi4j.library.general.model.composites.CountryEntityComposite;
 
 /**
  * Making sure that all required fields are populated and not-null before

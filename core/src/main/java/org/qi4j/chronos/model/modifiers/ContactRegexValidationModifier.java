@@ -15,8 +15,8 @@ package org.qi4j.chronos.model.modifiers;
 import java.util.regex.Pattern;
 import org.qi4j.api.annotation.Modifies;
 import org.qi4j.api.annotation.Uses;
+import org.qi4j.chronos.model.ContactType;
 import org.qi4j.chronos.model.composites.ContactEntityComposite;
-import org.qi4j.chronos.model.composites.RegexContactTypeEntityComposite;
 import org.qi4j.library.general.model.Validatable;
 import org.qi4j.library.general.model.ValidationException;
 
@@ -32,7 +32,8 @@ public final class ContactRegexValidationModifier implements Validatable
     public void validate() throws ValidationException
     {
         String contactValue = contact.getContact();
-        RegexContactTypeEntityComposite contactType = contact.getContactType();
+
+        ContactType contactType = contact.getContactType();
 
         if( contactType != null )
         {

@@ -1,6 +1,5 @@
 /*
  * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
- * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -11,17 +10,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.composites.association;
+package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
-import java.util.Iterator;
-import org.qi4j.chronos.model.LegalCondition;
+import org.qi4j.chronos.model.ContactType;
 
-public interface HasLegalConditions extends Serializable
+/**
+ * Interface to describe association with {@link org.qi4j.chronos.model.composites.ContactTypeEntityComposite}
+ */
+public interface HasContactType extends Serializable
 {
-    void addLegalCondition(LegalCondition legalCondition);
+    void setContactType( ContactType contactType );
 
-    void removeLegalCondition( LegalCondition legalCondition);
-
-    Iterator<LegalCondition> legalConditionIterator();
+    ContactType getContactType();
 }

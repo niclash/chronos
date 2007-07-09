@@ -17,7 +17,6 @@ import org.qi4j.api.annotation.ModifiedBy;
 import org.qi4j.api.persistence.composite.EntityComposite;
 import org.qi4j.chronos.model.Contact;
 import org.qi4j.chronos.model.modifiers.ContactRegexValidationModifier;
-import org.qi4j.chronos.model.composites.association.HasContactType;
 import org.qi4j.library.framework.properties.PropertiesMixin;
 import org.qi4j.library.general.model.Validatable;
 
@@ -26,6 +25,6 @@ import org.qi4j.library.general.model.Validatable;
  */
 @ModifiedBy( { ContactRegexValidationModifier.class } )
 @ImplementedBy( { PropertiesMixin.class } )
-public interface ContactEntityComposite extends Contact, HasContactType<RegexContactTypeEntityComposite>, Validatable, EntityComposite
+public interface ContactEntityComposite extends Contact, Validatable, EntityComposite
 {
 }

@@ -10,18 +10,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.composites.association;
+package org.qi4j.chronos.model.associations;
 
-import java.io.Serializable;
-import org.qi4j.chronos.model.composites.RelationshipEntityComposite;
-import org.qi4j.chronos.model.Relationship;
+import java.util.Iterator;
+import org.qi4j.chronos.model.Account;
 
-/**
- * Generic interface to describe association with relationship.
- */
-public interface HasRelationship extends Serializable
+public interface HasAccounts
 {
-    void setRelationship( Relationship relationship );
+    void addAccount( Account account);
 
-    Relationship getRelationship();
+    void removeAccount( Account account);
+
+    Iterator<Account> accountIterator();
 }

@@ -16,8 +16,8 @@
  */
 package org.qi4j.chronos.model;
 
-import java.util.Date;
 import java.io.Serializable;
+import java.util.Date;
 
 /**
  * Generic interface for TimeRange

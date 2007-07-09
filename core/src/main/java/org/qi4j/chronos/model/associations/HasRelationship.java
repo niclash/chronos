@@ -10,17 +10,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.composites.association;
+package org.qi4j.chronos.model.associations;
 
-import org.qi4j.chronos.model.composites.ContactTypeEntityComposite;
 import java.io.Serializable;
+import org.qi4j.chronos.model.Relationship;
 
 /**
- * Interface to describe association with {@link org.qi4j.chronos.model.composites.ContactTypeEntityComposite}
+ * Generic interface to describe association with relationship.
  */
-public interface HasContactType<T extends ContactTypeEntityComposite> extends Serializable
+public interface HasRelationship extends Serializable
 {
-    void setContactType( T contactType );
+    void setRelationship( Relationship relationship );
 
-    T getContactType();
+    Relationship getRelationship();
 }

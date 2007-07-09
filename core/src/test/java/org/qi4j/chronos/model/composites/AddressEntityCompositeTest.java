@@ -4,6 +4,7 @@ import org.qi4j.api.CompositeFactory;
 import org.qi4j.api.EntityRepository;
 import org.qi4j.api.persistence.composite.EntityComposite;
 import org.qi4j.chronos.model.AbstractTest;
+import org.qi4j.library.general.model.composites.CityEntityComposite;
 import org.qi4j.library.general.model.composites.CountryEntityComposite;
 
 public class AddressEntityCompositeTest extends AbstractTest
@@ -20,7 +21,7 @@ public class AddressEntityCompositeTest extends AbstractTest
     {
         ValidatableAddressEntityComposite validatableAddress = factory.newInstance( ValidatableAddressEntityComposite.class );
 
-        ChronosCityEntityComposite city = factory.newInstance( ChronosCityEntityComposite.class );
+        CityEntityComposite city = factory.newInstance( CityEntityComposite.class );
         city.setIdentity( "Melbourne" );
         city.setName( "Melbourne" );
         validatableAddress.setCity( city );
@@ -63,7 +64,7 @@ public class AddressEntityCompositeTest extends AbstractTest
 
         public <T extends EntityComposite> T getInstance( String identity, Class<T> type )
         {
-            ChronosCityEntityComposite instance = factory.newInstance( ChronosCityEntityComposite.class );
+            CityEntityComposite instance = factory.newInstance( CityEntityComposite.class );
             instance.setIdentity( identity );
             instance.setName( "Melbourne" );
 

@@ -12,7 +12,7 @@
  */
 package org.qi4j.chronos.model;
 
-import org.qi4j.chronos.model.composites.association.HasRelationship;
+import org.qi4j.chronos.model.associations.HasRelationship;
 
 public interface ContactPerson extends User, HasRelationship
 {

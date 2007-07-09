@@ -11,17 +11,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.composites.association;
+package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
 import java.util.Iterator;
-import org.qi4j.chronos.model.PriceRateSchedule;
+import org.qi4j.chronos.model.PriceRate;
 
-public interface HasPriceRateSchedules extends Serializable
+public interface HasPriceRates extends Serializable
 {
-    void addPriceRateSchedule( PriceRateSchedule priceRateSchedule );
+    void addPriceRate( PriceRate priceRate );
 
-    void removePriceRateSchedule( PriceRateSchedule priceRateSchedule );
+    void removePriceRate( PriceRate priceRate );
 
-    Iterator<PriceRateSchedule> priceRateScheduleIterator();
+    Iterator<PriceRate> priceRateIterator();
 }

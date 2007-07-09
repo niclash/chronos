@@ -11,17 +11,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.composites.association;
+package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
 import java.util.Iterator;
-import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.ProjectAssignee;
 
-public interface HasProjects extends Serializable
+public interface HasProjectAssignees extends Serializable
 {
-    void addProject( Project project );
+    Iterator<ProjectAssignee> projectAssigneeIterator();
 
-    void removeProject( Project project );
+    void addProjectAssignee( ProjectAssignee assignee);
 
-    Iterator<Project> projectIterator();
+    void removeProjectAssignee(ProjectAssignee assignee);
 }

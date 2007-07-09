@@ -16,11 +16,10 @@ package org.qi4j.chronos.model.composites;
 import org.qi4j.api.annotation.ImplementedBy;
 import org.qi4j.api.annotation.ModifiedBy;
 import org.qi4j.api.persistence.composite.EntityComposite;
-import org.qi4j.library.general.model.Enabled;
+import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.model.modifiers.RequiredFields;
 import org.qi4j.chronos.model.modifiers.RequiredFieldsValidationModifier;
 import org.qi4j.library.framework.properties.PropertiesMixin;
-import org.qi4j.library.general.model.Password;
 import org.qi4j.library.general.model.Validatable;
 
 
@@ -39,6 +38,6 @@ import org.qi4j.library.general.model.Validatable;
 @ModifiedBy( { RequiredFieldsValidationModifier.class } )
 @ImplementedBy( { PropertiesMixin.class } )
 @RequiredFields( { "identity", "password" } )
-public interface LoginEntityComposite extends Password, Enabled, Validatable, EntityComposite
+public interface LoginEntityComposite extends Login, Validatable, EntityComposite
 {
 }

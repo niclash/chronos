@@ -13,14 +13,12 @@
 package org.qi4j.chronos.model.composites;
 
 import org.qi4j.api.persistence.composite.EntityComposite;
-import org.qi4j.chronos.model.NameWithReference;
-import org.qi4j.chronos.model.composites.association.HasAccounts;
-import org.qi4j.chronos.model.composites.association.HasContactPersons;
+import org.qi4j.chronos.model.Customer;
 
 /**
  * Persistable customer entity that contains customer name, customer reference name, address,
  * contact persons and accounts.
  */
-public interface CustomerComposite extends NameWithReference, HasContactPersons, HasAccounts, ValidatableAddressEntityComposite, EntityComposite
+public interface CustomerComposite extends Customer, EntityComposite
 {
 }

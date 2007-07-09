@@ -12,12 +12,12 @@
 */
 package org.qi4j.chronos.service.composites;
 
+import org.qi4j.api.Composite;
+import org.qi4j.api.annotation.ImplementedBy;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.service.EntityType;
 import org.qi4j.chronos.service.mixins.AccountEntityTypeMixin;
 import org.qi4j.chronos.service.mixins.AccountServiceMixin;
-import org.qi4j.api.Composite;
-import org.qi4j.api.annotation.ImplementedBy;
 
 @ImplementedBy( { AccountEntityTypeMixin.class, AccountServiceMixin.class })
 public interface AccountServiceComposite extends AccountService, EntityType, Composite

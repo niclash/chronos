@@ -14,13 +14,10 @@ package org.qi4j.chronos.model.mixins;
 
 import org.qi4j.api.annotation.Uses;
 import org.qi4j.chronos.model.composites.ValidatableAddressEntityComposite;
-import org.qi4j.library.general.model.Descriptor;
 import org.qi4j.library.general.model.City;
-import org.qi4j.library.general.model.State;
 import org.qi4j.library.general.model.Country;
-import org.qi4j.library.general.model.composites.CityEntityComposite;
-import org.qi4j.library.general.model.composites.StateEntityComposite;
-import org.qi4j.library.general.model.composites.CountryEntityComposite;
+import org.qi4j.library.general.model.Descriptor;
+import org.qi4j.library.general.model.State;
 
 /**
  * Provides implementation example to display an validatableAddress. Different countries have different ways of displaying validatableAddress.

@@ -1,5 +1,4 @@
 /*
- * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,15 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.composites.association;
+package org.qi4j.chronos.model.associations;
 
-import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import java.io.Serializable;
+import org.qi4j.chronos.model.ProjectStatus;
 
-public interface HasProjectContacts extends HasContactPersons, Serializable
+public interface HasProjectStatus extends Serializable
 {
-    ContactPersonEntityComposite getPrimaryContactPerson();
+    public void setProjectStatus( ProjectStatus projectStatus );
 
-    void setPrimaryContactPerson( ContactPersonEntityComposite contactPersonComposite);
+    public ProjectStatus getProjectStatus();
 }
-

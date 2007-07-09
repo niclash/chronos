@@ -11,17 +11,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.composites.association;
+package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
 import java.util.Iterator;
-import org.qi4j.chronos.model.Comment;
+import org.qi4j.chronos.model.PriceRateSchedule;
 
-public interface HasComments extends Serializable
+public interface HasPriceRateSchedules extends Serializable
 {
-    void addComment( Comment comment);
+    void addPriceRateSchedule( PriceRateSchedule priceRateSchedule );
 
-    void removeComment( Comment comment);
+    void removePriceRateSchedule( PriceRateSchedule priceRateSchedule );
 
-    Iterator<Comment> commentIterator();
+    Iterator<PriceRateSchedule> priceRateScheduleIterator();
 }
