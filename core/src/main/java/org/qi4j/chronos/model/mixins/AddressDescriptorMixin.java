@@ -77,16 +77,18 @@ public final class AddressDescriptorMixin implements Descriptor
                 }
                 displayName.append( cityName );
             }
+
+            State state = city.getState();
+            if( state != null )
+            {
+                String stateName = state.getName();
+                appendValueTo( stateName, displayName );
+            }
+
+            Country country = city.getCountry();
+            String countryName = country.getName();
+            appendValueTo( countryName, displayName );
         }
-
-
-        State state = validatableAddress.getState();
-        String stateName = state.getName();
-        appendValueTo( stateName, displayName );
-
-        Country country = validatableAddress.getCountry();
-        String countryName = country.getName();
-        appendValueTo( countryName, displayName );
 
         return displayName.toString();
     }

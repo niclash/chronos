@@ -28,11 +28,9 @@ public final class AddressNotNullValidationModifier implements Validatable
     public void validate() throws ValidationException
     {
         City city = validatableAddress.getCity();
-        Country country = validatableAddress.getCountry();
-
-        if( city == null || country == null )
+        if( city == null )
         {
-            throw new ValidationException( "City name and country for validatableAddress must be populated." );
+            throw new ValidationException( "City for address must be populated." );
         }
 
         next.validate();

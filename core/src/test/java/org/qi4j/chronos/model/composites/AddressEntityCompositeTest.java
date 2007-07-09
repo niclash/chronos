@@ -28,7 +28,7 @@ public class AddressEntityCompositeTest extends AbstractTest
         CountryEntityComposite country = factory.newInstance( CountryEntityComposite.class );
         country.setIdentity( "Australia" );
         country.setName( "Australia" );
-        validatableAddress.setCountry( country );
+        city.setCountry( country );
 
 //        validatableAddress.setEntityRepository( new DummyPersistentStorage() );
 

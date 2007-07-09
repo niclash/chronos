@@ -16,7 +16,7 @@ import org.qi4j.library.general.model.composites.AddressEntityComposite;
  *
  * ValidatableAddressEntityComposite is an entity.
  */
-@ModifiedBy( { AddressNotNullValidationModifier.class, CityStateCountryValidationModifier.class } )
+@ModifiedBy( { AddressNotNullValidationModifier.class } )
 @ImplementedBy( { AddressDescriptorMixin.class, PropertiesMixin.class } )
 public interface ValidatableAddressEntityComposite extends AddressEntityComposite, Validatable, Descriptor
 {

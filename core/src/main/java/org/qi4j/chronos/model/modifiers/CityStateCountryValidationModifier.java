@@ -27,6 +27,7 @@ public final class CityStateCountryValidationModifier implements Validatable
 
         if( cityPersistentComposite != null )
         {
+/*
             CountryEntityComposite country = (CountryEntityComposite) validatableAddress.getCountry();
             String countryId = country.getIdentity();
 
@@ -69,6 +70,7 @@ public final class CityStateCountryValidationModifier implements Validatable
                                                "] doesn't match with country with id [" + countryId +
                                                "]. It matches to country with id [" + otherCountryId + "]" );
             }
+*/
         }
         else
         {
