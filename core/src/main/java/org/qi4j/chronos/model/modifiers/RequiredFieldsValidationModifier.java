@@ -14,6 +14,8 @@ package org.qi4j.chronos.model.modifiers;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Set;
+import java.util.HashSet;
 import org.qi4j.api.Composite;
 import org.qi4j.api.annotation.Modifies;
 import org.qi4j.api.annotation.Uses;
@@ -35,19 +37,38 @@ public class RequiredFieldsValidationModifier<T extends Composite> implements Va
 {
     @Uses T objectToValidate;
     @Modifies Validatable next;
+    private static final String GET = "get";
+    private static final String ITERATOR = "Iterator";
 
     public void validate() throws ValidationException
     {
         CompositeModel compositeModel = objectToValidate.getCompositeModel();
+
         Class<? extends Composite> compositeClass = compositeModel.getCompositeClass();
-        RequiredFields requiredFields = compositeClass.getAnnotation( RequiredFields.class );
-        Method[] methods = compositeClass.getMethods();
+
+        Set<String> fieldNames = new HashSet();
+        findRequiredFields( compositeClass, fieldNames );
+
+        if( fieldNames.size() > 0 )
+        {
+            StringBuilder errMessages = new StringBuilder( "Fields : " );
+            for( String fieldName : fieldNames )
+            {
+                errMessages.append( fieldName ).append( "; " );
+            }
+
+            errMessages.append( " must not be NULL." );
+            throw new ValidationException( errMessages.toString() );
+        }
+    }
+
+    private void findRequiredFields( Class compositeClass, Set<String> nullFieldNames )
+    {
+        RequiredFields requiredFields = (RequiredFields) compositeClass.getAnnotation( RequiredFields.class );
 
         if( requiredFields != null )
         {
             String[] fieldNames = requiredFields.value();
-            StringBuilder nullFieldNames = new StringBuilder();
-
 
             for( String fieldName : fieldNames )
             {
@@ -63,22 +84,33 @@ public class RequiredFieldsValidationModifier<T extends Composite> implements Va
 
                 if( value == null )
                 {
-                    nullFieldNames.append( fieldName ).append( "; " );
+                    nullFieldNames.add( fieldName );
                 }
 
             }
 
-            if( nullFieldNames.length() > 0 )
+        }
+
+        findRequiredFieldsInInterfaces( compositeClass, nullFieldNames );
+    }
+
+    private void findRequiredFieldsInInterfaces( Class compositeClass, Set<String> nullFieldNames )
+    {
+        Class[] interfaces = compositeClass.getInterfaces();
+        for( Class anInterface : interfaces )
+        {
+            if( !Composite.class.isAssignableFrom( anInterface ) )
             {
-                String msg = "Fields: ".concat( nullFieldNames.toString() ).concat( " must not be NULL." );
-                throw new ValidationException( msg );
+                continue;
             }
+
+            findRequiredFields( anInterface, nullFieldNames );
         }
     }
 
     private String getIteratorMethodName( String fieldName )
     {
-        return fieldName.concat( "Iterator" );
+        return fieldName.concat( ITERATOR );
     }
 
     private String getGetMethodName( String fieldName )
@@ -86,7 +118,7 @@ public class RequiredFieldsValidationModifier<T extends Composite> implements Va
         String firstChar = "" + fieldName.charAt( 0 );
         String uppoerCaseFirstChar = firstChar.toUpperCase();
         String notFirstChar = fieldName.substring( 1, fieldName.length() );
-        return "get".concat( uppoerCaseFirstChar ).concat( notFirstChar );
+        return GET.concat( uppoerCaseFirstChar ).concat( notFirstChar );
     }
 
     private Object getValue( Class<? extends Composite> compositeClass, String methodName )

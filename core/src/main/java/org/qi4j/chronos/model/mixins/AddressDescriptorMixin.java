@@ -13,14 +13,17 @@
 package org.qi4j.chronos.model.mixins;
 
 import org.qi4j.api.annotation.Uses;
-import org.qi4j.chronos.model.composites.AddressEntityComposite;
+import org.qi4j.chronos.model.composites.ValidatableAddressEntityComposite;
 import org.qi4j.library.general.model.Descriptor;
-import org.qi4j.library.general.model.composites.CityComposite;
-import org.qi4j.library.general.model.composites.StateComposite;
-import org.qi4j.library.general.model.composites.CountryComposite;
+import org.qi4j.library.general.model.City;
+import org.qi4j.library.general.model.State;
+import org.qi4j.library.general.model.Country;
+import org.qi4j.library.general.model.composites.CityEntityComposite;
+import org.qi4j.library.general.model.composites.StateEntityComposite;
+import org.qi4j.library.general.model.composites.CountryEntityComposite;
 
 /**
- * Provides implementation example to display an address. Different countries have different ways of displaying address.
+ * Provides implementation example to display an validatableAddress. Different countries have different ways of displaying validatableAddress.
  * For example,
  * <p/>
  * Albertinkatu 36 B
@@ -39,25 +42,25 @@ public final class AddressDescriptorMixin implements Descriptor
     private static final String SINGLE_SPACE = " ";
     private static final String NEW_LINE = "\n";
 
-    @Uses private AddressEntityComposite address;
+    @Uses private ValidatableAddressEntityComposite validatableAddress;
 
     public String getDisplayValue()
     {
         StringBuilder displayName = new StringBuilder();
 
-        String firstLine = address.getFirstLine();
+        String firstLine = validatableAddress.getFirstLine();
         appendValueTo( firstLine, displayName );
 
-        String secondLine = address.getSecondLine();
+        String secondLine = validatableAddress.getSecondLine();
         appendValueTo( secondLine, displayName );
 
-        String thirdLine = address.getThirdLine();
+        String thirdLine = validatableAddress.getThirdLine();
         appendValueTo( thirdLine, displayName );
 
-        String zipCode = address.getZipCode();
+        String zipCode = validatableAddress.getZipCode();
         appendValueTo( zipCode, displayName );
 
-        CityComposite city = address.getCity();
+        City city = validatableAddress.getCity();
         if( city != null )
         {
             String cityName = city.getName();
@@ -77,11 +80,11 @@ public final class AddressDescriptorMixin implements Descriptor
         }
 
 
-        StateComposite state = address.getState();
+        State state = validatableAddress.getState();
         String stateName = state.getName();
         appendValueTo( stateName, displayName );
 
-        CountryComposite country = address.getCountry();
+        Country country = validatableAddress.getCountry();
         String countryName = country.getName();
         appendValueTo( countryName, displayName );
 

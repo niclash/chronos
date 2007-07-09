@@ -4,7 +4,7 @@ import org.qi4j.api.CompositeFactory;
 import org.qi4j.api.EntityRepository;
 import org.qi4j.api.persistence.composite.EntityComposite;
 import org.qi4j.chronos.model.AbstractTest;
-import org.qi4j.library.general.test.model.DummyPersistentStorage;
+import org.qi4j.library.general.model.composites.CountryEntityComposite;
 
 public class AddressEntityCompositeTest extends AbstractTest
 {
@@ -18,32 +18,32 @@ public class AddressEntityCompositeTest extends AbstractTest
 
     public void testNewAddressEntityComposite() throws Exception
     {
-        AddressEntityComposite address = factory.newInstance( AddressEntityComposite.class );
+        ValidatableAddressEntityComposite validatableAddress = factory.newInstance( ValidatableAddressEntityComposite.class );
 
-        CityEntityComposite city = factory.newInstance( CityEntityComposite.class );
+        ChronosCityEntityComposite city = factory.newInstance( ChronosCityEntityComposite.class );
         city.setIdentity( "Melbourne" );
         city.setName( "Melbourne" );
-        address.setCity( city );
+        validatableAddress.setCity( city );
 
         CountryEntityComposite country = factory.newInstance( CountryEntityComposite.class );
         country.setIdentity( "Australia" );
         country.setName( "Australia" );
-        address.setCountry( country );
+        validatableAddress.setCountry( country );
 
-        address.setEntityRepository( new DummyPersistentStorage() );
+//        validatableAddress.setEntityRepository( new DummyPersistentStorage() );
 
         // TODO: Test not completed because @Dependency injection in CityStateCountryValidationModifier doesn't work
-//        address.validate();
+//        validatableAddress.validate();
     }
 
     public void testNewAddressEntityCompositeWithNullIdentity() throws Exception
     {
-        AddressEntityComposite addressPC;
-        addressPC = factory.newInstance( AddressEntityComposite.class );
+        ValidatableAddressEntityComposite validatableAddressPC;
+        validatableAddressPC = factory.newInstance( ValidatableAddressEntityComposite.class );
 
         try
         {
-            addressPC.setIdentity( null );
+            validatableAddressPC.setIdentity( null );
             fail( "Identity should not be null." );
         }
         catch( NullPointerException e )
@@ -63,7 +63,7 @@ public class AddressEntityCompositeTest extends AbstractTest
 
         public <T extends EntityComposite> T getInstance( String identity, Class<T> type )
         {
-            CityEntityComposite instance = factory.newInstance( CityEntityComposite.class );
+            ChronosCityEntityComposite instance = factory.newInstance( ChronosCityEntityComposite.class );
             instance.setIdentity( identity );
             instance.setName( "Melbourne" );
 
