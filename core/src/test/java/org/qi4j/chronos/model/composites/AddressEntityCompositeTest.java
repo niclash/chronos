@@ -1,50 +1,157 @@
 package org.qi4j.chronos.model.composites;
 
-import org.qi4j.api.CompositeFactory;
-import org.qi4j.api.EntityRepository;
-import org.qi4j.api.persistence.composite.EntityComposite;
 import org.qi4j.chronos.model.AbstractTest;
+import org.qi4j.library.general.model.ValidationException;
 import org.qi4j.library.general.model.composites.CityEntityComposite;
 import org.qi4j.library.general.model.composites.CountryEntityComposite;
+import org.qi4j.library.general.model.composites.StateEntityComposite;
 
 public class AddressEntityCompositeTest extends AbstractTest
 {
-    private EntityRepository repository;
-
-    protected void setUp() throws Exception
+    public void testNewAddressCompositeSuccessful() throws Exception
     {
-        super.setUp();
-        repository = new AddressEntityRepository( factory );
+        AddressEntityComposite address = factory.newInstance( AddressEntityComposite.class );
+
+        String firstLineAdd = "IOI Tower";
+        String secondLineAdd = "101 Collins St.";
+        String thirdLineAdd = null;
+        String zipcode = "3000";
+        String cityName = "Melbourne";
+        String stateName = "Victoria";
+        String countryName = "Australia";
+
+        address.setFirstLine( firstLineAdd );
+        address.setSecondLine( secondLineAdd );
+        address.setThirdLine( thirdLineAdd );
+        address.setZipCode( zipcode );
+
+        CityEntityComposite city = factory.newInstance( CityEntityComposite.class );
+        city.setName( cityName );
+        address.setCity( city );
+
+        StateEntityComposite state = factory.newInstance( StateEntityComposite.class );
+        state.setName( "Victoria" );
+        city.setState( state );
+
+        CountryEntityComposite country = factory.newInstance( CountryEntityComposite.class );
+        country.setIsoCode( "AU" );
+        country.setName( "Australia" );
+        city.setCountry( country );
+
+        assertEquals( firstLineAdd, address.getFirstLine() );
+        assertEquals( secondLineAdd, address.getSecondLine() );
+        assertNull( address.getThirdLine() );
+        assertEquals( zipcode, address.getZipCode() );
+
+        CityEntityComposite otherCity = (CityEntityComposite) address.getCity();
+
+        assertEquals( city.getCompositeModel(), otherCity.getCompositeModel() );
+        assertEquals( cityName, otherCity.getName() );
+
+        StateEntityComposite otherState = (StateEntityComposite) city.getState();
+        assertEquals( state.getCompositeModel(), otherState.getCompositeModel() );
+        assertEquals( stateName, otherState.getName() );
+
+        CountryEntityComposite otherCountry = (CountryEntityComposite) city.getCountry();
+        assertEquals( country.getCompositeModel(), otherCountry.getCompositeModel() );
+        assertEquals( countryName, otherCountry.getName() );
     }
 
-    public void testNewAddressEntityComposite() throws Exception
+    public void testValidateAddressEntityComposite() throws Exception
     {
-        ValidatableAddressEntityComposite validatableAddress = factory.newInstance( ValidatableAddressEntityComposite.class );
+        AddressEntityComposite address = factory.newInstance( AddressEntityComposite.class );
+
+        address.setFirstLine( "502 King St." );
+        address.setZipCode( "3000" );
 
         CityEntityComposite city = factory.newInstance( CityEntityComposite.class );
         city.setIdentity( "Melbourne" );
         city.setName( "Melbourne" );
-        validatableAddress.setCity( city );
+        address.setCity( city );
+
+        CountryEntityComposite country = factory.newInstance( CountryEntityComposite.class );
+        country.setIdentity( "Australia" );
+        country.setName( "Australia" );
+        city.setCountry( country );
+        address.validate();
+    }
+
+    public void testValidateCityNull() throws Exception
+    {
+        AddressEntityComposite address = factory.newInstance( AddressEntityComposite.class );
+        address.setFirstLine( "502 King St." );
+        address.setZipCode( "3000" );
+
+        try
+        {
+            address.validate();
+            fail( "ValidationException should be thrown as City is null." );
+        }
+        catch( ValidationException e )
+        {
+            // Correct
+        }
+    }
+
+    public void testValidateFirstLineNull() throws Exception
+    {
+        AddressEntityComposite address = factory.newInstance( AddressEntityComposite.class );
+        address.setZipCode( "3000" );
+
+        CityEntityComposite city = factory.newInstance( CityEntityComposite.class );
+        city.setIdentity( "Melbourne" );
+        city.setName( "Melbourne" );
+        address.setCity( city );
 
         CountryEntityComposite country = factory.newInstance( CountryEntityComposite.class );
         country.setIdentity( "Australia" );
         country.setName( "Australia" );
         city.setCountry( country );
 
-//        validatableAddress.setEntityRepository( new DummyPersistentStorage() );
+        try
+        {
+            address.validate();
+            fail( "ValidationException should be thrown as first line address is null." );
+        }
+        catch( ValidationException e )
+        {
+            // Correct
+        }
+    }
 
-        // TODO: Test not completed because @Dependency injection in CityStateCountryValidationModifier doesn't work
-//        validatableAddress.validate();
+    public void testValidateZipCodeNull() throws Exception
+    {
+        AddressEntityComposite address = factory.newInstance( AddressEntityComposite.class );
+        address.setFirstLine( "502 King St." );
+
+        CityEntityComposite city = factory.newInstance( CityEntityComposite.class );
+        city.setIdentity( "Melbourne" );
+        city.setName( "Melbourne" );
+        address.setCity( city );
+
+        CountryEntityComposite country = factory.newInstance( CountryEntityComposite.class );
+        country.setIdentity( "Australia" );
+        country.setName( "Australia" );
+        city.setCountry( country );
+
+        try
+        {
+            address.validate();
+            fail( "ValidationException should be thrown as zipcode is null." );
+        }
+        catch( ValidationException e )
+        {
+            // Correct
+        }
     }
 
     public void testNewAddressEntityCompositeWithNullIdentity() throws Exception
     {
-        ValidatableAddressEntityComposite validatableAddressPC;
-        validatableAddressPC = factory.newInstance( ValidatableAddressEntityComposite.class );
+        AddressEntityComposite address = factory.newInstance( AddressEntityComposite.class );
 
         try
         {
-            validatableAddressPC.setIdentity( null );
+            address.setIdentity( null );
             fail( "Identity should not be null." );
         }
         catch( NullPointerException e )
@@ -53,37 +160,4 @@ public class AddressEntityCompositeTest extends AbstractTest
         }
     }
 
-    public class AddressEntityRepository implements EntityRepository
-    {
-        private CompositeFactory factory;
-
-        public AddressEntityRepository( CompositeFactory aFactory )
-        {
-            factory = aFactory;
-        }
-
-        public <T extends EntityComposite> T getInstance( String identity, Class<T> type )
-        {
-            CityEntityComposite instance = factory.newInstance( CityEntityComposite.class );
-            instance.setIdentity( identity );
-            instance.setName( "Melbourne" );
-
-            CountryEntityComposite country = factory.newInstance( CountryEntityComposite.class );
-            country.setIdentity( "Australia" );
-            country.setName( "Australia" );
-            instance.setCountry( country );
-
-            return (T) instance;
-        }
-
-        public <T extends EntityComposite> T getInstance( String identity, Class<T> type, boolean autoCreate )
-        {
-            return factory.newInstance( type );
-        }
-
-        public <T extends EntityComposite> T newInstance( String identity, Class<T> type )
-        {
-            return factory.newInstance( type );
-        }
-    }
 }

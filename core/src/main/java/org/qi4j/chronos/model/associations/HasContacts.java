@@ -15,7 +15,7 @@ package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
 import java.util.Iterator;
-import org.qi4j.chronos.model.Contact;
+import org.qi4j.library.general.model.Contact;
 
 /**
  * Generic interface to describe association with {@link org.qi4j.chronos.model.composites.ContactEntityComposite}

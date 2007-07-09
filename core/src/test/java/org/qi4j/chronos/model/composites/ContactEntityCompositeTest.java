@@ -13,11 +13,11 @@
 package org.qi4j.chronos.model.composites;
 
 import org.qi4j.chronos.model.AbstractTest;
-import org.qi4j.chronos.model.ContactType;
+import org.qi4j.library.general.model.ValidationException;
 
 public class ContactEntityCompositeTest extends AbstractTest
 {
-    public void testContactEntityCompositeSuccessful() throws Exception
+    public void testValidateContactEntityCompositeSuccessful() throws Exception
     {
         ContactEntityComposite contactEntity = factory.newInstance( ContactEntityComposite.class );
 
@@ -27,6 +27,36 @@ public class ContactEntityCompositeTest extends AbstractTest
 
         contactEntity.setContact( "0123456789" );
         contactEntity.setContactType( contactTypeEntity );
-        contactEntity.validate();
+
+        try
+        {
+            contactEntity.validate();
+        }
+        catch( ValidationException e )
+        {
+            fail( "ValidationException should not be thrown." );
+        }
+    }
+
+    public void testValidateContactEntityCompositeDoesntMatchRegex() throws Exception
+    {
+        ContactEntityComposite contactEntity = factory.newInstance( ContactEntityComposite.class );
+
+        ContactTypeEntityComposite contactTypeEntity = factory.newInstance( ContactTypeEntityComposite.class );
+        contactTypeEntity.setContactType( "phone_number" );
+        contactTypeEntity.setRegex( "[0-9]*" );
+
+        contactEntity.setContact( "012-3456789" );
+        contactEntity.setContactType( contactTypeEntity );
+
+        try
+        {
+            contactEntity.validate();
+            fail( "Validation exception should be thrown as contact doesn't match regex" );
+        }
+        catch( ValidationException e )
+        {
+            // Correct
+        }
     }
 }
