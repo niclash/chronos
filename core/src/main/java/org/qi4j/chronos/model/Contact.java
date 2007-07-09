@@ -19,7 +19,7 @@ import org.qi4j.chronos.model.associations.HasContactType;
 /**
  * Generic interface for a contact such as phone number, fax-number, email, msn, etc.
  */
-public interface Contact extends HasContactType, Serializable
+public interface Contact<T extends ContactType> extends HasContactType<T>, Serializable
 {
     String getContact();
 

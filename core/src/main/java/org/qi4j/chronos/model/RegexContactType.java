@@ -10,18 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.composites;
+package org.qi4j.chronos.model;
 
-import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.api.persistence.composite.EntityComposite;
-import org.qi4j.chronos.model.ContactType;
-import org.qi4j.chronos.model.RegexContactType;
-import org.qi4j.library.framework.properties.PropertiesMixin;
-
-/**
- * Persistable ContactType entity
- */
-@ImplementedBy( { PropertiesMixin.class } )
-public interface ContactTypeEntityComposite extends RegexContactType, EntityComposite
+public interface RegexContactType extends ContactType, RegularExpression
 {
 }

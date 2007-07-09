@@ -18,9 +18,9 @@ import org.qi4j.chronos.model.ContactType;
 /**
  * Interface to describe association with {@link org.qi4j.chronos.model.composites.ContactTypeEntityComposite}
  */
-public interface HasContactType extends Serializable
+public interface HasContactType<T extends ContactType> extends Serializable
 {
-    void setContactType( ContactType contactType );
+    void setContactType( T contactType );
 
-    ContactType getContactType();
+    T getContactType();
 }

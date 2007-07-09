@@ -21,7 +21,7 @@ public class ContactEntityCompositeTest extends AbstractTest
     {
         ContactEntityComposite contactEntity = factory.newInstance( ContactEntityComposite.class );
 
-        ContactType contactTypeEntity = factory.newInstance( ContactTypeEntityComposite.class );
+        ContactTypeEntityComposite contactTypeEntity = factory.newInstance( ContactTypeEntityComposite.class );
         contactTypeEntity.setContactType( "phone_number" );
         contactTypeEntity.setRegex( "[0-9]*" );
 
