@@ -14,11 +14,10 @@
 package org.qi4j.chronos.model;
 
 import java.io.Serializable;
+import org.qi4j.chronos.model.associations.HasPriceRateType;
 import org.qi4j.library.general.model.Money;
 
-public interface PriceRate extends Role, Money,  Serializable
+public interface PriceRate extends Role, Money, HasPriceRateType, Serializable
 {
-    PriceRateType getPriceRateType();
-
-    void setPriceRateType( PriceRateType type );
+    
 }

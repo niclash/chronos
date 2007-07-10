@@ -40,7 +40,7 @@ public final class AddressDescriptorMixin implements Descriptor
     private static final String NEW_LINE = "\n";
 
     @Uses private AddressEntityComposite address;
-
+    
     public String getDisplayValue()
     {
         StringBuilder displayName = new StringBuilder();

@@ -28,3 +28,4 @@ public interface AccountEntityComposite extends Account, Validatable, EntityComp
 {
 
 }
+
