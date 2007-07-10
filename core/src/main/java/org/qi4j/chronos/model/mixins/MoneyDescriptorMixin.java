@@ -37,4 +37,9 @@ public final class MoneyDescriptorMixin implements Descriptor
         BigDecimal amount = money.getAmount();
         return amount + currencyCode;
     }
+
+    public void setDisplayValue( String aDisplayValue )
+    {
+        // Do nothing
+    }
 }

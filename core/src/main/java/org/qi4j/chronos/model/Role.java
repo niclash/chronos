@@ -13,7 +13,9 @@
  */
 package org.qi4j.chronos.model;
 
-public interface Role 
+import java.io.Serializable;
+
+public interface Role extends Serializable 
 {
     String getRole();
 

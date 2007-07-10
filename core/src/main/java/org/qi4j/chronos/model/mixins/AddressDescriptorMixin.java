@@ -90,6 +90,11 @@ public final class AddressDescriptorMixin implements Descriptor
         return displayName.toString();
     }
 
+    public void setDisplayValue( String aDisplayValue )
+    {
+        // do nothing
+    }
+
     private void appendValueTo( String value, StringBuilder appendTo )
     {
         if( isNotEmptyString( value ) )

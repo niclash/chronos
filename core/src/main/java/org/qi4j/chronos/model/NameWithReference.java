@@ -20,5 +20,4 @@ import org.qi4j.library.general.model.Name;
  */
 public interface NameWithReference extends Name, Reference
 {
-
 }

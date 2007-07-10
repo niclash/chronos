@@ -13,7 +13,9 @@
  */
 package org.qi4j.chronos.model;
 
-public interface Reference
+import java.io.Serializable;
+
+public interface Reference extends Serializable
 {
     String getReference();
 

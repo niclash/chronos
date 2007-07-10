@@ -18,7 +18,6 @@ import org.qi4j.api.annotation.ModifiedBy;
 import org.qi4j.chronos.model.mixins.AddressDescriptorMixin;
 import org.qi4j.chronos.model.modifiers.RequiredFields;
 import org.qi4j.chronos.model.modifiers.RequiredFieldsValidationModifier;
-import org.qi4j.library.framework.properties.PropertiesMixin;
 import org.qi4j.library.general.model.Address;
 import org.qi4j.library.general.model.Descriptor;
 import org.qi4j.library.general.model.Validatable;
@@ -35,7 +34,7 @@ import org.qi4j.library.general.model.Validatable;
  *
  */
 @ModifiedBy( { RequiredFieldsValidationModifier.class } )
-@ImplementedBy( { AddressDescriptorMixin.class, PropertiesMixin.class } )
+@ImplementedBy( { AddressDescriptorMixin.class } )
 @RequiredFields( { "firstLine", "zipCode", "city" } )
 public interface AddressComposite extends Address, Validatable, Descriptor, Composite
 {

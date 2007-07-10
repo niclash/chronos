@@ -13,13 +13,14 @@
 package org.qi4j.chronos.model.associations;
 
 import org.qi4j.chronos.model.ProjectAssignee;
+import java.io.Serializable;
 
 /**
  * Describe association with the leader of project assignees.
  */
-public interface HasLeadProjectAssignee
+public interface HasLeadProjectAssignee extends Serializable
 {
     ProjectAssignee getLeadProjectAssignee();
 
-    void setLeadProjectAssignee(ProjectAssignee lead);
+    void setLeadProjectAssignee( ProjectAssignee lead );
 }

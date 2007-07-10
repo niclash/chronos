@@ -22,7 +22,7 @@ import org.qi4j.library.framework.properties.PropertiesMixin;
 import org.qi4j.library.general.model.Validatable;
 
 @ImplementedBy( { PropertiesMixin.class } )
-@ModifiedBy({ ProjectCreationValidationModifier.class})
+@ModifiedBy( { ProjectCreationValidationModifier.class } )
 public interface ProjectEntityComposite extends Project, Validatable, EntityComposite
 {
 }

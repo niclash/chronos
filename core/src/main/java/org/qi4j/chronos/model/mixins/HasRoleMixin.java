@@ -13,23 +13,24 @@
 package org.qi4j.chronos.model.mixins;
 
 import org.qi4j.api.annotation.ModifiedBy;
-import org.qi4j.chronos.model.Role;
+import org.qi4j.chronos.model.associations.HasRole;
 import org.qi4j.chronos.model.modifiers.NotNullValidationModifier;
 import org.qi4j.chronos.model.modifiers.NotNullable;
+import org.qi4j.chronos.model.Role;
 
 @ModifiedBy( { NotNullValidationModifier.class } )
-public class RoleMixin implements Role
+public final class HasRoleMixin implements HasRole
 {
-    private String role;
-
-    public String getRole()
-    {
-        return role;
-    }
+    private Role role;
 
     @NotNullable
-    public void setRole( String role )
+    public void setRole( Role aRole )
     {
-        this.role = role;
+        role = aRole;
+    }
+
+    public Role getRole()
+    {
+        return role;
     }
 }
