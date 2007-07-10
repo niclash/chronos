@@ -13,11 +13,10 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import java.io.Serializable;
 import java.util.Iterator;
 import org.qi4j.chronos.model.PriceRateSchedule;
 
-public interface HasPriceRateSchedules extends Serializable
+public interface HasPriceRateSchedules
 {
     void addPriceRateSchedule( PriceRateSchedule priceRateSchedule );
 

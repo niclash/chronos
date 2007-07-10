@@ -17,12 +17,13 @@ import org.qi4j.api.annotation.ImplementedBy;
 import org.qi4j.api.annotation.ModifiedBy;
 import org.qi4j.api.persistence.composite.EntityComposite;
 import org.qi4j.chronos.model.Account;
-import org.qi4j.chronos.model.mixins.AccountNameMixin;
+import org.qi4j.chronos.model.mixins.HasPriceRateSchedulesMixin;
+import org.qi4j.chronos.model.mixins.HasProjectsMixin;
+import org.qi4j.chronos.model.mixins.NameMixin;
 import org.qi4j.chronos.model.modifiers.AccountCreationValidationModifier;
-import org.qi4j.library.framework.properties.PropertiesMixin;
 import org.qi4j.library.general.model.Validatable;
 
-@ImplementedBy( { AccountNameMixin.class, PropertiesMixin.class } )
+@ImplementedBy( {NameMixin.class, HasPriceRateSchedulesMixin.class, HasProjectsMixin.class } )
 @ModifiedBy({ AccountCreationValidationModifier.class})
 public interface AccountEntityComposite extends Account, Validatable, EntityComposite
 {

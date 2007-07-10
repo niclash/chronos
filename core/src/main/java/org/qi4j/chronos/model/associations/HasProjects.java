@@ -13,11 +13,10 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import java.io.Serializable;
 import java.util.Iterator;
 import org.qi4j.chronos.model.Project;
 
-public interface HasProjects extends Serializable
+public interface HasProjects
 {
     void addProject( Project project );
 

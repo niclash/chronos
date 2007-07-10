@@ -19,9 +19,9 @@ import org.qi4j.chronos.model.ProjectAssignee;
 
 public interface HasProjectAssignees extends Serializable
 {
-    Iterator<ProjectAssignee> projectAssigneeIterator();
-
     void addProjectAssignee( ProjectAssignee assignee);
 
     void removeProjectAssignee(ProjectAssignee assignee);
+
+    Iterator<ProjectAssignee> projectAssigneeIterator();
 }

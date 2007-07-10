@@ -16,9 +16,9 @@ package org.qi4j.chronos.model.composites;
 import org.qi4j.api.Composite;
 import org.qi4j.api.annotation.ImplementedBy;
 import org.qi4j.chronos.model.Comment;
-import org.qi4j.library.framework.properties.PropertiesMixin;
+import org.qi4j.chronos.model.mixins.CommentMixin;
 
-@ImplementedBy( { PropertiesMixin.class } )
+@ImplementedBy( { CommentMixin.class } )
 public interface CommentComposite extends Comment, Composite
 {
 }

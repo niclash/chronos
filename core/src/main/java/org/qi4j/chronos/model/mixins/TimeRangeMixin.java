@@ -13,12 +13,8 @@
 package org.qi4j.chronos.model.mixins;
 
 import java.util.Date;
-import org.qi4j.api.annotation.ModifiedBy;
 import org.qi4j.chronos.model.TimeRange;
-import org.qi4j.chronos.model.modifiers.NotNullValidationModifier;
-import org.qi4j.chronos.model.modifiers.NotNullable;
 
-@ModifiedBy( { NotNullValidationModifier.class } )
 public class TimeRangeMixin implements TimeRange
 {
     private Date startTime;
@@ -29,7 +25,6 @@ public class TimeRangeMixin implements TimeRange
         return startTime;
     }
 
-    @NotNullable
     public void setStartTime( Date startTime )
     {
         this.startTime = startTime;
@@ -40,7 +35,6 @@ public class TimeRangeMixin implements TimeRange
         return endTime;
     }
 
-    @NotNullable
     public void setEndTime( Date endTime )
     {
         this.endTime = endTime;

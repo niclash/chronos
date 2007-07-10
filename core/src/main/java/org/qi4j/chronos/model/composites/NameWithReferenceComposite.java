@@ -14,13 +14,11 @@ package org.qi4j.chronos.model.composites;
 
 import org.qi4j.api.Composite;
 import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.api.annotation.ModifiedBy;
 import org.qi4j.chronos.model.NameWithReference;
-import org.qi4j.chronos.model.mixins.NameWithReferenceMixin;
-import org.qi4j.chronos.model.modifiers.NotNullValidationModifier;
+import org.qi4j.chronos.model.mixins.NameMixin;
+import org.qi4j.chronos.model.mixins.ReferenceMixin;
 
-@ModifiedBy( { NotNullValidationModifier.class } )
-@ImplementedBy( { NameWithReferenceMixin.class } )
+@ImplementedBy( { NameMixin.class, ReferenceMixin.class } )
 public interface NameWithReferenceComposite extends NameWithReference, Composite
 {
 }

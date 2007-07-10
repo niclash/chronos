@@ -18,7 +18,7 @@ import java.io.Serializable;
 /**
  * Generic interface to specify a relationship
  */
-public interface Relationship extends Serializable
+public interface Relationship
 {
     void setRelationship(String aRelationship );
 

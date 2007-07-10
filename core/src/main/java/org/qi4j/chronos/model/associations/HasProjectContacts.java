@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,12 +13,8 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import java.io.Serializable;
-import org.qi4j.chronos.model.ProjectStatus;
-
-public interface HasProjectStatus
+public interface HasProjectContacts extends HasContactPersons, HasPrimaryContactPerson
 {
-    public void setProjectStatus( ProjectStatus projectStatus );
 
-    public ProjectStatus getProjectStatus();
 }
+

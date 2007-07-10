@@ -15,10 +15,11 @@ package org.qi4j.chronos.model.composites;
 import org.qi4j.api.Composite;
 import org.qi4j.api.annotation.ImplementedBy;
 import org.qi4j.chronos.model.PriceRate;
+import org.qi4j.chronos.model.mixins.HasPriceRateTypeMixin;
 import org.qi4j.chronos.model.mixins.HasRoleMixin;
-import org.qi4j.library.framework.properties.PropertiesMixin;
+import org.qi4j.chronos.model.mixins.MoneyMixin;
 
-@ImplementedBy( { HasRoleMixin.class, PropertiesMixin.class } )
+@ImplementedBy( { MoneyMixin.class, HasRoleMixin.class, HasPriceRateTypeMixin.class } )
 public interface PriceRateComposite extends PriceRate, Composite
 {
 }
