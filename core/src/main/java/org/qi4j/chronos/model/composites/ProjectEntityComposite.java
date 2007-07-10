@@ -25,10 +25,10 @@ import org.qi4j.chronos.model.mixins.HasPrimaryContactPersonMixin;
 import org.qi4j.chronos.model.mixins.HasProjectAssigneesMixin;
 import org.qi4j.chronos.model.mixins.HasProjectStatusMixin;
 import org.qi4j.chronos.model.mixins.HasProjectTimeRangeMixin;
-import org.qi4j.chronos.model.mixins.NameMixin;
 import org.qi4j.chronos.model.mixins.ReferenceMixin;
 import org.qi4j.chronos.model.modifiers.ProjectCreationValidationModifier;
 import org.qi4j.library.general.model.Validatable;
+import org.qi4j.library.general.model.mixins.NameMixin;
 
 @ImplementedBy( { NameMixin.class, ReferenceMixin.class, HasProjectTimeRangeMixin.class,
     HasLeadProjectAssigneeMixin.class, HasProjectAssigneesMixin.class,

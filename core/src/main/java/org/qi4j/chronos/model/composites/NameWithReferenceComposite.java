@@ -15,8 +15,8 @@ package org.qi4j.chronos.model.composites;
 import org.qi4j.api.Composite;
 import org.qi4j.api.annotation.ImplementedBy;
 import org.qi4j.chronos.model.NameWithReference;
-import org.qi4j.chronos.model.mixins.NameMixin;
 import org.qi4j.chronos.model.mixins.ReferenceMixin;
+import org.qi4j.library.general.model.mixins.NameMixin;
 
 @ImplementedBy( { NameMixin.class, ReferenceMixin.class } )
 public interface NameWithReferenceComposite extends NameWithReference, Composite

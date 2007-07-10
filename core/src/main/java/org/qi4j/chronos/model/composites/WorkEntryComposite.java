@@ -17,11 +17,11 @@ import org.qi4j.api.Composite;
 import org.qi4j.api.annotation.ImplementedBy;
 import org.qi4j.api.annotation.ModifiedBy;
 import org.qi4j.chronos.model.WorkEntry;
-import org.qi4j.chronos.model.mixins.DescriptionMixin;
 import org.qi4j.chronos.model.mixins.HasCommentsMixin;
 import org.qi4j.chronos.model.mixins.TimeRangeMixin;
 import org.qi4j.chronos.model.mixins.TitleMixin;
 import org.qi4j.chronos.model.modifiers.TimeRangeValidationModifier;
+import org.qi4j.library.general.model.mixins.DescriptionMixin;
 
 @ImplementedBy( { TimeRangeMixin.class, TitleMixin.class, DescriptionMixin.class, HasCommentsMixin.class} )
 @ModifiedBy( { TimeRangeValidationModifier.class } )
