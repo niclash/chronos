@@ -10,7 +10,7 @@ public class AddressEntityCompositeTest extends AbstractTest
 {
     public void testNewAddressCompositeSuccessful() throws Exception
     {
-        AddressEntityComposite address = factory.newInstance( AddressEntityComposite.class );
+        AddressComposite address = factory.newInstance( AddressComposite.class );
 
         String firstLineAdd = "IOI Tower";
         String secondLineAdd = "101 Collins St.";
@@ -59,7 +59,7 @@ public class AddressEntityCompositeTest extends AbstractTest
 
     public void testValidateAddressEntityComposite() throws Exception
     {
-        AddressEntityComposite address = factory.newInstance( AddressEntityComposite.class );
+        AddressComposite address = factory.newInstance( AddressComposite.class );
 
         address.setFirstLine( "502 King St." );
         address.setZipCode( "3000" );
@@ -78,7 +78,7 @@ public class AddressEntityCompositeTest extends AbstractTest
 
     public void testValidateCityNull() throws Exception
     {
-        AddressEntityComposite address = factory.newInstance( AddressEntityComposite.class );
+        AddressComposite address = factory.newInstance( AddressComposite.class );
         address.setFirstLine( "502 King St." );
         address.setZipCode( "3000" );
 
@@ -95,7 +95,7 @@ public class AddressEntityCompositeTest extends AbstractTest
 
     public void testValidateFirstLineNull() throws Exception
     {
-        AddressEntityComposite address = factory.newInstance( AddressEntityComposite.class );
+        AddressComposite address = factory.newInstance( AddressComposite.class );
         address.setZipCode( "3000" );
 
         CityEntityComposite city = factory.newInstance( CityEntityComposite.class );
@@ -121,7 +121,7 @@ public class AddressEntityCompositeTest extends AbstractTest
 
     public void testValidateZipCodeNull() throws Exception
     {
-        AddressEntityComposite address = factory.newInstance( AddressEntityComposite.class );
+        AddressComposite address = factory.newInstance( AddressComposite.class );
         address.setFirstLine( "502 King St." );
 
         CityEntityComposite city = factory.newInstance( CityEntityComposite.class );
@@ -144,20 +144,4 @@ public class AddressEntityCompositeTest extends AbstractTest
             // Correct
         }
     }
-
-    public void testNewAddressEntityCompositeWithNullIdentity() throws Exception
-    {
-        AddressEntityComposite address = factory.newInstance( AddressEntityComposite.class );
-
-        try
-        {
-            address.setIdentity( null );
-            fail( "Identity should not be null." );
-        }
-        catch( NullPointerException e )
-        {
-            // Correct
-        }
-    }
-
 }

@@ -10,14 +10,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.composites;
+package org.qi4j.chronos.model.associations;
 
-import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.api.persistence.composite.EntityComposite;
-import org.qi4j.chronos.model.Relationship;
-import org.qi4j.library.framework.properties.PropertiesMixin;
+import java.io.Serializable;
+import org.qi4j.chronos.model.Role;
 
-@ImplementedBy( { PropertiesMixin.class } )
-public interface RelationshipEntityComposite extends Relationship, EntityComposite
+/**
+ * Generic interface describing association with {@link Role}
+ */
+public interface HasRole extends Serializable
 {
+    void setRole( Role role);
+
+    Role getRole();
 }

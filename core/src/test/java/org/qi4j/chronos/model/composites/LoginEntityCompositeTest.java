@@ -19,8 +19,8 @@ public class LoginEntityCompositeTest extends AbstractTest
 {
     public void testValidateLoginEntityComposite() throws Exception
     {
-        LoginEntityComposite login = factory.newInstance( LoginEntityComposite.class );
-        login.setIdentity( "sianny" );
+        LoginComposite login = factory.newInstance( LoginComposite.class );
+        login.setName( "sianny" );
         login.setPassword( "password" );
 
         try
@@ -33,10 +33,10 @@ public class LoginEntityCompositeTest extends AbstractTest
         }
     }
 
-    public void testValidateLoginIdNull() throws Exception
+    public void testValidateLoginNameNull() throws Exception
     {
-        LoginEntityComposite login = factory.newInstance( LoginEntityComposite.class );
-        login.setPassword( "password" );
+        LoginComposite login = factory.newInstance( LoginComposite.class );
+        login.setName( "password" );
 
         try
         {
@@ -51,8 +51,8 @@ public class LoginEntityCompositeTest extends AbstractTest
 
     public void testValidatePasswordNull() throws Exception
     {
-        LoginEntityComposite login = factory.newInstance( LoginEntityComposite.class );
-        login.setIdentity( "sianny" );
+        LoginComposite login = factory.newInstance( LoginComposite.class );
+        login.setName( "sianny" );
 
         try
         {
@@ -65,9 +65,9 @@ public class LoginEntityCompositeTest extends AbstractTest
         }
     }
 
-    public void testLValidateLoginIdAndPasswordNull() throws Exception
+    public void testLValidateLoginNameAndPasswordNull() throws Exception
     {
-        LoginEntityComposite login = factory.newInstance( LoginEntityComposite.class );
+        LoginComposite login = factory.newInstance( LoginComposite.class );
 
         try
         {

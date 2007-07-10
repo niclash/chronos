@@ -29,9 +29,13 @@ import org.qi4j.library.general.model.ValidationException;
  * <p/>
  * The composite that uses this modifier must implement {@link org.qi4j.library.general.model.Validatable} and
  * annotated with {@link org.qi4j.chronos.model.modifiers.RequiredFields}.
+ *
  * When {@code Validatable#validate()} is invoked, this modifier will be invoked as well.
  * The field names defined in {@link org.qi4j.chronos.model.modifiers.RequiredFields} will be used
  * to validate required fields.
+ *
+ * Note: {@link org.qi4j.library.general.model.Validatable#validate()} is invoked by
+ * {@link org.qi4j.library.general.model.modifiers.LifecycleValidationModifier}.
  */
 public class RequiredFieldsValidationModifier<T extends Composite> implements Validatable
 {

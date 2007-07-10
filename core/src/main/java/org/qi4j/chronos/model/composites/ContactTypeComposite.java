@@ -12,20 +12,15 @@
  */
 package org.qi4j.chronos.model.composites;
 
+import org.qi4j.api.Composite;
 import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.api.annotation.ModifiedBy;
-import org.qi4j.api.persistence.composite.EntityComposite;
-import org.qi4j.library.general.model.Contact;
-import org.qi4j.library.general.model.RegexContactType;
-import org.qi4j.chronos.model.modifiers.ContactRegexValidationModifier;
 import org.qi4j.library.framework.properties.PropertiesMixin;
-import org.qi4j.library.general.model.Validatable;
+import org.qi4j.library.general.model.RegexContactType;
 
 /**
- * Persistable contact entity with validation modifier.
+ * ContactType composite that uses regular expression for contact validation using pattern matching.
  */
-@ModifiedBy( { ContactRegexValidationModifier.class } )
 @ImplementedBy( { PropertiesMixin.class } )
-public interface ContactEntityComposite extends Contact<RegexContactType>, Validatable, EntityComposite
+public interface ContactTypeComposite extends RegexContactType, Composite
 {
 }

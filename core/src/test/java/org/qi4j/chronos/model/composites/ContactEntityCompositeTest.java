@@ -19,14 +19,14 @@ public class ContactEntityCompositeTest extends AbstractTest
 {
     public void testValidateContactEntityCompositeSuccessful() throws Exception
     {
-        ContactEntityComposite contactEntity = factory.newInstance( ContactEntityComposite.class );
+        ContactComposite contactEntity = factory.newInstance( ContactComposite.class );
 
-        ContactTypeEntityComposite contactTypeEntity = factory.newInstance( ContactTypeEntityComposite.class );
-        contactTypeEntity.setContactType( "phone_number" );
-        contactTypeEntity.setRegex( "[0-9]*" );
+        ContactTypeComposite contactType = factory.newInstance( ContactTypeComposite.class );
+        contactType.setContactType( "phone_number" );
+        contactType.setRegex( "[0-9]*" );
 
         contactEntity.setContact( "0123456789" );
-        contactEntity.setContactType( contactTypeEntity );
+        contactEntity.setContactType( contactType );
 
         try
         {
@@ -40,14 +40,14 @@ public class ContactEntityCompositeTest extends AbstractTest
 
     public void testValidateContactEntityCompositeDoesntMatchRegex() throws Exception
     {
-        ContactEntityComposite contactEntity = factory.newInstance( ContactEntityComposite.class );
+        ContactComposite contactEntity = factory.newInstance( ContactComposite.class );
 
-        ContactTypeEntityComposite contactTypeEntity = factory.newInstance( ContactTypeEntityComposite.class );
-        contactTypeEntity.setContactType( "phone_number" );
-        contactTypeEntity.setRegex( "[0-9]*" );
+        ContactTypeComposite contactType = factory.newInstance( ContactTypeComposite.class );
+        contactType.setContactType( "phone_number" );
+        contactType.setRegex( "[0-9]*" );
 
         contactEntity.setContact( "012-3456789" );
-        contactEntity.setContactType( contactTypeEntity );
+        contactEntity.setContactType( contactType );
 
         try
         {

@@ -22,6 +22,7 @@ public class StaffEntityCompositeTest extends AbstractTest
     public void testValidateStaffEntityComnposite() throws Exception
     {
         StaffEntityComposite staff = factory.newInstance( StaffEntityComposite.class );
+        staff.setIdentity( "0001" );
         staff.setFirstName( "Sianny" );
         staff.setLastName( "Halim" );
         staff.setGender( GenderType.female );
@@ -38,9 +39,29 @@ public class StaffEntityCompositeTest extends AbstractTest
         }
     }
 
+    public void testValidateIdentityNull() throws Exception
+    {
+        StaffEntityComposite staff = factory.newInstance( StaffEntityComposite.class );
+        staff.setFirstName( "Sianny" );
+        staff.setLastName( "Halim" );
+        staff.setGender( GenderType.female );
+        staff.setStartTime( Calendar.getInstance().getTime() );
+
+        try
+        {
+            staff.validate();
+            fail("ValidationException should be thrown as identity is null.");
+        }
+        catch( ValidationException e )
+        {
+            // Correct
+        }
+    }
+
     public void testValidateFirstNameNull() throws Exception
     {
         StaffEntityComposite staff = factory.newInstance( StaffEntityComposite.class );
+        staff.setIdentity( "0001" );
         staff.setLastName( "Halim" );
         staff.setGender( GenderType.female );
         staff.setStartTime( Calendar.getInstance().getTime() );
@@ -59,6 +80,7 @@ public class StaffEntityCompositeTest extends AbstractTest
     public void testValidateLastNameNull() throws Exception
     {
         StaffEntityComposite staff = factory.newInstance( StaffEntityComposite.class );
+        staff.setIdentity( "0001" );
         staff.setFirstName( "Sianny" );
         staff.setGender( GenderType.female );
         staff.setStartTime( Calendar.getInstance().getTime() );
@@ -77,6 +99,7 @@ public class StaffEntityCompositeTest extends AbstractTest
     public void testValidateGenderNull() throws Exception
     {
         StaffEntityComposite staff = factory.newInstance( StaffEntityComposite.class );
+        staff.setIdentity( "0001" );
         staff.setFirstName( "Sianny" );
         staff.setLastName( "Halim" );
         staff.setStartTime( Calendar.getInstance().getTime() );
@@ -95,6 +118,7 @@ public class StaffEntityCompositeTest extends AbstractTest
     public void testValidateStartTimeNull() throws Exception
     {
         StaffEntityComposite staff = factory.newInstance( StaffEntityComposite.class );
+        staff.setIdentity( "0001" );
         staff.setFirstName( "Sianny" );
         staff.setLastName( "Halim" );
         staff.setGender( GenderType.female );
@@ -113,6 +137,8 @@ public class StaffEntityCompositeTest extends AbstractTest
     public void testValidateNameGenderStartTimeNull() throws Exception
     {
         StaffEntityComposite staff = factory.newInstance( StaffEntityComposite.class );
+        staff.setIdentity( "0001" );
+
         try
         {
             staff.validate();

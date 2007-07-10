@@ -10,17 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.associations;
+package org.qi4j.chronos.model.composites;
 
-import java.io.Serializable;
-import org.qi4j.chronos.model.Login;
+import org.qi4j.api.Composite;
+import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.chronos.model.Relationship;
+import org.qi4j.library.framework.properties.PropertiesMixin;
 
-/**
- * Describe association with {@link org.qi4j.chronos.model.composites.LoginComposite}
- */
-public interface HasLogin extends Serializable
+@ImplementedBy( { PropertiesMixin.class } )
+public interface RelationshipComposite extends Relationship, Composite
 {
-    void setLogin( Login login );
-
-    Login getLogin();
 }

@@ -13,14 +13,14 @@
 package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
-import org.qi4j.chronos.model.Login;
+import org.qi4j.chronos.model.ContactPerson;
 
 /**
- * Describe association with {@link org.qi4j.chronos.model.composites.LoginComposite}
+ * Describe association with the primary contact person of a {@link org.qi4j.chronos.model.Project}.
  */
-public interface HasLogin extends Serializable
+public interface HasPrimaryContactPerson extends Serializable
 {
-    void setLogin( Login login );
+    ContactPerson getPrimaryContactPerson();
 
-    Login getLogin();
+    void setPrimaryContactPerson( ContactPerson contactPerson );
 }

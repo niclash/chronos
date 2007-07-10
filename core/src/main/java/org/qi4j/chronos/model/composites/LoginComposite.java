@@ -13,9 +13,9 @@
  */
 package org.qi4j.chronos.model.composites;
 
+import org.qi4j.api.Composite;
 import org.qi4j.api.annotation.ImplementedBy;
 import org.qi4j.api.annotation.ModifiedBy;
-import org.qi4j.api.persistence.composite.EntityComposite;
 import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.model.modifiers.RequiredFields;
 import org.qi4j.chronos.model.modifiers.RequiredFieldsValidationModifier;
@@ -24,20 +24,14 @@ import org.qi4j.library.general.model.Validatable;
 
 
 /**
- * Login entity storing information like login-name, password and whether the login is enabled.
- * <p/>
- * RequiredFields for Login are:
- * <li>
- * <ul>identity (login-name)
- * <ul>password
- * </li>
- * <p/>
- * TODO:
- * Create password validation modifier to make sure password is non-dictionary word and complex enough
+ * Validatable login composite.
+ *
+ * TODO: Create password validation modifier to make sure password is non-dictionary word and complex enough
+ * TODO: Fix the required fields validation as Lifecycle is not part of the interface anymore
  */
 @ModifiedBy( { RequiredFieldsValidationModifier.class } )
 @ImplementedBy( { PropertiesMixin.class } )
-@RequiredFields( { "identity", "password" } )
-public interface LoginEntityComposite extends Login, Validatable, EntityComposite
+@RequiredFields( { "name", "password" } )
+public interface LoginComposite extends Login, Validatable, Composite
 {
 }

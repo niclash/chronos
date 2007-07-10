@@ -10,17 +10,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.composites;
+package org.qi4j.chronos.model;
 
-import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.api.persistence.composite.EntityComposite;
-import org.qi4j.library.general.model.RegexContactType;
-import org.qi4j.library.framework.properties.PropertiesMixin;
+import org.qi4j.chronos.model.associations.HasProjectAssignees;
 
 /**
- * Persistable ContactType entity
+ * Generic interface for Staff
  */
-@ImplementedBy( { PropertiesMixin.class } )
-public interface ContactTypeEntityComposite extends RegexContactType, EntityComposite
+public interface Staff extends User, TimeRange, Salary, PriceRate, HasProjectAssignees
 {
 }

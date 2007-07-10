@@ -21,7 +21,7 @@ public interface HasContactPersons extends Serializable
 {
     Iterator<ContactPerson> contactPersonIterator();
 
-    void addContactPerson( ContactPerson contactPerson);
+    void addContactPerson( ContactPerson contactPerson );
 
-    void removeContactPerson( ContactPerson contactPerson);
+    void removeContactPerson( ContactPerson contactPerson );
 }

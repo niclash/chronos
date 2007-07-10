@@ -19,8 +19,8 @@ import org.qi4j.chronos.model.NameWithReference;
 import org.qi4j.chronos.model.mixins.NameWithReferenceMixin;
 import org.qi4j.chronos.model.modifiers.NotNullValidationModifier;
 
-@ModifiedBy({ NotNullValidationModifier.class })
-@ImplementedBy({ NameWithReferenceMixin.class})
+@ModifiedBy( { NotNullValidationModifier.class } )
+@ImplementedBy( { NameWithReferenceMixin.class } )
 public interface NameWithReferenceComposite extends NameWithReference, Composite
 {
 }

@@ -24,7 +24,7 @@ import org.qi4j.chronos.model.modifiers.TimeRangeValidationModifier;
 import org.qi4j.library.framework.properties.PropertiesMixin;
 
 @ImplementedBy( { TimeRangeMixin.class, TitleMixin.class, DescriptionMixin.class, PropertiesMixin.class } )
-@ModifiedBy({ TimeRangeValidationModifier.class})
+@ModifiedBy( { TimeRangeValidationModifier.class } )
 public interface WorkEntryComposite extends WorkEntry, Composite
 {
 }

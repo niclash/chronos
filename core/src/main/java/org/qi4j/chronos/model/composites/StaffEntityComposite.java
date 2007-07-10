@@ -1,6 +1,6 @@
 /*
- * Copyright 2007 Sianny Halim. All Rights Reserved.
- * Copyright 2007 Lan Boon Ping. All Rights Reserved.
+ * Copyright (c) 2007 Sianny Halim. All Rights Reserved.
+ * Copyright (c) 2007 Lan Boon Ping. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -21,15 +21,12 @@ package org.qi4j.chronos.model.composites;
 import org.qi4j.api.annotation.ImplementedBy;
 import org.qi4j.api.annotation.ModifiedBy;
 import org.qi4j.api.persistence.composite.EntityComposite;
-import org.qi4j.chronos.model.PriceRate;
-import org.qi4j.chronos.model.Salary;
-import org.qi4j.chronos.model.TimeRange;
-import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.model.associations.HasProjectAssignees;
+import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.modifiers.RequiredFields;
 import org.qi4j.chronos.model.modifiers.RequiredFieldsValidationModifier;
 import org.qi4j.library.framework.properties.PropertiesMixin;
 import org.qi4j.library.general.model.Validatable;
+import org.qi4j.library.general.model.modifiers.LifecycleValidationModifier;
 
 /**
  * Staff works for the company and hence contains more information on top of the basic user information provided in
@@ -42,9 +39,9 @@ import org.qi4j.library.general.model.Validatable;
  * <ol>Projects that this staff is working on
  * </li>
  */
-@ModifiedBy( { RequiredFieldsValidationModifier.class } )
+@ModifiedBy( { LifecycleValidationModifier.class, RequiredFieldsValidationModifier.class } )
 @ImplementedBy( { PropertiesMixin.class } )
-@RequiredFields( { "firstName", "lastName", "gender", "startTime" } )
-public interface StaffEntityComposite extends User, TimeRange, Salary, PriceRate, HasProjectAssignees, Validatable, EntityComposite
+@RequiredFields( { "identity", "firstName", "lastName", "gender", "startTime" } )
+public interface StaffEntityComposite extends Staff, Validatable, EntityComposite
 {
 }

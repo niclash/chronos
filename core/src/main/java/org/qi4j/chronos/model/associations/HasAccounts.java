@@ -12,14 +12,15 @@
  */
 package org.qi4j.chronos.model.associations;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import org.qi4j.chronos.model.Account;
 
-public interface HasAccounts
+public interface HasAccounts extends Serializable
 {
-    void addAccount( Account account);
+    void addAccount( Account account );
 
-    void removeAccount( Account account);
+    void removeAccount( Account account );
 
     Iterator<Account> accountIterator();
 }

@@ -20,21 +20,22 @@ public class PriceRateCompositeTest extends AbstractTest
 {
     public void testPriceRateRoleNotNull()
     {
-        PriceRateComposite  priceRateComposite = factory.newInstance( PriceRateComposite.class );
+        PriceRateComposite priceRateComposite = factory.newInstance( PriceRateComposite.class );
 
         try
         {
             priceRateComposite.setRole( null );
 
-            fail( "Should throw ValidationException!");
+            fail( "Should throw ValidationException!" );
         }
-        catch ( ValidationException err )
+        catch( ValidationException err )
         {
             //expected
         }
 
-        priceRateComposite.setRole( "Developer" );
+        RoleEntityComposite roleComposite = factory.newInstance( RoleEntityComposite.class );
+        priceRateComposite.setRole( roleComposite );
     }
-    
+
 }
 

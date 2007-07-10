@@ -27,7 +27,7 @@ public class ContactPersonEntityCompositeTest extends AbstractTest
         contactPerson.setLastName( "Halim" );
         contactPerson.setGender( GenderType.female );
 
-        ContactEntityComposite contact = factory.newInstance( ContactEntityComposite.class );
+        ContactComposite contact = factory.newInstance( ContactComposite.class );
         contact.setContact( "siannyhalim@yahoo.com" );
         contactPerson.addContact( contact );
 
@@ -40,11 +40,12 @@ public class ContactPersonEntityCompositeTest extends AbstractTest
     public void testValidateContactPersonEntityComposite() throws Exception
     {
         ContactPersonEntityComposite contactPerson = factory.newInstance( ContactPersonEntityComposite.class );
+        contactPerson.setIdentity( "001" );
         contactPerson.setFirstName( "Sianny" );
         contactPerson.setLastName( "Halim" );
         contactPerson.setGender( GenderType.female );
 
-        ContactEntityComposite contact = factory.newInstance( ContactEntityComposite.class );
+        ContactComposite contact = factory.newInstance( ContactComposite.class );
         contact.setContact( "siannyhalim@yahoo.com" );
         contactPerson.addContact( contact );
 
@@ -58,9 +59,28 @@ public class ContactPersonEntityCompositeTest extends AbstractTest
         }
     }
 
+    public void testValidateIdentityNull() throws Exception
+    {
+        ContactPersonEntityComposite contactPerson = factory.newInstance( ContactPersonEntityComposite.class );
+        contactPerson.setFirstName( "Sianny" );
+        contactPerson.setLastName( "Halim" );
+        contactPerson.setGender( GenderType.female );
+
+        try
+        {
+            contactPerson.validate();
+            fail( "Validation exception should be thrown because identity is null." );
+        }
+        catch( ValidationException e )
+        {
+            // Correct
+        }
+    }
+
     public void testValidateFirstNameNull() throws Exception
     {
         ContactPersonEntityComposite contactPerson = factory.newInstance( ContactPersonEntityComposite.class );
+        contactPerson.setIdentity( "001" );
         contactPerson.setLastName( "Halim" );
         contactPerson.setGender( GenderType.female );
 
@@ -78,6 +98,7 @@ public class ContactPersonEntityCompositeTest extends AbstractTest
     public void testValidateLastNameNull() throws Exception
     {
         ContactPersonEntityComposite contactPerson = factory.newInstance( ContactPersonEntityComposite.class );
+        contactPerson.setIdentity( "001" );
         contactPerson.setFirstName( "Sianny" );
         contactPerson.setGender( GenderType.female );
 
@@ -95,6 +116,7 @@ public class ContactPersonEntityCompositeTest extends AbstractTest
     public void testValidateGenderNull() throws Exception
     {
         ContactPersonEntityComposite contactPerson = factory.newInstance( ContactPersonEntityComposite.class );
+        contactPerson.setIdentity( "001" );
         contactPerson.setFirstName( "Sianny" );
         contactPerson.setLastName( "Halim" );
 
@@ -112,6 +134,7 @@ public class ContactPersonEntityCompositeTest extends AbstractTest
     public void testValidateNameAndGenderNull() throws Exception
     {
         ContactPersonEntityComposite contactPerson = factory.newInstance( ContactPersonEntityComposite.class );
+        contactPerson.setIdentity( "001" );
 
         try
         {
