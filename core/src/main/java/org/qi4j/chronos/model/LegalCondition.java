@@ -13,10 +13,13 @@
  */
 package org.qi4j.chronos.model;
 
+import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.chronos.model.mixins.LegalConditionMixin;
 
+@ImplementedBy( LegalConditionMixin.class )
 public interface LegalCondition
 {
-    void setLegalCondition(String legalCondition);
+    void setLegalCondition( String legalCondition );
 
     String getLegalCondition();
 }

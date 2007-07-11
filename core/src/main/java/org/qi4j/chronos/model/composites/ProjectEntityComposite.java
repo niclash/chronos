@@ -13,27 +13,12 @@
  */
 package org.qi4j.chronos.model.composites;
 
-import org.qi4j.api.annotation.ImplementedBy;
 import org.qi4j.api.annotation.ModifiedBy;
 import org.qi4j.api.persistence.composite.EntityComposite;
 import org.qi4j.chronos.model.Project;
-import org.qi4j.chronos.model.mixins.HasContactPersonsMixin;
-import org.qi4j.chronos.model.mixins.HasLeadProjectAssigneeMixin;
-import org.qi4j.chronos.model.mixins.HasLegalConditionsMixin;
-import org.qi4j.chronos.model.mixins.HasPriceRateSchedulesMixin;
-import org.qi4j.chronos.model.mixins.HasPrimaryContactPersonMixin;
-import org.qi4j.chronos.model.mixins.HasProjectAssigneesMixin;
-import org.qi4j.chronos.model.mixins.HasProjectStatusMixin;
-import org.qi4j.chronos.model.mixins.HasProjectTimeRangeMixin;
-import org.qi4j.chronos.model.mixins.ReferenceMixin;
 import org.qi4j.chronos.model.modifiers.ProjectCreationValidationModifier;
 import org.qi4j.library.general.model.Validatable;
-import org.qi4j.library.general.model.mixins.NameMixin;
 
-@ImplementedBy( { NameMixin.class, ReferenceMixin.class, HasProjectTimeRangeMixin.class,
-    HasLeadProjectAssigneeMixin.class, HasProjectAssigneesMixin.class,
-    HasLegalConditionsMixin.class, HasProjectStatusMixin.class, HasContactPersonsMixin.class,
-    HasPrimaryContactPersonMixin.class, HasPriceRateSchedulesMixin.class } )
 @ModifiedBy( { ProjectCreationValidationModifier.class } )
 public interface ProjectEntityComposite extends Project, Validatable, EntityComposite
 {

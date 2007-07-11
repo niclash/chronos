@@ -15,13 +15,16 @@ package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
 import java.util.Iterator;
+import org.qi4j.api.annotation.ImplementedBy;
 import org.qi4j.chronos.model.ProjectAssignee;
+import org.qi4j.chronos.model.mixins.HasProjectAssigneesMixin;
 
+@ImplementedBy( HasProjectAssigneesMixin.class )
 public interface HasProjectAssignees extends Serializable
 {
-    void addProjectAssignee( ProjectAssignee assignee);
+    void addProjectAssignee( ProjectAssignee assignee );
 
-    void removeProjectAssignee(ProjectAssignee assignee);
+    void removeProjectAssignee( ProjectAssignee assignee );
 
     Iterator<ProjectAssignee> projectAssigneeIterator();
 }

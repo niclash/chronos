@@ -15,8 +15,11 @@ package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
 import java.util.Iterator;
+import org.qi4j.api.annotation.ImplementedBy;
 import org.qi4j.chronos.model.ContactPerson;
+import org.qi4j.chronos.model.mixins.HasContactPersonsMixin;
 
+@ImplementedBy( { HasContactPersonsMixin.class } )
 public interface HasContactPersons extends Serializable
 {
     Iterator<ContactPerson> contactPersonIterator();

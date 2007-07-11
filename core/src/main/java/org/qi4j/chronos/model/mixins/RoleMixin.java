@@ -14,7 +14,7 @@ package org.qi4j.chronos.model.mixins;
 
 import org.qi4j.chronos.model.Role;
 
-public class RoleMixin implements Role
+public final class RoleMixin implements Role
 {
     private String role;
 
@@ -23,8 +23,8 @@ public class RoleMixin implements Role
         return role;
     }
 
-    public void setRole( String role )
+    public void setRole( String aRole )
     {
-        this.role = role;
+        role = aRole;
     }
 }

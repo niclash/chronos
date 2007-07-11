@@ -15,16 +15,20 @@ package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
 import java.util.Iterator;
+import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.chronos.model.mixins.HasContactsMixin;
 import org.qi4j.library.general.model.Contact;
+import org.qi4j.library.general.model.ContactType;
 
 /**
  * Generic interface to describe association with {@link org.qi4j.chronos.model.composites.ContactComposite}
  */
-public interface HasContacts extends Serializable
+@ImplementedBy( { HasContactsMixin.class } )
+public interface HasContacts<T extends ContactType> extends Serializable
 {
-    void addContact( Contact contact );
+    void addContact( Contact<T> contact );
 
-    void removeContact( Contact contact );
+    void removeContact( Contact<T> contact );
 
-    Iterator<Contact> contactIterator();
+    Iterator<Contact<T>> contactIterator();
 }

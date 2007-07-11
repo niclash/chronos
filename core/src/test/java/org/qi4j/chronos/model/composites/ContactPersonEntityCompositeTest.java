@@ -28,13 +28,13 @@ public class ContactPersonEntityCompositeTest extends AbstractTest
         contactPerson.setGender( GenderType.female );
 
         ContactComposite contact = factory.newInstance( ContactComposite.class );
-        contact.setContact( "siannyhalim@yahoo.com" );
+        contact.setContactValue( "siannyhalim@yahoo.com" );
         contactPerson.addContact( contact );
 
         Iterator<Contact> contactIterator = contactPerson.contactIterator();
         Contact contactIt = contactIterator.next();
 
-        assertEquals( "siannyhalim@yahoo.com", contactIt.getContact() );
+        assertEquals( "siannyhalim@yahoo.com", contactIt.getContactValue() );
     }
 
     public void testValidateContactPersonEntityComposite() throws Exception
@@ -46,7 +46,7 @@ public class ContactPersonEntityCompositeTest extends AbstractTest
         contactPerson.setGender( GenderType.female );
 
         ContactComposite contact = factory.newInstance( ContactComposite.class );
-        contact.setContact( "siannyhalim@yahoo.com" );
+        contact.setContactValue( "siannyhalim@yahoo.com" );
         contactPerson.addContact( contact );
 
         try

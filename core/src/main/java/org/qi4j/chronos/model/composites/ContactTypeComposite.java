@@ -13,14 +13,11 @@
 package org.qi4j.chronos.model.composites;
 
 import org.qi4j.api.Composite;
-import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.library.framework.properties.PropertiesMixin;
 import org.qi4j.library.general.model.RegexContactType;
 
 /**
  * ContactType composite that uses regular expression for contact validation using pattern matching.
  */
-@ImplementedBy( { PropertiesMixin.class } )
 public interface ContactTypeComposite extends RegexContactType, Composite
 {
 }

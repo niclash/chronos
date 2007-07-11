@@ -12,12 +12,15 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.chronos.model.ProjectAssignee;
 import java.io.Serializable;
+import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.chronos.model.ProjectAssignee;
+import org.qi4j.chronos.model.mixins.HasLeadProjectAssigneeMixin;
 
 /**
  * Describe association with the leader of project assignees.
  */
+@ImplementedBy( HasLeadProjectAssigneeMixin.class )
 public interface HasLeadProjectAssignee extends Serializable
 {
     ProjectAssignee getLeadProjectAssignee();

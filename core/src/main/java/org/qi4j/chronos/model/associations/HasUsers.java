@@ -13,17 +13,20 @@
 package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
+import java.util.Iterator;
 import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.chronos.model.Login;
-import org.qi4j.chronos.model.mixins.HasLoginMixin;
+import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.mixins.HasUsersMixin;
 
 /**
- * Describe association with {@link org.qi4j.chronos.model.composites.LoginComposite}
+ * Describe association with {@link User}
  */
-@ImplementedBy( { HasLoginMixin.class } )
-public interface HasLogin extends Serializable
+@ImplementedBy( { HasUsersMixin.class } )
+public interface HasUsers extends Serializable
 {
-    void setLogin( Login login );
+    void addUser( User user );
 
-    Login getLogin();
+    void removeUser( User user );
+
+    Iterator<User> userIterator();
 }

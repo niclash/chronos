@@ -10,20 +10,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.associations;
+package org.qi4j.chronos.model;
 
-import java.io.Serializable;
-import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.chronos.model.Login;
-import org.qi4j.chronos.model.mixins.HasLoginMixin;
+import org.qi4j.api.persistence.composite.EntityComposite;
+import org.qi4j.chronos.model.associations.HasAccounts;
+import org.qi4j.chronos.model.associations.HasUsers;
 
 /**
- * Describe association with {@link org.qi4j.chronos.model.composites.LoginComposite}
+ * Placeholder for all top-level entities like accounts and users
  */
-@ImplementedBy( { HasLoginMixin.class } )
-public interface HasLogin extends Serializable
+public interface System extends HasUsers, HasAccounts, EntityComposite
 {
-    void setLogin( Login login );
-
-    Login getLogin();
 }

@@ -10,20 +10,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.associations;
+package org.qi4j.chronos.model.mixins;
 
-import java.io.Serializable;
-import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.chronos.model.associations.HasLogin;
 import org.qi4j.chronos.model.Login;
-import org.qi4j.chronos.model.mixins.HasLoginMixin;
 
 /**
- * Describe association with {@link org.qi4j.chronos.model.composites.LoginComposite}
+ * Default mixin implementation for {@link org.qi4j.chronos.model.associations.HasLogin}
  */
-@ImplementedBy( { HasLoginMixin.class } )
-public interface HasLogin extends Serializable
+public final class HasLoginMixin implements HasLogin
 {
-    void setLogin( Login login );
+    private Login login;
 
-    Login getLogin();
+    public void setLogin( Login aLogin )
+    {
+        login = aLogin;
+    }
+
+    public Login getLogin()
+    {
+        return login;
+    }
 }

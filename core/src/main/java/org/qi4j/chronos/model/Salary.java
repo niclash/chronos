@@ -14,11 +14,14 @@
 package org.qi4j.chronos.model;
 
 import java.io.Serializable;
+import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.chronos.model.mixins.SalaryMixin;
 import org.qi4j.library.general.model.Money;
 
 /**
  * Generic interface for Salary.
  */
+@ImplementedBy( SalaryMixin.class)
 public interface Salary extends Serializable
 {
     Money getSalary();

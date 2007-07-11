@@ -18,13 +18,11 @@
  */
 package org.qi4j.chronos.model.composites;
 
-import org.qi4j.api.annotation.ImplementedBy;
 import org.qi4j.api.annotation.ModifiedBy;
 import org.qi4j.api.persistence.composite.EntityComposite;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.modifiers.RequiredFields;
 import org.qi4j.chronos.model.modifiers.RequiredFieldsValidationModifier;
-import org.qi4j.library.framework.properties.PropertiesMixin;
 import org.qi4j.library.general.model.Validatable;
 import org.qi4j.library.general.model.modifiers.LifecycleValidationModifier;
 
@@ -40,7 +38,6 @@ import org.qi4j.library.general.model.modifiers.LifecycleValidationModifier;
  * </li>
  */
 @ModifiedBy( { LifecycleValidationModifier.class, RequiredFieldsValidationModifier.class } )
-@ImplementedBy( { PropertiesMixin.class } )
 @RequiredFields( { "identity", "firstName", "lastName", "gender", "startTime" } )
 public interface StaffEntityComposite extends Staff, Validatable, EntityComposite
 {

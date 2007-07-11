@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
+ * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,12 +13,17 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import java.io.Serializable;
+import org.qi4j.api.annotation.ImplementedBy;
 import org.qi4j.chronos.model.ProjectStatus;
+import org.qi4j.chronos.model.mixins.HasProjectStatusMixin;
 
+/**
+ * Describe association with {@link org.qi4j.chronos.model.ProjectStatus}
+ */
+@ImplementedBy( HasProjectStatusMixin.class )
 public interface HasProjectStatus
 {
-    public void setProjectStatus( ProjectStatus projectStatus );
+    void setProjectStatus( ProjectStatus projectStatus );
 
-    public ProjectStatus getProjectStatus();
+    ProjectStatus getProjectStatus();
 }

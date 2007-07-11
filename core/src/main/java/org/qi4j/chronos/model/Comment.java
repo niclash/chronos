@@ -13,9 +13,13 @@
  */
 package org.qi4j.chronos.model;
 
+import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.chronos.model.mixins.CommentMixin;
+
+@ImplementedBy( CommentMixin.class )
 public interface Comment
 {
     String getComment();
 
-    void setComment(String comment);
+    void setComment( String comment );
 }

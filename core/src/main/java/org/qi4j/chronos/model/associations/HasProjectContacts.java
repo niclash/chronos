@@ -15,6 +15,5 @@ package org.qi4j.chronos.model.associations;
 
 public interface HasProjectContacts extends HasContactPersons, HasPrimaryContactPerson
 {
-
 }
 

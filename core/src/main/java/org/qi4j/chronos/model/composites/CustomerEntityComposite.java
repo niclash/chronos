@@ -12,13 +12,11 @@
  */
 package org.qi4j.chronos.model.composites;
 
-import org.qi4j.api.annotation.ImplementedBy;
 import org.qi4j.api.annotation.ModifiedBy;
 import org.qi4j.api.persistence.composite.EntityComposite;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.modifiers.RequiredFields;
 import org.qi4j.chronos.model.modifiers.RequiredFieldsValidationModifier;
-import org.qi4j.library.framework.properties.PropertiesMixin;
 import org.qi4j.library.general.model.Validatable;
 import org.qi4j.library.general.model.modifiers.LifecycleValidationModifier;
 
@@ -27,7 +25,6 @@ import org.qi4j.library.general.model.modifiers.LifecycleValidationModifier;
  * contact persons and accounts.
  */
 @ModifiedBy( { LifecycleValidationModifier.class, RequiredFieldsValidationModifier.class } )
-@ImplementedBy( { PropertiesMixin.class } )
 @RequiredFields( { "identity", "name", "address" } )
 public interface CustomerEntityComposite extends Customer, Validatable, EntityComposite
 {

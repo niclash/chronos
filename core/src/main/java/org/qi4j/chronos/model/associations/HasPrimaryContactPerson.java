@@ -13,11 +13,14 @@
 package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
+import org.qi4j.api.annotation.ImplementedBy;
 import org.qi4j.chronos.model.ContactPerson;
+import org.qi4j.chronos.model.mixins.HasPrimaryContactPersonMixin;
 
 /**
  * Describe association with the primary contact person of a {@link org.qi4j.chronos.model.Project}.
  */
+@ImplementedBy( HasPrimaryContactPersonMixin.class )
 public interface HasPrimaryContactPerson extends Serializable
 {
     ContactPerson getPrimaryContactPerson();

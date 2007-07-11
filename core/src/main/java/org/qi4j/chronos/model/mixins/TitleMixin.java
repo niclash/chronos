@@ -1,5 +1,6 @@
 /*
- * Copyright 2007 Lan Boon Ping. All Rights Reserved.
+ * Copyright (c) 2007 Lan Boon Ping. All Rights Reserved.
+ * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,13 +15,13 @@ package org.qi4j.chronos.model.mixins;
 
 import org.qi4j.chronos.model.Title;
 
-public class TitleMixin implements Title
+public final class TitleMixin implements Title
 {
     private String title;
 
-    public void setTitle( String title )
+    public void setTitle( String aTitle )
     {
-        this.title = title;
+        title = aTitle;
     }
 
     public String getTitle()

@@ -6,9 +6,12 @@ import java.util.List;
 import org.qi4j.chronos.model.ProjectAssignee;
 import org.qi4j.chronos.model.associations.HasProjectAssignees;
 
-public class HasProjectAssigneesMixin implements HasProjectAssignees
+/**
+ * Default mixin implementation for {@link org.qi4j.chronos.model.associations.HasProjectAssignees}
+ */
+public final class HasProjectAssigneesMixin implements HasProjectAssignees
 {
-    private List<ProjectAssignee> list;
+    private final List<ProjectAssignee> list;
 
     public HasProjectAssigneesMixin()
     {

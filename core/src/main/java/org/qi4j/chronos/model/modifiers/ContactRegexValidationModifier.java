@@ -31,7 +31,7 @@ public final class ContactRegexValidationModifier implements Validatable
 
     public void validate() throws ValidationException
     {
-        String contactValue = contact.getContact();
+        String contactValue = contact.getContactValue();
 
         RegexContactType contactType = contact.getContactType();
 
@@ -40,7 +40,7 @@ public final class ContactRegexValidationModifier implements Validatable
             String regex = contactType.getRegex();
             if( !Pattern.matches( regex, contactValue ) )
             {
-                throw new ValidationException( "Contact [" + contact.getContact() +
+                throw new ValidationException( "Contact [" + contact.getContactValue() +
                                                "] does not match pattern [" + regex + "].");
             }
         }

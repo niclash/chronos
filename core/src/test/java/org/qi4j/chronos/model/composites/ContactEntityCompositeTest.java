@@ -25,7 +25,7 @@ public class ContactEntityCompositeTest extends AbstractTest
         contactType.setContactType( "phone_number" );
         contactType.setRegex( "[0-9]*" );
 
-        contactEntity.setContact( "0123456789" );
+        contactEntity.setContactValue( "0123456789" );
         contactEntity.setContactType( contactType );
 
         try
@@ -46,7 +46,7 @@ public class ContactEntityCompositeTest extends AbstractTest
         contactType.setContactType( "phone_number" );
         contactType.setRegex( "[0-9]*" );
 
-        contactEntity.setContact( "012-3456789" );
+        contactEntity.setContactValue( "012-3456789" );
         contactEntity.setContactType( contactType );
 
         try

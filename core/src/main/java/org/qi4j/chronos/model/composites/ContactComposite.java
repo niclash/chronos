@@ -13,10 +13,8 @@
 package org.qi4j.chronos.model.composites;
 
 import org.qi4j.api.Composite;
-import org.qi4j.api.annotation.ImplementedBy;
 import org.qi4j.api.annotation.ModifiedBy;
 import org.qi4j.chronos.model.modifiers.ContactRegexValidationModifier;
-import org.qi4j.library.framework.properties.PropertiesMixin;
 import org.qi4j.library.general.model.Contact;
 import org.qi4j.library.general.model.RegexContactType;
 import org.qi4j.library.general.model.Validatable;
@@ -32,7 +30,6 @@ import org.qi4j.library.general.model.Validatable;
  * TODO: Fix the validation modifier as Lifecycle is not part of the interface anymore
  */
 @ModifiedBy( { ContactRegexValidationModifier.class } )
-@ImplementedBy( { PropertiesMixin.class } )
 public interface ContactComposite extends Contact<RegexContactType>, Validatable, Composite
 {
 }

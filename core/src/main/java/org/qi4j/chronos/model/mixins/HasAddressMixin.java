@@ -10,20 +10,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.associations;
+package org.qi4j.chronos.model.mixins;
 
-import java.io.Serializable;
-import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.chronos.model.Login;
-import org.qi4j.chronos.model.mixins.HasLoginMixin;
+import org.qi4j.chronos.model.associations.HasAddress;
+import org.qi4j.library.general.model.Address;
 
 /**
- * Describe association with {@link org.qi4j.chronos.model.composites.LoginComposite}
+ * Default mixin implementation for {@link HasAddress}
  */
-@ImplementedBy( { HasLoginMixin.class } )
-public interface HasLogin extends Serializable
+public final class HasAddressMixin implements HasAddress
 {
-    void setLogin( Login login );
+    private Address address;
 
-    Login getLogin();
+    public Address getAddress()
+    {
+        return address;
+    }
+
+    public void setAddress( Address anAddress )
+    {
+        address = anAddress;
+    }
 }

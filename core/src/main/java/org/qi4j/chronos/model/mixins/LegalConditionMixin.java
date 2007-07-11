@@ -1,5 +1,6 @@
 /*
  * Copyright 2007 Lan Boon Ping. All Rights Reserved.
+ * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,13 +15,13 @@ package org.qi4j.chronos.model.mixins;
 
 import org.qi4j.chronos.model.LegalCondition;
 
-public class LegalConditionMixin implements LegalCondition
+public final class LegalConditionMixin implements LegalCondition
 {
     private String legalCondition;
 
-    public void setLegalCondition( String legalCondition )
+    public void setLegalCondition( String aLegalCondition )
     {
-        this.legalCondition = legalCondition;
+        legalCondition = aLegalCondition;
     }
 
     public String getLegalCondition()

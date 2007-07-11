@@ -14,8 +14,11 @@
 package org.qi4j.chronos.model.associations;
 
 import java.util.Iterator;
+import org.qi4j.api.annotation.ImplementedBy;
 import org.qi4j.chronos.model.PriceRate;
+import org.qi4j.chronos.model.mixins.HasPriceRatesMixin;
 
+@ImplementedBy( HasPriceRatesMixin.class )
 public interface HasPriceRates
 {
     void addPriceRate( PriceRate priceRate );

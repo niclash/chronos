@@ -13,9 +13,13 @@
  */
 package org.qi4j.chronos.model;
 
+import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.chronos.model.mixins.TitleMixin;
+
+@ImplementedBy( TitleMixin.class )
 public interface Title
 {
-    void setTitle(String title);
+    void setTitle( String title );
 
     String getTitle();
 }

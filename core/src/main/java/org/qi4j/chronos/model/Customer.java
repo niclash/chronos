@@ -1,5 +1,5 @@
 /*
- * Copyright (c)     2007 Lan Boon Ping. All Rights Reserved.
+ * Copyright (c) 2007 Lan Boon Ping. All Rights Reserved.
  * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");

@@ -1,5 +1,6 @@
 /*
- * Copyright 2007 Lan Boon Ping. All Rights Reserved.
+ * Copyright (c) 2007 Lan Boon Ping. All Rights Reserved.
+ * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -15,7 +16,7 @@ package org.qi4j.chronos.model.mixins;
 import java.util.Date;
 import org.qi4j.chronos.model.TimeRange;
 
-public class TimeRangeMixin implements TimeRange
+public final class TimeRangeMixin implements TimeRange
 {
     private Date startTime;
     private Date endTime;
@@ -25,9 +26,9 @@ public class TimeRangeMixin implements TimeRange
         return startTime;
     }
 
-    public void setStartTime( Date startTime )
+    public void setStartTime( Date aStartTime )
     {
-        this.startTime = startTime;
+        startTime = aStartTime;
     }
 
     public Date getEndTime()
@@ -35,8 +36,8 @@ public class TimeRangeMixin implements TimeRange
         return endTime;
     }
 
-    public void setEndTime( Date endTime )
+    public void setEndTime( Date anEndTime )
     {
-        this.endTime = endTime;
+        endTime = anEndTime;
     }
 }

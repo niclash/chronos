@@ -10,20 +10,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.associations;
+package org.qi4j.chronos.model.mixins;
 
-import java.io.Serializable;
-import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.chronos.model.Login;
-import org.qi4j.chronos.model.mixins.HasLoginMixin;
+import org.qi4j.chronos.model.Salary;
+import org.qi4j.library.general.model.Money;
 
 /**
- * Describe association with {@link org.qi4j.chronos.model.composites.LoginComposite}
+ * Default mixin implementation for {@link Salary}
  */
-@ImplementedBy( { HasLoginMixin.class } )
-public interface HasLogin extends Serializable
+public final class SalaryMixin implements Salary
 {
-    void setLogin( Login login );
+    private Money salary;
 
-    Login getLogin();
+    public Money getSalary()
+    {
+        return salary;
+    }
+
+    public void setSalary( Money aSalary )
+    {
+        salary = aSalary;
+    }
 }
