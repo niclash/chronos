@@ -20,6 +20,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.qi4j.api.annotation.Modifies;
 import org.qi4j.api.annotation.Uses;
 import org.qi4j.ui.RenderFailedException;
+import org.qi4j.ui.InitFailedException;
 import org.qi4j.ui.association.HasComponents;
 import org.qi4j.ui.component.Component;
 import org.qi4j.ui.component.ComponentLifecycle;
@@ -29,7 +30,7 @@ public final class EditPanelModifier implements ComponentLifecycle
     @Modifies private ComponentLifecycle next;
     @Uses private HasComponents hasComponents;
 
-    public void init()
+    public void init() throws InitFailedException
     {
         next.init();
     }

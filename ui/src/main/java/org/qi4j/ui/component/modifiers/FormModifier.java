@@ -20,19 +20,17 @@ import javax.servlet.http.HttpServletResponse;
 import org.qi4j.api.annotation.Modifies;
 import org.qi4j.api.annotation.Uses;
 import org.qi4j.ui.RenderFailedException;
+import org.qi4j.ui.InitFailedException;
 import org.qi4j.ui.association.HasComponents;
 import org.qi4j.ui.component.Component;
 import org.qi4j.ui.component.ComponentLifecycle;
-import org.qi4j.ui.model.Model;
-import org.qi4j.ui.model.association.HasModel;
 
 public final class FormModifier implements ComponentLifecycle
 {
     @Modifies private ComponentLifecycle next;
     @Uses private HasComponents hasComponents;
-    @Uses private HasModel hasModel;
 
-    public void init()
+    public void init() throws InitFailedException
     {
         next.init();
     }
@@ -47,11 +45,7 @@ public final class FormModifier implements ComponentLifecycle
         try
         {
             PrintWriter printWriter = response.getWriter();
-            Model model = hasModel.getModel();
-            Object modelObject = model.getModel();
-            String actionName = modelObject.toString();
-
-            printWriter.write( "<FORM modelObject=\"" + actionName + "\" method=\"post\">" );
+            printWriter.write( "<FORM method=\"post\">" );
 
             List<Component> components = hasComponents.getComponents();
 

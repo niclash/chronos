@@ -14,12 +14,13 @@ package org.qi4j.ui.component.mixins;
 
 import org.qi4j.ui.component.ComponentLifecycle;
 import org.qi4j.ui.RenderFailedException;
+import org.qi4j.ui.InitFailedException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 public final class ComponentLifecycleMixin implements ComponentLifecycle
 {
-    public void init()
+    public void init() throws InitFailedException
     {
         // real action is done in modifiers
     }

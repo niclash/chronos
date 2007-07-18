@@ -12,14 +12,9 @@
  */
 package org.qi4j.ui;
 
-import org.qi4j.api.CompositeFactory;
-import javax.servlet.http.HttpServletRequest;
+import org.qi4j.api.Composite;
+import org.qi4j.ui.RequestHandlerResolver;
 
-public interface WebApplication
+public interface WebApplication extends RequestHandlerResolver, Composite
 {
-    RequestHandler getRequestHandler( HttpServletRequest httpServletRequest );
-
-    void setCompositeFactory( CompositeFactory factory );
-
-    CompositeFactory getCompositeFactory();
 }

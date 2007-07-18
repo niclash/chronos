@@ -17,8 +17,6 @@ import javax.servlet.http.HttpServletResponse;
 
 public interface RequestHandler
 {
-    void setWebApplication( WebApplication application );
-
     void request( HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse );
 
     boolean canHandle( HttpServletRequest httpServletRequest );

@@ -17,11 +17,12 @@ import javax.servlet.http.HttpServletResponse;
 import org.qi4j.api.annotation.ImplementedBy;
 import org.qi4j.ui.component.mixins.ComponentLifecycleMixin;
 import org.qi4j.ui.RenderFailedException;
+import org.qi4j.ui.InitFailedException;
 
 @ImplementedBy( { ComponentLifecycleMixin.class } )
 public interface ComponentLifecycle
 {
-    void init();
+    void init() throws InitFailedException;
 
     void dispose();
 

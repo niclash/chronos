@@ -12,16 +12,18 @@
  */
 package org.qi4j.ui.servlet;
 
-import org.qi4j.api.CompositeFactory;
-import org.qi4j.runtime.CompositeFactoryImpl;
-import org.qi4j.ui.WebApplication;
-import org.qi4j.ui.RequestHandler;
-
+import java.io.IOException;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.IOException;
+import org.qi4j.api.Composite;
+import org.qi4j.api.CompositeFactory;
+import org.qi4j.api.CompositeInstantiationException;
+import org.qi4j.runtime.CompositeFactoryImpl;
+import org.qi4j.ui.RequestHandler;
+import org.qi4j.ui.ServletInitFailedException;
+import org.qi4j.ui.WebApplication;
 
 public class Servlet extends HttpServlet
 {
@@ -40,19 +42,25 @@ public class Servlet extends HttpServlet
         webApplicationClassName = getInitParameter( WEB_APPLICATION );
 
         System.out.println( "WebApplicationClassName is " + webApplicationClassName );
-
         try
         {
             Class webApplicationClass = Class.forName( webApplicationClassName );
 
-            application = (WebApplication) factory.newInstance( webApplicationClass );
-
-            application.setCompositeFactory( factory );
+            if( WebApplication.class.isAssignableFrom( webApplicationClass ) )
+            {
+                Composite composite = factory.newInstance( webApplicationClass );
+                application = composite.cast( WebApplication.class );
+            } else {
+                throw new ServletInitFailedException(webApplicationClassName + " not instance of WebApplication.");
+            }
         }
-        catch( Exception err )
+        catch( CompositeInstantiationException e )
         {
-            err.printStackTrace();
-            throw new RuntimeException( err );
+            throw new ServletInitFailedException("Fail to instantiate WebApplication composite", e);
+        }
+        catch( ClassNotFoundException e )
+        {
+            throw new ServletInitFailedException(webApplicationClassName + " doesn't exist.", e);
         }
     }
 
@@ -63,12 +71,11 @@ public class Servlet extends HttpServlet
 
     protected void doGet( HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse ) throws ServletException, IOException
     {
-        RequestHandler requestHandler = application.getRequestHandler( httpServletRequest );
+        RequestHandler requestHandler = application.resolveRequestHandler( httpServletRequest );
         requestHandler.request( httpServletRequest, httpServletResponse );
     }
 
     public void destroy()
     {
-
     }
 }

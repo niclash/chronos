@@ -15,8 +15,10 @@ package org.qi4j.ui.component;
 
 import org.qi4j.api.annotation.ModifiedBy;
 import org.qi4j.ui.component.modifiers.PageModifier;
+import org.qi4j.ui.component.modifiers.ContainerSetupModifier;
+import org.qi4j.ui.component.modifiers.ComponentLifecycleModifier;
 
-@ModifiedBy( { PageModifier.class } )
+@ModifiedBy( { ComponentLifecycleModifier.class, PageModifier.class, ContainerSetupModifier.class } )
 public interface Page extends Container
 {
 }

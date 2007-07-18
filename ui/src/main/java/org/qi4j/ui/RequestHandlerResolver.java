@@ -10,14 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.ui.component;
+package org.qi4j.ui;
 
-import org.qi4j.api.annotation.ModifiedBy;
-import org.qi4j.ui.component.modifiers.ComponentLifecycleModifier;
-import org.qi4j.ui.component.modifiers.ContainerSetupModifier;
-import org.qi4j.ui.component.modifiers.FormModifier;
+import javax.servlet.http.HttpServletRequest;
 
-@ModifiedBy( { ComponentLifecycleModifier.class, FormModifier.class, ContainerSetupModifier.class } )
-public interface Form extends Container
+public interface RequestHandlerResolver
 {
+    RequestHandler resolveRequestHandler( HttpServletRequest httpServletRequest );
 }

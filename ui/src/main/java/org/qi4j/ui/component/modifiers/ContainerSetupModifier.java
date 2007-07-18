@@ -19,6 +19,7 @@ import org.qi4j.api.CompositeFactory;
 import org.qi4j.api.annotation.Dependency;
 import org.qi4j.api.annotation.Modifies;
 import org.qi4j.api.annotation.Uses;
+import org.qi4j.ui.InitFailedException;
 import org.qi4j.ui.RenderFailedException;
 import org.qi4j.ui.association.HasComponents;
 import org.qi4j.ui.component.Component;
@@ -36,7 +37,7 @@ public final class ContainerSetupModifier implements ComponentLifecycle
     //TODO bp. create a tagging interface for it?
     @Uses private Object thisObject;
 
-    public void init()
+    public void init() throws InitFailedException
     {
         findUIField( thisObject.getClass() );
     }
@@ -54,14 +55,16 @@ public final class ContainerSetupModifier implements ComponentLifecycle
             {
                 try
                 {
+                    System.out.println( "Before invoking method: " + method );
                     Object obj = method.invoke( thisObject );
+                    System.out.println( "method: " + method );
                     Component component = resolveUIField( uiField, obj );
+                    System.out.println( "Componen: " + component );
                     hasComponents.addComponent( component );
                 }
-                catch( Exception err )
+                catch( Exception e )
                 {
-                    err.printStackTrace();
-                    throw new RuntimeException( err.getMessage(), err );
+                    throw new InitFailedException( e.getMessage(), e );
                 }
             }
         }
@@ -84,6 +87,7 @@ public final class ContainerSetupModifier implements ComponentLifecycle
 
         Model model = factory.newInstance( ModelComposite.class );
         model.setModel( obj );
+
         component.setModel( model );
 
         return component;

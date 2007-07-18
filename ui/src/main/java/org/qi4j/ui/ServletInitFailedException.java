@@ -10,14 +10,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.ui.component;
+package org.qi4j.ui;
 
-import org.qi4j.api.annotation.ModifiedBy;
-import org.qi4j.ui.component.modifiers.ComponentLifecycleModifier;
-import org.qi4j.ui.component.modifiers.ContainerSetupModifier;
-import org.qi4j.ui.component.modifiers.FormModifier;
-
-@ModifiedBy( { ComponentLifecycleModifier.class, FormModifier.class, ContainerSetupModifier.class } )
-public interface Form extends Container
+public class ServletInitFailedException extends RuntimeException
 {
+    public ServletInitFailedException( String message, Throwable cause )
+    {
+        super( message, cause );
+    }
+
+    public ServletInitFailedException( String message )
+    {
+        super( message );
+    }
 }

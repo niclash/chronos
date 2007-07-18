@@ -19,6 +19,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.qi4j.api.annotation.Modifies;
 import org.qi4j.api.annotation.Uses;
 import org.qi4j.ui.RenderFailedException;
+import org.qi4j.ui.InitFailedException;
 import org.qi4j.ui.component.ComponentLifecycle;
 import org.qi4j.ui.model.Model;
 import org.qi4j.ui.model.association.HasModel;
@@ -28,7 +29,7 @@ public final class TextFieldModifier implements ComponentLifecycle
     @Uses private HasModel hasModel;
     @Modifies private ComponentLifecycle next;
 
-    public void init()
+    public void init() throws InitFailedException
     {
         next.init();
     }
@@ -45,6 +46,9 @@ public final class TextFieldModifier implements ComponentLifecycle
             PrintWriter printWriter = httpServletResponse.getWriter();
             Model model = hasModel.getModel();
             Object modelObject = model.getModel();
+
+            System.out.println( "Model: " + modelObject );
+
             String textValue = modelObject.toString();
             printWriter.print( "<input type=\"text\" value=\"" + textValue + "\">" );
             next.render( httpServletRequest, httpServletResponse );

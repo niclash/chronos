@@ -12,6 +12,12 @@
  */
 package org.qi4j.ui.component;
 
+import org.qi4j.api.annotation.ModifiedBy;
+import org.qi4j.ui.component.modifiers.ComponentLifecycleModifier;
+import org.qi4j.ui.component.modifiers.ContainerSetupModifier;
+import org.qi4j.ui.component.modifiers.EditPanelModifier;
+
+@ModifiedBy( { ComponentLifecycleModifier.class, EditPanelModifier.class, ContainerSetupModifier.class } )
 public interface EditPanel extends Container
 {
 }

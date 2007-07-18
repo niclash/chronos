@@ -21,6 +21,7 @@ public final class ModelMixin implements Model
 
     public void setModel( Object object )
     {
+        System.out.println( "Model null ? " + ( object == null ) );
         model = object;
     }
 
