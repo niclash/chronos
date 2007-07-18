@@ -12,16 +12,16 @@
  */
 package org.qi4j.ui.component.modifiers;
 
-import org.qi4j.ui.ServletLifecycle;
-import org.qi4j.ui.RenderFailedException;
-import org.qi4j.ui.model.Value;
-import org.qi4j.ui.SubmitFailedException;
-import org.qi4j.api.annotation.Uses;
-import org.qi4j.api.annotation.Modifies;
+import java.io.IOException;
+import java.io.PrintWriter;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.io.PrintWriter;
-import java.io.IOException;
+import org.qi4j.api.annotation.Modifies;
+import org.qi4j.api.annotation.Uses;
+import org.qi4j.ui.RenderFailedException;
+import org.qi4j.ui.ServletLifecycle;
+import org.qi4j.ui.SubmitFailedException;
+import org.qi4j.ui.model.Value;
 
 public final class LabelLifecycleModifier implements ServletLifecycle
 {

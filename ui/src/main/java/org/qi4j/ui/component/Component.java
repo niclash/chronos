@@ -10,17 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.ui;
+package org.qi4j.ui.component;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.ui.mixins.ServletLifecycleMixin;
+import org.qi4j.api.persistence.Identity;
+import org.qi4j.ui.ServletLifecycle;
 
-@ImplementedBy( ServletLifecycleMixin.class )
-public interface ServletLifecycle
+public interface Component extends Identity, ServletLifecycle
 {
-    void render( HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse ) throws RenderFailedException;
-
-    void submit( HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse) throws SubmitFailedException;
 }

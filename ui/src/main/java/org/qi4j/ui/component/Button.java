@@ -10,12 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.ui;
+package org.qi4j.ui.component;
 
-public class RenderFailedException extends RuntimeException
+import org.qi4j.api.Composite;
+import org.qi4j.ui.model.Value;
+
+public interface Button extends Value<String>, Component, Composite
 {
-    public RenderFailedException( String message, Throwable cause )
-    {
-        super( message, cause );
-    }
 }

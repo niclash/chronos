@@ -10,8 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.ui;
+package org.qi4j.ui.component;
 
-public class SubmitFailedException extends RuntimeException
+import org.qi4j.api.Composite;
+import org.qi4j.api.annotation.ModifiedBy;
+import org.qi4j.ui.component.modifiers.TextFieldLifecycleModifier;
+import org.qi4j.ui.model.Value;
+
+@ModifiedBy( TextFieldLifecycleModifier.class )
+public interface TextField extends Value<String>, Component, Composite
 {
 }

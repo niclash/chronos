@@ -10,23 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.ui.mixins;
+package org.qi4j.ui.component;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import org.qi4j.ui.RenderFailedException;
 import org.qi4j.ui.ServletLifecycle;
-import org.qi4j.ui.SubmitFailedException;
 
-public final class ServletLifecycleMixin implements ServletLifecycle
+public interface Page extends ServletLifecycle
 {
-    public void render( HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse ) throws RenderFailedException
-    {
-        // Actions performed by modifiers
-    }
-
-    public void submit( HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse ) throws SubmitFailedException
-    {
-        // Actions performed by modifiers
-    }
 }
