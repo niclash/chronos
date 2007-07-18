@@ -11,6 +11,7 @@
     <orderEntry type="module" module-name="core-runtime" />
     <orderEntry type="library" name="servlet-api-2.3" level="project" />
     <orderEntry type="module" module-name="z_app-chronos-core" />
+    <orderEntry type="module" module-name="library-general" />
     <orderEntryProperties />
   </component>
 </module>

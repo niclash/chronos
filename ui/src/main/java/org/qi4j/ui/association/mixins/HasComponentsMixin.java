@@ -12,18 +12,23 @@
  */
 package org.qi4j.ui.association.mixins;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.qi4j.ui.association.HasComponents;
 import org.qi4j.ui.component.Component;
-import java.util.Map;
-import java.util.HashMap;
 
 public final class HasComponentsMixin implements HasComponents
 {
-    private final Map<String, Component> components = new HashMap<String, Component>();
+    private final List<Component> components;
+
+    public HasComponentsMixin()
+    {
+        components = new ArrayList<Component>();
+    }
 
     public void addComponent( Component component )
     {
-        components.put( component.getIdentity(), component );
+        components.add( component );
     }
 
     public void removeComponent( Component component )
@@ -31,8 +36,8 @@ public final class HasComponentsMixin implements HasComponents
         components.remove( component );
     }
 
-    public Component getComponent( String identity )
+    public List<Component> getComponents()
     {
-        return components.get( identity );
+        return components;
     }
 }

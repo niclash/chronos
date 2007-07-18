@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
+ * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -10,22 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.association.mixins;
+package org.qi4j.ui.component;
 
-import org.qi4j.chronos.model.Project;
-import org.qi4j.chronos.ui.association.HasProject;
-
-public final class HasProjectMixin implements HasProject
+public interface EditPanel extends Component
 {
-    private Project project;
-
-    public Project getProject()
-    {
-        return project;
-    }
-
-    public void setProject( Project aProject )
-    {
-        project = aProject;
-    }
 }

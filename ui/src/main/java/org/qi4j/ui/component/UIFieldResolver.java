@@ -1,6 +1,5 @@
 /*
  * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
- * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,10 +12,21 @@
  */
 package org.qi4j.ui.component;
 
-import org.qi4j.api.annotation.ModifiedBy;
-import org.qi4j.ui.component.modifiers.ButtonModifier;
+import org.qi4j.api.CompositeFactory;
+import org.qi4j.ui.model.Model;
+import org.qi4j.ui.model.ModelComposite;
 
-@ModifiedBy( { ButtonModifier.class } )
-public interface Button extends Component
+public final class UIFieldResolver
 {
+    public static Component resolveUIField( CompositeFactory factory, UIField uiField, Object obj )
+    {
+        Class<? extends Component> componentClass = uiField.type();
+        Component component = factory.newInstance( componentClass );
+
+        Model model = factory.newInstance( ModelComposite.class );
+        model.setModel( obj );
+        component.setModel( model );
+
+        return component;
+    }
 }

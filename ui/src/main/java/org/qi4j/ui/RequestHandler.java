@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
+ * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -10,12 +10,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.ui.component;
+package org.qi4j.ui;
 
-import org.qi4j.api.annotation.ModifiedBy;
-import org.qi4j.ui.component.modifiers.SubmitButtonLifecycleModifier;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
-@ModifiedBy( SubmitButtonLifecycleModifier.class )
-public interface SubmitButton extends Button
+public interface RequestHandler
 {
+    void setWebApplication( WebApplication application );
+
+    void request( HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse );
+
+    boolean canHandle( HttpServletRequest httpServletRequest );
 }

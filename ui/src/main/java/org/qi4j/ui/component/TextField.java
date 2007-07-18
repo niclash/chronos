@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,12 +13,10 @@
  */
 package org.qi4j.ui.component;
 
-import org.qi4j.api.Composite;
 import org.qi4j.api.annotation.ModifiedBy;
-import org.qi4j.ui.component.modifiers.TextFieldLifecycleModifier;
-import org.qi4j.ui.model.Value;
+import org.qi4j.ui.component.modifiers.TextFieldModifier;
 
-@ModifiedBy( TextFieldLifecycleModifier.class )
-public interface TextField extends Value<String>, Component, Composite
+@ModifiedBy( TextFieldModifier.class )
+public interface TextField extends Component
 {
 }

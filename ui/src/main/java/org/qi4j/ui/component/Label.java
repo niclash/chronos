@@ -12,12 +12,10 @@
  */
 package org.qi4j.ui.component;
 
-import org.qi4j.api.Composite;
 import org.qi4j.api.annotation.ModifiedBy;
-import org.qi4j.ui.component.modifiers.LabelLifecycleModifier;
-import org.qi4j.ui.model.Value;
+import org.qi4j.ui.component.modifiers.LabelModifier;
 
-@ModifiedBy( LabelLifecycleModifier.class )
-public interface Label extends Value<String>, Component, Composite
+@ModifiedBy( LabelModifier.class )
+public interface Label extends Component
 {
 }

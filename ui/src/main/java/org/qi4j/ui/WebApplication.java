@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
+ * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,6 +12,14 @@
  */
 package org.qi4j.ui;
 
-public class SubmitFailedException extends RuntimeException
+import org.qi4j.api.CompositeFactory;
+import javax.servlet.http.HttpServletRequest;
+
+public interface WebApplication
 {
+    RequestHandler getRequestHandler( HttpServletRequest httpServletRequest );
+
+    void setCompositeFactory( CompositeFactory factory );
+
+    CompositeFactory getCompositeFactory();
 }

@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,19 +13,31 @@
  */
 package org.qi4j.ui.model.mixins;
 
-import org.qi4j.ui.model.Value;
+import org.qi4j.ui.model.Model;
 
-public final class ValueMixin<T> implements Value<T>
+public final class ModelMixin implements Model
 {
-    private T value;
+    private Object model;
 
-    public void setValue( T aValue )
+    public void setModel( Object object )
     {
-        value = aValue;
+        model = object;
     }
 
-    public T getValue()
+    public Object getModel()
     {
-        return value;
+        return model;
+    }
+
+    public String toString()
+    {
+        if( model != null )
+        {
+            return model.toString();
+        }
+        else
+        {
+            return super.toString();
+        }
     }
 }

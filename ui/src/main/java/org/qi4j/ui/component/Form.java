@@ -12,6 +12,10 @@
  */
 package org.qi4j.ui.component;
 
-public interface Form extends Component
+import org.qi4j.api.annotation.ModifiedBy;
+import org.qi4j.ui.component.modifiers.FormModifier;
+
+@ModifiedBy( { FormModifier.class } )
+public interface Form extends Container
 {
 }

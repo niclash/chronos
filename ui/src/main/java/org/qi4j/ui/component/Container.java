@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
+ * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -10,15 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.ui.model;
+package org.qi4j.ui.component;
 
-import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.ui.model.mixins.ValueMixin;
+import org.qi4j.ui.association.HasComponents;
 
-@ImplementedBy( ValueMixin.class )
-public interface Value<T>
+public interface Container extends Component, HasComponents
 {
-    void setValue( T value );
-
-    T getValue();
 }

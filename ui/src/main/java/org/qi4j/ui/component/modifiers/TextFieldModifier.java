@@ -19,31 +19,39 @@ import javax.servlet.http.HttpServletResponse;
 import org.qi4j.api.annotation.Modifies;
 import org.qi4j.api.annotation.Uses;
 import org.qi4j.ui.RenderFailedException;
-import org.qi4j.ui.ServletLifecycle;
-import org.qi4j.ui.SubmitFailedException;
-import org.qi4j.ui.model.Value;
+import org.qi4j.ui.component.ComponentLifecycle;
+import org.qi4j.ui.model.Model;
+import org.qi4j.ui.model.association.HasModel;
 
-public final class SubmitButtonLifecycleModifier implements ServletLifecycle
+public final class TextFieldModifier implements ComponentLifecycle
 {
-    @Modifies private ServletLifecycle next;
-    @Uses private Value<String> value;
+    @Uses private HasModel hasModel;
+    @Modifies private ComponentLifecycle next;
+
+    public void init()
+    {
+        next.init();
+    }
+
+    public void dispose()
+    {
+        next.dispose();
+    }
 
     public void render( HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse ) throws RenderFailedException
     {
         try
         {
             PrintWriter printWriter = httpServletResponse.getWriter();
-            printWriter.print( "<INPUT TYPE=\"SUBMIT\" VALUE=\"" + value.getValue() + "\"/>" );
+            Model model = hasModel.getModel();
+            Object modelObject = model.getModel();
+            String textValue = modelObject.toString();
+            printWriter.print( "<input type=\"text\" value=\"" + textValue + "\">" );
+            next.render( httpServletRequest, httpServletResponse );
         }
         catch( IOException e )
         {
-            throw new RenderFailedException( "Fail to render Submit button.", e );
+            throw new RenderFailedException( "Fail to render textfield.", e );
         }
-
-    }
-
-    public void submit( HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse ) throws SubmitFailedException
-    {
-        // Do nothing
     }
 }

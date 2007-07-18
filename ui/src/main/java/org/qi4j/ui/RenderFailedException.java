@@ -16,6 +16,6 @@ public class RenderFailedException extends RuntimeException
 {
     public RenderFailedException( String message, Throwable cause )
     {
-        super( message, cause );
+        super(message, cause);
     }
 }

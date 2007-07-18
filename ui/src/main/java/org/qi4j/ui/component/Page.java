@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -12,8 +13,10 @@
  */
 package org.qi4j.ui.component;
 
-import org.qi4j.ui.ServletLifecycle;
+import org.qi4j.api.annotation.ModifiedBy;
+import org.qi4j.ui.component.modifiers.PageModifier;
 
-public interface Page extends ServletLifecycle
+@ModifiedBy( { PageModifier.class } )
+public interface Page extends Container
 {
 }

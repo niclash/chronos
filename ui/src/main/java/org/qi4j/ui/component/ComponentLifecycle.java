@@ -10,22 +10,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.ui.association.mixins;
+package org.qi4j.ui.component;
 
-import org.qi4j.ui.association.HasForm;
-import org.qi4j.ui.component.Form;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.ui.component.mixins.ComponentLifecycleMixin;
+import org.qi4j.ui.RenderFailedException;
 
-public final class HasFormMixin<T extends Form> implements HasForm<T>
+@ImplementedBy( { ComponentLifecycleMixin.class } )
+public interface ComponentLifecycle
 {
-    private T form;
+    void init();
 
-    public void setForm( T aForm )
-    {
-        form = aForm;
-    }
+    void dispose();
 
-    public T getForm()
-    {
-        return form;
-    }
+    void render( HttpServletRequest request, HttpServletResponse response ) throws RenderFailedException;
 }

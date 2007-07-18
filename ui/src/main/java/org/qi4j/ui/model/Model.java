@@ -10,22 +10,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.association.mixins;
+package org.qi4j.ui.model;
 
-import org.qi4j.chronos.model.Project;
-import org.qi4j.chronos.ui.association.HasProject;
+import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.ui.model.mixins.ModelMixin;
 
-public final class HasProjectMixin implements HasProject
+@ImplementedBy( { ModelMixin.class } )
+public interface Model
 {
-    private Project project;
+    void setModel( Object model );
 
-    public Project getProject()
-    {
-        return project;
-    }
+    Object getModel();
 
-    public void setProject( Project aProject )
-    {
-        project = aProject;
-    }
+    String toString();
 }

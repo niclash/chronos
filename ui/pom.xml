@@ -44,6 +44,11 @@
       <version>0.1.0-SNAPSHOT</version>
     </dependency>
     <dependency>
+      <groupId>org.qi4j.library</groupId>
+      <artifactId>qi4j-lib-general</artifactId>
+      <version>0.1.0-SNAPSHOT</version>
+    </dependency>
+    <dependency>
       <groupId>javax.servlet</groupId>
       <artifactId>servlet-api</artifactId>
     </dependency>

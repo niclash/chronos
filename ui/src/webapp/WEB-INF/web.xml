@@ -3,7 +3,7 @@
          xsi:schemaLocation="http:/java.sun.com/dtd/web-app_2_3.dtd">
   <servlet>
     <servlet-name>chronos</servlet-name>
-    <servlet-class>org.qi4j.ui.Servlet</servlet-class>
+    <servlet-class>org.qi4j.ui.servlet.Servlet</servlet-class>
   </servlet>
 
   <servlet-mapping>

@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -19,31 +20,39 @@ import javax.servlet.http.HttpServletResponse;
 import org.qi4j.api.annotation.Modifies;
 import org.qi4j.api.annotation.Uses;
 import org.qi4j.ui.RenderFailedException;
-import org.qi4j.ui.ServletLifecycle;
-import org.qi4j.ui.SubmitFailedException;
-import org.qi4j.ui.model.Value;
+import org.qi4j.ui.component.ComponentLifecycle;
+import org.qi4j.ui.model.Model;
+import org.qi4j.ui.model.association.HasModel;
 
-public final class TextFieldLifecycleModifier implements ServletLifecycle
+public final class ButtonModifier implements ComponentLifecycle
 {
-    @Uses private Value<String> value;
-    @Modifies private ServletLifecycle next;
+    @Modifies private ComponentLifecycle next;
+    @Uses private HasModel hasModel;
 
-    public void render( HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse ) throws RenderFailedException
+    public void init()
+    {
+        next.init();
+    }
+
+    public void dispose()
+    {
+        next.dispose();
+    }
+
+    public void render( HttpServletRequest request, HttpServletResponse response ) throws RenderFailedException
     {
         try
         {
-            PrintWriter printWriter = httpServletResponse.getWriter();
-            printWriter.print( "<INPUT TYPE=\"TEXT\" VALUE=\">" + value.getValue() + "<\" />" );
-            next.render( httpServletRequest, httpServletResponse );
+            Model model = hasModel.getModel();
+            Object modelObject = model.getModel();
+            String buttonLabel = modelObject.toString();
+            PrintWriter writer = response.getWriter();
+            writer.write( "<input type=\"submit\" value=\"" + buttonLabel + "\"/>" );
+            next.render( request, response );
         }
         catch( IOException e )
         {
-            throw new RenderFailedException( "Fail to render label.", e );
+            throw new RenderFailedException( "Failed to render button.", e );
         }
-    }
-
-    public void submit( HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse ) throws SubmitFailedException
-    {
-        // Do nothing
     }
 }

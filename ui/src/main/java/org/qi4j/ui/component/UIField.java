@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
+ * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,11 +12,14 @@
  */
 package org.qi4j.ui.component;
 
-import org.qi4j.api.Composite;
-import org.qi4j.api.annotation.ModifiedBy;
-import org.qi4j.ui.component.modifiers.HtmlFooterLifecycleModifier;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 
-@ModifiedBy( HtmlFooterLifecycleModifier.class)
-public interface HtmlFooter extends Component, Composite
+@Retention( RetentionPolicy.RUNTIME )
+@Target( { ElementType.METHOD } )
+public @interface UIField
 {
+    Class<? extends Component> type() default TextField.class;
 }

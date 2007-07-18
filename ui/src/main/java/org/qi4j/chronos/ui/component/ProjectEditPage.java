@@ -13,13 +13,9 @@
 package org.qi4j.chronos.ui.component;
 
 import org.qi4j.api.Composite;
-import org.qi4j.api.annotation.ModifiedBy;
-import org.qi4j.ui.component.Page;
-import org.qi4j.ui.association.HasForm;
-import org.qi4j.chronos.ui.component.modifiers.ProjectEditPageLifecycleModifier;
 import org.qi4j.chronos.ui.association.HasProject;
+import org.qi4j.ui.component.Page;
 
-@ModifiedBy( ProjectEditPageLifecycleModifier.class )
-public interface ProjectEditPage extends Page, HasForm<ProjectEditForm>, HasProject, Composite
+public interface ProjectEditPage extends Page, HasProject, Composite
 {
 }
