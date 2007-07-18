@@ -16,6 +16,7 @@
   <!-- This POM is ONLY to initiate the modules to be built. -->
   <modules>
     <module>core</module>
+    <module>ui</module>
   </modules>
 </project>
 
