@@ -10,11 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.component;
+package org.qi4j.chronos.ui.project;
 
-import org.qi4j.chronos.model.Project;
-import org.qi4j.ui.component.Page;
+import org.qi4j.api.Composite;
+import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.ui.RequestHandler;
+import org.qi4j.chronos.ui.project.mixins.ProjectEditPageRequestHandlerMixin;
 
-public interface ProjectEditPage extends Project, Page
+@ImplementedBy( ProjectEditPageRequestHandlerMixin.class )
+public interface ProjectEditPageRequestHandler extends RequestHandler, Composite
 {
 }

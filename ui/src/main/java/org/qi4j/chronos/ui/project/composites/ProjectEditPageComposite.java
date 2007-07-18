@@ -10,11 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.component;
+package org.qi4j.chronos.ui.project.composites;
 
-import org.qi4j.chronos.model.Project;
-import org.qi4j.ui.component.Form;
+import org.qi4j.ui.component.Page;
+import org.qi4j.chronos.ui.project.ProjectEditPage;
 
-public interface ProjectEditForm extends Project, Form
+public interface ProjectEditPageComposite extends ProjectEditPage, Page
 {
 }

@@ -4,6 +4,10 @@
   <servlet>
     <servlet-name>chronos</servlet-name>
     <servlet-class>org.qi4j.ui.servlet.Servlet</servlet-class>
+    <init-param>
+      <param-name>webApplication</param-name>
+      <param-value>org.qi4j.chronos.ui.ChronosApplication</param-value>
+    </init-param>
   </servlet>
 
   <servlet-mapping>
