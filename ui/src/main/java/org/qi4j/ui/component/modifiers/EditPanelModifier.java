@@ -14,77 +14,24 @@ package org.qi4j.ui.component.modifiers;
 
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.lang.reflect.Method;
-import java.util.ArrayList;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import org.qi4j.api.CompositeFactory;
-import org.qi4j.api.annotation.Dependency;
 import org.qi4j.api.annotation.Modifies;
 import org.qi4j.api.annotation.Uses;
 import org.qi4j.ui.RenderFailedException;
+import org.qi4j.ui.association.HasComponents;
 import org.qi4j.ui.component.Component;
 import org.qi4j.ui.component.ComponentLifecycle;
-import org.qi4j.ui.component.UIField;
-import org.qi4j.ui.component.UIFieldResolver;
-import org.qi4j.ui.model.association.HasModel;
 
 public final class EditPanelModifier implements ComponentLifecycle
 {
     @Modifies private ComponentLifecycle next;
-
-    //TODO bp. create a tagging interface for it?
-    @Uses private Object thisObject;
-
-    @Dependency private CompositeFactory factory;
-
-    @Uses private HasModel hasModel;
-
-    private List<Component> componentList;
-
-    private void findUIField( Method[] methods )
-    {
-        for( Method method : methods )
-        {
-            UIField uiField = method.getAnnotation( UIField.class );
-
-            if( uiField != null && method.getParameterTypes().length == 0 &&
-                method.getReturnType() != Void.TYPE )
-            {
-                try
-                {
-                    Object obj = method.invoke( thisObject, null );
-
-                    Component component = UIFieldResolver.resolveUIField( factory, uiField, obj );
-
-                    componentList.add( component );
-                }
-                catch( Exception err )
-                {
-                    err.printStackTrace();
-                    throw new RuntimeException( err.getMessage(), err );
-                }
-            }
-        }
-    }
+    @Uses private HasComponents hasComponents;
 
     public void init()
     {
-        componentList = new ArrayList<Component>();
-
-        Method[] methods = thisObject.getClass().getMethods();
-
-        findUIField( methods );
-
-        Class[] interfaces = thisObject.getClass().getInterfaces();
-
-        for( Class intface : interfaces )
-        {
-            methods = intface.getMethods();
-
-            findUIField( methods );
-        }
+        next.init();
     }
 
     public void dispose()
@@ -100,7 +47,8 @@ public final class EditPanelModifier implements ComponentLifecycle
             printWriter.write( "<table>" );
 
             //render components
-            for( Component component : componentList )
+            List<Component> components = hasComponents.getComponents();
+            for( Component component : components )
             {
                 printWriter.write( "<tr><td>" );
                 component.render( request, response );

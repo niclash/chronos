@@ -12,10 +12,9 @@
  */
 package org.qi4j.chronos.ui.component;
 
-import org.qi4j.api.Composite;
-import org.qi4j.chronos.ui.association.HasProject;
+import org.qi4j.chronos.model.Project;
 import org.qi4j.ui.component.Page;
 
-public interface ProjectEditPage extends Page, HasProject, Composite
+public interface ProjectEditPage extends Project, Page
 {
 }

@@ -61,6 +61,7 @@ public final class FormModifier implements ComponentLifecycle
             }
 
             printWriter.write( "</form>" );
+            next.render( request, response );
         }
         catch( IOException e )
         {

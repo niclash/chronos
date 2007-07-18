@@ -14,9 +14,8 @@ package org.qi4j.ui.component;
 
 import org.qi4j.api.annotation.ModifiedBy;
 import org.qi4j.ui.component.modifiers.CheckBoxModifier;
-import org.qi4j.ui.model.association.HasModel;
 
 @ModifiedBy( { CheckBoxModifier.class } )
-public interface CheckBox extends Component
+public interface Checkbox extends Component
 {
 }

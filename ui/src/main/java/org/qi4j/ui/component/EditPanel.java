@@ -12,6 +12,6 @@
  */
 package org.qi4j.ui.component;
 
-public interface EditPanel extends Component
+public interface EditPanel extends Container
 {
 }
