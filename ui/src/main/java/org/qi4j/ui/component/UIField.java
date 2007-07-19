@@ -22,4 +22,5 @@ import java.lang.annotation.Target;
 public @interface UIField
 {
     Class<? extends Component> type() default TextField.class;
+    String identity() default "textField";
 }

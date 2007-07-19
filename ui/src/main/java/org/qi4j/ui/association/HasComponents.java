@@ -12,7 +12,7 @@
  */
 package org.qi4j.ui.association;
 
-import java.util.List;
+import java.util.Collection;
 import org.qi4j.api.annotation.ImplementedBy;
 import org.qi4j.ui.association.mixins.HasComponentsMixin;
 import org.qi4j.ui.component.Component;
@@ -24,5 +24,9 @@ public interface HasComponents
 
     void removeComponent( Component component );
 
-    List<Component> getComponents();
+    Collection<Component> getComponents();
+
+    Component getComponent( String componentId );
+
+    boolean isComponentExist( String componentId );
 }

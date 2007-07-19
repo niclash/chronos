@@ -55,12 +55,8 @@ public final class ContainerSetupModifier implements ComponentLifecycle
             {
                 try
                 {
-                    System.out.println( "Before invoking method: " + method );
                     Object obj = method.invoke( thisObject );
-                    System.out.println( "method: " + method );
-                    Component component = resolveUIField( uiField, obj );
-                    System.out.println( "Componen: " + component );
-                    hasComponents.addComponent( component );
+                    resolveUIField( uiField, obj );
                 }
                 catch( Exception e )
                 {
@@ -80,17 +76,22 @@ public final class ContainerSetupModifier implements ComponentLifecycle
         }
     }
 
-    private Component resolveUIField( UIField uiField, Object obj )
+    private void resolveUIField( UIField uiField, Object obj )
     {
         Class<? extends Component> componentClass = uiField.type();
-        Component component = factory.newInstance( componentClass );
+        String componentId = uiField.identity();
 
-        Model model = factory.newInstance( ModelComposite.class );
-        model.setObject( obj );
+        if( !hasComponents.isComponentExist( componentId ) )
+        {
+            Component component = factory.newInstance( componentClass );
+            component.setIdentity( componentId );
 
-        component.setModel( model );
+            Model model = factory.newInstance( ModelComposite.class );
+            model.setObject( obj );
 
-        return component;
+            component.setModel( model );
+            hasComponents.addComponent( component );
+        }
     }
 
     public void dispose()
