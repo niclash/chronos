@@ -15,6 +15,7 @@ package org.qi4j.ui.component.modifiers;
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.util.List;
+import java.util.Collection;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.qi4j.api.annotation.Modifies;
@@ -48,7 +49,7 @@ public final class EditPanelModifier implements ComponentLifecycle
             printWriter.write( "<table>" );
 
             //render components
-            List<Component> components = hasComponents.getComponents();
+            Collection<Component> components = hasComponents.getComponents();
             for( Component component : components )
             {
                 printWriter.write( "<tr><td>" );
