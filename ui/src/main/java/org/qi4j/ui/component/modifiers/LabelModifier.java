@@ -12,14 +12,11 @@
  */
 package org.qi4j.ui.component.modifiers;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.qi4j.api.annotation.Modifies;
 import org.qi4j.api.annotation.Uses;
-import org.qi4j.ui.RenderFailedException;
 import org.qi4j.ui.InitFailedException;
+import org.qi4j.ui.RenderFailedException;
+import org.qi4j.ui.Response;
 import org.qi4j.ui.component.ComponentLifecycle;
 import org.qi4j.ui.model.Model;
 import org.qi4j.ui.model.association.HasModel;
@@ -39,20 +36,13 @@ public final class LabelModifier implements ComponentLifecycle
         next.dispose();
     }
 
-    public void render( HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse ) throws RenderFailedException
+    public void render( Response response ) throws RenderFailedException
     {
-        try
-        {
-            PrintWriter printWriter = httpServletResponse.getWriter();
-            Model model = hasModel.getModel();
-            Object modelObject = model.getObject();
-            String label = modelObject.toString();
-            printWriter.print( "<LABEL>" + label + "</LABEL>" );
-            next.render( httpServletRequest, httpServletResponse );
-        }
-        catch( IOException e )
-        {
-            throw new RenderFailedException( "Fail to render label.", e );
-        }
+        Model model = hasModel.getModel();
+        Object modelObject = model.getObject();
+        String label = modelObject.toString();
+        response.write( "<LABEL>" + label + "</LABEL>" );
+
+        next.render( response );
     }
 }

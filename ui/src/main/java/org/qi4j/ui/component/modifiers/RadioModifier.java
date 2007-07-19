@@ -12,14 +12,11 @@
  */
 package org.qi4j.ui.component.modifiers;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.qi4j.api.annotation.Modifies;
 import org.qi4j.api.annotation.Uses;
-import org.qi4j.ui.RenderFailedException;
 import org.qi4j.ui.InitFailedException;
+import org.qi4j.ui.RenderFailedException;
+import org.qi4j.ui.Response;
 import org.qi4j.ui.component.ComponentLifecycle;
 import org.qi4j.ui.model.Model;
 import org.qi4j.ui.model.association.HasModel;
@@ -39,22 +36,14 @@ public final class RadioModifier implements ComponentLifecycle
         next.dispose();
     }
 
-    public void render( HttpServletRequest request, HttpServletResponse response ) throws RenderFailedException
+    public void render( Response response ) throws RenderFailedException
     {
-        try
-        {
-            PrintWriter printWriter = response.getWriter();
-            Model model = hasModel.getModel();
-            Object modelObject = model.getObject();
-            String radioLabel = modelObject.toString();
+        Model model = hasModel.getModel();
+        Object modelObject = model.getObject();
+        String radioLabel = modelObject.toString();
 
-            //TODO bp. support radio group
-            printWriter.print( "<input type=\"radio\" radioLabel=\"" + radioLabel + "\"/>" );
-            next.render( request, response );
-        }
-        catch( IOException e )
-        {
-            throw new RenderFailedException( "Fail to render radio.", e );
-        }
+        //TODO bp. support radio group
+        response.write( "<input type=\"radio\" radioLabel=\"" + radioLabel + "\"/>" );
+        next.render( response );
     }
 }

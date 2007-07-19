@@ -12,15 +12,12 @@
  */
 package org.qi4j.ui.component.modifiers;
 
-import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.Collection;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.qi4j.api.annotation.Modifies;
 import org.qi4j.api.annotation.Uses;
 import org.qi4j.ui.InitFailedException;
 import org.qi4j.ui.RenderFailedException;
+import org.qi4j.ui.Response;
 import org.qi4j.ui.association.HasComponents;
 import org.qi4j.ui.component.Component;
 import org.qi4j.ui.component.ComponentLifecycle;
@@ -40,25 +37,18 @@ public final class PageModifier implements ComponentLifecycle
         next.dispose();
     }
 
-    public void render( HttpServletRequest request, HttpServletResponse response ) throws RenderFailedException
+    public void render( Response response ) throws RenderFailedException
     {
-        try
-        {
-            PrintWriter printWriter = response.getWriter();
-            printWriter.write( "<html><head></head><body>" );
+        response.write( "<html><head></head><body>" );
 
-            Collection<Component> components = hasComponents.getComponents();
-            for( Component component : components )
-            {
-                component.render( request, response );
-            }
-
-            printWriter.write( "</body></html>" );
-            next.render( request, response );
-        }
-        catch( IOException e )
+        Collection<Component> components = hasComponents.getComponents();
+        for( Component component : components )
         {
-            throw new RenderFailedException( "Fail to render page.", e );
+            component.render( response );
         }
+
+        response.write( "</body></html>" );
+
+        next.render( response );
     }
 }

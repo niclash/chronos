@@ -12,7 +12,7 @@
  */
 package org.qi4j.ui;
 
-public class ServletInitFailedException extends RuntimeException
+public class ServletInitFailedException extends Qi4jUIRuntimeException
 {
     public ServletInitFailedException( String message, Throwable cause )
     {

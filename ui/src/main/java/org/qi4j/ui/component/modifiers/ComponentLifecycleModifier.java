@@ -12,12 +12,11 @@
  */
 package org.qi4j.ui.component.modifiers;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.qi4j.api.annotation.Modifies;
 import org.qi4j.api.annotation.Uses;
-import org.qi4j.ui.RenderFailedException;
 import org.qi4j.ui.InitFailedException;
+import org.qi4j.ui.RenderFailedException;
+import org.qi4j.ui.Response;
 import org.qi4j.ui.component.ComponentLifecycle;
 
 public final class ComponentLifecycleModifier implements ComponentLifecycle
@@ -35,9 +34,10 @@ public final class ComponentLifecycleModifier implements ComponentLifecycle
         next.dispose();
     }
 
-    public void render( HttpServletRequest request, HttpServletResponse response ) throws RenderFailedException
+    public void render( Response response ) throws RenderFailedException
     {
         meAsComponentLifecycle.init();
-        next.render( request, response );
+
+        next.render( response );
     }
 }

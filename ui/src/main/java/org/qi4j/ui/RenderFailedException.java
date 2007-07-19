@@ -12,7 +12,7 @@
  */
 package org.qi4j.ui;
 
-public class RenderFailedException extends RuntimeException
+public class RenderFailedException extends Qi4jUIRuntimeException
 {
     public RenderFailedException( String message, Throwable cause )
     {

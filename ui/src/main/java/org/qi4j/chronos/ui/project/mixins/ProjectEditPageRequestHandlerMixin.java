@@ -13,20 +13,20 @@
 package org.qi4j.chronos.ui.project.mixins;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.qi4j.api.CompositeFactory;
 import org.qi4j.api.annotation.Dependency;
 import org.qi4j.chronos.ui.project.composites.ProjectEditPageComposite;
 import org.qi4j.ui.RequestHandler;
+import org.qi4j.ui.Response;
 
 public final class ProjectEditPageRequestHandlerMixin implements RequestHandler
 {
     @Dependency private CompositeFactory factory;
 
-    public void request( HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse )
+    public void request( Response response )
     {
         ProjectEditPageComposite projectEditPage = factory.newInstance( ProjectEditPageComposite.class );
-        projectEditPage.render( httpServletRequest, httpServletResponse );
+        projectEditPage.render( response );
     }
 
     public boolean canHandle( HttpServletRequest httpServletRequest )

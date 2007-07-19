@@ -12,11 +12,10 @@
  */
 package org.qi4j.ui.component.mixins;
 
-import org.qi4j.ui.component.ComponentLifecycle;
-import org.qi4j.ui.RenderFailedException;
 import org.qi4j.ui.InitFailedException;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import org.qi4j.ui.RenderFailedException;
+import org.qi4j.ui.Response;
+import org.qi4j.ui.component.ComponentLifecycle;
 
 public final class ComponentLifecycleMixin implements ComponentLifecycle
 {
@@ -30,7 +29,7 @@ public final class ComponentLifecycleMixin implements ComponentLifecycle
         // real action is done in modifiers
     }
 
-    public void render( HttpServletRequest request, HttpServletResponse response ) throws RenderFailedException
+    public void render( Response response ) throws RenderFailedException
     {
         // real action is done in modifiers
     }

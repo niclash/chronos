@@ -13,11 +13,10 @@
 package org.qi4j.ui;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 
 public interface RequestHandler
 {
-    void request( HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse );
+    void request( Response response );
 
     boolean canHandle( HttpServletRequest httpServletRequest );
 }

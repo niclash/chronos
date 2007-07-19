@@ -24,6 +24,7 @@ import org.qi4j.runtime.CompositeFactoryImpl;
 import org.qi4j.ui.RequestHandler;
 import org.qi4j.ui.ServletInitFailedException;
 import org.qi4j.ui.WebApplication;
+import org.qi4j.ui.WebResponseComposite;
 
 public class Servlet extends HttpServlet
 {
@@ -50,17 +51,19 @@ public class Servlet extends HttpServlet
             {
                 Composite composite = factory.newInstance( webApplicationClass );
                 application = composite.cast( WebApplication.class );
-            } else {
-                throw new ServletInitFailedException(webApplicationClassName + " not instance of WebApplication.");
+            }
+            else
+            {
+                throw new ServletInitFailedException( webApplicationClassName + " not instance of WebApplication." );
             }
         }
         catch( CompositeInstantiationException e )
         {
-            throw new ServletInitFailedException("Fail to instantiate WebApplication composite", e);
+            throw new ServletInitFailedException( "Fail to instantiate WebApplication composite", e );
         }
         catch( ClassNotFoundException e )
         {
-            throw new ServletInitFailedException(webApplicationClassName + " doesn't exist.", e);
+            throw new ServletInitFailedException( webApplicationClassName + " doesn't exist.", e );
         }
     }
 
@@ -72,7 +75,13 @@ public class Servlet extends HttpServlet
     protected void doGet( HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse ) throws ServletException, IOException
     {
         RequestHandler requestHandler = application.resolveRequestHandler( httpServletRequest );
-        requestHandler.request( httpServletRequest, httpServletResponse );
+
+        WebResponseComposite response = factory.newInstance( WebResponseComposite.class );
+
+        response.setHttpServletResponse( httpServletResponse );
+
+//        response.write( "abc" );
+        requestHandler.request( response );
     }
 
     public void destroy()

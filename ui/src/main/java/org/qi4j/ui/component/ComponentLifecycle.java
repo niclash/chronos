@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
- *
+ * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
+ * 
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
  * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
@@ -12,12 +13,11 @@
  */
 package org.qi4j.ui.component;
 
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.ui.component.mixins.ComponentLifecycleMixin;
-import org.qi4j.ui.RenderFailedException;
 import org.qi4j.ui.InitFailedException;
+import org.qi4j.ui.RenderFailedException;
+import org.qi4j.ui.Response;
+import org.qi4j.ui.component.mixins.ComponentLifecycleMixin;
 
 @ImplementedBy( { ComponentLifecycleMixin.class } )
 public interface ComponentLifecycle
@@ -26,5 +26,5 @@ public interface ComponentLifecycle
 
     void dispose();
 
-    void render( HttpServletRequest request, HttpServletResponse response ) throws RenderFailedException;
+    void render( Response response ) throws RenderFailedException;
 }

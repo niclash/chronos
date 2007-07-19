@@ -12,16 +12,12 @@
  */
 package org.qi4j.ui.component.modifiers;
 
-import java.io.IOException;
-import java.io.PrintWriter;
-import java.util.List;
 import java.util.Collection;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.qi4j.api.annotation.Modifies;
 import org.qi4j.api.annotation.Uses;
-import org.qi4j.ui.RenderFailedException;
 import org.qi4j.ui.InitFailedException;
+import org.qi4j.ui.RenderFailedException;
+import org.qi4j.ui.Response;
 import org.qi4j.ui.association.HasComponents;
 import org.qi4j.ui.component.Component;
 import org.qi4j.ui.component.ComponentLifecycle;
@@ -41,28 +37,20 @@ public final class EditPanelModifier implements ComponentLifecycle
         next.dispose();
     }
 
-    public void render( HttpServletRequest request, HttpServletResponse response ) throws RenderFailedException
+    public void render( Response response ) throws RenderFailedException
     {
-        try
-        {
-            PrintWriter printWriter = response.getWriter();
-            printWriter.write( "<table>" );
+        response.write( "<table>" );
 
-            //render components
-            Collection<Component> components = hasComponents.getComponents();
-            for( Component component : components )
-            {
-                printWriter.write( "<tr><td>" );
-                component.render( request, response );
-                printWriter.write( "</td></tr>" );
-            }
-
-            printWriter.write( "</table>" );
-            next.render( request, response );
-        }
-        catch( IOException e )
+        //render components
+        Collection<Component> components = hasComponents.getComponents();
+        for( Component component : components )
         {
-            throw new RenderFailedException( "Fail to render edit panel.", e );
+            response.write( "<tr><td>" );
+            component.render( response );
+            response.write( "</td></tr>" );
         }
+
+        response.write( "</table>" );
+        next.render( response );
     }
 }
