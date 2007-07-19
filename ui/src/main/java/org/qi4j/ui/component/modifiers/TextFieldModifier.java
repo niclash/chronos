@@ -45,7 +45,7 @@ public final class TextFieldModifier implements ComponentLifecycle
         {
             PrintWriter printWriter = httpServletResponse.getWriter();
             Model model = hasModel.getModel();
-            Object modelObject = model.getModel();
+            Object modelObject = model.getObject();
 
             System.out.println( "Model: " + modelObject );
 

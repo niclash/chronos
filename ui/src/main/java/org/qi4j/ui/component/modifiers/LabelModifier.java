@@ -45,7 +45,7 @@ public final class LabelModifier implements ComponentLifecycle
         {
             PrintWriter printWriter = httpServletResponse.getWriter();
             Model model = hasModel.getModel();
-            Object modelObject = model.getModel();
+            Object modelObject = model.getObject();
             String label = modelObject.toString();
             printWriter.print( "<LABEL>" + label + "</LABEL>" );
             next.render( httpServletRequest, httpServletResponse );

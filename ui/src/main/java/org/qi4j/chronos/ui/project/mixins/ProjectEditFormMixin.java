@@ -27,8 +27,9 @@ public final class ProjectEditFormMixin implements ProjectEditForm
     public String getProjectName()
     {
         Model model = form.getModel();
-        Project project = (Project) model.getModel();
+        Project project = (Project) model.getObject();
         System.out.println("Project : " + project + "; name; " + project.getName());
+        
         return project.getName();
     }
 }

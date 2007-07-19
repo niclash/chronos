@@ -45,7 +45,7 @@ public final class RadioModifier implements ComponentLifecycle
         {
             PrintWriter printWriter = response.getWriter();
             Model model = hasModel.getModel();
-            Object modelObject = model.getModel();
+            Object modelObject = model.getObject();
             String radioLabel = modelObject.toString();
 
             //TODO bp. support radio group

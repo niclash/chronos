@@ -17,24 +17,24 @@ import org.qi4j.ui.model.Model;
 
 public final class ModelMixin implements Model
 {
-    private Object model;
+    private Object object;
 
-    public void setModel( Object object )
+    public void setObject( Object object )
     {
         System.out.println( "Model null ? " + ( object == null ) );
-        model = object;
+        this.object = object;
     }
 
-    public Object getModel()
+    public Object getObject()
     {
-        return model;
+        return object;
     }
 
     public String toString()
     {
-        if( model != null )
+        if( object != null )
         {
-            return model.toString();
+            return object.toString();
         }
         else
         {

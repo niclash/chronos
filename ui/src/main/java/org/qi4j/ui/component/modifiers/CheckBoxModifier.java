@@ -45,7 +45,7 @@ public final class CheckBoxModifier implements ComponentLifecycle
         try
         {
             Model model = hasModel.getModel();
-            Object modelObject = model.getModel();
+            Object modelObject = model.getObject();
             String modelValue = modelObject.toString();
             Boolean isChecked = Boolean.parseBoolean( modelValue );
             String checked = isChecked ? "checked" : "";

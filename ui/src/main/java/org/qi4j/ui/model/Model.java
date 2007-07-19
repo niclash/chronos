@@ -18,9 +18,9 @@ import org.qi4j.ui.model.mixins.ModelMixin;
 @ImplementedBy( { ModelMixin.class } )
 public interface Model
 {
-    void setModel( Object model );
+    void setObject( Object object );
 
-    Object getModel();
+    Object getObject();
 
     String toString();
 }

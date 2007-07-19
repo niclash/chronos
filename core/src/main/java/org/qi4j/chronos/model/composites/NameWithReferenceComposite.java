@@ -18,3 +18,4 @@ import org.qi4j.chronos.model.NameWithReference;
 public interface NameWithReferenceComposite extends NameWithReference, Composite
 {
 }
+ 

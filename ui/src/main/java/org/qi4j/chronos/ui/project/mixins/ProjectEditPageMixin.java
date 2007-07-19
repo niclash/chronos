@@ -24,11 +24,20 @@ public final class ProjectEditPageMixin implements ProjectEditPage
 {
     @Dependency private CompositeFactory factory;
 
+    private ProjectEntityComposite project;
+
     @UIField( type = ProjectEditFormComposite.class )
     public Project getProject()
     {
-        ProjectEntityComposite project = factory.newInstance( ProjectEntityComposite.class );
-        project.setName( "Chronos" );
+        if( project == null )
+        {
+            project = factory.newInstance( ProjectEntityComposite.class );
+
+            project.setName( "Chronos" );
+
+            System.err.println( "project.getName() " + project.getName() );
+        }
+
         return project;
     }
 }

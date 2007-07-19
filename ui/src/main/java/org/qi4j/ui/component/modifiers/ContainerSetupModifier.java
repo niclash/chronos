@@ -86,7 +86,7 @@ public final class ContainerSetupModifier implements ComponentLifecycle
         Component component = factory.newInstance( componentClass );
 
         Model model = factory.newInstance( ModelComposite.class );
-        model.setModel( obj );
+        model.setObject( obj );
 
         component.setModel( model );
 

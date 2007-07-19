@@ -45,7 +45,7 @@ public final class ButtonModifier implements ComponentLifecycle
         try
         {
             Model model = hasModel.getModel();
-            Object modelObject = model.getModel();
+            Object modelObject = model.getObject();
             String buttonLabel = modelObject.toString();
             PrintWriter writer = response.getWriter();
             writer.write( "<input type=\"submit\" value=\"" + buttonLabel + "\"/>" );

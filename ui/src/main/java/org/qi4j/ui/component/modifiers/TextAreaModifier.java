@@ -45,7 +45,7 @@ public final class TextAreaModifier implements ComponentLifecycle
         {
             PrintWriter printWriter = response.getWriter();
             Model model = hasModel.getModel();
-            Object modelObject = model.getModel();
+            Object modelObject = model.getObject();
             String textValue= modelObject.toString();
             printWriter.print( "<TEXTAREA NAME=\"comments\" COLS=40 ROWS=10>" + textValue + "</TEXTAREA> " );
             next.render( request, response );
