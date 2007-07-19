@@ -13,8 +13,8 @@
 package org.qi4j.ui.model.association;
 
 import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.ui.model.Model;
 import org.qi4j.ui.model.association.mixins.HasModelMixin;
+import org.qi4j.ui.model.Model;
 
 @ImplementedBy( { HasModelMixin.class } )
 public interface HasModel

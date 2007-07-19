@@ -13,10 +13,6 @@
  */
 package org.qi4j.ui.component;
 
-import org.qi4j.api.annotation.ModifiedBy;
-import org.qi4j.ui.component.modifiers.TextFieldModifier;
-
-@ModifiedBy( TextFieldModifier.class )
-public interface TextField extends Component
+public interface TextField extends Value
 {
 }

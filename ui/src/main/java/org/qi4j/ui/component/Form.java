@@ -12,12 +12,8 @@
  */
 package org.qi4j.ui.component;
 
-import org.qi4j.api.annotation.ModifiedBy;
-import org.qi4j.ui.component.modifiers.ComponentLifecycleModifier;
-import org.qi4j.ui.component.modifiers.ContainerSetupModifier;
-import org.qi4j.ui.component.modifiers.FormModifier;
+import org.qi4j.library.general.model.Name;
 
-@ModifiedBy( { ComponentLifecycleModifier.class, FormModifier.class, ContainerSetupModifier.class } )
-public interface Form extends Container
+public interface Form extends Name
 {
 }

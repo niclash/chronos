@@ -13,10 +13,8 @@
  */
 package org.qi4j.ui.component;
 
-import org.qi4j.api.annotation.ModifiedBy;
-import org.qi4j.ui.component.modifiers.ButtonModifier;
+import org.qi4j.library.general.model.Enabled;
 
-@ModifiedBy( { ButtonModifier.class } )
-public interface Button extends Component
+public interface Button extends Value, Enabled, HasButtonType
 {
 }

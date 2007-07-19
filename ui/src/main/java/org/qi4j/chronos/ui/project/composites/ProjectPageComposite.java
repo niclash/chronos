@@ -12,9 +12,11 @@
  */
 package org.qi4j.chronos.ui.project.composites;
 
-import org.qi4j.ui.component.Page;
-import org.qi4j.chronos.ui.project.ProjectEditPage;
+import org.qi4j.chronos.ui.project.ProjectPage;
+import org.qi4j.ui.annotation.ModelledBy;
+import org.qi4j.ui.component.composites.PageComposite;
 
-public interface ProjectEditPageComposite extends ProjectEditPage, Page
+@ModelledBy( { ProjectPage.class } )
+public interface ProjectPageComposite extends PageComposite
 {
 }

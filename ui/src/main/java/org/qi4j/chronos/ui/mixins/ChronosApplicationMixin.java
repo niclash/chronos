@@ -15,7 +15,7 @@ package org.qi4j.chronos.ui.mixins;
 import javax.servlet.http.HttpServletRequest;
 import org.qi4j.api.CompositeFactory;
 import org.qi4j.api.annotation.Dependency;
-import org.qi4j.chronos.ui.project.ProjectEditPageRequestHandler;
+import org.qi4j.chronos.ui.project.ProjectPageRequestHandler;
 import org.qi4j.ui.RequestHandler;
 import org.qi4j.ui.RequestHandlerResolver;
 
@@ -25,6 +25,6 @@ public final class ChronosApplicationMixin implements RequestHandlerResolver
 
     public RequestHandler resolveRequestHandler( HttpServletRequest httpServletRequest )
     {
-        return factory.newInstance( ProjectEditPageRequestHandler.class );
+        return factory.newInstance( ProjectPageRequestHandler.class );
     }
 }

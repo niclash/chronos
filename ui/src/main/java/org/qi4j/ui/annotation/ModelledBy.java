@@ -10,16 +10,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.project;
+package org.qi4j.ui.annotation;
 
-import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.chronos.model.Project;
-import org.qi4j.chronos.ui.project.composites.ProjectEditFormComposite;
-import org.qi4j.chronos.ui.project.mixins.ProjectEditPageMixin;
-import org.qi4j.ui.component.UIField;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.lang.annotation.ElementType;
 
-@ImplementedBy( ProjectEditPageMixin.class )
-public interface ProjectEditPage
+@Retention( RetentionPolicy.RUNTIME )
+@Target( { ElementType.TYPE } )
+public @interface ModelledBy
 {
-    @UIField( type = ProjectEditFormComposite.class ) Project getProject();
+    Class[] value();
 }

@@ -1,5 +1,4 @@
 /*
- * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,8 +12,13 @@
  */
 package org.qi4j.ui.component;
 
-import org.qi4j.library.general.model.Enabled;
+import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.ui.component.mixins.ColumnCountMixin;
 
-public interface Checkbox extends Value, Enabled
+@ImplementedBy( ColumnCountMixin.class)
+public interface ColumnCount
 {
+    int getColumnCount();
+
+    void setColumnCount( int cols );
 }

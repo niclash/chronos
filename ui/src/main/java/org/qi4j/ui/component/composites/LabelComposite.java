@@ -1,5 +1,4 @@
 /*
- * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,10 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.ui.component;
+package org.qi4j.ui.component.composites;
 
-import org.qi4j.library.general.model.Enabled;
+import org.qi4j.api.annotation.ModifiedBy;
+import org.qi4j.ui.component.Component;
+import org.qi4j.ui.component.Label;
+import org.qi4j.ui.component.modifiers.LabelModifier;
 
-public interface Checkbox extends Value, Enabled
+@ModifiedBy( LabelModifier.class )
+public interface LabelComposite extends Label, Component
 {
 }

@@ -22,5 +22,7 @@ public interface Model
 
     Object getObject();
 
-    String toString();
+    void setFieldName( String fieldName );
+
+    String getFieldName();
 }

@@ -10,14 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.project;
+package org.qi4j.ui.component.composites;
 
-import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.ui.component.UIField;
-import org.qi4j.chronos.ui.project.mixins.ProjectEditFormMixin;
+import org.qi4j.ui.component.Checkbox;
+import org.qi4j.ui.component.Component;
+import org.qi4j.ui.component.modifiers.CheckBoxModifier;
+import org.qi4j.api.annotation.ModifiedBy;
 
-@ImplementedBy( { ProjectEditFormMixin.class } )
-public interface ProjectEditForm
+@ModifiedBy( { CheckBoxModifier.class } )
+public interface CheckBoxComposite extends Checkbox, Component
 {
-    @UIField String getProjectName();
 }

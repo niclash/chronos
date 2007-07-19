@@ -18,10 +18,10 @@ import org.qi4j.ui.model.Model;
 public final class ModelMixin implements Model
 {
     private Object object;
+    private String fieldName;
 
     public void setObject( Object object )
     {
-        System.out.println( "Model null ? " + ( object == null ) );
         this.object = object;
     }
 
@@ -30,15 +30,13 @@ public final class ModelMixin implements Model
         return object;
     }
 
-    public String toString()
+    public void setFieldName( String aFieldName )
     {
-        if( object != null )
-        {
-            return object.toString();
-        }
-        else
-        {
-            return super.toString();
-        }
+        fieldName = aFieldName;
+    }
+
+    public String getFieldName()
+    {
+        return fieldName;
     }
 }

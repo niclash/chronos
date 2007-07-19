@@ -1,5 +1,4 @@
 /*
- * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,10 +10,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.ui.component;
+package org.qi4j.ui.annotation;
 
-import org.qi4j.library.general.model.Enabled;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
+import java.lang.annotation.ElementType;
+import org.qi4j.ui.component.Position;
 
-public interface Checkbox extends Value, Enabled
+@Retention( RetentionPolicy.RUNTIME )
+@Target( { ElementType.METHOD } )
+public @interface Label
 {
+    String value() default "";
+
+    Position position() default Position.left;
 }

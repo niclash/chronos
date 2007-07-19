@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
+ * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -18,13 +19,12 @@ import org.qi4j.ui.InitFailedException;
 import org.qi4j.ui.RenderFailedException;
 import org.qi4j.ui.Response;
 import org.qi4j.ui.component.ComponentLifecycle;
-import org.qi4j.ui.model.Model;
-import org.qi4j.ui.model.association.HasModel;
+import org.qi4j.ui.component.Radio;
 
 public final class RadioModifier implements ComponentLifecycle
 {
     @Modifies private ComponentLifecycle next;
-    @Uses private HasModel hasModel;
+    @Uses private Radio radio;
 
     public void init() throws InitFailedException
     {
@@ -38,12 +38,8 @@ public final class RadioModifier implements ComponentLifecycle
 
     public void render( Response response ) throws RenderFailedException
     {
-        Model model = hasModel.getModel();
-        Object modelObject = model.getObject();
-        String radioLabel = modelObject.toString();
-
         //TODO bp. support radio group
-        response.write( "<input type=\"radio\" radioLabel=\"" + radioLabel + "\"/>" );
+        response.write( "<input type=\"radio\" name=\"" + radio.getName() + "\"/>" );
         next.render( response );
     }
 }

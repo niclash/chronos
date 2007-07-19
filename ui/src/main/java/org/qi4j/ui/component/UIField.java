@@ -16,11 +16,14 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import org.qi4j.ui.component.composites.TextFieldComposite;
 
+/**
+ * TODO: Sianny: I don't think this is needed anymore
+ */
 @Retention( RetentionPolicy.RUNTIME )
 @Target( { ElementType.METHOD } )
 public @interface UIField
 {
-    Class<? extends Component> type() default TextField.class;
-    String identity() default "textField";
+    Class<? extends Component> type() default TextFieldComposite.class;
 }

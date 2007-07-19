@@ -10,26 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.project.mixins;
+package org.qi4j.ui.component.composites;
 
-import org.qi4j.api.annotation.Uses;
-import org.qi4j.chronos.model.Project;
-import org.qi4j.chronos.ui.project.ProjectEditForm;
+import org.qi4j.api.annotation.ModifiedBy;
+import org.qi4j.ui.component.Container;
 import org.qi4j.ui.component.Form;
-import org.qi4j.ui.component.UIField;
-import org.qi4j.ui.model.Model;
+import org.qi4j.ui.component.modifiers.FormModifier;
 
-public final class ProjectEditFormMixin implements ProjectEditForm
+@ModifiedBy( FormModifier.class )
+public interface FormComposite extends Form, Container
 {
-    @Uses private Form form;
-
-    @UIField
-    public String getProjectName()
-    {
-        Model model = form.getModel();
-        Project project = (Project) model.getObject();
-        System.out.println("Project : " + project + "; name; " + project.getName());
-        
-        return project.getName();
-    }
 }

@@ -18,14 +18,13 @@ import org.qi4j.api.annotation.Uses;
 import org.qi4j.ui.InitFailedException;
 import org.qi4j.ui.RenderFailedException;
 import org.qi4j.ui.Response;
+import org.qi4j.ui.component.Button;
 import org.qi4j.ui.component.ComponentLifecycle;
-import org.qi4j.ui.model.Model;
-import org.qi4j.ui.model.association.HasModel;
 
 public final class ButtonModifier implements ComponentLifecycle
 {
     @Modifies private ComponentLifecycle next;
-    @Uses private HasModel hasModel;
+    @Uses private Button button;
 
     public void init() throws InitFailedException
     {
@@ -39,11 +38,9 @@ public final class ButtonModifier implements ComponentLifecycle
 
     public void render( Response response ) throws RenderFailedException
     {
-        Model model = hasModel.getModel();
-        Object modelObject = model.getObject();
-        String buttonLabel = modelObject.toString();
-
-        response.write( "<input type=\"submit\" value=\"" + buttonLabel + "\"/>" );
+        String disabled = button.isEnabled() ? "" : "disabled";
+        response.write( "<input type=\"" + button.getButtonType().toString() +
+                        "\" value=\"" + button.getValue() + "\" " +  disabled + "/>" );
         next.render( response );
     }
 }

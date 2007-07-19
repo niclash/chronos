@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -18,12 +19,11 @@ import org.qi4j.ui.InitFailedException;
 import org.qi4j.ui.RenderFailedException;
 import org.qi4j.ui.Response;
 import org.qi4j.ui.component.ComponentLifecycle;
-import org.qi4j.ui.model.Model;
-import org.qi4j.ui.model.association.HasModel;
+import org.qi4j.ui.component.TextField;
 
 public final class TextFieldModifier implements ComponentLifecycle
 {
-    @Uses private HasModel hasModel;
+    @Uses private TextField textField;
     @Modifies private ComponentLifecycle next;
 
     public void init() throws InitFailedException
@@ -38,15 +38,8 @@ public final class TextFieldModifier implements ComponentLifecycle
 
     public void render( Response response ) throws RenderFailedException
     {
-
-        Model model = hasModel.getModel();
-        Object modelObject = model.getObject();
-
-        System.out.println( "Model: " + modelObject );
-
-        String textValue = modelObject.toString();
+        String textValue = textField.getValue();
         response.write( "<input type=\"text\" value=\"" + textValue + "\">" );
-
         next.render( response );
     }
 }

@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
+ * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -39,7 +40,7 @@ public final class FormModifier implements ComponentLifecycle
 
     public void render( Response response ) throws RenderFailedException
     {
-        response.write( "<FORM method=\"post\">" );
+        response.write( "<form method=\"post\">" );
 
         Collection<Component> components = hasComponents.getComponents();
 

@@ -15,18 +15,36 @@ package org.qi4j.chronos.ui.project.mixins;
 import javax.servlet.http.HttpServletRequest;
 import org.qi4j.api.CompositeFactory;
 import org.qi4j.api.annotation.Dependency;
-import org.qi4j.chronos.ui.project.composites.ProjectEditPageComposite;
+import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.ui.project.composites.ProjectPageComposite;
 import org.qi4j.ui.RequestHandler;
 import org.qi4j.ui.Response;
+import org.qi4j.ui.model.Model;
+import org.qi4j.ui.model.ModelComposite;
 
-public final class ProjectEditPageRequestHandlerMixin implements RequestHandler
+public final class ProjectPageRequestHandlerMixin implements RequestHandler
 {
     @Dependency private CompositeFactory factory;
 
     public void request( Response response )
     {
-        ProjectEditPageComposite projectEditPage = factory.newInstance( ProjectEditPageComposite.class );
-        projectEditPage.render( response );
+        ProjectPageComposite projectPage = factory.newInstance( ProjectPageComposite.class );
+
+        // Setup model
+        Project project = factory.newInstance( ProjectEntityComposite.class );
+        project.setName( "Chronos" );
+        project.setDescription( "Timesheet for billing application" );
+
+        Model model = factory.newInstance( ModelComposite.class );
+        model.setObject( project );
+        projectPage.setModel( model );
+
+        // init
+        projectPage.init();
+
+        // render page and its contents
+        projectPage.render( response );
     }
 
     public boolean canHandle( HttpServletRequest httpServletRequest )

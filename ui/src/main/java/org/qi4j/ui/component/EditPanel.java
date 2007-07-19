@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
+ * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,12 +13,8 @@
  */
 package org.qi4j.ui.component;
 
-import org.qi4j.api.annotation.ModifiedBy;
-import org.qi4j.ui.component.modifiers.ComponentLifecycleModifier;
-import org.qi4j.ui.component.modifiers.ContainerSetupModifier;
-import org.qi4j.ui.component.modifiers.EditPanelModifier;
+import org.qi4j.library.general.model.Name;
 
-@ModifiedBy( { ComponentLifecycleModifier.class, EditPanelModifier.class, ContainerSetupModifier.class } )
-public interface EditPanel extends Container
+public interface EditPanel extends Name
 {
 }

@@ -10,11 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.project.composites;
+package org.qi4j.ui.component.composites;
 
-import org.qi4j.ui.component.Form;
-import org.qi4j.chronos.ui.project.ProjectEditForm;
+import org.qi4j.ui.component.Button;
+import org.qi4j.ui.component.Component;
+import org.qi4j.ui.component.modifiers.ButtonModifier;
+import org.qi4j.api.annotation.ModifiedBy;
 
-public interface ProjectEditFormComposite extends ProjectEditForm, Form
+@ModifiedBy( { ButtonModifier.class } )
+public interface ButtonComposite extends Button, Component
 {
 }

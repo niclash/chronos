@@ -18,14 +18,13 @@ import org.qi4j.api.annotation.Uses;
 import org.qi4j.ui.InitFailedException;
 import org.qi4j.ui.RenderFailedException;
 import org.qi4j.ui.Response;
+import org.qi4j.ui.component.Checkbox;
 import org.qi4j.ui.component.ComponentLifecycle;
-import org.qi4j.ui.model.Model;
-import org.qi4j.ui.model.association.HasModel;
 
 public final class CheckBoxModifier implements ComponentLifecycle
 {
     @Modifies private ComponentLifecycle next;
-    @Uses private HasModel hasModel;
+    @Uses private Checkbox checkBox;
 
     public void init() throws InitFailedException
     {
@@ -39,13 +38,8 @@ public final class CheckBoxModifier implements ComponentLifecycle
 
     public void render( Response response ) throws RenderFailedException
     {
-        Model model = hasModel.getModel();
-        Object modelObject = model.getObject();
-        String modelValue = modelObject.toString();
-        Boolean isChecked = Boolean.parseBoolean( modelValue );
-        String checked = isChecked ? "checked" : "";
-        response.write( "<input type=\"checkbox\" " + checked + " />" );
-        
+        String disabled = checkBox.isEnabled() ? "" : "disabled";
+        response.write( "<input type=\"checkbox\" " + checkBox.getValue() + " " + disabled + "/>" );
         next.render( response );
     }
 }

@@ -18,12 +18,11 @@ import org.qi4j.ui.InitFailedException;
 import org.qi4j.ui.RenderFailedException;
 import org.qi4j.ui.Response;
 import org.qi4j.ui.component.ComponentLifecycle;
-import org.qi4j.ui.model.Model;
-import org.qi4j.ui.model.association.HasModel;
+import org.qi4j.ui.component.Label;
 
 public final class LabelModifier implements ComponentLifecycle
 {
-    @Uses private HasModel hasModel;
+    @Uses private Label label;
     @Modifies private ComponentLifecycle next;
 
     public void init() throws InitFailedException
@@ -38,11 +37,7 @@ public final class LabelModifier implements ComponentLifecycle
 
     public void render( Response response ) throws RenderFailedException
     {
-        Model model = hasModel.getModel();
-        Object modelObject = model.getObject();
-        String label = modelObject.toString();
-        response.write( "<LABEL>" + label + "</LABEL>" );
-
+        response.write( "<LABEL>" + label.getValue() + "</LABEL>" );
         next.render( response );
     }
 }
