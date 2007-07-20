@@ -12,10 +12,10 @@
  */
 package org.qi4j.ui;
 
-import org.qi4j.api.Composite;
-import org.qi4j.ui.StringResponse;
-
-public interface StringResponseComposite extends StringResponse, Composite
+public class InitializableMixin implements Initializable
 {
-    
+    public void init()
+    {
+        //default implementation.
+    }
 }

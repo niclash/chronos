@@ -13,8 +13,11 @@
 package org.qi4j.ui;
 
 import org.qi4j.api.Composite;
-import org.qi4j.ui.RequestHandlerResolver;
+import org.qi4j.ui.request.RequestFactory;
+import org.qi4j.ui.request.RequestProcessorFactory;
+import org.qi4j.ui.response.ResponseFactory;
 
-public interface WebApplication extends RequestHandlerResolver, Composite
+public interface WebApplication extends RequestFactory, ResponseFactory, Initializable, RequestProcessorFactory, HasBookmarkablePage, Composite
 {
+
 }

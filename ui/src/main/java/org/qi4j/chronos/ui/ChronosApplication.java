@@ -12,11 +12,11 @@
  */
 package org.qi4j.chronos.ui;
 
-import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.chronos.ui.mixins.ChronosApplicationMixin;
+import org.qi4j.api.annotation.ModifiedBy;
 import org.qi4j.ui.WebApplication;
 
-@ImplementedBy( { ChronosApplicationMixin.class } )
+@ModifiedBy( ChronosInitializeModifier.class )
 public interface ChronosApplication extends WebApplication
 {
+    
 }

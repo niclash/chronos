@@ -21,10 +21,11 @@ import org.qi4j.api.Composite;
 import org.qi4j.api.CompositeFactory;
 import org.qi4j.api.CompositeInstantiationException;
 import org.qi4j.runtime.CompositeFactoryImpl;
-import org.qi4j.ui.RequestHandler;
 import org.qi4j.ui.ServletInitFailedException;
 import org.qi4j.ui.WebApplication;
-import org.qi4j.ui.WebResponseComposite;
+import org.qi4j.ui.request.Request;
+import org.qi4j.ui.request.RequestProcessor;
+import org.qi4j.ui.response.Response;
 
 public class Servlet extends HttpServlet
 {
@@ -50,7 +51,9 @@ public class Servlet extends HttpServlet
             if( WebApplication.class.isAssignableFrom( webApplicationClass ) )
             {
                 Composite composite = factory.newInstance( webApplicationClass );
-                application = composite.cast( WebApplication.class );
+                application = (WebApplication) composite;
+
+                application.init();
             }
             else
             {
@@ -74,14 +77,14 @@ public class Servlet extends HttpServlet
 
     protected void doGet( HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse ) throws ServletException, IOException
     {
-        RequestHandler requestHandler = application.resolveRequestHandler( httpServletRequest );
+        Request request = application.newRequest( httpServletRequest );
+        Response response = application.newResponse( httpServletResponse );
 
-        WebResponseComposite response = factory.newInstance( WebResponseComposite.class );
+        RequestProcessor requestProcessor = application.newRequestProcessor( request, response );
 
-        response.setHttpServletResponse( httpServletResponse );
+        requestProcessor.setWebApplication( application );
 
-//        response.write( "abc" );
-        requestHandler.request( response );
+        requestProcessor.request();
     }
 
     public void destroy()

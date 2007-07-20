@@ -12,9 +12,10 @@
  */
 package org.qi4j.ui;
 
-public interface Response
-{
-    public void write( String str );
+import org.qi4j.api.annotation.ImplementedBy;
 
-    public void write( CharSequence charSequence );
+@ImplementedBy( InitializableMixin.class )
+public interface Initializable
+{
+    void init();
 }

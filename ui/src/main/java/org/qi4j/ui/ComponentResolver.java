@@ -44,6 +44,7 @@ import org.qi4j.ui.component.composites.TextAreaComposite;
 import org.qi4j.ui.component.composites.TextFieldComposite;
 import org.qi4j.ui.model.Model;
 import org.qi4j.ui.model.ModelComposite;
+import org.qi4j.ui.response.Response;
 
 public final class ComponentResolver implements ComponentLifecycle
 {

@@ -10,12 +10,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.ui;
+package org.qi4j.ui.request;
 
-import org.qi4j.api.Composite;
-import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.ui.WebResponse;
+import org.qi4j.api.annotation.ModifiedBy;
+import org.qi4j.ui.request.association.HasRequest;
+import org.qi4j.ui.request.modifiers.RequestableModifier;
+import org.qi4j.ui.response.association.HasResponse;
+import org.qi4j.ui.HasWebApplication;
 
-public interface WebResponseComposite extends WebResponse, Composite
+@ModifiedBy( RequestableModifier.class )
+public interface RequestProcessor extends HasRequest, HasResponse, Requestable, HasWebApplication
 {
+
 }

@@ -10,9 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.ui;
+package org.qi4j.ui.response;
 
 import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.ui.response.mixins.StringResponseMixin;
 
 @ImplementedBy( { StringResponseMixin.class } )
 public interface StringResponse extends Response

@@ -10,12 +10,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.ui;
+package org.qi4j.ui.response.mixins;
 
 import java.io.IOException;
 import javax.servlet.http.HttpServletResponse;
 import org.qi4j.ui.Qi4jUIRuntimeException;
-import org.qi4j.ui.WebResponse;
+import org.qi4j.ui.response.WebResponse;
 
 public class WebResponseMixin implements WebResponse
 {
@@ -23,8 +23,6 @@ public class WebResponseMixin implements WebResponse
 
     public void setHttpServletResponse( HttpServletResponse response )
     {
-        System.out.println("response1 "+ response);
-
         this.response = response;
     }
 
@@ -42,8 +40,6 @@ public class WebResponseMixin implements WebResponse
     {
         try
         {
-            System.out.println("response "+ response);
-            
             response.getWriter().write( str );
         }
         catch( IOException err )

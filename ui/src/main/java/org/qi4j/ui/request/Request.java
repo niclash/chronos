@@ -10,21 +10,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.ui;
+package org.qi4j.ui.request;
 
-import javax.servlet.http.HttpServletResponse;
-import org.qi4j.api.annotation.ImplementedBy;
-
-@ImplementedBy( WebResponseMixin.class )
-public interface WebResponse extends Response
+public interface Request
 {
-    void setHttpServletResponse( HttpServletResponse response );
+    String getParameter( final String key );
 
-    HttpServletResponse getHttpServletResponse();
+    String[] getParameters( final String key );
 
-    void setHeader( String header, String value );
-
-    public void write( String str );
-
-    public void write( CharSequence charSequence );
+    String getPath();
 }

@@ -12,34 +12,31 @@
  */
 package org.qi4j.ui;
 
-import org.qi4j.ui.StringResponse;
+import java.util.HashMap;
+import java.util.Map;
+import org.qi4j.ui.component.composites.PageComposite;
 
-public class StringResponseMixin implements StringResponse
+public class HasBookmarkablePageMixin implements HasBookmarkablePage
 {
-    private StringBuilder buffer;
+    private Map<String, Class<? extends PageComposite>> map;
 
-    public StringResponseMixin()
+    public HasBookmarkablePageMixin()
     {
-        buffer = new StringBuilder();
+        map = new HashMap<String, Class<? extends PageComposite>>();
     }
 
-    public CharSequence getBuffer()
+    public void addPage( String path, Class<? extends PageComposite> page )
     {
-        return buffer;
+        map.put( path, page );
     }
 
-    public void write( String str )
+    public void removePage( String path )
     {
-        buffer.append( str );
+        map.remove( path );
     }
 
-    public void write( CharSequence charSequence )
+    public Class<? extends PageComposite> getPage( String path )
     {
-        buffer.append( charSequence.toString() );
-    }
-
-    public String toString()
-    {
-        return buffer.toString();
+        return map.get( path );
     }
 }

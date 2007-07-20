@@ -16,7 +16,7 @@ package org.qi4j.ui.component;
 import org.qi4j.api.annotation.ImplementedBy;
 import org.qi4j.ui.InitFailedException;
 import org.qi4j.ui.RenderFailedException;
-import org.qi4j.ui.Response;
+import org.qi4j.ui.response.Response;
 import org.qi4j.ui.component.mixins.ComponentLifecycleMixin;
 
 @ImplementedBy( { ComponentLifecycleMixin.class } )

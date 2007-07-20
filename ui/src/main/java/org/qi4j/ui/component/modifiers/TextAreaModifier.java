@@ -17,7 +17,7 @@ import org.qi4j.api.annotation.Modifies;
 import org.qi4j.api.annotation.Uses;
 import org.qi4j.ui.InitFailedException;
 import org.qi4j.ui.RenderFailedException;
-import org.qi4j.ui.Response;
+import org.qi4j.ui.response.Response;
 import org.qi4j.ui.component.ComponentLifecycle;
 import org.qi4j.ui.component.TextArea;
 

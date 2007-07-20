@@ -12,24 +12,20 @@
  */
 package org.qi4j.chronos.ui.project;
 
-import org.qi4j.ui.annotation.ModelledBy;
+import org.qi4j.ui.annotation.Button;
+import org.qi4j.ui.annotation.CheckBox;
 import org.qi4j.ui.annotation.Label;
 import org.qi4j.ui.annotation.TextField;
-import org.qi4j.ui.annotation.TextArea;
-import org.qi4j.ui.annotation.CheckBox;
-import org.qi4j.ui.annotation.Button;
-import org.qi4j.ui.component.Position;
 import org.qi4j.ui.component.ButtonType;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.ui.component.Position;
 
-@ModelledBy( { ProjectEntityComposite.class } )
 public interface ProjectPanel
 {
     @Label( value = "Project name:" )
     @TextField( width = 120 ) void name();
 
-    @Label( value = "Project description: " )
-    @TextArea( name = "projectDescription", rows = 3, cols = 12 ) void description();
+//    @Label( value = "Project description: " )
+//    @TextArea( name = "projectDescription", rows = 3, cols = 12 ) void description();
 
     @Label( value = "Chargeable project", position = Position.right )
     @CheckBox void chargeable();
