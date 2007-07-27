@@ -22,7 +22,7 @@ public final class NotNullableValidationModifierTest
     public void testNotNullValidator()
     {
         // Create a new instance
-        StudentComposite1 sample = factory.newInstance( StudentComposite1.class );
+        StudentComposite1 sample = builderFactory.newCompositeBuilder( StudentComposite1.class ).newInstance();
 
         try
         {

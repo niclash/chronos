@@ -14,61 +14,40 @@ package org.qi4j.chronos.model.composites;
 
 import java.util.Calendar;
 import org.qi4j.chronos.model.AbstractTest;
+import org.qi4j.chronos.model.TimeRange;
 import org.qi4j.library.general.model.GenderType;
 import org.qi4j.library.general.model.ValidationException;
+import org.qi4j.library.general.model.PersonName;
+import org.qi4j.library.general.model.Gender;
+import org.qi4j.api.CompositeBuilder;
 
 public class StaffEntityCompositeTest extends AbstractTest
 {
     public void testValidateStaffEntityComnposite() throws Exception
     {
-        StaffEntityComposite staff = factory.newInstance( StaffEntityComposite.class );
-        staff.setIdentity( "0001" );
-        staff.setFirstName( "Sianny" );
-        staff.setLastName( "Halim" );
-        staff.setGender( GenderType.female );
-
-        staff.setStartTime( Calendar.getInstance().getTime() );
-
-        try
-        {
-            staff.validate();
-        }
-        catch( ValidationException e )
-        {
-            fail("ValidationException should not be thrown. " + e.getMessage());
-        }
-    }
-
-    public void testValidateIdentityNull() throws Exception
-    {
-        StaffEntityComposite staff = factory.newInstance( StaffEntityComposite.class );
-        staff.setFirstName( "Sianny" );
-        staff.setLastName( "Halim" );
-        staff.setGender( GenderType.female );
-        staff.setStartTime( Calendar.getInstance().getTime() );
-
-        try
-        {
-            staff.validate();
-            fail("ValidationException should be thrown as identity is null.");
-        }
-        catch( ValidationException e )
-        {
-            // Correct
-        }
+        CompositeBuilder<StaffEntityComposite> builder = repository.newEntityBuilder( null, StaffEntityComposite.class );
+        PersonName personName = builder.getMixin( PersonName.class );
+        personName.setFirstName( "Sianny" );
+        personName.setLastName( "Halim" );
+        Gender gender = builder.getMixin( Gender.class );
+        gender.setGender( GenderType.female );
+        TimeRange timeRange = builder.getMixin( TimeRange.class );
+        timeRange.setStartTime( Calendar.getInstance().getTime() );
+        StaffEntityComposite staff = builder.newInstance();
     }
 
     public void testValidateFirstNameNull() throws Exception
     {
-        StaffEntityComposite staff = factory.newInstance( StaffEntityComposite.class );
-        staff.setIdentity( "0001" );
-        staff.setLastName( "Halim" );
-        staff.setGender( GenderType.female );
-        staff.setStartTime( Calendar.getInstance().getTime() );
-
         try
         {
-            staff.validate();
+            CompositeBuilder<StaffEntityComposite> builder = repository.newEntityBuilder( null, StaffEntityComposite.class );
+            PersonName personName = builder.getMixin( PersonName.class );
+            personName.setLastName( "Halim" );
+            Gender gender = builder.getMixin( Gender.class );
+            gender.setGender( GenderType.female );
+            TimeRange timeRange = builder.getMixin( TimeRange.class );
+            timeRange.setStartTime( Calendar.getInstance().getTime() );
+            StaffEntityComposite staff = builder.newInstance();
             fail("ValidationException should be thrown as First Name is null.");
         }
         catch( ValidationException e )
@@ -79,15 +58,16 @@ public class StaffEntityCompositeTest extends AbstractTest
 
     public void testValidateLastNameNull() throws Exception
     {
-        StaffEntityComposite staff = factory.newInstance( StaffEntityComposite.class );
-        staff.setIdentity( "0001" );
-        staff.setFirstName( "Sianny" );
-        staff.setGender( GenderType.female );
-        staff.setStartTime( Calendar.getInstance().getTime() );
-
         try
         {
-            staff.validate();
+            CompositeBuilder<StaffEntityComposite> builder = repository.newEntityBuilder( null, StaffEntityComposite.class );
+            PersonName personName = builder.getMixin( PersonName.class );
+            personName.setFirstName( "Sianny" );
+            Gender gender = builder.getMixin( Gender.class );
+            gender.setGender( GenderType.female );
+            TimeRange timeRange = builder.getMixin( TimeRange.class );
+            timeRange.setStartTime( Calendar.getInstance().getTime() );
+            StaffEntityComposite staff = builder.newInstance();
             fail("ValidationException should be thrown as Last Name is null.");
         }
         catch( ValidationException e )
@@ -98,15 +78,15 @@ public class StaffEntityCompositeTest extends AbstractTest
 
     public void testValidateGenderNull() throws Exception
     {
-        StaffEntityComposite staff = factory.newInstance( StaffEntityComposite.class );
-        staff.setIdentity( "0001" );
-        staff.setFirstName( "Sianny" );
-        staff.setLastName( "Halim" );
-        staff.setStartTime( Calendar.getInstance().getTime() );
-
         try
         {
-            staff.validate();
+            CompositeBuilder<StaffEntityComposite> builder = repository.newEntityBuilder( null, StaffEntityComposite.class );
+            PersonName personName = builder.getMixin( PersonName.class );
+            personName.setFirstName( "Sianny" );
+            personName.setLastName( "Halim" );
+            TimeRange timeRange = builder.getMixin( TimeRange.class );
+            timeRange.setStartTime( Calendar.getInstance().getTime() );
+            StaffEntityComposite staff = builder.newInstance();
             fail("ValidationException should be thrown as Gender is null.");
         }
         catch( ValidationException e )
@@ -117,15 +97,15 @@ public class StaffEntityCompositeTest extends AbstractTest
 
     public void testValidateStartTimeNull() throws Exception
     {
-        StaffEntityComposite staff = factory.newInstance( StaffEntityComposite.class );
-        staff.setIdentity( "0001" );
-        staff.setFirstName( "Sianny" );
-        staff.setLastName( "Halim" );
-        staff.setGender( GenderType.female );
-
         try
         {
-            staff.validate();
+            CompositeBuilder<StaffEntityComposite> builder = repository.newEntityBuilder( null, StaffEntityComposite.class );
+            PersonName personName = builder.getMixin( PersonName.class );
+            personName.setFirstName( "Sianny" );
+            personName.setLastName( "Halim" );
+            Gender gender = builder.getMixin( Gender.class );
+            gender.setGender( GenderType.female );
+            StaffEntityComposite staff = builder.newInstance();
             fail("ValidationException should be thrown as Start Time is null.");
         }
         catch( ValidationException e )
@@ -136,12 +116,10 @@ public class StaffEntityCompositeTest extends AbstractTest
 
     public void testValidateNameGenderStartTimeNull() throws Exception
     {
-        StaffEntityComposite staff = factory.newInstance( StaffEntityComposite.class );
-        staff.setIdentity( "0001" );
-
         try
         {
-            staff.validate();
+            CompositeBuilder<StaffEntityComposite> builder = repository.newEntityBuilder( null, StaffEntityComposite.class );
+            StaffEntityComposite staff = builder.newInstance();
             fail("ValidationException should be thrown as First Name, Last Name, Gender and Start Time are null.");
         }
         catch( ValidationException e )

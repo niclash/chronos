@@ -12,7 +12,7 @@
  */
 package org.qi4j.ui.request.modifiers;
 
-import org.qi4j.api.CompositeFactory;
+import org.qi4j.api.CompositeBuilderFactory;
 import org.qi4j.api.annotation.Dependency;
 import org.qi4j.api.annotation.Modifies;
 import org.qi4j.api.annotation.Uses;
@@ -33,7 +33,7 @@ public class RequestableModifier implements Requestable
 
     @Uses private HasResponse hasResponse;
 
-    @Dependency private CompositeFactory factory;
+    @Dependency private CompositeBuilderFactory factory;
 
     public void request()
     {
@@ -45,7 +45,7 @@ public class RequestableModifier implements Requestable
 
         if( clazz != null )
         {
-            PageComposite composite = (PageComposite) factory.newInstance( clazz );
+            PageComposite composite = (PageComposite) factory.newCompositeBuilder( clazz ).newInstance();
 
             composite.init();
 

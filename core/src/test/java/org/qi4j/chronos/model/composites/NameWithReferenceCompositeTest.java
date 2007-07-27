@@ -20,7 +20,7 @@ public class NameWithReferenceCompositeTest extends AbstractTest
 {
     public void testNameNotNull()
     {
-        NameWithReferenceComposite nameWithReference = factory.newInstance( NameWithReferenceComposite.class );
+        NameWithReferenceComposite nameWithReference = builderFactory.newCompositeBuilder( NameWithReferenceComposite.class ).newInstance();
 
         try
         {
@@ -38,7 +38,7 @@ public class NameWithReferenceCompositeTest extends AbstractTest
 
     public void testReferenceNotNull()
     {
-        NameWithReferenceComposite nameWithReference = factory.newInstance( NameWithReferenceComposite.class );
+        NameWithReferenceComposite nameWithReference = builderFactory.newCompositeBuilder( NameWithReferenceComposite.class ).newInstance();
 
         try
         {

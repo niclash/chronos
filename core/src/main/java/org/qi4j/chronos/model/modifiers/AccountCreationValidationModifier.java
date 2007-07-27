@@ -18,27 +18,20 @@ import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.library.general.model.Validatable;
 import org.qi4j.library.general.model.ValidationException;
 
-public class AccountCreationValidationModifier implements Validatable
+public class AccountCreationValidationModifier
+    implements Validatable
 {
     @Uses private AccountEntityComposite account;
     @Modifies private Validatable next;
 
-    public void validate() throws ValidationException
+    public void validate()
+        throws ValidationException
     {
         String accountName = account.getName();
-
         if( accountName == null )
         {
             throw new ValidationException( "Account name must not be null!" );
         }
-
-        String identity = account.getIdentity();
-
-        if( identity == null )
-        {
-            throw new ValidationException( "Account identity must not be null!" );
-        }
-
         next.validate();
     }
 }

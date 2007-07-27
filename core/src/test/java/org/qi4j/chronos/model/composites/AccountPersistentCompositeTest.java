@@ -15,16 +15,20 @@ package org.qi4j.chronos.model.composites;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.AbstractTest;
 import org.qi4j.library.general.model.ValidationException;
+import org.qi4j.api.CompositeBuilder;
+import org.qi4j.api.Composite;
+import org.qi4j.runtime.CompositeBuilderImpl;
 
 public class AccountPersistentCompositeTest extends AbstractTest
 {
     public void testAccountNameNotNull()
     {
-        AccountEntityComposite account = factory.newInstance( AccountEntityComposite.class );
+        AccountEntityComposite account = repository.newEntityBuilder( "abc", AccountEntityComposite.class ).newInstance();
 
         try
         {
             account.setName( null );
+            account.validate();
             fail( "Should throw ValidationException" );
         }
         catch( ValidationException err )
@@ -33,23 +37,6 @@ public class AccountPersistentCompositeTest extends AbstractTest
         }
 
         account.setName( "DreamCoder" );
-    }
-
-    public void testAccountIdentityNotNull()
-    {
-        AccountEntityComposite account = factory.newInstance( AccountEntityComposite.class );
-
-        try
-        {
-            account.setIdentity( null );
-            fail( "Should throw ValidationException" );
-        }
-        catch( NullPointerException err )
-        {
-            //expected
-        }
-
-        account.setIdentity( "abc" );
     }
 
 }

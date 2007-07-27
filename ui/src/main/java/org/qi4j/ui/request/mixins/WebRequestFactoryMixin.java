@@ -13,20 +13,21 @@
 package org.qi4j.ui.request.mixins;
 
 import javax.servlet.http.HttpServletRequest;
-import org.qi4j.api.CompositeFactory;
+import org.qi4j.api.CompositeBuilderFactory;
 import org.qi4j.api.annotation.Dependency;
 import org.qi4j.ui.request.Request;
 import org.qi4j.ui.request.RequestFactory;
 import org.qi4j.ui.request.WebRequest;
 import org.qi4j.ui.request.composites.WebRequestComposite;
 
-public class WebRequestFactoryMixin implements RequestFactory
+public class WebRequestFactoryMixin
+    implements RequestFactory
 {
-    @Dependency private CompositeFactory factory;
+    @Dependency private CompositeBuilderFactory factory;
 
     public Request newRequest( HttpServletRequest request )
     {
-        WebRequest webRequest = factory.newInstance( WebRequestComposite.class );
+        WebRequest webRequest = factory.newCompositeBuilder( WebRequestComposite.class ).newInstance();
 
         webRequest.setHttpServletRequest( request );
 

@@ -25,7 +25,7 @@ public class TimeRangeValidationModifierTest
     {
         final SimpleDateFormat format = new SimpleDateFormat( "dd/MM/yyyy HH:mm:ss" );
 
-        final CourseComposite sample = factory.newInstance( CourseComposite.class );
+        final CourseComposite sample = builderFactory.newCompositeBuilder( CourseComposite.class ).newInstance();
 
         Date startTime;
         Date endTime;

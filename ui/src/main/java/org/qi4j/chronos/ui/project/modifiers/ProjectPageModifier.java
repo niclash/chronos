@@ -12,7 +12,7 @@
  */
 package org.qi4j.chronos.ui.project.modifiers;
 
-import org.qi4j.api.CompositeFactory;
+import org.qi4j.api.CompositeBuilderFactory;
 import org.qi4j.api.annotation.Dependency;
 import org.qi4j.api.annotation.Modifies;
 import org.qi4j.api.annotation.Uses;
@@ -30,18 +30,18 @@ public class ProjectPageModifier implements ComponentLifecycle
 {
     @Modifies private ComponentLifecycle next;
 
-    @Dependency private CompositeFactory factory;
+    @Dependency private CompositeBuilderFactory factory;
 
     @Uses private Container container;
 
     public void init() throws InitFailedException
     {
         //Setup model
-        Project project = factory.newInstance( ProjectEntityComposite.class );
+        Project project = factory.newCompositeBuilder( ProjectEntityComposite.class ).newInstance();
         project.setName( "Chronos" );
 //        project.setDescription( "Timesheet for billing application" );
 
-        Model model = factory.newInstance( ModelComposite.class );
+        Model model = factory.newCompositeBuilder( ModelComposite.class ).newInstance();
         model.setObject( project );
 
         container.setModel( model );

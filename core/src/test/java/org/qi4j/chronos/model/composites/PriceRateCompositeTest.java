@@ -20,7 +20,7 @@ public class PriceRateCompositeTest extends AbstractTest
 {
     public void testPriceRateRoleNotNull()
     {
-        PriceRateComposite priceRateComposite = factory.newInstance( PriceRateComposite.class );
+        PriceRateComposite priceRateComposite = builderFactory.newCompositeBuilder( PriceRateComposite.class ).newInstance();
 
         try
         {
@@ -33,7 +33,7 @@ public class PriceRateCompositeTest extends AbstractTest
             //expected
         }
 
-        RoleEntityComposite roleComposite = factory.newInstance( RoleEntityComposite.class );
+        RoleEntityComposite roleComposite = builderFactory.newCompositeBuilder( RoleEntityComposite.class ).newInstance();
         priceRateComposite.setRole( roleComposite );
     }
 

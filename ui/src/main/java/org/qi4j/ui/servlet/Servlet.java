@@ -18,9 +18,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import org.qi4j.api.Composite;
-import org.qi4j.api.CompositeFactory;
+import org.qi4j.api.CompositeBuilderFactory;
 import org.qi4j.api.CompositeInstantiationException;
-import org.qi4j.runtime.CompositeFactoryImpl;
+import org.qi4j.runtime.CompositeBuilderFactoryImpl;
 import org.qi4j.ui.ServletInitFailedException;
 import org.qi4j.ui.WebApplication;
 import org.qi4j.ui.request.Request;
@@ -31,7 +31,7 @@ public class Servlet extends HttpServlet
 {
     private static final String WEB_APPLICATION = "webApplication";
 
-    private CompositeFactory factory;
+    private CompositeBuilderFactory factory;
 
     private String webApplicationClassName;
 
@@ -39,7 +39,7 @@ public class Servlet extends HttpServlet
 
     public void init() throws ServletException
     {
-        factory = new CompositeFactoryImpl();
+        factory = new CompositeBuilderFactoryImpl();
 
         webApplicationClassName = getInitParameter( WEB_APPLICATION );
 
@@ -50,10 +50,8 @@ public class Servlet extends HttpServlet
 
             if( WebApplication.class.isAssignableFrom( webApplicationClass ) )
             {
-                Composite composite = factory.newInstance( webApplicationClass );
-                application = (WebApplication) composite;
-
-                application.init();
+                Composite composite = factory.newCompositeBuilder( webApplicationClass ).newInstance();
+                application = composite.cast( WebApplication.class );
             }
             else
             {

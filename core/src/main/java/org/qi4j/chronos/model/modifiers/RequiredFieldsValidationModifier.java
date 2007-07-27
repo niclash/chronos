@@ -17,9 +17,9 @@ import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 import org.qi4j.api.Composite;
+import org.qi4j.api.model.CompositeModel;
 import org.qi4j.api.annotation.Modifies;
 import org.qi4j.api.annotation.Uses;
-import org.qi4j.api.model.CompositeModel;
 import org.qi4j.library.general.model.Validatable;
 import org.qi4j.library.general.model.ValidationException;
 

@@ -12,7 +12,7 @@
  */
 package org.qi4j.ui.request.mixins;
 
-import org.qi4j.api.CompositeFactory;
+import org.qi4j.api.CompositeBuilderFactory;
 import org.qi4j.api.annotation.Dependency;
 import org.qi4j.ui.request.Request;
 import org.qi4j.ui.request.RequestProcessorFactory;
@@ -22,11 +22,11 @@ import org.qi4j.ui.response.Response;
 
 public class RequestProcessorFactoryMixin implements RequestProcessorFactory
 {
-    @Dependency private CompositeFactory factory;
+    @Dependency private CompositeBuilderFactory factory;
 
     public RequestProcessor newRequestProcessor( Request request, Response response )
     {
-        RequestProcessor processor = factory.newInstance( RequestProcessorComposite.class );
+        RequestProcessor processor = factory.newCompositeBuilder( RequestProcessorComposite.class ).newInstance();
 
         processor.setRequest( request );
         processor.setResponse( response );

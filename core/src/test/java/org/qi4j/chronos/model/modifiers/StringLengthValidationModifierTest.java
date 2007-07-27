@@ -21,7 +21,7 @@ public class StringLengthValidationModifierTest
 {
     public void testStringLength()
     {
-        StudentComposite2 sample = factory.newInstance( StudentComposite2.class );
+        StudentComposite2 sample = builderFactory.newCompositeBuilder( StudentComposite2.class ).newInstance();
 
         sample.setAddress1( "Address 1");
 

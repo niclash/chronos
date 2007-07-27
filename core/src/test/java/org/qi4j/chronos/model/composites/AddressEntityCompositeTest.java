@@ -10,7 +10,7 @@ public class AddressEntityCompositeTest extends AbstractTest
 {
     public void testNewAddressCompositeSuccessful() throws Exception
     {
-        AddressComposite address = factory.newInstance( AddressComposite.class );
+        AddressComposite address = builderFactory.newCompositeBuilder( AddressComposite.class ).newInstance();
 
         String firstLineAdd = "IOI Tower";
         String secondLineAdd = "101 Collins St.";
@@ -25,15 +25,15 @@ public class AddressEntityCompositeTest extends AbstractTest
         address.setThirdLine( thirdLineAdd );
         address.setZipCode( zipcode );
 
-        CityEntityComposite city = factory.newInstance( CityEntityComposite.class );
+        CityEntityComposite city = builderFactory.newCompositeBuilder( CityEntityComposite.class ).newInstance();
         city.setName( cityName );
         address.setCity( city );
 
-        StateEntityComposite state = factory.newInstance( StateEntityComposite.class );
+        StateEntityComposite state = builderFactory.newCompositeBuilder( StateEntityComposite.class ).newInstance();
         state.setName( "Victoria" );
         city.setState( state );
 
-        CountryEntityComposite country = factory.newInstance( CountryEntityComposite.class );
+        CountryEntityComposite country = builderFactory.newCompositeBuilder( CountryEntityComposite.class ).newInstance();
         country.setIsoCode( "AU" );
         country.setName( "Australia" );
         city.setCountry( country );
@@ -59,18 +59,16 @@ public class AddressEntityCompositeTest extends AbstractTest
 
     public void testValidateAddressEntityComposite() throws Exception
     {
-        AddressComposite address = factory.newInstance( AddressComposite.class );
+        AddressComposite address = builderFactory.newCompositeBuilder( AddressComposite.class ).newInstance();
 
         address.setFirstLine( "502 King St." );
         address.setZipCode( "3000" );
 
-        CityEntityComposite city = factory.newInstance( CityEntityComposite.class );
-        city.setIdentity( "Melbourne" );
+        CityEntityComposite city = repository.newEntityBuilder( "Melbourne", CityEntityComposite.class ).newInstance();
         city.setName( "Melbourne" );
         address.setCity( city );
 
-        CountryEntityComposite country = factory.newInstance( CountryEntityComposite.class );
-        country.setIdentity( "Australia" );
+        CountryEntityComposite country = repository.newEntityBuilder( "Australia", CountryEntityComposite.class ).newInstance();
         country.setName( "Australia" );
         city.setCountry( country );
         address.validate();
@@ -78,7 +76,7 @@ public class AddressEntityCompositeTest extends AbstractTest
 
     public void testValidateCityNull() throws Exception
     {
-        AddressComposite address = factory.newInstance( AddressComposite.class );
+        AddressComposite address = builderFactory.newCompositeBuilder( AddressComposite.class ).newInstance();
         address.setFirstLine( "502 King St." );
         address.setZipCode( "3000" );
 
@@ -95,16 +93,14 @@ public class AddressEntityCompositeTest extends AbstractTest
 
     public void testValidateFirstLineNull() throws Exception
     {
-        AddressComposite address = factory.newInstance( AddressComposite.class );
+        AddressComposite address = builderFactory.newCompositeBuilder( AddressComposite.class ).newInstance();
         address.setZipCode( "3000" );
 
-        CityEntityComposite city = factory.newInstance( CityEntityComposite.class );
-        city.setIdentity( "Melbourne" );
+        CityEntityComposite city = repository.newEntityBuilder( "Melbourne", CityEntityComposite.class ).newInstance();
         city.setName( "Melbourne" );
         address.setCity( city );
 
-        CountryEntityComposite country = factory.newInstance( CountryEntityComposite.class );
-        country.setIdentity( "Australia" );
+        CountryEntityComposite country = repository.newEntityBuilder( "Australia", CountryEntityComposite.class ).newInstance();
         country.setName( "Australia" );
         city.setCountry( country );
 
@@ -121,16 +117,14 @@ public class AddressEntityCompositeTest extends AbstractTest
 
     public void testValidateZipCodeNull() throws Exception
     {
-        AddressComposite address = factory.newInstance( AddressComposite.class );
+        AddressComposite address = builderFactory.newCompositeBuilder( AddressComposite.class ).newInstance();
         address.setFirstLine( "502 King St." );
 
-        CityEntityComposite city = factory.newInstance( CityEntityComposite.class );
-        city.setIdentity( "Melbourne" );
+        CityEntityComposite city = repository.newEntityBuilder( "Melbourne", CityEntityComposite.class ).newInstance();
         city.setName( "Melbourne" );
         address.setCity( city );
 
-        CountryEntityComposite country = factory.newInstance( CountryEntityComposite.class );
-        country.setIdentity( "Australia" );
+        CountryEntityComposite country = repository.newEntityBuilder( "Australia", CountryEntityComposite.class ).newInstance();
         country.setName( "Australia" );
         city.setCountry( country );
 

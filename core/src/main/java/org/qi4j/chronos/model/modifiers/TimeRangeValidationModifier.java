@@ -31,6 +31,11 @@ public final class TimeRangeValidationModifier implements TimeRange
 
     public void setStartTime( Date startTime )
     {
+        if( startTime == null )
+        {
+            throw new ValidationException( "Invalid time range! Start Time is null " );
+        }
+
         Date endTime = meAsTimeRange.getEndTime();
 
         checkTimeRange( startTime, endTime );
@@ -45,6 +50,10 @@ public final class TimeRangeValidationModifier implements TimeRange
 
     public void setEndTime( Date endTime )
     {
+        if( endTime == null )
+        {
+            throw new ValidationException( "Invalid time range! End Time is null " );
+        }
         Date startTime = meAsTimeRange.getStartTime();
 
         checkTimeRange( startTime, endTime );
@@ -53,8 +62,8 @@ public final class TimeRangeValidationModifier implements TimeRange
     }
 
     private void checkTimeRange( Date startTime, Date endTime )
-    {   
-        if( startTime != null && endTime != null && endTime.before( startTime ) )
+    {
+        if( endTime != null && endTime.before( startTime ) )
         {
             throw new ValidationException( "Invalid time range! End Time[" + endTime + "] " +
                                            "must be after Start Time[" + startTime + "]!" );

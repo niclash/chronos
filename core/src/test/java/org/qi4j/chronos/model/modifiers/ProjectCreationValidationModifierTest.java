@@ -22,7 +22,7 @@ public class ProjectCreationValidationModifierTest extends AbstractTest
     {
         //TODO  
 
-        ProjectEntityComposite project = factory.newInstance( ProjectEntityComposite.class );
+        ProjectEntityComposite project = repository.newEntityBuilder( "abc", ProjectEntityComposite.class ).newInstance();
 
         try
         {
@@ -35,7 +35,6 @@ public class ProjectCreationValidationModifierTest extends AbstractTest
         }
 
         project.setName( "name" );
-        project.setIdentity( "abc" );
         project.setReference( "reference" );
 
 //        project.create();

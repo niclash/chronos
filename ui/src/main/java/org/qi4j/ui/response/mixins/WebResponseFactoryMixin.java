@@ -13,7 +13,7 @@
 package org.qi4j.ui.response.mixins;
 
 import javax.servlet.http.HttpServletResponse;
-import org.qi4j.api.CompositeFactory;
+import org.qi4j.api.CompositeBuilderFactory;
 import org.qi4j.api.annotation.Dependency;
 import org.qi4j.ui.response.Response;
 import org.qi4j.ui.response.ResponseFactory;
@@ -22,12 +22,11 @@ import org.qi4j.ui.response.composites.WebResponseComposite;
 
 public class WebResponseFactoryMixin implements ResponseFactory
 {
-    @Dependency
-    private CompositeFactory factory;
+    @Dependency private CompositeBuilderFactory factory;
 
     public Response newResponse( HttpServletResponse response )
     {
-        WebResponse webRespons = factory.newInstance( WebResponseComposite.class );
+        WebResponse webRespons = factory.newCompositeBuilder( WebResponseComposite.class ).newInstance();
 
         webRespons.setHttpServletResponse( response );
 

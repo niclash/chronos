@@ -16,13 +16,15 @@ import java.util.Calendar;
 import org.qi4j.chronos.model.composites.WorkEntryComposite;
 import org.qi4j.chronos.model.AbstractTest;
 import org.qi4j.library.general.model.ValidationException;
+import org.qi4j.api.CompositeBuilder;
 
 public class WorkEntryCompositeTest extends AbstractTest
 {
 
     public void testWorkEntryTitleNotNull()
     {
-        WorkEntryComposite workEntryComposite = factory.newInstance( WorkEntryComposite.class );
+        CompositeBuilder<WorkEntryComposite> builder = builderFactory.newCompositeBuilder( WorkEntryComposite.class );
+        WorkEntryComposite workEntryComposite = builder.newInstance();
 
         try
         {
@@ -40,7 +42,7 @@ public class WorkEntryCompositeTest extends AbstractTest
 
     public void testWorkEntryDescNotNull()
     {
-        WorkEntryComposite workEntryComposite = factory.newInstance( WorkEntryComposite.class );
+        WorkEntryComposite workEntryComposite = builderFactory.newCompositeBuilder( WorkEntryComposite.class ).newInstance();
 
         try
         {
@@ -59,7 +61,8 @@ public class WorkEntryCompositeTest extends AbstractTest
 
     public void testWorkEntryTimeRange()
     {
-        WorkEntryComposite workEntryComposite = factory.newInstance( WorkEntryComposite.class );
+        CompositeBuilder<WorkEntryComposite> builder = builderFactory.newCompositeBuilder( WorkEntryComposite.class );
+        WorkEntryComposite workEntryComposite = builder.newInstance();
 
         try
         {

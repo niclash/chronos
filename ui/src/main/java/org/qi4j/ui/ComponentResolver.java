@@ -15,7 +15,7 @@ package org.qi4j.ui;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import org.qi4j.api.Composite;
-import org.qi4j.api.CompositeFactory;
+import org.qi4j.api.CompositeBuilderFactory;
 import org.qi4j.api.annotation.Dependency;
 import org.qi4j.api.annotation.Modifies;
 import org.qi4j.api.annotation.Uses;
@@ -48,7 +48,7 @@ import org.qi4j.ui.response.Response;
 
 public final class ComponentResolver implements ComponentLifecycle
 {
-    @Dependency private CompositeFactory factory;
+    @Dependency private CompositeBuilderFactory factory;
     @Modifies private ComponentLifecycle next;
     @Uses private Component component;
     @Uses private HasComponents hasComponents;
@@ -143,7 +143,7 @@ public final class ComponentResolver implements ComponentLifecycle
 
     private void setupRadio( Method method )
     {
-        RadioComposite radioComposite = factory.newInstance( RadioComposite.class );
+        RadioComposite radioComposite = factory.newCompositeBuilder( RadioComposite.class ).newInstance();
         Radio radio = method.getAnnotation( Radio.class );
         radioComposite.setName( radio.name() );
         hasComponents.addComponent( radioComposite );
@@ -151,14 +151,14 @@ public final class ComponentResolver implements ComponentLifecycle
 
     private void setupTextArea( Method method )
     {
-        TextAreaComposite textAreaComposite = factory.newInstance( TextAreaComposite.class );
+        TextAreaComposite textAreaComposite = factory.newCompositeBuilder( TextAreaComposite.class ).newInstance();
         TextArea textArea = method.getAnnotation( TextArea.class );
         textAreaComposite.setName( textArea.name() );
         textAreaComposite.setColumnCount( textArea.cols() );
         textAreaComposite.setRowCount( textArea.rows() );
 
         Model containerModel = component.getModel();
-        Model model = factory.newInstance( ModelComposite.class );
+        Model model = factory.newCompositeBuilder( ModelComposite.class ).newInstance();
         model.setObject( containerModel.getObject() );
         model.setFieldName( method.getName() );
         textAreaComposite.setModel( model );
@@ -168,7 +168,7 @@ public final class ComponentResolver implements ComponentLifecycle
 
     private void setupCheckBox( Method method )
     {
-        CheckBoxComposite checkBoxComposite = factory.newInstance( CheckBoxComposite.class );
+        CheckBoxComposite checkBoxComposite = factory.newCompositeBuilder( CheckBoxComposite.class ).newInstance();
         CheckBox checkBox = method.getAnnotation( CheckBox.class );
         checkBoxComposite.setEnabled( checkBox.enabled() );
         hasComponents.addComponent( checkBoxComposite );
@@ -176,7 +176,7 @@ public final class ComponentResolver implements ComponentLifecycle
 
     private void setupButton( Method method )
     {
-        ButtonComposite buttonComposite = factory.newInstance( ButtonComposite.class );
+        ButtonComposite buttonComposite = factory.newCompositeBuilder( ButtonComposite.class ).newInstance();
         Button button = method.getAnnotation( Button.class );
         buttonComposite.setButtonType( button.type() );
         buttonComposite.setEnabled( button.enabled() );
@@ -188,7 +188,7 @@ public final class ComponentResolver implements ComponentLifecycle
     {
         Form form = method.getAnnotation( Form.class );
         Class<? extends FormComposite> formClass = form.type();
-        FormComposite formComposite = factory.newInstance( formClass );
+        FormComposite formComposite = factory.newCompositeBuilder( formClass ).newInstance();
         formComposite.setModel( component.getModel() );
         formComposite.init();
         hasComponents.addComponent( formComposite );
@@ -198,7 +198,7 @@ public final class ComponentResolver implements ComponentLifecycle
     {
         EditPanel editPanel = method.getAnnotation( EditPanel.class );
         Class<? extends EditPanelComposite> editPanelClass = editPanel.type();
-        EditPanelComposite editPanelComposite = factory.newInstance( editPanelClass );
+        EditPanelComposite editPanelComposite = factory.newCompositeBuilder( editPanelClass ).newInstance();
         editPanelComposite.setModel( component.getModel() );
         editPanelComposite.init();
         hasComponents.addComponent( editPanelComposite );
@@ -208,18 +208,18 @@ public final class ComponentResolver implements ComponentLifecycle
     {
         Page page = method.getAnnotation( Page.class );
         Class<? extends PageComposite> pageClass = page.type();
-        PageComposite pageComposite = factory.newInstance( pageClass );
+        PageComposite pageComposite = factory.newCompositeBuilder( pageClass ).newInstance();
         pageComposite.init();
         hasComponents.addComponent( pageComposite );
     }
 
     private void setupTextField( Method method )
     {
-        TextFieldComposite textFieldComposite = factory.newInstance( TextFieldComposite.class );
+        TextFieldComposite textFieldComposite = factory.newCompositeBuilder( TextFieldComposite.class ).newInstance();
         TextField textField = method.getAnnotation( TextField.class );
 
         Model containerModel = component.getModel();
-        Model model = factory.newInstance( ModelComposite.class );
+        Model model = factory.newCompositeBuilder( ModelComposite.class ).newInstance();
         model.setObject( containerModel.getObject() );
         model.setFieldName( method.getName() );
         textFieldComposite.setModel( model );
@@ -229,7 +229,7 @@ public final class ComponentResolver implements ComponentLifecycle
 
     private void setupLabel( Method method )
     {
-        LabelComposite labelComposite = factory.newInstance( LabelComposite.class );
+        LabelComposite labelComposite = factory.newCompositeBuilder( LabelComposite.class ).newInstance();
         Label label = method.getAnnotation( Label.class );
         String value = label.value();
 

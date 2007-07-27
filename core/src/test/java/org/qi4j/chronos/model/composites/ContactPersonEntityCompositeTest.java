@@ -13,21 +13,28 @@
 package org.qi4j.chronos.model.composites;
 
 import java.util.Iterator;
+import org.qi4j.api.CompositeBuilder;
 import org.qi4j.chronos.model.AbstractTest;
 import org.qi4j.library.general.model.Contact;
+import org.qi4j.library.general.model.ContactValue;
+import org.qi4j.library.general.model.Gender;
 import org.qi4j.library.general.model.GenderType;
+import org.qi4j.library.general.model.PersonName;
 import org.qi4j.library.general.model.ValidationException;
+import org.qi4j.library.general.model.mixins.PersonNameMixin;
 
 public class ContactPersonEntityCompositeTest extends AbstractTest
 {
     public void testNewContactPersonEntityComnposite() throws Exception
     {
-        ContactPersonEntityComposite contactPerson = factory.newInstance( ContactPersonEntityComposite.class );
-        contactPerson.setFirstName( "Sianny" );
-        contactPerson.setLastName( "Halim" );
-        contactPerson.setGender( GenderType.female );
+        CompositeBuilder<ContactPersonEntityComposite> builder = repository.newEntityBuilder( null, ContactPersonEntityComposite.class );
+        builder.setMixin( PersonName.class, new PersonNameMixin( "Sianny", "Halim" ) );
 
-        ContactComposite contact = factory.newInstance( ContactComposite.class );
+        Gender gender = builder.getMixin( Gender.class );
+        gender.setGender( GenderType.female );
+        ContactPersonEntityComposite contactPerson = builder.newInstance();
+
+        ContactComposite contact = builderFactory.newCompositeBuilder( ContactComposite.class ).newInstance();
         contact.setContactValue( "siannyhalim@yahoo.com" );
         contactPerson.addContact( contact );
 
@@ -39,36 +46,32 @@ public class ContactPersonEntityCompositeTest extends AbstractTest
 
     public void testValidateContactPersonEntityComposite() throws Exception
     {
-        ContactPersonEntityComposite contactPerson = factory.newInstance( ContactPersonEntityComposite.class );
-        contactPerson.setIdentity( "001" );
-        contactPerson.setFirstName( "Sianny" );
-        contactPerson.setLastName( "Halim" );
-        contactPerson.setGender( GenderType.female );
+        CompositeBuilder<ContactPersonEntityComposite> builder = repository.newEntityBuilder( "001", ContactPersonEntityComposite.class );
+        PersonName personName = builder.getMixin( PersonName.class );
+        personName.setFirstName( "Sianny" );
+        personName.setLastName( "Halim" );
+        Gender gender = builder.getMixin( Gender.class );
+        gender.setGender( GenderType.female );
+        ContactPersonEntityComposite contactPerson = builder.newInstance();
 
-        ContactComposite contact = factory.newInstance( ContactComposite.class );
-        contact.setContactValue( "siannyhalim@yahoo.com" );
+        CompositeBuilder<ContactComposite> compositeBuilder = builderFactory.newCompositeBuilder( ContactComposite.class );
+        ContactValue contactValue = compositeBuilder.getMixin( ContactValue.class );
+        contactValue.setContactValue( "siannyhalim@yahoo.com" );
+        ContactComposite contact = compositeBuilder.newInstance();
         contactPerson.addContact( contact );
-
-        try
-        {
-            contactPerson.validate();
-        }
-        catch( ValidationException e )
-        {
-            fail( e.getMessage() );
-        }
     }
 
     public void testValidateIdentityNull() throws Exception
     {
-        ContactPersonEntityComposite contactPerson = factory.newInstance( ContactPersonEntityComposite.class );
-        contactPerson.setFirstName( "Sianny" );
-        contactPerson.setLastName( "Halim" );
-        contactPerson.setGender( GenderType.female );
-
         try
         {
-            contactPerson.validate();
+            CompositeBuilder<ContactPersonEntityComposite> builder = builderFactory.newCompositeBuilder( ContactPersonEntityComposite.class );
+            PersonName personName = builder.getMixin( PersonName.class );
+            personName.setFirstName( "Sianny" );
+            personName.setLastName( "Halim" );
+            Gender gender = builder.getMixin( Gender.class );
+            gender.setGender( GenderType.female );
+            ContactPersonEntityComposite contactPerson = builder.newInstance();
             fail( "Validation exception should be thrown because identity is null." );
         }
         catch( ValidationException e )
@@ -79,15 +82,15 @@ public class ContactPersonEntityCompositeTest extends AbstractTest
 
     public void testValidateFirstNameNull() throws Exception
     {
-        ContactPersonEntityComposite contactPerson = factory.newInstance( ContactPersonEntityComposite.class );
-        contactPerson.setIdentity( "001" );
-        contactPerson.setLastName( "Halim" );
-        contactPerson.setGender( GenderType.female );
-
         try
         {
-            contactPerson.validate();
-            fail( "Validation exception should be thrown because first name is null." );
+            CompositeBuilder<ContactPersonEntityComposite> builder = repository.newEntityBuilder( "001", ContactPersonEntityComposite.class );
+            PersonName personName = builder.getMixin( PersonName.class );
+            personName.setLastName( "Halim" );
+            Gender gender = builder.getMixin( Gender.class );
+            gender.setGender( GenderType.female );
+            ContactPersonEntityComposite contactPerson = builder.newInstance();
+            fail( "Validation exception should be thrown because FirstName is null." );
         }
         catch( ValidationException e )
         {
@@ -97,15 +100,15 @@ public class ContactPersonEntityCompositeTest extends AbstractTest
 
     public void testValidateLastNameNull() throws Exception
     {
-        ContactPersonEntityComposite contactPerson = factory.newInstance( ContactPersonEntityComposite.class );
-        contactPerson.setIdentity( "001" );
-        contactPerson.setFirstName( "Sianny" );
-        contactPerson.setGender( GenderType.female );
-
         try
         {
-            contactPerson.validate();
-            fail( "Validation exception should be thrown because last name is null." );
+            CompositeBuilder<ContactPersonEntityComposite> builder = repository.newEntityBuilder( "001", ContactPersonEntityComposite.class );
+            PersonName personName = builder.getMixin( PersonName.class );
+            personName.setFirstName( "Sianny" );
+            Gender gender = builder.getMixin( Gender.class );
+            gender.setGender( GenderType.female );
+            ContactPersonEntityComposite contactPerson = builder.newInstance();
+            fail( "Validation exception should be thrown because LastName is null." );
         }
         catch( ValidationException e )
         {
@@ -115,15 +118,14 @@ public class ContactPersonEntityCompositeTest extends AbstractTest
 
     public void testValidateGenderNull() throws Exception
     {
-        ContactPersonEntityComposite contactPerson = factory.newInstance( ContactPersonEntityComposite.class );
-        contactPerson.setIdentity( "001" );
-        contactPerson.setFirstName( "Sianny" );
-        contactPerson.setLastName( "Halim" );
-
         try
         {
-            contactPerson.validate();
-            fail( "Validation exception should be thrown because gender is null." );
+            CompositeBuilder<ContactPersonEntityComposite> builder = repository.newEntityBuilder( "001", ContactPersonEntityComposite.class );
+            PersonName personName = builder.getMixin( PersonName.class );
+            personName.setFirstName( "Sianny" );
+            personName.setFirstName( "Sianny" );
+            ContactPersonEntityComposite contactPerson = builder.newInstance();
+            fail( "Validation exception should be thrown because Gender is null." );
         }
         catch( ValidationException e )
         {
@@ -133,13 +135,11 @@ public class ContactPersonEntityCompositeTest extends AbstractTest
 
     public void testValidateNameAndGenderNull() throws Exception
     {
-        ContactPersonEntityComposite contactPerson = factory.newInstance( ContactPersonEntityComposite.class );
-        contactPerson.setIdentity( "001" );
-
         try
         {
-            contactPerson.validate();
-            fail( "Validation exception should be thrown because first name, last name and gender are null." );
+            CompositeBuilder<ContactPersonEntityComposite> builder = repository.newEntityBuilder( "001", ContactPersonEntityComposite.class );
+            ContactPersonEntityComposite contactPerson = builder.newInstance();
+            fail( "Validation exception should be thrown because FirstName, LastName, Gender are null." );
         }
         catch( ValidationException e )
         {
