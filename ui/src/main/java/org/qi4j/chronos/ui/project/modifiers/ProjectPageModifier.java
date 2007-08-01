@@ -26,7 +26,8 @@ import org.qi4j.ui.model.Model;
 import org.qi4j.ui.model.ModelComposite;
 import org.qi4j.ui.response.Response;
 
-public class ProjectPageModifier implements ComponentLifecycle
+public class ProjectPageModifier
+    implements ComponentLifecycle
 {
     @Modifies private ComponentLifecycle next;
 
