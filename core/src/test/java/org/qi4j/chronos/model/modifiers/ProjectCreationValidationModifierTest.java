@@ -22,7 +22,7 @@ public class ProjectCreationValidationModifierTest extends AbstractTest
     {
         //TODO  
 
-        ProjectEntityComposite project = repository.newEntityBuilder( "abc", ProjectEntityComposite.class ).newInstance();
+        ProjectEntityComposite project = session.newEntityBuilder( "abc", ProjectEntityComposite.class ).newInstance();
 
         try
         {

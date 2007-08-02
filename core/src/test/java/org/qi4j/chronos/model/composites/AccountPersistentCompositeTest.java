@@ -15,15 +15,12 @@ package org.qi4j.chronos.model.composites;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.AbstractTest;
 import org.qi4j.library.general.model.ValidationException;
-import org.qi4j.api.CompositeBuilder;
-import org.qi4j.api.Composite;
-import org.qi4j.runtime.CompositeBuilderImpl;
 
 public class AccountPersistentCompositeTest extends AbstractTest
 {
     public void testAccountNameNotNull()
     {
-        AccountEntityComposite account = repository.newEntityBuilder( "abc", AccountEntityComposite.class ).newInstance();
+        AccountEntityComposite account = session.newEntityBuilder( "abc", AccountEntityComposite.class ).newInstance();
 
         try
         {

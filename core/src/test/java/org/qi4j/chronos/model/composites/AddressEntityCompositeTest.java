@@ -64,11 +64,11 @@ public class AddressEntityCompositeTest extends AbstractTest
         address.setFirstLine( "502 King St." );
         address.setZipCode( "3000" );
 
-        CityEntityComposite city = repository.newEntityBuilder( "Melbourne", CityEntityComposite.class ).newInstance();
+        CityEntityComposite city = session.newEntityBuilder( "Melbourne", CityEntityComposite.class ).newInstance();
         city.setName( "Melbourne" );
         address.setCity( city );
 
-        CountryEntityComposite country = repository.newEntityBuilder( "Australia", CountryEntityComposite.class ).newInstance();
+        CountryEntityComposite country = session.newEntityBuilder( "Australia", CountryEntityComposite.class ).newInstance();
         country.setName( "Australia" );
         city.setCountry( country );
         address.validate();
@@ -96,11 +96,11 @@ public class AddressEntityCompositeTest extends AbstractTest
         AddressComposite address = builderFactory.newCompositeBuilder( AddressComposite.class ).newInstance();
         address.setZipCode( "3000" );
 
-        CityEntityComposite city = repository.newEntityBuilder( "Melbourne", CityEntityComposite.class ).newInstance();
+        CityEntityComposite city = session.newEntityBuilder( "Melbourne", CityEntityComposite.class ).newInstance();
         city.setName( "Melbourne" );
         address.setCity( city );
 
-        CountryEntityComposite country = repository.newEntityBuilder( "Australia", CountryEntityComposite.class ).newInstance();
+        CountryEntityComposite country = session.newEntityBuilder( "Australia", CountryEntityComposite.class ).newInstance();
         country.setName( "Australia" );
         city.setCountry( country );
 
@@ -120,11 +120,11 @@ public class AddressEntityCompositeTest extends AbstractTest
         AddressComposite address = builderFactory.newCompositeBuilder( AddressComposite.class ).newInstance();
         address.setFirstLine( "502 King St." );
 
-        CityEntityComposite city = repository.newEntityBuilder( "Melbourne", CityEntityComposite.class ).newInstance();
+        CityEntityComposite city = session.newEntityBuilder( "Melbourne", CityEntityComposite.class ).newInstance();
         city.setName( "Melbourne" );
         address.setCity( city );
 
-        CountryEntityComposite country = repository.newEntityBuilder( "Australia", CountryEntityComposite.class ).newInstance();
+        CountryEntityComposite country = session.newEntityBuilder( "Australia", CountryEntityComposite.class ).newInstance();
         country.setName( "Australia" );
         city.setCountry( country );
 

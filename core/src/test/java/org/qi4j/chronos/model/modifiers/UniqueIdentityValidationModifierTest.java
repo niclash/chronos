@@ -21,10 +21,10 @@ public class UniqueIdentityValidationModifierTest extends AbstractTest
     public void testUniqueIdentity()
     {
         //TODO 
-        StudentComposite3 sample = repository.newEntityBuilder( "abc", StudentComposite3.class ).newInstance();
+        StudentComposite3 sample = session.newEntityBuilder( "abc", StudentComposite3.class ).newInstance();
         try
         {
-            StudentComposite3 sample2 = repository.newEntityBuilder( "abc", StudentComposite3.class ).newInstance();
+            StudentComposite3 sample2 = session.newEntityBuilder( "abc", StudentComposite3.class ).newInstance();
             fail( "Should throw a ValidationException" );
         }
         catch( ValidationException err )

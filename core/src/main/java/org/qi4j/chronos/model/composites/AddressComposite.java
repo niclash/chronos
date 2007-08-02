@@ -26,7 +26,7 @@ import org.qi4j.library.general.model.Validatable;
  * Address composite provides services including:
  * {@link org.qi4j.library.general.model.Validatable} and {@link org.qi4j.library.general.model.Descriptor}.
  *
- * Address doesn't extend {@link org.qi4j.api.persistence.composite.EntityComposite} because
+ * Address doesn't extend {@link org.qi4j.api.persistence.EntityComposite} because
  * Address is bound to {@link org.qi4j.chronos.model.Customer}.
  * Address is removed when {@link org.qi4j.chronos.model.Customer} is removed.
  *

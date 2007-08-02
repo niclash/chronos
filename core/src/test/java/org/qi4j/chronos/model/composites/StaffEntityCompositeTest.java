@@ -25,7 +25,7 @@ public class StaffEntityCompositeTest extends AbstractTest
 {
     public void testValidateStaffEntityComnposite() throws Exception
     {
-        CompositeBuilder<StaffEntityComposite> builder = repository.newEntityBuilder( null, StaffEntityComposite.class );
+        CompositeBuilder<StaffEntityComposite> builder = session.newEntityBuilder( null, StaffEntityComposite.class );
         PersonName personName = builder.getMixin( PersonName.class );
         personName.setFirstName( "Sianny" );
         personName.setLastName( "Halim" );
@@ -40,7 +40,7 @@ public class StaffEntityCompositeTest extends AbstractTest
     {
         try
         {
-            CompositeBuilder<StaffEntityComposite> builder = repository.newEntityBuilder( null, StaffEntityComposite.class );
+            CompositeBuilder<StaffEntityComposite> builder = session.newEntityBuilder( null, StaffEntityComposite.class );
             PersonName personName = builder.getMixin( PersonName.class );
             personName.setLastName( "Halim" );
             Gender gender = builder.getMixin( Gender.class );
@@ -60,7 +60,7 @@ public class StaffEntityCompositeTest extends AbstractTest
     {
         try
         {
-            CompositeBuilder<StaffEntityComposite> builder = repository.newEntityBuilder( null, StaffEntityComposite.class );
+            CompositeBuilder<StaffEntityComposite> builder = session.newEntityBuilder( null, StaffEntityComposite.class );
             PersonName personName = builder.getMixin( PersonName.class );
             personName.setFirstName( "Sianny" );
             Gender gender = builder.getMixin( Gender.class );
@@ -80,7 +80,7 @@ public class StaffEntityCompositeTest extends AbstractTest
     {
         try
         {
-            CompositeBuilder<StaffEntityComposite> builder = repository.newEntityBuilder( null, StaffEntityComposite.class );
+            CompositeBuilder<StaffEntityComposite> builder = session.newEntityBuilder( null, StaffEntityComposite.class );
             PersonName personName = builder.getMixin( PersonName.class );
             personName.setFirstName( "Sianny" );
             personName.setLastName( "Halim" );
@@ -99,7 +99,7 @@ public class StaffEntityCompositeTest extends AbstractTest
     {
         try
         {
-            CompositeBuilder<StaffEntityComposite> builder = repository.newEntityBuilder( null, StaffEntityComposite.class );
+            CompositeBuilder<StaffEntityComposite> builder = session.newEntityBuilder( null, StaffEntityComposite.class );
             PersonName personName = builder.getMixin( PersonName.class );
             personName.setFirstName( "Sianny" );
             personName.setLastName( "Halim" );
@@ -118,7 +118,7 @@ public class StaffEntityCompositeTest extends AbstractTest
     {
         try
         {
-            CompositeBuilder<StaffEntityComposite> builder = repository.newEntityBuilder( null, StaffEntityComposite.class );
+            CompositeBuilder<StaffEntityComposite> builder = session.newEntityBuilder( null, StaffEntityComposite.class );
             StaffEntityComposite staff = builder.newInstance();
             fail("ValidationException should be thrown as First Name, Last Name, Gender and Start Time are null.");
         }

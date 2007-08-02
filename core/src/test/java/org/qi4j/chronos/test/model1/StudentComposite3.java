@@ -12,12 +12,9 @@
 */
 package org.qi4j.chronos.test.model1;
 
-import org.qi4j.api.annotation.ModifiedBy;
-import org.qi4j.api.persistence.composite.EntityComposite;
-import org.qi4j.chronos.model.modifiers.UniqueIdentityValidationModifier;
+import org.qi4j.api.persistence.EntityComposite;
 import org.qi4j.library.general.model.Validatable;
 
-@ModifiedBy({ UniqueIdentityValidationModifier.class })
 public interface StudentComposite3 extends Validatable, EntityComposite
 {
 }

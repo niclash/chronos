@@ -19,7 +19,7 @@
 package org.qi4j.chronos.model.composites;
 
 import org.qi4j.api.annotation.ModifiedBy;
-import org.qi4j.api.persistence.composite.EntityComposite;
+import org.qi4j.api.persistence.EntityComposite;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.modifiers.RequiredFields;
 import org.qi4j.chronos.model.modifiers.RequiredFieldsValidationModifier;
