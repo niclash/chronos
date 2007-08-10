@@ -14,12 +14,12 @@
 package org.qi4j.chronos.model;
 
 import java.util.Dictionary;
-import org.qi4j.library.general.model.Name;
+import org.qi4j.library.general.model.HasName;
 
 /**
  * TODO : Convert to COP
  */
-public interface SystemRole extends Name
+public interface SystemRole extends HasName
 {
     int getType();
 
