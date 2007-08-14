@@ -10,7 +10,7 @@
   </parent>
   <groupId>org.qi4j.apps</groupId>
   <artifactId>qi4j-apps-chronos</artifactId>
-  <name>Qi4J Apps - Chronos</name>
+  <name>Qi4J Apps Chronos</name>
   <version>0.1.0-SNAPSHOT</version>
   <packaging>pom</packaging>
   <!-- This POM is ONLY to initiate the modules to be built. -->
