@@ -10,11 +10,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui;
+package org.qi4j.chronos.ui.login;
 
-import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.authentication.panel.SignInPanel;
+import org.qi4j.chronos.ui.base.BasePage;
 
-public class HomePage extends WebPage
+public class LoginPage extends BasePage
 {
-
+    public LoginPage()
+    {
+        add( new SignInPanel( "signInPanel" ) );
+    }
 }

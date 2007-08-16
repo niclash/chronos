@@ -10,15 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui;
+package org.qi4j.chronos.ui.customer;
 
-import org.apache.wicket.protocol.http.WebApplication;
+import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 
-public class ChronosWebApplication extends WebApplication
+public class CustomerHomePage extends LeftMenuNavPage
 {
-    public Class getHomePage()
-    {
-        return HomePage.class;
-    }
 
 }
