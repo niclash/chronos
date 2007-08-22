@@ -1,8 +1,27 @@
 <html xmlns:wicket>
 
 <wicket:extend>
+    <table>
+        <tr>
+            <td align="left" valign="middle">
+                <table>
+                    <tr>
+                        <td width="50%"><strong>Account List</strong></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
 
-    <h2>Account List Page</h2>
+        <tr>
+            <td width="100%"><span wicket:id="feedbackPanel">feedback messages</span>&nbsp;</td>
+        </tr>
+
+        <tr>
+            <td>
+                <span wicket:id="accountTable"></span>
+            </td>
+        </tr>
+    </table>
 
 </wicket:extend>
 

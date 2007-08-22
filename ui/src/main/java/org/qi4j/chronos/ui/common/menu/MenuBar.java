@@ -26,18 +26,25 @@ public abstract class MenuBar extends Panel
 
     private ListView listView;
 
+    private String title;
+
     public MenuBar( String title )
     {
         super( "menuBar" );
 
+        this.title = title;
+
+        initComponents();
+    }
+
+    private void initComponents()
+    {
         add( new Label( "titleLabel", title ) );
 
         final MenuItem[] menuItems = getMenuItemList();
 
         listView = new ListView( "menuList", Arrays.asList( menuItems ) )
         {
-            private static final long serialVersionUID = 1L;
-
             @Override
             protected void populateItem( ListItem item )
             {

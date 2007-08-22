@@ -12,8 +12,91 @@
  */
 package org.qi4j.chronos.ui.account;
 
+import java.util.Arrays;
+import java.util.List;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.markup.repeater.Item;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.service.AccountService;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
+import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
+import org.qi4j.chronos.ui.common.action.Action;
+import org.qi4j.chronos.ui.common.action.ActionTable;
 
 public class AccountListPage extends LeftMenuNavPage
 {
+    private static AccountService accountService;
+
+    public AccountListPage()
+    {
+        accountService = ChronosWebApp.getServices().getAccountService();
+
+        initComponents();
+    }
+
+    private void initComponents()
+    {
+        add( new FeedbackPanel( "feedbackPanel" ) );
+
+        AccountTable accountTable = new AccountTable( "accountTable" );
+
+        accountTable.addAction( new Action()
+        {
+            public String getActionName()
+            {
+                return "Delete account";
+            }
+
+            public void performAction( AbstractSortableDataProvider dataProvider )
+            {
+                info( "Delete - Not implemented yet - total items " + dataProvider.size() );
+            }
+        } );
+
+        accountTable.addAction( new Action()
+        {
+            public String getActionName()
+            {
+                return "Disable account";
+            }
+
+            public void performAction( AbstractSortableDataProvider dataProvider )
+            {
+                info( "Disable - Not implemented yet - total items " + dataProvider.size() );
+            }
+        } );
+
+        add( accountTable );
+    }
+
+    private class AccountTable extends ActionTable<AccountEntityComposite>
+    {
+        private AccountDataProvider dataProvider;
+
+        public AccountTable( String id )
+        {
+            super( id );
+        }
+
+        public AbstractSortableDataProvider<AccountEntityComposite> getDetachableDataProvider()
+        {
+            if( dataProvider == null )
+            {
+                dataProvider = new AccountDataProvider( accountService );
+            }
+            return dataProvider;
+        }
+
+        public void populateItems( Item item, AccountEntityComposite obj )
+        {
+            item.add( new Label( "accountName", obj.getName() ) );
+        }
+
+        public List<String> getTableHeaderList()
+        {
+            return Arrays.asList( "Name" );
+        }
+    }
 }

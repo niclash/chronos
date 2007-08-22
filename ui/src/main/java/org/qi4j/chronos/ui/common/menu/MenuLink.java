@@ -22,6 +22,10 @@ public class MenuLink extends MenuItem
 {
     private static final long serialVersionUID = 1L;
 
+    private Class<? extends WebPage> webPage;
+    private PageParameters pageParamaters;
+    private String text;
+
     public MenuLink( String text, final Class<? extends WebPage> webPage )
     {
         this( text, webPage, null );
@@ -31,16 +35,23 @@ public class MenuLink extends MenuItem
     {
         super();
 
+        this.webPage = webPage;
+        this.pageParamaters = pageParameters;
+        this.text = text;
+
+        initComponents();
+    }
+
+    private void initComponents()
+    {
         Link link = new Link( "link", new Model() )
         {
-            private static final long serialVersionUID = 1L;
-
             @Override
             public void onClick()
             {
-                if( pageParameters != null )
+                if( pageParamaters != null )
                 {
-                    setResponsePage( webPage, pageParameters );
+                    setResponsePage( webPage, pageParamaters );
                 }
                 else
                 {

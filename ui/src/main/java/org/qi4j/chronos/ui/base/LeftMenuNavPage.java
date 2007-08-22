@@ -23,7 +23,7 @@ public abstract class LeftMenuNavPage extends UserMenuNavPage
 {
     public LeftMenuNavPage()
     {
-        //TODO bp. fix me. check the user type
+        //TODO bp. fix me. get the menu bar based on user group.
         MenuBar[] menuBars = getAdminMenuBars();
 
         ListView menuBarListView = new ListView( "menuBarList", Arrays.asList( menuBars ) )

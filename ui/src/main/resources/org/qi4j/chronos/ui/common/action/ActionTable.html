@@ -1,0 +1,37 @@
+<html xmlns:wicket>
+
+<wicket:head>
+    <script language="JavaScript" src="/scripts/form_util.js"></script>
+</wicket:head>
+
+<wicket:panel>
+    <form wicket:id="actionTableForm">
+        <table>
+            <tr>
+                <td><span wicket:id="actionBar"></span></td>
+            </tr>
+            <tr>
+                <td><span wicket:id="navigator"></span></td>
+            </tr>
+            <tr>
+                <td>
+                    <table>
+                        <tr>
+                            <th><input type="checkbox" wicket:id="allCheckBox" style="width: 13"/></th>
+                            <span wicket:id="headers">
+                                <th><span wicket:id="header"></span></th>
+                            </span>
+                        </tr>
+
+                        <tr wicket:id="dataView">
+                            <td><input type="checkbox" wicket:id="itemCheckBox" style="width: 13"/></td>
+
+                            <wicket:child/>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+        </table>
+    </form>
+</wicket:panel>
+</html>

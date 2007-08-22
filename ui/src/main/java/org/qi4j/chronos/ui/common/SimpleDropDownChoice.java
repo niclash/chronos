@@ -20,11 +20,19 @@ public class SimpleDropDownChoice extends DropDownChoice
 {
     private String choice;
 
+    private boolean setDefaultValue;
+
     public SimpleDropDownChoice( String id, List<String> optionList, boolean setDefaultValue )
     {
         super( id, optionList );
 
+        this.setDefaultValue = setDefaultValue;
         this.setModel( new PropertyModel( this, "choice" ) );
+    }
+
+    private void update( List<String> optionList )
+    {
+        choice = null;
 
         boolean hasData = optionList.size() != 0;
 
@@ -44,6 +52,13 @@ public class SimpleDropDownChoice extends DropDownChoice
     public void setChoice( String choice )
     {
         this.choice = choice;
+    }
+
+    public void setNewChoices( List<String> list )
+    {
+        super.setChoices( list );
+
+        update( list );
     }
 }
 

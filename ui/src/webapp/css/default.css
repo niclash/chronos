@@ -93,9 +93,9 @@ h2 {
 }
 
 #content {
-   	width: 610px;
-	float: left;
-    background:#fff;
+    width: 610px;
+    float: left;
+    background: #fff;
 }
 
 #contentBody {
@@ -140,4 +140,11 @@ h2 {
     text-align: center;
     color: #000;
     font-size: 90%;
+}
+
+.textStyle {
+    border: 1px solid #616F45;
+    color: #000000;
+    width: 130px;
+    padding-left: 2px;
 }

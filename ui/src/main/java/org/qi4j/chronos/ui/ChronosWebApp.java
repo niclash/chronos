@@ -19,6 +19,9 @@ import org.apache.wicket.markup.html.WebPage;
 import org.qi4j.api.Composite;
 import org.qi4j.api.CompositeBuilder;
 import org.qi4j.api.CompositeBuilderFactory;
+import org.qi4j.chronos.service.Services;
+import org.qi4j.chronos.service.composites.ServicesComposite;
+import org.qi4j.chronos.service.mocks.MockServicesMixin;
 import org.qi4j.chronos.ui.admin.AdminHomePage;
 import org.qi4j.chronos.ui.login.LoginPage;
 import org.qi4j.runtime.CompositeBuilderFactoryImpl;
@@ -26,10 +29,23 @@ import org.qi4j.runtime.CompositeBuilderFactoryImpl;
 public class ChronosWebApp extends AuthenticatedWebApplication
 {
     private static CompositeBuilderFactory factory;
+    private static Services services;
 
     static
     {
         factory = new CompositeBuilderFactoryImpl();
+
+        CompositeBuilder<ServicesComposite> serviceBuilder = factory.newCompositeBuilder( ServicesComposite.class );
+
+        //TODO bp. use mock services for now.
+        serviceBuilder.setMixin( Services.class, new MockServicesMixin( factory ) );
+
+        services = serviceBuilder.newInstance();
+    }
+
+    public static Services getServices()
+    {
+        return services;
     }
 
     public static <T extends Composite> CompositeBuilder<T> newCompositeBuilder( Class<T> compositeType )
