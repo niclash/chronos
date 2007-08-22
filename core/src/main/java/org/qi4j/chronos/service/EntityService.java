@@ -10,13 +10,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model;
+package org.qi4j.chronos.service;
 
-import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
-import org.qi4j.chronos.model.associations.HasProjects;
-import org.qi4j.library.general.model.HasName;
+import java.util.List;
+import org.qi4j.api.persistence.EntityComposite;
+import org.qi4j.api.persistence.Identity;
 
-public interface Account extends HasName, HasPriceRateSchedules, HasProjects
+public interface EntityService<T extends Identity>
 {
-    public final static int NAME_LEN = 120;
+    T get( String id );
+
+    void save( T obj );
+
+    void delete( String id );
+
+    List<T> findAll();
+
+    List<T> find( FindFilter findFilter );
+
+    int countAll();
+
+    T newInstance( Class<? extends EntityComposite> clazz );
 }

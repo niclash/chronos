@@ -10,13 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model;
+package org.qi4j.chronos.service.mocks;
 
-import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
-import org.qi4j.chronos.model.associations.HasProjects;
-import org.qi4j.library.general.model.HasName;
+import org.qi4j.library.general.model.Description;
 
-public interface Account extends HasName, HasPriceRateSchedules, HasProjects
+public interface Sample extends Description
 {
-    public final static int NAME_LEN = 120;
+
 }

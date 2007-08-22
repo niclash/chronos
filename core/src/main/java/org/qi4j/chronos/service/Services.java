@@ -10,13 +10,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model;
+package org.qi4j.chronos.service;
 
-import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
-import org.qi4j.chronos.model.associations.HasProjects;
-import org.qi4j.library.general.model.HasName;
-
-public interface Account extends HasName, HasPriceRateSchedules, HasProjects
+public interface Services
 {
-    public final static int NAME_LEN = 120;
+    AccountService getAccountService();
+
+    CustomerService getCustomerService();
+
+    ProjectService getProjectService();
 }
