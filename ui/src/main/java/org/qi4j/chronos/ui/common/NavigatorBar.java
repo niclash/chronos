@@ -33,10 +33,10 @@ import org.apache.wicket.model.PropertyModel;
 
 public class NavigatorBar extends Panel
 {
-    private final static List<String> ITEM_PER_PAGE_LIST = Arrays.asList( "20", "25", "50", "100", "150", "200",
-                                                                          "300", "500");
+    private final static List<String> ITEM_PER_PAGE_LIST = Arrays.asList( "5", "10", "20", "25", "50", "100", "150", "200",
+                                                                          "300", "500" );
 
-    private String itemSize = "20";
+    private String itemSize = "10";
 
     public NavigatorBar( final String id, final DataView dataView )
     {

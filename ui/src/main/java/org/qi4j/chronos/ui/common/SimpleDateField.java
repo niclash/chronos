@@ -10,15 +10,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service;
+package org.qi4j.chronos.ui.common;
 
-public interface Services
+import java.util.Date;
+import org.apache.wicket.extensions.yui.calendar.DateField;
+import org.apache.wicket.model.PropertyModel;
+
+public class SimpleDateField extends DateField
 {
-    AccountService getAccountService();
+    private Date date = new Date();
 
-    CustomerService getCustomerService();
+    public SimpleDateField( String id )
+    {
+        super( id );
 
-    ProjectService getProjectService();
+        this.setModel( new PropertyModel( this, "date" ) );
+    }
 
-    RoleService getRoleService();
+    public void setDate( Date date )
+    {
+        this.date = date;
+    }
+
+    public Date getDate()
+    {
+        return date;
+    }
 }

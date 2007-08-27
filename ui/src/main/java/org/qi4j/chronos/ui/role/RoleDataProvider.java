@@ -10,35 +10,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.account;
+package org.qi4j.chronos.ui.role;
 
 import java.util.List;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.service.AccountService;
+import org.qi4j.chronos.model.composites.RoleEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
+import org.qi4j.chronos.service.RoleService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
-public class AccountDataProvider extends AbstractSortableDataProvider<AccountEntityComposite>
+public class RoleDataProvider extends AbstractSortableDataProvider<RoleEntityComposite>
 {
-    public AccountEntityComposite load( String id )
+    public RoleEntityComposite load( String id )
     {
-        return getAccountService().get( id );
+        return getRoleService().get( id );
     }
 
-    public List<AccountEntityComposite> dataList( int first, int count )
+    public RoleService getRoleService()
     {
-        return getAccountService().find( new FindFilter( first, count ) );
+        return ChronosWebApp.getServices().getRoleService();
+    }
+
+    public List<RoleEntityComposite> dataList( int first, int count )
+    {
+        return getRoleService().find( new FindFilter( first, count ) );
     }
 
     public int size()
     {
-        return getAccountService().countAll();
+        return getRoleService().countAll();
     }
-
-    protected AccountService getAccountService()
-    {
-        return ChronosWebApp.getServices().getAccountService();
-    }
-
 }

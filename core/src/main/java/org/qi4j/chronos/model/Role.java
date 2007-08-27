@@ -20,6 +20,8 @@ import org.qi4j.chronos.model.mixins.RoleMixin;
 @ImplementedBy( RoleMixin.class )
 public interface Role extends Serializable
 {
+    public final static int NAME_LEN = 80;
+
     String getRole();
 
     void setRole( String role );

@@ -16,14 +16,17 @@ import org.qi4j.api.Composite;
 import org.qi4j.api.CompositeBuilder;
 import org.qi4j.api.CompositeBuilderFactory;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.composites.RoleEntityComposite;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.service.CustomerService;
 import org.qi4j.chronos.service.EntityService;
 import org.qi4j.chronos.service.ProjectService;
+import org.qi4j.chronos.service.RoleService;
 import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.service.composites.AccountServiceComposite;
 import org.qi4j.chronos.service.composites.CustomerServiceComposite;
 import org.qi4j.chronos.service.composites.ProjectServiceComposite;
+import org.qi4j.chronos.service.composites.RoleServiceComposite;
 
 public class MockServicesMixin implements Services
 {
@@ -32,6 +35,7 @@ public class MockServicesMixin implements Services
     private AccountService accountService;
     private CustomerService customerService;
     private ProjectService projectService;
+    private RoleService roleService;
 
     public MockServicesMixin( CompositeBuilderFactory factory )
     {
@@ -40,6 +44,7 @@ public class MockServicesMixin implements Services
         accountService = newService( AccountServiceComposite.class );
         customerService = newService( CustomerServiceComposite.class );
         projectService = newService( ProjectServiceComposite.class );
+        roleService = newService( RoleServiceComposite.class );
 
         initDummyData();
     }
@@ -54,6 +59,19 @@ public class MockServicesMixin implements Services
 
             accountService.save( account );
         }
+
+        RoleEntityComposite programmer = roleService.newInstance( RoleEntityComposite.class );
+        programmer.setRole( "Programmer" );
+
+        RoleEntityComposite consultant = roleService.newInstance( RoleEntityComposite.class );
+        consultant.setRole( "Consultant" );
+
+        RoleEntityComposite projectManager = roleService.newInstance( RoleEntityComposite.class );
+        projectManager.setRole( "Project Manager" );
+
+        roleService.save( programmer );
+        roleService.save( consultant );
+        roleService.save( projectManager );
     }
 
     public AccountService getAccountService()
@@ -69,6 +87,11 @@ public class MockServicesMixin implements Services
     public ProjectService getProjectService()
     {
         return projectService;
+    }
+
+    public RoleService getRoleService()
+    {
+        return roleService;
     }
 
     @SuppressWarnings( { "unchecked" } )

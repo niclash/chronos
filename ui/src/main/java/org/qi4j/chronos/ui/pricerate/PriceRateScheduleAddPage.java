@@ -10,15 +10,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service;
+package org.qi4j.chronos.ui.pricerate;
 
-public interface Services
+import org.qi4j.chronos.ui.base.BasePage;
+
+public class PriceRateScheduleAddPage extends PriceRateScheduleAddEditPage
 {
-    AccountService getAccountService();
+    public PriceRateScheduleAddPage( BasePage goBackPage )
+    {
+        super( goBackPage );
+    }
 
-    CustomerService getCustomerService();
+    public String getSubmitButtonValue()
+    {
+        return "Add";
+    }
 
-    ProjectService getProjectService();
+    public String getTitleLabel()
+    {
+        return "New Price Rate Schedule";
+    }
 
-    RoleService getRoleService();
+    public void onSubmitting()
+    {
+
+    }
 }

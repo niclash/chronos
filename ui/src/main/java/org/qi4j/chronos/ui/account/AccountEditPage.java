@@ -12,8 +12,15 @@
  */
 package org.qi4j.chronos.ui.account;
 
-public class AccountEditPage extends AccountAbstractPage
+import org.qi4j.chronos.ui.base.BasePage;
+
+public class AccountEditPage extends AccountAddEditPage
 {
+    public AccountEditPage( BasePage goBackPage )
+    {
+        super( goBackPage );
+    }
+
     public void onSubmitting()
     {
         //TODO bp. update the account detail here

@@ -24,10 +24,12 @@ public class SimpleDropDownChoice extends DropDownChoice
 
     public SimpleDropDownChoice( String id, List<String> optionList, boolean setDefaultValue )
     {
-        super( id, optionList );
+        super( id );
 
         this.setDefaultValue = setDefaultValue;
         this.setModel( new PropertyModel( this, "choice" ) );
+
+        setNewChoices( optionList );
     }
 
     private void update( List<String> optionList )

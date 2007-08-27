@@ -51,6 +51,11 @@ public class MockEntityServiceMixin implements EntityService
         dataMap.remove( id );
     }
 
+    public void update( Identity obj )
+    {
+        //TODO bp fixme.
+    }
+
     public List findAll()
     {
         return Arrays.asList( dataMap.values().toArray() );

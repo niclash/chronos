@@ -12,6 +12,7 @@
  */
 package org.qi4j.chronos.ui.util;
 
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 import org.apache.wicket.Component;
@@ -82,6 +83,19 @@ public class ValidatorUtil
         if( text != null && text.length() > maxLength )
         {
             component.error( fieldName + " length must not greater than " + maxLength );
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public static boolean isAfterDate( final Date source, final Date when, final String sourceFieldName,
+                                       final String whenFieldName, Component component )
+    {
+        if( source.after( when ) )
+        {
+            component.error( sourceFieldName + " must not be after " + whenFieldName );
 
             return true;
         }

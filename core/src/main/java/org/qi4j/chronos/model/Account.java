@@ -18,5 +18,5 @@ import org.qi4j.library.general.model.HasName;
 
 public interface Account extends HasName, HasPriceRateSchedules, HasProjects
 {
-    public final static int NAME_LEN = 120;
+    public final static int NAME_LEN = 80;
 }

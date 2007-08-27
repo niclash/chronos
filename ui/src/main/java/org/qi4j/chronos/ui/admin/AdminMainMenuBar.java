@@ -17,6 +17,7 @@ import org.qi4j.chronos.ui.common.menu.MenuBar;
 import org.qi4j.chronos.ui.common.menu.MenuItem;
 import org.qi4j.chronos.ui.common.menu.MenuLink;
 import org.qi4j.chronos.ui.customer.CustomerListPage;
+import org.qi4j.chronos.ui.role.RoleListPage;
 import org.qi4j.chronos.ui.staff.StaffListPage;
 
 public class AdminMainMenuBar extends MenuBar
@@ -33,6 +34,7 @@ public class AdminMainMenuBar extends MenuBar
             new MenuLink( "Account", AccountListPage.class ),
             new MenuLink( "Customer", CustomerListPage.class ),
             new MenuLink( "Staff", StaffListPage.class ),
+            new MenuLink( "Role", RoleListPage.class ),
         };
     }
 }

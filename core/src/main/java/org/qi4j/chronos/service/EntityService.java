@@ -24,6 +24,8 @@ public interface EntityService<T extends Identity>
 
     void delete( String id );
 
+    void update( T obj );
+
     List<T> findAll();
 
     List<T> find( FindFilter findFilter );

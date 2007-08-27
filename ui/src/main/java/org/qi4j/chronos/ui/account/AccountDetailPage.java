@@ -10,15 +10,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service;
+package org.qi4j.chronos.ui.account;
 
-public interface Services
+import org.qi4j.chronos.ui.base.LeftMenuNavPage;
+
+public class AccountDetailPage extends LeftMenuNavPage
 {
-    AccountService getAccountService();
+    public AccountDetailPage()
+    {
+        initComponents();
+    }
 
-    CustomerService getCustomerService();
-
-    ProjectService getProjectService();
-
-    RoleService getRoleService();
+    private void initComponents()
+    {
+        //TODO bp. show project list,
+        //TODO bp. show priceRateScheudle list
+    }
 }

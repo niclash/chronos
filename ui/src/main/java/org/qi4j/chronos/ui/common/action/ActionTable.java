@@ -31,7 +31,9 @@ import org.qi4j.chronos.ui.common.NavigatorBar;
 
 public abstract class ActionTable<T extends Identity> extends Panel
 {
-    public final static String CHECKBOX_CLASS_NAME = "checkBoxClass";
+    private final static String CHECKBOX_CLASS_NAME = "checkBoxClass";
+
+    public final static int DEFAULT_ITEM_PER_PAGE = 10;
 
     private ActionBar actionBar;
 
@@ -64,7 +66,12 @@ public abstract class ActionTable<T extends Identity> extends Panel
         add( new ActionTableForm( "actionTableForm" ) );
     }
 
-    public void handleSelectionChanged()
+    public void setItemPerPage( int itemPerPage )
+    {
+        dataView.setItemsPerPage( itemPerPage );
+    }
+
+    void handleSelectionChanged()
     {
         allCheckBox.setEnabled( actionBar.isSubsetSelected() );
         allCheckBox.modelChanged();
@@ -131,12 +138,17 @@ public abstract class ActionTable<T extends Identity> extends Panel
                     item.add( checkBox );
 
                     ActionTable.this.populateItems( item, obj );
+
+                    if( item.getIndex() % 2 == 0 )
+                    {
+                        item.add( new AttributeModifier( "class", true, new Model( "alt" ) ) );
+                    }
                 }
             };
 
             add( dataView );
 
-            dataView.setItemsPerPage( 20 );
+            dataView.setItemsPerPage( DEFAULT_ITEM_PER_PAGE );
 
             add( new NavigatorBar( "navigator", dataView ) );
         }

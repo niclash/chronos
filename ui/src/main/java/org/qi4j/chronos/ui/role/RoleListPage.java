@@ -10,63 +10,55 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.account;
+package org.qi4j.chronos.ui.role;
 
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.qi4j.chronos.service.RoleService;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.action.Action;
-import org.qi4j.chronos.ui.pricerate.PriceRateAddPage;
 
-public class AccountListPage extends LeftMenuNavPage
+public class RoleListPage extends LeftMenuNavPage
 {
-    public AccountListPage()
+    private static RoleService roleService;
+
+    public RoleListPage()
     {
+        roleService = ChronosWebApp.getServices().getRoleService();
+
         initComponents();
     }
 
     private void initComponents()
     {
-        add( new Link( "newAccountLink" )
+        add( new Link( "newRoleLink" )
         {
             public void onClick()
             {
-                setResponsePage( new PriceRateAddPage( AccountListPage.this ) );
+                setResponsePage( new RoleAddPage( RoleListPage.this ) );
             }
         } );
 
         add( new FeedbackPanel( "feedbackPanel" ) );
 
-        AccountAllTable accountTable = new AccountAllTable( "accountTable" );
+        RoleAllTable accountTable = new RoleAllTable( "roleTable" );
 
         accountTable.addAction( new Action()
         {
             public String getActionName()
             {
-                return "Delete account";
+                return "Delete";
             }
 
             public void performAction( AbstractSortableDataProvider dataProvider )
             {
-                info( "Delete - Not implemented yet - total items " + dataProvider.size() );
+                //TODO bp. fixme
             }
         } );
 
-        accountTable.addAction( new Action()
-        {
-            public String getActionName()
-            {
-                return "Disable account";
-            }
-
-            public void performAction( AbstractSortableDataProvider dataProvider )
-            {
-                info( "Disable - Not implemented yet - total items " + dataProvider.size() );
-            }
-        } );
-
+        //TODO bp. add the action here if any
         add( accountTable );
     }
-
 }

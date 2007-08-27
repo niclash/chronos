@@ -10,29 +10,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.account;
+package org.qi4j.chronos.ui.common;
 
-import org.qi4j.chronos.ui.base.BasePage;
+import java.util.Date;
+import org.apache.wicket.extensions.yui.calendar.DateTimeField;
+import org.apache.wicket.model.PropertyModel;
 
-public class AccountNewPage extends AccountAddEditPage
+public class SimpleDateTimeField extends DateTimeField
 {
-    public AccountNewPage( BasePage goBackPage )
+    private Date date;
+
+    public SimpleDateTimeField( String id )
     {
-        super( goBackPage );
+        this( id, new Date() );
     }
 
-    public void onSubmitting()
+    public SimpleDateTimeField( String id, Date date )
     {
-        //TODO bp. Add new account here
+        super( id );
+
+        this.date = date;
+
+        this.setModel( new PropertyModel( this, "date" ) );
     }
 
-    public String getSubmitButtonValue()
+    public void setDate( Date date )
     {
-        return "Add";
+        this.date = date;
     }
 
-    public String getTitleLabel()
+    public Date getDate()
     {
-        return "New Account";
+        return date;
     }
 }

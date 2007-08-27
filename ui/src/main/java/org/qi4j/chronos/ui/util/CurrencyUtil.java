@@ -10,15 +10,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service;
+package org.qi4j.chronos.ui.util;
 
-public interface Services
+import java.util.ArrayList;
+import java.util.Currency;
+import java.util.List;
+
+public final class CurrencyUtil
 {
-    AccountService getAccountService();
+    public static List<Currency> getCurrencyList()
+    {
+        List<Currency> list = new ArrayList<Currency>();
 
-    CustomerService getCustomerService();
+        list.add( Currency.getInstance( "USD" ) );
+        list.add( Currency.getInstance( "MYR" ) );
+        list.add( Currency.getInstance( "SEK" ) );
+        list.add( Currency.getInstance( "EUR" ) );
 
-    ProjectService getProjectService();
+        return list;
+    }
 
-    RoleService getRoleService();
 }
