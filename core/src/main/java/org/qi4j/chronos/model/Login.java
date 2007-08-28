@@ -9,4 +9,7 @@ import org.qi4j.library.general.model.Password;
  */
 public interface Login extends HasName, Password, Enabled
 {
+    public final static int LOGIN_ID_LEN = 80;
+
+    public final static int PASSWORD_LEN = 20;
 }

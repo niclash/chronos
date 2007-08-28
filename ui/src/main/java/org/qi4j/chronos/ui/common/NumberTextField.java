@@ -18,12 +18,12 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.qi4j.chronos.ui.util.ValidatorUtil;
 
-public class NumericTextField extends TextField
+public class NumberTextField extends TextField
 {
     private String text;
     private String fieldName;
 
-    public NumericTextField( String id, String fieldName )
+    public NumberTextField( String id, String fieldName )
     {
         super( id );
 
@@ -49,9 +49,19 @@ public class NumericTextField extends TextField
         return Integer.parseInt( text );
     }
 
+    public double getDoubleValue()
+    {
+        return Double.parseDouble( text );
+    }
+
     public void setInvalue( int intValue )
     {
         text = String.valueOf( intValue );
+    }
+
+    public void setDoubleValue( double doubleValue )
+    {
+        text = String.valueOf( doubleValue );
     }
 
     public boolean checkIsEmptyOrNotInteger()
@@ -59,6 +69,16 @@ public class NumericTextField extends TextField
         if( !ValidatorUtil.isEmpty( text, fieldName, this ) )
         {
             return ValidatorUtil.isNotInteger( text, fieldName, this );
+        }
+
+        return true;
+    }
+
+    public boolean checkIsEmptyOrNotDouble()
+    {
+        if( !ValidatorUtil.isEmpty( text, fieldName, this ) )
+        {
+            return ValidatorUtil.isNotDouble( text, fieldName, this );
         }
 
         return true;

@@ -233,15 +233,13 @@ public abstract class ActionTable<T extends Identity> extends Panel
     {
         if( actionBar.isSubsetSelected() )
         {
-            AbstractSortableDataProvider dataProvider = new SubSetSortableDataProvider( selectedIds )
+            return new SubSetSortableDataProvider( selectedIds )
             {
                 public Identity load( String id )
                 {
                     return getDetachableDataProvider().load( id );
                 }
             };
-
-            return dataProvider;
         }
         else
         {

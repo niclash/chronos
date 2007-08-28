@@ -39,9 +39,10 @@ public class RoleAddPage extends RoleAddEditPage
         {
             roleService.save( role );
 
-            logMsg( "Role is added successfully!" );
+            logInfoMsg( "Role is added successfully!" );
 
-            divertToGoBackPage();
+            BasePage goBackPage = getGoBackPage();
+            setResponsePage( new RoleDetailPage( goBackPage, role.getIdentity() ) );
         }
         catch( Exception err )
         {

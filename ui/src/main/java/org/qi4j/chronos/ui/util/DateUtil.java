@@ -10,29 +10,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.account;
+package org.qi4j.chronos.ui.util;
 
-import org.qi4j.chronos.ui.base.BasePage;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-public class AccountNewPage extends AccountAddEditPage
+public class DateUtil
 {
-    public AccountNewPage( BasePage goBackPage )
+    public static final String DATE_PATTERN = "dd MMM yyyy";
+
+    public static String format( String pattern, Date date )
     {
-        super( goBackPage );
+        return new SimpleDateFormat( pattern ).format( date );
     }
 
-    public void onSubmitting()
+    public static String format( Date date )
     {
-        //TODO bp. Add new account here
+        return new SimpleDateFormat( DATE_PATTERN ).format( date );
     }
 
-    public String getSubmitButtonValue()
-    {
-        return "Add";
-    }
-
-    public String getTitleLabel()
-    {
-        return "New Account";
-    }
 }

@@ -29,7 +29,7 @@ public abstract class RoleAddEditPage extends AddEditBasePage
         super( goBackPage );
     }
 
-    public void initComponent( Form form )
+    public final void initComponent( Form form )
     {
         nameField = new MaxLengthTextField( "nameField", "Role Name", Role.NAME_LEN );
 
@@ -41,7 +41,7 @@ public abstract class RoleAddEditPage extends AddEditBasePage
         return ChronosWebApp.getServices().getRoleService();
     }
 
-    public void handleSubmit()
+    public final void handleSubmit()
     {
         boolean isRejected = false;
 

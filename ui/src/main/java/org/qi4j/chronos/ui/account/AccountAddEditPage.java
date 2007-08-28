@@ -27,14 +27,14 @@ public abstract class AccountAddEditPage extends AddEditBasePage
         super( goBackPage );
     }
 
-    public void initComponent( Form form )
+    public final void initComponent( Form form )
     {
         nameField = new MaxLengthTextField( "name", "Account Name", Account.NAME_LEN );
 
         form.add( nameField );
     }
 
-    public void handleSubmit()
+    public final void handleSubmit()
     {
         boolean isRejected = false;
 

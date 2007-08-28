@@ -10,29 +10,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.pricerate;
+package org.qi4j.chronos.model.mixins;
 
-import org.qi4j.chronos.ui.base.BasePage;
+import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.List;
+import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.model.associations.HasSystemRoles;
 
-public class PriceRateScheduleEditPage extends PriceRateScheduleAddEditPage
+public class HasSystemRolesMixin implements HasSystemRoles
 {
-    public PriceRateScheduleEditPage( BasePage basePage )
+    private List<SystemRole> list;
+
+    public HasSystemRolesMixin()
     {
-        super( basePage );
+        list = new ArrayList<SystemRole>();
     }
 
-    public String getSubmitButtonValue()
+    public void addSystemRole( SystemRole systemRole )
     {
-        return "Update";
+        list.add( systemRole );
     }
 
-    public String getTitleLabel()
+    public void removeSystemRole( SystemRole systemRole )
     {
-        return "Update Price Rate Schedule";
+        list.remove( systemRole );
     }
 
-    public void onSubmitting()
+    public Iterator<SystemRole> systemRoleIterator()
     {
-        //TODO bp. fixme
+        return list.iterator();
     }
 }

@@ -16,8 +16,7 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
-import org.qi4j.chronos.ui.common.action.Action;
-import org.qi4j.chronos.ui.pricerate.PriceRateAddPage;
+import org.qi4j.chronos.ui.common.action.ActionAdapter;
 
 public class AccountListPage extends LeftMenuNavPage
 {
@@ -32,34 +31,24 @@ public class AccountListPage extends LeftMenuNavPage
         {
             public void onClick()
             {
-                setResponsePage( new PriceRateAddPage( AccountListPage.this ) );
+                setResponsePage( new AccountAddPage( AccountListPage.this ) );
             }
         } );
 
         add( new FeedbackPanel( "feedbackPanel" ) );
 
-        AccountAllTable accountTable = new AccountAllTable( "accountTable" );
+        AccountTable accountTable = new AccountTable( "accountTable" );
 
-        accountTable.addAction( new Action()
+        accountTable.addAction( new ActionAdapter( "Delete" )
         {
-            public String getActionName()
-            {
-                return "Delete account";
-            }
-
             public void performAction( AbstractSortableDataProvider dataProvider )
             {
                 info( "Delete - Not implemented yet - total items " + dataProvider.size() );
             }
         } );
 
-        accountTable.addAction( new Action()
+        accountTable.addAction( new ActionAdapter( "Disable" )
         {
-            public String getActionName()
-            {
-                return "Disable account";
-            }
-
             public void performAction( AbstractSortableDataProvider dataProvider )
             {
                 info( "Disable - Not implemented yet - total items " + dataProvider.size() );

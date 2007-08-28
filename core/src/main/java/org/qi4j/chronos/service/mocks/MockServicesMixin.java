@@ -23,10 +23,12 @@ import org.qi4j.chronos.service.EntityService;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.service.RoleService;
 import org.qi4j.chronos.service.Services;
+import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.service.composites.AccountServiceComposite;
 import org.qi4j.chronos.service.composites.CustomerServiceComposite;
 import org.qi4j.chronos.service.composites.ProjectServiceComposite;
 import org.qi4j.chronos.service.composites.RoleServiceComposite;
+import org.qi4j.chronos.service.composites.StaffServiceComposite;
 
 public class MockServicesMixin implements Services
 {
@@ -36,6 +38,7 @@ public class MockServicesMixin implements Services
     private CustomerService customerService;
     private ProjectService projectService;
     private RoleService roleService;
+    private StaffService staffService;
 
     public MockServicesMixin( CompositeBuilderFactory factory )
     {
@@ -45,6 +48,7 @@ public class MockServicesMixin implements Services
         customerService = newService( CustomerServiceComposite.class );
         projectService = newService( ProjectServiceComposite.class );
         roleService = newService( RoleServiceComposite.class );
+        staffService = newService( StaffServiceComposite.class );
 
         initDummyData();
     }
@@ -92,6 +96,11 @@ public class MockServicesMixin implements Services
     public RoleService getRoleService()
     {
         return roleService;
+    }
+
+    public StaffService getStaffService()
+    {
+        return staffService;
     }
 
     @SuppressWarnings( { "unchecked" } )

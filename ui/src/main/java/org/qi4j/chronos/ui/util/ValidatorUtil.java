@@ -52,10 +52,26 @@ public class ValidatorUtil
         }
         catch( Exception e )
         {
-            component.error( fieldName + " must be type of Integer." );
+            component.error( fieldName + " must be type of integer number." );
 
             return true;
         }
+    }
+
+    public static boolean isNotDouble( final String text, final String fieldName, final Component component )
+    {
+        try
+        {
+            Double.parseDouble( text );
+            
+            return false;
+        }
+        catch( Exception e )
+        {
+            component.error( fieldName + " must be type of float number" );
+        }
+
+        return true;
     }
 
     public static boolean isNotValidEmail( final String text, final String fieldName, final Component component )

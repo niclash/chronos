@@ -21,6 +21,11 @@ public class PriceRateEditPage extends PriceRateAddEditPage
         super( goBackPage );
     }
 
+    public void onSubmitting()
+    {
+        //TODO bp. fixme
+    }
+
     public String getSubmitButtonValue()
     {
         return "Edit";

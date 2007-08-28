@@ -20,11 +20,11 @@ import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 
-public class AccountAllTable extends ActionTable<AccountEntityComposite>
+public class AccountTable extends ActionTable<AccountEntityComposite>
 {
     private AccountDataProvider dataProvider;
 
-    public AccountAllTable( String id )
+    public AccountTable( String id )
     {
         super( id );
     }

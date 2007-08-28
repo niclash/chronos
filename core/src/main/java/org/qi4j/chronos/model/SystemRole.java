@@ -13,15 +13,10 @@
  */
 package org.qi4j.chronos.model;
 
-import java.util.Dictionary;
+import org.qi4j.chronos.model.associations.HasSystemRoles;
 import org.qi4j.library.general.model.HasName;
 
-/**
- * TODO : Convert to COP
- */
-public interface SystemRole extends HasName
+public interface SystemRole extends HasName, HasSystemRoles
 {
-    int getType();
 
-    Dictionary<String, String> getProperties();
 }

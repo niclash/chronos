@@ -33,6 +33,6 @@ public class PriceRateScheduleAddPage extends PriceRateScheduleAddEditPage
 
     public void onSubmitting()
     {
-
+        //TODO bp. fixme
     }
 }

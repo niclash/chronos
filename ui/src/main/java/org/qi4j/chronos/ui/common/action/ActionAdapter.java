@@ -10,17 +10,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service;
+package org.qi4j.chronos.ui.common.action;
 
-public interface Services
+import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
+
+public class ActionAdapter implements Action
 {
-    AccountService getAccountService();
+    private String actionName;
 
-    CustomerService getCustomerService();
+    public ActionAdapter( String actionName )
+    {
+        this.actionName = actionName;
+    }
 
-    ProjectService getProjectService();
+    public String getActionName()
+    {
+        return actionName;
+    }
 
-    RoleService getRoleService();
-
-    StaffService getStaffService();
+    public void performAction( AbstractSortableDataProvider dataProvider )
+    {
+        //override me
+    }
 }

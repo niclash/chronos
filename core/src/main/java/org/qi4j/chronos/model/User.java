@@ -15,12 +15,13 @@ package org.qi4j.chronos.model;
 
 import org.qi4j.chronos.model.associations.HasContacts;
 import org.qi4j.chronos.model.associations.HasLogin;
+import org.qi4j.chronos.model.associations.HasSystemRoles;
 import org.qi4j.library.general.model.Person;
 
 
 /**
  * User here is a generic interface instead of entity or value object.
- * 
+ * <p/>
  * The reason why user is not an entity is because in Chronos system,
  * user must belong to one of the categories below:
  * <li>
@@ -29,6 +30,9 @@ import org.qi4j.library.general.model.Person;
  * <ol>External consultant
  * </li>
  */
-public interface User extends Person, HasLogin, HasContacts
+public interface User extends Person, HasLogin, HasContacts, HasSystemRoles
 {
+    public final static int FIRST_NAME_LEN = 80;
+    public final static int LAST_NAME_LEN = 80;
+
 }

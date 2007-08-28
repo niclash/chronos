@@ -10,17 +10,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service;
+package org.qi4j.chronos.ui.login;
 
-public interface Services
+import org.apache.wicket.markup.html.panel.Panel;
+
+public abstract class LoginUserAbstractPanel extends Panel
 {
-    AccountService getAccountService();
+    public LoginUserAbstractPanel( String id )
+    {
+        super( id );
+    }
 
-    CustomerService getCustomerService();
-
-    ProjectService getProjectService();
-
-    RoleService getRoleService();
-
-    StaffService getStaffService();
+    public abstract boolean checkIsNotValidated();
 }

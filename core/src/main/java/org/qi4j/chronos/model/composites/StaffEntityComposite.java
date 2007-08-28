@@ -18,18 +18,14 @@
  */
 package org.qi4j.chronos.model.composites;
 
-import org.qi4j.api.annotation.ModifiedBy;
 import org.qi4j.api.persistence.EntityComposite;
 import org.qi4j.chronos.model.Staff;
-import org.qi4j.chronos.model.modifiers.RequiredFields;
-import org.qi4j.chronos.model.modifiers.RequiredFieldsValidationModifier;
 import org.qi4j.library.general.model.Validatable;
-import org.qi4j.library.general.model.modifiers.LifecycleValidationModifier;
 
 /**
  * Staff works for the company and hence contains more information on top of the basic user information provided in
  * {@link org.qi4j.chronos.model.User} like:
- * 
+ * <p/>
  * <li>
  * <ol>Start and end employment date
  * <ol>Salary
@@ -37,8 +33,6 @@ import org.qi4j.library.general.model.modifiers.LifecycleValidationModifier;
  * <ol>Projects that this staff is working on
  * </li>
  */
-@ModifiedBy( { LifecycleValidationModifier.class, RequiredFieldsValidationModifier.class } )
-@RequiredFields( { "identity", "firstName", "lastName", "gender", "startTime" } )
 public interface StaffEntityComposite extends Staff, Validatable, EntityComposite
 {
 }

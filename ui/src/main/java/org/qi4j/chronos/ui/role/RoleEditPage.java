@@ -60,7 +60,7 @@ public class RoleEditPage extends RoleAddEditPage
         {
             roleService.update( role );
 
-            logMsg( "Role is updated successfull!" );
+            logInfoMsg( "Role is updated successfull!" );
 
             divertToGoBackPage();
         }

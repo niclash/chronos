@@ -14,20 +14,14 @@ package org.qi4j.chronos.ui.role;
 
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.qi4j.chronos.service.RoleService;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
-import org.qi4j.chronos.ui.common.action.Action;
+import org.qi4j.chronos.ui.common.action.ActionAdapter;
 
 public class RoleListPage extends LeftMenuNavPage
 {
-    private static RoleService roleService;
-
     public RoleListPage()
     {
-        roleService = ChronosWebApp.getServices().getRoleService();
-
         initComponents();
     }
 
@@ -43,15 +37,10 @@ public class RoleListPage extends LeftMenuNavPage
 
         add( new FeedbackPanel( "feedbackPanel" ) );
 
-        RoleAllTable accountTable = new RoleAllTable( "roleTable" );
+        RoleTable roleTable = new RoleTable( "roleTable" );
 
-        accountTable.addAction( new Action()
+        roleTable.addAction( new ActionAdapter( "Delete" )
         {
-            public String getActionName()
-            {
-                return "Delete";
-            }
-
             public void performAction( AbstractSortableDataProvider dataProvider )
             {
                 //TODO bp. fixme
@@ -59,6 +48,6 @@ public class RoleListPage extends LeftMenuNavPage
         } );
 
         //TODO bp. add the action here if any
-        add( accountTable );
+        add( roleTable );
     }
 }

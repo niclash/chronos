@@ -10,17 +10,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service;
+package org.qi4j.chronos.model.associations;
 
-public interface Services
+import java.io.Serializable;
+import java.util.Iterator;
+import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.model.mixins.HasSystemRolesMixin;
+
+@ImplementedBy( HasSystemRolesMixin.class )
+public interface HasSystemRoles extends Serializable
 {
-    AccountService getAccountService();
+    void addSystemRole( SystemRole systemRole );
 
-    CustomerService getCustomerService();
+    void removeSystemRole( SystemRole systemRole );
 
-    ProjectService getProjectService();
-
-    RoleService getRoleService();
-
-    StaffService getStaffService();
+    Iterator<SystemRole> systemRoleIterator();
 }

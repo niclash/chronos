@@ -85,9 +85,19 @@ public abstract class AddEditBasePage extends LeftMenuNavPage
         setResponsePage( goBackPage );
     }
 
-    protected void logMsg( String msg )
+    protected BasePage getGoBackPage()
+    {
+        return goBackPage;
+    }
+
+    protected void logInfoMsg( String msg )
     {
         goBackPage.info( msg );
+    }
+
+    protected void logErrorMsg( String msg )
+    {
+        goBackPage.error( msg );
     }
 
     public abstract void initComponent( Form form );

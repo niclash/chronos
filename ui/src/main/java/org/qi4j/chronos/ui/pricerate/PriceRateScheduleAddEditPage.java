@@ -32,7 +32,7 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
         super( goBackPage );
     }
 
-    public void initComponent( Form form )
+    public final void initComponent( Form form )
     {
         nameField = new MaxLengthTextField( "name", "Name", PriceRateSchedule.NAME_LEN );
 
@@ -44,9 +44,8 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
         form.add( toDateField );
     }
 
-    public void handleSubmit()
+    public final void handleSubmit()
     {
-
         boolean isRejected = false;
 
         if( nameField.checkIsEmptyOrInvalidLength() )

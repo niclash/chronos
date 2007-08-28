@@ -21,11 +21,11 @@ import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 
-public class RoleAllTable extends ActionTable<RoleEntityComposite>
+public class RoleTable extends ActionTable<RoleEntityComposite>
 {
     private RoleDataProvider roleDataProvider;
 
-    public RoleAllTable( String id )
+    public RoleTable( String id )
     {
         super( id );
     }

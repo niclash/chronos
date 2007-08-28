@@ -10,17 +10,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service;
+package org.qi4j.chronos.ui.account;
 
-public interface Services
+import org.qi4j.chronos.ui.base.BasePage;
+
+public class AccountAddPage extends AccountAddEditPage
 {
-    AccountService getAccountService();
+    public AccountAddPage( BasePage goBackPage )
+    {
+        super( goBackPage );
+    }
 
-    CustomerService getCustomerService();
+    public void onSubmitting()
+    {
+        //TODO bp. Add new account here
+    }
 
-    ProjectService getProjectService();
+    public String getSubmitButtonValue()
+    {
+        return "Add";
+    }
 
-    RoleService getRoleService();
-
-    StaffService getStaffService();
+    public String getTitleLabel()
+    {
+        return "New Account";
+    }
 }
