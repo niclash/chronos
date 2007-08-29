@@ -12,9 +12,9 @@
  */
 package org.qi4j.chronos.model.mixins;
 
-import org.qi4j.chronos.model.Role;
+import org.qi4j.chronos.model.ProjectRole;
 
-public final class RoleMixin implements Role
+public final class RoleMixin implements ProjectRole
 {
     private String role;
 

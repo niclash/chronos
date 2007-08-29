@@ -10,21 +10,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service;
+package org.qi4j.chronos.ui.login;
 
-public interface Services
+import org.apache.wicket.markup.html.basic.Label;
+import org.qi4j.chronos.ui.common.SimpleLink;
+
+public class LoginUserEditPanel extends LoginUserAbstractPanel
 {
-    AccountService getAccountService();
+    private Label loginIdLabel;
+    private SimpleLink changePasswordLink;
 
-    CustomerService getCustomerService();
+    public LoginUserEditPanel( String id )
+    {
+        super( id );
 
-    ProjectService getProjectService();
+        initComponents();
+    }
 
-    ProjectRoleService getProjectRoleService();
+    private void initComponents()
+    {
+        loginIdLabel = new Label( "loginId", "" );
+    }
 
-    StaffService getStaffService();
+    public boolean checkIsNotValidated()
+    {
+        //TODO fixme this.
+        return false;
+    }
 
-    UserService getUserService();
-
-    SystemRoleService getSystemRoleService();
 }

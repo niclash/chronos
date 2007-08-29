@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
+ * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -10,11 +10,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.composites;
+package org.qi4j.chronos.service;
 
-import org.qi4j.api.persistence.EntityComposite;
-import org.qi4j.chronos.model.Role;
+import org.qi4j.chronos.model.User;
 
-public interface RoleEntityComposite extends Role, EntityComposite
+public interface UserService
 {
+    public User get( String userId );
+
+    public User getUser( String loginId, String password );
+
+    public void update( User user );
 }

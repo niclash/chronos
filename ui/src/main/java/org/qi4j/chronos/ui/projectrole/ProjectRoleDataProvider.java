@@ -10,28 +10,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.role;
+package org.qi4j.chronos.ui.projectrole;
 
 import java.util.List;
-import org.qi4j.chronos.model.composites.RoleEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
-import org.qi4j.chronos.service.RoleService;
+import org.qi4j.chronos.service.ProjectRoleService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
-public class RoleDataProvider extends AbstractSortableDataProvider<RoleEntityComposite>
+public class ProjectRoleDataProvider extends AbstractSortableDataProvider<ProjectRoleEntityComposite>
 {
-    public RoleEntityComposite load( String id )
+    public String getId( ProjectRoleEntityComposite projectRoleEntityComposite )
+    {
+        return projectRoleEntityComposite.getIdentity();
+    }
+
+    public ProjectRoleEntityComposite load( String id )
     {
         return getRoleService().get( id );
     }
 
-    public RoleService getRoleService()
+    public ProjectRoleService getRoleService()
     {
-        return ChronosWebApp.getServices().getRoleService();
+        return ChronosWebApp.getServices().getProjectRoleService();
     }
 
-    public List<RoleEntityComposite> dataList( int first, int count )
+    public List<ProjectRoleEntityComposite> dataList( int first, int count )
     {
         return getRoleService().find( new FindFilter( first, count ) );
     }

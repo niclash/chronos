@@ -16,19 +16,27 @@ import org.qi4j.api.Composite;
 import org.qi4j.api.CompositeBuilder;
 import org.qi4j.api.CompositeBuilderFactory;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.RoleEntityComposite;
+import org.qi4j.chronos.model.composites.LoginComposite;
+import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
+import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.service.CustomerService;
 import org.qi4j.chronos.service.EntityService;
+import org.qi4j.chronos.service.ProjectRoleService;
 import org.qi4j.chronos.service.ProjectService;
-import org.qi4j.chronos.service.RoleService;
 import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.service.StaffService;
+import org.qi4j.chronos.service.SystemRoleService;
+import org.qi4j.chronos.service.UserService;
 import org.qi4j.chronos.service.composites.AccountServiceComposite;
 import org.qi4j.chronos.service.composites.CustomerServiceComposite;
 import org.qi4j.chronos.service.composites.ProjectServiceComposite;
 import org.qi4j.chronos.service.composites.RoleServiceComposite;
 import org.qi4j.chronos.service.composites.StaffServiceComposite;
+import org.qi4j.chronos.service.composites.SystemRoleServiceComposite;
+import org.qi4j.chronos.service.composites.UserServiceComposite;
+import org.qi4j.library.general.model.GenderType;
 
 public class MockServicesMixin implements Services
 {
@@ -37,8 +45,10 @@ public class MockServicesMixin implements Services
     private AccountService accountService;
     private CustomerService customerService;
     private ProjectService projectService;
-    private RoleService roleService;
+    private ProjectRoleService projectRoleService;
     private StaffService staffService;
+    private UserService userService;
+    private SystemRoleService systemRoleService;
 
     public MockServicesMixin( CompositeBuilderFactory factory )
     {
@@ -47,13 +57,32 @@ public class MockServicesMixin implements Services
         accountService = newService( AccountServiceComposite.class );
         customerService = newService( CustomerServiceComposite.class );
         projectService = newService( ProjectServiceComposite.class );
-        roleService = newService( RoleServiceComposite.class );
+        projectRoleService = newService( RoleServiceComposite.class );
         staffService = newService( StaffServiceComposite.class );
+        userService = initUserService( staffService );
+        systemRoleService = newService( SystemRoleServiceComposite.class );
 
         initDummyData();
     }
 
+    private UserService initUserService( StaffService staffService )
+    {
+        CompositeBuilder<UserServiceComposite> compositeBuilder = factory.newCompositeBuilder( UserServiceComposite.class );
+
+        compositeBuilder.setMixin( UserService.class, new MockUserServiceMixin( staffService ) );
+
+        return compositeBuilder.newInstance();
+    }
+
     private void initDummyData()
+    {
+        initAccountDummyData();
+        initProjectRoleDummyData();
+        initStaffDummyData();
+        initSystemRoleDummyData();
+    }
+
+    private void initAccountDummyData()
     {
         for( int i = 0; i < 50; i++ )
         {
@@ -63,19 +92,57 @@ public class MockServicesMixin implements Services
 
             accountService.save( account );
         }
+    }
 
-        RoleEntityComposite programmer = roleService.newInstance( RoleEntityComposite.class );
+    private void initProjectRoleDummyData()
+    {
+        ProjectRoleEntityComposite programmer = projectRoleService.newInstance( ProjectRoleEntityComposite.class );
         programmer.setRole( "Programmer" );
 
-        RoleEntityComposite consultant = roleService.newInstance( RoleEntityComposite.class );
+        ProjectRoleEntityComposite consultant = projectRoleService.newInstance( ProjectRoleEntityComposite.class );
         consultant.setRole( "Consultant" );
 
-        RoleEntityComposite projectManager = roleService.newInstance( RoleEntityComposite.class );
+        ProjectRoleEntityComposite projectManager = projectRoleService.newInstance( ProjectRoleEntityComposite.class );
         projectManager.setRole( "Project Manager" );
 
-        roleService.save( programmer );
-        roleService.save( consultant );
-        roleService.save( projectManager );
+        projectRoleService.save( programmer );
+        projectRoleService.save( consultant );
+        projectRoleService.save( projectManager );
+    }
+
+    private void initStaffDummyData()
+    {
+        StaffEntityComposite staffEntityComposite = staffService.newInstance( StaffEntityComposite.class );
+
+        staffEntityComposite.setFirstName( "admin" );
+        staffEntityComposite.setLastName( "admin" );
+        staffEntityComposite.setGender( GenderType.male );
+
+        LoginComposite loginComposite = factory.newCompositeBuilder( LoginComposite.class ).newInstance();
+
+        loginComposite.setName( "admin" );
+        loginComposite.setPassword( "admin" );
+        loginComposite.setEnabled( true );
+
+        staffEntityComposite.setLogin( loginComposite );
+
+        staffService.save( staffEntityComposite );
+    }
+
+    private void initSystemRoleDummyData()
+    {
+        SystemRoleEntityComposite admin = systemRoleService.newInstance( SystemRoleEntityComposite.class );
+        admin.setName( "Administrator" );
+
+        SystemRoleEntityComposite staff = systemRoleService.newInstance( SystemRoleEntityComposite.class );
+        staff.setName( "Staff" );
+
+        SystemRoleEntityComposite customer = systemRoleService.newInstance( SystemRoleEntityComposite.class );
+        customer.setName( "Customer" );
+
+        systemRoleService.save( admin );
+        systemRoleService.save( staff );
+        systemRoleService.save( customer );
     }
 
     public AccountService getAccountService()
@@ -93,14 +160,24 @@ public class MockServicesMixin implements Services
         return projectService;
     }
 
-    public RoleService getRoleService()
+    public ProjectRoleService getProjectRoleService()
     {
-        return roleService;
+        return projectRoleService;
     }
 
     public StaffService getStaffService()
     {
         return staffService;
+    }
+
+    public UserService getUserService()
+    {
+        return userService;
+    }
+
+    public SystemRoleService getSystemRoleService()
+    {
+        return systemRoleService;
     }
 
     @SuppressWarnings( { "unchecked" } )

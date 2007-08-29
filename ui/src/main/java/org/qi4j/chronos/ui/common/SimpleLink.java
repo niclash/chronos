@@ -21,6 +21,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 public abstract class SimpleLink extends Panel
 {
     private Link link;
+    private Label label;
 
     public SimpleLink( String id, String text )
     {
@@ -35,11 +36,16 @@ public abstract class SimpleLink extends Panel
             }
         };
 
-        Label label = new Label( "linkTextLabel", text );
+        label = new Label( "linkTextLabel", text );
         label.setEscapeModelStrings( false );
         link.add( label );
 
         add( link );
+    }
+
+    public void setText( String text )
+    {
+        label.setModelObject( text );
     }
 
     public void addAttributeModifierToLink( AttributeModifier attributeModifier )

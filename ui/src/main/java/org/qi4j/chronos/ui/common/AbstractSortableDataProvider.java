@@ -16,9 +16,8 @@ import java.util.Iterator;
 import java.util.List;
 import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvider;
 import org.apache.wicket.model.IModel;
-import org.qi4j.api.persistence.Identity;
 
-public abstract class AbstractSortableDataProvider<T extends Identity> extends SortableDataProvider
+public abstract class AbstractSortableDataProvider<T> extends SortableDataProvider
 {
     public final Iterator<T> iterator( int first, int count )
     {
@@ -28,15 +27,22 @@ public abstract class AbstractSortableDataProvider<T extends Identity> extends S
     @SuppressWarnings( { "unchecked" } )
     public IModel model( Object object )
     {
-        return new AbstractDetachableModel( (T) object )
+        return new AbstractDetachableModel<T>( (T) object )
         {
             @Override
-            protected Identity load( String id )
+            protected T load( String id )
             {
                 return AbstractSortableDataProvider.this.load( id );
             }
+
+            protected String getId( T o )
+            {
+                return AbstractSortableDataProvider.this.getId( o );
+            }
         };
     }
+
+    public abstract String getId( T t );
 
     public abstract T load( String id );
 

@@ -21,6 +21,11 @@ import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
 public class StaffDataProvider extends AbstractSortableDataProvider<StaffEntityComposite>
 {
+    public String getId( StaffEntityComposite staffEntityComposite )
+    {
+        return staffEntityComposite.getIdentity();
+    }
+
     public StaffEntityComposite load( String id )
     {
         return getStaffService().get( id );

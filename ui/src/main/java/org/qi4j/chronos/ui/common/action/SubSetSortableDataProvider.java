@@ -14,10 +14,9 @@ package org.qi4j.chronos.ui.common.action;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.qi4j.api.persistence.Identity;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
-public abstract class SubSetSortableDataProvider<T extends Identity> extends AbstractSortableDataProvider<T>
+public abstract class SubSetSortableDataProvider<T> extends AbstractSortableDataProvider<T>
 {
     private List<String> idList;
 

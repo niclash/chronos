@@ -33,8 +33,8 @@ public class PriceRateCompositeTest extends AbstractTest
             //expected
         }
 
-        RoleEntityComposite roleComposite = builderFactory.newCompositeBuilder( RoleEntityComposite.class ).newInstance();
-        priceRateComposite.setRole( roleComposite );
+        ProjectRoleEntityComposite projectRoleComposite = builderFactory.newCompositeBuilder( ProjectRoleEntityComposite.class ).newInstance();
+        priceRateComposite.setRole( projectRoleComposite );
     }
 
 }

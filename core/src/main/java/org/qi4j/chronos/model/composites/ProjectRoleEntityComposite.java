@@ -10,27 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.mixins;
+package org.qi4j.chronos.model.composites;
 
-import org.qi4j.api.annotation.ModifiedBy;
-import org.qi4j.chronos.model.associations.HasRole;
-import org.qi4j.chronos.model.modifiers.NotNullValidationModifier;
-import org.qi4j.chronos.model.modifiers.NotNullable;
+import org.qi4j.api.persistence.EntityComposite;
 import org.qi4j.chronos.model.ProjectRole;
 
-@ModifiedBy( { NotNullValidationModifier.class } )
-public final class HasRoleMixin implements HasRole
+public interface ProjectRoleEntityComposite extends ProjectRole, EntityComposite
 {
-    private ProjectRole role;
-
-    @NotNullable
-    public void setRole( ProjectRole aRole )
-    {
-        role = aRole;
-    }
-
-    public ProjectRole getRole()
-    {
-        return role;
-    }
 }

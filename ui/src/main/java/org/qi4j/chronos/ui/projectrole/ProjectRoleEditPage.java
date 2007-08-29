@@ -10,21 +10,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.role;
+package org.qi4j.chronos.ui.projectrole;
 
-import org.qi4j.chronos.model.composites.RoleEntityComposite;
-import org.qi4j.chronos.service.RoleService;
+import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
+import org.qi4j.chronos.service.ProjectRoleService;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RoleEditPage extends RoleAddEditPage
+public class ProjectRoleEditPage extends ProjectRoleAddEditPage
 {
-    private final static Logger LOGGER = LoggerFactory.getLogger( RoleEditPage.class );
+    private final static Logger LOGGER = LoggerFactory.getLogger( ProjectRoleEditPage.class );
 
     private String roleId;
 
-    public RoleEditPage( BasePage goBackPage, String roleId )
+    public ProjectRoleEditPage( BasePage goBackPage, String roleId )
     {
         super( goBackPage );
 
@@ -33,7 +33,7 @@ public class RoleEditPage extends RoleAddEditPage
         nameField.setText( getRole().getRole() );
     }
 
-    private RoleEntityComposite getRole()
+    private ProjectRoleEntityComposite getRole()
     {
         return getRoleService().get( roleId );
     }
@@ -45,22 +45,22 @@ public class RoleEditPage extends RoleAddEditPage
 
     public String getTitleLabel()
     {
-        return "Edit Role";
+        return "Edit ProjectRole";
     }
 
     public void onSubmitting()
     {
-        RoleService roleService = getRoleService();
+        ProjectRoleService roleService = getRoleService();
 
-        RoleEntityComposite role = getRole();
+        ProjectRoleEntityComposite projectRole = getRole();
 
-        role.setRole( nameField.getText() );
+        projectRole.setRole( nameField.getText() );
 
         try
         {
-            roleService.update( role );
+            roleService.update( projectRole );
 
-            logInfoMsg( "Role is updated successfull!" );
+            logInfoMsg( "ProjectRole is updated successfull!" );
 
             divertToGoBackPage();
         }

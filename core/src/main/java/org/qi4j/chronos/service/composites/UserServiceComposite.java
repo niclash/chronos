@@ -10,21 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service;
+package org.qi4j.chronos.service.composites;
 
-public interface Services
+import org.qi4j.api.Composite;
+import org.qi4j.chronos.service.UserService;
+
+public interface UserServiceComposite extends UserService, Composite
 {
-    AccountService getAccountService();
-
-    CustomerService getCustomerService();
-
-    ProjectService getProjectService();
-
-    ProjectRoleService getProjectRoleService();
-
-    StaffService getStaffService();
-
-    UserService getUserService();
-
-    SystemRoleService getSystemRoleService();
 }

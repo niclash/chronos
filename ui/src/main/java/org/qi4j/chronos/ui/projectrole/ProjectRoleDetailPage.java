@@ -10,25 +10,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.role;
+package org.qi4j.chronos.ui.projectrole;
 
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
-import org.qi4j.chronos.model.composites.RoleEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.SimpleTextField;
 
-public class RoleDetailPage extends LeftMenuNavPage
+public class ProjectRoleDetailPage extends LeftMenuNavPage
 {
     private BasePage goBackPage;
     private String roleId;
 
-    public RoleDetailPage( BasePage goBackPage, String roleId )
+    public ProjectRoleDetailPage( BasePage goBackPage, String roleId )
     {
         this.goBackPage = goBackPage;
         this.roleId = roleId;
@@ -42,9 +42,9 @@ public class RoleDetailPage extends LeftMenuNavPage
         add( new RoleDetailForm( "roleDetailForm" ) );
     }
 
-    private RoleEntityComposite getRole()
+    private ProjectRoleEntityComposite getRole()
     {
-        return ChronosWebApp.getServices().getRoleService().get( roleId );
+        return ChronosWebApp.getServices().getProjectRoleService().get( roleId );
     }
 
     private class RoleDetailForm extends Form
@@ -61,9 +61,9 @@ public class RoleDetailPage extends LeftMenuNavPage
 
         private void initComponents()
         {
-            RoleEntityComposite role = getRole();
+            ProjectRoleEntityComposite projectRole = getRole();
 
-            roleNameField = new SimpleTextField( "roleName", role.getRole(), false );
+            roleNameField = new SimpleTextField( "roleName", projectRole.getRole(), false );
 
             returnButton = new Button( "returnButton", new Model( "Return" ) );
 

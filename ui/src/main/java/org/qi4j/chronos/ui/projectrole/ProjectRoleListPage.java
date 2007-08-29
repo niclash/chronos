@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.role;
+package org.qi4j.chronos.ui.projectrole;
 
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
@@ -18,9 +18,9 @@ import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.action.ActionAdapter;
 
-public class RoleListPage extends LeftMenuNavPage
+public class ProjectRoleListPage extends LeftMenuNavPage
 {
-    public RoleListPage()
+    public ProjectRoleListPage()
     {
         initComponents();
     }
@@ -31,13 +31,13 @@ public class RoleListPage extends LeftMenuNavPage
         {
             public void onClick()
             {
-                setResponsePage( new RoleAddPage( RoleListPage.this ) );
+                setResponsePage( new ProjectRoleAddPage( ProjectRoleListPage.this ) );
             }
         } );
 
         add( new FeedbackPanel( "feedbackPanel" ) );
 
-        RoleTable roleTable = new RoleTable( "roleTable" );
+        ProjectRoleTable roleTable = new ProjectRoleTable( "roleTable" );
 
         roleTable.addAction( new ActionAdapter( "Delete" )
         {

@@ -12,19 +12,30 @@
  */
 package org.qi4j.chronos.ui.user;
 
+import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
+import org.apache.wicket.extensions.markup.html.form.palette.Palette;
+import org.apache.wicket.markup.html.form.ChoiceRenderer;
+import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
-import org.qi4j.library.general.model.GenderType;
+import org.qi4j.chronos.ui.util.ListUtil;
 
 public class UserAddEditPanel extends Panel
 {
     private MaxLengthTextField firstNameField;
     private MaxLengthTextField lastNameField;
     private SimpleDropDownChoice genderChoice;
+
+    private Palette rolePalette;
 
     public UserAddEditPanel( String id )
     {
@@ -33,13 +44,77 @@ public class UserAddEditPanel extends Panel
         firstNameField = new MaxLengthTextField( "firstNameField", "First Name", User.FIRST_NAME_LEN );
         lastNameField = new MaxLengthTextField( "lastNameField", "Last Name", User.LAST_NAME_LEN );
 
-        List<String> genderTypeList = getGenderTypeList();
+        List<String> genderTypeList = ListUtil.getGenderTypeList();
 
         genderChoice = new SimpleDropDownChoice( "genderChoice", genderTypeList, true );
 
+        IChoiceRenderer renderer = new ChoiceRenderer( "roleName", "roleName" );
+
+        List<SystemRoleDelegator> selecteds = getSelectedRoleChoices();
+        List<SystemRoleDelegator> choices = getAvailableRoleChoices();
+
+        rolePalette = new Palette( "rolePalette", new Model( (Serializable) selecteds ),
+                                   new Model( (Serializable) choices ), renderer, 5, false );
         add( firstNameField );
         add( lastNameField );
         add( genderChoice );
+        add( rolePalette );
+    }
+
+    public List<SystemRoleEntityComposite> getInitSelectedRoleList()
+    {
+        return Collections.emptyList();
+    }
+
+    private List<SystemRoleDelegator> getSelectedRoleChoices()
+    {
+        List<SystemRoleEntityComposite> projectRoleLists = getInitSelectedRoleList();
+
+        List<SystemRoleDelegator> systemRoleDelegators = constuctRoleDelegatorList( projectRoleLists );
+
+        return systemRoleDelegators;
+    }
+
+    private List<SystemRoleDelegator> constuctRoleDelegatorList( List<SystemRoleEntityComposite> projectRoleLists )
+    {
+        List<SystemRoleDelegator> systemRoleDelegators = new ArrayList<SystemRoleDelegator>();
+
+        for( SystemRoleEntityComposite role : projectRoleLists )
+        {
+            systemRoleDelegators.add( new SystemRoleDelegator( role.getIdentity(), role.getName() ) );
+        }
+
+        return systemRoleDelegators;
+    }
+
+    private List<SystemRoleDelegator> getAvailableRoleChoices()
+    {
+        List<SystemRoleEntityComposite> systemRoleList = ChronosWebApp.getServices().getSystemRoleService().findAll();
+
+        List<SystemRoleDelegator> systemRoleDelegators = constuctRoleDelegatorList( systemRoleList );
+
+        return systemRoleDelegators;
+    }
+
+    public List<SystemRoleEntityComposite> getSelectedRoleList()
+    {
+        Collection<SystemRoleDelegator> selectedCols = rolePalette.getChoices();
+
+        List<SystemRoleEntityComposite> SystemRoleList = new ArrayList<SystemRoleEntityComposite>();
+
+        for( SystemRoleDelegator systemRoleDelegator : selectedCols )
+        {
+            SystemRoleEntityComposite systemRole = ChronosWebApp.getServices().getSystemRoleService().get( systemRoleDelegator.getRoleId() );
+
+            SystemRoleList.add( systemRole );
+        }
+
+        return SystemRoleList;
+    }
+
+    public Palette getRolePalette()
+    {
+        return rolePalette;
     }
 
     public MaxLengthTextField getFirstNameField()
@@ -74,17 +149,35 @@ public class UserAddEditPanel extends Panel
         return isRejected;
     }
 
-    private List<String> getGenderTypeList()
+    private class SystemRoleDelegator implements Serializable
     {
-        GenderType[] genderTypes = GenderType.values();
-        List<String> result = new ArrayList<String>();
+        private String roleId;
+        private String roleName;
 
-        for( GenderType genderType : genderTypes )
+        public SystemRoleDelegator( String roleId, String roleName )
         {
-            result.add( genderType.toString() );
+            this.roleId = roleId;
+            this.roleName = roleName;
         }
 
-        return result;
-    }
+        public String getRoleId()
+        {
+            return roleId;
+        }
 
+        public void setRoleId( String roleId )
+        {
+            this.roleId = roleId;
+        }
+
+        public String getRoleName()
+        {
+            return roleName;
+        }
+
+        public void setRoleName( String roleName )
+        {
+            this.roleName = roleName;
+        }
+    }
 }

@@ -10,35 +10,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.role;
+package org.qi4j.chronos.ui.projectrole;
 
 import org.apache.wicket.markup.html.form.Form;
-import org.qi4j.chronos.model.Role;
-import org.qi4j.chronos.service.RoleService;
+import org.qi4j.chronos.model.ProjectRole;
+import org.qi4j.chronos.service.ProjectRoleService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 
-public abstract class RoleAddEditPage extends AddEditBasePage
+public abstract class ProjectRoleAddEditPage extends AddEditBasePage
 {
     protected MaxLengthTextField nameField;
 
-    public RoleAddEditPage( BasePage goBackPage )
+    public ProjectRoleAddEditPage( BasePage goBackPage )
     {
         super( goBackPage );
     }
 
     public final void initComponent( Form form )
     {
-        nameField = new MaxLengthTextField( "nameField", "Role Name", Role.NAME_LEN );
+        nameField = new MaxLengthTextField( "nameField", "ProjectRole Name", ProjectRole.NAME_LEN );
 
         form.add( nameField );
     }
 
-    protected RoleService getRoleService()
+    protected ProjectRoleService getRoleService()
     {
-        return ChronosWebApp.getServices().getRoleService();
+        return ChronosWebApp.getServices().getProjectRoleService();
     }
 
     public final void handleSubmit()

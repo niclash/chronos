@@ -10,39 +10,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.role;
+package org.qi4j.chronos.ui.projectrole;
 
-import org.qi4j.chronos.model.composites.RoleEntityComposite;
-import org.qi4j.chronos.service.RoleService;
+import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
+import org.qi4j.chronos.service.ProjectRoleService;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class RoleAddPage extends RoleAddEditPage
+public class ProjectRoleAddPage extends ProjectRoleAddEditPage
 {
-    private final static Logger LOGGER = LoggerFactory.getLogger( RoleAddPage.class );
+    private final static Logger LOGGER = LoggerFactory.getLogger( ProjectRoleAddPage.class );
 
-    public RoleAddPage( BasePage goBackpage )
+    public ProjectRoleAddPage( BasePage goBackpage )
     {
         super( goBackpage );
     }
 
     public void onSubmitting()
     {
-        RoleService roleService = getRoleService();
+        ProjectRoleService roleService = getRoleService();
 
-        RoleEntityComposite role = roleService.newInstance( RoleEntityComposite.class );
+        ProjectRoleEntityComposite projectRole = roleService.newInstance( ProjectRoleEntityComposite.class );
 
-        role.setRole( nameField.getText() );
+        projectRole.setRole( nameField.getText() );
 
         try
         {
-            roleService.save( role );
+            roleService.save( projectRole );
 
-            logInfoMsg( "Role is added successfully!" );
+            logInfoMsg( "ProjectRole is added successfully!" );
 
             BasePage goBackPage = getGoBackPage();
-            setResponsePage( new RoleDetailPage( goBackPage, role.getIdentity() ) );
+            setResponsePage( new ProjectRoleDetailPage( goBackPage, projectRole.getIdentity() ) );
         }
         catch( Exception err )
         {
@@ -57,6 +57,6 @@ public class RoleAddPage extends RoleAddEditPage
 
     public String getTitleLabel()
     {
-        return "Add Role";
+        return "Add ProjectRole";
     }
 }

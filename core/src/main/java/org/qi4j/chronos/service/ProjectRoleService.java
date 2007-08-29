@@ -1,5 +1,4 @@
 /*
- * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,18 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model;
+package org.qi4j.chronos.service;
 
-import java.io.Serializable;
-import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.chronos.model.mixins.RoleMixin;
+import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
 
-@ImplementedBy( RoleMixin.class )
-public interface Role extends Serializable
+public interface ProjectRoleService extends EntityService<ProjectRoleEntityComposite>
 {
-    public final static int NAME_LEN = 80;
 
-    String getRole();
-
-    void setRole( String role );
 }

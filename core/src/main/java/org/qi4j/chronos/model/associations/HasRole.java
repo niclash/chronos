@@ -14,16 +14,16 @@ package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
 import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.chronos.model.Role;
+import org.qi4j.chronos.model.ProjectRole;
 import org.qi4j.chronos.model.mixins.HasRoleMixin;
 
 /**
- * Generic interface describing association with {@link Role}
+ * Generic interface describing association with {@link ProjectRole}
  */
 @ImplementedBy( HasRoleMixin.class )
 public interface HasRole extends Serializable
 {
-    void setRole( Role role );
+    void setRole( ProjectRole role );
 
-    Role getRole();
+    ProjectRole getRole();
 }

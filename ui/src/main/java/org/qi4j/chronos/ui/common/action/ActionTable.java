@@ -25,11 +25,10 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.Model;
-import org.qi4j.api.persistence.Identity;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.NavigatorBar;
 
-public abstract class ActionTable<T extends Identity> extends Panel
+public abstract class ActionTable<T> extends Panel
 {
     private final static String CHECKBOX_CLASS_NAME = "checkBoxClass";
 
@@ -79,6 +78,11 @@ public abstract class ActionTable<T extends Identity> extends Panel
         dataView.modelChanged();
     }
 
+    public void setActionBarVisible( boolean visible )
+    {
+        actionBar.setVisible( visible );
+    }
+
     private class ActionTableForm extends Form
     {
         public ActionTableForm( String id )
@@ -116,7 +120,7 @@ public abstract class ActionTable<T extends Identity> extends Panel
 
             add( headers );
 
-            AbstractSortableDataProvider<T> dataProvider = getDetachableDataProvider();
+            final AbstractSortableDataProvider<T> dataProvider = getDetachableDataProvider();
 
             dataView = new DataView( "dataView", dataProvider )
             {
@@ -128,7 +132,7 @@ public abstract class ActionTable<T extends Identity> extends Panel
                 {
                     T obj = (T) item.getModelObject();
 
-                    final String id = obj.getIdentity();
+                    final String id = dataProvider.getId( obj );
 
                     CheckBox checkBox = new CheckBox( "itemCheckBox", new CheckedModel( id ) );
                     checkBox.add( new AttributeModifier( "class", true, new Model( CHECKBOX_CLASS_NAME ) ) );
@@ -233,9 +237,14 @@ public abstract class ActionTable<T extends Identity> extends Panel
     {
         if( actionBar.isSubsetSelected() )
         {
-            return new SubSetSortableDataProvider( selectedIds )
+            return new SubSetSortableDataProvider<T>( selectedIds )
             {
-                public Identity load( String id )
+                public String getId( T o )
+                {
+                    return getDetachableDataProvider().getId( o );
+                }
+
+                public T load( String id )
                 {
                     return getDetachableDataProvider().load( id );
                 }

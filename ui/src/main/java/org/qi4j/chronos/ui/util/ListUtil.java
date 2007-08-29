@@ -16,22 +16,23 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 import org.qi4j.chronos.model.PriceRateType;
-import org.qi4j.chronos.model.composites.RoleEntityComposite;
-import org.qi4j.chronos.service.RoleService;
+import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
+import org.qi4j.chronos.service.ProjectRoleService;
 import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.library.general.model.GenderType;
 
 public final class ListUtil
 {
     public static List<String> getRoleList()
     {
-        RoleService roleService = ChronosWebApp.getServices().getRoleService();
+        ProjectRoleService roleService = ChronosWebApp.getServices().getProjectRoleService();
 
-        List<RoleEntityComposite> list = roleService.findAll();
+        List<ProjectRoleEntityComposite> projectRolelists = roleService.findAll();
         List<String> resultList = new ArrayList<String>();
 
-        for( RoleEntityComposite role : list )
+        for( ProjectRoleEntityComposite projectRole : projectRolelists )
         {
-            resultList.add( role.getRole() );
+            resultList.add( projectRole.getRole() );
         }
 
         return resultList;
@@ -62,6 +63,19 @@ public final class ListUtil
         }
 
         return list;
+    }
+
+    public static List<String> getGenderTypeList()
+    {
+        GenderType[] genderTypes = GenderType.values();
+        List<String> result = new ArrayList<String>();
+
+        for( GenderType genderType : genderTypes )
+        {
+            result.add( genderType.toString() );
+        }
+
+        return result;
     }
 
 }

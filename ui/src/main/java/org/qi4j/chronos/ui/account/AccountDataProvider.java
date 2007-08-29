@@ -21,6 +21,11 @@ import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
 public class AccountDataProvider extends AbstractSortableDataProvider<AccountEntityComposite>
 {
+    public String getId( AccountEntityComposite accountEntityComposite )
+    {
+        return accountEntityComposite.getIdentity();
+    }
+
     public AccountEntityComposite load( String id )
     {
         return getAccountService().get( id );

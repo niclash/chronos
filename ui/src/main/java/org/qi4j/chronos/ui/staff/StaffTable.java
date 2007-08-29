@@ -22,6 +22,7 @@ import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
+import org.qi4j.library.general.model.Money;
 
 public class StaffTable extends ActionTable<StaffEntityComposite>
 {
@@ -62,9 +63,23 @@ public class StaffTable extends ActionTable<StaffEntityComposite>
             }
         } );
 
-        item.add( new Label( "salary", obj.getSalary().getCurrency().getSymbol() + obj.getSalary().getAmount() ) );
+        Money salary = obj.getSalary();
+
+        if( salary != null )
+        {
+            item.add( new Label( "salary", salary.getCurrency().getSymbol() + salary.getAmount() ) );
+        }
+        else
+        {
+            item.add( new Label( "salary", "--" ) );
+        }
+
         item.add( new Label( "loginId", obj.getLogin().getName() ) );
-        item.add( new CheckBox( "loginEnabled", new Model( obj.getLogin().isEnabled() ) ) );
+
+        CheckBox loginEnabled = new CheckBox( "loginEnabled", new Model( obj.getLogin().isEnabled() ) );
+
+        loginEnabled.setEnabled( false );
+        item.add( loginEnabled );
     }
 
     public List<String> getTableHeaderList()

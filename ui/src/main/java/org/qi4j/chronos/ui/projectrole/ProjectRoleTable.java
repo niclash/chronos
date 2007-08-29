@@ -10,37 +10,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.role;
+package org.qi4j.chronos.ui.projectrole;
 
 import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.repeater.Item;
-import org.qi4j.chronos.model.composites.RoleEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 
-public class RoleTable extends ActionTable<RoleEntityComposite>
+public class ProjectRoleTable extends ActionTable<ProjectRoleEntityComposite>
 {
-    private RoleDataProvider roleDataProvider;
+    private ProjectRoleDataProvider roleDataProvider;
 
-    public RoleTable( String id )
+    public ProjectRoleTable( String id )
     {
         super( id );
     }
 
-    public AbstractSortableDataProvider<RoleEntityComposite> getDetachableDataProvider()
+    public AbstractSortableDataProvider<ProjectRoleEntityComposite> getDetachableDataProvider()
     {
         if( roleDataProvider == null )
         {
-            roleDataProvider = new RoleDataProvider();
+            roleDataProvider = new ProjectRoleDataProvider();
         }
 
         return roleDataProvider;
     }
 
-    public void populateItems( Item item, RoleEntityComposite obj )
+    public void populateItems( Item item, ProjectRoleEntityComposite obj )
     {
         final String roleId = obj.getIdentity();
 
@@ -48,7 +48,7 @@ public class RoleTable extends ActionTable<RoleEntityComposite>
         {
             public void linkClicked()
             {
-                RoleDetailPage detailPage = new RoleDetailPage( getBasePage(), roleId );
+                ProjectRoleDetailPage detailPage = new ProjectRoleDetailPage( getBasePage(), roleId );
 
                 setResponsePage( detailPage );
             }
@@ -58,7 +58,7 @@ public class RoleTable extends ActionTable<RoleEntityComposite>
         {
             public void linkClicked()
             {
-                RoleEditPage roleEditPage = new RoleEditPage( getBasePage(), roleId );
+                ProjectRoleEditPage roleEditPage = new ProjectRoleEditPage( getBasePage(), roleId );
 
                 setResponsePage( roleEditPage );
             }

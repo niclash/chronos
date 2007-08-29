@@ -86,7 +86,7 @@ public class StringLengthValidationModifier extends AbstractSetterGetterModifier
             //unlikely happen. ignore it.
         }
 
-        //if it is null, attempt to get it from interface class. 
+        //if it is null, attempt to get it from interface class.
         if( stringLength == null )
         {
             stringLength = method.getAnnotation( StringLength.class );

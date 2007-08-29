@@ -14,9 +14,11 @@ package org.qi4j.chronos.ui.staff;
 
 import java.math.BigDecimal;
 import java.util.Currency;
+import java.util.List;
 import org.qi4j.chronos.model.composites.LoginComposite;
 import org.qi4j.chronos.model.composites.MoneyComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
@@ -92,6 +94,15 @@ public class StaffAddPage extends StaffAddEditPage
 
         staff.setSalary( money );
 
+        //setting up SystemRoles
+        List<SystemRoleEntityComposite> roleLists = userAddEditPanel.getSelectedRoleList();
+
+        for( SystemRoleEntityComposite role : roleLists )
+        {
+            staff.addSystemRole( role );
+        }
+
+        //TODO bp. make sure at least one SystemRole is selected.
         try
         {
             staffService.save( staff );

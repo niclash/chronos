@@ -13,11 +13,10 @@
 package org.qi4j.chronos.ui.common;
 
 import org.apache.wicket.model.LoadableDetachableModel;
-import org.qi4j.api.persistence.Identity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class AbstractDetachableModel<T extends Identity> extends LoadableDetachableModel
+public abstract class AbstractDetachableModel<T> extends LoadableDetachableModel
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( AbstractDetachableModel.class );
 
@@ -26,19 +25,14 @@ public abstract class AbstractDetachableModel<T extends Identity> extends Loadab
 
     public AbstractDetachableModel( T identifiable )
     {
-        this( identifiable.getIdentity() );
+        id = getId( identifiable );
 
-        this.identity = identifiable;
-    }
-
-    private AbstractDetachableModel( String id )
-    {
         if( id == null )
         {
-            throw new IllegalArgumentException( "The id must not be null." );
+            throw new IllegalArgumentException( "Id must not be null!" );
         }
 
-        this.id = id;
+        this.identity = identifiable;
     }
 
     @Override
@@ -70,5 +64,7 @@ public abstract class AbstractDetachableModel<T extends Identity> extends Loadab
     }
 
     protected abstract T load( String id );
+
+    protected abstract String getId( T t );
 }
 

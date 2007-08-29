@@ -16,11 +16,8 @@ import org.apache.wicket.Request;
 import org.apache.wicket.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authorization.strategies.role.Roles;
-import org.qi4j.chronos.model.Login;
-import org.qi4j.chronos.model.Staff;
+import org.qi4j.api.persistence.Identity;
 import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.model.composites.LoginComposite;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
 
 //TODO bp. fix authentication and getRoles
 public class ChronosSession extends AuthenticatedWebSession
@@ -36,9 +33,12 @@ public class ChronosSession extends AuthenticatedWebSession
 
     public boolean authenticate( String username, String password )
     {
-        if( username.equals( "admin" ) && password.equals( "admin" ) )
+        User user = ChronosWebApp.getServices().getUserService().getUser( username, password );
+
+        if( user != null )
         {
-            userId = "admin";
+            userId = ( (Identity) user ).getIdentity();
+
             return true;
         }
 
@@ -47,24 +47,7 @@ public class ChronosSession extends AuthenticatedWebSession
 
     public User getUser()
     {
-        if( userId != null )
-        {
-            Staff staff = ChronosWebApp.newInstance( StaffEntityComposite.class );
-
-            Login login = ChronosWebApp.newInstance( LoginComposite.class );
-
-            login.setName( "admin" );
-            login.setPassword( "admin" );
-
-            staff.setLastName( "admin" );
-            staff.setFirstName( "admin" );
-
-            staff.setLogin( login );
-
-            return staff;
-        }
-
-        return null;
+        return ChronosWebApp.getServices().getUserService().get( userId );
     }
 
     public boolean isSignIn()

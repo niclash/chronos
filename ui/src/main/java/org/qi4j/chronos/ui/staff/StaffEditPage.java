@@ -10,21 +10,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service;
+package org.qi4j.chronos.ui.staff;
 
-public interface Services
+import org.qi4j.chronos.ui.base.BasePage;
+import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
+
+public class StaffEditPage extends StaffAddEditPage
 {
-    AccountService getAccountService();
+    public StaffEditPage( BasePage basePage )
+    {
+        super( basePage );
+    }
 
-    CustomerService getCustomerService();
+    public void onSubmitting()
+    {
 
-    ProjectService getProjectService();
+    }
 
-    ProjectRoleService getProjectRoleService();
+    public LoginUserAbstractPanel getLoginUserAbstractPanel( String id )
+    {
+        return null;
+    }
 
-    StaffService getStaffService();
+    public String getSubmitButtonValue()
+    {
+        return "Edit";
+    }
 
-    UserService getUserService();
-
-    SystemRoleService getSystemRoleService();
+    public String getTitleLabel()
+    {
+        return "Edit staff";
+    }
 }

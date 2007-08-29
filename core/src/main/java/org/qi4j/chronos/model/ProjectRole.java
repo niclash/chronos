@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
+ * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -10,27 +11,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.mixins;
+package org.qi4j.chronos.model;
 
-import org.qi4j.api.annotation.ModifiedBy;
-import org.qi4j.chronos.model.associations.HasRole;
-import org.qi4j.chronos.model.modifiers.NotNullValidationModifier;
-import org.qi4j.chronos.model.modifiers.NotNullable;
-import org.qi4j.chronos.model.ProjectRole;
+import java.io.Serializable;
+import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.chronos.model.mixins.RoleMixin;
 
-@ModifiedBy( { NotNullValidationModifier.class } )
-public final class HasRoleMixin implements HasRole
+@ImplementedBy( RoleMixin.class )
+public interface ProjectRole extends Serializable
 {
-    private ProjectRole role;
+    public final static int NAME_LEN = 80;
 
-    @NotNullable
-    public void setRole( ProjectRole aRole )
-    {
-        role = aRole;
-    }
+    String getRole();
 
-    public ProjectRole getRole()
-    {
-        return role;
-    }
+    void setRole( String role );
 }
