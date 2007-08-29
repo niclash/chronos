@@ -15,15 +15,17 @@ package org.qi4j.chronos.model.associations;
 import java.io.Serializable;
 import java.util.Iterator;
 import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.model.mixins.HasSystemRolesMixin;
 
 @ImplementedBy( HasSystemRolesMixin.class )
 public interface HasSystemRoles extends Serializable
 {
-    void addSystemRole( SystemRole systemRole );
+    void removeAllSystemRole();
 
-    void removeSystemRole( SystemRole systemRole );
+    void addSystemRole( SystemRoleEntityComposite systemRole );
 
-    Iterator<SystemRole> systemRoleIterator();
+    void removeSystemRole( SystemRoleEntityComposite systemRole );
+
+    Iterator<SystemRoleEntityComposite> systemRoleIterator();
 }

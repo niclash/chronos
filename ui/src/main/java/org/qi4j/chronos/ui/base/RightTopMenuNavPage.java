@@ -21,14 +21,18 @@ public abstract class RightTopMenuNavPage extends BasePage
 {
     public RightTopMenuNavPage()
     {
+        initComponents();
+    }
+
+    private void initComponents()
+    {
         add( new Link( "changePasswordLink" )
         {
             public void onClick()
             {
                 handleChangePassword();
             }
-        }
-        );
+        } );
     }
 
     private void handleChangePassword()

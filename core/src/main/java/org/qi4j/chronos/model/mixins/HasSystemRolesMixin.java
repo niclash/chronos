@@ -15,29 +15,34 @@ package org.qi4j.chronos.model.mixins;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.associations.HasSystemRoles;
+import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 
 public class HasSystemRolesMixin implements HasSystemRoles
 {
-    private List<SystemRole> list;
+    private List<SystemRoleEntityComposite> list;
 
     public HasSystemRolesMixin()
     {
-        list = new ArrayList<SystemRole>();
+        list = new ArrayList<SystemRoleEntityComposite>();
     }
 
-    public void addSystemRole( SystemRole systemRole )
+    public void removeAllSystemRole()
+    {
+        list.clear();
+    }
+
+    public void addSystemRole( SystemRoleEntityComposite systemRole )
     {
         list.add( systemRole );
     }
 
-    public void removeSystemRole( SystemRole systemRole )
+    public void removeSystemRole( SystemRoleEntityComposite systemRole )
     {
         list.remove( systemRole );
     }
 
-    public Iterator<SystemRole> systemRoleIterator()
+    public Iterator<SystemRoleEntityComposite> systemRoleIterator()
     {
         return list.iterator();
     }

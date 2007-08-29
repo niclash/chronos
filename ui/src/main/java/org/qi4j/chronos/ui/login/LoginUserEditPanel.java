@@ -13,29 +13,65 @@
 package org.qi4j.chronos.ui.login;
 
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.CheckBox;
+import org.apache.wicket.model.Model;
+import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.SimpleLink;
 
 public class LoginUserEditPanel extends LoginUserAbstractPanel
 {
     private Label loginIdLabel;
     private SimpleLink changePasswordLink;
+    private String userId;
 
-    public LoginUserEditPanel( String id )
+    private CheckBox loginEnabledCheckBox;
+
+    public LoginUserEditPanel( String id, String userId )
     {
         super( id );
+
+        this.userId = userId;
 
         initComponents();
     }
 
     private void initComponents()
     {
-        loginIdLabel = new Label( "loginId", "" );
+        User user = ChronosWebApp.getServices().getUserService().get( userId );
+
+        loginIdLabel = new Label( "loginId", user.getLogin().getName() );
+
+        changePasswordLink = new SimpleLink( "changePasswordLink", "Change Password" )
+        {
+            public void linkClicked()
+            {
+                handleChangePassword();
+            }
+        };
+
+        loginEnabledCheckBox = new CheckBox( "loginEnabled", new Model( user.getLogin().isEnabled() ) );
+
+        add( loginIdLabel );
+        add( changePasswordLink );
+        add( loginEnabledCheckBox );
+    }
+
+    private void handleChangePassword()
+    {
+        ChangePasswordPage changePasswordPage = new ChangePasswordPage( (BasePage) this.getPage(), userId );
+
+        setResponsePage( changePasswordPage );
+    }
+
+    public CheckBox getLoginEnabledCheckBox()
+    {
+        return loginEnabledCheckBox;
     }
 
     public boolean checkIsNotValidated()
     {
-        //TODO fixme this.
         return false;
     }
-
 }

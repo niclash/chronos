@@ -35,11 +35,15 @@ public class ChronosSession extends AuthenticatedWebSession
     {
         User user = ChronosWebApp.getServices().getUserService().getUser( username, password );
 
-        if( user != null )
+        if( user != null && user.getLogin().isEnabled() )
         {
             userId = ( (Identity) user ).getIdentity();
 
             return true;
+        }
+        else
+        {
+            this.error( "Login account is disabled." );
         }
 
         return false;

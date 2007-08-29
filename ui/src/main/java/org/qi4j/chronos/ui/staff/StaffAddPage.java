@@ -12,7 +12,6 @@
  */
 package org.qi4j.chronos.ui.staff;
 
-import java.math.BigDecimal;
 import java.util.Currency;
 import java.util.List;
 import org.qi4j.chronos.model.composites.LoginComposite;
@@ -77,10 +76,9 @@ public class StaffAddPage extends StaffAddEditPage
 
         login.setName( loginUserAddPanel.getLoginIdField().getText() );
 
-        //TODO bp. encrypt password here?
         login.setPassword( loginUserAddPanel.getPasswordField().getText() );
 
-        login.setEnabled( false );
+        login.setEnabled( true );
 
         staff.setLogin( login );
 
@@ -89,7 +87,7 @@ public class StaffAddPage extends StaffAddEditPage
 
         Currency currency = Currency.getInstance( salaryCurrencyField.getChoice() );
 
-        money.setAmount( BigDecimal.valueOf( salaryAmountField.getIntValue() ) );
+        money.setAmount( salaryAmountField.getIntValue() );
         money.setCurrency( currency );
 
         staff.setSalary( money );
@@ -102,7 +100,6 @@ public class StaffAddPage extends StaffAddEditPage
             staff.addSystemRole( role );
         }
 
-        //TODO bp. make sure at least one SystemRole is selected.
         try
         {
             staffService.save( staff );

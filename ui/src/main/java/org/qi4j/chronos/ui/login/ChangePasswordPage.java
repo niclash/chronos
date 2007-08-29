@@ -129,6 +129,7 @@ public class ChangePasswordPage extends LeftMenuNavPage
                 isRejected = true;
             }
 
+            String oldPassword = oldPasswordField.getText();
             String password = newPasswordField.getText();
             String confirmPassword = confirmPasswordField.getText();
 
@@ -141,13 +142,35 @@ public class ChangePasswordPage extends LeftMenuNavPage
                 }
             }
 
+            UserService userService = getUserService();
+            User user = userService.get( userId );
+
+            if( oldPassword != null && !user.getLogin().getPassword().equals( oldPassword ) )
+            {
+                error( "Invalid old password!" );
+                isRejected = true;
+            }
+
             if( isRejected )
             {
                 return;
             }
 
-            //TODO bp. check the old password
-            //TODO bp. save the new password
+            user.getLogin().setPassword( password );
+
+            try
+            {
+                userService.update( user );
+
+                goBackPage.info( "Password Changed Successfully." );
+
+                setResponsePage( goBackPage );
+            }
+            catch( Exception err )
+            {
+                error( err.getMessage() );
+                LOGGER.error( err.getMessage(), err );
+            }
         }
     }
 }

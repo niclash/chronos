@@ -12,11 +12,13 @@
  */
 package org.qi4j.chronos.service.mocks;
 
+import java.util.Currency;
 import org.qi4j.api.Composite;
 import org.qi4j.api.CompositeBuilder;
 import org.qi4j.api.CompositeBuilderFactory;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.LoginComposite;
+import org.qi4j.chronos.model.composites.MoneyComposite;
 import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
@@ -112,21 +114,28 @@ public class MockServicesMixin implements Services
 
     private void initStaffDummyData()
     {
-        StaffEntityComposite staffEntityComposite = staffService.newInstance( StaffEntityComposite.class );
+        StaffEntityComposite staff = staffService.newInstance( StaffEntityComposite.class );
 
-        staffEntityComposite.setFirstName( "admin" );
-        staffEntityComposite.setLastName( "admin" );
-        staffEntityComposite.setGender( GenderType.male );
+        staff.setFirstName( "admin" );
+        staff.setLastName( "admin" );
+        staff.setGender( GenderType.male );
 
-        LoginComposite loginComposite = factory.newCompositeBuilder( LoginComposite.class ).newInstance();
+        LoginComposite login = factory.newCompositeBuilder( LoginComposite.class ).newInstance();
 
-        loginComposite.setName( "admin" );
-        loginComposite.setPassword( "admin" );
-        loginComposite.setEnabled( true );
+        login.setName( "admin" );
+        login.setPassword( "admin" );
+        login.setEnabled( true );
 
-        staffEntityComposite.setLogin( loginComposite );
+        staff.setLogin( login );
 
-        staffService.save( staffEntityComposite );
+        MoneyComposite money = factory.newCompositeBuilder( MoneyComposite.class ).newInstance();
+
+        money.setAmount( 0 );
+        money.setCurrency( Currency.getInstance( "USD" ) );
+
+        staff.setSalary( money );
+
+        staffService.save( staff );
     }
 
     private void initSystemRoleDummyData()

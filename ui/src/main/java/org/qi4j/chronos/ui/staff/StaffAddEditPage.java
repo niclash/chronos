@@ -12,7 +12,10 @@
  */
 package org.qi4j.chronos.ui.staff;
 
+import java.util.Collections;
+import java.util.List;
 import org.apache.wicket.markup.html.form.Form;
+import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.NumberTextField;
@@ -36,7 +39,13 @@ public abstract class StaffAddEditPage extends AddEditBasePage
 
     public void initComponent( Form form )
     {
-        userAddEditPanel = new UserAddEditPanel( "userAddEditPanel" );
+        userAddEditPanel = new UserAddEditPanel( "userAddEditPanel" )
+        {
+            public List<SystemRoleEntityComposite> getInitSelectedRoleList()
+            {
+                return StaffAddEditPage.this.getInitSelectedRoleList();
+            }
+        };
 
         salaryAmountField = new NumberTextField( "salaryAmountField", "Salary" );
         salaryCurrencyField = new SimpleDropDownChoice( "salaryCurrencyChoice", ListUtil.getCurrencyList(), true );
@@ -49,6 +58,11 @@ public abstract class StaffAddEditPage extends AddEditBasePage
         form.add( loginUserPanel );
 
         salaryAmountField.setInvalue( 0 );
+    }
+
+    public List<SystemRoleEntityComposite> getInitSelectedRoleList()
+    {
+        return Collections.emptyList();
     }
 
     public final void handleSubmit()

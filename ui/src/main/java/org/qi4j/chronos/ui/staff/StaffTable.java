@@ -19,6 +19,7 @@ import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
@@ -65,14 +66,7 @@ public class StaffTable extends ActionTable<StaffEntityComposite>
 
         Money salary = obj.getSalary();
 
-        if( salary != null )
-        {
-            item.add( new Label( "salary", salary.getCurrency().getSymbol() + salary.getAmount() ) );
-        }
-        else
-        {
-            item.add( new Label( "salary", "--" ) );
-        }
+        item.add( new Label( "salary", salary.getCurrency().getSymbol() + salary.getAmount() ) );
 
         item.add( new Label( "loginId", obj.getLogin().getName() ) );
 
@@ -80,10 +74,24 @@ public class StaffTable extends ActionTable<StaffEntityComposite>
 
         loginEnabled.setEnabled( false );
         item.add( loginEnabled );
+
+        item.add( new SimpleLink( "editLink", "Edit" )
+        {
+            public void linkClicked()
+            {
+                setResponsePage( new StaffEditPage( (BasePage) this.getPage() )
+                {
+                    public String getStaffId()
+                    {
+                        return staffId;
+                    }
+                } );
+            }
+        } );
     }
 
     public List<String> getTableHeaderList()
     {
-        return Arrays.asList( "First Name", "Last name", "Salary", "Login Id", "Login Enabled" );
+        return Arrays.asList( "First Name", "Last name", "Salary", "Login Id", "Login Enabled", "Edit" );
     }
 }

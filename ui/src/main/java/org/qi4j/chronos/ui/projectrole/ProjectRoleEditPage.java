@@ -30,6 +30,11 @@ public class ProjectRoleEditPage extends ProjectRoleAddEditPage
 
         this.roleId = roleId;
 
+        initData();
+    }
+
+    private void initData()
+    {
         nameField.setText( getRole().getRole() );
     }
 

@@ -14,8 +14,7 @@ package org.qi4j.chronos.ui.user;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import org.apache.wicket.extensions.markup.html.form.palette.Palette;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
@@ -29,7 +28,7 @@ import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.util.ListUtil;
 
-public class UserAddEditPanel extends Panel
+public abstract class UserAddEditPanel extends Panel
 {
     private MaxLengthTextField firstNameField;
     private MaxLengthTextField lastNameField;
@@ -61,10 +60,7 @@ public class UserAddEditPanel extends Panel
         add( rolePalette );
     }
 
-    public List<SystemRoleEntityComposite> getInitSelectedRoleList()
-    {
-        return Collections.emptyList();
-    }
+    public abstract List<SystemRoleEntityComposite> getInitSelectedRoleList();
 
     private List<SystemRoleDelegator> getSelectedRoleChoices()
     {
@@ -98,13 +94,15 @@ public class UserAddEditPanel extends Panel
 
     public List<SystemRoleEntityComposite> getSelectedRoleList()
     {
-        Collection<SystemRoleDelegator> selectedCols = rolePalette.getChoices();
+        Iterator<SystemRoleDelegator> selectedIterator = rolePalette.getSelectedChoices();
 
         List<SystemRoleEntityComposite> SystemRoleList = new ArrayList<SystemRoleEntityComposite>();
 
-        for( SystemRoleDelegator systemRoleDelegator : selectedCols )
+        while( selectedIterator.hasNext() )
         {
-            SystemRoleEntityComposite systemRole = ChronosWebApp.getServices().getSystemRoleService().get( systemRoleDelegator.getRoleId() );
+            SystemRoleDelegator delegator = selectedIterator.next();
+
+            SystemRoleEntityComposite systemRole = ChronosWebApp.getServices().getSystemRoleService().get( delegator.getRoleId() );
 
             SystemRoleList.add( systemRole );
         }
@@ -143,6 +141,12 @@ public class UserAddEditPanel extends Panel
 
         if( lastNameField.checkIsEmptyOrInvalidLength() )
         {
+            isRejected = true;
+        }
+
+        if( getSelectedRoleList().size() == 0 )
+        {
+            error( "Please make at least one system role is selected!" );
             isRejected = true;
         }
 
