@@ -22,7 +22,6 @@ public class AddressEntityCompositeTest extends AbstractTest
 
         address.setFirstLine( firstLineAdd );
         address.setSecondLine( secondLineAdd );
-        address.setThirdLine( thirdLineAdd );
         address.setZipCode( zipcode );
 
         CityEntityComposite city = builderFactory.newCompositeBuilder( CityEntityComposite.class ).newInstance();
@@ -34,13 +33,11 @@ public class AddressEntityCompositeTest extends AbstractTest
         city.setState( state );
 
         CountryEntityComposite country = builderFactory.newCompositeBuilder( CountryEntityComposite.class ).newInstance();
-        country.setIsoCode( "AU" );
         country.setName( "Australia" );
         city.setCountry( country );
 
         assertEquals( firstLineAdd, address.getFirstLine() );
         assertEquals( secondLineAdd, address.getSecondLine() );
-        assertNull( address.getThirdLine() );
         assertEquals( zipcode, address.getZipCode() );
 
         CityEntityComposite otherCity = (CityEntityComposite) address.getCity();

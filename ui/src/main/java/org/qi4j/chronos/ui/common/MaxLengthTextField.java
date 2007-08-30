@@ -26,6 +26,8 @@ public class MaxLengthTextField
 
     private int maxLength;
 
+    private AttributeModifier readOnlyModifier;
+
     public MaxLengthTextField( String id, String fieldName )
     {
         this( id, fieldName, Integer.MAX_VALUE );
@@ -67,6 +69,23 @@ public class MaxLengthTextField
         this.text = text;
     }
 
+    public void setReadOnly( boolean isReadOnly )
+    {
+        if( readOnlyModifier == null )
+        {
+            readOnlyModifier = new AttributeModifier( "readonly", true, new Model( "readonly" ) );
+        }
+
+        if( isReadOnly )
+        {
+            add( readOnlyModifier );
+        }
+        else
+        {
+            remove( readOnlyModifier );
+        }
+    }
+
     public boolean checkIsEmptyOrInvalidLength()
     {
         return ValidatorUtil.isEmptyOrInvalidLength( text, fieldName, maxLength, this );
@@ -81,5 +100,6 @@ public class MaxLengthTextField
     {
         return ValidatorUtil.isInvalidLength( text, fieldName, maxLength, this );
     }
+
 }
 

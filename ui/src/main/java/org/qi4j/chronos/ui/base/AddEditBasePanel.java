@@ -1,6 +1,5 @@
 /*
- * Copyright (c) 2007 Lan Boon Ping. All Rights Reserved.
- * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
+ * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -11,20 +10,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model;
+package org.qi4j.chronos.ui.base;
 
-import org.qi4j.chronos.model.associations.HasAccounts;
-import org.qi4j.chronos.model.associations.HasAddress;
-import org.qi4j.chronos.model.associations.HasContactPersons;
+import org.apache.wicket.markup.html.panel.Panel;
 
-/**
- * Generic interface for Customer
- */
-public interface Customer extends NameWithReference, HasContactPersons, HasAccounts, HasAddress
+public abstract class AddEditBasePanel extends Panel
 {
-    public final static int FULL_NAME_LEN = 80;
+    public AddEditBasePanel( String id )
+    {
+        super( id );
+    }
 
-    public final static int REFERENCE_LEN = 80;
-
+    public abstract boolean checkIsNotValidated();
 }
-

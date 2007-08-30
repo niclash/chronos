@@ -10,24 +10,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.projectrole;
+package org.qi4j.chronos.ui.customer;
 
 import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
-import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
-import org.qi4j.chronos.ui.base.BasePage;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionAdapter;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 
-public class ProjectRoleTable extends ActionTable<ProjectRoleEntityComposite>
+public class CustomerTable extends ActionTable<CustomerEntityComposite>
 {
-    private ProjectRoleDataProvider roleDataProvider;
+    private CustomerDataProvider customerDataProvider;
 
-    public ProjectRoleTable( String id )
+    public CustomerTable( String id )
     {
         super( id );
 
@@ -45,41 +44,48 @@ public class ProjectRoleTable extends ActionTable<ProjectRoleEntityComposite>
         } );
     }
 
-    public AbstractSortableDataProvider<ProjectRoleEntityComposite> getDetachableDataProvider()
+    public AbstractSortableDataProvider<CustomerEntityComposite> getDetachableDataProvider()
     {
-        if( roleDataProvider == null )
+        if( customerDataProvider == null )
         {
-            roleDataProvider = new ProjectRoleDataProvider();
+            customerDataProvider = new CustomerDataProvider();
         }
 
-        return roleDataProvider;
+        return customerDataProvider;
     }
 
-    public void populateItems( Item item, ProjectRoleEntityComposite obj )
+    public void populateItems( Item item, CustomerEntityComposite obj )
     {
-        final String roleId = obj.getIdentity();
+        item.add( new SimpleLink( "fullname", obj.getName() )
+        {
+            public void linkClicked()
+            {
+                //TODO
+            }
+        } );
 
-        item.add( new Label( "roleName", obj.getRole() ) );
+        item.add( new SimpleLink( "reference", obj.getReference() )
+        {
+            public void linkClicked()
+            {
+                //TODO
+            }
+        } );
+
+        //TODO bp. fix address
+        item.add( new Label( "address", "Test Address " ) );
 
         item.add( new SimpleLink( "editLink", "Edit" )
         {
             public void linkClicked()
             {
-                ProjectRoleEditPage roleEditPage = new ProjectRoleEditPage( getBasePage(), roleId );
-
-                setResponsePage( roleEditPage );
+                //TODO
             }
         } );
     }
 
-    private BasePage getBasePage()
-    {
-        return (BasePage) this.getPage();
-    }
-
-
     public List<String> getTableHeaderList()
     {
-        return Arrays.asList( "Name", "" );
+        return Arrays.asList( "Full Name", "Reference", "Address", "" );
     }
 }

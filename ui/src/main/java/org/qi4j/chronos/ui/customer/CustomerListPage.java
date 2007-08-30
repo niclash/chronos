@@ -12,9 +12,33 @@
  */
 package org.qi4j.chronos.ui.customer;
 
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
+import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
+import org.qi4j.chronos.ui.common.action.ActionAdapter;
 
 public class CustomerListPage extends LeftMenuNavPage
 {
+    public CustomerListPage()
+    {
+        initComponents();
+    }
 
+    private void initComponents()
+    {
+        add( new Link( "newCustomerLink" )
+        {
+            public void onClick()
+            {
+                setResponsePage( new CustomerAddPage( CustomerListPage.this ) );
+            }
+        } );
+
+        add( new FeedbackPanel( "feedbackPanel" ) );
+
+        CustomerTable customerTable = new CustomerTable( "customerTable" );
+
+        add( customerTable );
+    }
 }

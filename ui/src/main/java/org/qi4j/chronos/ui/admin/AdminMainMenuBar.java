@@ -32,6 +32,7 @@ public class AdminMainMenuBar extends MenuBar
     {
         //TODO bp. fix this
         return new MenuItem[]{
+            new MenuLink( "Home", AdminHomePage.class ),
             new MenuLink( "Customer", CustomerListPage.class ),
             new MenuLink( "Account", AccountListPage.class ),
             new MenuLink( "Staff", StaffListPage.class ),

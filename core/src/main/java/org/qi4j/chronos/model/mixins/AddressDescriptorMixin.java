@@ -40,7 +40,7 @@ public final class AddressDescriptorMixin implements Descriptor
     private static final String NEW_LINE = "\n";
 
     @Uses private AddressComposite address;
-    
+
     public String getDisplayValue()
     {
         StringBuilder displayName = new StringBuilder();
@@ -50,9 +50,6 @@ public final class AddressDescriptorMixin implements Descriptor
 
         String secondLine = address.getSecondLine();
         appendValueTo( secondLine, displayName );
-
-        String thirdLine = address.getThirdLine();
-        appendValueTo( thirdLine, displayName );
 
         String zipCode = address.getZipCode();
         appendValueTo( zipCode, displayName );

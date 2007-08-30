@@ -24,11 +24,12 @@ import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.ui.base.AddEditBasePanel;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.util.ListUtil;
 
-public abstract class UserAddEditPanel extends Panel
+public abstract class UserAddEditPanel extends AddEditBasePanel
 {
     private MaxLengthTextField firstNameField;
     private MaxLengthTextField lastNameField;

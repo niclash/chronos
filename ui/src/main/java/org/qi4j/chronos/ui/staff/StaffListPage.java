@@ -15,8 +15,6 @@ package org.qi4j.chronos.ui.staff;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
-import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
-import org.qi4j.chronos.ui.common.action.ActionAdapter;
 
 public class StaffListPage extends LeftMenuNavPage
 {
@@ -38,22 +36,6 @@ public class StaffListPage extends LeftMenuNavPage
         add( new FeedbackPanel( "feedbackPanel" ) );
 
         StaffTable staffTable = new StaffTable( "staffTable" );
-
-        staffTable.addAction( new ActionAdapter( "Delete" )
-        {
-            public void performAction( AbstractSortableDataProvider dataProvider )
-            {
-                //TODO bp. fixme
-            }
-        } );
-
-        staffTable.addAction( new ActionAdapter( "Disable Login" )
-        {
-            public void performAction( AbstractSortableDataProvider dataProvider )
-            {
-                //TODO bp. fixme
-            }
-        } );
 
         add( staffTable );
     }

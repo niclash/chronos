@@ -18,6 +18,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
+import org.qi4j.chronos.ui.common.action.ActionAdapter;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 
 public class AccountTable extends ActionTable<AccountEntityComposite>
@@ -27,6 +28,27 @@ public class AccountTable extends ActionTable<AccountEntityComposite>
     public AccountTable( String id )
     {
         super( id );
+
+        initAction();
+    }
+
+    private void initAction()
+    {
+        addAction( new ActionAdapter( "Delete" )
+        {
+            public void performAction( AbstractSortableDataProvider dataProvider )
+            {
+                info( "Delete - Not implemented yet - total items " + dataProvider.size() );
+            }
+        } );
+
+        addAction( new ActionAdapter( "Disable" )
+        {
+            public void performAction( AbstractSortableDataProvider dataProvider )
+            {
+                info( "Disable - Not implemented yet - total items " + dataProvider.size() );
+            }
+        } );
     }
 
     public AbstractSortableDataProvider<AccountEntityComposite> getDetachableDataProvider()

@@ -22,6 +22,7 @@ import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
+import org.qi4j.chronos.ui.common.action.ActionAdapter;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.library.general.model.Money;
 
@@ -32,6 +33,27 @@ public class StaffTable extends ActionTable<StaffEntityComposite>
     public StaffTable( String id )
     {
         super( id );
+
+        initActions();
+    }
+
+    private void initActions()
+    {
+        addAction( new ActionAdapter( "Delete" )
+        {
+            public void performAction( AbstractSortableDataProvider dataProvider )
+            {
+                //TODO bp. fixme
+            }
+        } );
+
+        addAction( new ActionAdapter( "Disable Login" )
+        {
+            public void performAction( AbstractSortableDataProvider dataProvider )
+            {
+                //TODO bp. fixme
+            }
+        } );
     }
 
     public AbstractSortableDataProvider<StaffEntityComposite> getDetachableDataProvider()

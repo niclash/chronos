@@ -12,10 +12,13 @@
  */
 package org.qi4j.chronos.ui.base;
 
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.qi4j.api.persistence.Identity;
+import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.ui.ChronosSession;
 import org.qi4j.chronos.ui.login.ChangePasswordPage;
+import org.qi4j.chronos.ui.login.LoginPage;
 
 public abstract class RightTopMenuNavPage extends BasePage
 {
@@ -26,6 +29,8 @@ public abstract class RightTopMenuNavPage extends BasePage
 
     private void initComponents()
     {
+        add( new Label( "loginId", getUser().getLogin().getName() ) );
+
         add( new Link( "changePasswordLink" )
         {
             public void onClick()
@@ -33,14 +38,30 @@ public abstract class RightTopMenuNavPage extends BasePage
                 handleChangePassword();
             }
         } );
+
+        add( new Link( "logoutLink" )
+        {
+            public void onClick()
+            {
+                // invalidate the session.
+                getSession().invalidate();
+
+                setResponsePage( LoginPage.class );
+            }
+        } );
     }
 
     private void handleChangePassword()
     {
-        ChronosSession session = (ChronosSession) ChronosSession.get();
-
-        Identity identity = (Identity) session.getUser();
+        Identity identity = (Identity) getUser();
 
         setResponsePage( new ChangePasswordPage( this, identity.getIdentity() ) );
+    }
+
+    private User getUser()
+    {
+        ChronosSession session = (ChronosSession) ChronosSession.get();
+
+        return session.getUser();
     }
 }

@@ -97,6 +97,7 @@ public abstract class ActionTable<T> extends Panel
             add( actionBar );
 
             allCheckBox = new CheckBox( "allCheckBox", new Model( false ) );
+            allCheckBox.setEnabled( false );
 
             final String script = getAllCheckBoxOnClickScript();
 

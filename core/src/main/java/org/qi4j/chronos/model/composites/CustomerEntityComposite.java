@@ -12,20 +12,14 @@
  */
 package org.qi4j.chronos.model.composites;
 
-import org.qi4j.api.annotation.ModifiedBy;
 import org.qi4j.api.persistence.EntityComposite;
 import org.qi4j.chronos.model.Customer;
-import org.qi4j.chronos.model.modifiers.RequiredFields;
-import org.qi4j.chronos.model.modifiers.RequiredFieldsValidationModifier;
 import org.qi4j.library.general.model.Validatable;
-import org.qi4j.library.general.model.modifiers.LifecycleValidationModifier;
 
 /**
  * Persistable customer entity that contains customer name, customer reference name, address,
  * contact persons and accounts.
  */
-@ModifiedBy( { LifecycleValidationModifier.class, RequiredFieldsValidationModifier.class } )
-@RequiredFields( { "identity", "name", "address" } )
 public interface CustomerEntityComposite extends Customer, Validatable, EntityComposite
 {
 }

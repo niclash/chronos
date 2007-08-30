@@ -15,8 +15,6 @@ package org.qi4j.chronos.ui.projectrole;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
-import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
-import org.qi4j.chronos.ui.common.action.ActionAdapter;
 
 public class ProjectRoleListPage extends LeftMenuNavPage
 {
@@ -39,15 +37,6 @@ public class ProjectRoleListPage extends LeftMenuNavPage
 
         ProjectRoleTable roleTable = new ProjectRoleTable( "roleTable" );
 
-        roleTable.addAction( new ActionAdapter( "Delete" )
-        {
-            public void performAction( AbstractSortableDataProvider dataProvider )
-            {
-                //TODO bp. fixme
-            }
-        } );
-
-        //TODO bp. add the action here if any
         add( roleTable );
     }
 }
