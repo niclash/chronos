@@ -12,7 +12,9 @@
  */
 package org.qi4j.chronos.ui.common;
 
+import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 
 public class SimpleTextField extends TextField
@@ -24,7 +26,7 @@ public class SimpleTextField extends TextField
         this( id, text, true );
     }
 
-    public SimpleTextField( String id, String text, boolean isEnabled )
+    public SimpleTextField( String id, String text, boolean isReadOnly )
     {
         super( id );
 
@@ -32,7 +34,10 @@ public class SimpleTextField extends TextField
 
         this.setModel( new PropertyModel( this, "text" ) );
 
-        this.setEnabled( isEnabled );
+        if( isReadOnly )
+        {
+            add( new AttributeModifier( "readonly", true, new Model( "readonly" ) ) );
+        }
     }
 
     public String getText()

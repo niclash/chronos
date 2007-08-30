@@ -12,18 +12,45 @@
  */
 package org.qi4j.chronos.ui.account;
 
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
+import org.qi4j.chronos.ui.common.SimpleTextField;
 
 public class AccountDetailPage extends LeftMenuNavPage
 {
-    public AccountDetailPage()
+    private BasePage returnPage;
+
+    private String accountId;
+
+    private SimpleTextField accountNameField;
+
+    public AccountDetailPage( BasePage returnPage, String accountId )
     {
+        this.returnPage = returnPage;
+        this.accountId = accountId;
+
         initComponents();
+    }
+
+    private AccountEntityComposite getAccount()
+    {
+        return ChronosWebApp.getServices().getAccountService().get( accountId );
     }
 
     private void initComponents()
     {
+        AccountEntityComposite account = getAccount();
+
+        add( new FeedbackPanel( "feedbackPanel" ) );
+
+        accountNameField = new SimpleTextField( "accountNameField", account.getName() );
+
+        add( accountNameField );
         //TODO bp. show project list,
         //TODO bp. show priceRateScheudle list
     }
+
 }

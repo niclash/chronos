@@ -19,8 +19,11 @@ import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.service.EntityService;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
+import org.qi4j.chronos.ui.common.SimpleDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionAdapter;
 import org.qi4j.chronos.ui.common.action.ActionTable;
@@ -28,7 +31,7 @@ import org.qi4j.library.general.model.Money;
 
 public class StaffTable extends ActionTable<StaffEntityComposite>
 {
-    private StaffDataProvider staffDataProvider;
+    private SimpleDataProvider<StaffEntityComposite> dataProvider;
 
     public StaffTable( String id )
     {
@@ -58,12 +61,18 @@ public class StaffTable extends ActionTable<StaffEntityComposite>
 
     public AbstractSortableDataProvider<StaffEntityComposite> getDetachableDataProvider()
     {
-        if( staffDataProvider == null )
+        if( dataProvider == null )
         {
-            staffDataProvider = new StaffDataProvider();
+            dataProvider = new SimpleDataProvider<StaffEntityComposite>()
+            {
+                public EntityService<StaffEntityComposite> getEntityService()
+                {
+                    return ChronosWebApp.getServices().getStaffService();
+                }
+            };
         }
 
-        return staffDataProvider;
+        return dataProvider;
     }
 
     public void populateItems( Item item, StaffEntityComposite obj )

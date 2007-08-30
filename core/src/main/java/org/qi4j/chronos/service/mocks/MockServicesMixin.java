@@ -31,6 +31,7 @@ import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.service.SystemRoleService;
 import org.qi4j.chronos.service.UserService;
+import org.qi4j.chronos.service.associations.HasPriceRateScheduleService;
 import org.qi4j.chronos.service.composites.AccountServiceComposite;
 import org.qi4j.chronos.service.composites.CustomerServiceComposite;
 import org.qi4j.chronos.service.composites.ProjectServiceComposite;
@@ -56,7 +57,8 @@ public class MockServicesMixin implements Services
     {
         this.factory = factory;
 
-        accountService = newService( AccountServiceComposite.class );
+        accountService = initAccountService();
+
         customerService = newService( CustomerServiceComposite.class );
         projectService = newService( ProjectServiceComposite.class );
         projectRoleService = newService( RoleServiceComposite.class );
@@ -65,6 +67,17 @@ public class MockServicesMixin implements Services
         systemRoleService = newService( SystemRoleServiceComposite.class );
 
         initDummyData();
+    }
+
+    private AccountService initAccountService()
+    {
+        CompositeBuilder<AccountServiceComposite> compositeBuilder = factory.newCompositeBuilder( AccountServiceComposite.class );
+
+        compositeBuilder.setMixin( EntityService.class, new MockEntityServiceMixin( factory ) );
+
+        compositeBuilder.setMixin( HasPriceRateScheduleService.class, new MockHasPriceRateScheduleServiceMixin() );
+
+        return compositeBuilder.newInstance();
     }
 
     private UserService initUserService( StaffService staffService )

@@ -17,14 +17,17 @@ import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
+import org.qi4j.chronos.service.EntityService;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
+import org.qi4j.chronos.ui.common.SimpleDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionAdapter;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 
 public class CustomerTable extends ActionTable<CustomerEntityComposite>
 {
-    private CustomerDataProvider customerDataProvider;
+    private SimpleDataProvider<CustomerEntityComposite> dataProvider;
 
     public CustomerTable( String id )
     {
@@ -46,12 +49,18 @@ public class CustomerTable extends ActionTable<CustomerEntityComposite>
 
     public AbstractSortableDataProvider<CustomerEntityComposite> getDetachableDataProvider()
     {
-        if( customerDataProvider == null )
+        if( dataProvider == null )
         {
-            customerDataProvider = new CustomerDataProvider();
+            dataProvider = new SimpleDataProvider<CustomerEntityComposite>()
+            {
+                public EntityService<CustomerEntityComposite> getEntityService()
+                {
+                    return ChronosWebApp.getServices().getCustomerService();
+                }
+            };
         }
 
-        return customerDataProvider;
+        return dataProvider;
     }
 
     public void populateItems( Item item, CustomerEntityComposite obj )

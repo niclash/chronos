@@ -20,6 +20,7 @@ import org.qi4j.chronos.ui.customer.CustomerListPage;
 import org.qi4j.chronos.ui.project.ProjectListPage;
 import org.qi4j.chronos.ui.projectrole.ProjectRoleListPage;
 import org.qi4j.chronos.ui.staff.StaffListPage;
+import org.qi4j.chronos.ui.systemrole.SystemRoleListPage;
 
 public class AdminMainMenuBar extends MenuBar
 {
@@ -35,9 +36,10 @@ public class AdminMainMenuBar extends MenuBar
             new MenuLink( "Home", AdminHomePage.class ),
             new MenuLink( "Customer", CustomerListPage.class ),
             new MenuLink( "Account", AccountListPage.class ),
-            new MenuLink( "Staff", StaffListPage.class ),
             new MenuLink( "Project", ProjectListPage.class ),
+            new MenuLink( "Staff", StaffListPage.class ),
             new MenuLink( "Project Role", ProjectRoleListPage.class ),
+            new MenuLink( "System Role", SystemRoleListPage.class ),
         };
     }
 }

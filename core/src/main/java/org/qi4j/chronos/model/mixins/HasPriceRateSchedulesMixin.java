@@ -13,11 +13,11 @@
  */
 package org.qi4j.chronos.model.mixins;
 
-import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
-import org.qi4j.chronos.model.PriceRateSchedule;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ArrayList;
+import org.qi4j.chronos.model.PriceRateSchedule;
+import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
 
 public final class HasPriceRateSchedulesMixin implements HasPriceRateSchedules
 {
@@ -25,7 +25,7 @@ public final class HasPriceRateSchedulesMixin implements HasPriceRateSchedules
 
     public HasPriceRateSchedulesMixin()
     {
-        list = new ArrayList<PriceRateSchedule>( );
+        list = new ArrayList<PriceRateSchedule>();
     }
 
     public void addPriceRateSchedule( PriceRateSchedule priceRateSchedule )
@@ -41,5 +41,10 @@ public final class HasPriceRateSchedulesMixin implements HasPriceRateSchedules
     public Iterator<PriceRateSchedule> priceRateScheduleIterator()
     {
         return list.iterator();
+    }
+
+    public int countTotalPriceRateSchedule()
+    {
+        return list.size();
     }
 }

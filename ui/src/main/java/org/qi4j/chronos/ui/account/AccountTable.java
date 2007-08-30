@@ -17,13 +17,18 @@ import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.service.EntityService;
+import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
+import org.qi4j.chronos.ui.common.SimpleDataProvider;
+import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionAdapter;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 
 public class AccountTable extends ActionTable<AccountEntityComposite>
 {
-    private AccountDataProvider dataProvider;
+    private SimpleDataProvider<AccountEntityComposite> dataProvider;
 
     public AccountTable( String id )
     {
@@ -55,14 +60,28 @@ public class AccountTable extends ActionTable<AccountEntityComposite>
     {
         if( dataProvider == null )
         {
-            dataProvider = new AccountDataProvider();
+            dataProvider = new SimpleDataProvider<AccountEntityComposite>()
+            {
+                public EntityService<AccountEntityComposite> getEntityService()
+                {
+                    return ChronosWebApp.getServices().getAccountService();
+                }
+            };
         }
         return dataProvider;
     }
 
     public void populateItems( Item item, AccountEntityComposite obj )
     {
-        item.add( new Label( "accountName", obj.getName() ) );
+        final String accountId = obj.getIdentity();
+
+        item.add( new SimpleLink( "accountName", obj.getName() )
+        {
+            public void linkClicked()
+            {
+                setResponsePage( new AccountDetailPage( (BasePage) this.getPage(), accountId ) );
+            }
+        } );
 
         //TODO bp. fix these valeues.
         item.add( new Label( "totalProject", "10" ) );
@@ -76,4 +95,3 @@ public class AccountTable extends ActionTable<AccountEntityComposite>
         return Arrays.asList( "Name", "Total Project", "Active", "Inactive", "Closed" );
     }
 }
-

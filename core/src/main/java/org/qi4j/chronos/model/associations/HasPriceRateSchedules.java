@@ -26,4 +26,6 @@ public interface HasPriceRateSchedules
     void removePriceRateSchedule( PriceRateSchedule priceRateSchedule );
 
     Iterator<PriceRateSchedule> priceRateScheduleIterator();
+
+    int countTotalPriceRateSchedule();
 }

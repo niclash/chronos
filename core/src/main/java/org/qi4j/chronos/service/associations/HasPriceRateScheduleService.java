@@ -10,12 +10,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service;
+package org.qi4j.chronos.service.associations;
 
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.service.associations.HasPriceRateScheduleService;
+import java.util.List;
+import org.qi4j.chronos.model.PriceRateSchedule;
 
-public interface AccountService extends HasPriceRateScheduleService, EntityService<AccountEntityComposite>
+public interface HasPriceRateScheduleService
 {
+    PriceRateSchedule getPriceRateSchedule( String accountId, String priceRateScheduleName );
 
+    List<PriceRateSchedule> findPriceRateSchedule( String accountId, int first, int count );
+
+    int countTotalPriceRateSchedule( String accountId );
 }

@@ -16,7 +16,8 @@ import org.qi4j.chronos.ui.base.BasePage;
 
 public class PriceRateScheduleEditPage extends PriceRateScheduleAddEditPage
 {
-    public PriceRateScheduleEditPage( BasePage basePage )
+    
+    public PriceRateScheduleEditPage( BasePage basePage, String accountId, String priceRateScheduleName )
     {
         super( basePage );
     }

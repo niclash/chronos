@@ -10,12 +10,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service;
+package org.qi4j.chronos.ui.systemrole;
 
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.service.associations.HasPriceRateScheduleService;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 
-public interface AccountService extends HasPriceRateScheduleService, EntityService<AccountEntityComposite>
+public class SystemRoleListPage extends LeftMenuNavPage
 {
+    public SystemRoleListPage()
+    {
+        initComponents();
+    }
 
+    private void initComponents()
+    {
+        add( new FeedbackPanel( "feedbackPanel" ) );
+
+        SystemRoleTable systemRoleTable = new SystemRoleTable( "systemRoleTable" );
+
+        systemRoleTable.setActionBarVisible( false );
+
+        add( systemRoleTable );
+    }
 }
