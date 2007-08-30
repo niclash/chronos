@@ -12,6 +12,7 @@
  */
 package org.qi4j.chronos.service.mocks;
 
+import java.math.BigDecimal;
 import java.util.Currency;
 import org.qi4j.api.Composite;
 import org.qi4j.api.CompositeBuilder;
@@ -143,7 +144,7 @@ public class MockServicesMixin implements Services
 
         MoneyComposite money = factory.newCompositeBuilder( MoneyComposite.class ).newInstance();
 
-        money.setAmount( 0 );
+        money.setAmount( BigDecimal.ZERO );
         money.setCurrency( Currency.getInstance( "USD" ) );
 
         staff.setSalary( money );

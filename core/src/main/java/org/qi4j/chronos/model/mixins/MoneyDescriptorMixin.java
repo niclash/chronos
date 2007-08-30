@@ -12,6 +12,7 @@
  */
 package org.qi4j.chronos.model.mixins;
 
+import java.math.BigDecimal;
 import java.util.Currency;
 import org.qi4j.api.annotation.Uses;
 import org.qi4j.library.general.model.Descriptor;
@@ -33,7 +34,7 @@ public final class MoneyDescriptorMixin implements Descriptor
             currencyCode = Character.SPACE_SEPARATOR + currency.getCurrencyCode();
         }
 
-        Integer amount = money.getAmount();
+        BigDecimal amount = money.getAmount();
         return amount + currencyCode;
     }
 
