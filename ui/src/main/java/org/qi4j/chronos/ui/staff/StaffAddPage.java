@@ -87,7 +87,7 @@ public class StaffAddPage extends StaffAddEditPage
 
         Currency currency = Currency.getInstance( salaryCurrencyField.getChoice() );
 
-        money.setAmount( salaryAmountField.getIntValue() );
+        money.setAmount( salaryAmountField.getLongValue() );
         money.setCurrency( currency );
 
         staff.setSalary( money );

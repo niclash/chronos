@@ -57,7 +57,7 @@ public abstract class StaffAddEditPage extends AddEditBasePage
         form.add( userAddEditPanel );
         form.add( loginUserPanel );
 
-        salaryAmountField.setInvalue( 0 );
+        salaryAmountField.setIntValue( 0 );
     }
 
     public List<SystemRoleEntityComposite> getInitSelectedRoleList()
@@ -69,7 +69,7 @@ public abstract class StaffAddEditPage extends AddEditBasePage
     {
         boolean isRejected = false;
 
-        if( salaryAmountField.checkIsEmptyOrNotInteger() )
+        if( salaryAmountField.checkIsEmptyOrNotLong() )
         {
             isRejected = true;
         }

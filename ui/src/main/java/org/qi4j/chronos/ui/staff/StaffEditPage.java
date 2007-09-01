@@ -55,12 +55,12 @@ public abstract class StaffEditPage extends StaffAddEditPage
 
         if( salary != null )
         {
-            salaryAmountField.setInvalue( salary.getAmount() );
+            salaryAmountField.setLongValue( salary.getAmount() );
             salaryCurrencyField.setChoice( salary.getCurrency().getCurrencyCode() );
         }
         else
         {
-            salaryAmountField.setInvalue( 0 );
+            salaryAmountField.setIntValue( 0 );
         }
 
         loginUserEditPanel.getLoginEnabledCheckBox().setModel( new Model( staff.getLogin().isEnabled() ) );
@@ -128,7 +128,7 @@ public abstract class StaffEditPage extends StaffAddEditPage
 
         Currency currency = Currency.getInstance( salaryCurrencyField.getChoice() );
 
-        staff.getSalary().setAmount( salaryAmountField.getIntValue() );
+        staff.getSalary().setAmount( salaryAmountField.getLongValue() );
         staff.getSalary().setCurrency( currency );
 
         staff.removeAllSystemRole();

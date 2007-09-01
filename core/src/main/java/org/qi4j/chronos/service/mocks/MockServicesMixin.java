@@ -144,7 +144,7 @@ public class MockServicesMixin implements Services
 
         MoneyComposite money = factory.newCompositeBuilder( MoneyComposite.class ).newInstance();
 
-        money.setAmount( BigDecimal.ZERO );
+        money.setAmount( 0L );
         money.setCurrency( Currency.getInstance( "USD" ) );
 
         staff.setSalary( money );

@@ -42,6 +42,22 @@ public class ValidatorUtil
         return false;
     }
 
+    public static boolean isNotLong( final String text, final String fieldName, final Component component )
+    {
+        try
+        {
+            Long.parseLong( text );
+
+            return false;
+        }
+        catch( Exception e )
+        {
+            component.error( fieldName + " must be type of numeric number." );
+
+            return true;
+        }
+    }
+
     public static boolean isNotInteger( final String text, final String fieldName, final Component component )
     {
         try
@@ -52,7 +68,7 @@ public class ValidatorUtil
         }
         catch( Exception e )
         {
-            component.error( fieldName + " must be type of integer number." );
+            component.error( fieldName + " must be type of numeric number." );
 
             return true;
         }
@@ -63,7 +79,7 @@ public class ValidatorUtil
         try
         {
             Double.parseDouble( text );
-            
+
             return false;
         }
         catch( Exception e )

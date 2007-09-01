@@ -34,7 +34,7 @@ public final class MoneyDescriptorMixin implements Descriptor
             currencyCode = Character.SPACE_SEPARATOR + currency.getCurrencyCode();
         }
 
-        BigDecimal amount = money.getAmount();
+        long amount = money.getAmount();
         return amount + currencyCode;
     }
 

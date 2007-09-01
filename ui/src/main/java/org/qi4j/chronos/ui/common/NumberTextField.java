@@ -49,19 +49,39 @@ public class NumberTextField extends TextField
         return Integer.parseInt( text );
     }
 
+    public long getLongValue()
+    {
+        return Long.parseLong( text );
+    }
+
     public double getDoubleValue()
     {
         return Double.parseDouble( text );
     }
 
-    public void setInvalue( int intValue )
+    public void setIntValue( int intValue )
     {
         text = String.valueOf( intValue );
+    }
+
+    public void setLongValue( long longValue )
+    {
+        text = String.valueOf( longValue );
     }
 
     public void setDoubleValue( double doubleValue )
     {
         text = String.valueOf( doubleValue );
+    }
+
+    public boolean checkIsEmptyOrNotLong()
+    {
+        if( !ValidatorUtil.isEmpty( text, fieldName, this ) )
+        {
+            return ValidatorUtil.isNotLong( text, fieldName, this );
+        }
+
+        return true;
     }
 
     public boolean checkIsEmptyOrNotInteger()
