@@ -15,32 +15,32 @@ package org.qi4j.chronos.model.mixins;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.associations.HasAccounts;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
 
 /**
  * Default mixin implementation for {@link org.qi4j.chronos.model.associations.HasAccounts}
  */
 public final class HasAccountsMixin implements HasAccounts
 {
-    private final List<Account> accounts;
+    private final List<AccountEntityComposite> accounts;
 
     public HasAccountsMixin()
     {
-        accounts = new ArrayList<Account>();
+        accounts = new ArrayList<AccountEntityComposite>();
     }
 
-    public void addAccount( Account account )
+    public void addAccount( AccountEntityComposite account )
     {
         accounts.add( account );
     }
 
-    public void removeAccount( Account account )
+    public void removeAccount( AccountEntityComposite account )
     {
         accounts.remove( account );
     }
 
-    public Iterator<Account> accountIterator()
+    public Iterator<AccountEntityComposite> accountIterator()
     {
         return accounts.iterator();
     }

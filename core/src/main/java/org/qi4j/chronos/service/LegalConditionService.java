@@ -1,5 +1,4 @@
 /*
- * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,23 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model;
+package org.qi4j.chronos.service;
 
-import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.chronos.model.mixins.LegalConditionMixin;
+import org.qi4j.chronos.model.composites.LegalConditionEntityComposite;
 
-@ImplementedBy( LegalConditionMixin.class )
-public interface LegalCondition
+public interface LegalConditionService extends EntityService<LegalConditionEntityComposite>
 {
-    public final static int LEGAL_CONDITION_NAME_LEN = 120;
 
-    public final static int LEGAL_CONDITION_DESC_LEN = 2000;
-
-    void setLegalConditionName( String legalCondition );
-
-    String getLegalConditionName();
-
-    void setLegalConditionDesc( String legalConditionDesc );
-
-    String getLegalConditionDesc();
 }

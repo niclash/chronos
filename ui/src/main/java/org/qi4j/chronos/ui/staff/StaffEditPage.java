@@ -119,14 +119,14 @@ public abstract class StaffEditPage extends StaffAddEditPage
         staff.setFirstName( userAddEditPanel.getFirstNameField().getText() );
         staff.setLastName( userAddEditPanel.getLastNameField().getText() );
 
-        GenderType genderType = GenderType.getGenderType( userAddEditPanel.getGenderChoice().getChoice() );
+        GenderType genderType = GenderType.getGenderType( userAddEditPanel.getGenderChoice().getChoiceAsString() );
         staff.setGender( genderType );
 
         boolean isLoginEnabled = Boolean.valueOf( loginUserEditPanel.getLoginEnabledCheckBox().getModelObjectAsString() );
 
         staff.getLogin().setEnabled( isLoginEnabled );
 
-        Currency currency = Currency.getInstance( salaryCurrencyField.getChoice() );
+        Currency currency = Currency.getInstance( salaryCurrencyField.getChoiceAsString() );
 
         staff.getSalary().setAmount( salaryAmountField.getLongValue() );
         staff.getSalary().setCurrency( currency );

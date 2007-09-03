@@ -27,4 +27,6 @@ public interface Services
     UserService getUserService();
 
     SystemRoleService getSystemRoleService();
+
+    LegalConditionService getLegalConditionService();
 }

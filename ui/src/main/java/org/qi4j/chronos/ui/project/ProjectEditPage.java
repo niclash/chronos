@@ -1,5 +1,4 @@
 /*
- * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,23 +10,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model;
+package org.qi4j.chronos.ui.project;
 
-import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.chronos.model.mixins.LegalConditionMixin;
+import org.qi4j.chronos.ui.base.BasePage;
 
-@ImplementedBy( LegalConditionMixin.class )
-public interface LegalCondition
+public class ProjectEditPage extends ProjectAddEditPage
 {
-    public final static int LEGAL_CONDITION_NAME_LEN = 120;
+    public ProjectEditPage( BasePage basePage, String accountId )
+    {
+        super( basePage, accountId );
+    }
 
-    public final static int LEGAL_CONDITION_DESC_LEN = 2000;
+    public void onSubmitting()
+    {
+        //TODO bp. fixme
+    }
 
-    void setLegalConditionName( String legalCondition );
+    public String getSubmitButtonValue()
+    {
+        return "Edit";
+    }
 
-    String getLegalConditionName();
-
-    void setLegalConditionDesc( String legalConditionDesc );
-
-    String getLegalConditionDesc();
+    public String getTitleLabel()
+    {
+        return "Edit Project";
+    }
 }

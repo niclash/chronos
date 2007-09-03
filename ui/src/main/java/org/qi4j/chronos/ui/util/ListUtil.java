@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
 import org.qi4j.chronos.model.PriceRateType;
+import org.qi4j.chronos.model.ProjectStatus;
 import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
 import org.qi4j.chronos.service.ProjectRoleService;
 import org.qi4j.chronos.ui.ChronosWebApp;
@@ -78,4 +79,17 @@ public final class ListUtil
         return result;
     }
 
+    public static List<String> getProjectStatusList()
+    {
+        ProjectStatus[] projectStatuses = ProjectStatus.values();
+
+        List<String> result = new ArrayList<String>();
+
+        for( ProjectStatus projectStatus : projectStatuses )
+        {
+            result.add( projectStatus.toString() );
+        }
+
+        return result;
+    }
 }

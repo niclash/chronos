@@ -12,17 +12,18 @@
  */
 package org.qi4j.chronos.ui.common;
 
+import java.io.Serializable;
 import java.util.List;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.model.PropertyModel;
 
 public class SimpleDropDownChoice extends DropDownChoice
 {
-    private String choice;
+    private Object choice;
 
     private boolean setDefaultValue;
 
-    public SimpleDropDownChoice( String id, List<String> optionList, boolean setDefaultValue )
+    public SimpleDropDownChoice( String id, List<? extends Serializable> optionList, boolean setDefaultValue )
     {
         super( id );
 
@@ -32,7 +33,7 @@ public class SimpleDropDownChoice extends DropDownChoice
         setNewChoices( optionList );
     }
 
-    private void update( List<String> optionList )
+    private void update( List<? extends Serializable> optionList )
     {
         choice = null;
 
@@ -46,17 +47,22 @@ public class SimpleDropDownChoice extends DropDownChoice
         this.setEnabled( hasData );
     }
 
-    public String getChoice()
+    public Object getChoice()
     {
         return choice;
     }
 
-    public void setChoice( String choice )
+    public String getChoiceAsString()
+    {
+        return choice.toString();
+    }
+
+    public void setChoice( Object choice )
     {
         this.choice = choice;
     }
 
-    public void setNewChoices( List<String> list )
+    public void setNewChoices( List<? extends Serializable> list )
     {
         super.setChoices( list );
 

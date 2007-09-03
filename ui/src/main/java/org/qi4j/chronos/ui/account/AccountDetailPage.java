@@ -12,22 +12,22 @@
  */
 package org.qi4j.chronos.ui.account;
 
+import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.SimpleTextField;
 
 public class AccountDetailPage extends LeftMenuNavPage
 {
-    private BasePage returnPage;
+    private WebPage returnPage;
 
     private String accountId;
 
     private SimpleTextField accountNameField;
 
-    public AccountDetailPage( BasePage returnPage, String accountId )
+    public AccountDetailPage( WebPage returnPage, String accountId )
     {
         this.returnPage = returnPage;
         this.accountId = accountId;

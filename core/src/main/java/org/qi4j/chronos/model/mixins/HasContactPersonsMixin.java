@@ -16,29 +16,29 @@ package org.qi4j.chronos.model.mixins;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.associations.HasContactPersons;
+import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 
 public final class HasContactPersonsMixin implements HasContactPersons
 {
-    private final List<ContactPerson> list;
+    private final List<ContactPersonEntityComposite> list;
 
     public HasContactPersonsMixin()
     {
-        list = new ArrayList<ContactPerson>();
+        list = new ArrayList<ContactPersonEntityComposite>();
     }
 
-    public Iterator<ContactPerson> contactPersonIterator()
+    public Iterator<ContactPersonEntityComposite> contactPersonIterator()
     {
         return list.iterator();
     }
 
-    public void addContactPerson( ContactPerson contactPerson )
+    public void addContactPerson( ContactPersonEntityComposite contactPerson )
     {
         list.add( contactPerson );
     }
 
-    public void removeContactPerson( ContactPerson contactPerson )
+    public void removeContactPerson( ContactPersonEntityComposite contactPerson )
     {
         list.remove( contactPerson );
     }

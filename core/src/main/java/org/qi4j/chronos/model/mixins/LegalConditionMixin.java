@@ -17,15 +17,27 @@ import org.qi4j.chronos.model.LegalCondition;
 
 public final class LegalConditionMixin implements LegalCondition
 {
-    private String legalCondition;
+    private String legalConditionName;
 
-    public void setLegalCondition( String aLegalCondition )
+    private String legalConditionDesc;
+
+    public void setLegalConditionName( String aLegalCondition )
     {
-        legalCondition = aLegalCondition;
+        legalConditionName = aLegalCondition;
     }
 
-    public String getLegalCondition()
+    public String getLegalConditionName()
     {
-        return legalCondition;
+        return legalConditionName;
+    }
+
+    public void setLegalConditionDesc( String legalConditionDesc )
+    {
+        this.legalConditionDesc = legalConditionDesc;
+    }
+
+    public String getLegalConditionDesc()
+    {
+        return legalConditionDesc;
     }
 }

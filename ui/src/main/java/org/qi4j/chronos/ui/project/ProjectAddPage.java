@@ -1,5 +1,4 @@
 /*
- * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,11 +10,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.composites;
+package org.qi4j.chronos.ui.project;
 
-import org.qi4j.api.Composite;
-import org.qi4j.chronos.model.LegalCondition;
+import org.qi4j.chronos.ui.base.BasePage;
 
-public interface LegalConditionComposite extends LegalCondition, Composite
+public class ProjectAddPage extends ProjectAddEditPage
 {
+    public ProjectAddPage( BasePage basePage, String accountId )
+    {
+        super( basePage, accountId );
+    }
+
+    public void onSubmitting()
+    {
+        //TODO bp. fixme
+    }
+
+    public String getSubmitButtonValue()
+    {
+        return "Add";
+    }
+
+    public String getTitleLabel()
+    {
+        return "New Project";
+    }
 }

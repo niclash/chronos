@@ -13,7 +13,8 @@
 package org.qi4j.chronos.service;
 
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
+import org.qi4j.chronos.service.associations.HasAccountMiscService;
 
-public interface CustomerService extends EntityService<CustomerEntityComposite>
+public interface CustomerService extends EntityService<CustomerEntityComposite>, HasAccountMiscService
 {
 }

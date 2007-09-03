@@ -12,7 +12,6 @@
  */
 package org.qi4j.chronos.service.mocks;
 
-import java.math.BigDecimal;
 import java.util.Currency;
 import org.qi4j.api.Composite;
 import org.qi4j.api.CompositeBuilder;
@@ -26,15 +25,18 @@ import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.service.CustomerService;
 import org.qi4j.chronos.service.EntityService;
+import org.qi4j.chronos.service.LegalConditionService;
 import org.qi4j.chronos.service.ProjectRoleService;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.service.SystemRoleService;
 import org.qi4j.chronos.service.UserService;
+import org.qi4j.chronos.service.associations.HasAccountMiscService;
 import org.qi4j.chronos.service.associations.HasPriceRateScheduleService;
 import org.qi4j.chronos.service.composites.AccountServiceComposite;
 import org.qi4j.chronos.service.composites.CustomerServiceComposite;
+import org.qi4j.chronos.service.composites.LegalConditionServiceComposite;
 import org.qi4j.chronos.service.composites.ProjectServiceComposite;
 import org.qi4j.chronos.service.composites.RoleServiceComposite;
 import org.qi4j.chronos.service.composites.StaffServiceComposite;
@@ -53,6 +55,7 @@ public class MockServicesMixin implements Services
     private StaffService staffService;
     private UserService userService;
     private SystemRoleService systemRoleService;
+    private LegalConditionService legalConditionService;
 
     public MockServicesMixin( CompositeBuilderFactory factory )
     {
@@ -60,14 +63,27 @@ public class MockServicesMixin implements Services
 
         accountService = initAccountService();
 
-        customerService = newService( CustomerServiceComposite.class );
+        customerService = initCustomerService();
+
         projectService = newService( ProjectServiceComposite.class );
         projectRoleService = newService( RoleServiceComposite.class );
         staffService = newService( StaffServiceComposite.class );
         userService = initUserService( staffService );
         systemRoleService = newService( SystemRoleServiceComposite.class );
+        legalConditionService = newService( LegalConditionServiceComposite.class );
 
         initDummyData();
+    }
+
+    private CustomerService initCustomerService()
+    {
+        CompositeBuilder<CustomerServiceComposite> compositeBuilder = factory.newCompositeBuilder( CustomerServiceComposite.class );
+
+        compositeBuilder.setMixin( EntityService.class, new MockEntityServiceMixin( factory ) );
+
+        compositeBuilder.setMixin( HasAccountMiscService.class, new MockHasAccountMiscServiceMixin() );
+
+        return compositeBuilder.newInstance();
     }
 
     private AccountService initAccountService()
@@ -201,6 +217,11 @@ public class MockServicesMixin implements Services
     public SystemRoleService getSystemRoleService()
     {
         return systemRoleService;
+    }
+
+    public LegalConditionService getLegalConditionService()
+    {
+        return legalConditionService;
     }
 
     @SuppressWarnings( { "unchecked" } )

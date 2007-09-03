@@ -68,7 +68,7 @@ public class StaffAddPage extends StaffAddEditPage
         staff.setFirstName( userAddEditPanel.getFirstNameField().getText() );
         staff.setLastName( userAddEditPanel.getLastNameField().getText() );
 
-        GenderType genderType = GenderType.getGenderType( userAddEditPanel.getGenderChoice().getChoice() );
+        GenderType genderType = GenderType.getGenderType( userAddEditPanel.getGenderChoice().getChoiceAsString() );
         staff.setGender( genderType );
 
         //setting up login properties
@@ -85,7 +85,7 @@ public class StaffAddPage extends StaffAddEditPage
         //setting up staff salary
         MoneyComposite money = ChronosWebApp.newInstance( MoneyComposite.class );
 
-        Currency currency = Currency.getInstance( salaryCurrencyField.getChoice() );
+        Currency currency = Currency.getInstance( salaryCurrencyField.getChoiceAsString() );
 
         money.setAmount( salaryAmountField.getLongValue() );
         money.setCurrency( currency );

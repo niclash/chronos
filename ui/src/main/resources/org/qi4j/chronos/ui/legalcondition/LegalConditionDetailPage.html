@@ -1,0 +1,45 @@
+<html xmlns:wicket>
+
+<wicket:extend>
+    <table>
+        <tr>
+            <td align="left" valign="middle">
+                <table>
+                    <tr>
+                        <td width="50%"><strong>Legal Condition Detail</strong></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td width="100%"><span wicket:id="feedbackPanel">feedback messages</span>&nbsp;</td>
+        </tr>
+
+        <tr>
+            <td>
+                <form wicket:id="roleDetailForm">
+                    <table>
+                        <tr>
+                            <td align="right">Name :</td>
+                            <td><input type="text" wicket:id="nameField" class="textStyle" style="width: 350"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">Description :</td>
+                            <td><select wicket:id="descTextArea" class="formStyle" style="width: 350"></select></td>
+                        </tr>
+
+                        <tr>
+                            <td></td>
+                            <td>
+                                <input type="submit" wicket:id="submitButton"/>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </td>
+        </tr>
+    </table>
+</wicket:extend>
+</html>
