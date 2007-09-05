@@ -17,12 +17,8 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
-import org.apache.wicket.markup.html.form.Radio;
-import org.apache.wicket.markup.html.form.RadioGroup;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
@@ -30,13 +26,6 @@ import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 
 public class ActionBar extends Panel
 {
-    private static final String SELECTION_ALL = "all";
-    private static final String SELECTION_SUBSET = "subset";
-
-    private RadioGroup selectionRGroup;
-
-    private Label allSelectedInfoLabel;
-
     private ActionTable actionTable;
 
     private Map<String, Action> actionMap;
@@ -56,46 +45,17 @@ public class ActionBar extends Panel
 
     private void initComponents()
     {
-        selectionRGroup = new RadioGroup( "selectionRGroup", new Model( "" ) )
-        {
-            @Override
-            protected void onSelectionChanged( Object newSelection )
-            {
-                handleSelectionChanged();
-            }
-
-            @Override
-            protected boolean wantOnSelectionChangedNotifications()
-            {
-                return true;
-            }
-        };
-
-        Radio allRadio = new Radio( "allRadio", new Model( SELECTION_ALL ) );
-
-        Radio subsetRadio = new Radio( "subsetRadio", new Model( SELECTION_SUBSET ) );
-
-        allSelectedInfoLabel = new Label( "allSelectedInfo", "" );
-
-        selectionRGroup.add( allRadio );
-        selectionRGroup.add( subsetRadio );
-        selectionRGroup.add( allSelectedInfoLabel );
-
-        //set default value
-        selectionRGroup.setModelObject( allRadio.getModelObject() );
-
         final List<String> actionKeyList = getActionKeyList();
         actionChoices = new SimpleDropDownChoice( "actionChoices", actionKeyList, true );
 
         goButton = new Button( "goButton", new Model( "Go" ) );
 
-        WebMarkupContainer actionContainer = new WebMarkupContainer( "actionContainer" );
+//        WebMarkupContainer actionContainer = new WebMarkupContainer( "actionContainer" );
 
-        actionContainer.add( selectionRGroup );
-        actionContainer.add( actionChoices );
-        actionContainer.add( goButton );
+        add( actionChoices );
+        add( goButton );
 
-        add( actionContainer );
+//        add( actionContainer );
     }
 
     private void updateActionChoiceList()
@@ -105,16 +65,9 @@ public class ActionBar extends Panel
         actionChoices.setNewChoices( actionKeyList );
     }
 
-    private void handleSelectionChanged()
-    {
-        actionTable.handleSelectionChanged();
-    }
-
     public void setActionTable( ActionTable actionTable )
     {
         this.actionTable = actionTable;
-
-        allSelectedInfoLabel.setModelObject( "All (" + actionTable.getDetachableDataProvider().size() + ")" );
     }
 
     private List<String> getActionKeyList()
@@ -124,11 +77,6 @@ public class ActionBar extends Panel
         Collections.sort( actionKeyList );
 
         return actionKeyList;
-    }
-
-    public boolean isSubsetSelected()
-    {
-        return selectionRGroup.getModelObjectAsString().equals( SELECTION_SUBSET );
     }
 
     public void addAction( Action action )

@@ -70,14 +70,6 @@ public abstract class ActionTable<T> extends Panel
         dataView.setItemsPerPage( itemPerPage );
     }
 
-    void handleSelectionChanged()
-    {
-        allCheckBox.setEnabled( actionBar.isSubsetSelected() );
-        allCheckBox.modelChanged();
-
-        dataView.modelChanged();
-    }
-
     public void setActionBarVisible( boolean visible )
     {
         actionBar.setVisible( visible );
@@ -97,7 +89,6 @@ public abstract class ActionTable<T> extends Panel
             add( actionBar );
 
             allCheckBox = new CheckBox( "allCheckBox", new Model( false ) );
-            allCheckBox.setEnabled( false );
 
             final String script = getAllCheckBoxOnClickScript();
 
@@ -137,8 +128,6 @@ public abstract class ActionTable<T> extends Panel
 
                     CheckBox checkBox = new CheckBox( "itemCheckBox", new CheckedModel( id ) );
                     checkBox.add( new AttributeModifier( "class", true, new Model( CHECKBOX_CLASS_NAME ) ) );
-
-                    checkBox.setEnabled( actionBar.isSubsetSelected() );
 
                     item.add( checkBox );
 
@@ -236,25 +225,26 @@ public abstract class ActionTable<T> extends Panel
 
     AbstractSortableDataProvider getSelectedItemsDataProvider()
     {
-        if( actionBar.isSubsetSelected() )
+        //TODO fixme
+//        if( actionBar.isSubsetSelected() )
+//        {
+        return new SubSetSortableDataProvider<T>( selectedIds )
         {
-            return new SubSetSortableDataProvider<T>( selectedIds )
+            public String getId( T o )
             {
-                public String getId( T o )
-                {
-                    return getDetachableDataProvider().getId( o );
-                }
+                return getDetachableDataProvider().getId( o );
+            }
 
-                public T load( String id )
-                {
-                    return getDetachableDataProvider().load( id );
-                }
-            };
-        }
-        else
-        {
-            return getDetachableDataProvider();
-        }
+            public T load( String id )
+            {
+                return getDetachableDataProvider().load( id );
+            }
+        };
+//        }
+//        else
+//        {
+//            return getDetachableDataProvider();
+//        }
     }
 
     public abstract AbstractSortableDataProvider<T> getDetachableDataProvider();
