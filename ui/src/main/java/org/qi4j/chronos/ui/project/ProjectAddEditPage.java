@@ -14,15 +14,11 @@ package org.qi4j.chronos.ui.project;
 
 import java.io.Serializable;
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import org.apache.wicket.extensions.markup.html.form.palette.Palette;
 import org.apache.wicket.markup.html.form.Form;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
-import org.qi4j.chronos.model.composites.CustomerEntityComposite;
-import org.qi4j.chronos.service.CustomerService;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.MaxLengthTextArea;
@@ -67,23 +63,17 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
         statusChoice = new SimpleDropDownChoice( "statusChoice", ListUtil.getProjectStatusList(), true );
 
         primaryContactChoice = new SimpleDropDownChoice( "primaryContactChoice", getContactPersonList(), true );
-
     }
 
     private List<ContactPersonDelegator> getContactPersonList()
     {
-        CustomerService customerService = ChronosWebApp.getServices().getCustomerService();
-
-        CustomerEntityComposite customer = customerService.getCustomerByAccountId( accountId );
-
-        Iterator<ContactPersonEntityComposite> iterator = customer.contactPersonIterator();
-
         List<ContactPersonDelegator> delegatorList = new ArrayList<ContactPersonDelegator>();
 
-        while( iterator.hasNext() )
-        {
-            delegatorList.add( new ContactPersonDelegator( iterator.next() ) );
-        }
+        //TODO bp. fixme
+//        while( iterator.hasNext() )
+//        {
+//            delegatorList.add( new ContactPersonDelegator( iterator.next() ) );
+//        }
 
         return delegatorList;
     }

@@ -10,11 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.project;
+package org.qi4j.chronos.model;
 
-import org.qi4j.chronos.ui.base.LeftMenuNavPage;
+import org.qi4j.chronos.model.associations.HasContactPersons;
 
-public class ProjectListPage extends LeftMenuNavPage
+public interface ProjectOwner extends Customer, HasContactPersons
 {
-    
+
 }

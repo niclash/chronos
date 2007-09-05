@@ -16,7 +16,6 @@ import org.qi4j.chronos.ui.account.AccountListPage;
 import org.qi4j.chronos.ui.common.menu.MenuBar;
 import org.qi4j.chronos.ui.common.menu.MenuItem;
 import org.qi4j.chronos.ui.common.menu.MenuLink;
-import org.qi4j.chronos.ui.customer.CustomerListPage;
 import org.qi4j.chronos.ui.project.ProjectListPage;
 import org.qi4j.chronos.ui.projectrole.ProjectRoleListPage;
 import org.qi4j.chronos.ui.staff.StaffListPage;
@@ -34,7 +33,6 @@ public class AdminMainMenuBar extends MenuBar
         //TODO bp. fix this
         return new MenuItem[]{
             new MenuLink( "Home", AdminHomePage.class ),
-            new MenuLink( "Customer", CustomerListPage.class ),
             new MenuLink( "Account", AccountListPage.class ),
             new MenuLink( "Project", ProjectListPage.class ),
             new MenuLink( "Staff", StaffListPage.class ),

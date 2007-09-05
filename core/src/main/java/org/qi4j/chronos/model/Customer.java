@@ -13,18 +13,17 @@
  */
 package org.qi4j.chronos.model;
 
-import org.qi4j.chronos.model.associations.HasAccounts;
 import org.qi4j.chronos.model.associations.HasAddress;
-import org.qi4j.chronos.model.associations.HasContactPersons;
 
 /**
  * Generic interface for Customer
  */
-public interface Customer extends NameWithReference, HasContactPersons, HasAccounts, HasAddress
+public interface Customer extends NameWithReference, HasAddress
 {
-    public final static int FULL_NAME_LEN = 80;
+    public final static int NAME_LEN = 80;
 
     public final static int REFERENCE_LEN = 80;
 
+    
 }
 

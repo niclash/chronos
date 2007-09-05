@@ -10,62 +10,48 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.customer;
+package org.qi4j.chronos.ui.project;
 
 import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
-import org.qi4j.chronos.model.composites.CustomerEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.service.EntityService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
-import org.qi4j.chronos.ui.common.action.ActionAdapter;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 
-public class CustomerTable extends ActionTable<CustomerEntityComposite>
+public class ProjectTable extends ActionTable<ProjectEntityComposite>
 {
-    private SimpleDataProvider<CustomerEntityComposite> dataProvider;
+    private SimpleDataProvider<ProjectEntityComposite> provider;
 
-    public CustomerTable( String id )
+    public ProjectTable( String id )
     {
         super( id );
-
-        initActions();
     }
 
-    private void initActions()
+    public AbstractSortableDataProvider<ProjectEntityComposite> getDetachableDataProvider()
     {
-        addAction( new ActionAdapter( "Delete" )
+        if( provider == null )
         {
-            public void performAction( AbstractSortableDataProvider dataProvider )
+            provider = new SimpleDataProvider<ProjectEntityComposite>()
             {
-                //TODO bp. fixme
-            }
-        } );
-    }
-
-    public AbstractSortableDataProvider<CustomerEntityComposite> getDetachableDataProvider()
-    {
-        if( dataProvider == null )
-        {
-            dataProvider = new SimpleDataProvider<CustomerEntityComposite>()
-            {
-                public EntityService<CustomerEntityComposite> getEntityService()
+                public EntityService<ProjectEntityComposite> getEntityService()
                 {
-                    return ChronosWebApp.getServices().getCustomerService();
+                    return ChronosWebApp.getServices().getProjectService();
                 }
             };
         }
 
-        return dataProvider;
+        return provider;
     }
 
-    public void populateItems( Item item, CustomerEntityComposite obj )
+    public void populateItems( Item item, ProjectEntityComposite obj )
     {
-        item.add( new SimpleLink( "fullname", obj.getName() )
+        item.add( new SimpleLink( "name", obj.getName() )
         {
             public void linkClicked()
             {
@@ -73,7 +59,7 @@ public class CustomerTable extends ActionTable<CustomerEntityComposite>
             }
         } );
 
-        item.add( new SimpleLink( "reference", obj.getReference() )
+        item.add( new SimpleLink( "formalReference", obj.getReference() )
         {
             public void linkClicked()
             {
@@ -81,8 +67,7 @@ public class CustomerTable extends ActionTable<CustomerEntityComposite>
             }
         } );
 
-        //TODO bp. fix address
-        item.add( new Label( "address", "Test Address " ) );
+        item.add( new Label( "status", obj.getProjectStatus().toString() ) );
 
         item.add( new SimpleLink( "editLink", "Edit" )
         {
@@ -91,10 +76,12 @@ public class CustomerTable extends ActionTable<CustomerEntityComposite>
                 //TODO
             }
         } );
+
+        
     }
 
     public List<String> getTableHeaderList()
     {
-        return Arrays.asList( "Full Name", "Reference", "Address", "" );
+        return Arrays.asList( "Name", "Formal Reference", "Status", "" );
     }
 }

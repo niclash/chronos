@@ -10,11 +10,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.project;
+package org.qi4j.chronos.model.associations;
 
-import org.qi4j.chronos.ui.base.LeftMenuNavPage;
+import java.util.Iterator;
+import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.mixins.HasStaffsMixin;
 
-public class ProjectListPage extends LeftMenuNavPage
+@ImplementedBy( HasStaffsMixin.class )
+public interface HasStaffs
 {
-    
+    void addStaff( StaffEntityComposite staff );
+
+    void removeStaff( StaffEntityComposite staff );
+
+    Iterator<StaffEntityComposite> staffIterator();
 }

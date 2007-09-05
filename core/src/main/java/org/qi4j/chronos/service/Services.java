@@ -16,8 +16,6 @@ public interface Services
 {
     AccountService getAccountService();
 
-    CustomerService getCustomerService();
-
     ProjectService getProjectService();
 
     ProjectRoleService getProjectRoleService();

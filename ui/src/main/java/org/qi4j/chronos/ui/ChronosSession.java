@@ -61,6 +61,7 @@ public class ChronosSession extends AuthenticatedWebSession
 
     public Roles getRoles()
     {
+        //TODO bp. get the system role from user.
         if( isSignedIn() )
         {
             return ADMIN;

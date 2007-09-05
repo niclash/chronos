@@ -10,11 +10,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service;
+package org.qi4j.chronos.model.composites;
 
-import org.qi4j.chronos.model.composites.CustomerEntityComposite;
-import org.qi4j.chronos.service.associations.HasAccountMiscService;
+import org.qi4j.api.persistence.EntityComposite;
+import org.qi4j.chronos.model.System;
 
-public interface CustomerService extends EntityService<CustomerEntityComposite>, HasAccountMiscService
+public interface SystemEntityComposite extends System, EntityComposite
 {
+
 }

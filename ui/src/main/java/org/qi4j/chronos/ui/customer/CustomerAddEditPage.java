@@ -33,7 +33,7 @@ public abstract class CustomerAddEditPage extends AddEditBasePage
 
     public void initComponent( Form form )
     {
-        fullNameField = new MaxLengthTextField( "fullNameField", "Full Name", Customer.FULL_NAME_LEN );
+        fullNameField = new MaxLengthTextField( "fullNameField", "Full Name", Customer.NAME_LEN );
         referenceField = new MaxLengthTextField( "referenceField", "Reference", Customer.REFERENCE_LEN );
 
         addressAddEditPanel = new AddressAddEditPanel( "addressAddEditPanel" );

@@ -12,13 +12,8 @@
  */
 package org.qi4j.chronos.model;
 
-import org.qi4j.api.persistence.EntityComposite;
 import org.qi4j.chronos.model.associations.HasAccounts;
-import org.qi4j.chronos.model.associations.HasUsers;
 
-/**
- * Placeholder for all top-level entities like accounts and users
- */
-public interface System extends HasUsers, HasAccounts, EntityComposite
+public interface System extends HasAccounts
 {
 }
