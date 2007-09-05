@@ -12,38 +12,38 @@
  */
 package org.qi4j.chronos.ui.customer;
 
-import org.apache.wicket.markup.html.form.Form;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.ui.address.AddressAddEditPanel;
-import org.qi4j.chronos.ui.base.AddEditBasePage;
-import org.qi4j.chronos.ui.base.BasePage;
+import org.qi4j.chronos.ui.base.AddEditBasePanel;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 
-public abstract class CustomerAddEditPage extends AddEditBasePage
+public class CustomerAddEditPanel extends AddEditBasePanel
 {
     protected MaxLengthTextField fullNameField;
     protected MaxLengthTextField referenceField;
 
     protected AddressAddEditPanel addressAddEditPanel;
 
-    public CustomerAddEditPage( BasePage basePage )
+    public CustomerAddEditPanel( String id )
     {
-        super( basePage );
+        super( id );
+
+        initComponents();
     }
 
-    public void initComponent( Form form )
+    private void initComponents()
     {
         fullNameField = new MaxLengthTextField( "fullNameField", "Full Name", Customer.NAME_LEN );
         referenceField = new MaxLengthTextField( "referenceField", "Reference", Customer.REFERENCE_LEN );
 
         addressAddEditPanel = new AddressAddEditPanel( "addressAddEditPanel" );
 
-        form.add( fullNameField );
-        form.add( referenceField );
-        form.add( addressAddEditPanel );
+        add( fullNameField );
+        add( referenceField );
+        add( addressAddEditPanel );
     }
 
-    public void handleSubmit()
+    public boolean checkIsNotValidated()
     {
         boolean isRejected = false;
 
@@ -62,13 +62,6 @@ public abstract class CustomerAddEditPage extends AddEditBasePage
             isRejected = true;
         }
 
-        if( isRejected )
-        {
-            return;
-        }
-
-        onSubmitting();
+        return isRejected;
     }
-
-    public abstract void onSubmitting();
 }

@@ -10,11 +10,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.customer;
+package org.qi4j.chronos.model.composites;
 
-import org.qi4j.chronos.ui.base.LeftMenuNavPage;
+import org.qi4j.api.persistence.EntityComposite;
+import org.qi4j.chronos.model.ProjectOwner;
 
-public class CustomerHomePage extends LeftMenuNavPage
+public interface ProjectOwnerEntityComposite extends ProjectOwner, EntityComposite
 {
 
 }

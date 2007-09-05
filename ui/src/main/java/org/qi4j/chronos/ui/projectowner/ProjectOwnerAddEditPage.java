@@ -10,30 +10,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.account;
+package org.qi4j.chronos.ui.projectowner;
 
 import org.apache.wicket.markup.html.form.Form;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.customer.CustomerAddEditPanel;
 
-public abstract class AccountAddEditPage extends AddEditBasePage
+public abstract class ProjectOwnerAddEditPage extends AddEditBasePage
 {
-    protected CustomerAddEditPanel customerAddEditPanel;
+    private CustomerAddEditPanel customerAddEditPanel;
 
-    public AccountAddEditPage( BasePage goBackPage )
+    public ProjectOwnerAddEditPage( BasePage basePage )
     {
-        super( goBackPage );
+        super( basePage );
     }
 
-    public final void initComponent( Form form )
+    public void initComponent( Form form )
     {
         customerAddEditPanel = new CustomerAddEditPanel( "customerAddEditPanel" );
 
         form.add( customerAddEditPanel );
     }
 
-    public final void handleSubmit()
+    public void handleSubmit()
     {
         boolean isRejected = false;
 

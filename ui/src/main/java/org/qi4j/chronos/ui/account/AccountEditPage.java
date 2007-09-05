@@ -16,9 +16,13 @@ import org.qi4j.chronos.ui.base.BasePage;
 
 public class AccountEditPage extends AccountAddEditPage
 {
-    public AccountEditPage( BasePage goBackPage )
+    private String accountId;
+
+    public AccountEditPage( BasePage goBackPage, String accountId )
     {
         super( goBackPage );
+
+        this.accountId = accountId;
     }
 
     public void onSubmitting()

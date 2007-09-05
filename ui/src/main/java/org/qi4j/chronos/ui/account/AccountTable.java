@@ -75,23 +75,41 @@ public class AccountTable extends ActionTable<AccountEntityComposite>
     {
         final String accountId = obj.getIdentity();
 
-        item.add( new SimpleLink( "accountName", obj.getName() )
-        {
-            public void linkClicked()
-            {
-                setResponsePage( new AccountDetailPage( (BasePage) this.getPage(), accountId ) );
-            }
-        } );
+        item.add( createDetailPage( "name", obj.getName(), accountId ) );
+        item.add( createDetailPage( "formalReference", obj.getReference(), accountId ) );
 
         //TODO bp. fix these valeues.
         item.add( new Label( "totalProject", "10" ) );
         item.add( new Label( "activeProject", "3" ) );
         item.add( new Label( "inactiveProject", "2" ) );
         item.add( new Label( "closedProject", "5" ) );
+
+        item.add( new SimpleLink( "editLink", "Edit" )
+        {
+            public void linkClicked()
+            {
+                AccountEditPage editPage = new AccountEditPage( (BasePage) this.getPage(), accountId );
+
+                setResponsePage( editPage );
+            }
+        } );
+    }
+
+    private SimpleLink createDetailPage( String id, String displayValue, final String accountId )
+    {
+        return new SimpleLink( id, displayValue )
+        {
+            public void linkClicked()
+            {
+                AccountDetailPage detailPage = new AccountDetailPage( (BasePage) this.getPage(), accountId );
+
+                setResponsePage( detailPage );
+            }
+        };
     }
 
     public List<String> getTableHeaderList()
     {
-        return Arrays.asList( "Name", "Total Project", "Active", "Inactive", "Closed" );
+        return Arrays.asList( "Name", "Formal Reference", "Total Project", "Active", "Inactive", "Closed", "" );
     }
 }

@@ -10,20 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.customer;
+package org.qi4j.chronos.service.composites;
 
-import org.qi4j.chronos.ui.base.LeftMenuNavPage;
+import org.qi4j.api.Composite;
+import org.qi4j.chronos.service.ProjectOwnerService;
 
-public class CustomerDetailPage extends LeftMenuNavPage
+public interface ProjectOwnerServiceComposite extends ProjectOwnerService, Composite
 {
-    public CustomerDetailPage()
-    {
-
-    }
-
-    private void initComponents()
-    {
-        
-    }
-
 }

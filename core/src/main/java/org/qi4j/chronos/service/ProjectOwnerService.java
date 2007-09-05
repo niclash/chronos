@@ -12,21 +12,8 @@
  */
 package org.qi4j.chronos.service;
 
-public interface Services
+import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
+
+public interface ProjectOwnerService extends EntityService<ProjectOwnerEntityComposite>
 {
-    AccountService getAccountService();
-
-    ProjectService getProjectService();
-
-    ProjectRoleService getProjectRoleService();
-
-    StaffService getStaffService();
-
-    UserService getUserService();
-
-    SystemRoleService getSystemRoleService();
-
-    LegalConditionService getLegalConditionService();
-
-    ProjectOwnerService getProjectOwnerService();
 }

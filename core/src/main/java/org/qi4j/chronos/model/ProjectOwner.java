@@ -13,8 +13,9 @@
 package org.qi4j.chronos.model;
 
 import org.qi4j.chronos.model.associations.HasContactPersons;
+import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
 
-public interface ProjectOwner extends Customer, HasContactPersons
+public interface ProjectOwner extends Customer, HasContactPersons, HasPriceRateSchedules
 {
 
 }

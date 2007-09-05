@@ -10,23 +10,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service;
+package org.qi4j.chronos.ui.projectowner;
 
-public interface Services
+import org.qi4j.chronos.ui.base.BasePage;
+
+public class ProjectOwnerAddPage extends ProjectOwnerAddEditPage
 {
-    AccountService getAccountService();
+    public ProjectOwnerAddPage( BasePage basePage )
+    {
+        super( basePage );
+    }
 
-    ProjectService getProjectService();
+    public void onSubmitting()
+    {
+        //TODO
+    }
 
-    ProjectRoleService getProjectRoleService();
+    public String getSubmitButtonValue()
+    {
+        return "Add";
+    }
 
-    StaffService getStaffService();
-
-    UserService getUserService();
-
-    SystemRoleService getSystemRoleService();
-
-    LegalConditionService getLegalConditionService();
-
-    ProjectOwnerService getProjectOwnerService();
+    public String getTitleLabel()
+    {
+        return "Add Project Owner";
+    }
 }

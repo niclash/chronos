@@ -26,6 +26,7 @@ import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.service.EntityService;
 import org.qi4j.chronos.service.LegalConditionService;
+import org.qi4j.chronos.service.ProjectOwnerService;
 import org.qi4j.chronos.service.ProjectRoleService;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.service.Services;
@@ -35,6 +36,7 @@ import org.qi4j.chronos.service.UserService;
 import org.qi4j.chronos.service.associations.HasPriceRateScheduleService;
 import org.qi4j.chronos.service.composites.AccountServiceComposite;
 import org.qi4j.chronos.service.composites.LegalConditionServiceComposite;
+import org.qi4j.chronos.service.composites.ProjectOwnerServiceComposite;
 import org.qi4j.chronos.service.composites.ProjectServiceComposite;
 import org.qi4j.chronos.service.composites.RoleServiceComposite;
 import org.qi4j.chronos.service.composites.StaffServiceComposite;
@@ -53,6 +55,7 @@ public class MockServicesMixin implements Services
     private UserService userService;
     private SystemRoleService systemRoleService;
     private LegalConditionService legalConditionService;
+    private ProjectOwnerService projectOwnerService;
 
     public MockServicesMixin( CompositeBuilderFactory factory )
     {
@@ -66,6 +69,7 @@ public class MockServicesMixin implements Services
         userService = initUserService( staffService );
         systemRoleService = newService( SystemRoleServiceComposite.class );
         legalConditionService = newService( LegalConditionServiceComposite.class );
+        projectOwnerService = newService( ProjectOwnerServiceComposite.class );
 
         initDummyData();
     }
@@ -149,7 +153,6 @@ public class MockServicesMixin implements Services
 
         staff.setSalary( money );
 
-
         List<SystemRoleEntityComposite> systemRoleList = systemRoleService.findAll();
 
         for( SystemRoleEntityComposite systemRole : systemRoleList )
@@ -209,6 +212,11 @@ public class MockServicesMixin implements Services
     public LegalConditionService getLegalConditionService()
     {
         return legalConditionService;
+    }
+
+    public ProjectOwnerService getProjectOwnerService()
+    {
+        return projectOwnerService;
     }
 
     @SuppressWarnings( { "unchecked" } )

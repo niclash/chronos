@@ -10,23 +10,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service;
+package org.qi4j.chronos.ui.projectowner;
 
-public interface Services
+import org.qi4j.chronos.ui.base.LeftMenuNavPage;
+
+public class ProjectOwnerDetailPage extends LeftMenuNavPage
 {
-    AccountService getAccountService();
+    private String projectOwnerId;
 
-    ProjectService getProjectService();
+    public ProjectOwnerDetailPage( String projectOwnerId )
+    {
+        this.projectOwnerId = projectOwnerId;
 
-    ProjectRoleService getProjectRoleService();
+        initComponents();
+    }
 
-    StaffService getStaffService();
+    private void initComponents()
+    {
 
-    UserService getUserService();
-
-    SystemRoleService getSystemRoleService();
-
-    LegalConditionService getLegalConditionService();
-
-    ProjectOwnerService getProjectOwnerService();
+    }
 }
