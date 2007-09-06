@@ -12,10 +12,21 @@
  */
 package org.qi4j.chronos.ui.account;
 
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.composites.AddressComposite;
+import org.qi4j.chronos.service.AccountService;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
+import org.qi4j.library.general.model.composites.CityComposite;
+import org.qi4j.library.general.model.composites.CountryComposite;
+import org.qi4j.library.general.model.composites.StateComposite;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AccountAddPage extends AccountAddEditPage
 {
+    private final static Logger LOGGER = LoggerFactory.getLogger( AccountAddPage.class );
+
     public AccountAddPage( BasePage goBackPage )
     {
         super( goBackPage );
@@ -23,7 +34,38 @@ public class AccountAddPage extends AccountAddEditPage
 
     public void onSubmitting()
     {
-        //TODO bp. Add new account here
+        AccountService accountService = ChronosWebApp.getServices().getAccountService();
+
+        AccountEntityComposite account = accountService.newInstance( AccountEntityComposite.class );
+
+        try
+        {
+            AddressComposite address = ChronosWebApp.newInstance( AddressComposite.class );
+            CityComposite city = ChronosWebApp.newInstance( CityComposite.class );
+            StateComposite state = ChronosWebApp.newInstance( StateComposite.class );
+            CountryComposite country = ChronosWebApp.newInstance( CountryComposite.class );
+
+            address.setCity( city );
+
+            city.setState( state );
+            city.setCountry( country );
+
+            account.setAddress( address );
+
+            //assign data to customer
+            customerAddEditPanel.assignDataToCustomer( account );
+
+            accountService.save( account );
+
+            logInfoMsg( "Account is added successfully." );
+
+            divertToGoBackPage();
+        }
+        catch( Exception err )
+        {
+            logErrorMsg( err.getMessage() );
+            LOGGER.error( err.getMessage(), err );
+        }
     }
 
     public String getSubmitButtonValue()

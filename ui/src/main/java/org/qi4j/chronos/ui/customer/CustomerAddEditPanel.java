@@ -19,7 +19,7 @@ import org.qi4j.chronos.ui.common.MaxLengthTextField;
 
 public class CustomerAddEditPanel extends AddEditBasePanel
 {
-    protected MaxLengthTextField fullNameField;
+    protected MaxLengthTextField nameField;
     protected MaxLengthTextField referenceField;
 
     protected AddressAddEditPanel addressAddEditPanel;
@@ -33,12 +33,12 @@ public class CustomerAddEditPanel extends AddEditBasePanel
 
     private void initComponents()
     {
-        fullNameField = new MaxLengthTextField( "fullNameField", "Full Name", Customer.NAME_LEN );
+        nameField = new MaxLengthTextField( "nameField", "Name", Customer.NAME_LEN );
         referenceField = new MaxLengthTextField( "referenceField", "Reference", Customer.REFERENCE_LEN );
 
         addressAddEditPanel = new AddressAddEditPanel( "addressAddEditPanel" );
 
-        add( fullNameField );
+        add( nameField );
         add( referenceField );
         add( addressAddEditPanel );
     }
@@ -47,7 +47,7 @@ public class CustomerAddEditPanel extends AddEditBasePanel
     {
         boolean isRejected = false;
 
-        if( fullNameField.checkIsEmptyOrInvalidLength() )
+        if( nameField.checkIsEmptyOrInvalidLength() )
         {
             isRejected = true;
         }
@@ -63,5 +63,20 @@ public class CustomerAddEditPanel extends AddEditBasePanel
         }
 
         return isRejected;
+    }
+
+    public void assignDataToCustomer( Customer customer )
+    {
+        customer.setName( nameField.getText() );
+        customer.setReference( referenceField.getText() );
+
+        customer.getAddress().setFirstLine( addressAddEditPanel.getAddress1Field().getText() );
+        customer.getAddress().setSecondLine( addressAddEditPanel.getAddress2Field().getText() );
+
+        customer.getAddress().setZipCode( addressAddEditPanel.getZipcodeField().getText() );
+        customer.getAddress().getCity().setName( addressAddEditPanel.getCityField().getText() );
+
+        customer.getAddress().getCity().getState().setName( addressAddEditPanel.getStateField().getText() );
+        customer.getAddress().getCity().getCountry().setName( addressAddEditPanel.getCountryField().getText() );
     }
 }

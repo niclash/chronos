@@ -17,7 +17,7 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
-import org.qi4j.chronos.ui.common.SimpleTextField;
+import org.qi4j.chronos.ui.customer.CustomerDetailPanel;
 
 public class AccountDetailPage extends LeftMenuNavPage
 {
@@ -25,7 +25,7 @@ public class AccountDetailPage extends LeftMenuNavPage
 
     private String accountId;
 
-    private SimpleTextField accountNameField;
+    private CustomerDetailPanel customerDetailPanel;
 
     public AccountDetailPage( WebPage returnPage, String accountId )
     {
@@ -46,9 +46,10 @@ public class AccountDetailPage extends LeftMenuNavPage
 
         add( new FeedbackPanel( "feedbackPanel" ) );
 
-        accountNameField = new SimpleTextField( "accountNameField", account.getName() );
+        customerDetailPanel = new CustomerDetailPanel( "customerDetailPanel", account );
 
-        add( accountNameField );
+        add( customerDetailPanel );
+
         //TODO bp. show project list,
         //TODO bp. show priceRateScheudle list
     }

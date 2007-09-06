@@ -169,11 +169,11 @@ public class ActionTableNavigatorBar extends Panel
         this.itemSize = itemSize;
     }
 
-    public void beforeNextNagivation()
+    void beforeNextNagivation()
     {
     }
 
-    public void beforeItemPerPageChanged()
+    void beforeItemPerPageChanged()
     {
     }
 }

@@ -13,9 +13,8 @@
 package org.qi4j.chronos.service;
 
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.service.associations.HasPriceRateScheduleService;
 
-public interface AccountService extends HasPriceRateScheduleService, EntityService<AccountEntityComposite>
+public interface AccountService extends EntityService<AccountEntityComposite>
 {
 
 }

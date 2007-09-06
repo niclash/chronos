@@ -10,11 +10,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model;
+package org.qi4j.chronos.model.associations;
 
-import org.qi4j.chronos.model.associations.HasStaffs;
+import java.util.Iterator;
+import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
+import org.qi4j.chronos.model.mixins.HasProjectOwnersMixin;
 
-public interface Account extends Customer, HasStaffs
+@ImplementedBy( HasProjectOwnersMixin.class )
+public interface HasProjectOwners
 {
+    void addProjectOwner( ProjectOwnerEntityComposite projectOwner );
 
+    void removeProjectOwner( ProjectOwnerEntityComposite projectOwner );
+
+    Iterator<ProjectOwnerEntityComposite> projectOwnerIterator();
 }

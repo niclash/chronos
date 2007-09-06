@@ -2,9 +2,9 @@ package org.qi4j.chronos.model.composites;
 
 import org.qi4j.chronos.model.AbstractTest;
 import org.qi4j.library.general.model.ValidationException;
-import org.qi4j.library.general.model.composites.CityEntityComposite;
-import org.qi4j.library.general.model.composites.CountryEntityComposite;
-import org.qi4j.library.general.model.composites.StateEntityComposite;
+import org.qi4j.library.general.model.composites.CityComposite;
+import org.qi4j.library.general.model.composites.CountryComposite;
+import org.qi4j.library.general.model.composites.StateComposite;
 
 public class AddressEntityCompositeTest extends AbstractTest
 {
@@ -24,15 +24,15 @@ public class AddressEntityCompositeTest extends AbstractTest
         address.setSecondLine( secondLineAdd );
         address.setZipCode( zipcode );
 
-        CityEntityComposite city = builderFactory.newCompositeBuilder( CityEntityComposite.class ).newInstance();
+        CityComposite city = builderFactory.newCompositeBuilder( CityComposite.class ).newInstance();
         city.setName( cityName );
         address.setCity( city );
 
-        StateEntityComposite state = builderFactory.newCompositeBuilder( StateEntityComposite.class ).newInstance();
+        StateComposite state = builderFactory.newCompositeBuilder( StateComposite.class ).newInstance();
         state.setName( "Victoria" );
         city.setState( state );
 
-        CountryEntityComposite country = builderFactory.newCompositeBuilder( CountryEntityComposite.class ).newInstance();
+        CountryComposite country = builderFactory.newCompositeBuilder( CountryComposite.class ).newInstance();
         country.setName( "Australia" );
         city.setCountry( country );
 
@@ -40,16 +40,16 @@ public class AddressEntityCompositeTest extends AbstractTest
         assertEquals( secondLineAdd, address.getSecondLine() );
         assertEquals( zipcode, address.getZipCode() );
 
-        CityEntityComposite otherCity = (CityEntityComposite) address.getCity();
+        CityComposite otherCity = (CityComposite) address.getCity();
 
         assertEquals( city.getCompositeModel(), otherCity.getCompositeModel() );
         assertEquals( cityName, otherCity.getName() );
 
-        StateEntityComposite otherState = (StateEntityComposite) city.getState();
+        StateComposite otherState = (StateComposite) city.getState();
         assertEquals( state.getCompositeModel(), otherState.getCompositeModel() );
         assertEquals( stateName, otherState.getName() );
 
-        CountryEntityComposite otherCountry = (CountryEntityComposite) city.getCountry();
+        CountryComposite otherCountry = (CountryComposite) city.getCountry();
         assertEquals( country.getCompositeModel(), otherCountry.getCompositeModel() );
         assertEquals( countryName, otherCountry.getName() );
     }
@@ -61,11 +61,11 @@ public class AddressEntityCompositeTest extends AbstractTest
         address.setFirstLine( "502 King St." );
         address.setZipCode( "3000" );
 
-        CityEntityComposite city = session.newEntityBuilder( "Melbourne", CityEntityComposite.class ).newInstance();
+        CityComposite city = builderFactory.newCompositeBuilder( CityComposite.class ).newInstance();
         city.setName( "Melbourne" );
         address.setCity( city );
 
-        CountryEntityComposite country = session.newEntityBuilder( "Australia", CountryEntityComposite.class ).newInstance();
+        CountryComposite country = builderFactory.newCompositeBuilder( CountryComposite.class ).newInstance();
         country.setName( "Australia" );
         city.setCountry( country );
         address.validate();
@@ -93,11 +93,11 @@ public class AddressEntityCompositeTest extends AbstractTest
         AddressComposite address = builderFactory.newCompositeBuilder( AddressComposite.class ).newInstance();
         address.setZipCode( "3000" );
 
-        CityEntityComposite city = session.newEntityBuilder( "Melbourne", CityEntityComposite.class ).newInstance();
+        CityComposite city = builderFactory.newCompositeBuilder( CityComposite.class ).newInstance();
         city.setName( "Melbourne" );
         address.setCity( city );
 
-        CountryEntityComposite country = session.newEntityBuilder( "Australia", CountryEntityComposite.class ).newInstance();
+        CountryComposite country = builderFactory.newCompositeBuilder( CountryComposite.class ).newInstance();
         country.setName( "Australia" );
         city.setCountry( country );
 
@@ -117,11 +117,11 @@ public class AddressEntityCompositeTest extends AbstractTest
         AddressComposite address = builderFactory.newCompositeBuilder( AddressComposite.class ).newInstance();
         address.setFirstLine( "502 King St." );
 
-        CityEntityComposite city = session.newEntityBuilder( "Melbourne", CityEntityComposite.class ).newInstance();
+        CityComposite city = builderFactory.newCompositeBuilder( CityComposite.class ).newInstance();
         city.setName( "Melbourne" );
         address.setCity( city );
 
-        CountryEntityComposite country = session.newEntityBuilder( "Australia", CountryEntityComposite.class ).newInstance();
+        CountryComposite country = builderFactory.newCompositeBuilder( CountryComposite.class ).newInstance();
         country.setName( "Australia" );
         city.setCountry( country );
 

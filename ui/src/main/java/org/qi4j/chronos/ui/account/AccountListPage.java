@@ -12,17 +12,12 @@
  */
 package org.qi4j.chronos.ui.account;
 
-import org.apache.wicket.ajax.AjaxRequestTarget;
-import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
-import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 
 public class AccountListPage extends LeftMenuNavPage
 {
-    private DropDownChoice customerChoice;
-
     public AccountListPage()
     {
         initComponents();
@@ -30,18 +25,6 @@ public class AccountListPage extends LeftMenuNavPage
 
     private void initComponents()
     {
-        customerChoice = new DropDownChoice( "customerChoice" );
-
-        customerChoice.add( new AjaxFormComponentUpdatingBehavior( "onchange" )
-        {
-            protected void onUpdate( AjaxRequestTarget target )
-            {
-                handleCustomerChanged();
-            }
-        } );
-
-        add( customerChoice );
-
         add( new Link( "newAccountLink" )
         {
             public void onClick()

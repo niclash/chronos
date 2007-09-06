@@ -18,6 +18,7 @@ import org.qi4j.api.Composite;
 import org.qi4j.api.CompositeBuilder;
 import org.qi4j.api.CompositeBuilderFactory;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.composites.AddressComposite;
 import org.qi4j.chronos.model.composites.LoginComposite;
 import org.qi4j.chronos.model.composites.MoneyComposite;
 import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
@@ -33,7 +34,6 @@ import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.service.SystemRoleService;
 import org.qi4j.chronos.service.UserService;
-import org.qi4j.chronos.service.associations.HasPriceRateScheduleService;
 import org.qi4j.chronos.service.composites.AccountServiceComposite;
 import org.qi4j.chronos.service.composites.LegalConditionServiceComposite;
 import org.qi4j.chronos.service.composites.ProjectOwnerServiceComposite;
@@ -43,6 +43,9 @@ import org.qi4j.chronos.service.composites.StaffServiceComposite;
 import org.qi4j.chronos.service.composites.SystemRoleServiceComposite;
 import org.qi4j.chronos.service.composites.UserServiceComposite;
 import org.qi4j.library.general.model.GenderType;
+import org.qi4j.library.general.model.composites.CityComposite;
+import org.qi4j.library.general.model.composites.CountryComposite;
+import org.qi4j.library.general.model.composites.StateComposite;
 
 public class MockServicesMixin implements Services
 {
@@ -80,8 +83,6 @@ public class MockServicesMixin implements Services
 
         compositeBuilder.setMixin( EntityService.class, new MockEntityServiceMixin( factory ) );
 
-        compositeBuilder.setMixin( HasPriceRateScheduleService.class, new MockHasPriceRateScheduleServiceMixin() );
-
         return compositeBuilder.newInstance();
     }
 
@@ -104,11 +105,32 @@ public class MockServicesMixin implements Services
 
     private void initAccountDummyData()
     {
-        for( int i = 0; i < 50; i++ )
+        for( int i = 0; i < 30; i++ )
         {
             AccountEntityComposite account = accountService.newInstance( AccountEntityComposite.class );
 
             account.setName( "accountName " + i );
+            account.setReference( "reference " + i );
+
+            AddressComposite address = factory.newCompositeBuilder( AddressComposite.class ).newInstance();
+            CityComposite city = factory.newCompositeBuilder( CityComposite.class ).newInstance();
+            StateComposite state = factory.newCompositeBuilder( StateComposite.class ).newInstance();
+            CountryComposite country = factory.newCompositeBuilder( CountryComposite.class ).newInstance();
+
+            address.setCity( city );
+
+            city.setState( state );
+            city.setCountry( country );
+
+            account.setAddress( address );
+
+            address.getCity().setName( "city1" );
+            address.getCity().getCountry().setName( "Malaysia" );
+            address.getCity().getState().setName( "KL" );
+
+            address.setFirstLine( "ABC Road" );
+            address.setSecondLine( "Way Center" );
+            address.setZipCode( "999" );
 
             accountService.save( account );
         }

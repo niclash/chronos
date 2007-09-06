@@ -292,6 +292,11 @@ public abstract class ActionTable<T> extends Panel
     private void handleGrandSelectAll( AjaxRequestTarget target, boolean isSelectAll,
                                        boolean selectNoneVisible, boolean selectAllVisible )
     {
+        if( isGrandAllSelected && isSelectAll )
+        {
+            return;
+        }
+
         grandSelectAllOrNoneVisible( selectNoneVisible, selectAllVisible );
 
         isGrandAllSelected = isSelectAll;
