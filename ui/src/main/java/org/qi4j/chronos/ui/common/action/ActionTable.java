@@ -15,7 +15,11 @@ package org.qi4j.chronos.ui.common.action;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
+import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
 import org.apache.wicket.extensions.model.AbstractCheckBoxModel;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.Form;
@@ -26,7 +30,6 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
-import org.qi4j.chronos.ui.common.NavigatorBar;
 
 public abstract class ActionTable<T> extends Panel
 {
@@ -40,7 +43,17 @@ public abstract class ActionTable<T> extends Panel
 
     private DataView dataView;
 
-    private CheckBox allCheckBox;
+    private List<String> currBatchIds;
+    private List<CheckBox> currBatchCheckBoxs;
+
+    private Label totalSelectedLabel;
+
+    private int totalItems;
+
+    private WebMarkupContainer grandSelectAllContainer;
+    private WebMarkupContainer grandSelectNoneContainer;
+
+    private boolean isGrandAllSelected = false;
 
     public ActionTable( String id )
     {
@@ -56,6 +69,9 @@ public abstract class ActionTable<T> extends Panel
         this.actionBar.setActionTable( this );
 
         selectedIds = new ArrayList<String>();
+
+        currBatchIds = new ArrayList<String>();
+        currBatchCheckBoxs = new ArrayList<CheckBox>();
 
         initComponents();
     }
@@ -77,6 +93,8 @@ public abstract class ActionTable<T> extends Panel
 
     private class ActionTableForm extends Form
     {
+        private AbstractSortableDataProvider<T> dataProvider;
+
         public ActionTableForm( String id )
         {
             super( id );
@@ -88,14 +106,18 @@ public abstract class ActionTable<T> extends Panel
         {
             add( actionBar );
 
-            allCheckBox = new CheckBox( "allCheckBox", new Model( false ) );
+            dataProvider = getDetachableDataProvider();
 
-            final String script = getAllCheckBoxOnClickScript();
+            totalItems = dataProvider.size();
 
-            allCheckBox.add( new AttributeModifier( "onClick", true, new Model( script ) ) );
+            initGrandSelectAllComponents();
+            initGrandSelectNoneComponents();
+            initSelectAllOrNoneComponent();
+            initDataViewComponent();
+        }
 
-            add( allCheckBox );
-
+        private void initDataViewComponent()
+        {
             final List<String> headerList = getTableHeaderList();
 
             Loop headers = new Loop( "headers", headerList.size() )
@@ -112,22 +134,33 @@ public abstract class ActionTable<T> extends Panel
 
             add( headers );
 
-            final AbstractSortableDataProvider<T> dataProvider = getDetachableDataProvider();
-
             dataView = new DataView( "dataView", dataProvider )
             {
-                private static final long serialVersionUID = 1L;
-
                 @SuppressWarnings( { "unchecked" } )
                 @Override
                 protected void populateItem( Item item )
                 {
+                    if( item.getIndex() == 0 )
+                    {
+                        currBatchIds.clear();
+                        currBatchCheckBoxs.clear();
+                    }
+
                     T obj = (T) item.getModelObject();
 
                     final String id = dataProvider.getId( obj );
 
-                    CheckBox checkBox = new CheckBox( "itemCheckBox", new CheckedModel( id ) );
+                    final CheckBox checkBox = new CheckBox( "itemCheckBox", new CheckedModel( id ) );
                     checkBox.add( new AttributeModifier( "class", true, new Model( CHECKBOX_CLASS_NAME ) ) );
+
+                    checkBox.add( new AjaxFormComponentUpdatingBehavior( "onchange" )
+                    {
+                        @Override
+                        protected void onUpdate( AjaxRequestTarget target )
+                        {
+                            handleItemCheckBoxChanged( checkBox, target );
+                        }
+                    } );
 
                     item.add( checkBox );
 
@@ -137,6 +170,9 @@ public abstract class ActionTable<T> extends Panel
                     {
                         item.add( new AttributeModifier( "class", true, new Model( "alt" ) ) );
                     }
+
+                    currBatchIds.add( id );
+                    currBatchCheckBoxs.add( checkBox );
                 }
             };
 
@@ -144,7 +180,92 @@ public abstract class ActionTable<T> extends Panel
 
             dataView.setItemsPerPage( DEFAULT_ITEM_PER_PAGE );
 
-            add( new NavigatorBar( "navigator", dataView ) );
+            add( new ActionTableNavigatorBar( "navigator", dataView )
+            {
+                public void beforeItemPerPageChanged()
+                {
+                    selectedIds.clear();
+
+                    updateCurrBatchAndGrandSelectVisibility();
+                }
+
+                public void beforeNextNagivation()
+                {
+                    updateCurrBatchAndGrandSelectVisibility();
+                }
+            } );
+        }
+
+        private void initSelectAllOrNoneComponent()
+        {
+            AjaxSubmitLink selectAllLink = new AjaxSubmitLink( "selectAllLink" )
+            {
+                protected void onSubmit( AjaxRequestTarget target, Form form )
+                {
+                    handleSelectAll( target, true );
+                }
+            };
+
+            AjaxSubmitLink selectNoneLink = new AjaxSubmitLink( "selectNoneLink" )
+            {
+                protected void onSubmit( AjaxRequestTarget target, Form form )
+                {
+                    handleSelectAll( target, false );
+                }
+            };
+
+            add( selectAllLink );
+            add( selectNoneLink );
+        }
+
+        private void initGrandSelectAllComponents()
+        {
+            grandSelectAllContainer = new WebMarkupContainer( "grandSelectAllContainer" );
+            grandSelectAllContainer.setVisible( false );
+            grandSelectAllContainer.setOutputMarkupId( true );
+            grandSelectAllContainer.setOutputMarkupPlaceholderTag( true );
+
+            add( grandSelectAllContainer );
+
+            AjaxSubmitLink grandSelectAllLink = new AjaxSubmitLink( "grandSelectAllLink" )
+            {
+                protected void onSubmit( AjaxRequestTarget target, Form form )
+                {
+                    handleGrandSelectAll( target, true, true, false );
+                }
+            };
+
+            grandSelectAllContainer.add( grandSelectAllLink );
+
+            totalSelectedLabel = new Label( "totalSelectedLabel", new Model( "0" ) );
+            grandSelectAllContainer.add( totalSelectedLabel );
+
+            Label totalItem1Label = new Label( "totalItem1Label", new Model( totalItems ) );
+            grandSelectAllLink.add( totalItem1Label );
+        }
+
+        private void initGrandSelectNoneComponents()
+        {
+            grandSelectNoneContainer = new WebMarkupContainer( "grandSelectNoneContainer" );
+            grandSelectNoneContainer.setVisible( false );
+            grandSelectNoneContainer.setOutputMarkupId( true );
+            grandSelectNoneContainer.setOutputMarkupPlaceholderTag( true );
+
+            add( grandSelectNoneContainer );
+
+            AjaxSubmitLink grandSelectNoneLink = new AjaxSubmitLink( "grandSelectNoneLink" )
+            {
+                protected void onSubmit( AjaxRequestTarget target, Form form )
+                {
+                    handleGrandSelectAll( target, false, false, false );
+                    handleSelectAll( target, false );
+                }
+            };
+
+            grandSelectNoneContainer.add( grandSelectNoneLink );
+
+            Label totalItem2Label = new Label( "totalItem2Label", new Model( totalItems ) );
+            grandSelectNoneContainer.add( totalItem2Label );
         }
 
         protected void delegateSubmit( IFormSubmittingComponent submittingButton )
@@ -153,12 +274,69 @@ public abstract class ActionTable<T> extends Panel
         }
     }
 
-    private String getAllCheckBoxOnClickScript()
+    private void updateCurrBatchAndGrandSelectVisibility()
     {
-        return "var e=getElementsByClassName('" + CHECKBOX_CLASS_NAME + "','input', document ); " + //
-               "var i=0; " + //
-               "for(i;i<e.length;i++) " + //
-               "{ e[i].checked=this.checked; }";
+        isGrandAllSelected = false;
+
+        grandSelectAllOrNoneVisible( false, false );
+    }
+
+    private void handleItemCheckBoxChanged( CheckBox checkBox, AjaxRequestTarget target )
+    {
+        if( !Boolean.parseBoolean( checkBox.getModelObjectAsString() ) )
+        {
+            handleGrandSelectAll( target, false, false, false );
+        }
+    }
+
+    private void handleGrandSelectAll( AjaxRequestTarget target, boolean isSelectAll,
+                                       boolean selectNoneVisible, boolean selectAllVisible )
+    {
+        grandSelectAllOrNoneVisible( selectNoneVisible, selectAllVisible );
+
+        isGrandAllSelected = isSelectAll;
+
+        target.addComponent( grandSelectAllContainer );
+        target.addComponent( grandSelectNoneContainer );
+    }
+
+    private void grandSelectAllOrNoneVisible( boolean selectNoneVisible, boolean selectAllVisible )
+    {
+        grandSelectNoneContainer.setVisible( selectNoneVisible );
+        grandSelectAllContainer.setVisible( selectAllVisible );
+    }
+
+    private void handleSelectAll( AjaxRequestTarget target, boolean isSelectAll )
+    {
+        selectedIds.clear();
+
+        for( int i = 0; i < currBatchIds.size(); i++ )
+        {
+            if( isSelectAll )
+            {
+                selectedIds.add( currBatchIds.get( i ) );
+            }
+
+            CheckBox checkBox = currBatchCheckBoxs.get( i );
+
+            checkBox.setModel( new Model( isSelectAll ) );
+
+            target.addComponent( checkBox );
+        }
+
+        handleGrandSelectAll( target, false, false, false );
+
+        if( isSelectAll )
+        {
+            if( totalItems > dataView.getItemsPerPage() )
+            {
+                totalSelectedLabel.setModelObject( selectedIds.size() );
+
+                grandSelectAllContainer.setVisible( true );
+
+                target.addComponent( grandSelectAllContainer );
+            }
+        }
     }
 
     public void dataViewModelChanged()
@@ -225,26 +403,25 @@ public abstract class ActionTable<T> extends Panel
 
     AbstractSortableDataProvider getSelectedItemsDataProvider()
     {
-        //TODO fixme
-//        if( actionBar.isSubsetSelected() )
-//        {
-        return new SubSetSortableDataProvider<T>( selectedIds )
+        if( !isGrandAllSelected )
         {
-            public String getId( T o )
+            return new SubSetSortableDataProvider<T>( selectedIds )
             {
-                return getDetachableDataProvider().getId( o );
-            }
+                public String getId( T o )
+                {
+                    return getDetachableDataProvider().getId( o );
+                }
 
-            public T load( String id )
-            {
-                return getDetachableDataProvider().load( id );
-            }
-        };
-//        }
-//        else
-//        {
-//            return getDetachableDataProvider();
-//        }
+                public T load( String id )
+                {
+                    return getDetachableDataProvider().load( id );
+                }
+            };
+        }
+        else
+        {
+            return getDetachableDataProvider();
+        }
     }
 
     public abstract AbstractSortableDataProvider<T> getDetachableDataProvider();

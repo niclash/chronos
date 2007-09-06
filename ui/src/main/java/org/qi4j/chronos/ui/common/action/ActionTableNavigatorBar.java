@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.common;
+package org.qi4j.chronos.ui.common.action;
 
 import java.util.Arrays;
 import java.util.List;
@@ -31,14 +31,13 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.PropertyModel;
 
-public class NavigatorBar extends Panel
+public class ActionTableNavigatorBar extends Panel
 {
     private final static List<String> ITEM_PER_PAGE_LIST = Arrays.asList( "5", "10", "20", "25", "50", "100", "150", "200",
                                                                           "300", "500" );
-
     private String itemSize = "10";
 
-    public NavigatorBar( final String id, final DataView dataView )
+    public ActionTableNavigatorBar( final String id, final DataView dataView )
     {
         super( id );
 
@@ -57,9 +56,11 @@ public class NavigatorBar extends Panel
         {
             protected void onUpdate( AjaxRequestTarget target )
             {
+                beforeItemPerPageChanged();
+
                 dataView.setItemsPerPage( Integer.parseInt( itemSize ) );
 
-                Page page = NavigatorBar.this.getPage();
+                Page page = ActionTableNavigatorBar.this.getPage();
 
                 setResponsePage( page );
             }
@@ -111,7 +112,15 @@ public class NavigatorBar extends Panel
 
     protected Link newIncrementLink( String id, IPageable page, int increment, final String imageName )
     {
-        final Link link = new PagingNavigationIncrementLink( id, page, increment );
+        final Link link = new PagingNavigationIncrementLink( id, page, increment )
+        {
+            public void onClick()
+            {
+                beforeNextNagivation();
+
+                super.onClick();
+            }
+        };
 
         addImage( link, imageName );
 
@@ -120,7 +129,14 @@ public class NavigatorBar extends Panel
 
     protected Link newNavigationLink( String id, IPageable page, int pageNum, final String imageName )
     {
-        final Link link = new PagingNavigationLink( id, page, pageNum );
+        final Link link = new PagingNavigationLink( id, page, pageNum )
+        {
+            public void onClick()
+            {
+                beforeNextNagivation();
+                super.onClick();
+            }
+        };
 
         addImage( link, imageName );
 
@@ -129,14 +145,14 @@ public class NavigatorBar extends Panel
 
     private void addImage( final Link link, final String imageName )
     {
-        link.add( new Image( "image", new ResourceReference( NavigatorBar.this.getClass(), imageName + ".gif" ) )
+        link.add( new Image( "image", new ResourceReference( ActionTableNavigatorBar.this.getClass(), imageName + ".gif" ) )
         {
             @Override
             protected void onComponentTag( ComponentTag tag )
             {
                 String imageUrl = link.isEnabled() ? imageName + ".gif" : imageName + "_off.gif";
 
-                setImageResourceReference( new ResourceReference( NavigatorBar.this.getClass(), imageUrl ) );
+                setImageResourceReference( new ResourceReference( ActionTableNavigatorBar.this.getClass(), imageUrl ) );
 
                 super.onComponentTag( tag );
             }
@@ -151,5 +167,13 @@ public class NavigatorBar extends Panel
     public void setItemSize( String itemSize )
     {
         this.itemSize = itemSize;
+    }
+
+    public void beforeNextNagivation()
+    {
+    }
+
+    public void beforeItemPerPageChanged()
+    {
     }
 }

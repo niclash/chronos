@@ -50,12 +50,8 @@ public class ActionBar extends Panel
 
         goButton = new Button( "goButton", new Model( "Go" ) );
 
-//        WebMarkupContainer actionContainer = new WebMarkupContainer( "actionContainer" );
-
         add( actionChoices );
         add( goButton );
-
-//        add( actionContainer );
     }
 
     private void updateActionChoiceList()

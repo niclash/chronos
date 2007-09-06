@@ -13,14 +13,43 @@
 
             <tr>
                 <td>
-                    <span wicket:id="navigator"></span>
+                    <table>
+                        <tr>
+                            <td>
+                                <b>Select :&nbsp;</b><a wicket:id="selectAllLink">All</a>&nbsp;<a
+                                    wicket:id="selectNoneLink">None</a>
+                            </td>
+                            <span wicket:id="navigator"></span>
+                        </tr>
+                    </table>
+                </td>
+            </tr>
+
+            <tr>
+                <td align="center">
+
+                    <span wicket:id="grandSelectAllContainer">
+                        All&nbsp;<b><span wicket:id="totalSelectedLabel"></span></b> on this page are selected.
+
+                        <a wicket:id="grandSelectAllLink">
+                            Select all <b><span wicket:id="totalItem1Label"></span></b>&nbsp;items.
+                        </a>
+                    </span>
+
+                    <span wicket:id="grandSelectNoneContainer">
+                    All <b><span wicket:id="totalItem2Label"></span></b>&nbsp;items are selected.
+
+                    <a wicket:id="grandSelectNoneLink">
+                        Clear Selection
+                    </a>
+                    </span>
                 </td>
             </tr>
             <tr>
                 <td>
                     <table>
                         <tr>
-                            <th><input type="checkbox" wicket:id="allCheckBox" style="width: 13"/></th>
+                            <th></th>
                             <span wicket:id="headers">
                                 <th><span wicket:id="header"></span></th>
                             </span>
