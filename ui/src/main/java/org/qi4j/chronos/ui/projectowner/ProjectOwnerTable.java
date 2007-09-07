@@ -26,12 +26,12 @@ import org.qi4j.chronos.ui.common.action.ActionTable;
 
 public class ProjectOwnerTable extends ActionTable<ProjectOwnerEntityComposite>
 {
+    private SimpleDataProvider<ProjectOwnerEntityComposite> provider;
+
     public ProjectOwnerTable( String id )
     {
         super( id );
     }
-
-    private SimpleDataProvider<ProjectOwnerEntityComposite> provider;
 
     public AbstractSortableDataProvider<ProjectOwnerEntityComposite> getDetachableDataProvider()
     {
@@ -53,10 +53,9 @@ public class ProjectOwnerTable extends ActionTable<ProjectOwnerEntityComposite>
     {
         final String projectOwnerId = obj.getIdentity();
 
-        add( createDetailLink( "name", obj.getName(), projectOwnerId ) );
-        add( createDetailLink( "formalReference", obj.getReference(), projectOwnerId ) );
-
-        add( new SimpleLink( "editLink", "Edit" )
+        item.add( createDetailLink( "name", obj.getName(), projectOwnerId ) );
+        item.add( createDetailLink( "formalReference", obj.getReference(), projectOwnerId ) );
+        item.add( new SimpleLink( "editLink", "Edit" )
         {
             public void linkClicked()
             {
@@ -69,11 +68,11 @@ public class ProjectOwnerTable extends ActionTable<ProjectOwnerEntityComposite>
 
     private SimpleLink createDetailLink( String id, String displayValue, final String projectOwnerId )
     {
-        return new SimpleLink( "id", displayValue )
+        return new SimpleLink( id, displayValue )
         {
             public void linkClicked()
             {
-                ProjectOwnerDetailPage detailPage = new ProjectOwnerDetailPage( projectOwnerId );
+                ProjectOwnerDetailPage detailPage = new ProjectOwnerDetailPage( (BasePage) this.getPage(), projectOwnerId );
 
                 setResponsePage( detailPage );
             }

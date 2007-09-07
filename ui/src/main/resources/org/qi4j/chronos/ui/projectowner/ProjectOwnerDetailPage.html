@@ -1,5 +1,44 @@
 <html xmlns:wicket>
 <wicket:extend>
-    
+    <table>
+        <tr>
+            <td align="left" valign="middle">
+                <table>
+                    <tr>
+                        <td width="50%"><strong>Project Owner Detail</strong></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td width="100%"><span wicket:id="feedbackPanel">feedback messages</span>&nbsp;</td>
+        </tr>
+
+        <tr>
+            <td>
+                <form wicket:id="projectOwnerDetailForm">
+                    <table>
+                        <tr>
+                            <td>
+                                <table>
+                                    <tr>
+                                        <span wicket:id="customerDetailPanel"></span>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td align="center">
+                                <input type="submit" wicket:id="submitButton"/>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </td>
+        </tr>
+    </table>
+
 </wicket:extend>
 </html>

@@ -10,34 +10,35 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.projectowner;
+package org.qi4j.chronos.ui.relationship;
 
 import org.apache.wicket.markup.html.form.Form;
+import org.qi4j.chronos.model.Relationship;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
 import org.qi4j.chronos.ui.base.BasePage;
-import org.qi4j.chronos.ui.customer.CustomerAddEditPanel;
+import org.qi4j.chronos.ui.common.MaxLengthTextField;
 
-public abstract class ProjectOwnerAddEditPage extends AddEditBasePage
+public abstract class RelationshipAddEditPage extends AddEditBasePage
 {
-    protected CustomerAddEditPanel customerAddEditPanel;
+    protected MaxLengthTextField relationshipField;
 
-    public ProjectOwnerAddEditPage( BasePage basePage )
+    public RelationshipAddEditPage( BasePage goBackPage )
     {
-        super( basePage );
+        super( goBackPage );
     }
 
     public void initComponent( Form form )
     {
-        customerAddEditPanel = new CustomerAddEditPanel( "customerAddEditPanel" );
-
-        form.add( customerAddEditPanel );
+        relationshipField = new MaxLengthTextField( "relationshipField", "Relationship",
+                                                    Relationship.RELATIONSHIP_LEN );
+        form.add( relationshipField );
     }
 
     public void handleSubmit()
     {
         boolean isRejected = false;
 
-        if( customerAddEditPanel.checkIsNotValidated() )
+        if( relationshipField.checkIsEmptyOrInvalidLength() )
         {
             isRejected = true;
         }

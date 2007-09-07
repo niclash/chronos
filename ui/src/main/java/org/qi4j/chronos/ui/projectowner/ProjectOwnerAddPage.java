@@ -12,10 +12,21 @@
  */
 package org.qi4j.chronos.ui.projectowner;
 
+import org.qi4j.chronos.model.composites.AddressComposite;
+import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
+import org.qi4j.chronos.service.ProjectOwnerService;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
+import org.qi4j.library.general.model.composites.CityComposite;
+import org.qi4j.library.general.model.composites.CountryComposite;
+import org.qi4j.library.general.model.composites.StateComposite;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ProjectOwnerAddPage extends ProjectOwnerAddEditPage
 {
+    private final static Logger LOGGER = LoggerFactory.getLogger( ProjectOwnerAddPage.class );
+
     public ProjectOwnerAddPage( BasePage basePage )
     {
         super( basePage );
@@ -23,7 +34,37 @@ public class ProjectOwnerAddPage extends ProjectOwnerAddEditPage
 
     public void onSubmitting()
     {
-        //TODO
+        ProjectOwnerService service = ChronosWebApp.getServices().getProjectOwnerService();
+
+        ProjectOwnerEntityComposite projectOwner = service.newInstance( ProjectOwnerEntityComposite.class );
+
+        try
+        {
+            AddressComposite address = ChronosWebApp.newInstance( AddressComposite.class );
+            CityComposite city = ChronosWebApp.newInstance( CityComposite.class );
+            StateComposite state = ChronosWebApp.newInstance( StateComposite.class );
+            CountryComposite country = ChronosWebApp.newInstance( CountryComposite.class );
+
+            address.setCity( city );
+
+            city.setState( state );
+            city.setCountry( country );
+
+            projectOwner.setAddress( address );
+
+            customerAddEditPanel.assignFieldValueToCustomer( projectOwner );
+
+            service.save( projectOwner );
+
+            logInfoMsg( "Project Owner is added successfully." );
+
+            divertToGoBackPage();
+        }
+        catch( Exception err )
+        {
+            logErrorMsg( err.getMessage() );
+            LOGGER.error( err.getMessage(), err );
+        }
     }
 
     public String getSubmitButtonValue()

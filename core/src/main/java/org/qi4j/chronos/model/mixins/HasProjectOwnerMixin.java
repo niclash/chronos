@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
+ * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,25 +12,20 @@
  */
 package org.qi4j.chronos.model.mixins;
 
-import org.qi4j.api.annotation.ModifiedBy;
-import org.qi4j.chronos.model.associations.HasRole;
-import org.qi4j.chronos.model.modifiers.NotNullValidationModifier;
-import org.qi4j.chronos.model.modifiers.NotNullable;
-import org.qi4j.chronos.model.ProjectRole;
+import org.qi4j.chronos.model.associations.HasProjectOwner;
+import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
 
-@ModifiedBy( { NotNullValidationModifier.class } )
-public final class HasRoleMixin implements HasRole
+public class HasProjectOwnerMixin implements HasProjectOwner
 {
-    private ProjectRole role;
+    private ProjectOwnerEntityComposite projectOwner;
 
-    @NotNullable
-    public void setRole( ProjectRole aRole )
+    public ProjectOwnerEntityComposite getProjectOwner()
     {
-        role = aRole;
+        return projectOwner;
     }
 
-    public ProjectRole getRole()
+    public void setProjectOwner( ProjectOwnerEntityComposite projectOwner )
     {
-        return role;
+        this.projectOwner = projectOwner;
     }
 }

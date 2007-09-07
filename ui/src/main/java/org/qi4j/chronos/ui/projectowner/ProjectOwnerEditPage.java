@@ -12,10 +12,18 @@
  */
 package org.qi4j.chronos.ui.projectowner;
 
+import org.qi4j.chronos.model.ProjectOwner;
+import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
+import org.qi4j.chronos.service.ProjectOwnerService;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ProjectOwnerEditPage extends ProjectOwnerAddEditPage
 {
+    private final static Logger LOGGER = LoggerFactory.getLogger( ProjectOwnerEditPage.class );
+
     private String projectOwnerId;
 
     public ProjectOwnerEditPage( BasePage basePage, String projectOwnerId )
@@ -23,11 +31,31 @@ public class ProjectOwnerEditPage extends ProjectOwnerAddEditPage
         super( basePage );
 
         this.projectOwnerId = projectOwnerId;
+
+        ProjectOwner projectOwner = ChronosWebApp.getServices().getProjectOwnerService().get( projectOwnerId );
+
+        customerAddEditPanel.assignCustomerToFields( projectOwner );
     }
 
     public void onSubmitting()
     {
-        //TODO
+        try
+        {
+            ProjectOwnerService service = ChronosWebApp.getServices().getProjectOwnerService();
+
+            ProjectOwnerEntityComposite projectOwner = service.get( projectOwnerId );
+
+            service.update( projectOwner );
+
+            logInfoMsg( "Project Owner is updated successfully." );
+
+            divertToGoBackPage();
+        }
+        catch( Exception err )
+        {
+            logErrorMsg( err.getMessage() );
+            LOGGER.error( err.getMessage(), err );
+        }
     }
 
     public String getSubmitButtonValue()

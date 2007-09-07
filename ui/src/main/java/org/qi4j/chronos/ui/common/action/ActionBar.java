@@ -17,6 +17,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -49,6 +50,10 @@ public class ActionBar extends Panel
         actionChoices = new SimpleDropDownChoice( "actionChoices", actionKeyList, true );
 
         goButton = new Button( "goButton", new Model( "Go" ) );
+
+        goButton.setOutputMarkupId( true );
+
+        goButton.setEnabled( false );
 
         add( actionChoices );
         add( goButton );
@@ -109,5 +114,15 @@ public class ActionBar extends Panel
         Action actionTarget = actionMap.get( key );
 
         actionTarget.performAction( dataProvider );
+    }
+
+    void setActionBarEnabled( boolean isEnabled, AjaxRequestTarget target )
+    {
+        goButton.setEnabled( isEnabled );
+
+        if( target != null )
+        {
+            target.addComponent( goButton );
+        }
     }
 }

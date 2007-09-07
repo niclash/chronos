@@ -51,6 +51,30 @@ public class AddressAddEditPanel extends AddEditBasePanel
         add( stateField );
     }
 
+    public void assignFieldValueToAddress( Address address )
+    {
+        address.setFirstLine( address1Field.getText() );
+        address.setSecondLine( address2Field.getText() );
+
+        address.setZipCode( zipcodeField.getText() );
+        address.getCity().setName( cityField.getText() );
+
+        address.getCity().getState().setName( stateField.getText() );
+        address.getCity().getCountry().setName( countryField.getText() );
+    }
+
+    public void assignAddressToFieldValue( Address address )
+    {
+        address1Field.setText( address.getFirstLine() );
+        address2Field.setText( address.getSecondLine() );
+
+        zipcodeField.setText( address.getZipCode() );
+        cityField.setText( address.getCity().getName() );
+
+        stateField.setText( address.getCity().getState().getName() );
+        countryField.setText( address.getCity().getCountry().getName() );
+    }
+
     public MaxLengthTextField getAddress1Field()
     {
         return address1Field;

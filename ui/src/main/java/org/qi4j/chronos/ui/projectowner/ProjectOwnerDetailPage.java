@@ -12,21 +12,68 @@
  */
 package org.qi4j.chronos.ui.projectowner;
 
+import org.apache.wicket.markup.html.form.Button;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.model.Model;
+import org.qi4j.chronos.model.ProjectOwner;
+import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
+import org.qi4j.chronos.ui.customer.CustomerDetailPanel;
 
 public class ProjectOwnerDetailPage extends LeftMenuNavPage
 {
     private String projectOwnerId;
 
-    public ProjectOwnerDetailPage( String projectOwnerId )
+    private BasePage returnPage;
+
+    public ProjectOwnerDetailPage( BasePage returnPage, String projectOwnerId )
     {
         this.projectOwnerId = projectOwnerId;
+        this.returnPage = returnPage;
 
         initComponents();
     }
 
     private void initComponents()
     {
+        add( new FeedbackPanel( "feedbackPanel" ) );
+        add( new ProjectOwnerDetailForm( "projectOwnerDetailForm" ) );
+    }
 
+    private class ProjectOwnerDetailForm extends Form
+    {
+        private Button submitButton;
+
+        private CustomerDetailPanel customerDetailPanel;
+
+        public ProjectOwnerDetailForm( String id )
+        {
+            super( id );
+
+            ProjectOwner projectOwner = ChronosWebApp.getServices().getProjectOwnerService().get( projectOwnerId );
+
+            customerDetailPanel = new CustomerDetailPanel( "customerDetailPanel", projectOwner );
+
+            add( customerDetailPanel );
+
+            submitButton = new Button( "submitButton", new Model( "Return" ) );
+            add( submitButton );
+
+        }
+
+        protected void delegateSubmit( IFormSubmittingComponent submittingButton )
+        {
+            if( submittingButton == submitButton )
+            {
+                setResponsePage( returnPage );
+            }
+            else
+            {
+                throw new IllegalArgumentException( submittingButton + " not handled yet!" );
+            }
+        }
     }
 }

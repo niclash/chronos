@@ -12,11 +12,10 @@
  */
 package org.qi4j.chronos.model;
 
-import org.qi4j.chronos.model.associations.HasProjectAssignees;
-
 /**
  * Generic interface for Staff
  */
-public interface Staff extends User, Salary, HasProjectAssignees
+public interface Staff extends User, Salary
 {
+
 }

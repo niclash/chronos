@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
+ * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -10,15 +10,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.composites;
+package org.qi4j.chronos.model.associations;
 
-import org.qi4j.api.persistence.EntityComposite;
-import org.qi4j.chronos.model.ProjectRole;
+import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
+import org.qi4j.chronos.model.mixins.HasProjectOwnerMixin;
 
-public interface ProjectRoleEntityComposite extends ProjectRole, EntityComposite
+@ImplementedBy( HasProjectOwnerMixin.class )
+public interface HasProjectOwner
 {
+    public ProjectOwnerEntityComposite getProjectOwner();
 
-    class Doit{
-        
-    }
+    public void setProjectOwner( ProjectOwnerEntityComposite projectOwner );
 }

@@ -13,14 +13,15 @@
  */
 package org.qi4j.chronos.model;
 
-import java.io.Serializable;
-
 /**
  * Generic interface to specify a relationship
  */
 public interface Relationship
 {
-    void setRelationship(String aRelationship );
+    public final static int RELATIONSHIP_LEN = 120;
+
+    void setRelationship( String aRelationship );
 
     String getRelationship();
+
 }

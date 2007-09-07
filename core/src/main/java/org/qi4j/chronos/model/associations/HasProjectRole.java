@@ -10,15 +10,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.composites;
+package org.qi4j.chronos.model.associations;
 
-import org.qi4j.api.persistence.EntityComposite;
+import org.qi4j.api.annotation.ImplementedBy;
 import org.qi4j.chronos.model.ProjectRole;
+import org.qi4j.chronos.model.mixins.HasProjectRoleMixin;
 
-public interface ProjectRoleEntityComposite extends ProjectRole, EntityComposite
+/**
+ * Generic interface describing association with {@link ProjectRole}
+ */
+@ImplementedBy( HasProjectRoleMixin.class )
+public interface HasProjectRole
 {
+    void setRole( ProjectRole role );
 
-    class Doit{
-        
-    }
+    ProjectRole getRole();
 }

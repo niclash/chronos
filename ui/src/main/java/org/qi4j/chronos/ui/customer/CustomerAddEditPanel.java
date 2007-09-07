@@ -65,18 +65,20 @@ public class CustomerAddEditPanel extends AddEditBasePanel
         return isRejected;
     }
 
-    public void assignDataToCustomer( Customer customer )
+    public void assignFieldValueToCustomer( Customer customer )
     {
         customer.setName( nameField.getText() );
         customer.setReference( referenceField.getText() );
 
-        customer.getAddress().setFirstLine( addressAddEditPanel.getAddress1Field().getText() );
-        customer.getAddress().setSecondLine( addressAddEditPanel.getAddress2Field().getText() );
+        addressAddEditPanel.assignFieldValueToAddress( customer.getAddress() );
+    }
 
-        customer.getAddress().setZipCode( addressAddEditPanel.getZipcodeField().getText() );
-        customer.getAddress().getCity().setName( addressAddEditPanel.getCityField().getText() );
+    public void assignCustomerToFields( Customer customer )
+    {
+        nameField.setText( customer.getName() );
+        referenceField.setText( customer.getReference() );
 
-        customer.getAddress().getCity().getState().setName( addressAddEditPanel.getStateField().getText() );
-        customer.getAddress().getCity().getCountry().setName( addressAddEditPanel.getCountryField().getText() );
+        addressAddEditPanel.assignAddressToFieldValue( customer.getAddress() );
     }
 }
+

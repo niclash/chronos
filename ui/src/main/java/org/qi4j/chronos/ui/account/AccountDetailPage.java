@@ -13,7 +13,11 @@
 package org.qi4j.chronos.ui.account;
 
 import org.apache.wicket.markup.html.WebPage;
+import org.apache.wicket.markup.html.form.Button;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
@@ -24,8 +28,6 @@ public class AccountDetailPage extends LeftMenuNavPage
     private WebPage returnPage;
 
     private String accountId;
-
-    private CustomerDetailPanel customerDetailPanel;
 
     public AccountDetailPage( WebPage returnPage, String accountId )
     {
@@ -42,16 +44,40 @@ public class AccountDetailPage extends LeftMenuNavPage
 
     private void initComponents()
     {
-        AccountEntityComposite account = getAccount();
-
         add( new FeedbackPanel( "feedbackPanel" ) );
+        add( new AccountDetailForm( "accountDetailForm" ) );
+    }
 
-        customerDetailPanel = new CustomerDetailPanel( "customerDetailPanel", account );
+    private class AccountDetailForm extends Form
+    {
+        private Button goButton;
+        private CustomerDetailPanel customerDetailPanel;
 
-        add( customerDetailPanel );
+        public AccountDetailForm( String id )
+        {
+            super( id );
 
-        //TODO bp. show project list,
-        //TODO bp. show priceRateScheudle list
+            AccountEntityComposite account = getAccount();
+
+            goButton = new Button( "submitButton", new Model( "Return" ) );
+
+            customerDetailPanel = new CustomerDetailPanel( "customerDetailPanel", account );
+
+            add( customerDetailPanel );
+            add( goButton );
+        }
+
+        protected void delegateSubmit( IFormSubmittingComponent submittingButton )
+        {
+            if( submittingButton == goButton )
+            {
+                setResponsePage( returnPage );
+            }
+            else
+            {
+                throw new IllegalArgumentException( submittingButton + " not handled yet." );
+            }
+        }
     }
 
 }

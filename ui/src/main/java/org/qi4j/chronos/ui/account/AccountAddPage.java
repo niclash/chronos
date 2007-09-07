@@ -53,7 +53,7 @@ public class AccountAddPage extends AccountAddEditPage
             account.setAddress( address );
 
             //assign data to customer
-            customerAddEditPanel.assignDataToCustomer( account );
+            customerAddEditPanel.assignFieldValueToCustomer( account );
 
             accountService.save( account );
 

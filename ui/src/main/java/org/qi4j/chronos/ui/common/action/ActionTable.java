@@ -13,7 +13,9 @@
 package org.qi4j.chronos.ui.common.action;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
@@ -39,7 +41,7 @@ public abstract class ActionTable<T> extends Panel
 
     private ActionBar actionBar;
 
-    private List<String> selectedIds;
+    private Set<String> selectedIds;
 
     private DataView dataView;
 
@@ -68,7 +70,7 @@ public abstract class ActionTable<T> extends Panel
 
         this.actionBar.setActionTable( this );
 
-        selectedIds = new ArrayList<String>();
+        selectedIds = new HashSet<String>();
 
         currBatchIds = new ArrayList<String>();
         currBatchCheckBoxs = new ArrayList<CheckBox>();
@@ -158,7 +160,7 @@ public abstract class ActionTable<T> extends Panel
                         @Override
                         protected void onUpdate( AjaxRequestTarget target )
                         {
-                            handleItemCheckBoxChanged( checkBox, target );
+                            handleItemCheckBoxChanged( id, checkBox, target );
                         }
                     } );
 
@@ -187,6 +189,8 @@ public abstract class ActionTable<T> extends Panel
                     selectedIds.clear();
 
                     updateCurrBatchAndGrandSelectVisibility();
+
+                    enableOrDisableActionBar( null );
                 }
 
                 public void beforeNextNagivation()
@@ -281,12 +285,25 @@ public abstract class ActionTable<T> extends Panel
         grandSelectAllOrNoneVisible( false, false );
     }
 
-    private void handleItemCheckBoxChanged( CheckBox checkBox, AjaxRequestTarget target )
+    private void handleItemCheckBoxChanged( String id, CheckBox checkBox, AjaxRequestTarget target )
     {
         if( !Boolean.parseBoolean( checkBox.getModelObjectAsString() ) )
         {
             handleGrandSelectAll( target, false, false, false );
+
+            selectedIds.remove( id );
         }
+        else
+        {
+            selectedIds.add( id );
+        }
+
+        enableOrDisableActionBar( target );
+    }
+
+    private void enableOrDisableActionBar( AjaxRequestTarget target )
+    {
+        actionBar.setActionBarEnabled( selectedIds.size() != 0, target );
     }
 
     private void handleGrandSelectAll( AjaxRequestTarget target, boolean isSelectAll,
@@ -342,6 +359,8 @@ public abstract class ActionTable<T> extends Panel
                 target.addComponent( grandSelectAllContainer );
             }
         }
+
+        enableOrDisableActionBar( target );
     }
 
     public void dataViewModelChanged()
@@ -410,7 +429,7 @@ public abstract class ActionTable<T> extends Panel
     {
         if( !isGrandAllSelected )
         {
-            return new SubSetSortableDataProvider<T>( selectedIds )
+            return new SubSetSortableDataProvider<T>( new ArrayList<String>( selectedIds ) )
             {
                 public String getId( T o )
                 {

@@ -1,6 +1,5 @@
 /*
  * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
- * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -11,9 +10,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.associations;
+package org.qi4j.chronos.model.mixins;
 
-public interface HasProjectContacts extends HasContactPersons, HasPrimaryContactPerson
+import org.qi4j.chronos.model.ProjectRole;
+import org.qi4j.chronos.model.associations.HasProjectRole;
+
+public final class HasProjectRoleMixin implements HasProjectRole
 {
-}
+    private ProjectRole role;
 
+    public void setRole( ProjectRole aRole )
+    {
+        role = aRole;
+    }
+
+    public ProjectRole getRole()
+    {
+        return role;
+    }
+}

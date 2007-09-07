@@ -12,10 +12,18 @@
  */
 package org.qi4j.chronos.ui.account;
 
+import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.service.AccountService;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class AccountEditPage extends AccountAddEditPage
 {
+    private final static Logger LOGGER = LoggerFactory.getLogger( AccountEditPage.class );
+
     private String accountId;
 
     public AccountEditPage( BasePage goBackPage, String accountId )
@@ -23,11 +31,32 @@ public class AccountEditPage extends AccountAddEditPage
         super( goBackPage );
 
         this.accountId = accountId;
+
+        Account account = ChronosWebApp.getServices().getAccountService().get( accountId );
+
+        customerAddEditPanel.assignCustomerToFields( account );
     }
 
     public void onSubmitting()
     {
-        //TODO bp. update the account detail here
+        AccountService accountService = ChronosWebApp.getServices().getAccountService();
+        AccountEntityComposite account = accountService.get( accountId );
+
+        try
+        {
+            customerAddEditPanel.assignFieldValueToCustomer( account );
+
+            accountService.update( account );
+
+            logInfoMsg( "Account is updated successfully." );
+
+            divertToGoBackPage();
+        }
+        catch( Exception err )
+        {
+            logErrorMsg( err.getMessage() );
+            LOGGER.error( err.getMessage(), err );
+        }
     }
 
     public String getSubmitButtonValue()

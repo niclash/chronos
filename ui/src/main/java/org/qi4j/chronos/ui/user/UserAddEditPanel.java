@@ -19,7 +19,6 @@ import java.util.List;
 import org.apache.wicket.extensions.markup.html.form.palette.Palette;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
-import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
