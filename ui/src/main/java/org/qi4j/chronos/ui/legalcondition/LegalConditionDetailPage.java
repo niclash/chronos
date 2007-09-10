@@ -18,8 +18,6 @@ import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.LegalCondition;
-import org.qi4j.chronos.service.LegalConditionService;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.SimpleTextArea;
@@ -28,12 +26,14 @@ import org.qi4j.chronos.ui.common.SimpleTextField;
 public class LegalConditionDetailPage extends LeftMenuNavPage
 {
     private BasePage returnPage;
-    private String legalConditionId;
 
-    public LegalConditionDetailPage( BasePage returnBack, String legalConditionId )
+    //TODO fixme
+    private static LegalCondition legalCondition;
+
+    public LegalConditionDetailPage( BasePage returnBack, LegalCondition legalCondition )
     {
         this.returnPage = returnBack;
-        this.legalConditionId = legalConditionId;
+        this.legalCondition = legalCondition;
 
         initComponents();
     }
@@ -60,10 +60,6 @@ public class LegalConditionDetailPage extends LeftMenuNavPage
 
         private void initComponents()
         {
-            LegalConditionService service = ChronosWebApp.getServices().getLegalConditionService();
-
-            LegalCondition legalCondition = service.get( legalConditionId );
-
             nameField = new SimpleTextField( "nameField", legalCondition.getLegalConditionName(), true );
             descField = new SimpleTextArea( "descTextArea", legalCondition.getLegalConditionDesc(), true );
 

@@ -15,50 +15,44 @@ package org.qi4j.chronos.ui.legalcondition;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.repeater.Item;
-import org.qi4j.chronos.model.composites.LegalConditionEntityComposite;
-import org.qi4j.chronos.service.EntityService;
-import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.model.LegalCondition;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
-import org.qi4j.chronos.ui.common.SimpleDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 
-public class LegalConditionTable extends ActionTable<LegalConditionEntityComposite>
+public class LegalConditionTable extends ActionTable<LegalCondition>
 {
-    private SimpleDataProvider<LegalConditionEntityComposite> provider;
+    private LegalConditionDataProvider provider;
 
-    public LegalConditionTable( String id )
+    //TODO bp. fixme
+    private static List<LegalCondition> list;
+
+    public LegalConditionTable( String id, List<LegalCondition> list )
     {
         super( id );
+
+        this.list = list;
     }
 
-    public AbstractSortableDataProvider<LegalConditionEntityComposite> getDetachableDataProvider()
+    public AbstractSortableDataProvider<LegalCondition> getDetachableDataProvider()
     {
         if( provider == null )
         {
-            provider = new SimpleDataProvider<LegalConditionEntityComposite>()
-            {
-                public EntityService<LegalConditionEntityComposite> getEntityService()
-                {
-                    return ChronosWebApp.getServices().getLegalConditionService();
-                }
-            };
+            provider = new LegalConditionDataProvider( list );
         }
 
         return provider;
     }
 
-    public void populateItems( Item item, LegalConditionEntityComposite obj )
+    public void populateItems( Item item, final LegalCondition obj )
     {
-        final String legalConditionId = obj.getIdentity();
-
         add( new SimpleLink( "name", obj.getLegalConditionName() )
         {
             public void linkClicked()
             {
                 LegalConditionDetailPage detailPage =
-                    new LegalConditionDetailPage( (BasePage) this.getPage(), legalConditionId );
+                    new LegalConditionDetailPage( (BasePage) this.getPage(), obj );
 
                 setResponsePage( detailPage );
             }
@@ -69,7 +63,7 @@ public class LegalConditionTable extends ActionTable<LegalConditionEntityComposi
             public void linkClicked()
             {
                 LegalConditionEditPage editPage =
-                    new LegalConditionEditPage( (BasePage) this.getPage(), legalConditionId );
+                    new LegalConditionEditPage( (BasePage) this.getPage(), obj );
 
                 setResponsePage( editPage );
             }

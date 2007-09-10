@@ -10,12 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service.composites;
+package org.qi4j.chronos.service;
 
-import org.qi4j.api.Composite;
-import org.qi4j.chronos.service.LegalConditionService;
+import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 
-public interface LegalConditionServiceComposite extends LegalConditionService, Composite
+public interface ContactPersonService extends EntityService<ContactPersonEntityComposite>
 {
-    
 }

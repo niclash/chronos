@@ -17,6 +17,9 @@ import org.apache.wicket.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authorization.strategies.role.Roles;
 import org.qi4j.api.persistence.Identity;
+import org.qi4j.chronos.model.Admin;
+import org.qi4j.chronos.model.ContactPerson;
+import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.User;
 
 //TODO bp. fix authentication and getRoles
@@ -35,6 +38,7 @@ public class ChronosSession extends AuthenticatedWebSession
     {
         User user = ChronosWebApp.getServices().getUserService().getUser( username, password );
 
+        //TODO bp. if staff or contactPerson, ensure Account is enabled, otherwise disallow it. 
         if( user != null && user.getLogin().isEnabled() )
         {
             userId = ( (Identity) user ).getIdentity();
@@ -52,6 +56,21 @@ public class ChronosSession extends AuthenticatedWebSession
     public User getUser()
     {
         return ChronosWebApp.getServices().getUserService().get( userId );
+    }
+
+    public boolean isAdmin()
+    {
+        return getUser() instanceof Admin;
+    }
+
+    public boolean isStaff()
+    {
+        return getUser() instanceof Staff;
+    }
+
+    public boolean isContactPerson()
+    {
+        return getUser() instanceof ContactPerson;
     }
 
     public boolean isSignIn()

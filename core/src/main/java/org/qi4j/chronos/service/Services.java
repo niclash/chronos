@@ -26,7 +26,9 @@ public interface Services
 
     SystemRoleService getSystemRoleService();
 
-    LegalConditionService getLegalConditionService();
-
     ProjectOwnerService getProjectOwnerService();
+
+    AdminService getAdminService();
+
+    ContactPersonService getContactPersonService();
 }

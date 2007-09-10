@@ -12,38 +12,59 @@
  */
 package org.qi4j.chronos.service.mocks;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.composites.AdminEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.service.AdminService;
 import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.service.UserService;
 
 public class MockUserServiceMixin implements UserService
 {
     private StaffService staffService;
+    private AdminService adminService;
 
-    public MockUserServiceMixin( StaffService staffService )
+    public MockUserServiceMixin( StaffService staffService, AdminService adminService )
     {
         this.staffService = staffService;
+        this.adminService = adminService;
     }
 
     public User get( String userId )
     {
-        return staffService.get( userId );
+        User user = staffService.get( userId );
+
+        if( user != null )
+        {
+            return user;
+        }
+        else
+        {
+            return adminService.get( userId );
+        }
     }
 
     public User getUser( String loginId, String password )
     {
         List<StaffEntityComposite> staffs = staffService.findAll();
 
-        for( StaffEntityComposite staff : staffs )
+        List<AdminEntityComposite> admins = adminService.findAll();
+
+        List<User> users = new ArrayList<User>();
+
+        users.addAll( staffs );
+        users.addAll( admins );
+
+        for( User user : users )
         {
-            Login login = staff.getLogin();
+            Login login = user.getLogin();
 
             if( login.getName().equals( loginId ) && login.getPassword().equals( password ) )
             {
-                return staff;
+                return user;
             }
         }
 
@@ -55,6 +76,14 @@ public class MockUserServiceMixin implements UserService
         if( user instanceof StaffEntityComposite )
         {
             staffService.update( (StaffEntityComposite) user );
+        }
+        else if( user instanceof AdminEntityComposite )
+        {
+            adminService.update( (AdminEntityComposite) user );
+        }
+        else
+        {
+            throw new IllegalArgumentException( "Not handled yet" + user.getClass().getName() );
         }
     }
 }

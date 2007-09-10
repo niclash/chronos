@@ -28,7 +28,7 @@ public class SystemRoleListPage extends LeftMenuNavPage
 
         SystemRoleTable systemRoleTable = new SystemRoleTable( "systemRoleTable" );
 
-        systemRoleTable.setActionBarVisible( false );
+        systemRoleTable.setNoActionBar( true );
 
         add( systemRoleTable );
     }

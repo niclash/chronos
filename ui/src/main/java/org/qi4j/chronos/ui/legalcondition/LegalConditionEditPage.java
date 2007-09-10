@@ -12,9 +12,7 @@
  */
 package org.qi4j.chronos.ui.legalcondition;
 
-import org.qi4j.chronos.model.composites.LegalConditionEntityComposite;
-import org.qi4j.chronos.service.LegalConditionService;
-import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.model.LegalCondition;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -23,27 +21,23 @@ public class LegalConditionEditPage extends LegalConditionAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( LegalConditionEditPage.class );
 
-    private String legalConditionId;
+    private LegalCondition legalCondition;
 
-    public LegalConditionEditPage( BasePage goBackPage, String legalConditionId )
+    public LegalConditionEditPage( BasePage goBackPage, LegalCondition legalCondition )
     {
         super( goBackPage );
 
-        this.legalConditionId = legalConditionId;
+        this.legalCondition = legalCondition;
     }
 
     public void onSubmitting()
     {
-        LegalConditionService service = ChronosWebApp.getServices().getLegalConditionService();
-
-        LegalConditionEntityComposite legalCondition = service.get( legalConditionId );
-
         legalCondition.setLegalConditionName( nameField.getText() );
         legalCondition.setLegalConditionDesc( descField.getText() );
 
         try
         {
-            service.update( legalCondition );
+            //TODO bp. FIXME
 
             logInfoMsg( "Legal conditation is updated successfully!" );
 

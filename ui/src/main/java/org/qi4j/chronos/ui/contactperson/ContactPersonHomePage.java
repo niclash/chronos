@@ -10,13 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model;
+package org.qi4j.chronos.ui.contactperson;
 
-import org.qi4j.chronos.model.associations.HasProjectRoles;
-import org.qi4j.chronos.model.associations.HasStaffs;
-import org.qi4j.library.general.model.Enabled;
+import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 
-public interface Account extends Customer, HasStaffs, HasProjectRoles, Enabled
+public class ContactPersonHomePage extends LeftMenuNavPage
 {
+    public ContactPersonHomePage()
+    {
 
+    }
 }

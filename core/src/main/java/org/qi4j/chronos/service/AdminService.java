@@ -10,13 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model;
+package org.qi4j.chronos.service;
 
-import org.qi4j.chronos.model.associations.HasProjectRoles;
-import org.qi4j.chronos.model.associations.HasStaffs;
-import org.qi4j.library.general.model.Enabled;
+import org.qi4j.chronos.model.composites.AdminEntityComposite;
 
-public interface Account extends Customer, HasStaffs, HasProjectRoles, Enabled
+public interface AdminService extends EntityService<AdminEntityComposite>
 {
-
 }

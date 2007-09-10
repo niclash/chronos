@@ -15,16 +15,32 @@ package org.qi4j.chronos.ui.base;
 import java.util.Arrays;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.qi4j.chronos.ui.ChronosSession;
 import org.qi4j.chronos.ui.admin.AdminMainMenuBar;
 import org.qi4j.chronos.ui.common.menu.MenuBar;
 import org.qi4j.chronos.ui.project.RecentProjectMenuBar;
+import org.qi4j.chronos.ui.staff.StaffMainMenuBar;
 
 public abstract class LeftMenuNavPage extends RightTopMenuNavPage
 {
     public LeftMenuNavPage()
     {
-        //TODO bp. fix me. get the menu bar based on user group.
-        MenuBar[] menuBars = getAdminMenuBars();
+        ChronosSession session = (ChronosSession) ChronosSession.get();
+
+        MenuBar[] menuBars = null;
+
+        if( session.isAdmin() )
+        {
+            menuBars = getAdminMenuBars();
+        }
+        else if( session.isStaff() )
+        {
+            menuBars = getStaffMenuBars();
+        }
+        else if( session.isContactPerson() )
+        {
+            menuBars = getContactPersonMenuBars();
+        }
 
         ListView menuBarListView = new ListView( "menuBarList", Arrays.asList( menuBars ) )
         {
@@ -42,22 +58,17 @@ public abstract class LeftMenuNavPage extends RightTopMenuNavPage
 
     private MenuBar[] getAdminMenuBars()
     {
-        return new MenuBar[]{ new AdminMainMenuBar(),
-                              new RecentProjectMenuBar() };
+        return new MenuBar[]{ new AdminMainMenuBar() };
     }
 
-    private MenuBar[] getCustomerMenuBars()
+    private MenuBar[] getContactPersonMenuBars()
     {
-        return new MenuBar[]{
-            new RecentProjectMenuBar() };
+        return new MenuBar[]{ new RecentProjectMenuBar() };
     }
-
 
     private MenuBar[] getStaffMenuBars()
     {
-        return new MenuBar[]{
-            new RecentProjectMenuBar()
-        };
+        return new MenuBar[]{ new StaffMainMenuBar(), new RecentProjectMenuBar() };
     }
 
 }

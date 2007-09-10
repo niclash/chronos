@@ -23,12 +23,15 @@ import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.service.composites.ServicesComposite;
 import org.qi4j.chronos.service.mocks.MockServicesMixin;
 import org.qi4j.chronos.ui.admin.AdminHomePage;
+import org.qi4j.chronos.ui.contactperson.ContactPersonHomePage;
 import org.qi4j.chronos.ui.login.LoginPage;
+import org.qi4j.chronos.ui.staff.StaffHomePage;
 import org.qi4j.runtime.CompositeBuilderFactoryImpl;
 
 public class ChronosWebApp extends AuthenticatedWebApplication
 {
     private static CompositeBuilderFactory factory;
+
     private static Services services;
 
     static
@@ -68,8 +71,23 @@ public class ChronosWebApp extends AuthenticatedWebApplication
         }
         else
         {
-            //TODO bp. direct the user to right home page. e.g StaffHomePage, CustomerHomePage or AdminHomePage
-            return AdminHomePage.class;
+            if( chronosSession.isAdmin() )
+            {
+                return AdminHomePage.class;
+            }
+            else if( chronosSession.isStaff() )
+            {
+                return StaffHomePage.class;
+            }
+            else if( chronosSession.isContactPerson() )
+            {
+                return ContactPersonHomePage.class;
+            }
+            else
+            {
+                throw new IllegalArgumentException( "Unhandle user type " +
+                                                    chronosSession.getUser().getClass().getName() );
+            }
         }
     }
 

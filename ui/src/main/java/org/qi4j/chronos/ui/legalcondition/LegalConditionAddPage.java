@@ -12,8 +12,7 @@
  */
 package org.qi4j.chronos.ui.legalcondition;
 
-import org.qi4j.chronos.model.composites.LegalConditionEntityComposite;
-import org.qi4j.chronos.service.LegalConditionService;
+import org.qi4j.chronos.model.composites.LegalConditionComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.slf4j.Logger;
@@ -40,16 +39,14 @@ public class LegalConditionAddPage extends LegalConditionAddEditPage
 
     public void onSubmitting()
     {
-        LegalConditionService service = ChronosWebApp.getServices().getLegalConditionService();
-
-        LegalConditionEntityComposite legalCondition = service.newInstance( LegalConditionEntityComposite.class );
+        LegalConditionComposite legalCondition = ChronosWebApp.newInstance( LegalConditionComposite.class );
 
         legalCondition.setLegalConditionName( nameField.getText() );
         legalCondition.setLegalConditionDesc( descField.getText() );
 
         try
         {
-            service.save( legalCondition );
+            //TODO bp. fixme
 
             logInfoMsg( "Legal condition is added successfully!" );
 

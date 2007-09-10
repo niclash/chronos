@@ -10,13 +10,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model;
+package org.qi4j.chronos.ui.common;
 
-import org.qi4j.chronos.model.associations.HasProjectRoles;
-import org.qi4j.chronos.model.associations.HasStaffs;
-import org.qi4j.library.general.model.Enabled;
+import org.apache.wicket.markup.html.form.CheckBox;
+import org.apache.wicket.model.Model;
 
-public interface Account extends Customer, HasStaffs, HasProjectRoles, Enabled
+public class SimpleCheckBox extends CheckBox
 {
+    public SimpleCheckBox( String id, boolean value, boolean isReadyOnly )
+    {
+        super( id, new Model( value ) );
 
+        if( isReadyOnly )
+        {
+            setEnabled( false );
+        }
+    }
 }

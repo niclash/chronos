@@ -10,17 +10,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.admin;
+package org.qi4j.chronos.ui.staff;
 
-import org.qi4j.chronos.ui.account.AccountListPage;
 import org.qi4j.chronos.ui.common.menu.MenuBar;
 import org.qi4j.chronos.ui.common.menu.MenuItem;
 import org.qi4j.chronos.ui.common.menu.MenuLink;
-import org.qi4j.chronos.ui.systemrole.SystemRoleListPage;
+import org.qi4j.chronos.ui.project.ProjectListPage;
+import org.qi4j.chronos.ui.projectowner.ProjectOwnerListPage;
+import org.qi4j.chronos.ui.projectrole.ProjectRoleListPage;
 
-public class AdminMainMenuBar extends MenuBar
+public class StaffMainMenuBar extends MenuBar
 {
-    public AdminMainMenuBar()
+    public StaffMainMenuBar()
     {
         super( "Main" );
     }
@@ -28,9 +29,11 @@ public class AdminMainMenuBar extends MenuBar
     public MenuItem[] getMenuItemList()
     {
         return new MenuItem[]{
-            new MenuLink( "Home", AdminHomePage.class ),
-            new MenuLink( "Account", AccountListPage.class ),
-            new MenuLink( "System Role", SystemRoleListPage.class ),
+            new MenuLink( "Home", StaffHomePage.class ),
+            new MenuLink( "Project Owner", ProjectOwnerListPage.class ),
+            new MenuLink( "Project", ProjectListPage.class ),
+            new MenuLink( "Staff", StaffListPage.class ),
+            new MenuLink( "Project Role", ProjectRoleListPage.class )
         };
     }
 }

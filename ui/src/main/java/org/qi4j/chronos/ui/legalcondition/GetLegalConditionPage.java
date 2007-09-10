@@ -24,9 +24,7 @@ import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.LegalCondition;
-import org.qi4j.chronos.model.composites.LegalConditionEntityComposite;
-import org.qi4j.chronos.service.LegalConditionService;
-import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.model.composites.LegalConditionComposite;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.MaxLengthTextArea;
@@ -55,9 +53,10 @@ public class GetLegalConditionPage extends LeftMenuNavPage
         private String legalConditionName;
         private String legalConditionId;
 
-        public LegalConditionDelegator( LegalConditionEntityComposite legalCondition )
+        public LegalConditionDelegator( LegalConditionComposite legalCondition )
         {
-            this.legalConditionId = legalCondition.getIdentity();
+            //TODO bp. fixme
+//            this.legalConditionId = legalCondition.getIdentity();
             this.legalConditionName = legalCondition.getLegalConditionName();
         }
 
@@ -135,16 +134,17 @@ public class GetLegalConditionPage extends LeftMenuNavPage
 
         private List<LegalConditionDelegator> getLegalCondition()
         {
-            LegalConditionService service = ChronosWebApp.getServices().getLegalConditionService();
-
-            List<LegalConditionEntityComposite> list = service.findAll();
+            //FIXME
+//            LegalConditionService service = ChronosWebApp.getServices().getLegalConditionService();
+//
+//            List<LegalConditionComposite> list = service.findAll();
 
             List<LegalConditionDelegator> resultList = new ArrayList<LegalConditionDelegator>();
 
-            for( LegalConditionEntityComposite legalCondition : list )
-            {
-                resultList.add( new LegalConditionDelegator( legalCondition ) );
-            }
+//            for( LegalConditionComposite legalCondition : list )
+//            {
+//                resultList.add( new LegalConditionDelegator( legalCondition ) );
+//            }
 
             return resultList;
         }

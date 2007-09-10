@@ -15,14 +15,13 @@ package org.qi4j.chronos.ui.staff;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.service.EntityService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
+import org.qi4j.chronos.ui.common.SimpleCheckBox;
 import org.qi4j.chronos.ui.common.SimpleDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionAdapter;
@@ -101,10 +100,7 @@ public class StaffTable extends ActionTable<StaffEntityComposite>
 
         item.add( new Label( "loginId", obj.getLogin().getName() ) );
 
-        CheckBox loginEnabled = new CheckBox( "loginEnabled", new Model( obj.getLogin().isEnabled() ) );
-
-        loginEnabled.setEnabled( false );
-        item.add( loginEnabled );
+        item.add( new SimpleCheckBox( "loginEnabled", obj.getLogin().isEnabled(), true ) );
 
         item.add( new SimpleLink( "editLink", "Edit" )
         {

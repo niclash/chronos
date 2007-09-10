@@ -21,6 +21,7 @@ import org.qi4j.chronos.service.EntityService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
+import org.qi4j.chronos.ui.common.SimpleCheckBox;
 import org.qi4j.chronos.ui.common.SimpleDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionAdapter;
@@ -39,7 +40,7 @@ public class AccountTable extends ActionTable<AccountEntityComposite>
 
     private void initAction()
     {
-        addAction( new ActionAdapter( "Delete" )
+        addAction( new ActionAdapter( "Delete account" )
         {
             public void performAction( AbstractSortableDataProvider dataProvider )
             {
@@ -47,7 +48,7 @@ public class AccountTable extends ActionTable<AccountEntityComposite>
             }
         } );
 
-        addAction( new ActionAdapter( "Disable" )
+        addAction( new ActionAdapter( "Disable account" )
         {
             public void performAction( AbstractSortableDataProvider dataProvider )
             {
@@ -77,6 +78,7 @@ public class AccountTable extends ActionTable<AccountEntityComposite>
 
         item.add( createDetailPage( "name", obj.getName(), accountId ) );
         item.add( createDetailPage( "formalReference", obj.getReference(), accountId ) );
+        item.add( new SimpleCheckBox( "enabled", obj.isEnabled(), true ) );
 
         //TODO bp. fix these valeues.
         item.add( new Label( "totalProject", "10" ) );
@@ -110,6 +112,6 @@ public class AccountTable extends ActionTable<AccountEntityComposite>
 
     public List<String> getTableHeaderList()
     {
-        return Arrays.asList( "Name", "Formal Reference", "Total Project", "Active", "Inactive", "Closed", "" );
+        return Arrays.asList( "Name", "Formal Reference", "Enabled", "Total Project", "Active", "Inactive", "Closed", "" );
     }
 }

@@ -19,14 +19,16 @@ import org.qi4j.api.CompositeBuilder;
 import org.qi4j.api.CompositeBuilderFactory;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.AddressComposite;
+import org.qi4j.chronos.model.composites.AdminEntityComposite;
 import org.qi4j.chronos.model.composites.LoginComposite;
 import org.qi4j.chronos.model.composites.MoneyComposite;
 import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.service.AccountService;
+import org.qi4j.chronos.service.AdminService;
+import org.qi4j.chronos.service.ContactPersonService;
 import org.qi4j.chronos.service.EntityService;
-import org.qi4j.chronos.service.LegalConditionService;
 import org.qi4j.chronos.service.ProjectOwnerService;
 import org.qi4j.chronos.service.ProjectRoleService;
 import org.qi4j.chronos.service.ProjectService;
@@ -35,7 +37,8 @@ import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.service.SystemRoleService;
 import org.qi4j.chronos.service.UserService;
 import org.qi4j.chronos.service.composites.AccountServiceComposite;
-import org.qi4j.chronos.service.composites.LegalConditionServiceComposite;
+import org.qi4j.chronos.service.composites.AdminServiceComposite;
+import org.qi4j.chronos.service.composites.ContactPersonServiceComposite;
 import org.qi4j.chronos.service.composites.ProjectOwnerServiceComposite;
 import org.qi4j.chronos.service.composites.ProjectServiceComposite;
 import org.qi4j.chronos.service.composites.RoleServiceComposite;
@@ -57,8 +60,9 @@ public class MockServicesMixin implements Services
     private StaffService staffService;
     private UserService userService;
     private SystemRoleService systemRoleService;
-    private LegalConditionService legalConditionService;
     private ProjectOwnerService projectOwnerService;
+    private AdminService adminService;
+    private ContactPersonService contactPersonService;
 
     public MockServicesMixin( CompositeBuilderFactory factory )
     {
@@ -68,11 +72,12 @@ public class MockServicesMixin implements Services
 
         projectService = newService( ProjectServiceComposite.class );
         projectRoleService = newService( RoleServiceComposite.class );
+        adminService = newService( AdminServiceComposite.class );
         staffService = newService( StaffServiceComposite.class );
         userService = initUserService( staffService );
         systemRoleService = newService( SystemRoleServiceComposite.class );
-        legalConditionService = newService( LegalConditionServiceComposite.class );
         projectOwnerService = newService( ProjectOwnerServiceComposite.class );
+        contactPersonService = newService( ContactPersonServiceComposite.class );
 
         initDummyData();
     }
@@ -90,7 +95,7 @@ public class MockServicesMixin implements Services
     {
         CompositeBuilder<UserServiceComposite> compositeBuilder = factory.newCompositeBuilder( UserServiceComposite.class );
 
-        compositeBuilder.setMixin( UserService.class, new MockUserServiceMixin( staffService ) );
+        compositeBuilder.setMixin( UserService.class, new MockUserServiceMixin( staffService, adminService ) );
 
         return compositeBuilder.newInstance();
     }
@@ -101,6 +106,7 @@ public class MockServicesMixin implements Services
         initProjectRoleDummyData();
         initSystemRoleDummyData();
         initStaffDummyData();
+        initAdminDummyData();
     }
 
     private void initAccountDummyData()
@@ -152,18 +158,44 @@ public class MockServicesMixin implements Services
         projectRoleService.save( projectManager );
     }
 
-    private void initStaffDummyData()
+    private void initAdminDummyData()
     {
-        StaffEntityComposite staff = staffService.newInstance( StaffEntityComposite.class );
+        AdminEntityComposite admin = adminService.newInstance( AdminEntityComposite.class );
 
-        staff.setFirstName( "admin" );
-        staff.setLastName( "admin" );
-        staff.setGender( GenderType.male );
+        admin.setFirstName( "admin" );
+        admin.setLastName( "admin" );
+        admin.setGender( GenderType.male );
 
         LoginComposite login = factory.newCompositeBuilder( LoginComposite.class ).newInstance();
 
         login.setName( "admin" );
         login.setPassword( "admin" );
+        login.setEnabled( true );
+
+        admin.setLogin( login );
+
+        List<SystemRoleEntityComposite> systemRoleList = systemRoleService.findAll();
+
+        for( SystemRoleEntityComposite systemRole : systemRoleList )
+        {
+            admin.addSystemRole( systemRole );
+        }
+
+        adminService.save( admin );
+    }
+
+    private void initStaffDummyData()
+    {
+        StaffEntityComposite staff = staffService.newInstance( StaffEntityComposite.class );
+
+        staff.setFirstName( "boonping" );
+        staff.setLastName( "boonping" );
+        staff.setGender( GenderType.male );
+
+        LoginComposite login = factory.newCompositeBuilder( LoginComposite.class ).newInstance();
+
+        login.setName( "boonping" );
+        login.setPassword( "boonping" );
         login.setEnabled( true );
 
         staff.setLogin( login );
@@ -184,6 +216,7 @@ public class MockServicesMixin implements Services
 
         staffService.save( staff );
     }
+
 
     private void initSystemRoleDummyData()
     {
@@ -231,14 +264,19 @@ public class MockServicesMixin implements Services
         return systemRoleService;
     }
 
-    public LegalConditionService getLegalConditionService()
-    {
-        return legalConditionService;
-    }
-
     public ProjectOwnerService getProjectOwnerService()
     {
         return projectOwnerService;
+    }
+
+    public AdminService getAdminService()
+    {
+        return adminService;
+    }
+
+    public ContactPersonService getContactPersonService()
+    {
+        return contactPersonService;
     }
 
     @SuppressWarnings( { "unchecked" } )

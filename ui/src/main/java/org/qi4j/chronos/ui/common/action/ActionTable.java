@@ -88,9 +88,9 @@ public abstract class ActionTable<T> extends Panel
         dataView.setItemsPerPage( itemPerPage );
     }
 
-    public void setActionBarVisible( boolean visible )
+    public void setNoActionBar( boolean isNoActionBar )
     {
-        actionBar.setVisible( visible );
+        actionBar.setVisible( !isNoActionBar );
     }
 
     private class ActionTableForm extends Form
