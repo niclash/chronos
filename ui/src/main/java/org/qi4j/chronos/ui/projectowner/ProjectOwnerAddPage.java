@@ -12,8 +12,10 @@
  */
 package org.qi4j.chronos.ui.projectowner;
 
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.AddressComposite;
 import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
+import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.service.ProjectOwnerService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
@@ -27,9 +29,9 @@ public class ProjectOwnerAddPage extends ProjectOwnerAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( ProjectOwnerAddPage.class );
 
-    public ProjectOwnerAddPage( BasePage basePage )
+    public ProjectOwnerAddPage( BasePage basePage, String accountId )
     {
-        super( basePage );
+        super( basePage, accountId );
     }
 
     public void onSubmitting()
@@ -54,7 +56,13 @@ public class ProjectOwnerAddPage extends ProjectOwnerAddEditPage
 
             customerAddEditPanel.assignFieldValueToCustomer( projectOwner );
 
-            service.save( projectOwner );
+            AccountService accountService = ChronosWebApp.getServices().getAccountService();
+
+            AccountEntityComposite account = getAccount();
+
+            account.addProjectOwner( projectOwner );
+
+            accountService.update( account );
 
             logInfoMsg( "Project Owner is added successfully." );
 

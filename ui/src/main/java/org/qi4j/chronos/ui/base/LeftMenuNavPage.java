@@ -21,7 +21,7 @@ import org.qi4j.chronos.ui.common.menu.MenuBar;
 import org.qi4j.chronos.ui.project.RecentProjectMenuBar;
 import org.qi4j.chronos.ui.staff.StaffMainMenuBar;
 
-public abstract class LeftMenuNavPage extends RightTopMenuNavPage
+public abstract class LeftMenuNavPage extends TopMenuNavPage
 {
     public LeftMenuNavPage()
     {

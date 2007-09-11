@@ -13,11 +13,13 @@
 package org.qi4j.chronos.service.mocks;
 
 import java.util.ArrayList;
+import java.util.Iterator;
 import java.util.List;
 import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.AdminEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.service.AdminService;
 import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.service.UserService;
@@ -85,5 +87,23 @@ public class MockUserServiceMixin implements UserService
         {
             throw new IllegalArgumentException( "Not handled yet" + user.getClass().getName() );
         }
+    }
+
+    public boolean hasThisSystemRole( User user, String systemRoleName )
+    {
+        Iterator<SystemRoleEntityComposite> roleIterator = user.systemRoleIterator();
+
+        while( roleIterator.hasNext() )
+        {
+            //TODO bp. loop system role group
+            SystemRoleEntityComposite systemRole = roleIterator.next();
+
+            if( systemRole.getName().equals( systemRoleName ) )
+            {
+                return true;
+            }
+        }
+
+        return false;
     }
 }

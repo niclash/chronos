@@ -14,6 +14,7 @@ package org.qi4j.chronos.service;
 
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 
-public interface SystemRoleService extends EntityService<SystemRoleEntityComposite>
+public interface SystemRoleService extends SystemRoleServiceMisc, EntityService<SystemRoleEntityComposite>
 {
+
 }

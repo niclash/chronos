@@ -12,40 +12,36 @@
  */
 package org.qi4j.chronos.ui.systemrole;
 
-import java.util.Arrays;
 import java.util.List;
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
+import org.qi4j.chronos.service.SystemRoleService;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
-import org.qi4j.chronos.ui.common.action.ActionTable;
 
-public class SystemRoleTable extends ActionTable<SystemRoleEntityComposite>
+public class StaffSystemRoleDataProvider extends AbstractSortableDataProvider<SystemRoleEntityComposite>
 {
-    private StaffSystemRoleDataProvider dataProvider;
-
-    public SystemRoleTable( String id )
+    private SystemRoleService getSystemRoleService()
     {
-        super( id );
+        return ChronosWebApp.getServices().getSystemRoleService();
     }
 
-    public AbstractSortableDataProvider<SystemRoleEntityComposite> getDetachableDataProvider()
+    public String getId( SystemRoleEntityComposite systemRoleEntityComposite )
     {
-        if( dataProvider == null )
-        {
-            dataProvider = new StaffSystemRoleDataProvider();
-        }
-
-        return dataProvider;
+        return systemRoleEntityComposite.getIdentity();
     }
 
-    public void populateItems( Item item, SystemRoleEntityComposite obj )
+    public SystemRoleEntityComposite load( String id )
     {
-        item.add( new Label( "systemRoleName", obj.getName() ) );
+        return getSystemRoleService().get( id );
     }
 
-    public List<String> getTableHeaderList()
+    public List<SystemRoleEntityComposite> dataList( int first, int count )
     {
-        return Arrays.asList( "Name" );
+        return getSystemRoleService().findAllStaffSystemRole( first, count );
+    }
+
+    public int size()
+    {
+        return getSystemRoleService().countAllStaffSystemRole();
     }
 }

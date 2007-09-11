@@ -17,6 +17,8 @@ import java.util.List;
 import org.qi4j.api.Composite;
 import org.qi4j.api.CompositeBuilder;
 import org.qi4j.api.CompositeBuilderFactory;
+import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.model.SystemRoleType;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.AddressComposite;
 import org.qi4j.chronos.model.composites.AdminEntityComposite;
@@ -26,6 +28,7 @@ import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.service.AccountService;
+import org.qi4j.chronos.service.AccountServiceMisc;
 import org.qi4j.chronos.service.AdminService;
 import org.qi4j.chronos.service.ContactPersonService;
 import org.qi4j.chronos.service.EntityService;
@@ -35,6 +38,7 @@ import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.service.SystemRoleService;
+import org.qi4j.chronos.service.SystemRoleServiceMisc;
 import org.qi4j.chronos.service.UserService;
 import org.qi4j.chronos.service.composites.AccountServiceComposite;
 import org.qi4j.chronos.service.composites.AdminServiceComposite;
@@ -73,20 +77,54 @@ public class MockServicesMixin implements Services
         projectService = newService( ProjectServiceComposite.class );
         projectRoleService = newService( RoleServiceComposite.class );
         adminService = newService( AdminServiceComposite.class );
-        staffService = newService( StaffServiceComposite.class );
+        staffService = initStaffService( accountService );
+
         userService = initUserService( staffService );
-        systemRoleService = newService( SystemRoleServiceComposite.class );
-        projectOwnerService = newService( ProjectOwnerServiceComposite.class );
+        systemRoleService = initSystemRoleService();
+        projectOwnerService = initProjectOwnerService();
         contactPersonService = newService( ContactPersonServiceComposite.class );
 
         initDummyData();
     }
 
-    private AccountService initAccountService()
+    private ProjectOwnerService initProjectOwnerService()
+    {
+        CompositeBuilder<ProjectOwnerServiceComposite> compositeBuilder = factory.newCompositeBuilder( ProjectOwnerServiceComposite.class );
+
+        compositeBuilder.setMixin( ProjectOwnerService.class, new MockProjectOwnerServiceMixin( factory, accountService ) );
+
+        return compositeBuilder.newInstance();
+    }
+
+    private AccountServiceComposite initAccountService()
     {
         CompositeBuilder<AccountServiceComposite> compositeBuilder = factory.newCompositeBuilder( AccountServiceComposite.class );
 
-        compositeBuilder.setMixin( EntityService.class, new MockEntityServiceMixin( factory ) );
+        MockEntityServiceMixin entityServiceMixin = new MockEntityServiceMixin( factory );
+
+        compositeBuilder.setMixin( EntityService.class, entityServiceMixin );
+        compositeBuilder.setMixin( AccountServiceMisc.class, new MockAccountServiceMiscMixin( entityServiceMixin ) );
+
+        return compositeBuilder.newInstance();
+    }
+
+    private StaffServiceComposite initStaffService( AccountService accountService )
+    {
+        CompositeBuilder<StaffServiceComposite> compositeBuilder = factory.newCompositeBuilder( StaffServiceComposite.class );
+
+        compositeBuilder.setMixin( StaffService.class, new MockStaffServiceMixin( factory, accountService ) );
+
+        return compositeBuilder.newInstance();
+    }
+
+    private SystemRoleService initSystemRoleService()
+    {
+        CompositeBuilder<SystemRoleServiceComposite> compositeBuilder = factory.newCompositeBuilder( SystemRoleServiceComposite.class );
+
+        MockEntityServiceMixin serviceMixin = new MockEntityServiceMixin( factory );
+
+        compositeBuilder.setMixin( EntityService.class, serviceMixin );
+        compositeBuilder.setMixin( SystemRoleServiceMisc.class, new MockSystemRoleServiceMiscMixin( serviceMixin ) );
 
         return compositeBuilder.newInstance();
     }
@@ -102,44 +140,45 @@ public class MockServicesMixin implements Services
 
     private void initDummyData()
     {
-        initAccountDummyData();
+        AccountEntityComposite account = initAccountDummyData();
+
         initProjectRoleDummyData();
         initSystemRoleDummyData();
-        initStaffDummyData();
+        initStaffDummyData( account );
         initAdminDummyData();
     }
 
-    private void initAccountDummyData()
+    private AccountEntityComposite initAccountDummyData()
     {
-        for( int i = 0; i < 30; i++ )
-        {
-            AccountEntityComposite account = accountService.newInstance( AccountEntityComposite.class );
+        AccountEntityComposite account = accountService.newInstance( AccountEntityComposite.class );
 
-            account.setName( "accountName " + i );
-            account.setReference( "reference " + i );
+        account.setName( "Jayway Malaysia" );
+        account.setReference( "Jayway Malaysia Sdn Bhd" );
+        account.setEnabled( true );
 
-            AddressComposite address = factory.newCompositeBuilder( AddressComposite.class ).newInstance();
-            CityComposite city = factory.newCompositeBuilder( CityComposite.class ).newInstance();
-            StateComposite state = factory.newCompositeBuilder( StateComposite.class ).newInstance();
-            CountryComposite country = factory.newCompositeBuilder( CountryComposite.class ).newInstance();
+        AddressComposite address = factory.newCompositeBuilder( AddressComposite.class ).newInstance();
+        CityComposite city = factory.newCompositeBuilder( CityComposite.class ).newInstance();
+        StateComposite state = factory.newCompositeBuilder( StateComposite.class ).newInstance();
+        CountryComposite country = factory.newCompositeBuilder( CountryComposite.class ).newInstance();
 
-            address.setCity( city );
+        address.setCity( city );
 
-            city.setState( state );
-            city.setCountry( country );
+        city.setState( state );
+        city.setCountry( country );
 
-            account.setAddress( address );
+        account.setAddress( address );
 
-            address.getCity().setName( "city1" );
-            address.getCity().getCountry().setName( "Malaysia" );
-            address.getCity().getState().setName( "KL" );
+        address.getCity().setName( "city1" );
+        address.getCity().getCountry().setName( "Malaysia" );
+        address.getCity().getState().setName( "KL" );
 
-            address.setFirstLine( "ABC Road" );
-            address.setSecondLine( "Way Center" );
-            address.setZipCode( "999" );
+        address.setFirstLine( "ABC Road" );
+        address.setSecondLine( "Way Center" );
+        address.setZipCode( "999" );
 
-            accountService.save( account );
-        }
+        accountService.save( account );
+
+        return account;
     }
 
     private void initProjectRoleDummyData()
@@ -184,18 +223,18 @@ public class MockServicesMixin implements Services
         adminService.save( admin );
     }
 
-    private void initStaffDummyData()
+    private void initStaffDummyData( AccountEntityComposite account )
     {
         StaffEntityComposite staff = staffService.newInstance( StaffEntityComposite.class );
 
-        staff.setFirstName( "boonping" );
-        staff.setLastName( "boonping" );
+        staff.setFirstName( "user" );
+        staff.setLastName( "user" );
         staff.setGender( GenderType.male );
 
         LoginComposite login = factory.newCompositeBuilder( LoginComposite.class ).newInstance();
 
-        login.setName( "boonping" );
-        login.setPassword( "boonping" );
+        login.setName( "user" );
+        login.setPassword( "user" );
         login.setEnabled( true );
 
         staff.setLogin( login );
@@ -207,31 +246,44 @@ public class MockServicesMixin implements Services
 
         staff.setSalary( money );
 
-        List<SystemRoleEntityComposite> systemRoleList = systemRoleService.findAll();
+        List<SystemRoleEntityComposite> systemRoleList = systemRoleService.findAllStaffSystemRole();
 
         for( SystemRoleEntityComposite systemRole : systemRoleList )
         {
             staff.addSystemRole( systemRole );
         }
 
-        staffService.save( staff );
+        account.addStaff( staff );
     }
 
 
     private void initSystemRoleDummyData()
     {
         SystemRoleEntityComposite admin = systemRoleService.newInstance( SystemRoleEntityComposite.class );
-        admin.setName( "Administrator" );
+        admin.setName( SystemRole.SYSTEM_ADMIN );
+        admin.setSystemRoleType( SystemRoleType.ADMIN );
 
-        SystemRoleEntityComposite staff = systemRoleService.newInstance( SystemRoleEntityComposite.class );
-        staff.setName( "Staff" );
+        SystemRoleEntityComposite accountAdmin = systemRoleService.newInstance( SystemRoleEntityComposite.class );
+        accountAdmin.setName( SystemRole.ACCOUNT_ADMIN );
+        accountAdmin.setSystemRoleType( SystemRoleType.STAFF );
 
-        SystemRoleEntityComposite customer = systemRoleService.newInstance( SystemRoleEntityComposite.class );
-        customer.setName( "Customer" );
+        SystemRoleEntityComposite developer = systemRoleService.newInstance( SystemRoleEntityComposite.class );
+        developer.setName( SystemRole.ACCOUNT_DEVELOPER );
+        developer.setSystemRoleType( SystemRoleType.STAFF );
+
+        SystemRoleEntityComposite projectManager = systemRoleService.newInstance( SystemRoleEntityComposite.class );
+        projectManager.setName( SystemRole.ACCOUNT_PROJECT_MANAGER );
+        projectManager.setSystemRoleType( SystemRoleType.STAFF );
+
+        SystemRoleEntityComposite contactPerson = systemRoleService.newInstance( SystemRoleEntityComposite.class );
+        contactPerson.setName( SystemRole.CONTACT_PERSON );
+        contactPerson.setSystemRoleType( SystemRoleType.CONTACT_PERSON );
 
         systemRoleService.save( admin );
-        systemRoleService.save( staff );
-        systemRoleService.save( customer );
+        systemRoleService.save( accountAdmin );
+        systemRoleService.save( developer );
+        systemRoleService.save( projectManager );
+        systemRoleService.save( contactPerson );
     }
 
     public AccountService getAccountService()

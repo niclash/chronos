@@ -14,12 +14,22 @@ package org.qi4j.chronos.ui.projectowner;
 
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.qi4j.chronos.ui.ChronosSession;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 
 public class ProjectOwnerListPage extends LeftMenuNavPage
 {
+    private String accountId;
+
     public ProjectOwnerListPage()
     {
+        this( ( (ChronosSession) ChronosSession.get() ).getAccountId() );
+    }
+
+    public ProjectOwnerListPage( String accountId )
+    {
+        this.accountId = accountId;
+
         initComponents();
     }
 
@@ -31,11 +41,17 @@ public class ProjectOwnerListPage extends LeftMenuNavPage
         {
             public void onClick()
             {
-                setResponsePage( new ProjectOwnerAddPage( ProjectOwnerListPage.this ) );
+                setResponsePage( new ProjectOwnerAddPage( ProjectOwnerListPage.this, accountId ) );
             }
         } );
 
-        ProjectOwnerTable projectOwnerTable = new ProjectOwnerTable( "projectOwnerTable" );
+        ProjectOwnerTable projectOwnerTable = new ProjectOwnerTable( "projectOwnerTable" )
+        {
+            public String getAccountId()
+            {
+                return accountId;
+            }
+        };
 
         add( projectOwnerTable );
     }

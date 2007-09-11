@@ -16,19 +16,22 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.qi4j.api.persistence.Identity;
 import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.ui.ChronosSession;
 import org.qi4j.chronos.ui.login.ChangePasswordPage;
 import org.qi4j.chronos.ui.login.LoginPage;
 
-public abstract class RightTopMenuNavPage extends BasePage
+public abstract class TopMenuNavPage extends BasePage
 {
-    public RightTopMenuNavPage()
+    public TopMenuNavPage()
     {
         initComponents();
     }
 
     private void initComponents()
     {
+        add( new Label( "accountName", getAccountName() ) );
+
         add( new Label( "loginId", getUser().getLogin().getName() ) );
 
         add( new Link( "changePasswordLink" )
@@ -49,6 +52,15 @@ public abstract class RightTopMenuNavPage extends BasePage
                 setResponsePage( LoginPage.class );
             }
         } );
+    }
+
+    private String getAccountName()
+    {
+        ChronosSession chronosSession = (ChronosSession) ChronosSession.get();
+
+        AccountEntityComposite account = chronosSession.getAccount();
+
+        return account == null ? null : account.getName();
     }
 
     private void handleChangePassword()

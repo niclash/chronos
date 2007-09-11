@@ -15,7 +15,9 @@ package org.qi4j.chronos.ui.staff;
 import java.util.Collections;
 import java.util.List;
 import org.apache.wicket.markup.html.form.Form;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.NumberTextField;
@@ -32,9 +34,13 @@ public abstract class StaffAddEditPage extends AddEditBasePage
     protected UserAddEditPanel userAddEditPanel;
     private LoginUserAbstractPanel loginUserPanel;
 
-    public StaffAddEditPage( BasePage basePage )
+    private String accountId;
+
+    public StaffAddEditPage( BasePage basePage, String accountId )
     {
         super( basePage );
+
+        this.accountId = accountId;
     }
 
     public void initComponent( Form form )
@@ -90,6 +96,11 @@ public abstract class StaffAddEditPage extends AddEditBasePage
         }
 
         onSubmitting();
+    }
+
+    protected AccountEntityComposite getAccount()
+    {
+        return ChronosWebApp.getServices().getAccountService().get( accountId );
     }
 
     public abstract void onSubmitting();

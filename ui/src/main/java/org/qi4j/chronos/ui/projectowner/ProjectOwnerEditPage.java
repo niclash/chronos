@@ -26,9 +26,9 @@ public class ProjectOwnerEditPage extends ProjectOwnerAddEditPage
 
     private String projectOwnerId;
 
-    public ProjectOwnerEditPage( BasePage basePage, String projectOwnerId )
+    public ProjectOwnerEditPage( BasePage basePage, String projectOwnerId, String accountId )
     {
-        super( basePage );
+        super( basePage, accountId );
 
         this.projectOwnerId = projectOwnerId;
 

@@ -12,6 +12,9 @@
  */
 package org.qi4j.chronos.ui;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 import org.apache.wicket.Request;
 import org.apache.wicket.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authentication.AuthenticatedWebSession;
@@ -21,13 +24,17 @@ import org.qi4j.chronos.model.Admin;
 import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
+import org.qi4j.chronos.service.AccountService;
 
-//TODO bp. fix authentication and getRoles
 public class ChronosSession extends AuthenticatedWebSession
 {
-    private static final Roles ADMIN = new Roles( Roles.ADMIN );
-
     private String userId = null;
+
+    private String accountId = null;
 
     public ChronosSession( AuthenticatedWebApplication authenticatedWebApplication, Request request )
     {
@@ -38,9 +45,32 @@ public class ChronosSession extends AuthenticatedWebSession
     {
         User user = ChronosWebApp.getServices().getUserService().getUser( username, password );
 
-        //TODO bp. if staff or contactPerson, ensure Account is enabled, otherwise disallow it. 
         if( user != null && user.getLogin().isEnabled() )
         {
+            AccountService accountService = ChronosWebApp.getServices().getAccountService();
+
+            AccountEntityComposite account = null;
+
+            if( user instanceof Staff )
+            {
+                account = accountService.getAccount( (StaffEntityComposite) user );
+            }
+            else if( user instanceof ContactPerson )
+            {
+                account = accountService.getAccount( (ContactPersonEntityComposite) user );
+            }
+
+            if( account != null )
+            {
+                if( !account.isEnabled() )
+                {
+                    this.error( "Account is disabled!" );
+                    return false;
+                }
+
+                accountId = account.getIdentity();
+            }
+
             userId = ( (Identity) user ).getIdentity();
 
             return true;
@@ -56,6 +86,23 @@ public class ChronosSession extends AuthenticatedWebSession
     public User getUser()
     {
         return ChronosWebApp.getServices().getUserService().get( userId );
+    }
+
+    public String getAccountId()
+    {
+        return accountId;
+    }
+
+    public AccountEntityComposite getAccount()
+    {
+        if( accountId != null )
+        {
+            return ChronosWebApp.getServices().getAccountService().get( accountId );
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public boolean isAdmin()
@@ -80,12 +127,26 @@ public class ChronosSession extends AuthenticatedWebSession
 
     public Roles getRoles()
     {
-        //TODO bp. get the system role from user.
         if( isSignedIn() )
         {
-            return ADMIN;
+            User user = getUser();
+
+            Iterator<SystemRoleEntityComposite> iterator = user.systemRoleIterator();
+
+            Set<String> roles = new HashSet<String>();
+
+            //TODO bp. get system role group.
+            while( iterator.hasNext() )
+            {
+                SystemRoleEntityComposite systemRole = iterator.next();
+
+                roles.add( systemRole.getIdentity() );
+            }
+
+            return new Roles( roles.toArray( new String[roles.size()] ) );
         }
 
         return null;
     }
+
 }

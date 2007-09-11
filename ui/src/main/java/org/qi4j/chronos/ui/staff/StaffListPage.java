@@ -14,12 +14,22 @@ package org.qi4j.chronos.ui.staff;
 
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.qi4j.chronos.ui.ChronosSession;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 
 public class StaffListPage extends LeftMenuNavPage
 {
+    private String accountId;
+
     public StaffListPage()
     {
+        this( ( (ChronosSession) ChronosSession.get() ).getAccountId() );
+    }
+
+    public StaffListPage( String accountId )
+    {
+        this.accountId = accountId;
+
         initComponents();
     }
 
@@ -29,15 +39,20 @@ public class StaffListPage extends LeftMenuNavPage
         {
             public void onClick()
             {
-                setResponsePage( new StaffAddPage( StaffListPage.this ) );
+                setResponsePage( new StaffAddPage( StaffListPage.this, accountId ) );
             }
         } );
 
         add( new FeedbackPanel( "feedbackPanel" ) );
 
-        StaffTable staffTable = new StaffTable( "staffTable" );
+        StaffTable staffTable = new StaffTable( "staffTable" )
+        {
+            public String getAccountId()
+            {
+                return accountId;
+            }
+        };
 
         add( staffTable );
     }
-
 }

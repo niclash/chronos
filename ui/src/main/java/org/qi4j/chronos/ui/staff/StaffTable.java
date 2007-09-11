@@ -17,20 +17,17 @@ import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
-import org.qi4j.chronos.service.EntityService;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleCheckBox;
-import org.qi4j.chronos.ui.common.SimpleDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionAdapter;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.library.general.model.Money;
 
-public class StaffTable extends ActionTable<StaffEntityComposite>
+public abstract class StaffTable extends ActionTable<StaffEntityComposite>
 {
-    private SimpleDataProvider<StaffEntityComposite> dataProvider;
+    private StaffDataProvider dataProvider;
 
     public StaffTable( String id )
     {
@@ -41,7 +38,7 @@ public class StaffTable extends ActionTable<StaffEntityComposite>
 
     private void initActions()
     {
-        addAction( new ActionAdapter( "Delete" )
+        addAction( new ActionAdapter( "Delete Staff" )
         {
             public void performAction( AbstractSortableDataProvider dataProvider )
             {
@@ -62,17 +59,19 @@ public class StaffTable extends ActionTable<StaffEntityComposite>
     {
         if( dataProvider == null )
         {
-            dataProvider = new SimpleDataProvider<StaffEntityComposite>()
+            dataProvider = new StaffDataProvider()
             {
-                public EntityService<StaffEntityComposite> getEntityService()
+                public String getAccountId()
                 {
-                    return ChronosWebApp.getServices().getStaffService();
+                    return StaffTable.this.getAccountId();
                 }
             };
         }
 
         return dataProvider;
     }
+
+    public abstract String getAccountId();
 
     public void populateItems( Item item, StaffEntityComposite obj )
     {
@@ -106,7 +105,7 @@ public class StaffTable extends ActionTable<StaffEntityComposite>
         {
             public void linkClicked()
             {
-                setResponsePage( new StaffEditPage( (BasePage) this.getPage() )
+                setResponsePage( new StaffEditPage( (BasePage) this.getPage(), getAccountId() )
                 {
                     public String getStaffId()
                     {

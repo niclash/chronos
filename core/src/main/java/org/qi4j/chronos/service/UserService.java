@@ -21,4 +21,6 @@ public interface UserService
     public User getUser( String loginId, String password );
 
     public void update( User user );
+
+    public boolean hasThisSystemRole( User user, String systemRoleName );
 }

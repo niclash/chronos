@@ -16,17 +16,14 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
-import org.qi4j.chronos.service.EntityService;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
-import org.qi4j.chronos.ui.common.SimpleDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 
-public class ProjectOwnerTable extends ActionTable<ProjectOwnerEntityComposite>
+public abstract class ProjectOwnerTable extends ActionTable<ProjectOwnerEntityComposite>
 {
-    private SimpleDataProvider<ProjectOwnerEntityComposite> provider;
+    private ProjectOwnerDataProvider provider;
 
     public ProjectOwnerTable( String id )
     {
@@ -37,17 +34,19 @@ public class ProjectOwnerTable extends ActionTable<ProjectOwnerEntityComposite>
     {
         if( provider == null )
         {
-            provider = new SimpleDataProvider<ProjectOwnerEntityComposite>()
+            provider = new ProjectOwnerDataProvider()
             {
-                public EntityService<ProjectOwnerEntityComposite> getEntityService()
+                public String getAccountId()
                 {
-                    return ChronosWebApp.getServices().getProjectOwnerService();
+                    return ProjectOwnerTable.this.getAccountId();
                 }
             };
         }
 
         return provider;
     }
+
+    public abstract String getAccountId();
 
     public void populateItems( Item item, ProjectOwnerEntityComposite obj )
     {
@@ -59,7 +58,7 @@ public class ProjectOwnerTable extends ActionTable<ProjectOwnerEntityComposite>
         {
             public void linkClicked()
             {
-                ProjectOwnerEditPage editPage = new ProjectOwnerEditPage( (BasePage) this.getPage(), projectOwnerId );
+                ProjectOwnerEditPage editPage = new ProjectOwnerEditPage( (BasePage) this.getPage(), projectOwnerId, getAccountId() );
 
                 setResponsePage( editPage );
             }

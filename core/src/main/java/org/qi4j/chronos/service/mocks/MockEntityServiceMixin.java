@@ -84,7 +84,7 @@ public class MockEntityServiceMixin implements EntityService
         return dataMap.size();
     }
 
-    private static final String newUid()
+    public static final String newUid()
     {
         long l = 35L;
         String result = null;

@@ -13,6 +13,8 @@
 package org.qi4j.chronos.ui.projectowner;
 
 import org.apache.wicket.markup.html.form.Form;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.customer.CustomerAddEditPanel;
@@ -21,9 +23,13 @@ public abstract class ProjectOwnerAddEditPage extends AddEditBasePage
 {
     protected CustomerAddEditPanel customerAddEditPanel;
 
-    public ProjectOwnerAddEditPage( BasePage basePage )
+    private String accountId;
+
+    public ProjectOwnerAddEditPage( BasePage basePage, String accountId )
     {
         super( basePage );
+
+        this.accountId = accountId;
     }
 
     public void initComponent( Form form )
@@ -50,5 +56,11 @@ public abstract class ProjectOwnerAddEditPage extends AddEditBasePage
         onSubmitting();
     }
 
+    protected AccountEntityComposite getAccount()
+    {
+        return ChronosWebApp.getServices().getAccountService().get( accountId );
+    }
+
     public abstract void onSubmitting();
+
 }

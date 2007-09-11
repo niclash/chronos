@@ -55,6 +55,14 @@ public class AccountTable extends ActionTable<AccountEntityComposite>
                 info( "Disable - Not implemented yet - total items " + dataProvider.size() );
             }
         } );
+
+        addAction( new ActionAdapter( "Enable account" )
+        {
+            public void performAction( AbstractSortableDataProvider dataProvider )
+            {
+                info( "Enable- Not implemented yet - total items " + dataProvider.size() );
+            }
+        } );
     }
 
     public AbstractSortableDataProvider<AccountEntityComposite> getDetachableDataProvider()

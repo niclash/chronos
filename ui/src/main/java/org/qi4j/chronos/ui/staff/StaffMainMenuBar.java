@@ -18,6 +18,7 @@ import org.qi4j.chronos.ui.common.menu.MenuLink;
 import org.qi4j.chronos.ui.project.ProjectListPage;
 import org.qi4j.chronos.ui.projectowner.ProjectOwnerListPage;
 import org.qi4j.chronos.ui.projectrole.ProjectRoleListPage;
+import org.qi4j.chronos.ui.systemrole.SystemRoleListPage;
 
 public class StaffMainMenuBar extends MenuBar
 {
@@ -33,7 +34,8 @@ public class StaffMainMenuBar extends MenuBar
             new MenuLink( "Project Owner", ProjectOwnerListPage.class ),
             new MenuLink( "Project", ProjectListPage.class ),
             new MenuLink( "Staff", StaffListPage.class ),
-            new MenuLink( "Project Role", ProjectRoleListPage.class )
+            new MenuLink( "Project Role", ProjectRoleListPage.class ),
+            new MenuLink( "System Role", SystemRoleListPage.class )
         };
     }
 }

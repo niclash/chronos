@@ -36,9 +36,9 @@ public abstract class StaffEditPage extends StaffAddEditPage
 
     private LoginUserEditPanel loginUserEditPanel;
 
-    public StaffEditPage( BasePage basePage )
+    public StaffEditPage( BasePage basePage, String accountId )
     {
-        super( basePage );
+        super( basePage, accountId );
 
         initData();
     }

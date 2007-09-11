@@ -10,14 +10,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model;
+package org.qi4j.chronos.model.associations;
 
-import org.qi4j.chronos.model.associations.HasProjectOwners;
-import org.qi4j.chronos.model.associations.HasProjectRoles;
-import org.qi4j.chronos.model.associations.HasStaffs;
-import org.qi4j.library.general.model.Enabled;
+import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.chronos.model.SystemRoleType;
+import org.qi4j.chronos.model.mixins.HasSystemRoleTypeMixin;
 
-public interface Account extends Customer, HasStaffs, HasProjectRoles, Enabled, HasProjectOwners
+@ImplementedBy( HasSystemRoleTypeMixin.class )
+public interface HasSystemRoleType
 {
+    void setSystemRoleType( SystemRoleType systemRoleType );
 
+    SystemRoleType getSystemRoleType();
 }

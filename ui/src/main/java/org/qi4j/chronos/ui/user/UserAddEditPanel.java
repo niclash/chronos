@@ -85,7 +85,8 @@ public abstract class UserAddEditPanel extends AddEditBasePanel
 
     private List<SystemRoleDelegator> getAvailableRoleChoices()
     {
-        List<SystemRoleEntityComposite> systemRoleList = ChronosWebApp.getServices().getSystemRoleService().findAll();
+        List<SystemRoleEntityComposite> systemRoleList = ChronosWebApp.getServices().
+            getSystemRoleService().findAllStaffSystemRole();
 
         List<SystemRoleDelegator> systemRoleDelegators = constuctRoleDelegatorList( systemRoleList );
 

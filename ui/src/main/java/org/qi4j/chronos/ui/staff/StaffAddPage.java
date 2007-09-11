@@ -14,10 +14,12 @@ package org.qi4j.chronos.ui.staff;
 
 import java.util.Currency;
 import java.util.List;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.LoginComposite;
 import org.qi4j.chronos.model.composites.MoneyComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
+import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
@@ -33,9 +35,9 @@ public class StaffAddPage extends StaffAddEditPage
 
     private LoginUserAddPanel loginUserAddPanel;
 
-    public StaffAddPage( BasePage basePage )
+    public StaffAddPage( BasePage basePage, String accountId )
     {
-        super( basePage );
+        super( basePage, accountId );
     }
 
     public LoginUserAbstractPanel getLoginUserAbstractPanel( String id )
@@ -102,7 +104,13 @@ public class StaffAddPage extends StaffAddEditPage
 
         try
         {
-            staffService.save( staff );
+            AccountEntityComposite account = getAccount();
+
+            account.addStaff( staff );
+
+            AccountService accountService = ChronosWebApp.getServices().getAccountService();
+
+            accountService.update( account );
 
             logInfoMsg( "Staff is added successfully." );
 

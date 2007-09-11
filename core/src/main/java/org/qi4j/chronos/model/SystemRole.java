@@ -13,10 +13,19 @@
  */
 package org.qi4j.chronos.model;
 
+import org.qi4j.chronos.model.associations.HasSystemRoleType;
 import org.qi4j.chronos.model.associations.HasSystemRoles;
 import org.qi4j.library.general.model.HasName;
 
-public interface SystemRole extends HasName, HasSystemRoles
+public interface SystemRole extends HasName, HasSystemRoleType, HasSystemRoles
 {
+    public final static String SYSTEM_ADMIN = "System Admin";
 
+    public final static String CONTACT_PERSON = "Contact Person";
+
+    public final static String ACCOUNT_ADMIN = "Account Admin";
+
+    public final static String ACCOUNT_DEVELOPER = "Developer";
+
+    public final static String ACCOUNT_PROJECT_MANAGER = "Project Manager";
 }
