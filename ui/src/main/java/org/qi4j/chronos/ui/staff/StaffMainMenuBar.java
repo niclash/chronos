@@ -24,7 +24,7 @@ public class StaffMainMenuBar extends MenuBar
 {
     public StaffMainMenuBar()
     {
-        super( "Main" );
+        super( "Staff - Menu" );
     }
 
     public MenuItem[] getMenuItemList()

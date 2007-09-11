@@ -12,9 +12,47 @@
  */
 package org.qi4j.chronos.ui.project;
 
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.qi4j.chronos.ui.ChronosSession;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 
 public class ProjectListPage extends LeftMenuNavPage
 {
-    
+    private String accountId;
+
+    public ProjectListPage()
+    {
+        this( ( (ChronosSession) ChronosSession.get() ).getAccountId() );
+    }
+
+    public ProjectListPage( String accountId )
+    {
+        this.accountId = accountId;
+
+        initComponents();
+    }
+
+    private void initComponents()
+    {
+        add( new Link( "newProjectLink" )
+        {
+            public void onClick()
+            {
+                setResponsePage( new ProjectAddPage( ProjectListPage.this, accountId ) );
+            }
+        } );
+
+        add( new FeedbackPanel( "feedbackPanel" ) );
+
+        ProjectTable projectTable = new ProjectTable( "projectTable" )
+        {
+            public String getAccountId()
+            {
+                return accountId;
+            }
+        };
+
+        add( projectTable );
+    }
 }

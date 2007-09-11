@@ -13,35 +13,35 @@
  */
 package org.qi4j.chronos.model.mixins;
 
-import org.qi4j.chronos.model.associations.HasProjects;
-import org.qi4j.chronos.model.Project;
+import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import java.util.ArrayList;
+import org.qi4j.chronos.model.associations.HasProjects;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 
 /**
  * Default mixin implementation for {@link org.qi4j.chronos.model.associations.HasProjects}
  */
 public final class HasProjectsMixin implements HasProjects
 {
-    private final List<Project> list;
+    private final List<ProjectEntityComposite> list;
 
     public HasProjectsMixin()
     {
-        list = new ArrayList<Project>();
+        list = new ArrayList<ProjectEntityComposite>();
     }
 
-    public void addProject( Project project )
+    public void addProject( ProjectEntityComposite project )
     {
         list.add( project );
     }
 
-    public void removeProject( Project project )
+    public void removeProject( ProjectEntityComposite project )
     {
         list.remove( project );
     }
 
-    public Iterator<Project> projectIterator()
+    public Iterator<ProjectEntityComposite> projectIterator()
     {
         return list.iterator();
     }

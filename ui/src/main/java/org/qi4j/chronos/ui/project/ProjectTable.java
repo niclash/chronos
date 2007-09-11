@@ -17,16 +17,13 @@ import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.service.EntityService;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
-import org.qi4j.chronos.ui.common.SimpleDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 
-public class ProjectTable extends ActionTable<ProjectEntityComposite>
+public abstract class ProjectTable extends ActionTable<ProjectEntityComposite>
 {
-    private SimpleDataProvider<ProjectEntityComposite> provider;
+    private ProjectDataProvider provider;
 
     public ProjectTable( String id )
     {
@@ -37,11 +34,11 @@ public class ProjectTable extends ActionTable<ProjectEntityComposite>
     {
         if( provider == null )
         {
-            provider = new SimpleDataProvider<ProjectEntityComposite>()
+            provider = new ProjectDataProvider()
             {
-                public EntityService<ProjectEntityComposite> getEntityService()
+                public String getAccountId()
                 {
-                    return ChronosWebApp.getServices().getProjectService();
+                    return ProjectTable.this.getAccountId();
                 }
             };
         }
@@ -82,4 +79,6 @@ public class ProjectTable extends ActionTable<ProjectEntityComposite>
     {
         return Arrays.asList( "Name", "Formal Reference", "Status", "" );
     }
+
+    public abstract String getAccountId();
 }

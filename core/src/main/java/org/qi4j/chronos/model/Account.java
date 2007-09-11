@@ -14,10 +14,11 @@ package org.qi4j.chronos.model;
 
 import org.qi4j.chronos.model.associations.HasProjectOwners;
 import org.qi4j.chronos.model.associations.HasProjectRoles;
+import org.qi4j.chronos.model.associations.HasProjects;
 import org.qi4j.chronos.model.associations.HasStaffs;
 import org.qi4j.library.general.model.Enabled;
 
-public interface Account extends Customer, HasStaffs, HasProjectRoles, Enabled, HasProjectOwners
+public interface Account extends Customer, HasStaffs, HasProjectRoles, Enabled, HasProjectOwners, HasProjects
 {
 
 }

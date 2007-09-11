@@ -12,119 +12,29 @@
  */
 package org.qi4j.chronos.service.mocks;
 
-import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.qi4j.api.CompositeBuilder;
 import org.qi4j.api.CompositeBuilderFactory;
 import org.qi4j.api.persistence.Identity;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
 import org.qi4j.chronos.service.AccountService;
-import org.qi4j.chronos.service.FindFilter;
-import org.qi4j.chronos.service.ProjectOwnerService;
-import org.qi4j.runtime.IdentityImpl;
 
-public class MockProjectOwnerServiceMixin implements ProjectOwnerService
+public class MockProjectOwnerServiceMixin extends MockAccountBasedServiceMixin
 {
-    private CompositeBuilderFactory factory;
-    private AccountService accountService;
-
     public MockProjectOwnerServiceMixin( CompositeBuilderFactory factory, AccountService accountService )
     {
-        this.factory = factory;
-        this.accountService = accountService;
+        super( factory, accountService );
     }
 
-    public ProjectOwnerEntityComposite get( String id )
+    public void addItem( AccountEntityComposite account, List<Identity> items )
     {
-        List<ProjectOwnerEntityComposite> projectOwners = findAll();
+        Iterator<ProjectOwnerEntityComposite> projectOwnerIterator = account.projectOwnerIterator();
 
-        for( ProjectOwnerEntityComposite projectOwner : projectOwners )
+        while( projectOwnerIterator.hasNext() )
         {
-            if( projectOwner.getIdentity().equals( id ) )
-            {
-                return projectOwner;
-            }
-        }
-
-        return null;
-    }
-
-    public void update( ProjectOwnerEntityComposite projectOwner )
-    {
-        //TODO bp. nothing here
-    }
-
-    public List<ProjectOwnerEntityComposite> findAll( AccountEntityComposite accountFilter, FindFilter findFilter )
-    {
-        return findAll( accountFilter ).subList( findFilter.getFirst(), findFilter.getFirst() + findFilter.getCount() );
-    }
-
-    public List<ProjectOwnerEntityComposite> findAll( AccountEntityComposite accountFilter )
-    {
-        List<AccountEntityComposite> accounts = accountService.findAll();
-
-        List<ProjectOwnerEntityComposite> projectOwners = new ArrayList<ProjectOwnerEntityComposite>();
-
-        for( AccountEntityComposite account : accounts )
-        {
-            if( accountFilter != null )
-            {
-                if( accountFilter.getIdentity().equals( account.getIdentity() ) )
-                {
-                    addProjectOwner( account, projectOwners );
-                }
-            }
-            else
-            {
-                addProjectOwner( account, projectOwners );
-            }
-        }
-
-        return projectOwners;
-    }
-
-    private void addProjectOwner( AccountEntityComposite account, List<ProjectOwnerEntityComposite> projectOwners )
-    {
-        Iterator<ProjectOwnerEntityComposite> iterator = account.projectOwnerIterator();
-
-        while( iterator.hasNext() )
-        {
-            ProjectOwnerEntityComposite projectOwner = iterator.next();
-
-            projectOwners.add( projectOwner );
+            items.add( projectOwnerIterator.next() );
         }
     }
 
-    public List<ProjectOwnerEntityComposite> findAll( FindFilter findFilter )
-    {
-        return findAll().subList( findFilter.getFirst(), findFilter.getFirst() + findFilter.getCount() );
-    }
-
-    public List<ProjectOwnerEntityComposite> findAll()
-    {
-        return findAll( (AccountEntityComposite) null );
-    }
-
-    public int countAll()
-    {
-        return findAll().size();
-    }
-
-    public int countAll( AccountEntityComposite account )
-    {
-        return findAll( account ).size();
-    }
-
-    public ProjectOwnerEntityComposite newInstance( Class<? extends ProjectOwnerEntityComposite> clazz )
-    {
-        CompositeBuilder compositeBuilder = factory.newCompositeBuilder( clazz );
-
-        String uid = MockEntityServiceMixin.newUid();
-
-        compositeBuilder.setMixin( Identity.class, new IdentityImpl( uid ) );
-
-        return (ProjectOwnerEntityComposite) compositeBuilder.newInstance();
-    }
 }

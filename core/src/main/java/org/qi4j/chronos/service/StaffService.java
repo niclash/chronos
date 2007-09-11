@@ -12,28 +12,10 @@
  */
 package org.qi4j.chronos.service;
 
-import java.util.List;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 
-public interface StaffService
+public interface StaffService extends AccountBasedService<StaffEntityComposite>
 {
-    StaffEntityComposite get( String id );
 
-    void update( StaffEntityComposite staff );
-
-    List<StaffEntityComposite> findAll( AccountEntityComposite accountFilter, FindFilter findFilter );
-
-    List<StaffEntityComposite> findAll( AccountEntityComposite accountFilter );
-
-    List<StaffEntityComposite> findAll( FindFilter findFilter );
-
-    List<StaffEntityComposite> findAll();
-
-    int countAll();
-
-    int countAll( AccountEntityComposite account );
-
-    StaffEntityComposite newInstance( Class<? extends StaffEntityComposite> clazz );
 }
 

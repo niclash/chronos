@@ -27,6 +27,7 @@ import org.qi4j.chronos.model.composites.MoneyComposite;
 import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
+import org.qi4j.chronos.service.AccountBasedService;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.service.AccountServiceMisc;
 import org.qi4j.chronos.service.AdminService;
@@ -73,8 +74,8 @@ public class MockServicesMixin implements Services
         this.factory = factory;
 
         accountService = initAccountService();
+        projectService = initProjectService();
 
-        projectService = newService( ProjectServiceComposite.class );
         projectRoleService = newService( RoleServiceComposite.class );
         adminService = newService( AdminServiceComposite.class );
         staffService = initStaffService( accountService );
@@ -87,11 +88,20 @@ public class MockServicesMixin implements Services
         initDummyData();
     }
 
+    private ProjectService initProjectService()
+    {
+        CompositeBuilder<ProjectServiceComposite> compositeBuilder = factory.newCompositeBuilder( ProjectServiceComposite.class );
+
+        compositeBuilder.setMixin( AccountBasedService.class, new MockProjectOwnerServiceMixin( factory, accountService ) );
+
+        return compositeBuilder.newInstance();
+    }
+
     private ProjectOwnerService initProjectOwnerService()
     {
         CompositeBuilder<ProjectOwnerServiceComposite> compositeBuilder = factory.newCompositeBuilder( ProjectOwnerServiceComposite.class );
 
-        compositeBuilder.setMixin( ProjectOwnerService.class, new MockProjectOwnerServiceMixin( factory, accountService ) );
+        compositeBuilder.setMixin( AccountBasedService.class, new MockProjectOwnerServiceMixin( factory, accountService ) );
 
         return compositeBuilder.newInstance();
     }
@@ -112,7 +122,7 @@ public class MockServicesMixin implements Services
     {
         CompositeBuilder<StaffServiceComposite> compositeBuilder = factory.newCompositeBuilder( StaffServiceComposite.class );
 
-        compositeBuilder.setMixin( StaffService.class, new MockStaffServiceMixin( factory, accountService ) );
+        compositeBuilder.setMixin( AccountBasedService.class, new MockStaffServiceMixin( factory, accountService ) );
 
         return compositeBuilder.newInstance();
     }

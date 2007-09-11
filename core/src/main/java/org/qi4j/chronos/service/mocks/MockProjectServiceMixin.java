@@ -17,23 +17,24 @@ import java.util.List;
 import org.qi4j.api.CompositeBuilderFactory;
 import org.qi4j.api.persistence.Identity;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.service.AccountService;
 
-public class MockStaffServiceMixin extends MockAccountBasedServiceMixin
+public class MockProjectServiceMixin extends MockAccountBasedServiceMixin
 {
-    public MockStaffServiceMixin( CompositeBuilderFactory factory, AccountService accountService )
+    public MockProjectServiceMixin( CompositeBuilderFactory factory, AccountService accountService )
     {
         super( factory, accountService );
     }
 
     public void addItem( AccountEntityComposite account, List<Identity> items )
     {
-        Iterator<StaffEntityComposite> staffIterator = account.staffIterator();
+        Iterator<ProjectEntityComposite> projectIterator = account.projectIterator();
 
-        while( staffIterator.hasNext() )
+        while( projectIterator.hasNext() )
         {
-            items.add( staffIterator.next() );
+            items.add( projectIterator.next() );
         }
     }
+
 }

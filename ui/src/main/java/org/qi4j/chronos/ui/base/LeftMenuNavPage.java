@@ -18,6 +18,7 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.qi4j.chronos.ui.ChronosSession;
 import org.qi4j.chronos.ui.admin.AdminMainMenuBar;
 import org.qi4j.chronos.ui.common.menu.MenuBar;
+import org.qi4j.chronos.ui.contactperson.ContactPersonMainMenuBar;
 import org.qi4j.chronos.ui.project.RecentProjectMenuBar;
 import org.qi4j.chronos.ui.staff.StaffMainMenuBar;
 
@@ -63,7 +64,7 @@ public abstract class LeftMenuNavPage extends TopMenuNavPage
 
     private MenuBar[] getContactPersonMenuBars()
     {
-        return new MenuBar[]{ new RecentProjectMenuBar() };
+        return new MenuBar[]{ new ContactPersonMainMenuBar(), new RecentProjectMenuBar() };
     }
 
     private MenuBar[] getStaffMenuBars()

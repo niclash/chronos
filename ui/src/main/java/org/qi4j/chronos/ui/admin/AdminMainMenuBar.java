@@ -22,7 +22,7 @@ public class AdminMainMenuBar extends MenuBar
 {
     public AdminMainMenuBar()
     {
-        super( "Main" );
+        super( "Admin - Menu" );
     }
 
     public MenuItem[] getMenuItemList()
