@@ -39,21 +39,6 @@ public class LoginUserAddPanel extends LoginUserAbstractPanel
         add( confirmPasswordField );
     }
 
-    public MaxLengthTextField getLoginIdField()
-    {
-        return loginIdField;
-    }
-
-    public MaxLengthPasswordField getPasswordField()
-    {
-        return passwordField;
-    }
-
-    public MaxLengthPasswordField getConfirmPasswordField()
-    {
-        return confirmPasswordField;
-    }
-
     public boolean checkIsNotValidated()
     {
         boolean isRejected = false;
@@ -86,5 +71,17 @@ public class LoginUserAddPanel extends LoginUserAbstractPanel
         }
 
         return isRejected;
+    }
+
+    public void assignFieldValueToLogin( Login login )
+    {
+        login.setName( loginIdField.getText() );
+        login.setPassword( passwordField.getText() );
+        login.setEnabled( true );
+    }
+
+    public void assignLoginToFieldValue( Login login )
+    {
+        //nothing here
     }
 }

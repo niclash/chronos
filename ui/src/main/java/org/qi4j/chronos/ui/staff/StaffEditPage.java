@@ -12,11 +12,7 @@
  */
 package org.qi4j.chronos.ui.staff;
 
-import java.util.ArrayList;
-import java.util.Currency;
 import java.util.Iterator;
-import java.util.List;
-import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
@@ -25,8 +21,6 @@ import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.login.LoginUserEditPanel;
-import org.qi4j.library.general.model.GenderType;
-import org.qi4j.library.general.model.Money;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,44 +41,17 @@ public abstract class StaffEditPage extends StaffAddEditPage
     {
         Staff staff = getStaff();
 
-        userAddEditPanel.getFirstNameField().setText( staff.getFirstName() );
-        userAddEditPanel.getLastNameField().setText( staff.getLastName() );
-        userAddEditPanel.getGenderChoice().setChoice( staff.getGender().toString() );
-
-        Money salary = staff.getSalary();
-
-        if( salary != null )
-        {
-            salaryAmountField.setLongValue( salary.getAmount() );
-            salaryCurrencyField.setChoice( salary.getCurrency().getCurrencyCode() );
-        }
-        else
-        {
-            salaryAmountField.setIntValue( 0 );
-        }
-
-        loginUserEditPanel.getLoginEnabledCheckBox().setModel( new Model( staff.getLogin().isEnabled() ) );
-    }
-
-    public List<SystemRoleEntityComposite> getInitSelectedRoleList()
-    {
-        Staff staff = getStaff();
-
-        Iterator<SystemRoleEntityComposite> roleIterator = staff.systemRoleIterator();
-
-        List<SystemRoleEntityComposite> returnList = new ArrayList<SystemRoleEntityComposite>();
-
-        while( roleIterator.hasNext() )
-        {
-            returnList.add( roleIterator.next() );
-        }
-
-        return returnList;
+        assignStaffToFieldValue( staff );
     }
 
     private StaffEntityComposite getStaff()
     {
         return getStaffService().get( getStaffId() );
+    }
+
+    public Iterator<SystemRoleEntityComposite> getInitSelectedRoleList()
+    {
+        return getStaff().systemRoleIterator();
     }
 
     public StaffService getStaffService()
@@ -116,29 +83,11 @@ public abstract class StaffEditPage extends StaffAddEditPage
     {
         StaffEntityComposite staff = getStaff();
 
-        staff.setFirstName( userAddEditPanel.getFirstNameField().getText() );
-        staff.setLastName( userAddEditPanel.getLastNameField().getText() );
-
-        GenderType genderType = GenderType.getGenderType( userAddEditPanel.getGenderChoice().getChoiceAsString() );
-        staff.setGender( genderType );
-
-        boolean isLoginEnabled = Boolean.valueOf( loginUserEditPanel.getLoginEnabledCheckBox().getModelObjectAsString() );
-
-        staff.getLogin().setEnabled( isLoginEnabled );
-
-        Currency currency = Currency.getInstance( salaryCurrencyField.getChoiceAsString() );
-
-        staff.getSalary().setAmount( salaryAmountField.getLongValue() );
-        staff.getSalary().setCurrency( currency );
-
+        //bp. system role is valueObject, let delete all assigned system role
+        //before assigning to new system roles.
         staff.removeAllSystemRole();
 
-        List<SystemRoleEntityComposite> roleLists = userAddEditPanel.getSelectedRoleList();
-
-        for( SystemRoleEntityComposite role : roleLists )
-        {
-            staff.addSystemRole( role );
-        }
+        assignFieldValueToStaff( staff );
 
         try
         {

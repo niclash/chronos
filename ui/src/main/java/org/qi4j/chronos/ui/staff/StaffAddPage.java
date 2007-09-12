@@ -12,20 +12,16 @@
  */
 package org.qi4j.chronos.ui.staff;
 
-import java.util.Currency;
-import java.util.List;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.LoginComposite;
 import org.qi4j.chronos.model.composites.MoneyComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
-import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.login.LoginUserAddPanel;
-import org.qi4j.library.general.model.GenderType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,41 +62,15 @@ public class StaffAddPage extends StaffAddEditPage
 
         StaffEntityComposite staff = staffService.newInstance( StaffEntityComposite.class );
 
-        //setting up user properties
-        staff.setFirstName( userAddEditPanel.getFirstNameField().getText() );
-        staff.setLastName( userAddEditPanel.getLastNameField().getText() );
-
-        GenderType genderType = GenderType.getGenderType( userAddEditPanel.getGenderChoice().getChoiceAsString() );
-        staff.setGender( genderType );
-
-        //setting up login properties
-        LoginComposite login = ChronosWebApp.newInstance( LoginComposite.class );
-
-        login.setName( loginUserAddPanel.getLoginIdField().getText() );
-
-        login.setPassword( loginUserAddPanel.getPasswordField().getText() );
-
-        login.setEnabled( true );
-
-        staff.setLogin( login );
-
-        //setting up staff salary
         MoneyComposite money = ChronosWebApp.newInstance( MoneyComposite.class );
-
-        Currency currency = Currency.getInstance( salaryCurrencyField.getChoiceAsString() );
-
-        money.setAmount( salaryAmountField.getLongValue() );
-        money.setCurrency( currency );
 
         staff.setSalary( money );
 
-        //setting up SystemRoles
-        List<SystemRoleEntityComposite> roleLists = userAddEditPanel.getSelectedRoleList();
+        LoginComposite login = ChronosWebApp.newInstance( LoginComposite.class );
 
-        for( SystemRoleEntityComposite role : roleLists )
-        {
-            staff.addSystemRole( role );
-        }
+        staff.setLogin( login );
+
+        assignFieldValueToStaff( staff );
 
         try
         {

@@ -12,19 +12,10 @@
  */
 package org.qi4j.chronos.model.composites;
 
-import org.qi4j.api.annotation.ModifiedBy;
 import org.qi4j.api.persistence.EntityComposite;
 import org.qi4j.chronos.model.ContactPerson;
-import org.qi4j.chronos.model.modifiers.RequiredFields;
-import org.qi4j.chronos.model.modifiers.RequiredFieldsValidationModifier;
 import org.qi4j.library.general.model.Validatable;
-import org.qi4j.library.general.model.modifiers.LifecycleValidationModifier;
 
-/**
- * User of the system that is not considered {@link StaffEntityComposite} and therefore has a relationship information.
- */
-@ModifiedBy( { LifecycleValidationModifier.class, RequiredFieldsValidationModifier.class } )
-@RequiredFields( { "identity", "firstName", "lastName", "gender", "contact" } )
 public interface ContactPersonEntityComposite extends ContactPerson, Validatable, EntityComposite
 {
 }

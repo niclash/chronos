@@ -18,9 +18,11 @@ import java.util.List;
 import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.AdminEntityComposite;
+import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.service.AdminService;
+import org.qi4j.chronos.service.ContactPersonService;
 import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.service.UserService;
 
@@ -28,11 +30,13 @@ public class MockUserServiceMixin implements UserService
 {
     private StaffService staffService;
     private AdminService adminService;
+    private ContactPersonService contactPersonService;
 
-    public MockUserServiceMixin( StaffService staffService, AdminService adminService )
+    public MockUserServiceMixin( StaffService staffService, AdminService adminService, ContactPersonService contactPersonService )
     {
         this.staffService = staffService;
         this.adminService = adminService;
+        this.contactPersonService = contactPersonService;
     }
 
     public User get( String userId )
@@ -43,10 +47,15 @@ public class MockUserServiceMixin implements UserService
         {
             return user;
         }
-        else
+
+        user = adminService.get( userId );
+
+        if( user != null )
         {
-            return adminService.get( userId );
+            return user;
         }
+
+        return contactPersonService.get( userId );
     }
 
     public User getUser( String loginId, String password )
@@ -55,10 +64,13 @@ public class MockUserServiceMixin implements UserService
 
         List<AdminEntityComposite> admins = adminService.findAll();
 
+        List<ContactPersonEntityComposite> contactPersons = contactPersonService.findAll();
+
         List<User> users = new ArrayList<User>();
 
         users.addAll( staffs );
         users.addAll( admins );
+        users.addAll( contactPersons );
 
         for( User user : users )
         {
@@ -82,6 +94,10 @@ public class MockUserServiceMixin implements UserService
         else if( user instanceof AdminEntityComposite )
         {
             adminService.update( (AdminEntityComposite) user );
+        }
+        else if( user instanceof ContactPersonEntityComposite )
+        {
+            contactPersonService.update( (ContactPersonEntityComposite) user );
         }
         else
         {

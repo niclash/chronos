@@ -13,9 +13,12 @@
 package org.qi4j.chronos.ui.contactperson;
 
 import java.util.Collections;
-import java.util.List;
+import java.util.Iterator;
 import org.apache.wicket.markup.html.form.Form;
+import org.qi4j.chronos.model.ContactPerson;
+import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
@@ -23,33 +26,53 @@ import org.qi4j.chronos.ui.user.UserAddEditPanel;
 
 public abstract class ContactPersonAddEditPage extends AddEditBasePage
 {
-    protected UserAddEditPanel userAddEditPanel;
-    private LoginUserAbstractPanel loginUserPanel;
+    private UserAddEditPanel userAddEditPanel;
 
-    public ContactPersonAddEditPage( BasePage goBackPage )
+    private String projectOwnerId;
+
+    public ContactPersonAddEditPage( BasePage goBackPage, String projectOwnerId )
     {
         super( goBackPage );
+
+        this.projectOwnerId = projectOwnerId;
+    }
+
+    protected ProjectOwnerEntityComposite getProjectOwner()
+    {
+        return ChronosWebApp.getServices().getProjectOwnerService().get( projectOwnerId );
     }
 
     public void initComponent( Form form )
     {
-        userAddEditPanel = new UserAddEditPanel( "userAddEditPanel" )
+        userAddEditPanel = new UserAddEditPanel( "userAddEditPanel", true )
         {
-            public List<SystemRoleEntityComposite> getInitSelectedRoleList()
+            public LoginUserAbstractPanel getLoginUserAbstractPanel( String id )
+            {
+                return ContactPersonAddEditPage.this.getLoginUserAbstractPanel( id );
+            }
+
+            public Iterator<SystemRoleEntityComposite> getInitSelectedRoleList()
             {
                 return ContactPersonAddEditPage.this.getInitSelectedRoleList();
             }
         };
 
-        loginUserPanel = getLoginUserAbstractPanel( "loginUserPanel" );
-
         form.add( userAddEditPanel );
-        form.add( loginUserPanel );
     }
 
-    public List<SystemRoleEntityComposite> getInitSelectedRoleList()
+    protected void assignContactPersonToFieldValue( ContactPerson contactPerson )
     {
-        return Collections.emptyList();
+        userAddEditPanel.assignUserToFieldValue( contactPerson );
+    }
+
+    protected void assignFieldValueToContactPerson( ContactPerson contactPerson )
+    {
+        userAddEditPanel.assignFieldValueToUser( contactPerson );
+    }
+
+    public Iterator<SystemRoleEntityComposite> getInitSelectedRoleList()
+    {
+        return Collections.EMPTY_LIST.iterator();
     }
 
     public void handleSubmit()
@@ -57,11 +80,6 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
         boolean isRejected = false;
 
         if( userAddEditPanel.checkIsNotValidated() )
-        {
-            isRejected = true;
-        }
-
-        if( loginUserPanel.checkIsNotValidated() )
         {
             isRejected = true;
         }

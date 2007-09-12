@@ -10,20 +10,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.pricerate;
+package org.qi4j.chronos.ui.common.tab;
 
-import org.qi4j.chronos.model.PriceRateSchedule;
-import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
+import org.apache.wicket.markup.html.panel.Panel;
+import org.qi4j.chronos.ui.common.NewLinkPanel;
 
-public abstract class PriceRateScheduleDataProvider extends AbstractSortableDataProvider<PriceRateSchedule>
+public abstract class NewLinkTab extends BaseTab
 {
-    public PriceRateScheduleDataProvider()
+    public NewLinkTab( String title )
     {
-
+        super( title );
     }
 
-    public String getId( PriceRateSchedule priceRateSchedule )
+    public final Panel getPanel( final String panelId )
     {
-        return priceRateSchedule.getName();
+        return getNewLinkPanel( panelId );
     }
+
+    public abstract NewLinkPanel getNewLinkPanel( String panelId );
 }

@@ -19,16 +19,14 @@ import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
-import org.qi4j.chronos.service.EntityService;
-import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
-import org.qi4j.chronos.ui.common.SimpleDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 
-public class ContactPersonTable extends ActionTable<ContactPersonEntityComposite>
+public abstract class ContactPersonTable extends ActionTable<ContactPersonEntityComposite>
 {
-    private SimpleDataProvider<ContactPersonEntityComposite> provider;
+    private ContactPersonDataProvider provider;
 
     public ContactPersonTable( String id )
     {
@@ -39,17 +37,19 @@ public class ContactPersonTable extends ActionTable<ContactPersonEntityComposite
     {
         if( provider == null )
         {
-            provider = new SimpleDataProvider<ContactPersonEntityComposite>()
+            provider = new ContactPersonDataProvider()
             {
-                public EntityService<ContactPersonEntityComposite> getEntityService()
+                public String getProjectOwnerId()
                 {
-                    return ChronosWebApp.getServices().getContactPersonService();
+                    return ContactPersonTable.this.getProjectOwnerId();
                 }
             };
         }
 
         return provider;
     }
+
+    public abstract String getProjectOwnerId();
 
     public void populateItems( Item item, ContactPersonEntityComposite obj )
     {
@@ -82,7 +82,13 @@ public class ContactPersonTable extends ActionTable<ContactPersonEntityComposite
         {
             public void linkClicked()
             {
-                //TODO bp.
+                setResponsePage( new ContactPersonEditPage( (BasePage) this.getPage(), getProjectOwnerId() )
+                {
+                    public String getContactPersonId()
+                    {
+                        return contactPersonId;
+                    }
+                } );
             }
         } );
     }
@@ -91,4 +97,6 @@ public class ContactPersonTable extends ActionTable<ContactPersonEntityComposite
     {
         return Arrays.asList( "First Name", "Last name", "Login Id", "Login Enabled", "Edit" );
     }
+
+
 }

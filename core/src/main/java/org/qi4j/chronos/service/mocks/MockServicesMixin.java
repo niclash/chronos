@@ -24,13 +24,14 @@ import org.qi4j.chronos.model.composites.AddressComposite;
 import org.qi4j.chronos.model.composites.AdminEntityComposite;
 import org.qi4j.chronos.model.composites.LoginComposite;
 import org.qi4j.chronos.model.composites.MoneyComposite;
+import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
-import org.qi4j.chronos.service.AccountBasedService;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.service.AccountServiceMisc;
 import org.qi4j.chronos.service.AdminService;
+import org.qi4j.chronos.service.BasedService;
 import org.qi4j.chronos.service.ContactPersonService;
 import org.qi4j.chronos.service.EntityService;
 import org.qi4j.chronos.service.ProjectOwnerService;
@@ -80,19 +81,28 @@ public class MockServicesMixin implements Services
         adminService = newService( AdminServiceComposite.class );
         staffService = initStaffService( accountService );
 
-        userService = initUserService( staffService );
         systemRoleService = initSystemRoleService();
         projectOwnerService = initProjectOwnerService();
-        contactPersonService = newService( ContactPersonServiceComposite.class );
+        contactPersonService = initContactPersonService();
 
+        userService = initUserService( staffService, adminService, contactPersonService );
         initDummyData();
+    }
+
+    private ContactPersonService initContactPersonService()
+    {
+        CompositeBuilder<ContactPersonServiceComposite> compositeBuilder = factory.newCompositeBuilder( ContactPersonServiceComposite.class );
+
+        compositeBuilder.setMixin( BasedService.class, new MockContactPersonServiceMixin( factory, projectOwnerService ) );
+
+        return compositeBuilder.newInstance();
     }
 
     private ProjectService initProjectService()
     {
         CompositeBuilder<ProjectServiceComposite> compositeBuilder = factory.newCompositeBuilder( ProjectServiceComposite.class );
 
-        compositeBuilder.setMixin( AccountBasedService.class, new MockProjectOwnerServiceMixin( factory, accountService ) );
+        compositeBuilder.setMixin( BasedService.class, new MockProjectServiceMixin( factory, accountService ) );
 
         return compositeBuilder.newInstance();
     }
@@ -101,7 +111,7 @@ public class MockServicesMixin implements Services
     {
         CompositeBuilder<ProjectOwnerServiceComposite> compositeBuilder = factory.newCompositeBuilder( ProjectOwnerServiceComposite.class );
 
-        compositeBuilder.setMixin( AccountBasedService.class, new MockProjectOwnerServiceMixin( factory, accountService ) );
+        compositeBuilder.setMixin( BasedService.class, new MockProjectOwnerServiceMixin( factory, accountService ) );
 
         return compositeBuilder.newInstance();
     }
@@ -122,7 +132,7 @@ public class MockServicesMixin implements Services
     {
         CompositeBuilder<StaffServiceComposite> compositeBuilder = factory.newCompositeBuilder( StaffServiceComposite.class );
 
-        compositeBuilder.setMixin( AccountBasedService.class, new MockStaffServiceMixin( factory, accountService ) );
+        compositeBuilder.setMixin( BasedService.class, new MockStaffServiceMixin( factory, accountService ) );
 
         return compositeBuilder.newInstance();
     }
@@ -139,11 +149,11 @@ public class MockServicesMixin implements Services
         return compositeBuilder.newInstance();
     }
 
-    private UserService initUserService( StaffService staffService )
+    private UserService initUserService( StaffService staffService, AdminService adminService, ContactPersonService contactPersonService )
     {
         CompositeBuilder<UserServiceComposite> compositeBuilder = factory.newCompositeBuilder( UserServiceComposite.class );
 
-        compositeBuilder.setMixin( UserService.class, new MockUserServiceMixin( staffService, adminService ) );
+        compositeBuilder.setMixin( UserService.class, new MockUserServiceMixin( staffService, adminService, contactPersonService ) );
 
         return compositeBuilder.newInstance();
     }
@@ -156,6 +166,7 @@ public class MockServicesMixin implements Services
         initSystemRoleDummyData();
         initStaffDummyData( account );
         initAdminDummyData();
+        initProjectOwnerDummyData( account );
     }
 
     private AccountEntityComposite initAccountDummyData()
@@ -294,6 +305,36 @@ public class MockServicesMixin implements Services
         systemRoleService.save( developer );
         systemRoleService.save( projectManager );
         systemRoleService.save( contactPerson );
+    }
+
+    private void initProjectOwnerDummyData( AccountEntityComposite account )
+    {
+        ProjectOwnerEntityComposite projectOwner = projectOwnerService.newInstance( ProjectOwnerEntityComposite.class );
+
+        projectOwner.setName( "ABC" );
+        projectOwner.setReference( "ABC Ltd" );
+
+        AddressComposite address = factory.newCompositeBuilder( AddressComposite.class ).newInstance();
+        CityComposite city = factory.newCompositeBuilder( CityComposite.class ).newInstance();
+        StateComposite state = factory.newCompositeBuilder( StateComposite.class ).newInstance();
+        CountryComposite country = factory.newCompositeBuilder( CountryComposite.class ).newInstance();
+
+        address.setCity( city );
+
+        city.setState( state );
+        city.setCountry( country );
+
+        projectOwner.setAddress( address );
+
+        address.getCity().setName( "City" );
+        address.getCity().getCountry().setName( "Sweden" );
+        address.getCity().getState().setName( "KL" );
+
+        address.setFirstLine( "Golden Road" );
+        address.setSecondLine( "Uber City" );
+        address.setZipCode( "123" );
+
+        account.addProjectOwner( projectOwner );
     }
 
     public AccountService getAccountService()

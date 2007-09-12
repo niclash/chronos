@@ -10,21 +10,37 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.login;
+package org.qi4j.chronos.ui.common;
 
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.model.Login;
 
-public abstract class LoginUserAbstractPanel extends Panel
+public abstract class NewLinkPanel extends Panel
 {
-    public LoginUserAbstractPanel( String id )
+    public NewLinkPanel( String id )
     {
         super( id );
+
+        initComponents();
     }
 
-    public abstract boolean checkIsNotValidated();
+    private void initComponents()
+    {
+        add( getContent( "content" ) );
 
-    public abstract void assignFieldValueToLogin( Login login );
+        Label linkLabel = new Label( "linkLabel", getNewLinkText() );
 
-    public abstract void assignLoginToFieldValue( Login login );
+        Link link = getNewLink( "link" );
+
+        link.add( linkLabel );
+
+        add( link );
+    }
+
+    public abstract Panel getContent( String id );
+
+    public abstract Link getNewLink( String id );
+
+    public abstract String getNewLinkText();
 }

@@ -12,23 +12,62 @@
  */
 package org.qi4j.chronos.ui.contactperson;
 
+import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.model.composites.LoginComposite;
+import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
+import org.qi4j.chronos.service.ContactPersonService;
+import org.qi4j.chronos.service.ProjectOwnerService;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.login.LoginUserAddPanel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public class ContactPersonAddPage extends ContactPersonAddEditPage
 {
+    private final static Logger LOGGER = LoggerFactory.getLogger( ContactPersonAddPage.class );
+
     private LoginUserAddPanel loginUserAddPanel;
 
-    public ContactPersonAddPage( BasePage basePage )
+    public ContactPersonAddPage( BasePage basePage, String projectOwnerId )
     {
-        super( basePage );
+        super( basePage, projectOwnerId );
     }
 
     public void onSubmitting()
     {
-        //TODO
+        ContactPersonService contactPersonService = ChronosWebApp.getServices().getContactPersonService();
+
+        ContactPersonEntityComposite contactPerson = contactPersonService.newInstance( ContactPersonEntityComposite.class );
+
+        LoginComposite login = ChronosWebApp.newInstance( LoginComposite.class );
+
+        contactPerson.setLogin( login );
+
+        assignFieldValueToContactPerson( contactPerson );
+
+        try
+        {
+            ProjectOwnerEntityComposite projectOwner = getProjectOwner();
+
+            projectOwner.addContactPerson( contactPerson );
+
+            ProjectOwnerService projectOwnerService = ChronosWebApp.getServices().getProjectOwnerService();
+
+            projectOwnerService.update( projectOwner );
+
+            logInfoMsg( "Project Owner is added successfully." );
+
+            divertToGoBackPage();
+        }
+        catch( Exception err )
+        {
+            logErrorMsg( err.getMessage() );
+            LOGGER.error( err.getMessage() );
+        }
     }
+
 
     public LoginUserAbstractPanel getLoginUserAbstractPanel( String id )
     {

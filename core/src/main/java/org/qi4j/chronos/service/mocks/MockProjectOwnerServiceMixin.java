@@ -13,28 +13,20 @@
 package org.qi4j.chronos.service.mocks;
 
 import java.util.Iterator;
-import java.util.List;
 import org.qi4j.api.CompositeBuilderFactory;
-import org.qi4j.api.persistence.Identity;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
 import org.qi4j.chronos.service.AccountService;
 
-public class MockProjectOwnerServiceMixin extends MockAccountBasedServiceMixin
+public class MockProjectOwnerServiceMixin extends MockAccountBasedServiceMixin<ProjectOwnerEntityComposite>
 {
     public MockProjectOwnerServiceMixin( CompositeBuilderFactory factory, AccountService accountService )
     {
         super( factory, accountService );
     }
 
-    public void addItem( AccountEntityComposite account, List<Identity> items )
+    protected Iterator<ProjectOwnerEntityComposite> getItems( AccountEntityComposite accountEntityComposite )
     {
-        Iterator<ProjectOwnerEntityComposite> projectOwnerIterator = account.projectOwnerIterator();
-
-        while( projectOwnerIterator.hasNext() )
-        {
-            items.add( projectOwnerIterator.next() );
-        }
+        return accountEntityComposite.projectOwnerIterator();
     }
-
 }

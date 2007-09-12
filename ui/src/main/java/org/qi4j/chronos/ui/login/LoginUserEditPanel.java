@@ -15,8 +15,7 @@ package org.qi4j.chronos.ui.login;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.model.Model;
-import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.SimpleLink;
 
@@ -39,9 +38,7 @@ public class LoginUserEditPanel extends LoginUserAbstractPanel
 
     private void initComponents()
     {
-        User user = ChronosWebApp.getServices().getUserService().get( userId );
-
-        loginIdLabel = new Label( "loginId", user.getLogin().getName() );
+        loginIdLabel = new Label( "loginId", "" );
 
         changePasswordLink = new SimpleLink( "changePasswordLink", "Change Password" )
         {
@@ -51,7 +48,7 @@ public class LoginUserEditPanel extends LoginUserAbstractPanel
             }
         };
 
-        loginEnabledCheckBox = new CheckBox( "loginEnabled", new Model( user.getLogin().isEnabled() ) );
+        loginEnabledCheckBox = new CheckBox( "loginEnabled", new Model( "false" ) );
 
         add( loginIdLabel );
         add( changePasswordLink );
@@ -65,13 +62,20 @@ public class LoginUserEditPanel extends LoginUserAbstractPanel
         setResponsePage( changePasswordPage );
     }
 
-    public CheckBox getLoginEnabledCheckBox()
-    {
-        return loginEnabledCheckBox;
-    }
-
     public boolean checkIsNotValidated()
     {
         return false;
     }
+
+    public void assignLoginToFieldValue( Login login )
+    {
+        loginIdLabel.setModel( new Model( login.getName() ) );
+        loginEnabledCheckBox.setModel( new Model( login.isEnabled() ) );
+    }
+
+    public void assignFieldValueToLogin( Login login )
+    {
+        login.setEnabled( Boolean.parseBoolean( loginEnabledCheckBox.getModelObjectAsString() ) );
+    }
+
 }

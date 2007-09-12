@@ -12,15 +12,21 @@
  */
 package org.qi4j.chronos.ui.projectowner;
 
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.wicket.extensions.ajax.markup.html.tabs.AjaxTabbedPanel;
+import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.ProjectOwner;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
+import org.qi4j.chronos.ui.contactperson.ContactPersonTab;
 import org.qi4j.chronos.ui.customer.CustomerDetailPanel;
 
 public class ProjectOwnerDetailPage extends LeftMenuNavPage
@@ -49,6 +55,8 @@ public class ProjectOwnerDetailPage extends LeftMenuNavPage
 
         private CustomerDetailPanel customerDetailPanel;
 
+        private AjaxTabbedPanel ajaxTabbedPanel;
+
         public ProjectOwnerDetailForm( String id )
         {
             super( id );
@@ -56,12 +64,32 @@ public class ProjectOwnerDetailPage extends LeftMenuNavPage
             ProjectOwner projectOwner = ChronosWebApp.getServices().getProjectOwnerService().get( projectOwnerId );
 
             customerDetailPanel = new CustomerDetailPanel( "customerDetailPanel", projectOwner );
-
             add( customerDetailPanel );
+
+            List<AbstractTab> abstractTabs = new ArrayList<AbstractTab>();
+
+            abstractTabs.add( new ContactPersonTab()
+            {
+                public String getProjectOwnerId()
+                {
+                    return projectOwnerId;
+                }
+            } );
+
+            abstractTabs.add( new AbstractTab( new Model( "Price Rate Schedules" ) )
+            {
+                public Panel getPanel( String panelId )
+                {
+                    return new Panel( panelId );
+                }
+            } );
+
+            ajaxTabbedPanel = new AjaxTabbedPanel( "ajaxTabbedPanel", abstractTabs );
+
+            add( ajaxTabbedPanel );
 
             submitButton = new Button( "submitButton", new Model( "Return" ) );
             add( submitButton );
-
         }
 
         protected void delegateSubmit( IFormSubmittingComponent submittingButton )

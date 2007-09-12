@@ -12,22 +12,67 @@
  */
 package org.qi4j.chronos.ui.contactperson;
 
+import java.util.Iterator;
+import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.login.LoginUserEditPanel;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class ContactPersonEditPage extends ContactPersonAddEditPage
 {
+    private final static Logger LOGGER = LoggerFactory.getLogger( ContactPersonEditPage.class );
+
     private LoginUserEditPanel loginUserEditPanel;
 
-    public ContactPersonEditPage( BasePage basePage )
+    public ContactPersonEditPage( BasePage basePage, String projectOwnerId )
     {
-        super( basePage );
+        super( basePage, projectOwnerId );
+
+        initData();
+    }
+
+    private void initData()
+    {
+        ContactPersonEntityComposite contactPerson = getContactPerson();
+
+        assignContactPersonToFieldValue( contactPerson );
+    }
+
+    private ContactPersonEntityComposite getContactPerson()
+    {
+        return ChronosWebApp.getServices().getContactPersonService().get( getContactPersonId() );
+    }
+
+    public Iterator<SystemRoleEntityComposite> getInitSelectedRoleList()
+    {
+        return getContactPerson().systemRoleIterator();
     }
 
     public void onSubmitting()
     {
-        //TODO 
+        ContactPersonEntityComposite contactPerson = getContactPerson();
+
+        //bp. ContactPerson has and only has one system role which is SystemRole.CONTACT_PERSON
+        //hence, we don't need to remove all system role.
+        assignFieldValueToContactPerson( contactPerson );
+
+        try
+        {
+            ChronosWebApp.getServices().getContactPersonService().update( contactPerson );
+
+            logInfoMsg( "Contact Person is updated successfully." );
+
+            divertToGoBackPage();
+        }
+        catch( Exception err )
+        {
+            logErrorMsg( err.getMessage() );
+            LOGGER.error( err.getMessage() );
+        }
     }
 
     public LoginUserAbstractPanel getLoginUserAbstractPanel( String id )

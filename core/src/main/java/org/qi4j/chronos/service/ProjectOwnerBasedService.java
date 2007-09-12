@@ -10,20 +10,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.pricerate;
+package org.qi4j.chronos.service;
 
-import org.qi4j.chronos.model.PriceRateSchedule;
-import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
+import org.qi4j.api.persistence.Identity;
+import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
 
-public abstract class PriceRateScheduleDataProvider extends AbstractSortableDataProvider<PriceRateSchedule>
+public interface ProjectOwnerBasedService<T extends Identity> extends BasedService<T, ProjectOwnerEntityComposite>
 {
-    public PriceRateScheduleDataProvider()
-    {
 
-    }
-
-    public String getId( PriceRateSchedule priceRateSchedule )
-    {
-        return priceRateSchedule.getName();
-    }
 }

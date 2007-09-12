@@ -13,8 +13,10 @@
 package org.qi4j.chronos.ui.staff;
 
 import java.util.Collections;
-import java.util.List;
+import java.util.Currency;
+import java.util.Iterator;
 import org.apache.wicket.markup.html.form.Form;
+import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
@@ -28,11 +30,10 @@ import org.qi4j.chronos.ui.util.ListUtil;
 
 public abstract class StaffAddEditPage extends AddEditBasePage
 {
-    protected NumberTextField salaryAmountField;
-    protected SimpleDropDownChoice salaryCurrencyField;
+    private NumberTextField salaryAmountField;
+    private SimpleDropDownChoice salaryCurrencyField;
 
-    protected UserAddEditPanel userAddEditPanel;
-    private LoginUserAbstractPanel loginUserPanel;
+    private UserAddEditPanel userAddEditPanel;
 
     private String accountId;
 
@@ -47,7 +48,12 @@ public abstract class StaffAddEditPage extends AddEditBasePage
     {
         userAddEditPanel = new UserAddEditPanel( "userAddEditPanel" )
         {
-            public List<SystemRoleEntityComposite> getInitSelectedRoleList()
+            public LoginUserAbstractPanel getLoginUserAbstractPanel( String id )
+            {
+                return StaffAddEditPage.this.getLoginUserAbstractPanel( id );
+            }
+
+            public Iterator<SystemRoleEntityComposite> getInitSelectedRoleList()
             {
                 return StaffAddEditPage.this.getInitSelectedRoleList();
             }
@@ -56,19 +62,34 @@ public abstract class StaffAddEditPage extends AddEditBasePage
         salaryAmountField = new NumberTextField( "salaryAmountField", "Salary" );
         salaryCurrencyField = new SimpleDropDownChoice( "salaryCurrencyChoice", ListUtil.getCurrencyList(), true );
 
-        loginUserPanel = getLoginUserAbstractPanel( "loginUserPanel" );
-
         form.add( salaryCurrencyField );
         form.add( salaryAmountField );
         form.add( userAddEditPanel );
-        form.add( loginUserPanel );
 
         salaryAmountField.setIntValue( 0 );
     }
 
-    public List<SystemRoleEntityComposite> getInitSelectedRoleList()
+    protected void assignFieldValueToStaff( Staff staff )
     {
-        return Collections.emptyList();
+        userAddEditPanel.assignFieldValueToUser( staff );
+
+        Currency currency = Currency.getInstance( salaryCurrencyField.getChoiceAsString() );
+
+        staff.getSalary().setAmount( salaryAmountField.getLongValue() );
+        staff.getSalary().setCurrency( currency );
+    }
+
+    protected void assignStaffToFieldValue( Staff staff )
+    {
+        userAddEditPanel.assignUserToFieldValue( staff );
+
+        salaryAmountField.setLongValue( staff.getSalary().getAmount() );
+        salaryCurrencyField.setChoice( staff.getSalary().getCurrency().getCurrencyCode() );
+    }
+
+    public Iterator<SystemRoleEntityComposite> getInitSelectedRoleList()
+    {
+        return Collections.EMPTY_LIST.iterator();
     }
 
     public final void handleSubmit()
@@ -81,11 +102,6 @@ public abstract class StaffAddEditPage extends AddEditBasePage
         }
 
         if( userAddEditPanel.checkIsNotValidated() )
-        {
-            isRejected = true;
-        }
-
-        if( loginUserPanel.checkIsNotValidated() )
         {
             isRejected = true;
         }

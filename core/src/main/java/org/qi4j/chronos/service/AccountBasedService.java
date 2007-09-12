@@ -12,28 +12,10 @@
  */
 package org.qi4j.chronos.service;
 
-import java.util.List;
-import org.qi4j.api.persistence.EntityComposite;
 import org.qi4j.api.persistence.Identity;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 
-public interface AccountBasedService<T extends Identity>
+public interface AccountBasedService<T extends Identity> extends BasedService<T, AccountEntityComposite>
 {
-    T get( String id );
 
-    void update( T t );
-
-    List<T> findAll( AccountEntityComposite accountFilter, FindFilter findFilter );
-
-    List<T> findAll( AccountEntityComposite accountFilter );
-
-    List<T> findAll( FindFilter findFilter );
-
-    List<T> findAll();
-
-    int countAll();
-
-    int countAll( AccountEntityComposite account );
-
-    T newInstance( Class<? extends EntityComposite> clazz );
 }
