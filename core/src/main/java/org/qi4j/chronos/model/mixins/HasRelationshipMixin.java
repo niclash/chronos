@@ -12,8 +12,8 @@
  */
 package org.qi4j.chronos.model.mixins;
 
-import org.qi4j.chronos.model.associations.HasRelationship;
 import org.qi4j.chronos.model.Relationship;
+import org.qi4j.chronos.model.associations.HasRelationship;
 
 /**
  * Default mixin implementation for {@link org.qi4j.chronos.model.associations.HasRelationship}

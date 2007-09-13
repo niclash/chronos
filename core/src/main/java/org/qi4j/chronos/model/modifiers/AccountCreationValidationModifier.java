@@ -13,7 +13,7 @@
 package org.qi4j.chronos.model.modifiers;
 
 import org.qi4j.api.annotation.Modifies;
-import org.qi4j.api.annotation.Uses;
+import org.qi4j.api.annotation.ThisAs;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.library.general.model.Validatable;
 import org.qi4j.library.general.model.ValidationException;
@@ -21,7 +21,7 @@ import org.qi4j.library.general.model.ValidationException;
 public class AccountCreationValidationModifier
     implements Validatable
 {
-    @Uses private AccountEntityComposite account;
+    @ThisAs private AccountEntityComposite account;
     @Modifies private Validatable next;
 
     public void validate()

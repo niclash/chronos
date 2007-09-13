@@ -15,8 +15,8 @@ package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
 import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.library.general.model.Address;
 import org.qi4j.chronos.model.mixins.HasAddressMixin;
+import org.qi4j.library.general.model.Address;
 
 @ImplementedBy( { HasAddressMixin.class } )
 public interface HasAddress extends Serializable

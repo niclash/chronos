@@ -15,13 +15,13 @@ package org.qi4j.chronos.model.modifiers;
 import java.lang.reflect.Method;
 import org.qi4j.api.InvocationContext;
 import org.qi4j.api.annotation.AppliesTo;
-import org.qi4j.api.annotation.Dependency;
+import org.qi4j.api.annotation.DependencyOld;
 import org.qi4j.library.general.model.ValidationException;
 
 @AppliesTo( StringLength.class )
 public class StringLengthValidationModifier extends AbstractSetterGetterModifier
 {
-    @Dependency private InvocationContext context;
+    @DependencyOld private InvocationContext context;
 
     public final void onCallingSetter( Method method, Object[] args )
     {

@@ -13,13 +13,13 @@
 package org.qi4j.chronos.model.composites;
 
 import java.util.Calendar;
+import org.qi4j.api.CompositeBuilder;
 import org.qi4j.chronos.model.AbstractTest;
 import org.qi4j.chronos.model.TimeRange;
-import org.qi4j.library.general.model.GenderType;
-import org.qi4j.library.general.model.ValidationException;
-import org.qi4j.library.general.model.PersonName;
 import org.qi4j.library.general.model.Gender;
-import org.qi4j.api.CompositeBuilder;
+import org.qi4j.library.general.model.GenderType;
+import org.qi4j.library.general.model.PersonName;
+import org.qi4j.library.general.model.ValidationException;
 
 public class StaffEntityCompositeTest extends AbstractTest
 {

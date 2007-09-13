@@ -17,9 +17,9 @@ import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 import org.qi4j.api.Composite;
-import org.qi4j.api.model.CompositeModel;
 import org.qi4j.api.annotation.Modifies;
-import org.qi4j.api.annotation.Uses;
+import org.qi4j.api.annotation.ThisAs;
+import org.qi4j.api.model.CompositeModel;
 import org.qi4j.library.general.model.Validatable;
 import org.qi4j.library.general.model.ValidationException;
 
@@ -39,7 +39,7 @@ import org.qi4j.library.general.model.ValidationException;
  */
 public class RequiredFieldsValidationModifier<T extends Composite> implements Validatable
 {
-    @Uses T objectToValidate;
+    @ThisAs T objectToValidate;
     @Modifies Validatable next;
     private static final String GET = "get";
     private static final String ITERATOR = "Iterator";

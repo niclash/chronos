@@ -12,7 +12,6 @@
 */
 package org.qi4j.chronos.model.composites;
 
-import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.chronos.model.AbstractTest;
 import org.qi4j.library.general.model.ValidationException;
 

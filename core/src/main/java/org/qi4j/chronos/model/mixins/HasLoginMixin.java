@@ -12,8 +12,8 @@
  */
 package org.qi4j.chronos.model.mixins;
 
-import org.qi4j.chronos.model.associations.HasLogin;
 import org.qi4j.chronos.model.Login;
+import org.qi4j.chronos.model.associations.HasLogin;
 
 /**
  * Default mixin implementation for {@link org.qi4j.chronos.model.associations.HasLogin}

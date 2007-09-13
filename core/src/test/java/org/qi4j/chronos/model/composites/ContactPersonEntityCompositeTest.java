@@ -21,14 +21,15 @@ import org.qi4j.library.general.model.Gender;
 import org.qi4j.library.general.model.GenderType;
 import org.qi4j.library.general.model.PersonName;
 import org.qi4j.library.general.model.ValidationException;
-import org.qi4j.library.general.model.mixins.PersonNameMixin;
 
 public class ContactPersonEntityCompositeTest extends AbstractTest
 {
     public void testNewContactPersonEntityComnposite() throws Exception
     {
         CompositeBuilder<ContactPersonEntityComposite> builder = session.newEntityBuilder( null, ContactPersonEntityComposite.class );
-        builder.setMixin( PersonName.class, new PersonNameMixin( "Sianny", "Halim" ) );
+        builder.newMixin( PersonName.class, "Sianny", "Halim" );
+
+        builder.configMixin( PersonName.class).setFoo("Kall").setBar("Kula");
 
         Gender gender = builder.getMixin( Gender.class );
         gender.setGender( GenderType.female );

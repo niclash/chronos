@@ -15,13 +15,13 @@ package org.qi4j.chronos.model.modifiers;
 
 import java.util.Date;
 import org.qi4j.api.annotation.Modifies;
-import org.qi4j.api.annotation.Uses;
+import org.qi4j.api.annotation.ThisAs;
 import org.qi4j.chronos.model.TimeRange;
 import org.qi4j.library.general.model.ValidationException;
 
 public final class TimeRangeValidationModifier implements TimeRange
 {
-    @Uses TimeRange meAsTimeRange;
+    @ThisAs TimeRange meAsTimeRange;
     @Modifies TimeRange next;
 
     public Date getStartTime()
