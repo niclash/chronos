@@ -18,7 +18,6 @@ import org.apache.wicket.markup.html.form.Form;
 import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
@@ -28,18 +27,9 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
 {
     private UserAddEditPanel userAddEditPanel;
 
-    private String projectOwnerId;
-
-    public ContactPersonAddEditPage( BasePage goBackPage, String projectOwnerId )
+    public ContactPersonAddEditPage( BasePage goBackPage )
     {
         super( goBackPage );
-
-        this.projectOwnerId = projectOwnerId;
-    }
-
-    protected ProjectOwnerEntityComposite getProjectOwner()
-    {
-        return ChronosWebApp.getServices().getProjectOwnerService().get( projectOwnerId );
     }
 
     public void initComponent( Form form )
@@ -91,6 +81,8 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
 
         onSubmitting();
     }
+
+    public abstract ProjectOwnerEntityComposite getProjectOwner();
 
     public abstract void onSubmitting();
 

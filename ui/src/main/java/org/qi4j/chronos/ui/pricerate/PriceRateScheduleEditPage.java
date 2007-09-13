@@ -12,14 +12,29 @@
  */
 package org.qi4j.chronos.ui.pricerate;
 
+import org.qi4j.chronos.model.PriceRateSchedule;
+import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
+import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
+import org.qi4j.chronos.service.PriceRateScheduleService;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class PriceRateScheduleEditPage extends PriceRateScheduleAddEditPage
+public abstract class PriceRateScheduleEditPage<T extends HasPriceRateSchedules> extends PriceRateScheduleAddEditPage
 {
-    
-    public PriceRateScheduleEditPage( BasePage basePage, String accountId, String priceRateScheduleName )
+    private final static Logger LOGGER = LoggerFactory.getLogger( PriceRateScheduleEditPage.class );
+
+    public PriceRateScheduleEditPage( BasePage basePage )
     {
         super( basePage );
+
+        initData();
+    }
+
+    private void initData()
+    {
+        assignPriceRateScheduleToFieldValue( getPriceRateSchedule() );
     }
 
     public String getSubmitButtonValue()
@@ -34,6 +49,27 @@ public class PriceRateScheduleEditPage extends PriceRateScheduleAddEditPage
 
     public void onSubmitting()
     {
-        //TODO bp. fixme
+        PriceRateSchedule priceRateSchedule = getPriceRateSchedule();
+
+        try
+        {
+            assignFieldValueToPriceRateSchedule( priceRateSchedule );
+
+            PriceRateScheduleService service = ChronosWebApp.getServices().getPriceRateScheduleService();
+
+            //TODO bp. ValueObject is immutable. Wait for solution.
+            service.update( priceRateSchedule );
+
+            logInfoMsg( "Price Rate Schedule is updated successfuly." );
+
+            divertToGoBackPage();
+        }
+        catch( Exception err )
+        {
+            logErrorMsg( err.getMessage() );
+            LOGGER.error( err.getMessage(), err );
+        }
     }
+
+    public abstract PriceRateScheduleComposite getPriceRateSchedule();
 }

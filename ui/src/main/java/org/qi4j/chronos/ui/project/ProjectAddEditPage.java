@@ -46,13 +46,9 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
     protected SimpleDropDownChoice assigneeLeadChoice;
     protected Palette assigneePalette;
 
-    private String accountId;
-
-    public ProjectAddEditPage( BasePage basePage, String accountId )
+    public ProjectAddEditPage( BasePage basePage )
     {
         super( basePage );
-
-        this.accountId = accountId;
     }
 
     public void initComponent( Form form )

@@ -10,64 +10,60 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.projectowner;
+package org.qi4j.chronos.ui.workentry;
 
-import org.qi4j.chronos.model.ProjectOwner;
-import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
-import org.qi4j.chronos.service.ProjectOwnerService;
+import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
+import org.qi4j.chronos.model.composites.WorkEntryComposite;
+import org.qi4j.chronos.service.ProjectAssigneeService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class ProjectOwnerEditPage extends ProjectOwnerAddEditPage
+public abstract class WorkEntryAddPage extends WorkEntryAddEditPage
 {
-    private final static Logger LOGGER = LoggerFactory.getLogger( ProjectOwnerEditPage.class );
+    private final static Logger LOGGER = LoggerFactory.getLogger( WorkEntryAddPage.class );
 
-    public ProjectOwnerEditPage( BasePage basePage )
+    public WorkEntryAddPage( BasePage basePage )
     {
         super( basePage );
-
-        initData();
-    }
-
-    private void initData()
-    {
-        ProjectOwner projectOwner = ChronosWebApp.getServices().getProjectOwnerService().get( getProjectOwnerId() );
-
-        customerAddEditPanel.assignCustomerToFields( projectOwner );
     }
 
     public void onSubmitting()
     {
+        WorkEntryComposite entryComposite = ChronosWebApp.newInstance( WorkEntryComposite.class );
+
         try
         {
-            ProjectOwnerService service = ChronosWebApp.getServices().getProjectOwnerService();
+            assignFieldValueToWorkEntry( entryComposite );
 
-            ProjectOwnerEntityComposite projectOwner = service.get( getProjectOwnerId() );
+            ProjectAssigneeEntityComposite projectAssignee = getProjectAssignee();
 
-            service.update( projectOwner );
+            projectAssignee.addWorkEntry( entryComposite );
 
-            logInfoMsg( "Project Owner is updated successfully." );
+            ProjectAssigneeService service = ChronosWebApp.getServices().getProjectAssigneeService();
+
+            service.update( projectAssignee );
+
+            logInfoMsg( "Work Entry is added successfully." );
 
             divertToGoBackPage();
         }
         catch( Exception err )
         {
             logErrorMsg( err.getMessage() );
+
             LOGGER.error( err.getMessage(), err );
         }
     }
 
     public String getSubmitButtonValue()
     {
-        return "Edit";
+        return "Add";
     }
 
     public String getTitleLabel()
     {
-        return "Edit Project Owner";
+        return "New Work Entry";
     }
-
-    public abstract String getProjectOwnerId();
 }

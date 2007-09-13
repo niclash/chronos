@@ -10,41 +10,41 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.contactperson;
+package org.qi4j.chronos.ui.pricerate;
 
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
+import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.NewLinkPanel;
 import org.qi4j.chronos.ui.common.tab.NewLinkTab;
 
-public abstract class ContactPersonTab extends NewLinkTab
+public abstract class PriceRateScheduleTab<T extends HasPriceRateSchedules> extends NewLinkTab
 {
-    public ContactPersonTab()
+    public PriceRateScheduleTab( String title )
     {
-        super( "Contact Persons" );
+        super( title );
     }
 
     public NewLinkPanel getNewLinkPanel( String panelId )
     {
-        return new ContactPersonNewLinkPanel( panelId );
+        return new PriceRateScheduleNewLinkPanel( panelId );
     }
 
-    private class ContactPersonNewLinkPanel extends NewLinkPanel
+    private class PriceRateScheduleNewLinkPanel extends NewLinkPanel
     {
-        public ContactPersonNewLinkPanel( String id )
+        public PriceRateScheduleNewLinkPanel( String id )
         {
             super( id );
         }
 
         public Panel getContent( String id )
         {
-            return new ContactPersonTable( id )
+            return new PriceRateScheduleTable( id )
             {
-                public ProjectOwnerEntityComposite getProjectOwner()
+                public HasPriceRateSchedules getHasPriceRateSchedules()
                 {
-                    return ContactPersonTab.this.getProjectOwner();
+                    return PriceRateScheduleTab.this.getHasPriceRateSchedule();
                 }
             };
         }
@@ -55,22 +55,31 @@ public abstract class ContactPersonTab extends NewLinkTab
             {
                 public void onClick()
                 {
-                    setResponsePage( new ContactPersonAddPage( (BasePage) this.getPage() )
+                    PriceRateScheduleAddPage<T> addPage = new PriceRateScheduleAddPage<T>( (BasePage) this.getPage() )
                     {
-                        public ProjectOwnerEntityComposite getProjectOwner()
+                        public T getHasPriceRateSchedule()
                         {
-                            return ContactPersonTab.this.getProjectOwner();
+                            return PriceRateScheduleTab.this.getHasPriceRateSchedule();
                         }
-                    } );
+
+                        public void addedPriceRateSchedule( T t )
+                        {
+                            PriceRateScheduleTab.this.addedPriceRateSchedule( t );
+                        }
+                    };
+                    setResponsePage( addPage );
                 }
             };
         }
 
         public String getNewLinkText()
         {
-            return "New Contact Person";
+            return "New Price Rate Schedule";
         }
     }
 
-    public abstract ProjectOwnerEntityComposite getProjectOwner();
+    public abstract T getHasPriceRateSchedule();
+
+    public abstract void addedPriceRateSchedule( T t );
 }
+

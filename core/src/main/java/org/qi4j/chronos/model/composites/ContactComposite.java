@@ -13,8 +13,6 @@
 package org.qi4j.chronos.model.composites;
 
 import org.qi4j.api.Composite;
-import org.qi4j.api.annotation.ModifiedBy;
-import org.qi4j.chronos.model.modifiers.ContactRegexValidationModifier;
 import org.qi4j.library.general.model.Contact;
 import org.qi4j.library.general.model.RegexContactType;
 import org.qi4j.library.general.model.Validatable;
@@ -22,14 +20,14 @@ import org.qi4j.library.general.model.Validatable;
 /**
  * Validatable Contact composite. Contact must have {@link org.qi4j.library.general.model.ContactType}.
  * E.g. email contact would be john.smith@gmail.com
- * 
+ * <p/>
  * Contact does not extend {@link org.qi4j.api.persistence.EntityComposite} because
  * Contact is bound to {@link org.qi4j.chronos.model.ContactPerson}.
  * When contact person is removed, the contact is removed as well
- *
+ * <p/>
  * TODO: Fix the validation modifier as Lifecycle is not part of the interface anymore
  */
-@ModifiedBy( { ContactRegexValidationModifier.class } )
+//@ModifiedBy( { ContactRegexValidationModifier.class } )
 public interface ContactComposite extends Contact<RegexContactType>, Validatable, Composite
 {
 }

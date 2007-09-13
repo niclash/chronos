@@ -12,27 +12,9 @@
  */
 package org.qi4j.chronos.service;
 
-public interface Services
+import org.qi4j.api.persistence.Identity;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+
+public interface ProjectBasedService<T extends Identity> extends BasedService<T, ProjectEntityComposite>
 {
-    AccountService getAccountService();
-
-    ProjectService getProjectService();
-
-    ProjectRoleService getProjectRoleService();
-
-    StaffService getStaffService();
-
-    UserService getUserService();
-
-    SystemRoleService getSystemRoleService();
-
-    ProjectOwnerService getProjectOwnerService();
-
-    AdminService getAdminService();
-
-    ContactPersonService getContactPersonService();
-
-    PriceRateScheduleService getPriceRateScheduleService();
-
-    ProjectAssigneeService getProjectAssigneeService();
 }

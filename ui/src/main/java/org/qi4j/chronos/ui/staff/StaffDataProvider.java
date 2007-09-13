@@ -39,18 +39,13 @@ public abstract class StaffDataProvider extends AbstractSortableDataProvider<Sta
 
     public List<StaffEntityComposite> dataList( int first, int count )
     {
-        return getStaffService().findAll( getAccountEntityComposite(), new FindFilter( first, count ) );
-    }
-
-    private AccountEntityComposite getAccountEntityComposite()
-    {
-        return ChronosWebApp.getServices().getAccountService().get( getAccountId() );
+        return getStaffService().findAll( getAccount(), new FindFilter( first, count ) );
     }
 
     public int size()
     {
-        return getStaffService().countAll( getAccountEntityComposite() );
+        return getStaffService().countAll( getAccount() );
     }
 
-    public abstract String getAccountId();
+    public abstract AccountEntityComposite getAccount();
 }

@@ -47,10 +47,5 @@ public abstract class ContactPersonDataProvider extends AbstractSortableDataProv
         return getContactPersonService().countAll( getProjectOwner() );
     }
 
-    private ProjectOwnerEntityComposite getProjectOwner()
-    {
-        return ChronosWebApp.getServices().getProjectOwnerService().get( getProjectOwnerId() );
-    }
-
-    public abstract String getProjectOwnerId();
+    public abstract ProjectOwnerEntityComposite getProjectOwner();
 }

@@ -14,11 +14,8 @@
 package org.qi4j.chronos.model.composites;
 
 import org.qi4j.api.Composite;
-import org.qi4j.api.annotation.ModifiedBy;
 import org.qi4j.chronos.model.WorkEntry;
-import org.qi4j.chronos.model.modifiers.TimeRangeValidationModifier;
 
-@ModifiedBy( { TimeRangeValidationModifier.class } )
 public interface WorkEntryComposite extends WorkEntry, Composite
 {
 }

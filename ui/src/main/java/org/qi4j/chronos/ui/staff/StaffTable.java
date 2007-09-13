@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
@@ -61,9 +62,9 @@ public abstract class StaffTable extends ActionTable<StaffEntityComposite>
         {
             dataProvider = new StaffDataProvider()
             {
-                public String getAccountId()
+                public AccountEntityComposite getAccount()
                 {
-                    return StaffTable.this.getAccountId();
+                    return StaffTable.this.getAccount();
                 }
             };
         }
@@ -71,7 +72,7 @@ public abstract class StaffTable extends ActionTable<StaffEntityComposite>
         return dataProvider;
     }
 
-    public abstract String getAccountId();
+    public abstract AccountEntityComposite getAccount();
 
     public void populateItems( Item item, StaffEntityComposite obj )
     {
@@ -105,11 +106,16 @@ public abstract class StaffTable extends ActionTable<StaffEntityComposite>
         {
             public void linkClicked()
             {
-                setResponsePage( new StaffEditPage( (BasePage) this.getPage(), getAccountId() )
+                setResponsePage( new StaffEditPage( (BasePage) this.getPage() )
                 {
                     public String getStaffId()
                     {
                         return staffId;
+                    }
+
+                    public AccountEntityComposite getAccount()
+                    {
+                        return getAccount();
                     }
                 } );
             }

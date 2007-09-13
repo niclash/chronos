@@ -39,7 +39,7 @@ public class ProjectListPage extends LeftMenuNavPage
         {
             public void onClick()
             {
-                setResponsePage( new ProjectAddPage( ProjectListPage.this, accountId ) );
+                setResponsePage( new ProjectAddPage( ProjectListPage.this ) );
             }
         } );
 

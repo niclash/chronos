@@ -12,11 +12,14 @@
  */
 package org.qi4j.chronos.ui.contactperson;
 
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.LoginComposite;
 import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
+import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.service.ContactPersonService;
 import org.qi4j.chronos.service.ProjectOwnerService;
+import org.qi4j.chronos.service.SystemRoleService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
@@ -24,15 +27,15 @@ import org.qi4j.chronos.ui.login.LoginUserAddPanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ContactPersonAddPage extends ContactPersonAddEditPage
+public abstract class ContactPersonAddPage extends ContactPersonAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( ContactPersonAddPage.class );
 
     private LoginUserAddPanel loginUserAddPanel;
 
-    public ContactPersonAddPage( BasePage basePage, String projectOwnerId )
+    public ContactPersonAddPage( BasePage basePage )
     {
-        super( basePage, projectOwnerId );
+        super( basePage );
     }
 
     public void onSubmitting()
@@ -46,6 +49,12 @@ public class ContactPersonAddPage extends ContactPersonAddEditPage
         contactPerson.setLogin( login );
 
         assignFieldValueToContactPerson( contactPerson );
+
+        SystemRoleService systemRoleService = ChronosWebApp.getServices().getSystemRoleService();
+
+        SystemRoleEntityComposite contactPersonSystemRole = systemRoleService.getSystemRoleByName( SystemRole.CONTACT_PERSON );
+
+        contactPerson.addSystemRole( contactPersonSystemRole );
 
         try
         {
@@ -67,7 +76,6 @@ public class ContactPersonAddPage extends ContactPersonAddEditPage
             LOGGER.error( err.getMessage() );
         }
     }
-
 
     public LoginUserAbstractPanel getLoginUserAbstractPanel( String id )
     {

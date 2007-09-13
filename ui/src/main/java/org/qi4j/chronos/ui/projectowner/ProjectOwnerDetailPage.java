@@ -14,20 +14,22 @@ package org.qi4j.chronos.ui.projectowner;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.wicket.extensions.ajax.markup.html.tabs.AjaxTabbedPanel;
 import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
+import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.ProjectOwner;
+import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
+import org.qi4j.chronos.service.ProjectOwnerService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.contactperson.ContactPersonTab;
 import org.qi4j.chronos.ui.customer.CustomerDetailPanel;
+import org.qi4j.chronos.ui.pricerate.PriceRateScheduleTab;
 
 public class ProjectOwnerDetailPage extends LeftMenuNavPage
 {
@@ -49,13 +51,18 @@ public class ProjectOwnerDetailPage extends LeftMenuNavPage
         add( new ProjectOwnerDetailForm( "projectOwnerDetailForm" ) );
     }
 
+    private ProjectOwnerEntityComposite getProjectOwner()
+    {
+        return ChronosWebApp.getServices().getProjectOwnerService().get( projectOwnerId );
+    }
+
     private class ProjectOwnerDetailForm extends Form
     {
         private Button submitButton;
 
         private CustomerDetailPanel customerDetailPanel;
 
-        private AjaxTabbedPanel ajaxTabbedPanel;
+        private TabbedPanel ajaxTabbedPanel;
 
         public ProjectOwnerDetailForm( String id )
         {
@@ -70,21 +77,28 @@ public class ProjectOwnerDetailPage extends LeftMenuNavPage
 
             abstractTabs.add( new ContactPersonTab()
             {
-                public String getProjectOwnerId()
+                public ProjectOwnerEntityComposite getProjectOwner()
                 {
-                    return projectOwnerId;
+                    return ProjectOwnerDetailPage.this.getProjectOwner();
                 }
             } );
 
-            abstractTabs.add( new AbstractTab( new Model( "Price Rate Schedules" ) )
+            abstractTabs.add( new PriceRateScheduleTab<ProjectOwnerEntityComposite>( "Standard Price Rate Schedules" )
             {
-                public Panel getPanel( String panelId )
+                public ProjectOwnerEntityComposite getHasPriceRateSchedule()
                 {
-                    return new Panel( panelId );
+                    return getProjectOwner();
+                }
+
+                public void addedPriceRateSchedule( ProjectOwnerEntityComposite projectOwnerEntityComposite )
+                {
+                    ProjectOwnerService projectOwnerService = ChronosWebApp.getServices().getProjectOwnerService();
+
+                    projectOwnerService.update( projectOwnerEntityComposite );
                 }
             } );
 
-            ajaxTabbedPanel = new AjaxTabbedPanel( "ajaxTabbedPanel", abstractTabs );
+            ajaxTabbedPanel = new TabbedPanel( "ajaxTabbedPanel", abstractTabs );
 
             add( ajaxTabbedPanel );
 

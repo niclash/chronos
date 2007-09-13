@@ -41,15 +41,11 @@ public abstract class ProjectOwnerDataProvider extends AbstractSortableDataProvi
         return getProjectOwnerService().findAll( getAccount() );
     }
 
-    private AccountEntityComposite getAccount()
-    {
-        return ChronosWebApp.getServices().getAccountService().get( getAccountId() );
-    }
+    public abstract AccountEntityComposite getAccount();
 
     public int size()
     {
         return getProjectOwnerService().countAll( getAccount() );
     }
 
-    public abstract String getAccountId();
 }

@@ -14,18 +14,19 @@ package org.qi4j.chronos.ui.pricerate;
 
 import org.apache.wicket.markup.html.form.Form;
 import org.qi4j.chronos.model.PriceRateSchedule;
+import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.common.SimpleDateField;
 import org.qi4j.chronos.ui.util.ValidatorUtil;
 
-public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
+public abstract class PriceRateScheduleAddEditPage<T extends HasPriceRateSchedules> extends AddEditBasePage
 {
-    protected MaxLengthTextField nameField;
+    private MaxLengthTextField nameField;
 
-    protected SimpleDateField fromDateField;
-    protected SimpleDateField toDateField;
+    private SimpleDateField fromDateField;
+    private SimpleDateField toDateField;
 
     public PriceRateScheduleAddEditPage( BasePage goBackPage )
     {
@@ -65,6 +66,22 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
         }
 
         onSubmitting();
+    }
+
+    public abstract T getHasPriceRateSchedule();
+
+    protected void assignFieldValueToPriceRateSchedule( PriceRateSchedule priceRateSchedule )
+    {
+        priceRateSchedule.setName( nameField.getText() );
+        priceRateSchedule.setStartTime( fromDateField.getDate() );
+        priceRateSchedule.setEndTime( toDateField.getDate() );
+    }
+
+    protected void assignPriceRateScheduleToFieldValue( PriceRateSchedule priceRateSchedule )
+    {
+        nameField.setText( priceRateSchedule.getName() );
+        fromDateField.setDate( priceRateSchedule.getStartTime() );
+        toDateField.setDate( priceRateSchedule.getEndTime() );
     }
 
     public abstract void onSubmitting();

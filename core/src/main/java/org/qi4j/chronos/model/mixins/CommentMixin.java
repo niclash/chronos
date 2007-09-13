@@ -13,11 +13,23 @@
  */
 package org.qi4j.chronos.model.mixins;
 
+import java.util.Date;
 import org.qi4j.chronos.model.Comment;
 
 public final class CommentMixin implements Comment
 {
     private String comment;
+    private Date createdDate;
+
+    public Date getCreatedDate()
+    {
+        return createdDate;
+    }
+
+    public void setCreatedDate( Date date )
+    {
+        this.createdDate = date;
+    }
 
     public String getComment()
     {

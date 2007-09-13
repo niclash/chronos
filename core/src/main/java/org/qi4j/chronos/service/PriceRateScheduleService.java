@@ -13,15 +13,19 @@
 package org.qi4j.chronos.service;
 
 import java.util.List;
-import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
+import org.qi4j.chronos.model.PriceRateSchedule;
+import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
+import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 
-public interface SystemRoleServiceMisc
+public interface PriceRateScheduleService
 {
-    List<SystemRoleEntityComposite> findAllStaffSystemRole();
+    List<PriceRateSchedule> findAll( HasPriceRateSchedules hasPriceRateSchedules, FindFilter findFilter );
 
-    List<SystemRoleEntityComposite> findAllStaffSystemRole( int first, int count );
+    List<PriceRateSchedule> findAll( HasPriceRateSchedules hasPriceRateSchedules );
 
-    int countAllStaffSystemRole();
+    int countAll( HasPriceRateSchedules hasPriceRateSchedules );
 
-    SystemRoleEntityComposite getSystemRoleByName( String name );
+    PriceRateScheduleComposite get( HasPriceRateSchedules hasPriceRateSchedules, String priceRateName );
+
+    void update( PriceRateSchedule priceRateSchedule );
 }

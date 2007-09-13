@@ -14,7 +14,9 @@ package org.qi4j.chronos.ui.staff;
 
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.ui.ChronosSession;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 
 public class StaffListPage extends LeftMenuNavPage
@@ -33,13 +35,24 @@ public class StaffListPage extends LeftMenuNavPage
         initComponents();
     }
 
+    private AccountEntityComposite getAccount()
+    {
+        return ChronosWebApp.getServices().getAccountService().get( accountId );
+    }
+
     private void initComponents()
     {
         add( new Link( "newStaffLink" )
         {
             public void onClick()
             {
-                setResponsePage( new StaffAddPage( StaffListPage.this, accountId ) );
+                setResponsePage( new StaffAddPage( StaffListPage.this )
+                {
+                    public AccountEntityComposite getAccount()
+                    {
+                        return StaffListPage.this.getAccount();
+                    }
+                } );
             }
         } );
 
@@ -50,6 +63,11 @@ public class StaffListPage extends LeftMenuNavPage
             public String getAccountId()
             {
                 return accountId;
+            }
+
+            public AccountEntityComposite getAccount()
+            {
+                return StaffListPage.this.getAccount();
             }
         };
 

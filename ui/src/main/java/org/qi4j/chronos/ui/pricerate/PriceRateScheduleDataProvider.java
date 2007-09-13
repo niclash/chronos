@@ -12,18 +12,40 @@
  */
 package org.qi4j.chronos.ui.pricerate;
 
+import java.util.List;
 import org.qi4j.chronos.model.PriceRateSchedule;
+import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
+import org.qi4j.chronos.service.FindFilter;
+import org.qi4j.chronos.service.PriceRateScheduleService;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
 public abstract class PriceRateScheduleDataProvider extends AbstractSortableDataProvider<PriceRateSchedule>
 {
-    public PriceRateScheduleDataProvider()
-    {
-
-    }
-
     public String getId( PriceRateSchedule priceRateSchedule )
     {
         return priceRateSchedule.getName();
     }
+
+    public PriceRateSchedule load( String id )
+    {
+        return getPriceRateScheduleService().get( getHasPriceRateSchedules(), id );
+    }
+
+    private PriceRateScheduleService getPriceRateScheduleService()
+    {
+        return ChronosWebApp.getServices().getPriceRateScheduleService();
+    }
+
+    public List<PriceRateSchedule> dataList( int first, int count )
+    {
+        return getPriceRateScheduleService().findAll( getHasPriceRateSchedules(), new FindFilter( first, count ) );
+    }
+
+    public int size()
+    {
+        return getPriceRateScheduleService().countAll( getHasPriceRateSchedules() );
+    }
+
+    public abstract HasPriceRateSchedules getHasPriceRateSchedules();
 }

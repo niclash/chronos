@@ -15,17 +15,17 @@ package org.qi4j.chronos.model.associations;
 
 import java.util.Iterator;
 import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.chronos.model.PriceRateSchedule;
+import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.model.mixins.HasPriceRateSchedulesMixin;
 
 @ImplementedBy( HasPriceRateSchedulesMixin.class )
 public interface HasPriceRateSchedules
 {
-    void addPriceRateSchedule( PriceRateSchedule priceRateSchedule );
+    void addPriceRateSchedule( PriceRateScheduleComposite priceRateSchedule );
 
-    void removePriceRateSchedule( PriceRateSchedule priceRateSchedule );
+    void removePriceRateSchedule( PriceRateScheduleComposite priceRateSchedule );
 
-    Iterator<PriceRateSchedule> priceRateScheduleIterator();
+    Iterator<PriceRateScheduleComposite> priceRateScheduleIterator();
 
     int countTotalPriceRateSchedule();
 }

@@ -25,15 +25,15 @@ import org.qi4j.chronos.ui.login.LoginUserAddPanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class StaffAddPage extends StaffAddEditPage
+public abstract class StaffAddPage extends StaffAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( StaffAddPage.class );
 
     private LoginUserAddPanel loginUserAddPanel;
 
-    public StaffAddPage( BasePage basePage, String accountId )
+    public StaffAddPage( BasePage basePage )
     {
-        super( basePage, accountId );
+        super( basePage );
     }
 
     public LoginUserAbstractPanel getLoginUserAbstractPanel( String id )

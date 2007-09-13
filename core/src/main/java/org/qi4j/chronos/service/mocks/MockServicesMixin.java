@@ -17,11 +17,13 @@ import java.util.List;
 import org.qi4j.api.Composite;
 import org.qi4j.api.CompositeBuilder;
 import org.qi4j.api.CompositeBuilderFactory;
+import org.qi4j.chronos.model.ProjectOwner;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.SystemRoleType;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.AddressComposite;
 import org.qi4j.chronos.model.composites.AdminEntityComposite;
+import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.LoginComposite;
 import org.qi4j.chronos.model.composites.MoneyComposite;
 import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
@@ -34,6 +36,8 @@ import org.qi4j.chronos.service.AdminService;
 import org.qi4j.chronos.service.BasedService;
 import org.qi4j.chronos.service.ContactPersonService;
 import org.qi4j.chronos.service.EntityService;
+import org.qi4j.chronos.service.PriceRateScheduleService;
+import org.qi4j.chronos.service.ProjectAssigneeService;
 import org.qi4j.chronos.service.ProjectOwnerService;
 import org.qi4j.chronos.service.ProjectRoleService;
 import org.qi4j.chronos.service.ProjectService;
@@ -45,6 +49,8 @@ import org.qi4j.chronos.service.UserService;
 import org.qi4j.chronos.service.composites.AccountServiceComposite;
 import org.qi4j.chronos.service.composites.AdminServiceComposite;
 import org.qi4j.chronos.service.composites.ContactPersonServiceComposite;
+import org.qi4j.chronos.service.composites.PriceRateScheduleServiceComposite;
+import org.qi4j.chronos.service.composites.ProjectAssigneeServiceComposite;
 import org.qi4j.chronos.service.composites.ProjectOwnerServiceComposite;
 import org.qi4j.chronos.service.composites.ProjectServiceComposite;
 import org.qi4j.chronos.service.composites.RoleServiceComposite;
@@ -69,6 +75,8 @@ public class MockServicesMixin implements Services
     private ProjectOwnerService projectOwnerService;
     private AdminService adminService;
     private ContactPersonService contactPersonService;
+    private PriceRateScheduleService priceRateScheduleService;
+    private ProjectAssigneeService projectAssigneeService;
 
     public MockServicesMixin( CompositeBuilderFactory factory )
     {
@@ -86,7 +94,30 @@ public class MockServicesMixin implements Services
         contactPersonService = initContactPersonService();
 
         userService = initUserService( staffService, adminService, contactPersonService );
+
+        priceRateScheduleService = initPriceRateScheduleService();
+
+        projectAssigneeService = initProjectAssigneeService( projectService );
+
         initDummyData();
+    }
+
+    private ProjectAssigneeService initProjectAssigneeService( ProjectService projectService )
+    {
+        CompositeBuilder<ProjectAssigneeServiceComposite> compositeBuilder = factory.newCompositeBuilder( ProjectAssigneeServiceComposite.class );
+
+        compositeBuilder.setMixin( BasedService.class, new MockProjectAssigneeServiceMixin( factory, projectService ) );
+
+        return compositeBuilder.newInstance();
+    }
+
+    private PriceRateScheduleServiceComposite initPriceRateScheduleService()
+    {
+        CompositeBuilder<PriceRateScheduleServiceComposite> compositeBuilder = factory.newCompositeBuilder( PriceRateScheduleServiceComposite.class );
+
+        compositeBuilder.setMixin( PriceRateScheduleService.class, new MockPriceRateScheduleServiceMixin() );
+
+        return compositeBuilder.newInstance();
     }
 
     private ContactPersonService initContactPersonService()
@@ -166,7 +197,10 @@ public class MockServicesMixin implements Services
         initSystemRoleDummyData();
         initStaffDummyData( account );
         initAdminDummyData();
-        initProjectOwnerDummyData( account );
+
+        ProjectOwner projectOwner = initProjectOwnerDummyData( account );
+
+        initContactPerson( projectOwner );
     }
 
     private AccountEntityComposite initAccountDummyData()
@@ -307,7 +341,7 @@ public class MockServicesMixin implements Services
         systemRoleService.save( contactPerson );
     }
 
-    private void initProjectOwnerDummyData( AccountEntityComposite account )
+    private ProjectOwner initProjectOwnerDummyData( AccountEntityComposite account )
     {
         ProjectOwnerEntityComposite projectOwner = projectOwnerService.newInstance( ProjectOwnerEntityComposite.class );
 
@@ -335,6 +369,46 @@ public class MockServicesMixin implements Services
         address.setZipCode( "123" );
 
         account.addProjectOwner( projectOwner );
+
+        return projectOwner;
+    }
+
+    private void initContactPerson( ProjectOwner projectOwner )
+    {
+        SystemRoleEntityComposite contactPersonRole = systemRoleService.getSystemRoleByName( SystemRole.CONTACT_PERSON );
+
+        ContactPersonEntityComposite contactPerson = contactPersonService.newInstance( ContactPersonEntityComposite.class );
+
+        contactPerson.setFirstName( "michael" );
+        contactPerson.setLastName( "michael" );
+        contactPerson.setGender( GenderType.male );
+
+        LoginComposite login = factory.newCompositeBuilder( LoginComposite.class ).newInstance();
+
+        login.setName( "michael" );
+        login.setPassword( "michael" );
+        login.setEnabled( true );
+
+        contactPerson.setLogin( login );
+        contactPerson.addSystemRole( contactPersonRole );
+
+        ContactPersonEntityComposite contactPerson2 = contactPersonService.newInstance( ContactPersonEntityComposite.class );
+
+        contactPerson2.setFirstName( "mimi" );
+        contactPerson2.setLastName( "mimi" );
+        contactPerson2.setGender( GenderType.male );
+
+        LoginComposite login2 = factory.newCompositeBuilder( LoginComposite.class ).newInstance();
+
+        login2.setName( "mimi" );
+        login2.setPassword( "mimi" );
+        login2.setEnabled( true );
+
+        contactPerson2.setLogin( login2 );
+        contactPerson2.addSystemRole( contactPersonRole );
+
+        projectOwner.addContactPerson( contactPerson );
+        projectOwner.addContactPerson( contactPerson2 );
     }
 
     public AccountService getAccountService()
@@ -380,6 +454,16 @@ public class MockServicesMixin implements Services
     public ContactPersonService getContactPersonService()
     {
         return contactPersonService;
+    }
+
+    public PriceRateScheduleService getPriceRateScheduleService()
+    {
+        return priceRateScheduleService;
+    }
+
+    public ProjectAssigneeService getProjectAssigneeService()
+    {
+        return projectAssigneeService;
     }
 
     @SuppressWarnings( { "unchecked" } )

@@ -12,27 +12,8 @@
  */
 package org.qi4j.chronos.service;
 
-public interface Services
+import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
+
+public interface ProjectAssigneeService extends ProjectBasedService<ProjectAssigneeEntityComposite>
 {
-    AccountService getAccountService();
-
-    ProjectService getProjectService();
-
-    ProjectRoleService getProjectRoleService();
-
-    StaffService getStaffService();
-
-    UserService getUserService();
-
-    SystemRoleService getSystemRoleService();
-
-    ProjectOwnerService getProjectOwnerService();
-
-    AdminService getAdminService();
-
-    ContactPersonService getContactPersonService();
-
-    PriceRateScheduleService getPriceRateScheduleService();
-
-    ProjectAssigneeService getProjectAssigneeService();
 }

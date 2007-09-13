@@ -28,9 +28,9 @@ public abstract class ContactPersonEditPage extends ContactPersonAddEditPage
 
     private LoginUserEditPanel loginUserEditPanel;
 
-    public ContactPersonEditPage( BasePage basePage, String projectOwnerId )
+    public ContactPersonEditPage( BasePage basePage )
     {
-        super( basePage, projectOwnerId );
+        super( basePage );
 
         initData();
     }

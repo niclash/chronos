@@ -1,5 +1,4 @@
 /*
- * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,20 +10,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.associations;
+package org.qi4j.chronos.service.mocks;
 
-import java.io.Serializable;
 import java.util.Iterator;
-import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.api.CompositeBuilderFactory;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
-import org.qi4j.chronos.model.mixins.HasProjectAssigneesMixin;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.service.ProjectService;
 
-@ImplementedBy( HasProjectAssigneesMixin.class )
-public interface HasProjectAssignees extends Serializable
+public class MockProjectAssigneeServiceMixin extends MockProjectBasedServiceMixin<ProjectAssigneeEntityComposite>
 {
-    void addProjectAssignee( ProjectAssigneeEntityComposite assignee );
+    public MockProjectAssigneeServiceMixin( CompositeBuilderFactory factory, ProjectService projectService )
+    {
+        super( factory, projectService );
+    }
 
-    void removeProjectAssignee( ProjectAssigneeEntityComposite assignee );
-
-    Iterator<ProjectAssigneeEntityComposite> projectAssigneeIterator();
+    protected Iterator<ProjectAssigneeEntityComposite> getItems( ProjectEntityComposite projectEntityComposite )
+    {
+        return projectEntityComposite.projectAssigneeIterator();
+    }
 }

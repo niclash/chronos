@@ -15,6 +15,7 @@ package org.qi4j.chronos.ui.projectowner;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.repeater.Item;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
@@ -36,9 +37,9 @@ public abstract class ProjectOwnerTable extends ActionTable<ProjectOwnerEntityCo
         {
             provider = new ProjectOwnerDataProvider()
             {
-                public String getAccountId()
+                public AccountEntityComposite getAccount()
                 {
-                    return ProjectOwnerTable.this.getAccountId();
+                    return ProjectOwnerTable.this.getAccount();
                 }
             };
         }
@@ -46,7 +47,7 @@ public abstract class ProjectOwnerTable extends ActionTable<ProjectOwnerEntityCo
         return provider;
     }
 
-    public abstract String getAccountId();
+    public abstract AccountEntityComposite getAccount();
 
     public void populateItems( Item item, ProjectOwnerEntityComposite obj )
     {
@@ -58,7 +59,18 @@ public abstract class ProjectOwnerTable extends ActionTable<ProjectOwnerEntityCo
         {
             public void linkClicked()
             {
-                ProjectOwnerEditPage editPage = new ProjectOwnerEditPage( (BasePage) this.getPage(), projectOwnerId, getAccountId() );
+                ProjectOwnerEditPage editPage = new ProjectOwnerEditPage( (BasePage) this.getPage() )
+                {
+                    public String getProjectOwnerId()
+                    {
+                        return projectOwnerId;
+                    }
+
+                    public AccountEntityComposite getAccount()
+                    {
+                        return ProjectOwnerTable.this.getAccount();
+                    }
+                };
 
                 setResponsePage( editPage );
             }

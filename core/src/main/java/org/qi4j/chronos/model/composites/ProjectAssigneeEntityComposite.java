@@ -1,4 +1,5 @@
 /*
+ * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -10,29 +11,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service;
+package org.qi4j.chronos.model.composites;
 
-public interface Services
+import org.qi4j.api.persistence.EntityComposite;
+import org.qi4j.chronos.model.ProjectAssignee;
+
+public interface ProjectAssigneeEntityComposite extends ProjectAssignee, EntityComposite
 {
-    AccountService getAccountService();
-
-    ProjectService getProjectService();
-
-    ProjectRoleService getProjectRoleService();
-
-    StaffService getStaffService();
-
-    UserService getUserService();
-
-    SystemRoleService getSystemRoleService();
-
-    ProjectOwnerService getProjectOwnerService();
-
-    AdminService getAdminService();
-
-    ContactPersonService getContactPersonService();
-
-    PriceRateScheduleService getPriceRateScheduleService();
-
-    ProjectAssigneeService getProjectAssigneeService();
 }

@@ -19,6 +19,7 @@ import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
@@ -39,9 +40,9 @@ public abstract class ContactPersonTable extends ActionTable<ContactPersonEntity
         {
             provider = new ContactPersonDataProvider()
             {
-                public String getProjectOwnerId()
+                public ProjectOwnerEntityComposite getProjectOwner()
                 {
-                    return ContactPersonTable.this.getProjectOwnerId();
+                    return ContactPersonTable.this.getProjectOwner();
                 }
             };
         }
@@ -49,7 +50,7 @@ public abstract class ContactPersonTable extends ActionTable<ContactPersonEntity
         return provider;
     }
 
-    public abstract String getProjectOwnerId();
+    public abstract ProjectOwnerEntityComposite getProjectOwner();
 
     public void populateItems( Item item, ContactPersonEntityComposite obj )
     {
@@ -82,8 +83,13 @@ public abstract class ContactPersonTable extends ActionTable<ContactPersonEntity
         {
             public void linkClicked()
             {
-                setResponsePage( new ContactPersonEditPage( (BasePage) this.getPage(), getProjectOwnerId() )
+                setResponsePage( new ContactPersonEditPage( (BasePage) this.getPage() )
                 {
+                    public ProjectOwnerEntityComposite getProjectOwner()
+                    {
+                        return ContactPersonTable.this.getProjectOwner();
+                    }
+
                     public String getContactPersonId()
                     {
                         return contactPersonId;
@@ -97,6 +103,5 @@ public abstract class ContactPersonTable extends ActionTable<ContactPersonEntity
     {
         return Arrays.asList( "First Name", "Last name", "Login Id", "Login Enabled", "Edit" );
     }
-
 
 }

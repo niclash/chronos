@@ -12,10 +12,18 @@
  */
 package org.qi4j.chronos.ui.pricerate;
 
+import org.apache.wicket.markup.html.form.Button;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.model.Model;
+import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
+import org.qi4j.chronos.ui.common.SimpleTextField;
+import org.qi4j.chronos.ui.util.DateUtil;
 
-public class PriceRateScheduleDetailPage extends LeftMenuNavPage
+public abstract class PriceRateScheduleDetailPage extends LeftMenuNavPage
 {
     private BasePage returnBase;
 
@@ -28,6 +36,54 @@ public class PriceRateScheduleDetailPage extends LeftMenuNavPage
 
     private void initComponents()
     {
-
+        add( new FeedbackPanel( "feedbackPanel" ) );
+        add( new PriceRateScheduleDetailForm( "priceRateScheduleDetailForm" ) );
     }
+
+    private class PriceRateScheduleDetailForm extends Form
+    {
+        private SimpleTextField nameField;
+        private SimpleTextField fromDateField;
+        private SimpleTextField toDateField;
+
+        private Button submitButton;
+
+        public PriceRateScheduleDetailForm( String id )
+        {
+            super( id );
+
+            initComponents();
+        }
+
+        private void initComponents()
+        {
+            PriceRateSchedule priceRateSchedule = getPriceRateSchedule();
+
+            nameField = new SimpleTextField( "nameField", priceRateSchedule.getName(), true );
+            fromDateField = new SimpleTextField( "fromDateField", DateUtil.format( "dd MMM yyyy", priceRateSchedule.getStartTime() ), true );
+            toDateField = new SimpleTextField( "toDateField", DateUtil.format( "dd MMM yyyy", priceRateSchedule.getEndTime() ), true );
+
+            submitButton = new Button( "submitButton", new Model( "Return" ) );
+
+            add( nameField );
+            add( fromDateField );
+            add( toDateField );
+
+            add( submitButton );
+        }
+
+        protected void delegateSubmit( IFormSubmittingComponent submittingButton )
+        {
+            if( submittingButton == submitButton )
+            {
+                setResponsePage( returnBase );
+            }
+            else
+            {
+                throw new IllegalArgumentException( submittingButton + " not handled yet" );
+            }
+        }
+    }
+
+    public abstract PriceRateSchedule getPriceRateSchedule();
 }

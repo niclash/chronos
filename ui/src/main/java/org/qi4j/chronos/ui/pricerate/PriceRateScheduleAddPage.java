@@ -12,10 +12,17 @@
  */
 package org.qi4j.chronos.ui.pricerate;
 
+import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
+import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class PriceRateScheduleAddPage extends PriceRateScheduleAddEditPage
+public abstract class PriceRateScheduleAddPage<T extends HasPriceRateSchedules> extends PriceRateScheduleAddEditPage<T>
 {
+    private final static Logger LOGGER = LoggerFactory.getLogger( PriceRateScheduleAddPage.class );
+
     public PriceRateScheduleAddPage( BasePage goBackPage )
     {
         super( goBackPage );
@@ -33,6 +40,28 @@ public class PriceRateScheduleAddPage extends PriceRateScheduleAddEditPage
 
     public void onSubmitting()
     {
-        //TODO bp. fixme
+        PriceRateScheduleComposite priceRateSchedule = ChronosWebApp.newInstance( PriceRateScheduleComposite.class );
+
+        try
+        {
+            assignFieldValueToPriceRateSchedule( priceRateSchedule );
+
+            T t = getHasPriceRateSchedule();
+
+            t.addPriceRateSchedule( priceRateSchedule );
+
+            addedPriceRateSchedule( t );
+
+            logInfoMsg( "Price Rate Schedule is added successfully." );
+
+            divertToGoBackPage();
+        }
+        catch( Exception err )
+        {
+            logErrorMsg( err.getMessage() );
+            LOGGER.error( err.getMessage(), err );
+        }
     }
+
+    public abstract void addedPriceRateSchedule( T t );
 }

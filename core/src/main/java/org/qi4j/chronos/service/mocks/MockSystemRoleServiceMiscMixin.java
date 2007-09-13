@@ -54,4 +54,19 @@ public class MockSystemRoleServiceMiscMixin implements SystemRoleServiceMisc
     {
         return findAllStaffSystemRole().size();
     }
+
+    public SystemRoleEntityComposite getSystemRoleByName( String name )
+    {
+        List<SystemRoleEntityComposite> allList = systemRoleService.findAll();
+
+        for( SystemRoleEntityComposite systemRole : allList )
+        {
+            if( systemRole.getName().equals( name ) )
+            {
+                return systemRole;
+            }
+        }
+
+        return null;
+    }
 }

@@ -10,20 +10,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.project;
+package org.qi4j.chronos.ui.workentry;
 
+import org.qi4j.chronos.model.composites.WorkEntryComposite;
 import org.qi4j.chronos.ui.base.BasePage;
 
-public class ProjectEditPage extends ProjectAddEditPage
+public abstract class WorkEntryEditPage extends WorkEntryAddEditPage
 {
-    public ProjectEditPage( BasePage basePage )
+    public WorkEntryEditPage( BasePage basePage )
     {
         super( basePage );
+
+        initData();
+    }
+
+    private void initData()
+    {
+        assignWorkEntryToFieldValue( getWorkEntry() );
     }
 
     public void onSubmitting()
     {
-        //TODO bp. fixme
+        WorkEntryComposite workEntry = getWorkEntry();
+
+        assignFieldValueToWorkEntry( workEntry );
+
+        //TODO
     }
 
     public String getSubmitButtonValue()
@@ -33,6 +45,8 @@ public class ProjectEditPage extends ProjectAddEditPage
 
     public String getTitleLabel()
     {
-        return "Edit Project";
+        return "Edit Work Entry";
     }
+
+    public abstract WorkEntryComposite getWorkEntry();
 }

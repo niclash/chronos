@@ -16,9 +16,9 @@ import org.qi4j.chronos.ui.base.BasePage;
 
 public class ProjectAddPage extends ProjectAddEditPage
 {
-    public ProjectAddPage( BasePage basePage, String accountId )
+    public ProjectAddPage( BasePage basePage )
     {
-        super( basePage, accountId );
+        super( basePage );
     }
 
     public void onSubmitting()

@@ -14,13 +14,19 @@ package org.qi4j.chronos.ui.pricerate;
 
 import java.util.Arrays;
 import java.util.List;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.PriceRateSchedule;
+import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
+import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
+import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
+import org.qi4j.chronos.ui.util.DateUtil;
 
-public abstract class PriceRateScheduleTable extends ActionTable<PriceRateSchedule>
+public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> extends ActionTable<PriceRateSchedule>
 {
     private PriceRateScheduleDataProvider dataProvider;
 
@@ -35,47 +41,70 @@ public abstract class PriceRateScheduleTable extends ActionTable<PriceRateSchedu
         {
             dataProvider = new PriceRateScheduleDataProvider()
             {
-                public PriceRateSchedule load( String id )
+                public HasPriceRateSchedules getHasPriceRateSchedules()
                 {
-                    return null;  //To change body of implemented methods use File | Settings | File Templates.
-                }
-
-                public List<PriceRateSchedule> dataList( int first, int count )
-                {
-                    return null;  //To change body of implemented methods use File | Settings | File Templates.
-                }
-
-                public int size()
-                {
-                    return 0;  //To change body of implemented methods use File | Settings | File Templates.
+                    return PriceRateScheduleTable.this.getHasPriceRateSchedules();
                 }
             };
         }
 
-        return null;
+        return dataProvider;
     }
 
     public void populateItems( Item item, PriceRateSchedule obj )
     {
-        item.add( new SimpleLink( "accountName", obj.getName() )
+        final String priceRateScheduleName = obj.getName();
+
+        item.add( new SimpleLink( "name", obj.getName() )
         {
             public void linkClicked()
             {
-                //TODO bp. fixme
+                PriceRateScheduleDetailPage detailPage = new PriceRateScheduleDetailPage( (BasePage) this.getPage() )
+                {
+                    public PriceRateSchedule getPriceRateSchedule()
+                    {
+                        return PriceRateScheduleTable.this.getPriceRateSchedule( priceRateScheduleName );
+                    }
+                };
+
+                setResponsePage( detailPage );
             }
         } );
+
+        item.add( new Label( "fromDate", DateUtil.format( "dd MMM yyy", obj.getStartTime() ) ) );
+        item.add( new Label( "toDate", DateUtil.format( "dd MMM yyy", obj.getEndTime() ) ) );
 
         item.add( new SimpleLink( "editLink", "Edit" )
         {
             public void linkClicked()
             {
-                //TODO bp. fixme
+                PriceRateScheduleEditPage<T> editPage = new PriceRateScheduleEditPage<T>( (BasePage) this.getPage() )
+                {
+                    public T getHasPriceRateSchedule()
+                    {
+                        return PriceRateScheduleTable.this.getHasPriceRateSchedules();
+                    }
+
+                    public PriceRateScheduleComposite getPriceRateSchedule()
+                    {
+                        return PriceRateScheduleTable.this.getPriceRateSchedule( priceRateScheduleName );
+                    }
+                };
+
+                setResponsePage( editPage );
             }
         } );
     }
 
+    private PriceRateScheduleComposite getPriceRateSchedule( String name )
+    {
+        return ChronosWebApp.getServices().getPriceRateScheduleService().get( getHasPriceRateSchedules(), name );
+    }
+
     public List<String> getTableHeaderList()
     {
-        return Arrays.asList( "Name", "" );
+        return Arrays.asList( "Name", "From Date", "To Date", "" );
     }
+
+    public abstract T getHasPriceRateSchedules();
 }
