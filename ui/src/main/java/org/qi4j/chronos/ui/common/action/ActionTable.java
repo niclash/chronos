@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.io.Serializable;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
@@ -33,7 +34,7 @@ import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
-public abstract class ActionTable<T> extends Panel
+public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
 {
     private final static String CHECKBOX_CLASS_NAME = "checkBoxClass";
 
@@ -41,11 +42,11 @@ public abstract class ActionTable<T> extends Panel
 
     private ActionBar actionBar;
 
-    private Set<String> selectedIds;
+    private Set<ID> selectedIds;
 
     private DataView dataView;
 
-    private List<String> currBatchIds;
+    private List<ID> currBatchIds;
     private List<CheckBox> currBatchCheckBoxs;
 
     private Label totalSelectedLabel;
@@ -70,9 +71,9 @@ public abstract class ActionTable<T> extends Panel
 
         this.actionBar.setActionTable( this );
 
-        selectedIds = new HashSet<String>();
+        selectedIds = new HashSet<ID>();
 
-        currBatchIds = new ArrayList<String>();
+        currBatchIds = new ArrayList<ID>();
         currBatchCheckBoxs = new ArrayList<CheckBox>();
 
         initComponents();
@@ -95,7 +96,7 @@ public abstract class ActionTable<T> extends Panel
 
     private class ActionTableForm extends Form
     {
-        private AbstractSortableDataProvider<T> dataProvider;
+        private AbstractSortableDataProvider<ITEM, ID> dataProvider;
 
         public ActionTableForm( String id )
         {
@@ -148,9 +149,9 @@ public abstract class ActionTable<T> extends Panel
                         currBatchCheckBoxs.clear();
                     }
 
-                    T obj = (T) item.getModelObject();
+                    ITEM obj = (ITEM) item.getModelObject();
 
-                    final String id = dataProvider.getId( obj );
+                    final ID id = dataProvider.getId( obj );
 
                     final CheckBox checkBox = new CheckBox( "itemCheckBox", new CheckedModel( id ) );
                     checkBox.add( new AttributeModifier( "class", true, new Model( CHECKBOX_CLASS_NAME ) ) );
@@ -285,7 +286,7 @@ public abstract class ActionTable<T> extends Panel
         grandSelectAllOrNoneVisible( false, false );
     }
 
-    private void handleItemCheckBoxChanged( String id, CheckBox checkBox, AjaxRequestTarget target )
+    private void handleItemCheckBoxChanged( ID id, CheckBox checkBox, AjaxRequestTarget target )
     {
         if( !Boolean.parseBoolean( checkBox.getModelObjectAsString() ) )
         {
@@ -370,9 +371,9 @@ public abstract class ActionTable<T> extends Panel
 
     private class CheckedModel extends AbstractCheckBoxModel
     {
-        private final String id;
+        private final ID id;
 
-        public CheckedModel( String id )
+        public CheckedModel( ID id )
         {
             this.id = id;
         }
@@ -429,14 +430,14 @@ public abstract class ActionTable<T> extends Panel
     {
         if( !isGrandAllSelected )
         {
-            return new SubSetSortableDataProvider<T>( new ArrayList<String>( selectedIds ) )
+            return new SubSetSortableDataProvider<ITEM, ID>( new ArrayList<ID>( selectedIds ) )
             {
-                public String getId( T o )
+                public ID getId( ITEM o )
                 {
                     return getDetachableDataProvider().getId( o );
                 }
 
-                public T load( String id )
+                public ITEM load( ID id )
                 {
                     return getDetachableDataProvider().load( id );
                 }
@@ -448,9 +449,9 @@ public abstract class ActionTable<T> extends Panel
         }
     }
 
-    public abstract AbstractSortableDataProvider<T> getDetachableDataProvider();
+    public abstract AbstractSortableDataProvider<ITEM, ID> getDetachableDataProvider();
 
-    public abstract void populateItems( Item item, T obj );
+    public abstract void populateItems( Item item, ITEM obj );
 
     public abstract List<String> getTableHeaderList();
 }

@@ -12,11 +12,17 @@
  */
 package org.qi4j.chronos.ui.workentry;
 
-import org.qi4j.chronos.model.composites.WorkEntryComposite;
+import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.chronos.service.WorkEntryService;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class WorkEntryEditPage extends WorkEntryAddEditPage
 {
+    private final static Logger LOGGER = LoggerFactory.getLogger( WorkEntryEditPage.class );
+
     public WorkEntryEditPage( BasePage basePage )
     {
         super( basePage );
@@ -31,11 +37,26 @@ public abstract class WorkEntryEditPage extends WorkEntryAddEditPage
 
     public void onSubmitting()
     {
-        WorkEntryComposite workEntry = getWorkEntry();
+        WorkEntryEntityComposite workEntry = getWorkEntry();
 
-        assignFieldValueToWorkEntry( workEntry );
+        try
+        {
+            assignFieldValueToWorkEntry( workEntry );
 
-        //TODO
+            WorkEntryService service = ChronosWebApp.getServices().getWorkEntryService();
+
+            service.update( workEntry );
+
+            logInfoMsg( "Work Entry is updated successfully." );
+
+            divertToGoBackPage();
+        }
+        catch( Exception err )
+        {
+            logErrorMsg( err.getMessage() );
+
+            LOGGER.error( err.getMessage(), err );
+        }
     }
 
     public String getSubmitButtonValue()
@@ -48,5 +69,5 @@ public abstract class WorkEntryEditPage extends WorkEntryAddEditPage
         return "Edit Work Entry";
     }
 
-    public abstract WorkEntryComposite getWorkEntry();
+    public abstract WorkEntryEntityComposite getWorkEntry();
 }

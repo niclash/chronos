@@ -14,8 +14,9 @@
 package org.qi4j.chronos.model.composites;
 
 import org.qi4j.api.Composite;
+import org.qi4j.api.persistence.EntityComposite;
 import org.qi4j.chronos.model.WorkEntry;
 
-public interface WorkEntryComposite extends WorkEntry, Composite
+public interface WorkEntryEntityComposite extends WorkEntry, EntityComposite
 {
 }

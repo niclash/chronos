@@ -26,7 +26,7 @@ import org.qi4j.chronos.ui.common.action.ActionAdapter;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.library.general.model.Money;
 
-public abstract class StaffTable extends ActionTable<StaffEntityComposite>
+public abstract class StaffTable extends ActionTable<StaffEntityComposite, String>
 {
     private StaffDataProvider dataProvider;
 
@@ -56,7 +56,7 @@ public abstract class StaffTable extends ActionTable<StaffEntityComposite>
         } );
     }
 
-    public AbstractSortableDataProvider<StaffEntityComposite> getDetachableDataProvider()
+    public AbstractSortableDataProvider<StaffEntityComposite, String> getDetachableDataProvider()
     {
         if( dataProvider == null )
         {

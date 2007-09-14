@@ -23,7 +23,7 @@ import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionAdapter;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 
-public class ProjectRoleTable extends ActionTable<ProjectRoleEntityComposite>
+public class ProjectRoleTable extends ActionTable<ProjectRoleEntityComposite, String>
 {
     private ProjectRoleDataProvider roleDataProvider;
 
@@ -45,7 +45,7 @@ public class ProjectRoleTable extends ActionTable<ProjectRoleEntityComposite>
         } );
     }
 
-    public AbstractSortableDataProvider<ProjectRoleEntityComposite> getDetachableDataProvider()
+    public AbstractSortableDataProvider<ProjectRoleEntityComposite, String> getDetachableDataProvider()
     {
         if( roleDataProvider == null )
         {

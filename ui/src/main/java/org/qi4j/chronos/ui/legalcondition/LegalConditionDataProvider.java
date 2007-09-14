@@ -16,7 +16,7 @@ import java.util.List;
 import org.qi4j.chronos.model.LegalCondition;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
-public class LegalConditionDataProvider extends AbstractSortableDataProvider<LegalCondition>
+public class LegalConditionDataProvider extends AbstractSortableDataProvider<LegalCondition, String>
 {
     //TODO bp. FIXME. Remove static and use non detachable model.
     private static List<LegalCondition> list;
@@ -49,7 +49,7 @@ public class LegalConditionDataProvider extends AbstractSortableDataProvider<Leg
         return list.subList( first, first + count );
     }
 
-    public int size()
+    public int getSize()
     {
         return list.size();
     }

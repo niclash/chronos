@@ -12,20 +12,21 @@
  */
 package org.qi4j.chronos.ui.common.action;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
-public abstract class SubSetSortableDataProvider<T> extends AbstractSortableDataProvider<T>
+public abstract class SubSetSortableDataProvider<ITEM, ID extends Serializable> extends AbstractSortableDataProvider<ITEM, ID>
 {
-    private List<String> idList;
+    private List<ID> idList;
 
-    public SubSetSortableDataProvider( List<String> idList )
+    public SubSetSortableDataProvider( List<ID> idList )
     {
         this.idList = idList;
     }
 
-    public List<T> dataList( int first, int count )
+    public List<ITEM> dataList( int first, int count )
     {
         int toIndex = first + count;
 
@@ -35,13 +36,13 @@ public abstract class SubSetSortableDataProvider<T> extends AbstractSortableData
             toIndex = idList.size();
         }
 
-        List<String> idList = this.idList.subList( first, toIndex );
+        List<ID> idList = this.idList.subList( first, toIndex );
 
-        List<T> resultList = new ArrayList<T>();
+        List<ITEM> resultList = new ArrayList<ITEM>();
 
-        for( String id : idList )
+        for( ID id : idList )
         {
-            T t = load( id );
+            ITEM t = load( id );
 
             resultList.add( t );
         }
@@ -49,7 +50,7 @@ public abstract class SubSetSortableDataProvider<T> extends AbstractSortableData
         return resultList;
     }
 
-    public int size()
+    public int getSize()
     {
         return idList.size();
     }

@@ -20,7 +20,7 @@ import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
-public abstract class ContactPersonDataProvider extends AbstractSortableDataProvider<ContactPersonEntityComposite>
+public abstract class ContactPersonDataProvider extends AbstractSortableDataProvider<ContactPersonEntityComposite, String>
 {
     public String getId( ContactPersonEntityComposite contactPersonEntityComposite )
     {
@@ -42,7 +42,7 @@ public abstract class ContactPersonDataProvider extends AbstractSortableDataProv
         return getContactPersonService().findAll( getProjectOwner(), new FindFilter( first, count ) );
     }
 
-    public int size()
+    public int getSize()
     {
         return getContactPersonService().countAll( getProjectOwner() );
     }

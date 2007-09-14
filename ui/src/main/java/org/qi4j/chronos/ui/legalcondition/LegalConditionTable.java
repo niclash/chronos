@@ -21,7 +21,7 @@ import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 
-public class LegalConditionTable extends ActionTable<LegalCondition>
+public class LegalConditionTable extends ActionTable<LegalCondition, String>
 {
     private LegalConditionDataProvider provider;
 
@@ -35,7 +35,7 @@ public class LegalConditionTable extends ActionTable<LegalCondition>
         this.list = list;
     }
 
-    public AbstractSortableDataProvider<LegalCondition> getDetachableDataProvider()
+    public AbstractSortableDataProvider<LegalCondition, String> getDetachableDataProvider()
     {
         if( provider == null )
         {

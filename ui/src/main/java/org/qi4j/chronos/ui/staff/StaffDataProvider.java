@@ -20,7 +20,7 @@ import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
-public abstract class StaffDataProvider extends AbstractSortableDataProvider<StaffEntityComposite>
+public abstract class StaffDataProvider extends AbstractSortableDataProvider<StaffEntityComposite, String>
 {
     public String getId( StaffEntityComposite staffEntityComposite )
     {
@@ -42,7 +42,7 @@ public abstract class StaffDataProvider extends AbstractSortableDataProvider<Sta
         return getStaffService().findAll( getAccount(), new FindFilter( first, count ) );
     }
 
-    public int size()
+    public int getSize()
     {
         return getStaffService().countAll( getAccount() );
     }

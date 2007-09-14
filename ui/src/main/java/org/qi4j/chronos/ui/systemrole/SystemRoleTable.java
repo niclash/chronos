@@ -20,7 +20,7 @@ import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 
-public class SystemRoleTable extends ActionTable<SystemRoleEntityComposite>
+public class SystemRoleTable extends ActionTable<SystemRoleEntityComposite, String>
 {
     private StaffSystemRoleDataProvider dataProvider;
 
@@ -29,7 +29,7 @@ public class SystemRoleTable extends ActionTable<SystemRoleEntityComposite>
         super( id );
     }
 
-    public AbstractSortableDataProvider<SystemRoleEntityComposite> getDetachableDataProvider()
+    public AbstractSortableDataProvider<SystemRoleEntityComposite, String> getDetachableDataProvider()
     {
         if( dataProvider == null )
         {

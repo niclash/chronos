@@ -19,15 +19,15 @@ import org.qi4j.chronos.ui.base.AddEditBasePage;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.MaxLengthTextArea;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
-import org.qi4j.chronos.ui.common.SimpleDateField;
+import org.qi4j.chronos.ui.common.SimpleDateTimeField;
 
 public abstract class WorkEntryAddEditPage extends AddEditBasePage
 {
     private MaxLengthTextField titleField;
     private MaxLengthTextArea descriptionTextArea;
 
-    private SimpleDateField fromDateField;
-    private SimpleDateField toDateField;
+    private SimpleDateTimeField fromDateTimeField;
+    private SimpleDateTimeField toDateTimeField;
 
     public WorkEntryAddEditPage( BasePage basePage )
     {
@@ -39,13 +39,13 @@ public abstract class WorkEntryAddEditPage extends AddEditBasePage
         titleField = new MaxLengthTextField( "titleField", "Title", WorkEntry.TITLE_LEN );
         descriptionTextArea = new MaxLengthTextArea( "descriptionTextArea", "Description", WorkEntry.DESCRIPTION_LEN );
 
-        fromDateField = new SimpleDateField( "fromDateField" );
-        toDateField = new SimpleDateField( "toDateField" );
+        fromDateTimeField = new SimpleDateTimeField( "fromDateTimeField" );
+        toDateTimeField = new SimpleDateTimeField( "toDateTimeField" );
 
         form.add( titleField );
         form.add( descriptionTextArea );
-        form.add( fromDateField );
-        form.add( toDateField );
+        form.add( fromDateTimeField );
+        form.add( toDateTimeField );
     }
 
     public void handleSubmit()
@@ -74,16 +74,16 @@ public abstract class WorkEntryAddEditPage extends AddEditBasePage
     {
         workEntry.setTitle( titleField.getText() );
         workEntry.setDescription( descriptionTextArea.getText() );
-        workEntry.setStartTime( fromDateField.getDate() );
-        workEntry.setEndTime( toDateField.getDate() );
+        workEntry.setStartTime( fromDateTimeField.getDate() );
+        workEntry.setEndTime( toDateTimeField.getDate() );
     }
 
     protected void assignWorkEntryToFieldValue( WorkEntry workEntry )
     {
         titleField.setText( workEntry.getTitle() );
         descriptionTextArea.setText( workEntry.getDescription() );
-        fromDateField.setDate( workEntry.getStartTime() );
-        toDateField.setDate( workEntry.getEndTime() );
+        fromDateTimeField.setDate( workEntry.getStartTime() );
+        toDateTimeField.setDate( workEntry.getEndTime() );
     }
 
     public abstract void onSubmitting();

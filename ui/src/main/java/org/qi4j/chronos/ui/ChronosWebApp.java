@@ -21,7 +21,6 @@ import org.qi4j.api.CompositeBuilder;
 import org.qi4j.api.CompositeBuilderFactory;
 import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.service.composites.ServicesComposite;
-import org.qi4j.chronos.service.mocks.MockServicesMixin;
 import org.qi4j.chronos.ui.admin.AdminHomePage;
 import org.qi4j.chronos.ui.contactperson.ContactPersonHomePage;
 import org.qi4j.chronos.ui.login.LoginPage;
@@ -41,7 +40,7 @@ public class ChronosWebApp extends AuthenticatedWebApplication
         CompositeBuilder<ServicesComposite> serviceBuilder = factory.newCompositeBuilder( ServicesComposite.class );
 
         //TODO bp. use mock services for now.
-        serviceBuilder.decorate( new MockServicesMixin( factory ) );
+//        serviceBuilder.decorate( new MockServicesMixin( factory ) );
 
         services = serviceBuilder.newInstance();
     }

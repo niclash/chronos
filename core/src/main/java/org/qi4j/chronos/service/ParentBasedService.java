@@ -1,6 +1,5 @@
 /*
  * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
- * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -11,33 +10,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.mixins;
+package org.qi4j.chronos.service;
 
-import java.util.Date;
-import org.qi4j.chronos.model.Comment;
+import java.util.List;
+import org.qi4j.api.persistence.EntityComposite;
+import org.qi4j.api.persistence.Identity;
 
-public final class CommentMixin implements Comment
+public interface ParentBasedService<ITEM extends Identity, PARENT extends EntityComposite>
 {
-    private String comment;
-    private Date createdDate;
+    ITEM get( String id );
 
-    public Date getCreatedDate()
-    {
-        return createdDate;
-    }
+    void update( ITEM t );
 
-    public void setCreatedDate( Date date )
-    {
-        this.createdDate = date;
-    }
+    List<ITEM> findAll( PARENT parent, FindFilter findFilter );
 
-    public String getComment()
-    {
-        return comment;
-    }
+    List<ITEM> findAll( PARENT parent );
 
-    public void setComment( String comment )
-    {
-        this.comment = comment;
-    }
+    List<ITEM> findAll( FindFilter findFilter );
+
+    List<ITEM> findAll();
+
+    int countAll();
+
+    int countAll( PARENT parent );
+
+    ITEM newInstance( Class<? extends EntityComposite> clazz );
 }

@@ -42,6 +42,7 @@ import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.service.SystemRoleService;
 import org.qi4j.chronos.service.UserService;
+import org.qi4j.chronos.service.WorkEntryService;
 import org.qi4j.chronos.service.composites.AccountServiceComposite;
 import org.qi4j.chronos.service.composites.AdminServiceComposite;
 import org.qi4j.chronos.service.composites.ContactPersonServiceComposite;
@@ -53,6 +54,7 @@ import org.qi4j.chronos.service.composites.RoleServiceComposite;
 import org.qi4j.chronos.service.composites.StaffServiceComposite;
 import org.qi4j.chronos.service.composites.SystemRoleServiceComposite;
 import org.qi4j.chronos.service.composites.UserServiceComposite;
+import org.qi4j.chronos.service.composites.WorkEntryServiceComposite;
 import org.qi4j.library.general.model.GenderType;
 import org.qi4j.library.general.model.composites.CityComposite;
 import org.qi4j.library.general.model.composites.CountryComposite;
@@ -73,6 +75,7 @@ public class MockServicesMixin implements Services
     private ContactPersonService contactPersonService;
     private PriceRateScheduleService priceRateScheduleService;
     private ProjectAssigneeService projectAssigneeService;
+    private WorkEntryService workEntryService;
 
     public MockServicesMixin( CompositeBuilderFactory factory )
     {
@@ -95,7 +98,18 @@ public class MockServicesMixin implements Services
 
         projectAssigneeService = initProjectAssigneeService( projectService );
 
+        workEntryService = initWorkEntryService( projectAssigneeService );
+
         initDummyData();
+    }
+
+    private WorkEntryService initWorkEntryService( ProjectAssigneeService projectAssigneeService )
+    {
+        CompositeBuilder<WorkEntryServiceComposite> compositeBuilder = factory.newCompositeBuilder( WorkEntryServiceComposite.class );
+
+        compositeBuilder.decorate( new MockWorkEntryServiceMixin( factory, projectAssigneeService ) );
+
+        return compositeBuilder.newInstance();
     }
 
     private ProjectAssigneeService initProjectAssigneeService( ProjectService projectService )
@@ -169,7 +183,6 @@ public class MockServicesMixin implements Services
 
         MockEntityServiceMixin serviceMixin = new MockEntityServiceMixin( factory );
 
-        compositeBuilder.decorate( serviceMixin );
         compositeBuilder.decorate( new MockSystemRoleServiceMiscMixin( serviceMixin ) );
 
         return compositeBuilder.newInstance();
@@ -459,6 +472,11 @@ public class MockServicesMixin implements Services
     public ProjectAssigneeService getProjectAssigneeService()
     {
         return projectAssigneeService;
+    }
+
+    public WorkEntryService getWorkEntryService()
+    {
+        return workEntryService;
     }
 
     @SuppressWarnings( { "unchecked" } )

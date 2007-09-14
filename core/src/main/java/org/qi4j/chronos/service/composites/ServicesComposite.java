@@ -13,7 +13,9 @@
 package org.qi4j.chronos.service.composites;
 
 import org.qi4j.api.Composite;
+import org.qi4j.api.annotation.ImplementedBy;
 import org.qi4j.chronos.service.Services;
+import org.qi4j.chronos.service.mocks.MockServicesMixin;
 
 public interface ServicesComposite extends Services, Composite
 {

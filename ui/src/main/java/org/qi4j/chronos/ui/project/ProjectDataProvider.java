@@ -20,7 +20,7 @@ import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
-public abstract class ProjectDataProvider extends AbstractSortableDataProvider<ProjectEntityComposite>
+public abstract class ProjectDataProvider extends AbstractSortableDataProvider<ProjectEntityComposite, String>
 {
     public ProjectDataProvider()
     {
@@ -52,7 +52,7 @@ public abstract class ProjectDataProvider extends AbstractSortableDataProvider<P
         return getProjectService().findAll( getAccount(), new FindFilter( first, count ) );
     }
 
-    public int size()
+    public int getSize()
     {
         return getProjectService().countAll( getAccount() );
     }

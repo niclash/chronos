@@ -21,7 +21,7 @@ import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 
-public abstract class ProjectTable extends ActionTable<ProjectEntityComposite>
+public abstract class ProjectTable extends ActionTable<ProjectEntityComposite, String>
 {
     private ProjectDataProvider provider;
 
@@ -30,7 +30,7 @@ public abstract class ProjectTable extends ActionTable<ProjectEntityComposite>
         super( id );
     }
 
-    public AbstractSortableDataProvider<ProjectEntityComposite> getDetachableDataProvider()
+    public AbstractSortableDataProvider<ProjectEntityComposite, String> getDetachableDataProvider()
     {
         if( provider == null )
         {

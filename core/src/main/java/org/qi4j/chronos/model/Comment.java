@@ -13,18 +13,10 @@
  */
 package org.qi4j.chronos.model;
 
-import java.util.Date;
-import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.chronos.model.mixins.CommentMixin;
+import org.qi4j.chronos.model.associations.HasCreatedDate;
+import org.qi4j.chronos.model.associations.HasText;
 
-@ImplementedBy( CommentMixin.class )
-public interface Comment
+public interface Comment extends HasCreatedDate, HasText
 {
-    Date getCreatedDate();
 
-    void setCreatedDate( Date date );
-
-    String getComment();
-
-    void setComment( String comment );
 }

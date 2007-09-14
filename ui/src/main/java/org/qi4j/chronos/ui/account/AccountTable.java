@@ -27,7 +27,7 @@ import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionAdapter;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 
-public class AccountTable extends ActionTable<AccountEntityComposite>
+public class AccountTable extends ActionTable<AccountEntityComposite, String>
 {
     private SimpleDataProvider<AccountEntityComposite> dataProvider;
 
@@ -65,7 +65,7 @@ public class AccountTable extends ActionTable<AccountEntityComposite>
         } );
     }
 
-    public AbstractSortableDataProvider<AccountEntityComposite> getDetachableDataProvider()
+    public AbstractSortableDataProvider<AccountEntityComposite, String> getDetachableDataProvider()
     {
         if( dataProvider == null )
         {

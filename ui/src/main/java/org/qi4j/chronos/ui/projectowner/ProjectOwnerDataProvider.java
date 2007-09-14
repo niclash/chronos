@@ -19,7 +19,7 @@ import org.qi4j.chronos.service.ProjectOwnerService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
-public abstract class ProjectOwnerDataProvider extends AbstractSortableDataProvider<ProjectOwnerEntityComposite>
+public abstract class ProjectOwnerDataProvider extends AbstractSortableDataProvider<ProjectOwnerEntityComposite, String>
 {
     public String getId( ProjectOwnerEntityComposite projectOwnerEntityComposite )
     {
@@ -43,7 +43,7 @@ public abstract class ProjectOwnerDataProvider extends AbstractSortableDataProvi
 
     public abstract AccountEntityComposite getAccount();
 
-    public int size()
+    public int getSize()
     {
         return getProjectOwnerService().countAll( getAccount() );
     }

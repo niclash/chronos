@@ -18,7 +18,7 @@ import org.qi4j.api.persistence.Identity;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.service.ProjectService;
 
-public abstract class MockProjectBasedServiceMixin<ITEM extends Identity> extends MockBasedServiceMixin<ITEM, ProjectEntityComposite>
+public abstract class MockProjectBasedServiceMixin<ITEM extends Identity> extends MockParentBasedServiceMixin<ITEM, ProjectEntityComposite>
 {
     private ProjectService projectService;
 

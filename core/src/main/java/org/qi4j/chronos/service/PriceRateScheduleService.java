@@ -13,19 +13,18 @@
 package org.qi4j.chronos.service;
 
 import java.util.List;
-import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 
 public interface PriceRateScheduleService
 {
-    List<PriceRateSchedule> findAll( HasPriceRateSchedules hasPriceRateSchedules, FindFilter findFilter );
+    List<PriceRateScheduleComposite> findAll( HasPriceRateSchedules hasPriceRateSchedules, FindFilter findFilter );
 
-    List<PriceRateSchedule> findAll( HasPriceRateSchedules hasPriceRateSchedules );
+    List<PriceRateScheduleComposite> findAll( HasPriceRateSchedules hasPriceRateSchedules );
 
     int countAll( HasPriceRateSchedules hasPriceRateSchedules );
 
     PriceRateScheduleComposite get( HasPriceRateSchedules hasPriceRateSchedules, String priceRateName );
 
-    void update( PriceRateSchedule priceRateSchedule );
+    void update( PriceRateScheduleComposite priceRateSchedule );
 }

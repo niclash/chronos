@@ -1,5 +1,4 @@
 /*
- * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,16 +10,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model;
+package org.qi4j.chronos.model.mixins;
 
-import org.qi4j.chronos.model.associations.HasComments;
-import org.qi4j.chronos.model.associations.HasCreatedDate;
-import org.qi4j.library.general.model.Description;
+import org.qi4j.chronos.model.associations.HasText;
 
-public interface WorkEntry extends Title, Description, TimeRange, HasComments, HasCreatedDate
+public class HasTextMixin implements HasText
 {
-    public final static int TITLE_LEN = 120;
+    private String text;
 
-    public final static int DESCRIPTION_LEN = 1000;
+    public void setText( String text )
+    {
+        this.text = text;
+    }
 
+    public String getText()
+    {
+        return text;
+    }
 }

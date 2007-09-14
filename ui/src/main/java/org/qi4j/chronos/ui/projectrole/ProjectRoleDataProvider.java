@@ -19,7 +19,7 @@ import org.qi4j.chronos.service.ProjectRoleService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
-public class ProjectRoleDataProvider extends AbstractSortableDataProvider<ProjectRoleEntityComposite>
+public class ProjectRoleDataProvider extends AbstractSortableDataProvider<ProjectRoleEntityComposite, String>
 {
     public String getId( ProjectRoleEntityComposite projectRoleEntityComposite )
     {
@@ -41,7 +41,7 @@ public class ProjectRoleDataProvider extends AbstractSortableDataProvider<Projec
         return getRoleService().find( new FindFilter( first, count ) );
     }
 
-    public int size()
+    public int getSize()
     {
         return getRoleService().countAll();
     }

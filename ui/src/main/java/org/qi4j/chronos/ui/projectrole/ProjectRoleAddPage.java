@@ -46,6 +46,7 @@ public class ProjectRoleAddPage extends ProjectRoleAddEditPage
         }
         catch( Exception err )
         {
+            logErrorMsg( err.getMessage() );
             LOGGER.error( err.getMessage(), err );
         }
     }

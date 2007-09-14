@@ -12,7 +12,6 @@
  */
 package org.qi4j.chronos.ui.pricerate;
 
-import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.service.PriceRateScheduleService;
@@ -49,7 +48,7 @@ public abstract class PriceRateScheduleEditPage<T extends HasPriceRateSchedules>
 
     public void onSubmitting()
     {
-        PriceRateSchedule priceRateSchedule = getPriceRateSchedule();
+        PriceRateScheduleComposite priceRateSchedule = getPriceRateSchedule();
 
         try
         {

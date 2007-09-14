@@ -12,27 +12,28 @@
  */
 package org.qi4j.chronos.ui.common;
 
+import java.io.Serializable;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class AbstractDetachableModel<T> extends LoadableDetachableModel
+public abstract class AbstractDetachableModel<ITEM, ID extends Serializable> extends LoadableDetachableModel
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( AbstractDetachableModel.class );
 
-    private String id;
-    private transient T identity;
+    private ID id;
+    private transient ITEM identity;
 
-    public AbstractDetachableModel( T identifiable )
+    public AbstractDetachableModel( ITEM item )
     {
-        id = getId( identifiable );
+        id = getId( item );
 
         if( id == null )
         {
             throw new IllegalArgumentException( "Id must not be null!" );
         }
 
-        this.identity = identifiable;
+        this.identity = item;
     }
 
     @Override
@@ -63,8 +64,8 @@ public abstract class AbstractDetachableModel<T> extends LoadableDetachableModel
         return identity;
     }
 
-    protected abstract T load( String id );
+    protected abstract ITEM load( ID id );
 
-    protected abstract String getId( T t );
+    protected abstract ID getId( ITEM t );
 }
 

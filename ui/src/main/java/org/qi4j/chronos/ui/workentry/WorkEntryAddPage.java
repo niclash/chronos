@@ -12,8 +12,9 @@
  */
 package org.qi4j.chronos.ui.workentry;
 
+import java.util.Date;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
-import org.qi4j.chronos.model.composites.WorkEntryComposite;
+import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.service.ProjectAssigneeService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
@@ -31,15 +32,17 @@ public abstract class WorkEntryAddPage extends WorkEntryAddEditPage
 
     public void onSubmitting()
     {
-        WorkEntryComposite entryComposite = ChronosWebApp.newInstance( WorkEntryComposite.class );
+        WorkEntryEntityComposite workEntry = ChronosWebApp.newInstance( WorkEntryEntityComposite.class );
 
         try
         {
-            assignFieldValueToWorkEntry( entryComposite );
+            workEntry.setCreatedDate( new Date() );
+
+            assignFieldValueToWorkEntry( workEntry );
 
             ProjectAssigneeEntityComposite projectAssignee = getProjectAssignee();
 
-            projectAssignee.addWorkEntry( entryComposite );
+            projectAssignee.addWorkEntry( workEntry );
 
             ProjectAssigneeService service = ChronosWebApp.getServices().getProjectAssigneeService();
 

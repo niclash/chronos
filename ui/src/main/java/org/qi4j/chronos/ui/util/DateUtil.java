@@ -19,14 +19,21 @@ public class DateUtil
 {
     public static final String DATE_PATTERN = "dd MMM yyyy";
 
+    public static final String DATE_TIME_PATTERN = "dd MMM yyyy HH:mm:ss";
+
     public static String format( String pattern, Date date )
     {
         return new SimpleDateFormat( pattern ).format( date );
     }
 
-    public static String format( Date date )
+    public static String formatDate( Date date )
     {
         return new SimpleDateFormat( DATE_PATTERN ).format( date );
+    }
+
+    public static String formatDateTime( Date date )
+    {
+        return new SimpleDateFormat( DATE_TIME_PATTERN ).format( date );
     }
 
 }

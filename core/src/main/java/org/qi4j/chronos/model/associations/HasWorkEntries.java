@@ -15,15 +15,15 @@ package org.qi4j.chronos.model.associations;
 
 import java.util.Iterator;
 import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.chronos.model.WorkEntry;
+import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.model.mixins.HasWorkEntriesMixin;
 
 @ImplementedBy( HasWorkEntriesMixin.class )
 public interface HasWorkEntries
 {
-    void addWorkEntry( WorkEntry workEntry );
+    void addWorkEntry( WorkEntryEntityComposite workEntry );
 
-    void removeWorkEntry( WorkEntry workEntry );
+    void removeWorkEntry( WorkEntryEntityComposite workEntry );
 
-    Iterator<WorkEntry> workEntryIterator();
+    Iterator<WorkEntryEntityComposite> workEntryIterator();
 }

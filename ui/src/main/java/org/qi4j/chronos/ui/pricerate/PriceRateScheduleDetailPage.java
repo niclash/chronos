@@ -60,8 +60,8 @@ public abstract class PriceRateScheduleDetailPage extends LeftMenuNavPage
             PriceRateSchedule priceRateSchedule = getPriceRateSchedule();
 
             nameField = new SimpleTextField( "nameField", priceRateSchedule.getName(), true );
-            fromDateField = new SimpleTextField( "fromDateField", DateUtil.format( "dd MMM yyyy", priceRateSchedule.getStartTime() ), true );
-            toDateField = new SimpleTextField( "toDateField", DateUtil.format( "dd MMM yyyy", priceRateSchedule.getEndTime() ), true );
+            fromDateField = new SimpleTextField( "fromDateField", DateUtil.formatDate( priceRateSchedule.getStartTime() ), true );
+            toDateField = new SimpleTextField( "toDateField", DateUtil.formatDate( priceRateSchedule.getEndTime() ), true );
 
             submitButton = new Button( "submitButton", new Model( "Return" ) );
 

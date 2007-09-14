@@ -16,32 +16,32 @@ package org.qi4j.chronos.model.mixins;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.qi4j.chronos.model.WorkEntry;
 import org.qi4j.chronos.model.associations.HasWorkEntries;
+import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 
 /**
  * Default mixin implementation for {@link org.qi4j.chronos.model.associations.HasWorkEntries}
  */
 public final class HasWorkEntriesMixin implements HasWorkEntries
 {
-    private final List<WorkEntry> list;
+    private final List<WorkEntryEntityComposite> list;
 
     public HasWorkEntriesMixin()
     {
-        list = new ArrayList<WorkEntry>();
+        list = new ArrayList<WorkEntryEntityComposite>();
     }
 
-    public void addWorkEntry( WorkEntry workEntry )
+    public void addWorkEntry( WorkEntryEntityComposite workEntry )
     {
         list.add( workEntry );
     }
 
-    public void removeWorkEntry( WorkEntry workEntry )
+    public void removeWorkEntry( WorkEntryEntityComposite workEntry )
     {
         list.remove( workEntry );
     }
 
-    public Iterator<WorkEntry> workEntryIterator()
+    public Iterator<WorkEntryEntityComposite> workEntryIterator()
     {
         return list.iterator();
     }

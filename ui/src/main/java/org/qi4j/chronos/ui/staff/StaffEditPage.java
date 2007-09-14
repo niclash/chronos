@@ -83,8 +83,8 @@ public abstract class StaffEditPage extends StaffAddEditPage
     {
         StaffEntityComposite staff = getStaff();
 
-        //bp. system role is valueObject, let delete all assigned system role
-        //before assigning to new system roles.
+        //TODO bp. system role is valueObject, let delete all assigned system role
+        //TODO before assigning to new system roles. Seeking for correct solution.
         staff.removeAllSystemRole();
 
         assignFieldValueToStaff( staff );

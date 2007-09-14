@@ -22,8 +22,8 @@ public class WorkEntryCompositeTest extends AbstractTest
 
     public void testWorkEntryTitleNotNull()
     {
-        CompositeBuilder<WorkEntryComposite> builder = builderFactory.newCompositeBuilder( WorkEntryComposite.class );
-        WorkEntryComposite workEntryComposite = builder.newInstance();
+        CompositeBuilder<WorkEntryEntityComposite> builder = builderFactory.newCompositeBuilder( WorkEntryEntityComposite.class );
+        WorkEntryEntityComposite workEntryComposite = builder.newInstance();
 
         try
         {
@@ -41,7 +41,7 @@ public class WorkEntryCompositeTest extends AbstractTest
 
     public void testWorkEntryDescNotNull()
     {
-        WorkEntryComposite workEntryComposite = builderFactory.newCompositeBuilder( WorkEntryComposite.class ).newInstance();
+        WorkEntryEntityComposite workEntryComposite = builderFactory.newCompositeBuilder( WorkEntryEntityComposite.class ).newInstance();
 
         try
         {
@@ -60,8 +60,8 @@ public class WorkEntryCompositeTest extends AbstractTest
 
     public void testWorkEntryTimeRange()
     {
-        CompositeBuilder<WorkEntryComposite> builder = builderFactory.newCompositeBuilder( WorkEntryComposite.class );
-        WorkEntryComposite workEntryComposite = builder.newInstance();
+        CompositeBuilder<WorkEntryEntityComposite> builder = builderFactory.newCompositeBuilder( WorkEntryEntityComposite.class );
+        WorkEntryEntityComposite workEntryComposite = builder.newInstance();
 
         try
         {

@@ -12,14 +12,15 @@
  */
 package org.qi4j.chronos.ui.common;
 
+import java.io.Serializable;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvider;
 import org.apache.wicket.model.IModel;
 
-public abstract class AbstractSortableDataProvider<T> extends SortableDataProvider
+public abstract class AbstractSortableDataProvider<ITEM, ID extends Serializable> extends SortableDataProvider
 {
-    public final Iterator<T> iterator( int first, int count )
+    public final Iterator<ITEM> iterator( int first, int count )
     {
         return dataList( first, count ).iterator();
     }
@@ -27,24 +28,32 @@ public abstract class AbstractSortableDataProvider<T> extends SortableDataProvid
     @SuppressWarnings( { "unchecked" } )
     public IModel model( Object object )
     {
-        return new AbstractDetachableModel<T>( (T) object )
+        return new AbstractDetachableModel<ITEM, ID>( (ITEM) object )
         {
             @Override
-            protected T load( String id )
+            protected ITEM load( ID id )
             {
                 return AbstractSortableDataProvider.this.load( id );
             }
 
-            protected String getId( T o )
+            protected ID getId( ITEM o )
             {
                 return AbstractSortableDataProvider.this.getId( o );
             }
         };
     }
 
-    public abstract String getId( T t );
+    //MarkupContainer has a final size() method  
+    public final int size()
+    {
+        return getSize();
+    }
 
-    public abstract T load( String id );
+    public abstract int getSize();
 
-    public abstract List<T> dataList( int first, int count );
+    public abstract ID getId( ITEM t );
+
+    public abstract ITEM load( ID id );
+
+    public abstract List<ITEM> dataList( int first, int count );
 }

@@ -26,7 +26,7 @@ import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.util.DateUtil;
 
-public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> extends ActionTable<PriceRateSchedule>
+public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> extends ActionTable<PriceRateScheduleComposite, String>
 {
     private PriceRateScheduleDataProvider dataProvider;
 
@@ -35,13 +35,13 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
         super( id );
     }
 
-    public AbstractSortableDataProvider<PriceRateSchedule> getDetachableDataProvider()
+    public AbstractSortableDataProvider<PriceRateScheduleComposite, String> getDetachableDataProvider()
     {
         if( dataProvider == null )
         {
-            dataProvider = new PriceRateScheduleDataProvider()
+            dataProvider = new PriceRateScheduleDataProvider<T>()
             {
-                public HasPriceRateSchedules getHasPriceRateSchedules()
+                public T getHasPriceRateSchedules()
                 {
                     return PriceRateScheduleTable.this.getHasPriceRateSchedules();
                 }
@@ -51,7 +51,7 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
         return dataProvider;
     }
 
-    public void populateItems( Item item, PriceRateSchedule obj )
+    public void populateItems( Item item, PriceRateScheduleComposite obj )
     {
         final String priceRateScheduleName = obj.getName();
 

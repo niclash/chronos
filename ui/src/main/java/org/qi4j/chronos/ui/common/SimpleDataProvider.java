@@ -17,27 +17,27 @@ import org.qi4j.api.persistence.Identity;
 import org.qi4j.chronos.service.EntityService;
 import org.qi4j.chronos.service.FindFilter;
 
-public abstract class SimpleDataProvider<T extends Identity> extends AbstractSortableDataProvider<T>
+public abstract class SimpleDataProvider<ITEM extends Identity> extends AbstractSortableDataProvider<ITEM, String>
 {
-    public String getId( T t )
+    public String getId( ITEM t )
     {
         return t.getIdentity();
     }
 
-    public T load( String id )
+    public ITEM load( String id )
     {
         return getEntityService().get( id );
     }
 
-    public List<T> dataList( int first, int count )
+    public List<ITEM> dataList( int first, int count )
     {
         return getEntityService().find( new FindFilter( first, count ) );
     }
 
-    public int size()
+    public int getSize()
     {
         return getEntityService().countAll();
     }
 
-    public abstract EntityService<T> getEntityService();
+    public abstract EntityService<ITEM> getEntityService();
 }

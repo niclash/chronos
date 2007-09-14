@@ -12,25 +12,21 @@
  */
 package org.qi4j.chronos.service.mocks;
 
-import java.util.List;
+import java.util.Iterator;
 import org.qi4j.api.CompositeBuilderFactory;
-import org.qi4j.api.persistence.Identity;
-import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
-import org.qi4j.chronos.service.ProjectOwnerService;
+import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
+import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.chronos.service.ProjectAssigneeService;
 
-public abstract class MockProjectOwnerBasedServiceMixin<ITEM extends Identity> extends MockParentBasedServiceMixin<ITEM, ProjectOwnerEntityComposite>
+public class MockWorkEntryServiceMixin extends MockProjectAssigneeBasedServiceMixin<WorkEntryEntityComposite>
 {
-    private ProjectOwnerService projectOwnerService;
-
-    public MockProjectOwnerBasedServiceMixin( CompositeBuilderFactory factory, ProjectOwnerService projectOwnerService )
+    public MockWorkEntryServiceMixin( CompositeBuilderFactory factory, ProjectAssigneeService projectAssigneeService )
     {
-        super( factory );
-
-        this.projectOwnerService = projectOwnerService;
+        super( factory, projectAssigneeService );
     }
 
-    protected List<ProjectOwnerEntityComposite> getParentList()
+    protected Iterator<WorkEntryEntityComposite> getItems( ProjectAssigneeEntityComposite projectAssigneeEntityComposite )
     {
-        return projectOwnerService.findAll();
+        return projectAssigneeEntityComposite.workEntryIterator();
     }
 }

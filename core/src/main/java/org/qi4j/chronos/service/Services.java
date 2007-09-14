@@ -12,6 +12,10 @@
  */
 package org.qi4j.chronos.service;
 
+import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.chronos.service.mocks.MockServicesMixin;
+
+@ImplementedBy( MockServicesMixin.class )
 public interface Services
 {
     AccountService getAccountService();
@@ -35,4 +39,7 @@ public interface Services
     PriceRateScheduleService getPriceRateScheduleService();
 
     ProjectAssigneeService getProjectAssigneeService();
+
+    WorkEntryService getWorkEntryService();
 }
+

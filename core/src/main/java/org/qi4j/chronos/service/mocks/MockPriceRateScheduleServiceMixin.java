@@ -15,7 +15,6 @@ package org.qi4j.chronos.service.mocks;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.service.FindFilter;
@@ -23,16 +22,16 @@ import org.qi4j.chronos.service.PriceRateScheduleService;
 
 public class MockPriceRateScheduleServiceMixin implements PriceRateScheduleService
 {
-    public List<PriceRateSchedule> findAll( HasPriceRateSchedules hasPriceRateSchedules, FindFilter findFilter )
+    public List<PriceRateScheduleComposite> findAll( HasPriceRateSchedules hasPriceRateSchedules, FindFilter findFilter )
     {
         return findAll( hasPriceRateSchedules ).subList( findFilter.getFirst(), findFilter.getFirst() + findFilter.getCount() );
     }
 
-    public List<PriceRateSchedule> findAll( HasPriceRateSchedules hasPriceRateSchedules )
+    public List<PriceRateScheduleComposite> findAll( HasPriceRateSchedules hasPriceRateSchedules )
     {
-        final List<PriceRateSchedule> list = new ArrayList<PriceRateSchedule>();
+        final List<PriceRateScheduleComposite> list = new ArrayList<PriceRateScheduleComposite>();
 
-        loopPriceRateSchedule( hasPriceRateSchedules, new LoopCallBack()
+        loopPriceRateSchedule( hasPriceRateSchedules, new LoopCallBack<PriceRateScheduleComposite>()
         {
             public boolean callBack( PriceRateScheduleComposite priceRateSchedule )
             {
@@ -60,11 +59,6 @@ public class MockPriceRateScheduleServiceMixin implements PriceRateScheduleServi
         }
     }
 
-    private interface LoopCallBack
-    {
-        boolean callBack( PriceRateScheduleComposite priceRateSchedule );
-    }
-
     public int countAll( HasPriceRateSchedules hasPriceRateSchedules )
     {
         return findAll( hasPriceRateSchedules ).size();
@@ -74,7 +68,7 @@ public class MockPriceRateScheduleServiceMixin implements PriceRateScheduleServi
     {
         final PriceRateScheduleComposite[] returnValue = new PriceRateScheduleComposite[1];
 
-        loopPriceRateSchedule( hasPriceRateSchedules, new LoopCallBack()
+        loopPriceRateSchedule( hasPriceRateSchedules, new LoopCallBack<PriceRateScheduleComposite>()
         {
             public boolean callBack( PriceRateScheduleComposite priceRateSchedule )
             {
@@ -91,7 +85,7 @@ public class MockPriceRateScheduleServiceMixin implements PriceRateScheduleServi
         return returnValue[ 0 ];
     }
 
-    public void update( PriceRateSchedule priceRateSchedule )
+    public void update( PriceRateScheduleComposite priceRateSchedule )
     {
         //nothing to do here
     }

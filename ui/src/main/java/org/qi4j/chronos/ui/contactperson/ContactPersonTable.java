@@ -25,7 +25,7 @@ import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 
-public abstract class ContactPersonTable extends ActionTable<ContactPersonEntityComposite>
+public abstract class ContactPersonTable extends ActionTable<ContactPersonEntityComposite, String >
 {
     private ContactPersonDataProvider provider;
 
@@ -34,7 +34,7 @@ public abstract class ContactPersonTable extends ActionTable<ContactPersonEntity
         super( id );
     }
 
-    public AbstractSortableDataProvider<ContactPersonEntityComposite> getDetachableDataProvider()
+    public AbstractSortableDataProvider<ContactPersonEntityComposite, String> getDetachableDataProvider()
     {
         if( provider == null )
         {

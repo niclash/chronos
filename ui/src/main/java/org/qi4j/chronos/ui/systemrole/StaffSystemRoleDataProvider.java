@@ -18,7 +18,7 @@ import org.qi4j.chronos.service.SystemRoleService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
-public class StaffSystemRoleDataProvider extends AbstractSortableDataProvider<SystemRoleEntityComposite>
+public class StaffSystemRoleDataProvider extends AbstractSortableDataProvider<SystemRoleEntityComposite, String>
 {
     private SystemRoleService getSystemRoleService()
     {
@@ -40,7 +40,7 @@ public class StaffSystemRoleDataProvider extends AbstractSortableDataProvider<Sy
         return getSystemRoleService().findAllStaffSystemRole( first, count );
     }
 
-    public int size()
+    public int getSize()
     {
         return getSystemRoleService().countAllStaffSystemRole();
     }

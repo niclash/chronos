@@ -12,27 +12,9 @@
  */
 package org.qi4j.chronos.service;
 
-import java.util.List;
-import org.qi4j.api.persistence.EntityComposite;
 import org.qi4j.api.persistence.Identity;
+import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 
-public interface BasedService<ITEM extends Identity, PARENT extends EntityComposite>
+public interface ProjectAssigneeBasedService<ITEM extends Identity> extends ParentBasedService<ITEM, ProjectAssigneeEntityComposite>
 {
-    ITEM get( String id );
-
-    void update( ITEM t );
-
-    List<ITEM> findAll( PARENT parent, FindFilter findFilter );
-
-    List<ITEM> findAll( PARENT parent );
-
-    List<ITEM> findAll( FindFilter findFilter );
-
-    List<ITEM> findAll();
-
-    int countAll();
-
-    int countAll( PARENT parent );
-
-    ITEM newInstance( Class<? extends EntityComposite> clazz );
 }
