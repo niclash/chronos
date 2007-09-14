@@ -30,7 +30,7 @@ public class MockEntityServiceTest extends TestCase
 
         CompositeBuilder<SampleServiceComposite> compositeBuilder = factory.newCompositeBuilder( SampleServiceComposite.class );
 
-        compositeBuilder.setMixin( EntityService.class, new MockEntityServiceMixin( factory ) );
+        compositeBuilder.decorate( new MockEntityServiceMixin( factory ) );
 
         sampleService = compositeBuilder.newInstance();
     }

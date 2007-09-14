@@ -10,6 +10,9 @@ import org.qi4j.extension.persistence.quick.SerializablePersistence;
 import org.qi4j.runtime.CompositeBuilderFactoryImpl;
 import org.qi4j.runtime.CompositeModelFactoryImpl;
 import org.qi4j.runtime.UuidIdentityGenerator;
+import org.qi4j.runtime.CompositeModelBuilder;
+import org.qi4j.runtime.MixinModelBuilder;
+import org.qi4j.runtime.ModifierModelBuilder;
 import org.qi4j.runtime.persistence.EntitySessionImpl;
 import org.qi4j.spi.serialization.SerializablePersistenceSpi;
 
@@ -17,16 +20,17 @@ public abstract class AbstractTest extends TestCase
 {
     protected EntitySession session;
     protected CompositeBuilderFactory builderFactory;
-    private SerializablePersistence storage;
-    private CompositeModelFactory modelFactory;
 
     protected void setUp() throws Exception
     {
-        modelFactory = new CompositeModelFactoryImpl();
+        ModifierModelBuilder modifierModelBuilder = new ModifierModelBuilder();
+        MixinModelBuilder mixinModelBuilder = new MixinModelBuilder( modifierModelBuilder );
+        CompositeModelBuilder compositeModelBuilder = new CompositeModelBuilder( modifierModelBuilder, mixinModelBuilder );
+        CompositeModelFactory modelFactory = new CompositeModelFactoryImpl( compositeModelBuilder );
         builderFactory = new CompositeBuilderFactoryImpl();
         IdentityGenerator identityGenerator = new UuidIdentityGenerator();
         SerializablePersistenceSpi subsystem = new MapPersistenceProvider();
-        storage = new SerializablePersistence( subsystem, modelFactory, builderFactory, session );
+        SerializablePersistence storage = new SerializablePersistence( subsystem, modelFactory, builderFactory, session );
         session = new EntitySessionImpl( storage, modelFactory, builderFactory, identityGenerator );
     }
 }

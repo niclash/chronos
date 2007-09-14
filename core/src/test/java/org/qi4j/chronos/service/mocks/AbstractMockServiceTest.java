@@ -30,7 +30,7 @@ public abstract class AbstractMockServiceTest extends TestCase
 
         CompositeBuilder<ServicesComposite> serviceBuilder = factory.newCompositeBuilder( ServicesComposite.class );
 
-        serviceBuilder.setMixin( Services.class, new MockServicesMixin( factory ) );
+        serviceBuilder.decorate( new MockServicesMixin( factory ) );
 
         services = serviceBuilder.newInstance();
     }

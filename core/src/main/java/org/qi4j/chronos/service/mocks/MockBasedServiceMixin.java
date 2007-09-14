@@ -17,6 +17,7 @@ import java.util.Iterator;
 import java.util.List;
 import org.qi4j.api.CompositeBuilder;
 import org.qi4j.api.CompositeBuilderFactory;
+import static org.qi4j.api.annotation.ParameterValue.*;
 import org.qi4j.api.persistence.EntityComposite;
 import org.qi4j.api.persistence.Identity;
 import org.qi4j.chronos.service.BasedService;
@@ -77,7 +78,6 @@ public abstract class MockBasedServiceMixin<ITEM extends Identity, PARENT extend
                 addItem( parent, items );
             }
         }
-
         return items;
     }
 
@@ -107,7 +107,7 @@ public abstract class MockBasedServiceMixin<ITEM extends Identity, PARENT extend
 
         String uid = MockEntityServiceMixin.newUid();
 
-        compositeBuilder.setMixin( Identity.class, new IdentityImpl( uid ) );
+        compositeBuilder.properties( Identity.class, parameter( "identity", new IdentityImpl( uid )  ) );
 
         return (ITEM) compositeBuilder.newInstance();
     }

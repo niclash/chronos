@@ -41,7 +41,7 @@ public class ChronosWebApp extends AuthenticatedWebApplication
         CompositeBuilder<ServicesComposite> serviceBuilder = factory.newCompositeBuilder( ServicesComposite.class );
 
         //TODO bp. use mock services for now.
-        serviceBuilder.setMixin( Services.class, new MockServicesMixin( factory ) );
+        serviceBuilder.decorate( new MockServicesMixin( factory ) );
 
         services = serviceBuilder.newInstance();
     }

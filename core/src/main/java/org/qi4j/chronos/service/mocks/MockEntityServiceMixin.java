@@ -12,6 +12,7 @@
  */
 package org.qi4j.chronos.service.mocks;
 
+import static org.qi4j.api.annotation.ParameterValue.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -74,7 +75,7 @@ public class MockEntityServiceMixin implements EntityService
 
         String uid = newUid();
 
-        compositeBuilder.setMixin( Identity.class, new IdentityImpl( uid ) );
+        compositeBuilder.properties( Identity.class, parameter( "identity", new IdentityImpl( uid ) ) );
 
         return (Identity) compositeBuilder.newInstance();
     }

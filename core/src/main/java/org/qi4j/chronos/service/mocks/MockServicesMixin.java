@@ -31,11 +31,8 @@ import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.service.AccountService;
-import org.qi4j.chronos.service.AccountServiceMisc;
 import org.qi4j.chronos.service.AdminService;
-import org.qi4j.chronos.service.BasedService;
 import org.qi4j.chronos.service.ContactPersonService;
-import org.qi4j.chronos.service.EntityService;
 import org.qi4j.chronos.service.PriceRateScheduleService;
 import org.qi4j.chronos.service.ProjectAssigneeService;
 import org.qi4j.chronos.service.ProjectOwnerService;
@@ -44,7 +41,6 @@ import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.service.SystemRoleService;
-import org.qi4j.chronos.service.SystemRoleServiceMisc;
 import org.qi4j.chronos.service.UserService;
 import org.qi4j.chronos.service.composites.AccountServiceComposite;
 import org.qi4j.chronos.service.composites.AdminServiceComposite;
@@ -105,8 +101,7 @@ public class MockServicesMixin implements Services
     private ProjectAssigneeService initProjectAssigneeService( ProjectService projectService )
     {
         CompositeBuilder<ProjectAssigneeServiceComposite> compositeBuilder = factory.newCompositeBuilder( ProjectAssigneeServiceComposite.class );
-
-        compositeBuilder.setMixin( BasedService.class, new MockProjectAssigneeServiceMixin( factory, projectService ) );
+        compositeBuilder.decorate( new MockProjectAssigneeServiceMixin( factory, projectService ) );
 
         return compositeBuilder.newInstance();
     }
@@ -115,7 +110,7 @@ public class MockServicesMixin implements Services
     {
         CompositeBuilder<PriceRateScheduleServiceComposite> compositeBuilder = factory.newCompositeBuilder( PriceRateScheduleServiceComposite.class );
 
-        compositeBuilder.setMixin( PriceRateScheduleService.class, new MockPriceRateScheduleServiceMixin() );
+        compositeBuilder.decorate( new MockPriceRateScheduleServiceMixin() );
 
         return compositeBuilder.newInstance();
     }
@@ -124,7 +119,7 @@ public class MockServicesMixin implements Services
     {
         CompositeBuilder<ContactPersonServiceComposite> compositeBuilder = factory.newCompositeBuilder( ContactPersonServiceComposite.class );
 
-        compositeBuilder.setMixin( BasedService.class, new MockContactPersonServiceMixin( factory, projectOwnerService ) );
+        compositeBuilder.decorate( new MockContactPersonServiceMixin( factory, projectOwnerService ) );
 
         return compositeBuilder.newInstance();
     }
@@ -133,7 +128,7 @@ public class MockServicesMixin implements Services
     {
         CompositeBuilder<ProjectServiceComposite> compositeBuilder = factory.newCompositeBuilder( ProjectServiceComposite.class );
 
-        compositeBuilder.setMixin( BasedService.class, new MockProjectServiceMixin( factory, accountService ) );
+        compositeBuilder.decorate( new MockProjectServiceMixin( factory, accountService ) );
 
         return compositeBuilder.newInstance();
     }
@@ -142,7 +137,7 @@ public class MockServicesMixin implements Services
     {
         CompositeBuilder<ProjectOwnerServiceComposite> compositeBuilder = factory.newCompositeBuilder( ProjectOwnerServiceComposite.class );
 
-        compositeBuilder.setMixin( BasedService.class, new MockProjectOwnerServiceMixin( factory, accountService ) );
+        compositeBuilder.decorate( new MockProjectOwnerServiceMixin( factory, accountService ) );
 
         return compositeBuilder.newInstance();
     }
@@ -153,8 +148,8 @@ public class MockServicesMixin implements Services
 
         MockEntityServiceMixin entityServiceMixin = new MockEntityServiceMixin( factory );
 
-        compositeBuilder.setMixin( EntityService.class, entityServiceMixin );
-        compositeBuilder.setMixin( AccountServiceMisc.class, new MockAccountServiceMiscMixin( entityServiceMixin ) );
+        compositeBuilder.decorate( entityServiceMixin );
+        compositeBuilder.decorate( new MockAccountServiceMiscMixin( entityServiceMixin ) );
 
         return compositeBuilder.newInstance();
     }
@@ -163,7 +158,7 @@ public class MockServicesMixin implements Services
     {
         CompositeBuilder<StaffServiceComposite> compositeBuilder = factory.newCompositeBuilder( StaffServiceComposite.class );
 
-        compositeBuilder.setMixin( BasedService.class, new MockStaffServiceMixin( factory, accountService ) );
+        compositeBuilder.decorate( new MockStaffServiceMixin( factory, accountService ) );
 
         return compositeBuilder.newInstance();
     }
@@ -174,8 +169,8 @@ public class MockServicesMixin implements Services
 
         MockEntityServiceMixin serviceMixin = new MockEntityServiceMixin( factory );
 
-        compositeBuilder.setMixin( EntityService.class, serviceMixin );
-        compositeBuilder.setMixin( SystemRoleServiceMisc.class, new MockSystemRoleServiceMiscMixin( serviceMixin ) );
+        compositeBuilder.decorate( serviceMixin );
+        compositeBuilder.decorate( new MockSystemRoleServiceMiscMixin( serviceMixin ) );
 
         return compositeBuilder.newInstance();
     }
@@ -184,7 +179,7 @@ public class MockServicesMixin implements Services
     {
         CompositeBuilder<UserServiceComposite> compositeBuilder = factory.newCompositeBuilder( UserServiceComposite.class );
 
-        compositeBuilder.setMixin( UserService.class, new MockUserServiceMixin( staffService, adminService, contactPersonService ) );
+        compositeBuilder.decorate( new MockUserServiceMixin( staffService, adminService, contactPersonService ) );
 
         return compositeBuilder.newInstance();
     }
@@ -470,9 +465,7 @@ public class MockServicesMixin implements Services
     private <T extends Composite> T newService( Class<T> clazz )
     {
         CompositeBuilder<? extends Composite> compositeBuilder = factory.newCompositeBuilder( clazz );
-
-        compositeBuilder.setMixin( EntityService.class, new MockEntityServiceMixin( factory ) );
-
+        compositeBuilder.decorate( new MockEntityServiceMixin( factory ) );
         return (T) compositeBuilder.newInstance();
     }
 }
