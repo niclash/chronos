@@ -27,7 +27,7 @@ public abstract class AbstractTest extends TestCase
         builderFactory = new CompositeBuilderFactoryImpl();
         IdentityGenerator identityGenerator = new UuidIdentityGenerator();
         SerializablePersistenceSpi subsystem = new MapPersistenceProvider();
-        SerializablePersistence storage = new SerializablePersistence( subsystem, modelFactory, builderFactory, session );
+        SerializablePersistence storage = new SerializablePersistence( subsystem, modelFactory, builderFactory );
         session = new EntitySessionImpl( storage, modelFactory, builderFactory, identityGenerator );
     }
 }
