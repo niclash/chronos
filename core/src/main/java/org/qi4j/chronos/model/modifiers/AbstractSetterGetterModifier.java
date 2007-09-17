@@ -14,7 +14,7 @@ package org.qi4j.chronos.model.modifiers;
 
 import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
-import org.qi4j.api.annotation.Modifies;
+import org.qi4j.api.annotation.scope.Modifies;
 
 public abstract class AbstractSetterGetterModifier implements InvocationHandler
 {

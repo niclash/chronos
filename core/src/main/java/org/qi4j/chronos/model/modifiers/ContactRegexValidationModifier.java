@@ -13,7 +13,7 @@
 //package org.qi4j.chronos.model.modifiers;
 //
 //import java.util.regex.Pattern;
-//import org.qi4j.api.annotation.Modifies;
+//import org.qi4j.api.annotation.scope.Modifies;
 //import org.qi4j.api.annotation.ThisAs;
 //import org.qi4j.chronos.model.composites.ContactComposite;
 //import org.qi4j.library.general.model.RegexContactType;

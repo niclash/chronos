@@ -12,7 +12,7 @@
 // */
 //package org.qi4j.chronos.model.modifiers;
 //
-//import org.qi4j.api.annotation.Modifies;
+//import org.qi4j.api.annotation.scope.Modifies;
 //import org.qi4j.api.annotation.ThisAs;
 //import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 //import org.qi4j.library.general.model.Validatable;

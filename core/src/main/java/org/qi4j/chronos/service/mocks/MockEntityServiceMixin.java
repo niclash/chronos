@@ -12,7 +12,6 @@
  */
 package org.qi4j.chronos.service.mocks;
 
-import static org.qi4j.api.annotation.ParameterValue.*;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
@@ -24,7 +23,8 @@ import org.qi4j.chronos.service.EntityService;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.runtime.IdentityImpl;
 
-public class MockEntityServiceMixin implements EntityService
+public class MockEntityServiceMixin
+    implements EntityService
 {
     private Map<String, Identity> dataMap;
 
@@ -65,18 +65,14 @@ public class MockEntityServiceMixin implements EntityService
     public List find( FindFilter findFilter )
     {
         List list = findAll();
-
         return list.subList( findFilter.getFirst(), findFilter.getFirst() + findFilter.getCount() );
     }
 
     public Identity newInstance( Class clazz )
     {
         CompositeBuilder compositeBuilder = factory.newCompositeBuilder( clazz );
-
         String uid = newUid();
-
-        compositeBuilder.properties( Identity.class, parameter( "identity", new IdentityImpl( uid ) ) );
-
+        compositeBuilder.properties( Identity.class, new IdentityImpl( uid ) );
         return (Identity) compositeBuilder.newInstance();
     }
 

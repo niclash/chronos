@@ -14,7 +14,7 @@
 //package org.qi4j.chronos.model.modifiers;
 //
 //import java.util.Date;
-//import org.qi4j.api.annotation.Modifies;
+//import org.qi4j.api.annotation.scope.Modifies;
 //import org.qi4j.api.annotation.ThisAs;
 //import org.qi4j.chronos.model.TimeRange;
 //import org.qi4j.library.general.model.ValidationException;

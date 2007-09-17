@@ -17,7 +17,7 @@
 //import java.util.HashSet;
 //import java.util.Set;
 //import org.qi4j.api.Composite;
-//import org.qi4j.api.annotation.Modifies;
+//import org.qi4j.api.annotation.scope.Modifies;
 //import org.qi4j.api.annotation.ThisAs;
 //import org.qi4j.api.annotation.Uses;
 //import org.qi4j.api.model.CompositeModel;
