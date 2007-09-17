@@ -1,6 +1,5 @@
 /*
  * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
- * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -11,35 +10,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.mixins;
+package org.qi4j.chronos.service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import java.util.Date;
 import org.qi4j.chronos.model.associations.HasComments;
 import org.qi4j.chronos.model.composites.CommentComposite;
 
-public final class HasCommentsMixin implements HasComments
+public interface CommentService
 {
-    private final List<CommentComposite> list;
+    List<CommentComposite> findAll( HasComments hasComments, FindFilter findFilter );
 
-    public HasCommentsMixin()
-    {
-        list = new ArrayList<CommentComposite>();
-    }
+    List<CommentComposite> findAll( HasComments hasComments );
 
-    public void addComment( CommentComposite comment )
-    {
-        list.add( comment );
-    }
+    int countAll( HasComments hasComments );
 
-    public void removeComment( CommentComposite comment )
-    {
-        list.remove( comment );
-    }
+    CommentComposite get( HasComments hasComments, Date createdDate );
 
-    public Iterator<CommentComposite> commentIterator()
-    {
-        return list.iterator();
-    }
+    void update( CommentComposite commentComposite );
 }

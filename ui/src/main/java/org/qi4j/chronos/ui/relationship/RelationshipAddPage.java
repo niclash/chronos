@@ -16,7 +16,7 @@ import org.qi4j.chronos.model.composites.RelationshipComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 
-public class RelationshipAddPage extends RelationshipAddEditPage
+public abstract class RelationshipAddPage extends RelationshipAddEditPage
 {
     public RelationshipAddPage( BasePage basePage )
     {
@@ -29,7 +29,8 @@ public class RelationshipAddPage extends RelationshipAddEditPage
 
         relationship.setRelationship( relationshipField.getText() );
 
-        //TODO 
+        //TODO bp. check ensure that relationship is unique.
+        newRelationship( relationship );
     }
 
     public String getSubmitButtonValue()
@@ -41,4 +42,6 @@ public class RelationshipAddPage extends RelationshipAddEditPage
     {
         return "Add Relationship";
     }
+
+    public abstract void newRelationship( RelationshipComposite relationship );
 }

@@ -17,14 +17,15 @@ import java.io.Serializable;
 import java.util.Iterator;
 import org.qi4j.api.annotation.ImplementedBy;
 import org.qi4j.chronos.model.Comment;
+import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.chronos.model.mixins.HasCommentsMixin;
 
 @ImplementedBy( { HasCommentsMixin.class } )
 public interface HasComments extends Serializable
 {
-    void addComment( Comment comment );
+    void addComment( CommentComposite comment );
 
-    void removeComment( Comment comment );
+    void removeComment( CommentComposite comment );
 
-    Iterator<Comment> commentIterator();
+    Iterator<CommentComposite> commentIterator();
 }

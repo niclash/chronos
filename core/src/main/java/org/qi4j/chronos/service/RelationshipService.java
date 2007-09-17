@@ -12,32 +12,13 @@
  */
 package org.qi4j.chronos.service;
 
-public interface Services
+import java.util.List;
+import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
+import org.qi4j.chronos.model.composites.RelationshipComposite;
+
+public interface RelationshipService
 {
-    AccountService getAccountService();
+    List<RelationshipComposite> findAll( ProjectOwnerEntityComposite projectOwner );
 
-    ProjectService getProjectService();
-
-    ProjectRoleService getProjectRoleService();
-
-    StaffService getStaffService();
-
-    UserService getUserService();
-
-    SystemRoleService getSystemRoleService();
-
-    ProjectOwnerService getProjectOwnerService();
-
-    AdminService getAdminService();
-
-    ContactPersonService getContactPersonService();
-
-    PriceRateScheduleService getPriceRateScheduleService();
-
-    ProjectAssigneeService getProjectAssigneeService();
-
-    WorkEntryService getWorkEntryService();
-
-    RelationshipService getRelationshipService();
+    RelationshipComposite get( ProjectOwnerEntityComposite projectOwner, String relationship );
 }
-

@@ -38,6 +38,7 @@ import org.qi4j.chronos.service.ProjectAssigneeService;
 import org.qi4j.chronos.service.ProjectOwnerService;
 import org.qi4j.chronos.service.ProjectRoleService;
 import org.qi4j.chronos.service.ProjectService;
+import org.qi4j.chronos.service.RelationshipService;
 import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.service.SystemRoleService;
@@ -50,6 +51,7 @@ import org.qi4j.chronos.service.composites.PriceRateScheduleServiceComposite;
 import org.qi4j.chronos.service.composites.ProjectAssigneeServiceComposite;
 import org.qi4j.chronos.service.composites.ProjectOwnerServiceComposite;
 import org.qi4j.chronos.service.composites.ProjectServiceComposite;
+import org.qi4j.chronos.service.composites.RelationshipServiceComposite;
 import org.qi4j.chronos.service.composites.RoleServiceComposite;
 import org.qi4j.chronos.service.composites.StaffServiceComposite;
 import org.qi4j.chronos.service.composites.SystemRoleServiceComposite;
@@ -76,6 +78,7 @@ public class MockServicesMixin implements Services
     private PriceRateScheduleService priceRateScheduleService;
     private ProjectAssigneeService projectAssigneeService;
     private WorkEntryService workEntryService;
+    private RelationshipService relationshipService;
 
     public MockServicesMixin( CompositeBuilderFactory factory )
     {
@@ -100,7 +103,18 @@ public class MockServicesMixin implements Services
 
         workEntryService = initWorkEntryService( projectAssigneeService );
 
+        relationshipService = initRelationshipService();
+
         initDummyData();
+    }
+
+    private RelationshipService initRelationshipService()
+    {
+        CompositeBuilder<RelationshipServiceComposite> compositeBuilder = factory.newCompositeBuilder( RelationshipServiceComposite.class );
+
+        compositeBuilder.decorate( new MockRelationshipServiceMixin() );
+
+        return compositeBuilder.newInstance();
     }
 
     private WorkEntryService initWorkEntryService( ProjectAssigneeService projectAssigneeService )
@@ -477,6 +491,11 @@ public class MockServicesMixin implements Services
     public WorkEntryService getWorkEntryService()
     {
         return workEntryService;
+    }
+
+    public RelationshipService getRelationshipService()
+    {
+        return relationshipService;
     }
 
     @SuppressWarnings( { "unchecked" } )

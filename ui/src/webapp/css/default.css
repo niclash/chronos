@@ -187,8 +187,41 @@ div.tabpanel div.tab-row a:hover {
 }
 
 .blockWithBorder {
-	border-width: thin;
-	border-style: dotted;
-	border-color: #E9601A;
+    border-width: thin;
+    border-style: dotted;
+    border-color: #E9601A;
+}
+
+table.palette {
+    border: 0;
+}
+
+table.palette td.header {
+    font-weight: bold;
+    font-size: 12pt;
+    background-color: #eef7ff;
+    padding: 2px;
+    border-top: 1px solid #729ac2;
+    border-bottom: 1px solid #729ac2;
+}
+
+table.palette td.pane {
+    width: 100px;
+    text-align: center;
+}
+
+table.palette td.pane select {
+    width: 200px;
+}
+
+table.palette td.buttons {
+    text-align: center;
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+table.palette td.buttons button {
+    width: 40px;
+    height: 40px;
 }
 

@@ -12,23 +12,23 @@
  */
 package org.qi4j.chronos.model.mixins;
 
-import org.qi4j.chronos.model.Relationship;
 import org.qi4j.chronos.model.associations.HasRelationship;
+import org.qi4j.chronos.model.composites.RelationshipComposite;
 
 /**
  * Default mixin implementation for {@link org.qi4j.chronos.model.associations.HasRelationship}
  */
 public final class HasRelationshipMixin implements HasRelationship
 {
-    private Relationship relationship;
+    private RelationshipComposite relationship;
 
-    public void setRelationship( Relationship aRelationship )
+    public void setRelationship( RelationshipComposite aRelationship )
     {
         relationship = aRelationship;
     }
 
-    public Relationship getRelationship()
+    public RelationshipComposite getRelationship()
     {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return relationship;
     }
 }

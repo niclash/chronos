@@ -21,11 +21,14 @@ import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
+import org.qi4j.chronos.ui.relationship.RelationshipOptionPanel;
 import org.qi4j.chronos.ui.user.UserAddEditPanel;
 
 public abstract class ContactPersonAddEditPage extends AddEditBasePage
 {
     private UserAddEditPanel userAddEditPanel;
+
+    private RelationshipOptionPanel relationshipOptionPanel;
 
     public ContactPersonAddEditPage( BasePage goBackPage )
     {
@@ -34,6 +37,14 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
 
     public void initComponent( Form form )
     {
+        relationshipOptionPanel = new RelationshipOptionPanel( "relationshipOptionPanel" )
+        {
+            public ProjectOwnerEntityComposite getProjectOwner()
+            {
+                return ContactPersonAddEditPage.this.getProjectOwner();
+            }
+        };
+
         userAddEditPanel = new UserAddEditPanel( "userAddEditPanel", true )
         {
             public LoginUserAbstractPanel getLoginUserAbstractPanel( String id )
@@ -47,17 +58,22 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
             }
         };
 
+        form.add( relationshipOptionPanel );
         form.add( userAddEditPanel );
     }
 
     protected void assignContactPersonToFieldValue( ContactPerson contactPerson )
     {
         userAddEditPanel.assignUserToFieldValue( contactPerson );
+
+        relationshipOptionPanel.setSelectedRelationship( contactPerson.getRelationship() );
     }
 
     protected void assignFieldValueToContactPerson( ContactPerson contactPerson )
     {
         userAddEditPanel.assignFieldValueToUser( contactPerson );
+
+        contactPerson.setRelationship( relationshipOptionPanel.getSelectedRelationship() );
     }
 
     public Iterator<SystemRoleEntityComposite> getInitSelectedRoleList()
@@ -70,6 +86,11 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
         boolean isRejected = false;
 
         if( userAddEditPanel.checkIsNotValidated() )
+        {
+            isRejected = true;
+        }
+
+        if( relationshipOptionPanel.checkIfNotValidated() )
         {
             isRejected = true;
         }

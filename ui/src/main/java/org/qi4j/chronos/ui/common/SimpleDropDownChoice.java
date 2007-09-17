@@ -17,13 +17,13 @@ import java.util.List;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.model.PropertyModel;
 
-public class SimpleDropDownChoice extends DropDownChoice
+public class SimpleDropDownChoice<T extends Serializable> extends DropDownChoice
 {
-    private Object choice;
+    private T choice;
 
     private boolean setDefaultValue;
 
-    public SimpleDropDownChoice( String id, List<? extends Serializable> optionList, boolean setDefaultValue )
+    public SimpleDropDownChoice( String id, List<T> optionList, boolean setDefaultValue )
     {
         super( id );
 
@@ -33,7 +33,7 @@ public class SimpleDropDownChoice extends DropDownChoice
         setNewChoices( optionList );
     }
 
-    private void update( List<? extends Serializable> optionList )
+    private void update( List<T> optionList )
     {
         choice = null;
 
@@ -47,7 +47,7 @@ public class SimpleDropDownChoice extends DropDownChoice
         this.setEnabled( hasData );
     }
 
-    public Object getChoice()
+    public T getChoice()
     {
         return choice;
     }
@@ -57,12 +57,12 @@ public class SimpleDropDownChoice extends DropDownChoice
         return choice.toString();
     }
 
-    public void setChoice( Object choice )
+    public void setChoice( T choice )
     {
         this.choice = choice;
     }
 
-    public void setNewChoices( List<? extends Serializable> list )
+    public void setNewChoices( List<T> list )
     {
         super.setChoices( list );
 

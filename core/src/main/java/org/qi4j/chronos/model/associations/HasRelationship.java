@@ -14,7 +14,7 @@ package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
 import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.chronos.model.Relationship;
+import org.qi4j.chronos.model.composites.RelationshipComposite;
 import org.qi4j.chronos.model.mixins.HasRelationshipMixin;
 
 /**
@@ -23,7 +23,7 @@ import org.qi4j.chronos.model.mixins.HasRelationshipMixin;
 @ImplementedBy( HasRelationshipMixin.class )
 public interface HasRelationship extends Serializable
 {
-    void setRelationship( Relationship relationship );
+    void setRelationship( RelationshipComposite relationship );
 
-    Relationship getRelationship();
+    RelationshipComposite getRelationship();
 }

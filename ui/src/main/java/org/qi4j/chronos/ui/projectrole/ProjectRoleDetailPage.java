@@ -65,7 +65,7 @@ public class ProjectRoleDetailPage extends LeftMenuNavPage
 
             roleNameField = new SimpleTextField( "roleName", projectRole.getRole(), false );
 
-            returnButton = new Button( "returnButton", new Model( "Return" ) );
+            returnButton = new Button( "submitButton", new Model( "Return" ) );
 
             add( roleNameField );
             add( returnButton );
