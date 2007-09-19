@@ -13,8 +13,11 @@
 package org.qi4j.chronos.service.composites;
 
 import org.qi4j.api.Composite;
+import org.qi4j.api.annotation.ImplementedBy;
 import org.qi4j.chronos.service.WorkEntryService;
+import org.qi4j.chronos.service.mocks.MockWorkEntryServiceMixin;
 
+@ImplementedBy( MockWorkEntryServiceMixin.class )
 public interface WorkEntryServiceComposite extends WorkEntryService, Composite
 {
 }

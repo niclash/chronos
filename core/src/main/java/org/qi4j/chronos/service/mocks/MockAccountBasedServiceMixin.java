@@ -13,20 +13,18 @@
 package org.qi4j.chronos.service.mocks;
 
 import java.util.List;
-import org.qi4j.api.CompositeBuilderFactory;
+import org.qi4j.api.annotation.scope.Property;
 import org.qi4j.api.persistence.Identity;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.service.AccountService;
 
 public abstract class MockAccountBasedServiceMixin<ITEM extends Identity> extends MockParentBasedServiceMixin<ITEM, AccountEntityComposite>
 {
-    private AccountService accountService;
+    @Property( "accountService" ) private AccountService accountService;
 
-    public MockAccountBasedServiceMixin( CompositeBuilderFactory factory, AccountService accountService )
+    public MockAccountBasedServiceMixin()
     {
-        super( factory );
 
-        this.accountService = accountService;
     }
 
     protected List<AccountEntityComposite> getParentList()

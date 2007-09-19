@@ -13,18 +13,15 @@
 package org.qi4j.chronos.service.mocks;
 
 import java.util.Iterator;
-import org.qi4j.api.CompositeBuilderFactory;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
-import org.qi4j.chronos.service.AccountService;
 
 public class MockStaffServiceMixin extends MockAccountBasedServiceMixin<StaffEntityComposite>
 {
-    public MockStaffServiceMixin( CompositeBuilderFactory factory, AccountService accountService )
+    public MockStaffServiceMixin()
     {
-        super( factory, accountService );
+        super();
     }
-
 
     protected Iterator<StaffEntityComposite> getItems( AccountEntityComposite accountEntityComposite )
     {

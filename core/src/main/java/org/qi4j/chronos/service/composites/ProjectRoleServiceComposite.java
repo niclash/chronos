@@ -15,7 +15,7 @@ package org.qi4j.chronos.service.composites;
 import org.qi4j.api.Composite;
 import org.qi4j.chronos.service.ProjectRoleService;
 
-public interface RoleServiceComposite extends ProjectRoleService, Composite
+public interface ProjectRoleServiceComposite extends ProjectRoleService, Composite
 {
 
 }

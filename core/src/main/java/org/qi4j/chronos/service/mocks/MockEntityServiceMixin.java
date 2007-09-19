@@ -18,23 +18,22 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import org.qi4j.api.CompositeBuilder;
 import org.qi4j.api.CompositeBuilderFactory;
+import static org.qi4j.api.PropertyValue.property;
+import org.qi4j.api.annotation.scope.Fragment;
 import org.qi4j.api.persistence.Identity;
 import org.qi4j.chronos.service.EntityService;
 import org.qi4j.chronos.service.FindFilter;
-import org.qi4j.runtime.IdentityImpl;
 
 public class MockEntityServiceMixin
     implements EntityService
 {
     private Map<String, Identity> dataMap;
 
-    private CompositeBuilderFactory factory;
+    @Fragment private CompositeBuilderFactory factory;
 
-    public MockEntityServiceMixin( CompositeBuilderFactory factory )
+    public MockEntityServiceMixin()
     {
         dataMap = new ConcurrentHashMap<String, Identity>();
-
-        this.factory = factory;
     }
 
     public Identity get( String id )
@@ -72,7 +71,9 @@ public class MockEntityServiceMixin
     {
         CompositeBuilder compositeBuilder = factory.newCompositeBuilder( clazz );
         String uid = newUid();
-        compositeBuilder.properties( Identity.class, new IdentityImpl( uid ) );
+
+        compositeBuilder.properties( Identity.class, property( "identity", uid ) );
+
         return (Identity) compositeBuilder.newInstance();
     }
 

@@ -15,7 +15,6 @@ package org.qi4j.chronos.service.mocks;
 import junit.framework.TestCase;
 import org.qi4j.api.CompositeBuilder;
 import org.qi4j.api.CompositeBuilderFactory;
-import org.qi4j.chronos.service.EntityService;
 import org.qi4j.runtime.CompositeBuilderFactoryImpl;
 
 public class MockEntityServiceTest extends TestCase
@@ -29,8 +28,6 @@ public class MockEntityServiceTest extends TestCase
         factory = new CompositeBuilderFactoryImpl();
 
         CompositeBuilder<SampleServiceComposite> compositeBuilder = factory.newCompositeBuilder( SampleServiceComposite.class );
-
-        compositeBuilder.decorate( new MockEntityServiceMixin( factory ) );
 
         sampleService = compositeBuilder.newInstance();
     }
@@ -61,5 +58,5 @@ public class MockEntityServiceTest extends TestCase
 
         assertEquals( sampleService.countAll(), 1 );
     }
-
+    
 }

@@ -13,8 +13,11 @@
 package org.qi4j.chronos.service.composites;
 
 import org.qi4j.api.Composite;
+import org.qi4j.api.annotation.ImplementedBy;
 import org.qi4j.chronos.service.ContactPersonService;
+import org.qi4j.chronos.service.mocks.MockContactPersonServiceMixin;
 
+@ImplementedBy( MockContactPersonServiceMixin.class )
 public interface ContactPersonServiceComposite extends ContactPersonService, Composite
 {
 }

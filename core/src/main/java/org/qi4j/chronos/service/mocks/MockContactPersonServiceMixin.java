@@ -20,9 +20,9 @@ import org.qi4j.chronos.service.ProjectOwnerService;
 
 public class MockContactPersonServiceMixin extends MockProjectOwnerBasedServiceMixin<ContactPersonEntityComposite>
 {
-    public MockContactPersonServiceMixin( CompositeBuilderFactory factory, ProjectOwnerService projectOwnerService )
+    public MockContactPersonServiceMixin( )
     {
-        super( factory, projectOwnerService );
+        super( );
     }
 
     protected Iterator<ContactPersonEntityComposite> getItems( ProjectOwnerEntityComposite projectOwnerEntityComposite )

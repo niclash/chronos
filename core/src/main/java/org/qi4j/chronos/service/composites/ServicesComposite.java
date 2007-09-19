@@ -17,6 +17,7 @@ import org.qi4j.api.annotation.ImplementedBy;
 import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.service.mocks.MockServicesMixin;
 
+@ImplementedBy( MockServicesMixin.class )
 public interface ServicesComposite extends Services, Composite
 {
 }

@@ -13,20 +13,18 @@
 package org.qi4j.chronos.service.mocks;
 
 import java.util.List;
-import org.qi4j.api.CompositeBuilderFactory;
+import org.qi4j.api.annotation.scope.Property;
 import org.qi4j.api.persistence.Identity;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.service.ProjectService;
 
 public abstract class MockProjectBasedServiceMixin<ITEM extends Identity> extends MockParentBasedServiceMixin<ITEM, ProjectEntityComposite>
 {
-    private ProjectService projectService;
+    @Property( "projectService" ) private ProjectService projectService;
 
-    public MockProjectBasedServiceMixin( CompositeBuilderFactory factory, ProjectService projectService )
+    public MockProjectBasedServiceMixin()
     {
-        super( factory );
 
-        this.projectService = projectService;
     }
 
     protected List<ProjectEntityComposite> getParentList()

@@ -13,8 +13,11 @@
 package org.qi4j.chronos.service.composites;
 
 import org.qi4j.api.Composite;
+import org.qi4j.api.annotation.ImplementedBy;
 import org.qi4j.chronos.service.StaffService;
+import org.qi4j.chronos.service.mocks.MockStaffServiceMixin;
 
+@ImplementedBy( MockStaffServiceMixin.class )
 public interface StaffServiceComposite extends StaffService, Composite
 {
 

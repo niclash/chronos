@@ -13,8 +13,11 @@
 package org.qi4j.chronos.service.composites;
 
 import org.qi4j.api.Composite;
+import org.qi4j.api.annotation.ImplementedBy;
 import org.qi4j.chronos.service.ProjectOwnerService;
+import org.qi4j.chronos.service.mocks.MockProjectOwnerServiceMixin;
 
+@ImplementedBy( MockProjectOwnerServiceMixin.class )
 public interface ProjectOwnerServiceComposite extends ProjectOwnerService, Composite
 {
 }

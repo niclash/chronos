@@ -17,6 +17,8 @@ import java.util.List;
 import org.qi4j.api.Composite;
 import org.qi4j.api.CompositeBuilder;
 import org.qi4j.api.CompositeBuilderFactory;
+import org.qi4j.api.PropertyValue;
+import org.qi4j.api.annotation.scope.Fragment;
 import org.qi4j.chronos.model.ProjectOwner;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.SystemRoleType;
@@ -33,6 +35,7 @@ import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.service.AdminService;
 import org.qi4j.chronos.service.ContactPersonService;
+import org.qi4j.chronos.service.ParentBasedService;
 import org.qi4j.chronos.service.PriceRateScheduleService;
 import org.qi4j.chronos.service.ProjectAssigneeService;
 import org.qi4j.chronos.service.ProjectOwnerService;
@@ -50,9 +53,9 @@ import org.qi4j.chronos.service.composites.ContactPersonServiceComposite;
 import org.qi4j.chronos.service.composites.PriceRateScheduleServiceComposite;
 import org.qi4j.chronos.service.composites.ProjectAssigneeServiceComposite;
 import org.qi4j.chronos.service.composites.ProjectOwnerServiceComposite;
+import org.qi4j.chronos.service.composites.ProjectRoleServiceComposite;
 import org.qi4j.chronos.service.composites.ProjectServiceComposite;
 import org.qi4j.chronos.service.composites.RelationshipServiceComposite;
-import org.qi4j.chronos.service.composites.RoleServiceComposite;
 import org.qi4j.chronos.service.composites.StaffServiceComposite;
 import org.qi4j.chronos.service.composites.SystemRoleServiceComposite;
 import org.qi4j.chronos.service.composites.UserServiceComposite;
@@ -64,7 +67,7 @@ import org.qi4j.library.general.model.composites.StateComposite;
 
 public class MockServicesMixin implements Services
 {
-    private CompositeBuilderFactory factory;
+    @Fragment private CompositeBuilderFactory factory;
 
     private AccountService accountService;
     private ProjectService projectService;
@@ -80,133 +83,49 @@ public class MockServicesMixin implements Services
     private WorkEntryService workEntryService;
     private RelationshipService relationshipService;
 
-    public MockServicesMixin( CompositeBuilderFactory factory )
+    public void initServices()
     {
-        this.factory = factory;
+        accountService = newService( AccountServiceComposite.class );
+        projectService = newParentBasedService( ProjectServiceComposite.class, "accountService", accountService );
 
-        accountService = initAccountService();
-        projectService = initProjectService();
-
-        projectRoleService = newService( RoleServiceComposite.class );
+        projectRoleService = newService( ProjectRoleServiceComposite.class );
         adminService = newService( AdminServiceComposite.class );
-        staffService = initStaffService( accountService );
+        staffService = newParentBasedService( StaffServiceComposite.class, "accountService ", accountService );
 
-        systemRoleService = initSystemRoleService();
-        projectOwnerService = initProjectOwnerService();
-        contactPersonService = initContactPersonService();
+        systemRoleService = newService( SystemRoleServiceComposite.class );
+        projectOwnerService = newParentBasedService( ProjectOwnerServiceComposite.class, "accountService", accountService );
+        contactPersonService = newParentBasedService( ContactPersonServiceComposite.class, "projectOwnerService", projectOwnerService );
 
         userService = initUserService( staffService, adminService, contactPersonService );
 
-        priceRateScheduleService = initPriceRateScheduleService();
+        priceRateScheduleService = newService( PriceRateScheduleServiceComposite.class );
 
-        projectAssigneeService = initProjectAssigneeService( projectService );
+        projectAssigneeService = newParentBasedService( ProjectAssigneeServiceComposite.class, "projectService", projectService );
 
-        workEntryService = initWorkEntryService( projectAssigneeService );
+        workEntryService = newParentBasedService( WorkEntryServiceComposite.class, "projectAssigneeService", projectAssigneeService );
 
-        relationshipService = initRelationshipService();
+        relationshipService = newService( RelationshipServiceComposite.class );
 
         initDummyData();
     }
 
-    private RelationshipService initRelationshipService()
+    private <T extends Composite> T newParentBasedService( Class<T> clazz, String propertyName, Object propertyValue )
     {
-        CompositeBuilder<RelationshipServiceComposite> compositeBuilder = factory.newCompositeBuilder( RelationshipServiceComposite.class );
+        CompositeBuilder<? extends Composite> compositeBuilder = factory.newCompositeBuilder( clazz );
 
-        compositeBuilder.decorate( new MockRelationshipServiceMixin() );
+        compositeBuilder.properties( ParentBasedService.class, PropertyValue.property( propertyName, propertyValue ) );
 
-        return compositeBuilder.newInstance();
-    }
-
-    private WorkEntryService initWorkEntryService( ProjectAssigneeService projectAssigneeService )
-    {
-        CompositeBuilder<WorkEntryServiceComposite> compositeBuilder = factory.newCompositeBuilder( WorkEntryServiceComposite.class );
-
-        compositeBuilder.decorate( new MockWorkEntryServiceMixin( factory, projectAssigneeService ) );
-
-        return compositeBuilder.newInstance();
-    }
-
-    private ProjectAssigneeService initProjectAssigneeService( ProjectService projectService )
-    {
-        CompositeBuilder<ProjectAssigneeServiceComposite> compositeBuilder = factory.newCompositeBuilder( ProjectAssigneeServiceComposite.class );
-        compositeBuilder.decorate( new MockProjectAssigneeServiceMixin( factory, projectService ) );
-
-        return compositeBuilder.newInstance();
-    }
-
-    private PriceRateScheduleServiceComposite initPriceRateScheduleService()
-    {
-        CompositeBuilder<PriceRateScheduleServiceComposite> compositeBuilder = factory.newCompositeBuilder( PriceRateScheduleServiceComposite.class );
-
-        compositeBuilder.decorate( new MockPriceRateScheduleServiceMixin() );
-
-        return compositeBuilder.newInstance();
-    }
-
-    private ContactPersonService initContactPersonService()
-    {
-        CompositeBuilder<ContactPersonServiceComposite> compositeBuilder = factory.newCompositeBuilder( ContactPersonServiceComposite.class );
-
-        compositeBuilder.decorate( new MockContactPersonServiceMixin( factory, projectOwnerService ) );
-
-        return compositeBuilder.newInstance();
-    }
-
-    private ProjectService initProjectService()
-    {
-        CompositeBuilder<ProjectServiceComposite> compositeBuilder = factory.newCompositeBuilder( ProjectServiceComposite.class );
-
-        compositeBuilder.decorate( new MockProjectServiceMixin( factory, accountService ) );
-
-        return compositeBuilder.newInstance();
-    }
-
-    private ProjectOwnerService initProjectOwnerService()
-    {
-        CompositeBuilder<ProjectOwnerServiceComposite> compositeBuilder = factory.newCompositeBuilder( ProjectOwnerServiceComposite.class );
-
-        compositeBuilder.decorate( new MockProjectOwnerServiceMixin( factory, accountService ) );
-
-        return compositeBuilder.newInstance();
-    }
-
-    private AccountServiceComposite initAccountService()
-    {
-        CompositeBuilder<AccountServiceComposite> compositeBuilder = factory.newCompositeBuilder( AccountServiceComposite.class );
-
-        MockEntityServiceMixin entityServiceMixin = new MockEntityServiceMixin( factory );
-
-        compositeBuilder.decorate( entityServiceMixin );
-        compositeBuilder.decorate( new MockAccountServiceMiscMixin( entityServiceMixin ) );
-
-        return compositeBuilder.newInstance();
-    }
-
-    private StaffServiceComposite initStaffService( AccountService accountService )
-    {
-        CompositeBuilder<StaffServiceComposite> compositeBuilder = factory.newCompositeBuilder( StaffServiceComposite.class );
-
-        compositeBuilder.decorate( new MockStaffServiceMixin( factory, accountService ) );
-
-        return compositeBuilder.newInstance();
-    }
-
-    private SystemRoleService initSystemRoleService()
-    {
-        CompositeBuilder<SystemRoleServiceComposite> compositeBuilder = factory.newCompositeBuilder( SystemRoleServiceComposite.class );
-
-        MockEntityServiceMixin serviceMixin = new MockEntityServiceMixin( factory );
-
-        compositeBuilder.decorate( new MockSystemRoleServiceMiscMixin( serviceMixin ) );
-
-        return compositeBuilder.newInstance();
+        return (T) compositeBuilder.newInstance();
     }
 
     private UserService initUserService( StaffService staffService, AdminService adminService, ContactPersonService contactPersonService )
     {
         CompositeBuilder<UserServiceComposite> compositeBuilder = factory.newCompositeBuilder( UserServiceComposite.class );
 
-        compositeBuilder.decorate( new MockUserServiceMixin( staffService, adminService, contactPersonService ) );
+        compositeBuilder.properties( UserService.class,
+                                     PropertyValue.property( "staffService", staffService ),
+                                     PropertyValue.property( "adminService", adminService ),
+                                     PropertyValue.property( "contactPersonService", contactPersonService ) );
 
         return compositeBuilder.newInstance();
     }
@@ -218,11 +137,11 @@ public class MockServicesMixin implements Services
         initProjectRoleDummyData();
         initSystemRoleDummyData();
         initStaffDummyData( account );
-        initAdminDummyData();
-
-        ProjectOwner projectOwner = initProjectOwnerDummyData( account );
-
-        initContactPerson( projectOwner );
+//        initAdminDummyData();
+//
+//        ProjectOwner projectOwner = initProjectOwnerDummyData( account );
+//
+//        initContactPerson( projectOwner );
     }
 
     private AccountEntityComposite initAccountDummyData()
@@ -361,6 +280,8 @@ public class MockServicesMixin implements Services
         systemRoleService.save( developer );
         systemRoleService.save( projectManager );
         systemRoleService.save( contactPerson );
+
+        systemRoleService.findAll();
     }
 
     private ProjectOwner initProjectOwnerDummyData( AccountEntityComposite account )
@@ -502,7 +423,7 @@ public class MockServicesMixin implements Services
     private <T extends Composite> T newService( Class<T> clazz )
     {
         CompositeBuilder<? extends Composite> compositeBuilder = factory.newCompositeBuilder( clazz );
-        compositeBuilder.decorate( new MockEntityServiceMixin( factory ) );
+
         return (T) compositeBuilder.newInstance();
     }
 }

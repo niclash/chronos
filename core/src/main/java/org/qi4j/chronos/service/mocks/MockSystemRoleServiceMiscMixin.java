@@ -14,6 +14,7 @@ package org.qi4j.chronos.service.mocks;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.qi4j.api.annotation.scope.ThisAs;
 import org.qi4j.chronos.model.SystemRoleType;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.service.EntityService;
@@ -21,11 +22,11 @@ import org.qi4j.chronos.service.SystemRoleServiceMisc;
 
 public class MockSystemRoleServiceMiscMixin implements SystemRoleServiceMisc
 {
-    private EntityService<SystemRoleEntityComposite> systemRoleService;
+    @ThisAs private EntityService<SystemRoleEntityComposite> systemRoleService;
 
-    public MockSystemRoleServiceMiscMixin( EntityService<SystemRoleEntityComposite> entityService )
+    public MockSystemRoleServiceMiscMixin()
     {
-        this.systemRoleService = entityService;
+
     }
 
     public List<SystemRoleEntityComposite> findAllStaffSystemRole( int first, int count )

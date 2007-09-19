@@ -14,6 +14,8 @@ package org.qi4j.chronos.service;
 
 public interface Services
 {
+    void initServices();
+
     AccountService getAccountService();
 
     ProjectService getProjectService();

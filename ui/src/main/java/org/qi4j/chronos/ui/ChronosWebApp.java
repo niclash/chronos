@@ -43,6 +43,8 @@ public class ChronosWebApp extends AuthenticatedWebApplication
 //        serviceBuilder.decorate( new MockServicesMixin( factory ) );
 
         services = serviceBuilder.newInstance();
+
+        services.initServices();
     }
 
     public static Services getServices()
@@ -87,6 +89,7 @@ public class ChronosWebApp extends AuthenticatedWebApplication
                 throw new IllegalArgumentException( "Unhandle user type " +
                                                     chronosSession.getUser().getClass().getName() );
             }
+
         }
     }
 

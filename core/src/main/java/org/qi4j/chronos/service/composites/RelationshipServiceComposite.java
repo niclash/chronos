@@ -13,8 +13,11 @@
 package org.qi4j.chronos.service.composites;
 
 import org.qi4j.api.Composite;
+import org.qi4j.api.annotation.ImplementedBy;
 import org.qi4j.chronos.service.RelationshipService;
+import org.qi4j.chronos.service.mocks.MockRelationshipServiceMixin;
 
+@ImplementedBy( MockRelationshipServiceMixin.class )
 public interface RelationshipServiceComposite extends RelationshipService, Composite
 {
 
