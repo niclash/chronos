@@ -19,7 +19,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.qi4j.api.CompositeBuilder;
 import org.qi4j.api.CompositeBuilderFactory;
 import static org.qi4j.api.PropertyValue.property;
-import org.qi4j.api.annotation.scope.Fragment;
+import org.qi4j.api.annotation.scope.Qi4j;
 import org.qi4j.api.persistence.Identity;
 import org.qi4j.chronos.service.EntityService;
 import org.qi4j.chronos.service.FindFilter;
@@ -29,7 +29,7 @@ public class MockEntityServiceMixin
 {
     private Map<String, Identity> dataMap;
 
-    @Fragment private CompositeBuilderFactory factory;
+    @Qi4j private CompositeBuilderFactory factory;
 
     public MockEntityServiceMixin()
     {

@@ -18,7 +18,7 @@ import java.util.List;
 import org.qi4j.api.CompositeBuilder;
 import org.qi4j.api.CompositeBuilderFactory;
 import static org.qi4j.api.PropertyValue.property;
-import org.qi4j.api.annotation.scope.Fragment;
+import org.qi4j.api.annotation.scope.Qi4j;
 import org.qi4j.api.persistence.EntityComposite;
 import org.qi4j.api.persistence.Identity;
 import org.qi4j.chronos.service.FindFilter;
@@ -26,7 +26,7 @@ import org.qi4j.chronos.service.ParentBasedService;
 
 public abstract class MockParentBasedServiceMixin<ITEM extends Identity, PARENT extends EntityComposite> implements ParentBasedService<ITEM, PARENT>
 {
-    @Fragment private CompositeBuilderFactory factory;
+    @Qi4j private CompositeBuilderFactory factory;
 
     public MockParentBasedServiceMixin()
     {

@@ -15,7 +15,7 @@ package org.qi4j.chronos.service.mocks;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.qi4j.api.annotation.scope.Property;
+import org.qi4j.api.annotation.scope.PropertyField;
 import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.AdminEntityComposite;
@@ -29,9 +29,9 @@ import org.qi4j.chronos.service.UserService;
 
 public class MockUserServiceMixin implements UserService
 {
-    @Property( "staffService" ) private StaffService staffService;
-    @Property( "adminService" ) private AdminService adminService;
-    @Property( "contactPersonService" ) private ContactPersonService contactPersonService;
+    @PropertyField private StaffService staffService;
+    @PropertyField private AdminService adminService;
+    @PropertyField private ContactPersonService contactPersonService;
 
     public MockUserServiceMixin()
     {

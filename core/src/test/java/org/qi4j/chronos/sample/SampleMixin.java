@@ -12,13 +12,13 @@
  */
 package org.qi4j.chronos.sample;
 
-import org.qi4j.api.annotation.scope.Property;
+import org.qi4j.api.annotation.scope.PropertyParameter;
 
 public class SampleMixin implements Sample
 {
     private String sampleName;
 
-    public SampleMixin( @Property( "sampleName" )String sampleName )
+    public SampleMixin( @PropertyParameter( "sampleName" )String sampleName )
     {
         this.sampleName = sampleName;
     }

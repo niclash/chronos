@@ -18,7 +18,7 @@ import org.qi4j.api.Composite;
 import org.qi4j.api.CompositeBuilder;
 import org.qi4j.api.CompositeBuilderFactory;
 import org.qi4j.api.PropertyValue;
-import org.qi4j.api.annotation.scope.Fragment;
+import org.qi4j.api.annotation.scope.Qi4j;
 import org.qi4j.chronos.model.ProjectOwner;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.SystemRoleType;
@@ -67,7 +67,7 @@ import org.qi4j.library.general.model.composites.StateComposite;
 
 public class MockServicesMixin implements Services
 {
-    @Fragment private CompositeBuilderFactory factory;
+    @Qi4j private CompositeBuilderFactory factory;
 
     private AccountService accountService;
     private ProjectService projectService;

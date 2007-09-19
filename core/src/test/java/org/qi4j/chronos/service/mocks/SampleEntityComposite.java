@@ -12,7 +12,6 @@
  */
 package org.qi4j.chronos.service.mocks;
 
-import org.qi4j.api.Composite;
 import org.qi4j.api.persistence.EntityComposite;
 
 public interface SampleEntityComposite extends Sample, EntityComposite
