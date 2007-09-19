@@ -14,7 +14,8 @@ package org.qi4j.chronos.sample;
 
 import org.qi4j.api.CompositeBuilder;
 import org.qi4j.api.CompositeBuilderFactory;
-import org.qi4j.api.PropertyValue;
+import static org.qi4j.api.PropertyValue.name;
+import static org.qi4j.api.PropertyValue.property;
 import org.qi4j.runtime.CompositeBuilderFactoryImpl;
 
 public class TestSample
@@ -25,7 +26,7 @@ public class TestSample
 
         CompositeBuilder<SampleComposite> sampleBuilder = factory.newCompositeBuilder( SampleComposite.class );
 
-        sampleBuilder.properties( Sample.class, PropertyValue.property( "sampleName", "ABC" ) );
+        sampleBuilder.properties( Sample.class, property( name( Sample.class ).getSampleName(), "ABC" ) );
 
         Sample sample = sampleBuilder.newInstance();
 

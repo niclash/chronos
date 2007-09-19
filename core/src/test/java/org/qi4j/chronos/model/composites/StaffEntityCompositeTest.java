@@ -12,27 +12,19 @@
  */
 package org.qi4j.chronos.model.composites;
 
-import java.util.Calendar;
 import org.qi4j.api.CompositeBuilder;
-import static org.qi4j.api.PropertyValue.property;
 import org.qi4j.chronos.model.AbstractTest;
-import org.qi4j.chronos.model.TimeRange;
-import org.qi4j.library.general.model.Gender;
 import org.qi4j.library.general.model.GenderType;
-import org.qi4j.library.general.model.PersonName;
 import org.qi4j.library.general.model.ValidationException;
 
 public class StaffEntityCompositeTest extends AbstractTest
 {
-    public void testValidateStaffEntityComnposite() throws Exception
+    public void testValidateStaffEntityComposite() throws Exception
     {
         CompositeBuilder<StaffEntityComposite> builder = session.newEntityBuilder( null, StaffEntityComposite.class );
-        builder.properties( PersonName.class,
-                            property( "firstName", "Sianny" ),
-                            property( "lastName", "Halim" )
-        );
-        builder.properties( Gender.class, property( "gender", GenderType.female ) );
-        builder.properties( TimeRange.class, property( "startTime", Calendar.getInstance().getTime() ) );
+        StaffEntityComposite props = builder.properties();
+        props.setFirstName( "Sianny" );
+        props.setLastName( "Halim" );
         StaffEntityComposite staff = builder.newInstance();
     }
 
@@ -41,13 +33,11 @@ public class StaffEntityCompositeTest extends AbstractTest
         try
         {
             CompositeBuilder<StaffEntityComposite> builder = session.newEntityBuilder( null, StaffEntityComposite.class );
-            builder.properties( PersonName.class,
-                                property( "lastName", "Halim" )
-            );
-            builder.properties( Gender.class, property( "gender", GenderType.female ) );
-            builder.properties( TimeRange.class, property( "startTime", Calendar.getInstance().getTime() ) );
+            StaffEntityComposite props = builder.properties();
+            props.setLastName( "Halim" );
+            props.setGender( GenderType.female );
             StaffEntityComposite staff = builder.newInstance();
-            fail("ValidationException should be thrown as First Name is null.");
+            fail( "ValidationException should be thrown as First Name is null." );
         }
         catch( ValidationException e )
         {
@@ -60,13 +50,11 @@ public class StaffEntityCompositeTest extends AbstractTest
         try
         {
             CompositeBuilder<StaffEntityComposite> builder = session.newEntityBuilder( null, StaffEntityComposite.class );
-            builder.properties( PersonName.class,
-                                property( "firstName", "Sianny" )
-            );
-            builder.properties( Gender.class, property( "gender", GenderType.female ) );
-            builder.properties( TimeRange.class, property( "startTime", Calendar.getInstance().getTime() ) );
+            StaffEntityComposite props = builder.properties();
+            props.setFirstName( "Sianny" );
+            props.setGender( GenderType.female );
             StaffEntityComposite staff = builder.newInstance();
-            fail("ValidationException should be thrown as Last Name is null.");
+            fail( "ValidationException should be thrown as Last Name is null." );
         }
         catch( ValidationException e )
         {
@@ -79,13 +67,11 @@ public class StaffEntityCompositeTest extends AbstractTest
         try
         {
             CompositeBuilder<StaffEntityComposite> builder = session.newEntityBuilder( null, StaffEntityComposite.class );
-            builder.properties( PersonName.class,
-                                property( "firstName", "Sianny" ),
-                                property( "lastName", "Halim" )
-            );
-            builder.properties( TimeRange.class, property( "startTime", Calendar.getInstance().getTime() ) );
+            StaffEntityComposite props = builder.properties();
+            props.setFirstName( "Sianny" );
+            props.setLastName( "Halim" );
             StaffEntityComposite staff = builder.newInstance();
-            fail("ValidationException should be thrown as Gender is null.");
+            fail( "ValidationException should be thrown as Gender is null." );
         }
         catch( ValidationException e )
         {
@@ -93,32 +79,13 @@ public class StaffEntityCompositeTest extends AbstractTest
         }
     }
 
-    public void testValidateStartTimeNull() throws Exception
-    {
-        try
-        {
-            CompositeBuilder<StaffEntityComposite> builder = session.newEntityBuilder( null, StaffEntityComposite.class );
-            builder.properties( PersonName.class,
-                                property( "firstName", "Sianny" ),
-                                property( "lastName", "Halim" )
-            );
-            builder.properties( Gender.class, property( "gender", GenderType.female ) );
-            StaffEntityComposite staff = builder.newInstance();
-            fail("ValidationException should be thrown as Start Time is null.");
-        }
-        catch( ValidationException e )
-        {
-            // Correct
-        }
-    }
-
-    public void testValidateNameGenderStartTimeNull() throws Exception
+    public void testValidateNameGenderNull() throws Exception
     {
         try
         {
             CompositeBuilder<StaffEntityComposite> builder = session.newEntityBuilder( null, StaffEntityComposite.class );
             StaffEntityComposite staff = builder.newInstance();
-            fail("ValidationException should be thrown as First Name, Last Name, Gender and Start Time are null.");
+            fail( "ValidationException should be thrown as First Name, Last Name, Gender and Start Time are null." );
         }
         catch( ValidationException e )
         {
