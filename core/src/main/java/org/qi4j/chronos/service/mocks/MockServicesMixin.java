@@ -35,6 +35,7 @@ import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.service.AdminService;
 import org.qi4j.chronos.service.ContactPersonService;
+import org.qi4j.chronos.service.ContactService;
 import org.qi4j.chronos.service.ParentBasedService;
 import org.qi4j.chronos.service.PriceRateScheduleService;
 import org.qi4j.chronos.service.ProjectAssigneeService;
@@ -50,6 +51,7 @@ import org.qi4j.chronos.service.WorkEntryService;
 import org.qi4j.chronos.service.composites.AccountServiceComposite;
 import org.qi4j.chronos.service.composites.AdminServiceComposite;
 import org.qi4j.chronos.service.composites.ContactPersonServiceComposite;
+import org.qi4j.chronos.service.composites.ContactServiceComposite;
 import org.qi4j.chronos.service.composites.PriceRateScheduleServiceComposite;
 import org.qi4j.chronos.service.composites.ProjectAssigneeServiceComposite;
 import org.qi4j.chronos.service.composites.ProjectOwnerServiceComposite;
@@ -82,15 +84,17 @@ public class MockServicesMixin implements Services
     private ProjectAssigneeService projectAssigneeService;
     private WorkEntryService workEntryService;
     private RelationshipService relationshipService;
+    private ContactService contactService;
 
     public void initServices()
     {
         accountService = newService( AccountServiceComposite.class );
+
         projectService = newParentBasedService( ProjectServiceComposite.class, "accountService", accountService );
 
         projectRoleService = newService( ProjectRoleServiceComposite.class );
         adminService = newService( AdminServiceComposite.class );
-        staffService = newParentBasedService( StaffServiceComposite.class, "accountService ", accountService );
+        staffService = newParentBasedService( StaffServiceComposite.class, "accountService", accountService );
 
         systemRoleService = newService( SystemRoleServiceComposite.class );
         projectOwnerService = newParentBasedService( ProjectOwnerServiceComposite.class, "accountService", accountService );
@@ -105,6 +109,8 @@ public class MockServicesMixin implements Services
         workEntryService = newParentBasedService( WorkEntryServiceComposite.class, "projectAssigneeService", projectAssigneeService );
 
         relationshipService = newService( RelationshipServiceComposite.class );
+
+        contactService = newService( ContactServiceComposite.class );
 
         initDummyData();
     }
@@ -137,11 +143,11 @@ public class MockServicesMixin implements Services
         initProjectRoleDummyData();
         initSystemRoleDummyData();
         initStaffDummyData( account );
-//        initAdminDummyData();
-//
-//        ProjectOwner projectOwner = initProjectOwnerDummyData( account );
-//
-//        initContactPerson( projectOwner );
+        initAdminDummyData();
+
+        ProjectOwner projectOwner = initProjectOwnerDummyData( account );
+
+        initContactPerson( projectOwner );
     }
 
     private AccountEntityComposite initAccountDummyData()
@@ -417,6 +423,11 @@ public class MockServicesMixin implements Services
     public RelationshipService getRelationshipService()
     {
         return relationshipService;
+    }
+
+    public ContactService getContactService()
+    {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @SuppressWarnings( { "unchecked" } )

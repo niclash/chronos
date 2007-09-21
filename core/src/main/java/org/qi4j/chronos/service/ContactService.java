@@ -10,25 +10,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service.mocks;
+package org.qi4j.chronos.service;
 
 import java.util.List;
-import org.qi4j.api.annotation.scope.Adapt;
-import org.qi4j.api.persistence.Identity;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.service.ProjectService;
+import org.qi4j.chronos.model.associations.HasContacts;
+import org.qi4j.chronos.model.composites.ContactComposite;
 
-public abstract class MockProjectBasedServiceMixin<ITEM extends Identity> extends MockParentBasedServiceMixin<ITEM, ProjectEntityComposite>
+public interface ContactService
 {
-    @Adapt private ProjectService projectService;
+    List<ContactComposite> findAll( HasContacts hasContacts, FindFilter findFilter );
 
-    public MockProjectBasedServiceMixin()
-    {
+    List<ContactComposite> findAll( HasContacts hasContacts );
 
-    }
+    int countAll( HasContacts hasContacts );
 
-    protected List<ProjectEntityComposite> getParentList()
-    {
-        return projectService.findAll();
-    }
+    ContactComposite get( HasContacts hasContacts, String contactValue );
+
+    void update( ContactComposite contactComposite );
 }

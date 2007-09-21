@@ -57,4 +57,9 @@ public class MockAccountServiceMiscMixin implements AccountServiceMisc
         //TODO bp. fixme.
         return null;
     }
+
+    public String toString()
+    {
+        return "TATA";
+    }
 }

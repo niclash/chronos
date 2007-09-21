@@ -35,7 +35,6 @@ public class MockUserServiceMixin implements UserService
 
     public MockUserServiceMixin()
     {
-
     }
 
     public User get( String userId )

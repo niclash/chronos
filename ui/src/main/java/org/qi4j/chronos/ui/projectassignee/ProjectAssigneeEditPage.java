@@ -10,26 +10,32 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service.mocks;
+package org.qi4j.chronos.ui.projectassignee;
 
-import java.util.List;
-import org.qi4j.api.annotation.scope.Adapt;
-import org.qi4j.api.persistence.Identity;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
-import org.qi4j.chronos.service.ProjectAssigneeService;
+import org.qi4j.chronos.ui.base.BasePage;
 
-public abstract class MockProjectAssigneeBasedServiceMixin<ITEM extends Identity> extends MockParentBasedServiceMixin<ITEM, ProjectAssigneeEntityComposite>
+public abstract class ProjectAssigneeEditPage extends ProjectAssigneeAddEditPage
 {
-    @Adapt private ProjectAssigneeService projectAssigneeService;
-
-    public MockProjectAssigneeBasedServiceMixin()
+    public ProjectAssigneeEditPage( BasePage basePage )
     {
-
+        super( basePage );
     }
 
-    protected List<ProjectAssigneeEntityComposite> getParentList()
+    public String getSubmitButtonValue()
     {
-        return projectAssigneeService.findAll();
+        return "Edit";
     }
 
+    public String getTitleLabel()
+    {
+        return "Edit Project Assignee";
+    }
+
+    public void onsubmitting()
+    {
+        //TODO
+    }
+
+    public abstract ProjectAssigneeEntityComposite getProjectAssignee();
 }

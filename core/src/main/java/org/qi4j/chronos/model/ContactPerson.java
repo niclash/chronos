@@ -13,7 +13,8 @@
 package org.qi4j.chronos.model;
 
 import org.qi4j.chronos.model.associations.HasRelationship;
+import org.qi4j.chronos.model.associations.HasContacts;
 
-public interface ContactPerson extends User, HasRelationship
+public interface ContactPerson extends User, HasRelationship, HasContacts
 {
 }

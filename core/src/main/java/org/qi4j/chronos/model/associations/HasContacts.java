@@ -16,19 +16,18 @@ package org.qi4j.chronos.model.associations;
 import java.io.Serializable;
 import java.util.Iterator;
 import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.chronos.model.composites.ContactComposite;
 import org.qi4j.chronos.model.mixins.HasContactsMixin;
-import org.qi4j.library.general.model.Contact;
-import org.qi4j.library.general.model.ContactType;
 
 /**
  * Generic interface to describe association with {@link org.qi4j.chronos.model.composites.ContactComposite}
  */
 @ImplementedBy( { HasContactsMixin.class } )
-public interface HasContacts<T extends ContactType> extends Serializable
+public interface HasContacts extends Serializable
 {
-    void addContact( Contact<T> contact );
+    void addContact( ContactComposite contact );
 
-    void removeContact( Contact<T> contact );
+    void removeContact( ContactComposite contact );
 
-    Iterator<Contact<T>> contactIterator();
+    Iterator<ContactComposite> contactIterator();
 }

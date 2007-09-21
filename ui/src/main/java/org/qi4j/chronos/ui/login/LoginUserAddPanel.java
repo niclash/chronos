@@ -82,6 +82,6 @@ public class LoginUserAddPanel extends LoginUserAbstractPanel
 
     public void assignLoginToFieldValue( Login login )
     {
-        //nothing here
+        //printSomething here
     }
 }

@@ -17,6 +17,7 @@ import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.ui.base.BasePage;
+import org.qi4j.chronos.ui.base.ChangePasswordPage;
 import org.qi4j.chronos.ui.common.SimpleLink;
 
 public class LoginUserEditPanel extends LoginUserAbstractPanel

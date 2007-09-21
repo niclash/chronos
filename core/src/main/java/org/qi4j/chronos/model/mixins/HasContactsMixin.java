@@ -16,32 +16,31 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.qi4j.chronos.model.associations.HasContacts;
-import org.qi4j.library.general.model.Contact;
-import org.qi4j.library.general.model.ContactType;
+import org.qi4j.chronos.model.composites.ContactComposite;
 
 /**
  * Default mixin implementation for {@link org.qi4j.chronos.model.associations.HasContacts}
  */
-public final class HasContactsMixin<T extends ContactType> implements HasContacts<T>
+public final class HasContactsMixin implements HasContacts
 {
-    private final List<Contact<T>> contacts;
+    private final List<ContactComposite> contacts;
 
     public HasContactsMixin()
     {
-        contacts = new ArrayList<Contact<T>>();
+        contacts = new ArrayList<ContactComposite>();
     }
 
-    public void addContact( Contact<T> contact )
+    public void addContact( ContactComposite contact )
     {
         contacts.add( contact );
     }
 
-    public void removeContact( Contact<T> contact )
+    public void removeContact( ContactComposite contact )
     {
         contacts.remove( contact );
     }
 
-    public Iterator<Contact<T>> contactIterator()
+    public Iterator<ContactComposite> contactIterator()
     {
         return contacts.iterator();
     }

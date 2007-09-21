@@ -41,5 +41,7 @@ public interface Services
     WorkEntryService getWorkEntryService();
 
     RelationshipService getRelationshipService();
+
+    ContactService getContactService();
 }
 

@@ -18,7 +18,7 @@ import org.qi4j.api.persistence.Identity;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.ui.ChronosSession;
-import org.qi4j.chronos.ui.login.ChangePasswordPage;
+import org.qi4j.chronos.ui.base.ChangePasswordPage;
 import org.qi4j.chronos.ui.login.LoginPage;
 
 public abstract class TopMenuNavPage extends BasePage

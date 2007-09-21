@@ -14,7 +14,6 @@ package org.qi4j.chronos.model.composites;
 
 import org.qi4j.api.Composite;
 import org.qi4j.library.general.model.Contact;
-import org.qi4j.library.general.model.RegexContactType;
 import org.qi4j.library.general.model.Validatable;
 
 /**
@@ -28,6 +27,6 @@ import org.qi4j.library.general.model.Validatable;
  * TODO: Fix the validation modifier as Lifecycle is not part of the interface anymore
  */
 //@ModifiedBy( { ContactRegexValidationModifier.class } )
-public interface ContactComposite extends Contact<RegexContactType>, Validatable, Composite
+public interface ContactComposite extends Contact, Validatable, Composite
 {
 }
