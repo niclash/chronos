@@ -12,18 +12,50 @@
  */
 package org.qi4j.chronos.ui.project;
 
+import java.util.Iterator;
+import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class ProjectEditPage extends ProjectAddEditPage
+public abstract class ProjectEditPage extends ProjectAddEditPage
 {
+    private final static Logger LOGGER = LoggerFactory.getLogger( ProjectEditPage.class );
+
     public ProjectEditPage( BasePage basePage )
     {
         super( basePage );
+
+        initData();
+    }
+
+    private void initData()
+    {
+        assignProjectToFieldValues( getProject() );
     }
 
     public void onSubmitting()
     {
-        //TODO bp. fixme
+        ProjectEntityComposite project = getProject();
+
+        try
+        {
+            assignFieldValuesToProject( project );
+
+            ChronosWebApp.getServices().getProjectService().update( project );
+
+            logInfoMsg( "Project updated successfully." );
+
+            divertToGoBackPage();
+        }
+        catch( Exception err )
+        {
+            logErrorMsg( err.getMessage() );
+
+            LOGGER.error( err.getMessage(), err );
+        }
     }
 
     public String getSubmitButtonValue()
@@ -35,4 +67,11 @@ public class ProjectEditPage extends ProjectAddEditPage
     {
         return "Edit Project";
     }
+
+    public Iterator<ContactPersonEntityComposite> getInitSelectedContactPersonList()
+    {
+        return getProject().contactPersonIterator();
+    }
+
+    public abstract ProjectEntityComposite getProject();
 }

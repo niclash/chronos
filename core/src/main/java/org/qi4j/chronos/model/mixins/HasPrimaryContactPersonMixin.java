@@ -13,22 +13,22 @@
  */
 package org.qi4j.chronos.model.mixins;
 
-import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.associations.HasPrimaryContactPerson;
+import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 
 /**
  * Default mixin implementation of {@link org.qi4j.chronos.model.associations.HasPrimaryContactPerson}
  */
 public final class HasPrimaryContactPersonMixin implements HasPrimaryContactPerson
 {
-    private ContactPerson primaryContactPerson;
+    private ContactPersonEntityComposite primaryContactPerson;
 
-    public ContactPerson getPrimaryContactPerson()
+    public ContactPersonEntityComposite getPrimaryContactPerson()
     {
         return primaryContactPerson;
     }
 
-    public void setPrimaryContactPerson( ContactPerson contactPerson )
+    public void setPrimaryContactPerson( ContactPersonEntityComposite contactPerson )
     {
         primaryContactPerson = contactPerson;
     }

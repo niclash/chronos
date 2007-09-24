@@ -27,4 +27,6 @@ public interface HasContactPersons extends Serializable
     void addContactPerson( ContactPersonEntityComposite contactPerson );
 
     void removeContactPerson( ContactPersonEntityComposite contactPerson );
+
+    void removeAllContactPerson();
 }

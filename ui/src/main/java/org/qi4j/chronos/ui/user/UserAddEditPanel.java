@@ -28,6 +28,7 @@ import org.qi4j.chronos.ui.base.AddEditBasePanel;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
+import org.qi4j.chronos.ui.systemrole.SystemRoleDelegator;
 import org.qi4j.chronos.ui.util.ListUtil;
 import org.qi4j.library.general.model.GenderType;
 
@@ -192,11 +193,9 @@ public abstract class UserAddEditPanel extends AddEditBasePanel
         genderChoice.setChoice( user.getGender().toString() );
 
         loginUserPanel.assignLoginToFieldValue( user.getLogin() );
+
+        //skip the rolePalette, as it is already done in getInitSelectedRoleList();
     }
-
-    protected abstract Iterator<SystemRoleEntityComposite> getInitSelectedRoleList();
-
-    public abstract LoginUserAbstractPanel getLoginUserAbstractPanel( String id );
 
     public boolean checkIsNotValidated()
     {
@@ -226,35 +225,7 @@ public abstract class UserAddEditPanel extends AddEditBasePanel
         return isRejected;
     }
 
-    private class SystemRoleDelegator implements Serializable
-    {
-        private String roleId;
-        private String roleName;
+    protected abstract Iterator<SystemRoleEntityComposite> getInitSelectedRoleList();
 
-        public SystemRoleDelegator( String roleId, String roleName )
-        {
-            this.roleId = roleId;
-            this.roleName = roleName;
-        }
-
-        public String getRoleId()
-        {
-            return roleId;
-        }
-
-        public void setRoleId( String roleId )
-        {
-            this.roleId = roleId;
-        }
-
-        public String getRoleName()
-        {
-            return roleName;
-        }
-
-        public void setRoleName( String roleName )
-        {
-            this.roleName = roleName;
-        }
-    }
+    public abstract LoginUserAbstractPanel getLoginUserAbstractPanel( String id );
 }

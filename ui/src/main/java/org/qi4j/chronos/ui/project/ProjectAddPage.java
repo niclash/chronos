@@ -12,10 +12,22 @@
  */
 package org.qi4j.chronos.ui.project;
 
+import java.util.Collections;
+import java.util.Iterator;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.composites.TimeRangeComposite;
+import org.qi4j.chronos.service.ProjectService;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public class ProjectAddPage extends ProjectAddEditPage
+public abstract class ProjectAddPage extends ProjectAddEditPage
 {
+    private final static Logger LOGGER = LoggerFactory.getLogger( ProjectAddPage.class );
+
     public ProjectAddPage( BasePage basePage )
     {
         super( basePage );
@@ -23,7 +35,32 @@ public class ProjectAddPage extends ProjectAddEditPage
 
     public void onSubmitting()
     {
-        //TODO bp. fixme
+        ProjectService projectService = ChronosWebApp.getServices().getProjectService();
+
+        ProjectEntityComposite project = projectService.newInstance( ProjectEntityComposite.class );
+
+        project.setActualTime( ChronosWebApp.newInstance( TimeRangeComposite.class ) );
+        project.setEstimateTime( ChronosWebApp.newInstance( TimeRangeComposite.class ) );
+
+        try
+        {
+            assignFieldValuesToProject( project );
+
+            AccountEntityComposite account = getAccount();
+
+            account.addProject( project );
+
+            ChronosWebApp.getServices().getAccountService().update( account );
+
+            logInfoMsg( "Project is added successfully." );
+
+            divertToGoBackPage();
+        }
+        catch( Exception err )
+        {
+            logErrorMsg( err.getMessage() );
+            LOGGER.error( err.getMessage(), err );
+        }
     }
 
     public String getSubmitButtonValue()
@@ -34,5 +71,10 @@ public class ProjectAddPage extends ProjectAddEditPage
     public String getTitleLabel()
     {
         return "New Project";
+    }
+
+    public Iterator<ContactPersonEntityComposite> getInitSelectedContactPersonList()
+    {
+        return Collections.EMPTY_LIST.iterator();
     }
 }

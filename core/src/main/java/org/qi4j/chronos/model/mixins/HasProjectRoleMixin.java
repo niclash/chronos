@@ -19,12 +19,12 @@ public final class HasProjectRoleMixin implements HasProjectRole
 {
     private ProjectRole role;
 
-    public void setRole( ProjectRole aRole )
+    public void setProjectRole( ProjectRole aRole )
     {
         role = aRole;
     }
 
-    public ProjectRole getRole()
+    public ProjectRole getProjectRole()
     {
         return role;
     }

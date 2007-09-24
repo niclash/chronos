@@ -22,7 +22,7 @@ public class MenuLink extends MenuItem
 {
     private static final long serialVersionUID = 1L;
 
-    private Class<? extends WebPage> webPage;
+    private Class<? extends WebPage> webPageClazz;
     private PageParameters pageParamaters;
     private String text;
 
@@ -35,7 +35,7 @@ public class MenuLink extends MenuItem
     {
         super();
 
-        this.webPage = webPage;
+        this.webPageClazz = webPage;
         this.pageParamaters = pageParameters;
         this.text = text;
 
@@ -51,11 +51,11 @@ public class MenuLink extends MenuItem
             {
                 if( pageParamaters != null )
                 {
-                    setResponsePage( webPage, pageParamaters );
+                    setResponsePage( webPageClazz, pageParamaters );
                 }
                 else
                 {
-                    setResponsePage( webPage );
+                    setResponsePage( webPageClazz );
                 }
             }
         };

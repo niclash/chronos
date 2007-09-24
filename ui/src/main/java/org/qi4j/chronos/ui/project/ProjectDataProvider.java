@@ -42,11 +42,6 @@ public abstract class ProjectDataProvider extends AbstractSortableDataProvider<P
         return ChronosWebApp.getServices().getProjectService();
     }
 
-    private AccountEntityComposite getAccount()
-    {
-        return ChronosWebApp.getServices().getAccountService().get( getAccountId() );
-    }
-
     public List<ProjectEntityComposite> dataList( int first, int count )
     {
         return getProjectService().findAll( getAccount(), new FindFilter( first, count ) );
@@ -57,5 +52,5 @@ public abstract class ProjectDataProvider extends AbstractSortableDataProvider<P
         return getProjectService().countAll( getAccount() );
     }
 
-    public abstract String getAccountId();
+    public abstract AccountEntityComposite getAccount();
 }

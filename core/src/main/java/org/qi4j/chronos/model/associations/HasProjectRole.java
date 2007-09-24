@@ -22,7 +22,7 @@ import org.qi4j.chronos.model.mixins.HasProjectRoleMixin;
 @ImplementedBy( HasProjectRoleMixin.class )
 public interface HasProjectRole
 {
-    void setRole( ProjectRole role );
+    void setProjectRole( ProjectRole role );
 
-    ProjectRole getRole();
+    ProjectRole getProjectRole();
 }

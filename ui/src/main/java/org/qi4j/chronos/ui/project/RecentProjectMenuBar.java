@@ -26,12 +26,13 @@ public class RecentProjectMenuBar extends MenuBar
     public MenuItem[] getMenuItemList()
     {
         return new MenuItem[]{
-            new MenuLink( "Project A", ProjectViewPage.class ),
-            new MenuLink( "Project B", ProjectViewPage.class ),
-            new MenuLink( "Project C", ProjectViewPage.class ),
-            new MenuLink( "Project D", ProjectViewPage.class ),
-            new MenuLink( "Project E", ProjectViewPage.class ),
-            new MenuLink( "Project F", ProjectViewPage.class ),
+            //TODO FIXME
+            new MenuLink( "Project A", ProjectDetailPage.class ),
+            new MenuLink( "Project B", ProjectDetailPage.class ),
+            new MenuLink( "Project C", ProjectDetailPage.class ),
+            new MenuLink( "Project D", ProjectDetailPage.class ),
+            new MenuLink( "Project E", ProjectDetailPage.class ),
+            new MenuLink( "Project F", ProjectDetailPage.class ),
         };
     }
 }

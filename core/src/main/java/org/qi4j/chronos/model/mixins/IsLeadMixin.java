@@ -10,22 +10,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.common.tab;
+package org.qi4j.chronos.model.mixins;
 
-import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.ui.common.NewLinkPanel;
+import org.qi4j.chronos.model.associations.IsLead;
 
-public abstract class NewLinkTab extends BaseTab
+public class IsLeadMixin implements IsLead
 {
-    public NewLinkTab( String title )
+    private boolean isLead;
+
+    public IsLeadMixin( boolean isLead )
     {
-        super( title );
+        this.isLead = isLead;
     }
 
-    public final Panel getPanel( final String id )
+    public boolean isLead()
     {
-        return getNewLinkPanel( id );
+        return isLead;
     }
 
-    public abstract NewLinkPanel getNewLinkPanel( String id );
+    public void isLead( boolean islead )
+    {
+        this.isLead = isLead;
+    }
 }

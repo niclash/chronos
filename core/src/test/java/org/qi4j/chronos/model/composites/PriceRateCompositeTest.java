@@ -23,7 +23,7 @@ public class PriceRateCompositeTest extends AbstractTest
 
         try
         {
-            priceRateComposite.setRole( null );
+            priceRateComposite.setProjectRole( null );
 
             fail( "Should throw ValidationException!" );
         }
@@ -33,7 +33,7 @@ public class PriceRateCompositeTest extends AbstractTest
         }
 
         ProjectRoleEntityComposite projectRoleComposite = builderFactory.newCompositeBuilder( ProjectRoleEntityComposite.class ).newInstance();
-        priceRateComposite.setRole( projectRoleComposite );
+        priceRateComposite.setProjectRole( projectRoleComposite );
     }
 
 }

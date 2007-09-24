@@ -16,7 +16,11 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.service.ProjectService;
+import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
@@ -36,9 +40,9 @@ public abstract class ProjectTable extends ActionTable<ProjectEntityComposite, S
         {
             provider = new ProjectDataProvider()
             {
-                public String getAccountId()
+                public AccountEntityComposite getAccount()
                 {
-                    return ProjectTable.this.getAccountId();
+                    return ProjectTable.this.getAccount();
                 }
             };
         }
@@ -48,21 +52,10 @@ public abstract class ProjectTable extends ActionTable<ProjectEntityComposite, S
 
     public void populateItems( Item item, ProjectEntityComposite obj )
     {
-        item.add( new SimpleLink( "name", obj.getName() )
-        {
-            public void linkClicked()
-            {
-                //TODO
-            }
-        } );
+        final String projectId = obj.getIdentity();
 
-        item.add( new SimpleLink( "formalReference", obj.getReference() )
-        {
-            public void linkClicked()
-            {
-                //TODO
-            }
-        } );
+        item.add( createDetailLink( "name", obj.getName(), projectId ) );
+        item.add( createDetailLink( "formalReference", obj.getReference(), projectId ) );
 
         item.add( new Label( "status", obj.getProjectStatus().toString() ) );
 
@@ -70,9 +63,46 @@ public abstract class ProjectTable extends ActionTable<ProjectEntityComposite, S
         {
             public void linkClicked()
             {
-                //TODO
+                ProjectEditPage editPage = new ProjectEditPage( (BasePage) this.getPage() )
+                {
+                    public ProjectEntityComposite getProject()
+                    {
+                        return getProjectService().get( projectId );
+                    }
+
+                    public AccountEntityComposite getAccount()
+                    {
+                        return ProjectTable.this.getAccount();
+                    }
+                };
+
+                setResponsePage( editPage );
             }
         } );
+    }
+
+    private SimpleLink createDetailLink( String id, String text, final String projectId )
+    {
+        return new SimpleLink( id, text )
+        {
+            public void linkClicked()
+            {
+                ProjectDetailPage detailPage = new ProjectDetailPage( (BasePage) this.getPage() )
+                {
+                    public ProjectEntityComposite getProject()
+                    {
+                        return getProjectService().get( projectId );
+                    }
+                };
+
+                setResponsePage( detailPage );
+            }
+        };
+    }
+
+    private ProjectService getProjectService()
+    {
+        return ChronosWebApp.getServices().getProjectService();
     }
 
     public List<String> getTableHeaderList()
@@ -80,5 +110,5 @@ public abstract class ProjectTable extends ActionTable<ProjectEntityComposite, S
         return Arrays.asList( "Name", "Formal Reference", "Status", "" );
     }
 
-    public abstract String getAccountId();
+    public abstract AccountEntityComposite getAccount();
 }

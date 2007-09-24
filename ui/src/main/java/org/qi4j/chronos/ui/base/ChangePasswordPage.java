@@ -162,7 +162,7 @@ public class ChangePasswordPage extends LeftMenuNavPage
             {
                 userService.update( user );
 
-                goBackPage.info( "Password Changed Successfully." );
+                goBackPage.info( "Password changed successfully." );
 
                 setResponsePage( goBackPage );
             }

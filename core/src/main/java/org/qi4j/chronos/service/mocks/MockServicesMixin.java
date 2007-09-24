@@ -145,9 +145,9 @@ public class MockServicesMixin implements Services
         initStaffDummyData( account );
         initAdminDummyData();
 
-        ProjectOwner projectOwner = initProjectOwnerDummyData( account );
+        ProjectOwner[] projectOwners = initProjectOwnerDummyData( account );
 
-        initContactPerson( projectOwner );
+        initContactPerson( projectOwners );
     }
 
     private AccountEntityComposite initAccountDummyData()
@@ -158,6 +158,15 @@ public class MockServicesMixin implements Services
         account.setReference( "Jayway Malaysia Sdn Bhd" );
         account.setEnabled( true );
 
+        account.setAddress( newAddress( "Abc Road", "Way Center", "111", "KL", "Wilayah", "Malaysia" ) );
+
+        accountService.save( account );
+
+        return account;
+    }
+
+    private AddressComposite newAddress( String firstLine, String secondLine, String zipCode, String aCity, String aState, String aCountry )
+    {
         AddressComposite address = factory.newCompositeBuilder( AddressComposite.class ).newInstance();
         CityComposite city = factory.newCompositeBuilder( CityComposite.class ).newInstance();
         StateComposite state = factory.newCompositeBuilder( StateComposite.class ).newInstance();
@@ -168,19 +177,15 @@ public class MockServicesMixin implements Services
         city.setState( state );
         city.setCountry( country );
 
-        account.setAddress( address );
+        address.getCity().setName( aCity );
+        address.getCity().getCountry().setName( aCountry );
+        address.getCity().getState().setName( aState );
 
-        address.getCity().setName( "city1" );
-        address.getCity().getCountry().setName( "Malaysia" );
-        address.getCity().getState().setName( "KL" );
+        address.setFirstLine( firstLine );
+        address.setSecondLine( secondLine );
+        address.setZipCode( zipCode );
 
-        address.setFirstLine( "ABC Road" );
-        address.setSecondLine( "Way Center" );
-        address.setZipCode( "999" );
-
-        accountService.save( account );
-
-        return account;
+        return address;
     }
 
     private void initProjectRoleDummyData()
@@ -290,46 +295,38 @@ public class MockServicesMixin implements Services
         systemRoleService.findAll();
     }
 
-    private ProjectOwner initProjectOwnerDummyData( AccountEntityComposite account )
+    private ProjectOwner[] initProjectOwnerDummyData( AccountEntityComposite account )
     {
-        ProjectOwnerEntityComposite projectOwner = projectOwnerService.newInstance( ProjectOwnerEntityComposite.class );
+        ProjectOwnerEntityComposite[] projectOwners = new ProjectOwnerEntityComposite[2];
 
-        projectOwner.setName( "ABC" );
-        projectOwner.setReference( "ABC Ltd" );
+        projectOwners[ 0 ] = projectOwnerService.newInstance( ProjectOwnerEntityComposite.class );
 
-        AddressComposite address = factory.newCompositeBuilder( AddressComposite.class ).newInstance();
-        CityComposite city = factory.newCompositeBuilder( CityComposite.class ).newInstance();
-        StateComposite state = factory.newCompositeBuilder( StateComposite.class ).newInstance();
-        CountryComposite country = factory.newCompositeBuilder( CountryComposite.class ).newInstance();
+        projectOwners[ 0 ].setName( "Microsoft" );
+        projectOwners[ 0 ].setReference( "Microsoft Ltd" );
 
-        address.setCity( city );
+        projectOwners[ 0 ].setAddress( newAddress( "Uber Road", "Street 191", "111", "New York", "New York", "US" ) );
 
-        city.setState( state );
-        city.setCountry( country );
+        projectOwners[ 1 ] = projectOwnerService.newInstance( ProjectOwnerEntityComposite.class );
 
-        projectOwner.setAddress( address );
+        projectOwners[ 1 ].setName( "Sun Microsytems" );
+        projectOwners[ 1 ].setReference( "Sun Microsytems Ltd" );
 
-        address.getCity().setName( "City" );
-        address.getCity().getCountry().setName( "Sweden" );
-        address.getCity().getState().setName( "KL" );
+        projectOwners[ 1 ].setAddress( newAddress( "Old Town", "Street 191", "111", "New York", "New York", "US" ) );
 
-        address.setFirstLine( "Golden Road" );
-        address.setSecondLine( "Uber City" );
-        address.setZipCode( "123" );
+        account.addProjectOwner( projectOwners[ 0 ] );
+        account.addProjectOwner( projectOwners[ 1 ] );
 
-        account.addProjectOwner( projectOwner );
-
-        return projectOwner;
+        return projectOwners;
     }
 
-    private void initContactPerson( ProjectOwner projectOwner )
+    private void initContactPerson( ProjectOwner[] projectOwners )
     {
         SystemRoleEntityComposite contactPersonRole = systemRoleService.getSystemRoleByName( SystemRole.CONTACT_PERSON );
 
         ContactPersonEntityComposite contactPerson = contactPersonService.newInstance( ContactPersonEntityComposite.class );
 
         contactPerson.setFirstName( "michael" );
-        contactPerson.setLastName( "michael" );
+        contactPerson.setLastName( "Lim" );
         contactPerson.setGender( GenderType.male );
 
         LoginComposite login = factory.newCompositeBuilder( LoginComposite.class ).newInstance();
@@ -343,21 +340,39 @@ public class MockServicesMixin implements Services
 
         ContactPersonEntityComposite contactPerson2 = contactPersonService.newInstance( ContactPersonEntityComposite.class );
 
-        contactPerson2.setFirstName( "mimi" );
-        contactPerson2.setLastName( "mimi" );
+        contactPerson2.setFirstName( "robert" );
+        contactPerson2.setLastName( "char" );
         contactPerson2.setGender( GenderType.male );
 
         LoginComposite login2 = factory.newCompositeBuilder( LoginComposite.class ).newInstance();
 
-        login2.setName( "mimi" );
-        login2.setPassword( "mimi" );
+        login2.setName( "robert" );
+        login2.setPassword( "robert" );
         login2.setEnabled( true );
 
         contactPerson2.setLogin( login2 );
         contactPerson2.addSystemRole( contactPersonRole );
 
-        projectOwner.addContactPerson( contactPerson );
-        projectOwner.addContactPerson( contactPerson2 );
+
+        ContactPersonEntityComposite contactPerson3 = contactPersonService.newInstance( ContactPersonEntityComposite.class );
+
+        contactPerson3.setFirstName( "Elvin" );
+        contactPerson3.setLastName( "Tan" );
+        contactPerson3.setGender( GenderType.male );
+
+        LoginComposite login3 = factory.newCompositeBuilder( LoginComposite.class ).newInstance();
+
+        login3.setName( "elvin" );
+        login3.setPassword( "elvin" );
+        login3.setEnabled( true );
+
+        contactPerson3.setLogin( login3 );
+        contactPerson3.addSystemRole( contactPersonRole );
+
+        projectOwners[ 0 ].addContactPerson( contactPerson );
+        projectOwners[ 0 ].addContactPerson( contactPerson2 );
+
+        projectOwners[ 1 ].addContactPerson( contactPerson3 );
     }
 
     public AccountService getAccountService()

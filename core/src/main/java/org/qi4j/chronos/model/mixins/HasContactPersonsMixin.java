@@ -42,4 +42,9 @@ public final class HasContactPersonsMixin implements HasContactPersons
     {
         list.remove( contactPerson );
     }
+
+    public void removeAllContactPerson()
+    {
+        list.clear();
+    }
 }
