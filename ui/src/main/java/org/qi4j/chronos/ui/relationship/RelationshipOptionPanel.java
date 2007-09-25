@@ -13,7 +13,9 @@
 package org.qi4j.chronos.ui.relationship;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
 import org.qi4j.chronos.model.composites.RelationshipComposite;
@@ -54,9 +56,14 @@ public abstract class RelationshipOptionPanel extends Panel
             {
                 RelationshipAddPage addPage = new RelationshipAddPage( (BasePage) this.getPage() )
                 {
+                    public ProjectOwnerEntityComposite getProjectOwner()
+                    {
+                        return RelationshipOptionPanel.this.getProjectOwner();
+                    }
+
                     public void newRelationship( RelationshipComposite relationship )
                     {
-                        RelationshipOptionPanel.this.addedNewRelationship( relationship );
+                        RelationshipOptionPanel.this.addNewRelationship( relationship );
                     }
                 };
 
@@ -73,7 +80,7 @@ public abstract class RelationshipOptionPanel extends Panel
         add( newRelationshipLink );
     }
 
-    private void addedNewRelationship( RelationshipComposite relationshipComposite )
+    private void addNewRelationship( RelationshipComposite relationshipComposite )
     {
         newRelationshipList.add( relationshipComposite );
         relationshipList.add( relationshipComposite.getRelationship() );
@@ -81,9 +88,9 @@ public abstract class RelationshipOptionPanel extends Panel
         relationshipChoice.setVisible( true );
     }
 
-    private List<String> initRelationshipList()
+    private void initRelationshipList()
     {
-        relationshipList = new ArrayList<String>();
+        Set<String> relationshipSet = new HashSet();
 
         RelationshipService service = ChronosWebApp.getServices().getRelationshipService();
 
@@ -93,10 +100,12 @@ public abstract class RelationshipOptionPanel extends Panel
 
         for( RelationshipComposite relationship : list )
         {
-            relationshipList.add( relationship.getRelationship() );
+            relationshipSet.add( relationship.getRelationship() );
         }
 
-        return relationshipList;
+        relationshipList = new ArrayList<String>();
+
+        relationshipList.addAll( relationshipSet );
     }
 
     public boolean checkIfNotValidated()

@@ -83,7 +83,14 @@ public abstract class ProjectOwnerTable extends ActionTable<ProjectOwnerEntityCo
         {
             public void linkClicked()
             {
-                ProjectOwnerDetailPage detailPage = new ProjectOwnerDetailPage( (BasePage) this.getPage(), projectOwnerId );
+                ProjectOwnerDetailPage detailPage = new ProjectOwnerDetailPage( (BasePage) this.getPage(), projectOwnerId )
+                {
+
+                    public AccountEntityComposite getAccount()
+                    {
+                        return ProjectOwnerTable.this.getAccount();
+                    }
+                };
 
                 setResponsePage( detailPage );
             }

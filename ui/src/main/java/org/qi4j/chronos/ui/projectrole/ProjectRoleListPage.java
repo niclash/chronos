@@ -14,12 +14,24 @@ package org.qi4j.chronos.ui.projectrole;
 
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.ui.ChronosSession;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 
 public class ProjectRoleListPage extends LeftMenuNavPage
+
 {
+    private String accountId;
+
     public ProjectRoleListPage()
     {
+        this( ( (ChronosSession) ChronosSession.get() ).getAccountId() );
+    }
+
+    public ProjectRoleListPage( String accountId )
+    {
+        this.accountId = accountId;
         initComponents();
     }
 
@@ -29,14 +41,31 @@ public class ProjectRoleListPage extends LeftMenuNavPage
         {
             public void onClick()
             {
-                setResponsePage( new ProjectRoleAddPage( ProjectRoleListPage.this ) );
+                setResponsePage( new ProjectRoleAddPage( ProjectRoleListPage.this )
+                {
+                    public AccountEntityComposite getAccount()
+                    {
+                        return ProjectRoleListPage.this.getAccount();
+                    }
+                } );
             }
         } );
 
         add( new FeedbackPanel( "feedbackPanel" ) );
 
-        ProjectRoleTable roleTable = new ProjectRoleTable( "roleTable" );
+        ProjectRoleTable roleTable = new ProjectRoleTable( "roleTable" )
+        {
+            public AccountEntityComposite getAccount()
+            {
+                return ProjectRoleListPage.this.getAccount();
+            }
+        };
 
         add( roleTable );
+    }
+
+    private AccountEntityComposite getAccount()
+    {
+        return ChronosWebApp.getServices().getAccountService().get( accountId );
     }
 }

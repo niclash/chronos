@@ -12,7 +12,8 @@
  */
 package org.qi4j.chronos.ui.pricerate;
 
-import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
+import java.util.Iterator;
+import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.service.PriceRateScheduleService;
 import org.qi4j.chronos.ui.ChronosWebApp;
@@ -20,7 +21,7 @@ import org.qi4j.chronos.ui.base.BasePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class PriceRateScheduleEditPage<T extends HasPriceRateSchedules> extends PriceRateScheduleAddEditPage
+public abstract class PriceRateScheduleEditPage extends PriceRateScheduleAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( PriceRateScheduleEditPage.class );
 
@@ -68,6 +69,11 @@ public abstract class PriceRateScheduleEditPage<T extends HasPriceRateSchedules>
             logErrorMsg( err.getMessage() );
             LOGGER.error( err.getMessage(), err );
         }
+    }
+
+    public Iterator<PriceRateComposite> getInitPriceRateIterator()
+    {
+        return getPriceRateSchedule().priceRateIterator();
     }
 
     public abstract PriceRateScheduleComposite getPriceRateSchedule();

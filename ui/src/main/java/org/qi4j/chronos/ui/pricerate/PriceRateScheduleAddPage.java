@@ -12,14 +12,16 @@
  */
 package org.qi4j.chronos.ui.pricerate;
 
-import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
+import java.util.Collections;
+import java.util.Iterator;
+import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class PriceRateScheduleAddPage<T extends HasPriceRateSchedules> extends PriceRateScheduleAddEditPage<T>
+public abstract class PriceRateScheduleAddPage extends PriceRateScheduleAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( PriceRateScheduleAddPage.class );
 
@@ -46,11 +48,7 @@ public abstract class PriceRateScheduleAddPage<T extends HasPriceRateSchedules> 
         {
             assignFieldValueToPriceRateSchedule( priceRateSchedule );
 
-            T t = getHasPriceRateSchedule();
-
-            t.addPriceRateSchedule( priceRateSchedule );
-
-            addedPriceRateSchedule( t );
+            addPriceRateSchedule( priceRateSchedule );
 
             logInfoMsg( "Price Rate Schedule is added successfully." );
 
@@ -63,5 +61,10 @@ public abstract class PriceRateScheduleAddPage<T extends HasPriceRateSchedules> 
         }
     }
 
-    public abstract void addedPriceRateSchedule( T t );
+    public Iterator<PriceRateComposite> getInitPriceRateIterator()
+    {
+        return Collections.EMPTY_LIST.iterator();
+    }
+
+    public abstract void addPriceRateSchedule( PriceRateScheduleComposite priceRateScheduleComposite );
 }

@@ -14,6 +14,7 @@ package org.qi4j.chronos.ui.projectrole;
 
 import org.apache.wicket.markup.html.form.Form;
 import org.qi4j.chronos.model.ProjectRole;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.service.ProjectRoleService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
@@ -59,4 +60,6 @@ public abstract class ProjectRoleAddEditPage extends AddEditBasePage
     }
 
     public abstract void onSubmitting();
+
+    public abstract AccountEntityComposite getAccount();
 }

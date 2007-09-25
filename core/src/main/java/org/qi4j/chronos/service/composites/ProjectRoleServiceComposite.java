@@ -13,8 +13,11 @@
 package org.qi4j.chronos.service.composites;
 
 import org.qi4j.api.Composite;
+import org.qi4j.api.annotation.ImplementedBy;
 import org.qi4j.chronos.service.ProjectRoleService;
+import org.qi4j.chronos.service.mocks.MockProjectRoleServiceMixin;
 
+@ImplementedBy( MockProjectRoleServiceMixin.class )
 public interface ProjectRoleServiceComposite extends ProjectRoleService, Composite
 {
 

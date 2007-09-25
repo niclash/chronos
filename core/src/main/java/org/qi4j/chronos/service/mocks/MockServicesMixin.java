@@ -30,6 +30,7 @@ import org.qi4j.chronos.model.composites.LoginComposite;
 import org.qi4j.chronos.model.composites.MoneyComposite;
 import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
+import org.qi4j.chronos.model.composites.RelationshipComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.service.AccountService;
@@ -71,6 +72,8 @@ public class MockServicesMixin implements Services
 {
     @Qi4j private CompositeBuilderFactory factory;
 
+    private final static String ACCOUNT_SERVICE = "accountService";
+
     private AccountService accountService;
     private ProjectService projectService;
     private ProjectRoleService projectRoleService;
@@ -90,14 +93,14 @@ public class MockServicesMixin implements Services
     {
         accountService = newService( AccountServiceComposite.class );
 
-        projectService = newParentBasedService( ProjectServiceComposite.class, "accountService", accountService );
+        projectService = newParentBasedService( ProjectServiceComposite.class, ACCOUNT_SERVICE, accountService );
 
-        projectRoleService = newService( ProjectRoleServiceComposite.class );
+        projectRoleService = newParentBasedService( ProjectRoleServiceComposite.class, ACCOUNT_SERVICE, accountService );
         adminService = newService( AdminServiceComposite.class );
-        staffService = newParentBasedService( StaffServiceComposite.class, "accountService", accountService );
+        staffService = newParentBasedService( StaffServiceComposite.class, ACCOUNT_SERVICE, accountService );
 
         systemRoleService = newService( SystemRoleServiceComposite.class );
-        projectOwnerService = newParentBasedService( ProjectOwnerServiceComposite.class, "accountService", accountService );
+        projectOwnerService = newParentBasedService( ProjectOwnerServiceComposite.class, ACCOUNT_SERVICE, accountService );
         contactPersonService = newParentBasedService( ContactPersonServiceComposite.class, "projectOwnerService", projectOwnerService );
 
         userService = initUserService( staffService, adminService, contactPersonService );
@@ -140,14 +143,25 @@ public class MockServicesMixin implements Services
     {
         AccountEntityComposite account = initAccountDummyData();
 
-        initProjectRoleDummyData();
+        initProjectRoleDummyData( account );
         initSystemRoleDummyData();
         initStaffDummyData( account );
         initAdminDummyData();
 
         ProjectOwner[] projectOwners = initProjectOwnerDummyData( account );
 
-        initContactPerson( projectOwners );
+        RelationshipComposite relationship = initRelationshipDummyData();
+
+        initContactPerson( projectOwners, relationship );
+    }
+
+    private RelationshipComposite initRelationshipDummyData()
+    {
+        RelationshipComposite relationship = factory.newCompositeBuilder( RelationshipComposite.class ).newInstance();
+
+        relationship.setRelationship( "IT Manager" );
+
+        return relationship;
     }
 
     private AccountEntityComposite initAccountDummyData()
@@ -188,7 +202,7 @@ public class MockServicesMixin implements Services
         return address;
     }
 
-    private void initProjectRoleDummyData()
+    private void initProjectRoleDummyData( AccountEntityComposite account )
     {
         ProjectRoleEntityComposite programmer = projectRoleService.newInstance( ProjectRoleEntityComposite.class );
         programmer.setRole( "Programmer" );
@@ -199,9 +213,9 @@ public class MockServicesMixin implements Services
         ProjectRoleEntityComposite projectManager = projectRoleService.newInstance( ProjectRoleEntityComposite.class );
         projectManager.setRole( "Project Manager" );
 
-        projectRoleService.save( programmer );
-        projectRoleService.save( consultant );
-        projectRoleService.save( projectManager );
+        account.addProjectRole( programmer );
+        account.addProjectRole( consultant );
+        account.addProjectRole( projectManager );
     }
 
     private void initAdminDummyData()
@@ -319,7 +333,7 @@ public class MockServicesMixin implements Services
         return projectOwners;
     }
 
-    private void initContactPerson( ProjectOwner[] projectOwners )
+    private void initContactPerson( ProjectOwner[] projectOwners, RelationshipComposite relationship )
     {
         SystemRoleEntityComposite contactPersonRole = systemRoleService.getSystemRoleByName( SystemRole.CONTACT_PERSON );
 
@@ -328,6 +342,7 @@ public class MockServicesMixin implements Services
         contactPerson.setFirstName( "michael" );
         contactPerson.setLastName( "Lim" );
         contactPerson.setGender( GenderType.male );
+        contactPerson.setRelationship( cloneRelationship( relationship ) );
 
         LoginComposite login = factory.newCompositeBuilder( LoginComposite.class ).newInstance();
 
@@ -343,6 +358,7 @@ public class MockServicesMixin implements Services
         contactPerson2.setFirstName( "robert" );
         contactPerson2.setLastName( "char" );
         contactPerson2.setGender( GenderType.male );
+        contactPerson2.setRelationship( cloneRelationship( relationship ) );
 
         LoginComposite login2 = factory.newCompositeBuilder( LoginComposite.class ).newInstance();
 
@@ -353,12 +369,12 @@ public class MockServicesMixin implements Services
         contactPerson2.setLogin( login2 );
         contactPerson2.addSystemRole( contactPersonRole );
 
-
         ContactPersonEntityComposite contactPerson3 = contactPersonService.newInstance( ContactPersonEntityComposite.class );
 
         contactPerson3.setFirstName( "Elvin" );
         contactPerson3.setLastName( "Tan" );
         contactPerson3.setGender( GenderType.male );
+        contactPerson3.setRelationship( cloneRelationship( relationship ) );
 
         LoginComposite login3 = factory.newCompositeBuilder( LoginComposite.class ).newInstance();
 
@@ -371,8 +387,16 @@ public class MockServicesMixin implements Services
 
         projectOwners[ 0 ].addContactPerson( contactPerson );
         projectOwners[ 0 ].addContactPerson( contactPerson2 );
-
         projectOwners[ 1 ].addContactPerson( contactPerson3 );
+    }
+
+    private RelationshipComposite cloneRelationship( RelationshipComposite relationshipComposite )
+    {
+        RelationshipComposite newRelationship = factory.newCompositeBuilder( RelationshipComposite.class ).newInstance();
+
+        newRelationship.setRelationship( relationshipComposite.getRelationship() );
+
+        return newRelationship;
     }
 
     public AccountService getAccountService()

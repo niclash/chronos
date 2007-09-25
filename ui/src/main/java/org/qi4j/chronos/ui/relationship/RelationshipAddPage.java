@@ -12,7 +12,9 @@
  */
 package org.qi4j.chronos.ui.relationship;
 
+import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
 import org.qi4j.chronos.model.composites.RelationshipComposite;
+import org.qi4j.chronos.service.RelationshipService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 
@@ -25,12 +27,29 @@ public abstract class RelationshipAddPage extends RelationshipAddEditPage
 
     public void onSubmitting()
     {
-        RelationshipComposite relationship = ChronosWebApp.newInstance( RelationshipComposite.class );
+        boolean isRejected = false;
 
-        relationship.setRelationship( relationshipField.getText() );
+        String relationship = relationshipField.getText();
 
-        //TODO bp. check ensure that relationship is unique.
-        newRelationship( relationship );
+        RelationshipService service = ChronosWebApp.getServices().getRelationshipService();
+
+        if( service.get( getProjectOwner(), relationship ) != null )
+        {
+            isRejected = true;
+        }
+
+        if( isRejected )
+        {
+            return;
+        }
+
+        RelationshipComposite newRelationship = ChronosWebApp.newInstance( RelationshipComposite.class );
+
+        newRelationship.setRelationship( relationship );
+
+        newRelationship( newRelationship );
+
+        divertToGoBackPage();
     }
 
     public String getSubmitButtonValue()
@@ -42,6 +61,8 @@ public abstract class RelationshipAddPage extends RelationshipAddEditPage
     {
         return "Add Relationship";
     }
+
+    public abstract ProjectOwnerEntityComposite getProjectOwner();
 
     public abstract void newRelationship( RelationshipComposite relationship );
 }

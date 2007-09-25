@@ -14,7 +14,7 @@ package org.qi4j.chronos.ui.pricerate;
 
 import org.qi4j.chronos.ui.base.BasePage;
 
-public class PriceRateEditPage extends PriceRateAddEditPage
+public abstract class PriceRateEditPage extends PriceRateAddEditPage
 {
     public PriceRateEditPage( BasePage goBackPage )
     {

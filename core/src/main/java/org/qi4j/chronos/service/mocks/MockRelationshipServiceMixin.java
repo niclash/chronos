@@ -15,6 +15,8 @@ package org.qi4j.chronos.service.mocks;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import org.qi4j.api.CompositeBuilderFactory;
+import org.qi4j.api.annotation.scope.Qi4j;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
 import org.qi4j.chronos.model.composites.RelationshipComposite;
@@ -22,6 +24,8 @@ import org.qi4j.chronos.service.RelationshipService;
 
 public class MockRelationshipServiceMixin implements RelationshipService
 {
+    @Qi4j private CompositeBuilderFactory factory;
+
     public MockRelationshipServiceMixin()
     {
     }
@@ -34,13 +38,22 @@ public class MockRelationshipServiceMixin implements RelationshipService
         {
             public boolean callBack( RelationshipComposite relationshipComposite )
             {
-                relationshipList.add( relationshipComposite );
+                relationshipList.add( cloneRelationship( relationshipComposite ) );
 
                 return true;
             }
         } );
 
         return relationshipList;
+    }
+
+    private RelationshipComposite cloneRelationship( RelationshipComposite relationshipComposite )
+    {
+        RelationshipComposite clonedRelationshipComposite = factory.newCompositeBuilder( RelationshipComposite.class ).newInstance();
+
+        clonedRelationshipComposite.setRelationship( relationshipComposite.getRelationship() );
+
+        return clonedRelationshipComposite;
     }
 
     private void loopRelationship( ProjectOwnerEntityComposite projectOwner, LoopCallBack<RelationshipComposite> loopCallBack )
@@ -70,7 +83,7 @@ public class MockRelationshipServiceMixin implements RelationshipService
             {
                 if( relationshipComposite.getRelationship().equals( relationship ) )
                 {
-                    returnValue[ 0 ] = relationshipComposite;
+                    returnValue[ 0 ] = cloneRelationship( relationshipComposite );
 
                     return false;
                 }

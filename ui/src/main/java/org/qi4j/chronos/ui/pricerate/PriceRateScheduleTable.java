@@ -14,21 +14,20 @@ package org.qi4j.chronos.ui.pricerate;
 
 import java.util.Arrays;
 import java.util.List;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
-import org.qi4j.chronos.ui.util.DateUtil;
 
 public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> extends ActionTable<PriceRateScheduleComposite, String>
 {
-    private PriceRateScheduleDataProvider dataProvider;
+    private PriceRateScheduleDataProvider<T> dataProvider;
 
     public PriceRateScheduleTable( String id )
     {
@@ -71,23 +70,20 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
             }
         } );
 
-        item.add( new Label( "fromDate", DateUtil.format( "dd MMM yyy", obj.getStartTime() ) ) );
-        item.add( new Label( "toDate", DateUtil.format( "dd MMM yyy", obj.getEndTime() ) ) );
-
         item.add( new SimpleLink( "editLink", "Edit" )
         {
             public void linkClicked()
             {
-                PriceRateScheduleEditPage<T> editPage = new PriceRateScheduleEditPage<T>( (BasePage) this.getPage() )
+                PriceRateScheduleEditPage editPage = new PriceRateScheduleEditPage( (BasePage) this.getPage() )
                 {
-                    public T getHasPriceRateSchedule()
-                    {
-                        return PriceRateScheduleTable.this.getHasPriceRateSchedules();
-                    }
-
                     public PriceRateScheduleComposite getPriceRateSchedule()
                     {
                         return PriceRateScheduleTable.this.getPriceRateSchedule( priceRateScheduleName );
+                    }
+
+                    public AccountEntityComposite getAccount()
+                    {
+                        return PriceRateScheduleTable.this.getAccount();
                     }
                 };
 
@@ -107,4 +103,6 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
     }
 
     public abstract T getHasPriceRateSchedules();
+
+    public abstract AccountEntityComposite getAccount();
 }

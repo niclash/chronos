@@ -10,29 +10,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.pricerate;
+package org.qi4j.chronos.model.associations;
 
-import org.qi4j.chronos.ui.base.BasePage;
+import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.chronos.model.composites.PriceRateComposite;
+import org.qi4j.chronos.model.mixins.HasPriceRateMixin;
 
-public abstract class PriceRateAddPage extends PriceRateAddEditPage
+@ImplementedBy( HasPriceRateMixin.class )
+public interface HasPriceRate
 {
-    public PriceRateAddPage( BasePage goBackPage )
-    {
-        super( goBackPage );
-    }
+    void setPriceRate( PriceRateComposite priceRate );
 
-    public void onSubmitting()
-    {
-        //TODO bp. fixme
-    }
-
-    public String getSubmitButtonValue()
-    {
-        return "Add";
-    }
-
-    public String getTitleLabel()
-    {
-        return "New Price Rate";
-    }
+    PriceRateComposite getPriceRate();
 }

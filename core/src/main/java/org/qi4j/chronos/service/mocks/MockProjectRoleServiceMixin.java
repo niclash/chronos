@@ -10,29 +10,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.pricerate;
+package org.qi4j.chronos.service.mocks;
 
-import org.qi4j.chronos.ui.base.BasePage;
+import java.util.Iterator;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
 
-public abstract class PriceRateAddPage extends PriceRateAddEditPage
+public class MockProjectRoleServiceMixin extends MockAccountBasedServiceMixin<ProjectRoleEntityComposite>
 {
-    public PriceRateAddPage( BasePage goBackPage )
+    protected Iterator<ProjectRoleEntityComposite> getItems( AccountEntityComposite accountEntityComposite )
     {
-        super( goBackPage );
-    }
-
-    public void onSubmitting()
-    {
-        //TODO bp. fixme
-    }
-
-    public String getSubmitButtonValue()
-    {
-        return "Add";
-    }
-
-    public String getTitleLabel()
-    {
-        return "New Price Rate";
+        return accountEntityComposite.projectRoleIterator();
     }
 }

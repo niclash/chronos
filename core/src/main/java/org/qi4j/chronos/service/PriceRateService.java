@@ -1,6 +1,5 @@
 /*
  * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
- * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -11,35 +10,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.mixins;
+package org.qi4j.chronos.service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import org.qi4j.chronos.model.PriceRateType;
 import org.qi4j.chronos.model.associations.HasPriceRates;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
+import org.qi4j.library.general.model.Money;
 
-public final class HasPriceRatesMixin implements HasPriceRates
+public interface PriceRateService
 {
-    private final List<PriceRateComposite> list;
+    List<PriceRateComposite> findAll( HasPriceRates hasPriceRates, FindFilter findFilter );
 
-    public HasPriceRatesMixin()
-    {
-        list = new ArrayList<PriceRateComposite>();
-    }
+    List<PriceRateComposite> findAll( HasPriceRates hasPriceRates );
 
-    public void addPriceRate( PriceRateComposite priceRate )
-    {
-        list.add( priceRate );
-    }
+    int countAll( HasPriceRates hasPriceRates );
 
-    public void removePriceRate( PriceRateComposite priceRate )
-    {
-        list.remove( priceRate );
-    }
+    PriceRateComposite get( HasPriceRates hasPriceRates, String projectRoleName, PriceRateType priceRateType, Money money );
 
-    public Iterator<PriceRateComposite> priceRateIterator()
-    {
-        return list.iterator();
-    }
+    void update( PriceRateComposite priceRate );
 }

@@ -17,18 +17,18 @@ import java.util.Currency;
 import java.util.List;
 import org.qi4j.chronos.model.PriceRateType;
 import org.qi4j.chronos.model.ProjectStatus;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
-import org.qi4j.chronos.service.ProjectRoleService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.library.general.model.GenderType;
 
 public final class ListUtil
 {
-    public static List<String> getRoleList()
-    {
-        ProjectRoleService roleService = ChronosWebApp.getServices().getProjectRoleService();
 
-        List<ProjectRoleEntityComposite> projectRolelists = roleService.findAll();
+    public static List<String> getProjectRoleList( AccountEntityComposite account )
+    {
+        List<ProjectRoleEntityComposite> projectRolelists = ChronosWebApp.getServices().getProjectRoleService().findAll( account );
+
         List<String> resultList = new ArrayList<String>();
 
         for( ProjectRoleEntityComposite projectRole : projectRolelists )

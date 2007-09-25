@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
@@ -23,7 +24,7 @@ import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionAdapter;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 
-public class ProjectRoleTable extends ActionTable<ProjectRoleEntityComposite, String>
+public abstract class ProjectRoleTable extends ActionTable<ProjectRoleEntityComposite, String>
 {
     private ProjectRoleDataProvider roleDataProvider;
 
@@ -49,7 +50,13 @@ public class ProjectRoleTable extends ActionTable<ProjectRoleEntityComposite, St
     {
         if( roleDataProvider == null )
         {
-            roleDataProvider = new ProjectRoleDataProvider();
+            roleDataProvider = new ProjectRoleDataProvider()
+            {
+                public AccountEntityComposite getAccount()
+                {
+                    return ProjectRoleTable.this.getAccount();
+                }
+            };
         }
 
         return roleDataProvider;
@@ -65,7 +72,13 @@ public class ProjectRoleTable extends ActionTable<ProjectRoleEntityComposite, St
         {
             public void linkClicked()
             {
-                ProjectRoleEditPage roleEditPage = new ProjectRoleEditPage( getBasePage(), roleId );
+                ProjectRoleEditPage roleEditPage = new ProjectRoleEditPage( getBasePage(), roleId )
+                {
+                    public AccountEntityComposite getAccount()
+                    {
+                        return ProjectRoleTable.this.getAccount();
+                    }
+                };
 
                 setResponsePage( roleEditPage );
             }
@@ -82,4 +95,6 @@ public class ProjectRoleTable extends ActionTable<ProjectRoleEntityComposite, St
     {
         return Arrays.asList( "Name", "" );
     }
+
+    public abstract AccountEntityComposite getAccount();
 }

@@ -10,29 +10,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.pricerate;
+package org.qi4j.chronos.model.mixins;
 
-import org.qi4j.chronos.ui.base.BasePage;
+import org.qi4j.chronos.model.Relationship;
 
-public abstract class PriceRateAddPage extends PriceRateAddEditPage
+public class RelationshipMixin implements Relationship
 {
-    public PriceRateAddPage( BasePage goBackPage )
+    private String relationship;
+
+    public void setRelationship( String aRelationship )
     {
-        super( goBackPage );
+        this.relationship = aRelationship;
     }
 
-    public void onSubmitting()
+    public String getRelationship()
     {
-        //TODO bp. fixme
-    }
-
-    public String getSubmitButtonValue()
-    {
-        return "Add";
-    }
-
-    public String getTitleLabel()
-    {
-        return "New Price Rate";
+        return relationship;
     }
 }

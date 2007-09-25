@@ -13,9 +13,13 @@
  */
 package org.qi4j.chronos.model;
 
+import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.chronos.model.mixins.RelationshipMixin;
+
 /**
  * Generic interface to specify a relationship
  */
+@ImplementedBy( RelationshipMixin.class )
 public interface Relationship
 {
     public final static int RELATIONSHIP_LEN = 120;

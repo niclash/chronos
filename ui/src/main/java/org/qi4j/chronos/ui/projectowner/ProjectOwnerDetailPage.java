@@ -22,6 +22,8 @@ import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.ProjectOwner;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
 import org.qi4j.chronos.service.ProjectOwnerService;
 import org.qi4j.chronos.ui.ChronosWebApp;
@@ -31,7 +33,7 @@ import org.qi4j.chronos.ui.contactperson.ContactPersonTab;
 import org.qi4j.chronos.ui.customer.CustomerDetailPanel;
 import org.qi4j.chronos.ui.pricerate.PriceRateScheduleTab;
 
-public class ProjectOwnerDetailPage extends LeftMenuNavPage
+public abstract class ProjectOwnerDetailPage extends LeftMenuNavPage
 {
     private String projectOwnerId;
 
@@ -56,6 +58,7 @@ public class ProjectOwnerDetailPage extends LeftMenuNavPage
         return ChronosWebApp.getServices().getProjectOwnerService().get( projectOwnerId );
     }
 
+
     private class ProjectOwnerDetailForm extends Form
     {
         private Button submitButton;
@@ -68,7 +71,7 @@ public class ProjectOwnerDetailPage extends LeftMenuNavPage
         {
             super( id );
 
-            ProjectOwner projectOwner = ChronosWebApp.getServices().getProjectOwnerService().get( projectOwnerId );
+            ProjectOwner projectOwner = getProjectOwner();
 
             customerDetailPanel = new CustomerDetailPanel( "customerDetailPanel", projectOwner );
             add( customerDetailPanel );
@@ -85,16 +88,25 @@ public class ProjectOwnerDetailPage extends LeftMenuNavPage
 
             abstractTabs.add( new PriceRateScheduleTab<ProjectOwnerEntityComposite>( "Standard Price Rate Schedules" )
             {
-                public ProjectOwnerEntityComposite getHasPriceRateSchedule()
+                public AccountEntityComposite getAccount()
                 {
-                    return getProjectOwner();
+                    return ProjectOwnerDetailPage.this.getAccount();
                 }
 
-                public void addedPriceRateSchedule( ProjectOwnerEntityComposite projectOwnerEntityComposite )
+                public void addPriceRateSchedule( PriceRateScheduleComposite priceRateSchedule )
                 {
-                    ProjectOwnerService projectOwnerService = ChronosWebApp.getServices().getProjectOwnerService();
+                    ProjectOwnerEntityComposite projectOwner = getProjectOwner();
 
-                    projectOwnerService.update( projectOwnerEntityComposite );
+                    projectOwner.addPriceRateSchedule( priceRateSchedule );
+
+                    ProjectOwnerService service = ChronosWebApp.getServices().getProjectOwnerService();
+
+                    service.update( projectOwner );
+                }
+
+                public ProjectOwnerEntityComposite getHasPriceRateSchedules()
+                {
+                    return getProjectOwner();
                 }
             } );
 
@@ -118,4 +130,6 @@ public class ProjectOwnerDetailPage extends LeftMenuNavPage
             }
         }
     }
+
+    public abstract AccountEntityComposite getAccount();
 }

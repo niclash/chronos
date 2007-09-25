@@ -12,21 +12,39 @@
  */
 package org.qi4j.chronos.ui.pricerate;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Iterator;
+import java.util.List;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
 import org.qi4j.chronos.model.PriceRateSchedule;
-import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
-import org.qi4j.chronos.ui.common.SimpleDateField;
-import org.qi4j.chronos.ui.util.ValidatorUtil;
+import org.qi4j.chronos.ui.common.NumberTextField;
+import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
+import org.qi4j.chronos.ui.common.SimpleLink;
+import org.qi4j.chronos.ui.util.ListUtil;
 
-public abstract class PriceRateScheduleAddEditPage<T extends HasPriceRateSchedules> extends AddEditBasePage
+public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
 {
     private MaxLengthTextField nameField;
 
-    private SimpleDateField fromDateField;
-    private SimpleDateField toDateField;
+    private List<SimpleDropDownChoice<String>> projectRoleChoiceList;
+    private List<SimpleDropDownChoice<String>> projectRateTypeChoiceList;
+    private List<SimpleDropDownChoice<String>> currencyChoiceList;
+    private List<NumberTextField> amountFieldList;
+
+    private ListView priceRateListView;
+
+    private SimpleLink newPriceRateLink;
+
+    //TODO remove static
+    private static List<PriceRateComposite> priceRateList;
 
     public PriceRateScheduleAddEditPage( BasePage goBackPage )
     {
@@ -35,14 +53,71 @@ public abstract class PriceRateScheduleAddEditPage<T extends HasPriceRateSchedul
 
     public final void initComponent( Form form )
     {
+
+        newPriceRateLink = new SimpleLink( "newPriceRateLink", "New Price Rate" )
+        {
+            public void linkClicked()
+            {
+                handleNewPriceRate();
+            }
+        };
+
+        priceRateList = getInitPriceRateList();
+
+        priceRateListView = new ListView( "priceRateListView", Arrays.asList( new int[priceRateList.size()] ) )
+        {
+            protected void populateItem( final ListItem item )
+            {
+                SimpleDropDownChoice projectRoleChoice = new SimpleDropDownChoice<String>( "projectRoleChoice", ListUtil.getProjectRoleList( getAccount() ), true );
+                SimpleDropDownChoice projectRateTypeChoice = new SimpleDropDownChoice<String>( "projectRateTypeChoice", ListUtil.getPriceRateTypeList(), true );
+                SimpleDropDownChoice currencyChoice = new SimpleDropDownChoice<String>( "currencyChoice", ListUtil.getCurrencyList(), true );
+
+                NumberTextField amountField = new NumberTextField( "amountField", "Amount" );
+
+                SimpleLink deleteLink = new SimpleLink( "deleteLink", "Delete" )
+                {
+                    public void linkClicked()
+                    {
+                        removePriceRate( item.getIndex() );
+                    }
+                };
+
+                item.add( projectRoleChoice );
+                item.add( projectRateTypeChoice );
+                item.add( currencyChoice );
+                item.add( amountField );
+                item.add( deleteLink );
+
+                projectRoleChoiceList.add( projectRoleChoice );
+                projectRateTypeChoiceList.add( projectRateTypeChoice );
+                currencyChoiceList.add( currencyChoice );
+                amountFieldList.add( amountField );
+            }
+        };
+
         nameField = new MaxLengthTextField( "name", "Name", PriceRateSchedule.NAME_LEN );
 
-        fromDateField = new SimpleDateField( "fromDateField" );
-        toDateField = new SimpleDateField( "toDateField" );
-
+        form.add( newPriceRateLink );
+        form.add( priceRateListView );
         form.add( nameField );
-        form.add( fromDateField );
-        form.add( toDateField );
+    }
+
+    private void handleNewPriceRate()
+    {
+        //TODO
+    }
+
+    private void removePriceRate( int index )
+    {
+        priceRateList.remove( index );
+
+        projectRoleChoiceList.clear();
+        projectRateTypeChoiceList.clear();
+        currencyChoiceList.clear();
+        amountFieldList.clear();
+
+        priceRateListView.setList( Arrays.asList( new int[priceRateList.size()] ) );
+        priceRateListView.modelChanged();
     }
 
     public final void handleSubmit()
@@ -50,12 +125,6 @@ public abstract class PriceRateScheduleAddEditPage<T extends HasPriceRateSchedul
         boolean isRejected = false;
 
         if( nameField.checkIsEmptyOrInvalidLength() )
-        {
-            isRejected = true;
-        }
-
-        if( ValidatorUtil.isAfterDate( fromDateField.getDate(), toDateField.getDate(),
-                                       "FromDate", "ToDate", this ) )
         {
             isRejected = true;
         }
@@ -68,21 +137,33 @@ public abstract class PriceRateScheduleAddEditPage<T extends HasPriceRateSchedul
         onSubmitting();
     }
 
-    public abstract T getHasPriceRateSchedule();
-
     protected void assignFieldValueToPriceRateSchedule( PriceRateSchedule priceRateSchedule )
     {
         priceRateSchedule.setName( nameField.getText() );
-        priceRateSchedule.setStartTime( fromDateField.getDate() );
-        priceRateSchedule.setEndTime( toDateField.getDate() );
     }
 
     protected void assignPriceRateScheduleToFieldValue( PriceRateSchedule priceRateSchedule )
     {
         nameField.setText( priceRateSchedule.getName() );
-        fromDateField.setDate( priceRateSchedule.getStartTime() );
-        toDateField.setDate( priceRateSchedule.getEndTime() );
     }
+
+    private List<PriceRateComposite> getInitPriceRateList()
+    {
+        List<PriceRateComposite> priceRateList = new ArrayList<PriceRateComposite>();
+
+        Iterator<PriceRateComposite> priceRateIterator = getInitPriceRateIterator();
+
+        while( priceRateIterator.hasNext() )
+        {
+            priceRateList.add( priceRateIterator.next() );
+        }
+
+        return priceRateList;
+    }
+
+    public abstract Iterator<PriceRateComposite> getInitPriceRateIterator();
+
+    public abstract AccountEntityComposite getAccount();
 
     public abstract void onSubmitting();
 }

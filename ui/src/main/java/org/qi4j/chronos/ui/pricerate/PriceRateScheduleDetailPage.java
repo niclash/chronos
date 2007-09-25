@@ -21,7 +21,6 @@ import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.SimpleTextField;
-import org.qi4j.chronos.ui.util.DateUtil;
 
 public abstract class PriceRateScheduleDetailPage extends LeftMenuNavPage
 {
@@ -43,8 +42,6 @@ public abstract class PriceRateScheduleDetailPage extends LeftMenuNavPage
     private class PriceRateScheduleDetailForm extends Form
     {
         private SimpleTextField nameField;
-        private SimpleTextField fromDateField;
-        private SimpleTextField toDateField;
 
         private Button submitButton;
 
@@ -60,15 +57,11 @@ public abstract class PriceRateScheduleDetailPage extends LeftMenuNavPage
             PriceRateSchedule priceRateSchedule = getPriceRateSchedule();
 
             nameField = new SimpleTextField( "nameField", priceRateSchedule.getName(), true );
-            fromDateField = new SimpleTextField( "fromDateField", DateUtil.formatDate( priceRateSchedule.getStartTime() ), true );
-            toDateField = new SimpleTextField( "toDateField", DateUtil.formatDate( priceRateSchedule.getEndTime() ), true );
 
             submitButton = new Button( "submitButton", new Model( "Return" ) );
 
             add( nameField );
-            add( fromDateField );
-            add( toDateField );
-
+            
             add( submitButton );
         }
 
