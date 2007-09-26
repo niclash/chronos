@@ -35,7 +35,7 @@ public abstract class ProjectRoleAddPage extends ProjectRoleAddEditPage
 
         ProjectRoleEntityComposite projectRole = roleService.newInstance( ProjectRoleEntityComposite.class );
 
-        projectRole.setRole( nameField.getText() );
+        projectRole.setProjectRole( nameField.getText() );
 
         try
         {

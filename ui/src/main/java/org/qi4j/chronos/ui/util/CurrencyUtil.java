@@ -13,21 +13,32 @@
 package org.qi4j.chronos.ui.util;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.Currency;
 import java.util.List;
 
 public final class CurrencyUtil
 {
-    public static List<Currency> getCurrencyList()
+    private static List<Currency> list;
+
+    static
     {
-        List<Currency> list = new ArrayList<Currency>();
+        list = new ArrayList<Currency>();
 
         list.add( Currency.getInstance( "USD" ) );
         list.add( Currency.getInstance( "MYR" ) );
         list.add( Currency.getInstance( "SEK" ) );
         list.add( Currency.getInstance( "EUR" ) );
+    }
 
-        return list;
+    public static Currency getDefaultCurrency()
+    {
+        return list.get( 0 );
+    }
+
+    public static List<Currency> getCurrencyList()
+    {
+        return Collections.unmodifiableList( list );
     }
 
 }

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
+ * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -10,21 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.mixins;
+package org.qi4j.chronos.service.composites;
 
-import org.qi4j.chronos.model.ProjectRole;
+import org.qi4j.api.Composite;
+import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.chronos.service.PriceRateService;
+import org.qi4j.chronos.service.mocks.MockPriceRateServiceMixin;
 
-public final class RoleMixin implements ProjectRole
+@ImplementedBy( MockPriceRateServiceMixin.class )
+public interface PriceRateServiceComposite extends PriceRateService, Composite
 {
-    private String role;
-
-    public String getRole()
-    {
-        return role;
-    }
-
-    public void setRole( String aRole )
-    {
-        role = aRole;
-    }
 }

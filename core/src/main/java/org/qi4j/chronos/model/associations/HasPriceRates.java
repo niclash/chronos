@@ -15,7 +15,6 @@ package org.qi4j.chronos.model.associations;
 
 import java.util.Iterator;
 import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.chronos.model.PriceRate;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.chronos.model.mixins.HasPriceRatesMixin;
 
@@ -27,4 +26,6 @@ public interface HasPriceRates
     void removePriceRate( PriceRateComposite priceRate );
 
     Iterator<PriceRateComposite> priceRateIterator();
+
+    void removeAllPriceRate();
 }

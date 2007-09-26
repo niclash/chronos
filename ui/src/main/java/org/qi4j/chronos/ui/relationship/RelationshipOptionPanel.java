@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
 import org.qi4j.chronos.model.composites.RelationshipComposite;
@@ -23,24 +24,23 @@ import org.qi4j.chronos.service.RelationshipService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
-import org.qi4j.chronos.ui.common.SimpleLink;
 
 //TODO bp. code can be simplified when Relationship is serializable.
 public abstract class RelationshipOptionPanel extends Panel
 {
     private SimpleDropDownChoice<String> relationshipChoice;
-    private SimpleLink newRelationshipLink;
+    private SubmitLink newRelationshipLink;
 
     private List<String> relationshipList;
 
     //TODO bp. remove static
-    private static List<RelationshipComposite> newRelationshipList;
+    private static List<RelationshipComposite> addedRelationshipList;
 
     public RelationshipOptionPanel( String id )
     {
         super( id );
 
-        newRelationshipList = new ArrayList<RelationshipComposite>();
+        addedRelationshipList = new ArrayList<RelationshipComposite>();
 
         initComponents();
     }
@@ -50,9 +50,9 @@ public abstract class RelationshipOptionPanel extends Panel
         initRelationshipList();
 
         relationshipChoice = new SimpleDropDownChoice<String>( "relationshipChoice", relationshipList, true );
-        newRelationshipLink = new SimpleLink( "newLink", "Create New" )
+        newRelationshipLink = new SubmitLink( "newLink" )
         {
-            public void linkClicked()
+            public void onSubmit()
             {
                 RelationshipAddPage addPage = new RelationshipAddPage( (BasePage) this.getPage() )
                 {
@@ -82,8 +82,11 @@ public abstract class RelationshipOptionPanel extends Panel
 
     private void addNewRelationship( RelationshipComposite relationshipComposite )
     {
-        newRelationshipList.add( relationshipComposite );
+        addedRelationshipList.add( relationshipComposite );
         relationshipList.add( relationshipComposite.getRelationship() );
+
+        //set newly added relationship as default value
+        relationshipChoice.setChoice( relationshipComposite.getRelationship() );
 
         relationshipChoice.setVisible( true );
     }
@@ -122,7 +125,7 @@ public abstract class RelationshipOptionPanel extends Panel
     {
         String choice = relationshipChoice.getChoiceAsString();
 
-        for( RelationshipComposite relationship : newRelationshipList )
+        for( RelationshipComposite relationship : addedRelationshipList )
         {
             if( choice.equals( relationship.getRelationship() ) )
             {

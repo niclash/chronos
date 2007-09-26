@@ -42,4 +42,9 @@ public final class HasPriceRatesMixin implements HasPriceRates
     {
         return list.iterator();
     }
+
+    public void removeAllPriceRate()
+    {
+        list.clear();
+    }
 }

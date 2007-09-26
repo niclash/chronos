@@ -12,20 +12,19 @@
  */
 package org.qi4j.chronos.model.mixins;
 
-import org.qi4j.chronos.model.associations.HasProjectRole;
-import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
+import org.qi4j.chronos.model.ProjectRole;
 
-public final class HasProjectRoleMixin implements HasProjectRole
+public final class ProjectRoleMixin implements ProjectRole
 {
-    private ProjectRoleEntityComposite role;
+    private String projectRole;
 
-    public void setProjectRole( ProjectRoleEntityComposite aRole )
+    public String getProjectRole()
     {
-        role = aRole;
+        return projectRole;
     }
 
-    public ProjectRoleEntityComposite getProjectRole()
+    public void setProjectRole( String aRole )
     {
-        return role;
+        projectRole = aRole;
     }
 }

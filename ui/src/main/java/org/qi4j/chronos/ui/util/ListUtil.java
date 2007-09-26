@@ -20,20 +20,21 @@ import org.qi4j.chronos.model.ProjectStatus;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.ui.projectrole.ProjectRoleDelegator;
 import org.qi4j.library.general.model.GenderType;
 
 public final class ListUtil
 {
 
-    public static List<String> getProjectRoleList( AccountEntityComposite account )
+    public static List<ProjectRoleDelegator> getProjectRoleDelegatorList( AccountEntityComposite account )
     {
         List<ProjectRoleEntityComposite> projectRolelists = ChronosWebApp.getServices().getProjectRoleService().findAll( account );
 
-        List<String> resultList = new ArrayList<String>();
+        List<ProjectRoleDelegator> resultList = new ArrayList<ProjectRoleDelegator>();
 
         for( ProjectRoleEntityComposite projectRole : projectRolelists )
         {
-            resultList.add( projectRole.getRole() );
+            resultList.add( new ProjectRoleDelegator( projectRole ) );
         }
 
         return resultList;

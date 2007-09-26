@@ -19,6 +19,7 @@ import org.qi4j.chronos.ui.base.AddEditBasePage;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.NumberTextField;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
+import org.qi4j.chronos.ui.projectrole.ProjectRoleDelegator;
 import org.qi4j.chronos.ui.util.ListUtil;
 
 public abstract class PriceRateAddEditPage extends AddEditBasePage
@@ -38,7 +39,7 @@ public abstract class PriceRateAddEditPage extends AddEditBasePage
         amountField = new NumberTextField( "amount", "Amount" );
 
         List<String> priceRatyeTypeList = ListUtil.getPriceRateTypeList();
-        List<String> roleList = ListUtil.getProjectRoleList( getAccount() );
+        List<ProjectRoleDelegator> roleList = ListUtil.getProjectRoleDelegatorList( getAccount() );
         List<String> currencyList = ListUtil.getCurrencyList();
 
         priceRateTypeChoice = new SimpleDropDownChoice( "priceRateTypeChoice", priceRatyeTypeList, true );

@@ -43,5 +43,7 @@ public interface Services
     RelationshipService getRelationshipService();
 
     ContactService getContactService();
+
+    PriceRateService getPriceRateService();
 }
 

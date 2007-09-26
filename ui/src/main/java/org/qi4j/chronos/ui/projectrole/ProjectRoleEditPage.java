@@ -35,7 +35,7 @@ public abstract class ProjectRoleEditPage extends ProjectRoleAddEditPage
 
     private void initData()
     {
-        nameField.setText( getRole().getRole() );
+        nameField.setText( getRole().getProjectRole() );
     }
 
     private ProjectRoleEntityComposite getRole()
@@ -59,7 +59,7 @@ public abstract class ProjectRoleEditPage extends ProjectRoleAddEditPage
 
         ProjectRoleEntityComposite projectRole = getRole();
 
-        projectRole.setRole( nameField.getText() );
+        projectRole.setProjectRole( nameField.getText() );
 
         try
         {

@@ -22,14 +22,14 @@ public class PriceRateDelegator implements Serializable
 {
     private String projectRoleName;
     private Currency currency;
-    private double amonunt;
+    private long amonunt;
     private PriceRateType priceRateType;
 
     private String toString;
 
     public PriceRateDelegator( PriceRateComposite priceRate )
     {
-        projectRoleName = priceRate.getProjectRole().getRole();
+        projectRoleName = priceRate.getProjectRole().getProjectRole();
         currency = priceRate.getCurrency();
         amonunt = priceRate.getAmount();
         priceRateType = priceRate.getPriceRateType();
@@ -45,8 +45,54 @@ public class PriceRateDelegator implements Serializable
         toString = builder.toString();
     }
 
+    public String getProjectRoleName()
+    {
+        return projectRoleName;
+    }
+
+    public Currency getCurrency()
+    {
+        return currency;
+    }
+
+    public PriceRateType getPriceRateType()
+    {
+        return priceRateType;
+    }
+
+    public long getAmount()
+    {
+        return amonunt;
+    }
+
     public String toString()
     {
         return toString;
+    }
+
+    public boolean equals( Object o )
+    {
+        if( this == o )
+        {
+            return true;
+        }
+        if( o == null || getClass() != o.getClass() )
+        {
+            return false;
+        }
+
+        PriceRateDelegator delegator = (PriceRateDelegator) o;
+
+        if( toString != null ? !toString.equals( delegator.toString ) : delegator.toString != null )
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    public int hashCode()
+    {
+        return ( toString != null ? toString.hashCode() : 0 );
     }
 }

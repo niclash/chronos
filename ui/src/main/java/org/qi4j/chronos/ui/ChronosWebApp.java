@@ -47,6 +47,15 @@ public class ChronosWebApp extends AuthenticatedWebApplication
         services.initServices();
     }
 
+    @Override
+    protected void init()
+    {
+        super.init();
+
+        //override page expired page to LoginPage
+        getApplicationSettings().setPageExpiredErrorPage( LoginPage.class );
+    }
+
     public static Services getServices()
     {
         return services;

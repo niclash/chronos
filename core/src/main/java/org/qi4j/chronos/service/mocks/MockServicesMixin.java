@@ -39,6 +39,7 @@ import org.qi4j.chronos.service.ContactPersonService;
 import org.qi4j.chronos.service.ContactService;
 import org.qi4j.chronos.service.ParentBasedService;
 import org.qi4j.chronos.service.PriceRateScheduleService;
+import org.qi4j.chronos.service.PriceRateService;
 import org.qi4j.chronos.service.ProjectAssigneeService;
 import org.qi4j.chronos.service.ProjectOwnerService;
 import org.qi4j.chronos.service.ProjectRoleService;
@@ -54,6 +55,7 @@ import org.qi4j.chronos.service.composites.AdminServiceComposite;
 import org.qi4j.chronos.service.composites.ContactPersonServiceComposite;
 import org.qi4j.chronos.service.composites.ContactServiceComposite;
 import org.qi4j.chronos.service.composites.PriceRateScheduleServiceComposite;
+import org.qi4j.chronos.service.composites.PriceRateServiceComposite;
 import org.qi4j.chronos.service.composites.ProjectAssigneeServiceComposite;
 import org.qi4j.chronos.service.composites.ProjectOwnerServiceComposite;
 import org.qi4j.chronos.service.composites.ProjectRoleServiceComposite;
@@ -88,6 +90,7 @@ public class MockServicesMixin implements Services
     private WorkEntryService workEntryService;
     private RelationshipService relationshipService;
     private ContactService contactService;
+    private PriceRateService priceRateService;
 
     public void initServices()
     {
@@ -114,6 +117,8 @@ public class MockServicesMixin implements Services
         relationshipService = newService( RelationshipServiceComposite.class );
 
         contactService = newService( ContactServiceComposite.class );
+
+        priceRateService = newService( PriceRateServiceComposite.class );
 
         initDummyData();
     }
@@ -205,13 +210,13 @@ public class MockServicesMixin implements Services
     private void initProjectRoleDummyData( AccountEntityComposite account )
     {
         ProjectRoleEntityComposite programmer = projectRoleService.newInstance( ProjectRoleEntityComposite.class );
-        programmer.setRole( "Programmer" );
+        programmer.setProjectRole( "Programmer" );
 
         ProjectRoleEntityComposite consultant = projectRoleService.newInstance( ProjectRoleEntityComposite.class );
-        consultant.setRole( "Consultant" );
+        consultant.setProjectRole( "Consultant" );
 
         ProjectRoleEntityComposite projectManager = projectRoleService.newInstance( ProjectRoleEntityComposite.class );
-        projectManager.setRole( "Project Manager" );
+        projectManager.setProjectRole( "Project Manager" );
 
         account.addProjectRole( programmer );
         account.addProjectRole( consultant );
@@ -466,7 +471,12 @@ public class MockServicesMixin implements Services
 
     public ContactService getContactService()
     {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return contactService;
+    }
+
+    public PriceRateService getPriceRateService()
+    {
+        return priceRateService;
     }
 
     @SuppressWarnings( { "unchecked" } )

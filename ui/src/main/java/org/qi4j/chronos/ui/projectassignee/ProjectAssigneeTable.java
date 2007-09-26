@@ -54,7 +54,7 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssigneeEn
         item.add( new Label( "firstName", obj.getStaff().getFirstName() ) );
         item.add( new Label( "lastName", obj.getStaff().getLastName() ) );
         item.add( new Check( "isLead", new Model( obj.isLead() ) ) );
-        item.add( new Label( "projectRole", obj.getProjectRole().getRole() ) );
+        item.add( new Label( "projectRole", obj.getProjectRole().getProjectRole() ) );
 
         item.add( new SimpleLink( "editLink", "Edit" )
         {

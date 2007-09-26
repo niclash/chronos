@@ -99,7 +99,7 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
 
     public List<String> getTableHeaderList()
     {
-        return Arrays.asList( "Name", "From Date", "To Date", "" );
+        return Arrays.asList( "Name", "" );
     }
 
     public abstract T getHasPriceRateSchedules();

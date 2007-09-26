@@ -15,7 +15,6 @@ package org.qi4j.chronos.ui.base;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 
@@ -56,27 +55,24 @@ public abstract class AddEditBasePage extends LeftMenuNavPage
             initComponent( this );
 
             String buttonValue = getSubmitButtonValue();
-            submitButton = new Button( "submitButton", new Model( buttonValue ) );
-            cancelButton = new Button( "cancelButton", new Model( "Cancel" ) );
+            submitButton = new Button( "submitButton", new Model( buttonValue ) )
+            {
+                public void onSubmit()
+                {
+                    handleSubmit();
+                    ;
+                }
+            };
+            cancelButton = new Button( "cancelButton", new Model( "Cancel" ) )
+            {
+                public void onSubmit()
+                {
+                    divertToGoBackPage();
+                }
+            };
 
             add( submitButton );
             add( cancelButton );
-        }
-
-        public void delegateSubmit( IFormSubmittingComponent submittingComponent )
-        {
-            if( submittingComponent == submitButton )
-            {
-                handleSubmit();
-            }
-            else if( submittingComponent == cancelButton )
-            {
-                divertToGoBackPage();
-            }
-            else
-            {
-                throw new IllegalArgumentException( submittingComponent + " is not handled yet." );
-            }
         }
     }
 

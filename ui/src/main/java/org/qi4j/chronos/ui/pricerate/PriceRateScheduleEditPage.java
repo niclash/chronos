@@ -73,7 +73,7 @@ public abstract class PriceRateScheduleEditPage extends PriceRateScheduleAddEdit
 
     public Iterator<PriceRateComposite> getInitPriceRateIterator()
     {
-        return getPriceRateSchedule().priceRateIterator();
+        return ChronosWebApp.getServices().getPriceRateService().findAll( getPriceRateSchedule() ).iterator();
     }
 
     public abstract PriceRateScheduleComposite getPriceRateSchedule();

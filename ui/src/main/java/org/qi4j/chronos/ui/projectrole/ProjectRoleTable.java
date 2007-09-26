@@ -66,7 +66,7 @@ public abstract class ProjectRoleTable extends ActionTable<ProjectRoleEntityComp
     {
         final String roleId = obj.getIdentity();
 
-        item.add( new Label( "roleName", obj.getRole() ) );
+        item.add( new Label( "roleName", obj.getProjectRole() ) );
 
         item.add( new SimpleLink( "editLink", "Edit" )
         {

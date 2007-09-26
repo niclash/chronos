@@ -63,7 +63,7 @@ public class ProjectRoleDetailPage extends LeftMenuNavPage
         {
             ProjectRoleEntityComposite projectRole = getRole();
 
-            roleNameField = new SimpleTextField( "roleName", projectRole.getRole(), false );
+            roleNameField = new SimpleTextField( "roleName", projectRole.getProjectRole(), false );
 
             returnButton = new Button( "submitButton", new Model( "Return" ) );
 
