@@ -13,11 +13,13 @@
 package org.qi4j.chronos.ui.pricerate;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
@@ -81,15 +83,42 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
                         return PriceRateScheduleTable.this.getPriceRateSchedule( priceRateScheduleName );
                     }
 
-                    public AccountEntityComposite getAccount()
+                    public void updatePriceRateSchedule( PriceRateScheduleComposite priceRateScheduleComposite )
                     {
-                        return PriceRateScheduleTable.this.getAccount();
+                        handleUpdatePriceRateSchedule( priceRateScheduleComposite, priceRateScheduleName );
                     }
                 };
 
                 setResponsePage( editPage );
             }
         } );
+    }
+
+    private void handleUpdatePriceRateSchedule( PriceRateScheduleComposite updated, String originalName )
+    {
+        //TODO bp. Since i got no idea how qi4j updates ValueObject, for now, lets have a workaround solution.
+        T t = getHasPriceRateSchedules();
+
+        Iterator<PriceRateScheduleComposite> iter = t.priceRateScheduleIterator();
+
+        while( iter.hasNext() )
+        {
+            PriceRateScheduleComposite priceRateSchedule = iter.next();
+
+            if( priceRateSchedule.getName().equals( originalName ) )
+            {
+                priceRateSchedule.setName( updated.getName() );
+
+                priceRateSchedule.removeAllPriceRate();
+
+                Iterator<PriceRateComposite> iterator = updated.priceRateIterator();
+
+                while( iterator.hasNext() )
+                {
+                    priceRateSchedule.addPriceRate( iterator.next() );
+                }
+            }
+        }
     }
 
     private PriceRateScheduleComposite getPriceRateSchedule( String name )

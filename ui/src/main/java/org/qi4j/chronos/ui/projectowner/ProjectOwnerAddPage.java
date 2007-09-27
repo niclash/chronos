@@ -25,7 +25,7 @@ import org.qi4j.library.general.model.composites.StateComposite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class ProjectOwnerAddPage extends ProjectOwnerAddEditPage
+public class ProjectOwnerAddPage extends ProjectOwnerAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( ProjectOwnerAddPage.class );
 

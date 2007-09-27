@@ -14,25 +14,23 @@ package org.qi4j.chronos.ui.login;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckBox;
+import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Login;
+import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.base.ChangePasswordPage;
-import org.qi4j.chronos.ui.common.SimpleLink;
 
-public class LoginUserEditPanel extends LoginUserAbstractPanel
+public abstract class LoginUserEditPanel extends LoginUserAbstractPanel
 {
     private Label loginIdLabel;
-    private SimpleLink changePasswordLink;
-    private String userId;
+    private SubmitLink changePasswordLink;
 
     private CheckBox loginEnabledCheckBox;
 
-    public LoginUserEditPanel( String id, String userId )
+    public LoginUserEditPanel( String id )
     {
         super( id );
-
-        this.userId = userId;
 
         initComponents();
     }
@@ -41,9 +39,9 @@ public class LoginUserEditPanel extends LoginUserAbstractPanel
     {
         loginIdLabel = new Label( "loginId", "" );
 
-        changePasswordLink = new SimpleLink( "changePasswordLink", "Change Password" )
+        changePasswordLink = new SubmitLink( "changePasswordLink" )
         {
-            public void linkClicked()
+            public void onSubmit()
             {
                 handleChangePassword();
             }
@@ -56,9 +54,17 @@ public class LoginUserEditPanel extends LoginUserAbstractPanel
         add( loginEnabledCheckBox );
     }
 
+    public abstract User getUser();
+
     private void handleChangePassword()
     {
-        ChangePasswordPage changePasswordPage = new ChangePasswordPage( (BasePage) this.getPage(), userId );
+        ChangePasswordPage changePasswordPage = new ChangePasswordPage( (BasePage) this.getPage() )
+        {
+            public User getUser()
+            {
+                return LoginUserEditPanel.this.getUser();
+            }
+        };
 
         setResponsePage( changePasswordPage );
     }
@@ -78,5 +84,4 @@ public class LoginUserEditPanel extends LoginUserAbstractPanel
     {
         login.setEnabled( Boolean.parseBoolean( loginEnabledCheckBox.getModelObjectAsString() ) );
     }
-
 }

@@ -23,7 +23,6 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.PriceRateType;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
@@ -33,8 +32,8 @@ import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.common.NumberTextField;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.projectrole.ProjectRoleDelegator;
-import org.qi4j.chronos.ui.util.CurrencyUtil;
 import org.qi4j.chronos.ui.util.ListUtil;
+import org.qi4j.chronos.util.CurrencyUtil;
 
 public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
 {
@@ -318,8 +317,6 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
     }
 
     public abstract Iterator<PriceRateComposite> getInitPriceRateIterator();
-
-    public abstract AccountEntityComposite getAccount();
 
     public abstract void onSubmitting();
 }

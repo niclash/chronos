@@ -12,27 +12,70 @@
  */
 package org.qi4j.chronos.ui.project;
 
+import java.util.List;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.service.FindFilter;
+import org.qi4j.chronos.service.ProjectService;
+import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.menu.MenuBar;
 import org.qi4j.chronos.ui.common.menu.MenuItem;
 import org.qi4j.chronos.ui.common.menu.MenuLink;
 
-public class RecentProjectMenuBar extends MenuBar
+public abstract class RecentProjectMenuBar extends MenuBar
 {
+    private final static int TOTAL_PROJECT_TO_SHOW = 5;
+
     public RecentProjectMenuBar()
     {
         super( "Recent Projects" );
     }
 
+    public abstract AccountEntityComposite getAccount();
+
     public MenuItem[] getMenuItemList()
     {
-        return new MenuItem[]{
-            //TODO FIXME
-            new MenuLink( "Project A", ProjectDetailPage.class ),
-            new MenuLink( "Project B", ProjectDetailPage.class ),
-            new MenuLink( "Project C", ProjectDetailPage.class ),
-            new MenuLink( "Project D", ProjectDetailPage.class ),
-            new MenuLink( "Project E", ProjectDetailPage.class ),
-            new MenuLink( "Project F", ProjectDetailPage.class ),
+        ProjectService projectService = ChronosWebApp.getServices().getProjectService();
+
+        int countAll = projectService.countAll( getAccount() );
+
+        int toShowSize = Math.min( TOTAL_PROJECT_TO_SHOW, countAll );
+
+        List<ProjectEntityComposite> recentProjectList = projectService.
+            getRecentAccessedProjectList( getAccount(), new FindFilter( 0, toShowSize ) );
+
+        MenuItem[] menuItems = new MenuItem[recentProjectList.size()];
+
+        int index = 0;
+        for( ProjectEntityComposite project : recentProjectList )
+        {
+            final String projectId = project.getIdentity();
+
+            menuItems[ index ] = new MenuLink( project.getName() )
+            {
+                protected void handleClicked()
+                {
+                    showProjectDetail( projectId );
+                }
+            };
+
+            index++;
+        }
+
+        return menuItems;
+    }
+
+    private void showProjectDetail( final String projectId )
+    {
+        ProjectDetailPage detailPage = new ProjectDetailPage( (BasePage) this.getPage() )
+        {
+            public ProjectEntityComposite getProject()
+            {
+                return ChronosWebApp.getServices().getProjectService().get( projectId );
+            }
         };
+
+        setResponsePage( detailPage );
     }
 }

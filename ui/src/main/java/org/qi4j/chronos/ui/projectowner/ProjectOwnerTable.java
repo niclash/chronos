@@ -65,11 +65,6 @@ public abstract class ProjectOwnerTable extends ActionTable<ProjectOwnerEntityCo
                     {
                         return projectOwnerId;
                     }
-
-                    public AccountEntityComposite getAccount()
-                    {
-                        return ProjectOwnerTable.this.getAccount();
-                    }
                 };
 
                 setResponsePage( editPage );
@@ -83,14 +78,7 @@ public abstract class ProjectOwnerTable extends ActionTable<ProjectOwnerEntityCo
         {
             public void linkClicked()
             {
-                ProjectOwnerDetailPage detailPage = new ProjectOwnerDetailPage( (BasePage) this.getPage(), projectOwnerId )
-                {
-
-                    public AccountEntityComposite getAccount()
-                    {
-                        return ProjectOwnerTable.this.getAccount();
-                    }
-                };
+                ProjectOwnerDetailPage detailPage = new ProjectOwnerDetailPage( (BasePage) this.getPage(), projectOwnerId );
 
                 setResponsePage( detailPage );
             }

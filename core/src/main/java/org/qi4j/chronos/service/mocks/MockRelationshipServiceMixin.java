@@ -38,7 +38,7 @@ public class MockRelationshipServiceMixin implements RelationshipService
         {
             public boolean callBack( RelationshipComposite relationshipComposite )
             {
-                relationshipList.add( cloneRelationship( relationshipComposite ) );
+                relationshipList.add( CloneUtil.cloneRelationship( factory, relationshipComposite ) );
 
                 return true;
             }
@@ -47,14 +47,6 @@ public class MockRelationshipServiceMixin implements RelationshipService
         return relationshipList;
     }
 
-    private RelationshipComposite cloneRelationship( RelationshipComposite relationshipComposite )
-    {
-        RelationshipComposite clonedRelationshipComposite = factory.newCompositeBuilder( RelationshipComposite.class ).newInstance();
-
-        clonedRelationshipComposite.setRelationship( relationshipComposite.getRelationship() );
-
-        return clonedRelationshipComposite;
-    }
 
     private void loopRelationship( ProjectOwnerEntityComposite projectOwner, LoopCallBack<RelationshipComposite> loopCallBack )
     {
@@ -83,7 +75,7 @@ public class MockRelationshipServiceMixin implements RelationshipService
             {
                 if( relationshipComposite.getRelationship().equals( relationship ) )
                 {
-                    returnValue[ 0 ] = cloneRelationship( relationshipComposite );
+                    returnValue[ 0 ] = CloneUtil.cloneRelationship( factory, relationshipComposite );
 
                     return false;
                 }

@@ -19,9 +19,6 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.service.PriceRateScheduleService;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 
@@ -33,15 +30,13 @@ public abstract class PriceRateScheduleOptionPanel extends Panel
     private SubmitLink customizePriceRateScheduleLink;
     private SubmitLink viewPriceRateScheduleLink;
 
-    private List<String> priceRateScheduleList;
+    private List<String> priceRateScheduleNameList;
 
     private static List<PriceRateScheduleComposite> addedPriceRateScheduleList;
 
     public PriceRateScheduleOptionPanel( String id )
     {
         super( id );
-
-        addedPriceRateScheduleList = new ArrayList<PriceRateScheduleComposite>();
 
         initComponents();
     }
@@ -50,7 +45,7 @@ public abstract class PriceRateScheduleOptionPanel extends Panel
     {
         initPriceRateScheduleList();
 
-        priceRateScheduleChoice = new SimpleDropDownChoice<String>( "priceRateScheduleChoice", priceRateScheduleList, true );
+        priceRateScheduleChoice = new SimpleDropDownChoice<String>( "priceRateScheduleChoice", priceRateScheduleNameList, true );
         newPriceRateScheduleLink = new SubmitLink( "newPriceRateScheduleLink" )
         {
             public void onSubmit()
@@ -75,7 +70,7 @@ public abstract class PriceRateScheduleOptionPanel extends Panel
             }
         };
 
-        if( priceRateScheduleList.size() == 0 )
+        if( priceRateScheduleNameList.size() == 0 )
         {
             setControlVisible( false );
         }
@@ -101,7 +96,6 @@ public abstract class PriceRateScheduleOptionPanel extends Panel
 
     private void handleCustomizePriceRateSchedule()
     {
-
         PriceRateScheduleEditPage editPage = new PriceRateScheduleEditPage( (BasePage) this.getPage() )
         {
             public PriceRateScheduleComposite getPriceRateSchedule()
@@ -109,16 +103,23 @@ public abstract class PriceRateScheduleOptionPanel extends Panel
                 return PriceRateScheduleOptionPanel.this.getSelectedPriceRateSchedule();
             }
 
-            public AccountEntityComposite getAccount()
+            public void updatePriceRateSchedule( PriceRateScheduleComposite priceRateScheduleComposite )
             {
-                return PriceRateScheduleOptionPanel.this.getAccount();
+                PriceRateScheduleOptionPanel.this.updatePriceRateSchedule( priceRateScheduleComposite );
             }
         };
 
         setResponsePage( editPage );
     }
 
-    private PriceRateScheduleComposite getSelectedPriceRateSchedule()
+    private void updatePriceRateSchedule( PriceRateScheduleComposite priceRateScheduleComposite )
+    {
+        initOrResetPriceRateScheduleNameList();
+
+        setSelectedPriceRateSchedule( priceRateScheduleComposite );
+    }
+
+    public PriceRateScheduleComposite getSelectedPriceRateSchedule()
     {
         String priceRateScheduleName = priceRateScheduleChoice.getChoice();
 
@@ -141,11 +142,6 @@ public abstract class PriceRateScheduleOptionPanel extends Panel
             {
                 PriceRateScheduleOptionPanel.this.addPriceRateSchedule( priceRateScheduleComposite );
             }
-
-            public AccountEntityComposite getAccount()
-            {
-                return PriceRateScheduleOptionPanel.this.getAccount();
-            }
         };
 
         setResponsePage( addPage );
@@ -154,7 +150,7 @@ public abstract class PriceRateScheduleOptionPanel extends Panel
     private void addPriceRateSchedule( PriceRateScheduleComposite priceRateSchedule )
     {
         addedPriceRateScheduleList.add( priceRateSchedule );
-        priceRateScheduleList.add( priceRateSchedule.getName() );
+        priceRateScheduleNameList.add( priceRateSchedule.getName() );
 
         //set newly added relationship as default value
         priceRateScheduleChoice.setChoice( priceRateSchedule.getName() );
@@ -169,21 +165,58 @@ public abstract class PriceRateScheduleOptionPanel extends Panel
         customizePriceRateScheduleLink.setVisible( isVisible );
     }
 
-    private void initPriceRateScheduleList()
+    public boolean checkIfNotValidated()
     {
-        PriceRateScheduleService service = ChronosWebApp.getServices().getPriceRateScheduleService();
+        if( priceRateScheduleNameList.size() == 0 )
+        {
+            error( "Price Rate Schedule must not be empty. Please create one." );
+            return true;
+        }
 
-        List<PriceRateScheduleComposite> priceRateSchedules = service.findAll( getProject() );
+        return false;
+    }
 
-        priceRateScheduleList = new ArrayList<String>();
+    public void initPriceRateScheduleList()
+    {
+        if( addedPriceRateScheduleList == null )
+        {
+            addedPriceRateScheduleList = new ArrayList<PriceRateScheduleComposite>();
+        }
 
+        addedPriceRateScheduleList.clear();
+
+        List<PriceRateScheduleComposite> priceRateSchedules = getAvailablePriceRateSchedule();
+
+        //make a copy of availblePriceRateSchedules
         for( PriceRateScheduleComposite priceRateSchedule : priceRateSchedules )
         {
-            priceRateScheduleList.add( priceRateSchedule.getName() );
+            addedPriceRateScheduleList.add( priceRateSchedule );
+        }
+
+        initOrResetPriceRateScheduleNameList();
+    }
+
+    private void initOrResetPriceRateScheduleNameList()
+    {
+        if( priceRateScheduleNameList == null )
+        {
+            priceRateScheduleNameList = new ArrayList<String>();
+        }
+
+        priceRateScheduleNameList.clear();
+
+        for( PriceRateScheduleComposite priceRateSchedule : addedPriceRateScheduleList )
+        {
+            priceRateScheduleNameList.add( priceRateSchedule.getName() );
         }
     }
 
-    public abstract ProjectEntityComposite getProject();
+    public void setSelectedPriceRateSchedule( PriceRateScheduleComposite priceRateSchedule )
+    {
+        priceRateScheduleChoice.setChoice( priceRateSchedule.getName() );
+    }
+
+    public abstract List<PriceRateScheduleComposite> getAvailablePriceRateSchedule();
 
     public abstract AccountEntityComposite getAccount();
 }

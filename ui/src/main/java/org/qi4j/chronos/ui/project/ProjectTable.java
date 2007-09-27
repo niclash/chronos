@@ -69,11 +69,6 @@ public abstract class ProjectTable extends ActionTable<ProjectEntityComposite, S
                     {
                         return getProjectService().get( projectId );
                     }
-
-                    public AccountEntityComposite getAccount()
-                    {
-                        return ProjectTable.this.getAccount();
-                    }
                 };
 
                 setResponsePage( editPage );

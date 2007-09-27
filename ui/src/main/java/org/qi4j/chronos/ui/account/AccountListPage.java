@@ -40,9 +40,4 @@ public class AccountListPage extends LeftMenuNavPage
         add( accountTable );
     }
 
-    private void handleCustomerChanged()
-    {
-        //TODO
-    }
-
 }

@@ -14,11 +14,9 @@ package org.qi4j.chronos.ui.base;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
-import org.qi4j.api.persistence.Identity;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.ui.ChronosSession;
-import org.qi4j.chronos.ui.base.ChangePasswordPage;
 import org.qi4j.chronos.ui.login.LoginPage;
 
 public abstract class TopMenuNavPage extends BasePage
@@ -65,9 +63,13 @@ public abstract class TopMenuNavPage extends BasePage
 
     private void handleChangePassword()
     {
-        Identity identity = (Identity) getUser();
-
-        setResponsePage( new ChangePasswordPage( this, identity.getIdentity() ) );
+        setResponsePage( new ChangePasswordPage( this )
+        {
+            public User getUser()
+            {
+                return TopMenuNavPage.this.getUser();
+            }
+        } );
     }
 
     private User getUser()

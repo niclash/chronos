@@ -15,23 +15,12 @@ package org.qi4j.chronos.ui.projectrole;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.ui.ChronosSession;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 
 public class ProjectRoleListPage extends LeftMenuNavPage
-
 {
-    private String accountId;
-
     public ProjectRoleListPage()
     {
-        this( ( (ChronosSession) ChronosSession.get() ).getAccountId() );
-    }
-
-    public ProjectRoleListPage( String accountId )
-    {
-        this.accountId = accountId;
         initComponents();
     }
 
@@ -41,13 +30,7 @@ public class ProjectRoleListPage extends LeftMenuNavPage
         {
             public void onClick()
             {
-                setResponsePage( new ProjectRoleAddPage( ProjectRoleListPage.this )
-                {
-                    public AccountEntityComposite getAccount()
-                    {
-                        return ProjectRoleListPage.this.getAccount();
-                    }
-                } );
+                setResponsePage( new ProjectRoleAddPage( ProjectRoleListPage.this ) );
             }
         } );
 
@@ -63,9 +46,5 @@ public class ProjectRoleListPage extends LeftMenuNavPage
 
         add( roleTable );
     }
-
-    private AccountEntityComposite getAccount()
-    {
-        return ChronosWebApp.getServices().getAccountService().get( accountId );
-    }
+    
 }

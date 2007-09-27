@@ -13,7 +13,6 @@
 package org.qi4j.chronos.ui.projectowner;
 
 import org.apache.wicket.markup.html.form.Form;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.customer.CustomerAddEditPanel;
@@ -51,8 +50,5 @@ public abstract class ProjectOwnerAddEditPage extends AddEditBasePage
         onSubmitting();
     }
 
-    public abstract AccountEntityComposite getAccount();
-
     public abstract void onSubmitting();
-
 }

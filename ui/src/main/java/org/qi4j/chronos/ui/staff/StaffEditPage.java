@@ -14,6 +14,7 @@ package org.qi4j.chronos.ui.staff;
 
 import java.util.Iterator;
 import org.qi4j.chronos.model.Staff;
+import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.service.StaffService;
@@ -44,11 +45,6 @@ public abstract class StaffEditPage extends StaffAddEditPage
         assignStaffToFieldValue( staff );
     }
 
-    private StaffEntityComposite getStaff()
-    {
-        return getStaffService().get( getStaffId() );
-    }
-
     public Iterator<SystemRoleEntityComposite> getInitSelectedRoleList()
     {
         return getStaff().systemRoleIterator();
@@ -63,7 +59,13 @@ public abstract class StaffEditPage extends StaffAddEditPage
     {
         if( loginUserEditPanel == null )
         {
-            loginUserEditPanel = new LoginUserEditPanel( id, getStaffId() );
+            loginUserEditPanel = new LoginUserEditPanel( id )
+            {
+                public User getUser()
+                {
+                    return StaffEditPage.this.getStaff();
+                }
+            };
         }
 
         return loginUserEditPanel;
@@ -104,6 +106,6 @@ public abstract class StaffEditPage extends StaffAddEditPage
         }
     }
 
-    public abstract String getStaffId();
+    public abstract StaffEntityComposite getStaff();
 
 }

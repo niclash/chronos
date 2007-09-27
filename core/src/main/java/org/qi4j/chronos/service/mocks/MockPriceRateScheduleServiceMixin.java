@@ -15,6 +15,8 @@ package org.qi4j.chronos.service.mocks;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import org.qi4j.api.CompositeBuilderFactory;
+import org.qi4j.api.annotation.scope.Qi4j;
 import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.service.FindFilter;
@@ -22,6 +24,8 @@ import org.qi4j.chronos.service.PriceRateScheduleService;
 
 public class MockPriceRateScheduleServiceMixin implements PriceRateScheduleService
 {
+    @Qi4j private CompositeBuilderFactory factory;
+
     public List<PriceRateScheduleComposite> findAll( HasPriceRateSchedules hasPriceRateSchedules, FindFilter findFilter )
     {
         return findAll( hasPriceRateSchedules ).subList( findFilter.getFirst(), findFilter.getFirst() + findFilter.getCount() );
@@ -35,7 +39,7 @@ public class MockPriceRateScheduleServiceMixin implements PriceRateScheduleServi
         {
             public boolean callBack( PriceRateScheduleComposite priceRateSchedule )
             {
-                list.add( priceRateSchedule );
+                list.add( CloneUtil.clonePriceRateSchedule( factory, priceRateSchedule ) );
 
                 return true;
             }
@@ -74,7 +78,7 @@ public class MockPriceRateScheduleServiceMixin implements PriceRateScheduleServi
             {
                 if( priceRateSchedule.getName().equals( priceRateName ) )
                 {
-                    returnValue[ 0 ] = priceRateSchedule;
+                    returnValue[ 0 ] = CloneUtil.clonePriceRateSchedule( factory, priceRateSchedule );
                     return false;
                 }
 
@@ -83,10 +87,5 @@ public class MockPriceRateScheduleServiceMixin implements PriceRateScheduleServi
         } );
 
         return returnValue[ 0 ];
-    }
-
-    public void update( PriceRateScheduleComposite priceRateSchedule )
-    {
-        //nothing to do here
     }
 }

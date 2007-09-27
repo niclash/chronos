@@ -10,35 +10,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.util;
+package org.qi4j.chronos.util;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Currency;
-import java.util.List;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
-public final class CurrencyUtil
+public class DateUtil
 {
-    private static List<Currency> list;
+    public static final String DATE_PATTERN = "dd MMM yyyy";
 
-    static
+    public static final String DATE_TIME_PATTERN = "dd MMM yyyy HH:mm:ss";
+
+    public static String format( String pattern, Date date )
     {
-        list = new ArrayList<Currency>();
-
-        list.add( Currency.getInstance( "USD" ) );
-        list.add( Currency.getInstance( "MYR" ) );
-        list.add( Currency.getInstance( "SEK" ) );
-        list.add( Currency.getInstance( "EUR" ) );
+        return new SimpleDateFormat( pattern ).format( date );
     }
 
-    public static Currency getDefaultCurrency()
+    public static String formatDate( Date date )
     {
-        return list.get( 0 );
+        return new SimpleDateFormat( DATE_PATTERN ).format( date );
     }
 
-    public static List<Currency> getCurrencyList()
+    public static String formatDateTime( Date date )
     {
-        return Collections.unmodifiableList( list );
+        return new SimpleDateFormat( DATE_TIME_PATTERN ).format( date );
     }
 
 }

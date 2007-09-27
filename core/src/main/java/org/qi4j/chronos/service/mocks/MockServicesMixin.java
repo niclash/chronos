@@ -13,13 +13,16 @@
 package org.qi4j.chronos.service.mocks;
 
 import java.util.Currency;
+import java.util.Date;
 import java.util.List;
 import org.qi4j.api.Composite;
 import org.qi4j.api.CompositeBuilder;
 import org.qi4j.api.CompositeBuilderFactory;
 import org.qi4j.api.PropertyValue;
 import org.qi4j.api.annotation.scope.Qi4j;
+import org.qi4j.chronos.model.PriceRateType;
 import org.qi4j.chronos.model.ProjectOwner;
+import org.qi4j.chronos.model.ProjectStatus;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.SystemRoleType;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
@@ -28,11 +31,15 @@ import org.qi4j.chronos.model.composites.AdminEntityComposite;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.LoginComposite;
 import org.qi4j.chronos.model.composites.MoneyComposite;
+import org.qi4j.chronos.model.composites.PriceRateComposite;
+import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
 import org.qi4j.chronos.model.composites.RelationshipComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
+import org.qi4j.chronos.model.composites.TimeRangeComposite;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.service.AdminService;
 import org.qi4j.chronos.service.ContactPersonService;
@@ -65,6 +72,7 @@ import org.qi4j.chronos.service.composites.StaffServiceComposite;
 import org.qi4j.chronos.service.composites.SystemRoleServiceComposite;
 import org.qi4j.chronos.service.composites.UserServiceComposite;
 import org.qi4j.chronos.service.composites.WorkEntryServiceComposite;
+import org.qi4j.chronos.util.CurrencyUtil;
 import org.qi4j.library.general.model.GenderType;
 import org.qi4j.library.general.model.composites.CityComposite;
 import org.qi4j.library.general.model.composites.CountryComposite;
@@ -148,16 +156,47 @@ public class MockServicesMixin implements Services
     {
         AccountEntityComposite account = initAccountDummyData();
 
-        initProjectRoleDummyData( account );
+        ProjectRoleEntityComposite[] projectRoles = initProjectRoleDummyData( account );
         initSystemRoleDummyData();
         initStaffDummyData( account );
         initAdminDummyData();
 
-        ProjectOwner[] projectOwners = initProjectOwnerDummyData( account );
+        ProjectOwnerEntityComposite[] projectOwners = initProjectOwnerDummyData( account );
+
+        initPriceRateDummyValue( projectOwners, projectRoles );
 
         RelationshipComposite relationship = initRelationshipDummyData();
 
         initContactPerson( projectOwners, relationship );
+
+        initProjectDummyData( projectOwners[ 0 ], account );
+    }
+
+    private void initProjectDummyData( ProjectOwnerEntityComposite projectOwner, AccountEntityComposite account )
+    {
+        ProjectEntityComposite project = projectService.newInstance( ProjectEntityComposite.class );
+
+        project.setName( "Chronos" );
+        project.setReference( "Chronos 1.2v" );
+
+        TimeRangeComposite actualTimeRange = factory.newCompositeBuilder( TimeRangeComposite.class ).newInstance();
+        TimeRangeComposite estimateTimeRange = factory.newCompositeBuilder( TimeRangeComposite.class ).newInstance();
+
+        actualTimeRange.setEndTime( new Date() );
+        actualTimeRange.setStartTime( new Date() );
+
+        estimateTimeRange.setStartTime( new Date() );
+        estimateTimeRange.setEndTime( new Date() );
+
+        project.setActualTime( actualTimeRange );
+        project.setEstimateTime( estimateTimeRange );
+
+        project.setProjectStatus( ProjectStatus.ACTIVE );
+        project.setProjectOwner( projectOwner );
+        project.setPrimaryContactPerson( projectOwner.contactPersonIterator().next() );
+        project.setPriceRateSchedule( CloneUtil.clonePriceRateSchedule( factory, projectOwner.priceRateScheduleIterator().next() ) );
+
+        account.addProject( project );
     }
 
     private RelationshipComposite initRelationshipDummyData()
@@ -168,6 +207,41 @@ public class MockServicesMixin implements Services
 
         return relationship;
     }
+
+    private void initPriceRateDummyValue( ProjectOwner[] projectOwners, ProjectRoleEntityComposite[] projectRoles )
+    {
+        int next = 0;
+        for( ProjectOwner projectOwner : projectOwners )
+        {
+            PriceRateScheduleComposite priceRateSchedule = factory.newCompositeBuilder( PriceRateScheduleComposite.class ).newInstance();
+
+            priceRateSchedule.setName( "Standard Rate" + ( ++next ) );
+
+            PriceRateComposite programmerPriceRate = newPriceRate( 100L, CurrencyUtil.getDefaultCurrency(), PriceRateType.daily,
+                                                                   projectRoles[ 0 ] );
+
+            PriceRateComposite consultantPriceRate = newPriceRate( 200L, CurrencyUtil.getDefaultCurrency(), PriceRateType.daily,
+                                                                   projectRoles[ 1 ] );
+
+            priceRateSchedule.addPriceRate( programmerPriceRate );
+            priceRateSchedule.addPriceRate( consultantPriceRate );
+
+            projectOwner.addPriceRateSchedule( priceRateSchedule );
+        }
+    }
+
+    private PriceRateComposite newPriceRate( long amount, Currency currency, PriceRateType priceRateType, ProjectRoleEntityComposite projectRole )
+    {
+        PriceRateComposite priceRate = factory.newCompositeBuilder( PriceRateComposite.class ).newInstance();
+
+        priceRate.setAmount( amount );
+        priceRate.setCurrency( currency );
+        priceRate.setPriceRateType( priceRateType );
+        priceRate.setProjectRole( projectRole );
+
+        return priceRate;
+    }
+
 
     private AccountEntityComposite initAccountDummyData()
     {
@@ -207,20 +281,24 @@ public class MockServicesMixin implements Services
         return address;
     }
 
-    private void initProjectRoleDummyData( AccountEntityComposite account )
+    private ProjectRoleEntityComposite[] initProjectRoleDummyData( AccountEntityComposite account )
     {
-        ProjectRoleEntityComposite programmer = projectRoleService.newInstance( ProjectRoleEntityComposite.class );
-        programmer.setProjectRole( "Programmer" );
+        ProjectRoleEntityComposite[] projectRoles = new ProjectRoleEntityComposite[3];
 
-        ProjectRoleEntityComposite consultant = projectRoleService.newInstance( ProjectRoleEntityComposite.class );
-        consultant.setProjectRole( "Consultant" );
+        projectRoles[ 0 ] = projectRoleService.newInstance( ProjectRoleEntityComposite.class );
+        projectRoles[ 0 ].setProjectRole( "Programmer" );
 
-        ProjectRoleEntityComposite projectManager = projectRoleService.newInstance( ProjectRoleEntityComposite.class );
-        projectManager.setProjectRole( "Project Manager" );
+        projectRoles[ 1 ] = projectRoleService.newInstance( ProjectRoleEntityComposite.class );
+        projectRoles[ 1 ].setProjectRole( "Consultant" );
 
-        account.addProjectRole( programmer );
-        account.addProjectRole( consultant );
-        account.addProjectRole( projectManager );
+        projectRoles[ 2 ] = projectRoleService.newInstance( ProjectRoleEntityComposite.class );
+        projectRoles[ 2 ].setProjectRole( "Project Manager" );
+
+        account.addProjectRole( projectRoles[ 0 ] );
+        account.addProjectRole( projectRoles[ 1 ] );
+        account.addProjectRole( projectRoles[ 2 ] );
+
+        return projectRoles;
     }
 
     private void initAdminDummyData()
@@ -314,7 +392,7 @@ public class MockServicesMixin implements Services
         systemRoleService.findAll();
     }
 
-    private ProjectOwner[] initProjectOwnerDummyData( AccountEntityComposite account )
+    private ProjectOwnerEntityComposite[] initProjectOwnerDummyData( AccountEntityComposite account )
     {
         ProjectOwnerEntityComposite[] projectOwners = new ProjectOwnerEntityComposite[2];
 

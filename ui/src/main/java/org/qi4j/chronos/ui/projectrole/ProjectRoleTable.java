@@ -72,14 +72,7 @@ public abstract class ProjectRoleTable extends ActionTable<ProjectRoleEntityComp
         {
             public void linkClicked()
             {
-                ProjectRoleEditPage roleEditPage = new ProjectRoleEditPage( getBasePage(), roleId )
-                {
-                    public AccountEntityComposite getAccount()
-                    {
-                        return ProjectRoleTable.this.getAccount();
-                    }
-                };
-
+                ProjectRoleEditPage roleEditPage = new ProjectRoleEditPage( getBasePage(), roleId );
                 setResponsePage( roleEditPage );
             }
         } );

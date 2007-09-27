@@ -22,23 +22,19 @@ import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.service.UserService;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.base.BasePage;
-import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.MaxLengthPasswordField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ChangePasswordPage extends LeftMenuNavPage
+public abstract class ChangePasswordPage extends LeftMenuNavPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( ChangePasswordPage.class );
 
     private BasePage goBackPage;
-    private String userId;
 
-    public ChangePasswordPage( BasePage goBackPage, String userId )
+    public ChangePasswordPage( BasePage goBackPage )
     {
         this.goBackPage = goBackPage;
-        this.userId = userId;
 
         initComponents();
     }
@@ -53,6 +49,8 @@ public class ChangePasswordPage extends LeftMenuNavPage
     {
         return ChronosWebApp.getServices().getUserService();
     }
+
+    public abstract User getUser();
 
     private class ChangePasswordForm extends Form
     {
@@ -69,8 +67,7 @@ public class ChangePasswordPage extends LeftMenuNavPage
         {
             super( id );
 
-            UserService userService = getUserService();
-            User user = userService.get( userId );
+            User user = getUser();
 
             oldPasswordField = new MaxLengthPasswordField( "oldPassword", "Old Password", Login.PASSWORD_LEN );
             newPasswordField = new MaxLengthPasswordField( "newPassword", "New Password", Login.PASSWORD_LEN );
@@ -143,7 +140,7 @@ public class ChangePasswordPage extends LeftMenuNavPage
             }
 
             UserService userService = getUserService();
-            User user = userService.get( userId );
+            User user = getUser();
 
             if( oldPassword != null && !user.getLogin().getPassword().equals( oldPassword ) )
             {

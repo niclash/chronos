@@ -26,6 +26,7 @@ import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.ProjectStatus;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
 import org.qi4j.chronos.service.ContactPersonService;
@@ -37,6 +38,7 @@ import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.common.SimpleDateField;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.contactperson.ContactPersonDelegator;
+import org.qi4j.chronos.ui.pricerate.PriceRateScheduleOptionPanel;
 import org.qi4j.chronos.ui.projectowner.ProjectOwnerDelegator;
 import org.qi4j.chronos.ui.util.ListUtil;
 import org.qi4j.chronos.ui.util.ValidatorUtil;
@@ -61,6 +63,8 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
 
     private WebMarkupContainer actualDateContainer;
 
+    private PriceRateScheduleOptionPanel priceRateScheduleOptionPanel;
+
     private Form form;
 
     public ProjectAddEditPage( BasePage basePage )
@@ -74,7 +78,6 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
 
         projectOwnerChoice = new SimpleDropDownChoice<ProjectOwnerDelegator>( "projectOwnerChoice", getProjectOwnerList(), true )
         {
-
             protected void onSelectionChanged( Object newSelection )
             {
                 handleProjectOwnerChanged();
@@ -83,6 +86,19 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
             protected boolean wantOnSelectionChangedNotifications()
             {
                 return true;
+            }
+        };
+
+        priceRateScheduleOptionPanel = new PriceRateScheduleOptionPanel( "priceRateScheduleOptionPanel" )
+        {
+            public List<PriceRateScheduleComposite> getAvailablePriceRateSchedule()
+            {
+                return ProjectAddEditPage.this.getAvailablePriceRateScheduleChoice();
+            }
+
+            public AccountEntityComposite getAccount()
+            {
+                return ProjectAddEditPage.this.getAccount();
             }
         };
 
@@ -119,6 +135,7 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
         actualDateContainer.add( actualStartDate );
         actualDateContainer.add( actualEndDate );
 
+        form.add( priceRateScheduleOptionPanel );
         form.add( projectOwnerChoice );
         form.add( projectNameField );
         form.add( formalReferenceField );
@@ -137,8 +154,12 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
 
         primaryContactChoice.setNewChoices( getAvailableContactPersonChoices() );
 
+        priceRateScheduleOptionPanel.initPriceRateScheduleList();
+
         setResponsePage( this );
     }
+
+    public abstract List<PriceRateScheduleComposite> getAvailablePriceRateScheduleChoice();
 
     private void newOrReInitContactPalette()
     {
@@ -309,6 +330,8 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
             project.getActualTime().setStartTime( actualStartDate.getDate() );
             project.getActualTime().setEndTime( actualEndDate.getDate() );
         }
+
+        project.setPriceRateSchedule( priceRateScheduleOptionPanel.getSelectedPriceRateSchedule() );
     }
 
     protected void assignProjectToFieldValues( Project project )
@@ -339,10 +362,17 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
         actualStartDate.setDate( project.getActualTime().getStartTime() );
         actualEndDate.setDate( project.getActualTime().getEndTime() );
 
+        //re-initilizae contact and priceRateSchedule values to reflect the selected projectOwner.
         newOrReInitContactPalette();
+        priceRateScheduleOptionPanel.initPriceRateScheduleList();
+
+        priceRateScheduleOptionPanel.setSelectedPriceRateSchedule( project.getPriceRateSchedule() );
+
+        //TODO bp. move this to other place?
+        projectOwnerChoice.setEnabled( false );
     }
 
-    private ProjectOwnerService getProjectOwnerService()
+    protected ProjectOwnerService getProjectOwnerService()
     {
         return ChronosWebApp.getServices().getProjectOwnerService();
     }
@@ -361,6 +391,11 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
             isRejected = true;
         }
 
+        if( priceRateScheduleOptionPanel.checkIfNotValidated() )
+        {
+            isRejected = true;
+        }
+
         if( ValidatorUtil.isAfterDate( estimateStartDate.getDate(), estimateEndDate.getDate(),
                                        "Start Date(Est.)", "End Date(Est.)", this ) )
         {
@@ -374,7 +409,6 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
             {
                 isRejected = true;
             }
-
         }
 
         if( isRejected )
@@ -387,7 +421,6 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
 
     public abstract void onSubmitting();
 
-    public abstract AccountEntityComposite getAccount();
-
     public abstract Iterator<ContactPersonEntityComposite> getInitSelectedContactPersonList();
+
 }

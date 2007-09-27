@@ -12,7 +12,6 @@
  */
 package org.qi4j.chronos.ui.account;
 
-import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.ui.ChronosWebApp;
@@ -32,15 +31,18 @@ public class AccountEditPage extends AccountAddEditPage
 
         this.accountId = accountId;
 
-        Account account = ChronosWebApp.getServices().getAccountService().get( accountId );
+        customerAddEditPanel.assignCustomerToFields( getAccount() );
+    }
 
-        customerAddEditPanel.assignCustomerToFields( account );
+    protected AccountEntityComposite getAccount()
+    {
+        return ChronosWebApp.getServices().getAccountService().get( accountId );
     }
 
     public void onSubmitting()
     {
         AccountService accountService = ChronosWebApp.getServices().getAccountService();
-        AccountEntityComposite account = accountService.get( accountId );
+        AccountEntityComposite account = getAccount();
 
         try
         {

@@ -20,7 +20,7 @@ import org.qi4j.chronos.ui.base.BasePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class ProjectRoleAddPage extends ProjectRoleAddEditPage
+public class ProjectRoleAddPage extends ProjectRoleAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( ProjectRoleAddPage.class );
 

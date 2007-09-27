@@ -22,7 +22,7 @@ import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.SimpleTextArea;
 import org.qi4j.chronos.ui.common.SimpleTextField;
-import org.qi4j.chronos.ui.util.DateUtil;
+import org.qi4j.chronos.util.DateUtil;
 
 public abstract class WorkEntryDetailPage extends LeftMenuNavPage
 {

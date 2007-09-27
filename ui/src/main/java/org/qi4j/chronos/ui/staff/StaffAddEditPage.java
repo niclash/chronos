@@ -17,7 +17,6 @@ import java.util.Currency;
 import java.util.Iterator;
 import org.apache.wicket.markup.html.form.Form;
 import org.qi4j.chronos.model.Staff;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
 import org.qi4j.chronos.ui.base.BasePage;
@@ -108,8 +107,6 @@ public abstract class StaffAddEditPage extends AddEditBasePage
 
         onSubmitting();
     }
-
-    public abstract AccountEntityComposite getAccount();
 
     public abstract void onSubmitting();
 

@@ -10,16 +10,22 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service.composites;
+package org.qi4j.chronos.service.mocks;
 
-import org.qi4j.api.Composite;
-import org.qi4j.api.annotation.ImplementedBy;
+import java.util.List;
+import org.qi4j.api.annotation.scope.ThisAs;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.service.FindFilter;
+import org.qi4j.chronos.service.ProjectMiscService;
 import org.qi4j.chronos.service.ProjectService;
-import org.qi4j.chronos.service.mocks.MockProjectMiscServiceMixin;
-import org.qi4j.chronos.service.mocks.MockProjectServiceMixin;
 
-@ImplementedBy( { MockProjectServiceMixin.class, MockProjectMiscServiceMixin.class } )
-public interface ProjectServiceComposite extends ProjectService, Composite
+public class MockProjectMiscServiceMixin implements ProjectMiscService
 {
-    
+    @ThisAs private ProjectService projectService;
+
+    public List<ProjectEntityComposite> getRecentAccessedProjectList( AccountEntityComposite account, FindFilter findFilter )
+    {
+        return projectService.findAll( account, findFilter );
+    }
 }

@@ -14,7 +14,7 @@ package org.qi4j.chronos.service;
 
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 
-public interface ProjectService extends AccountBasedService<ProjectEntityComposite>
+public interface ProjectService extends AccountBasedService<ProjectEntityComposite>, ProjectMiscService
 {
 
 }

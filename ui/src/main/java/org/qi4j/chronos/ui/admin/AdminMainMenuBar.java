@@ -15,7 +15,7 @@ package org.qi4j.chronos.ui.admin;
 import org.qi4j.chronos.ui.account.AccountListPage;
 import org.qi4j.chronos.ui.common.menu.MenuBar;
 import org.qi4j.chronos.ui.common.menu.MenuItem;
-import org.qi4j.chronos.ui.common.menu.MenuLink;
+import org.qi4j.chronos.ui.common.menu.PageMenuLink;
 import org.qi4j.chronos.ui.systemrole.SystemRoleListPage;
 
 public class AdminMainMenuBar extends MenuBar
@@ -28,9 +28,9 @@ public class AdminMainMenuBar extends MenuBar
     public MenuItem[] getMenuItemList()
     {
         return new MenuItem[]{
-            new MenuLink( "Home", AdminHomePage.class ),
-            new MenuLink( "Account", AccountListPage.class ),
-            new MenuLink( "System Role", SystemRoleListPage.class ),
+            new PageMenuLink( "Home", AdminHomePage.class ),
+            new PageMenuLink( "Account", AccountListPage.class ),
+            new PageMenuLink( "System Role", SystemRoleListPage.class ),
         };
     }
 }

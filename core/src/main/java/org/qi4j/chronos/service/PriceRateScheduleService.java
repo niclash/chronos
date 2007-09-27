@@ -26,5 +26,4 @@ public interface PriceRateScheduleService
 
     PriceRateScheduleComposite get( HasPriceRateSchedules hasPriceRateSchedules, String priceRateName );
 
-    void update( PriceRateScheduleComposite priceRateSchedule );
 }

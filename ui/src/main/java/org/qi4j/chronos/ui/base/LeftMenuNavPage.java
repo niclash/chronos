@@ -15,6 +15,7 @@ package org.qi4j.chronos.ui.base;
 import java.util.Arrays;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.ui.ChronosSession;
 import org.qi4j.chronos.ui.admin.AdminMainMenuBar;
 import org.qi4j.chronos.ui.common.menu.MenuBar;
@@ -64,12 +65,32 @@ public abstract class LeftMenuNavPage extends TopMenuNavPage
 
     private MenuBar[] getContactPersonMenuBars()
     {
-        return new MenuBar[]{ new ContactPersonMainMenuBar(), new RecentProjectMenuBar() };
+        return new MenuBar[]{ new ContactPersonMainMenuBar(), createRecentProjectMenuBar() };
     }
 
     private MenuBar[] getStaffMenuBars()
     {
-        return new MenuBar[]{ new StaffMainMenuBar(), new RecentProjectMenuBar() };
+        return new MenuBar[]{ new StaffMainMenuBar(), createRecentProjectMenuBar() };
     }
 
+    private MenuBar createRecentProjectMenuBar()
+    {
+        return new RecentProjectMenuBar()
+        {
+            public AccountEntityComposite getAccount()
+            {
+                return LeftMenuNavPage.this.getAccount();
+            }
+        };
+    }
+
+    protected ChronosSession getChronosSession()
+    {
+        return (ChronosSession) ChronosSession.get();
+    }
+
+    protected AccountEntityComposite getAccount()
+    {
+        return getChronosSession().getAccount();
+    }
 }

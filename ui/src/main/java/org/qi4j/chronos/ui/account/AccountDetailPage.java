@@ -37,10 +37,6 @@ public class AccountDetailPage extends LeftMenuNavPage
         initComponents();
     }
 
-    private AccountEntityComposite getAccount()
-    {
-        return ChronosWebApp.getServices().getAccountService().get( accountId );
-    }
 
     private void initComponents()
     {

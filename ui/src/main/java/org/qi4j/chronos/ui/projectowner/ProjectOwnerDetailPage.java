@@ -33,7 +33,7 @@ import org.qi4j.chronos.ui.contactperson.ContactPersonTab;
 import org.qi4j.chronos.ui.customer.CustomerDetailPanel;
 import org.qi4j.chronos.ui.pricerate.PriceRateScheduleTab;
 
-public abstract class ProjectOwnerDetailPage extends LeftMenuNavPage
+public class ProjectOwnerDetailPage extends LeftMenuNavPage
 {
     private String projectOwnerId;
 
@@ -130,6 +130,4 @@ public abstract class ProjectOwnerDetailPage extends LeftMenuNavPage
             }
         }
     }
-
-    public abstract AccountEntityComposite getAccount();
 }

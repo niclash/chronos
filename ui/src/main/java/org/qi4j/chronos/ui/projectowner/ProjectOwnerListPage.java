@@ -15,29 +15,13 @@ package org.qi4j.chronos.ui.projectowner;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.ui.ChronosSession;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 
 public class ProjectOwnerListPage extends LeftMenuNavPage
 {
-    private String accountId;
-
     public ProjectOwnerListPage()
     {
-        this( ( (ChronosSession) ChronosSession.get() ).getAccountId() );
-    }
-
-    public ProjectOwnerListPage( String accountId )
-    {
-        this.accountId = accountId;
-
         initComponents();
-    }
-
-    private AccountEntityComposite getAccount()
-    {
-        return ChronosWebApp.getServices().getAccountService().get( accountId );
     }
 
     private void initComponents()
@@ -48,13 +32,7 @@ public class ProjectOwnerListPage extends LeftMenuNavPage
         {
             public void onClick()
             {
-                setResponsePage( new ProjectOwnerAddPage( ProjectOwnerListPage.this )
-                {
-                    public AccountEntityComposite getAccount()
-                    {
-                        return ProjectOwnerListPage.this.getAccount();
-                    }
-                } );
+                setResponsePage( new ProjectOwnerAddPage( ProjectOwnerListPage.this ) );
             }
         } );
 

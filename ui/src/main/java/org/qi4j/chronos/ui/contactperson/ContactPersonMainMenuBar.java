@@ -14,7 +14,7 @@ package org.qi4j.chronos.ui.contactperson;
 
 import org.qi4j.chronos.ui.common.menu.MenuBar;
 import org.qi4j.chronos.ui.common.menu.MenuItem;
-import org.qi4j.chronos.ui.common.menu.MenuLink;
+import org.qi4j.chronos.ui.common.menu.PageMenuLink;
 import org.qi4j.chronos.ui.project.ProjectListPage;
 
 public class ContactPersonMainMenuBar extends MenuBar
@@ -27,8 +27,8 @@ public class ContactPersonMainMenuBar extends MenuBar
     public MenuItem[] getMenuItemList()
     {
         return new MenuItem[]{
-            new MenuLink( "Home", ContactPersonHomePage.class ),
-            new MenuLink( "Project", ProjectListPage.class ),
+            new PageMenuLink( "Home", ContactPersonHomePage.class ),
+            new PageMenuLink( "Project", ProjectListPage.class ),
         };
     }
 }

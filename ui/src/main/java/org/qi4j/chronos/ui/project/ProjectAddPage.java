@@ -14,9 +14,12 @@ package org.qi4j.chronos.ui.project;
 
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
 import org.qi4j.chronos.model.composites.TimeRangeComposite;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.ui.ChronosWebApp;
@@ -24,7 +27,7 @@ import org.qi4j.chronos.ui.base.BasePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class ProjectAddPage extends ProjectAddEditPage
+public class ProjectAddPage extends ProjectAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( ProjectAddPage.class );
 
@@ -76,5 +79,17 @@ public abstract class ProjectAddPage extends ProjectAddEditPage
     public Iterator<ContactPersonEntityComposite> getInitSelectedContactPersonList()
     {
         return Collections.EMPTY_LIST.iterator();
+    }
+
+    public List<PriceRateScheduleComposite> getAvailablePriceRateSchedule()
+    {
+        return Collections.EMPTY_LIST;
+    }
+
+    public List<PriceRateScheduleComposite> getAvailablePriceRateScheduleChoice()
+    {
+        ProjectOwnerEntityComposite projectOwner = getProjectOwnerService().get( projectOwnerChoice.getChoice().getId() );
+
+        return ChronosWebApp.getServices().getPriceRateScheduleService().findAll( projectOwner );
     }
 }

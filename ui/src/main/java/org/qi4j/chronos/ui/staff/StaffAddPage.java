@@ -25,7 +25,7 @@ import org.qi4j.chronos.ui.login.LoginUserAddPanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class StaffAddPage extends StaffAddEditPage
+public class StaffAddPage extends StaffAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( StaffAddPage.class );
 

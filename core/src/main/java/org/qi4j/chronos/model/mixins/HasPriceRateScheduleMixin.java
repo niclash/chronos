@@ -1,6 +1,5 @@
 /*
  * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
- * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,23 +12,21 @@
  */
 package org.qi4j.chronos.model.mixins;
 
-import org.qi4j.chronos.model.ProjectAssignee;
-import org.qi4j.chronos.model.associations.HasLeadProjectAssignee;
+import org.qi4j.chronos.model.PriceRateSchedule;
+import org.qi4j.chronos.model.associations.HasPriceRateSchedule;
+import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 
-/**
- * Default mixin implementation for {@link org.qi4j.chronos.model.associations.HasLeadProjectAssignee}
- */
-public final class HasLeadProjectAssigneeMixin implements HasLeadProjectAssignee
+public class HasPriceRateScheduleMixin implements HasPriceRateSchedule
 {
-    private ProjectAssignee leadProjectAssignee;
+    private PriceRateScheduleComposite priceRateSchedule;
 
-    public ProjectAssignee getLeadProjectAssignee()
+    public void setPriceRateSchedule( PriceRateScheduleComposite priceRateSchedule )
     {
-        return leadProjectAssignee;
+        this.priceRateSchedule = priceRateSchedule;
     }
 
-    public void setLeadProjectAssignee( ProjectAssignee lead )
+    public PriceRateScheduleComposite getPriceRateSchedule()
     {
-        leadProjectAssignee = lead;
+        return priceRateSchedule;
     }
 }

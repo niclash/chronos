@@ -14,7 +14,6 @@ package org.qi4j.chronos.ui.pricerate;
 
 import java.util.List;
 import org.apache.wicket.markup.html.form.Form;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.NumberTextField;
@@ -70,6 +69,4 @@ public abstract class PriceRateAddEditPage extends AddEditBasePage
     }
 
     public abstract void onSubmitting();
-
-    public abstract AccountEntityComposite getAccount();
 }

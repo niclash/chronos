@@ -18,6 +18,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleCheckBox;
@@ -108,14 +109,9 @@ public abstract class StaffTable extends ActionTable<StaffEntityComposite, Strin
             {
                 setResponsePage( new StaffEditPage( (BasePage) this.getPage() )
                 {
-                    public String getStaffId()
+                    public StaffEntityComposite getStaff()
                     {
-                        return staffId;
-                    }
-
-                    public AccountEntityComposite getAccount()
-                    {
-                        return getAccount();
+                        return ChronosWebApp.getServices().getStaffService().get( staffId );
                     }
                 } );
             }

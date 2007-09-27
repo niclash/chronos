@@ -12,31 +12,16 @@
  */
 package org.qi4j.chronos.ui.common.menu;
 
-import org.apache.wicket.PageParameters;
-import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.model.Model;
 
-public class MenuLink extends MenuItem
+public abstract class MenuLink extends MenuItem
 {
-    private static final long serialVersionUID = 1L;
-
-    private Class<? extends WebPage> webPageClazz;
-    private PageParameters pageParamaters;
     private String text;
 
-    public MenuLink( String text, final Class<? extends WebPage> webPage )
+    public MenuLink( String text )
     {
-        this( text, webPage, null );
-    }
-
-    public MenuLink( String text, final Class<? extends WebPage> webPage, final PageParameters pageParameters )
-    {
-        super();
-
-        this.webPageClazz = webPage;
-        this.pageParamaters = pageParameters;
         this.text = text;
 
         initComponents();
@@ -49,14 +34,7 @@ public class MenuLink extends MenuItem
             @Override
             public void onClick()
             {
-                if( pageParamaters != null )
-                {
-                    setResponsePage( webPageClazz, pageParamaters );
-                }
-                else
-                {
-                    setResponsePage( webPageClazz );
-                }
+                handleClicked();
             }
         };
 
@@ -65,5 +43,7 @@ public class MenuLink extends MenuItem
 
         add( link );
     }
+
+    protected abstract void handleClicked();
 }
 

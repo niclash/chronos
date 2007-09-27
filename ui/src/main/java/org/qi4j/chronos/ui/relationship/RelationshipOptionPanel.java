@@ -113,7 +113,13 @@ public abstract class RelationshipOptionPanel extends Panel
 
     public boolean checkIfNotValidated()
     {
-        return relationshipList.size() == 0 ? true : false;
+        if( relationshipList.size() == 0 )
+        {
+            error( "Relationship must not be empty! Please create one." );
+            return true;
+        }
+
+        return false;
     }
 
     public void setSelectedRelationship( RelationshipComposite relationship )

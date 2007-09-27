@@ -68,11 +68,6 @@ public abstract class PriceRateScheduleTab<T extends HasPriceRateSchedules> exte
                         {
                             PriceRateScheduleTab.this.addPriceRateSchedule( priceRateSchedule );
                         }
-
-                        public AccountEntityComposite getAccount()
-                        {
-                            return PriceRateScheduleTab.this.getAccount();
-                        }
                     };
                     setResponsePage( addPage );
                 }

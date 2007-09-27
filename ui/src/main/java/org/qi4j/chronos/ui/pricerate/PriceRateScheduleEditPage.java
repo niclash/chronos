@@ -15,7 +15,6 @@ package org.qi4j.chronos.ui.pricerate;
 import java.util.Iterator;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
-import org.qi4j.chronos.service.PriceRateScheduleService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.slf4j.Logger;
@@ -34,7 +33,9 @@ public abstract class PriceRateScheduleEditPage extends PriceRateScheduleAddEdit
 
     private void initData()
     {
-        assignPriceRateScheduleToFieldValue( getPriceRateSchedule() );
+        PriceRateScheduleComposite priceRateSchedule = getPriceRateSchedule();
+
+        assignPriceRateScheduleToFieldValue( priceRateSchedule );
     }
 
     public String getSubmitButtonValue()
@@ -55,10 +56,7 @@ public abstract class PriceRateScheduleEditPage extends PriceRateScheduleAddEdit
         {
             assignFieldValueToPriceRateSchedule( priceRateSchedule );
 
-            PriceRateScheduleService service = ChronosWebApp.getServices().getPriceRateScheduleService();
-
-            //TODO bp. ValueObject is immutable. Wait for solution.
-            service.update( priceRateSchedule );
+            updatePriceRateSchedule( priceRateSchedule );
 
             logInfoMsg( "Price Rate Schedule is updated successfuly." );
 
@@ -77,4 +75,6 @@ public abstract class PriceRateScheduleEditPage extends PriceRateScheduleAddEdit
     }
 
     public abstract PriceRateScheduleComposite getPriceRateSchedule();
+
+    public abstract void updatePriceRateSchedule( PriceRateScheduleComposite priceRateScheduleComposite );
 }

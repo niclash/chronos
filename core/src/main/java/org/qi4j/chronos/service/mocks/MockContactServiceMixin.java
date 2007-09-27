@@ -15,6 +15,8 @@ package org.qi4j.chronos.service.mocks;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import org.qi4j.api.CompositeBuilderFactory;
+import org.qi4j.api.annotation.scope.Qi4j;
 import org.qi4j.chronos.model.associations.HasContacts;
 import org.qi4j.chronos.model.composites.ContactComposite;
 import org.qi4j.chronos.service.ContactService;
@@ -22,6 +24,8 @@ import org.qi4j.chronos.service.FindFilter;
 
 public class MockContactServiceMixin implements ContactService
 {
+    @Qi4j private CompositeBuilderFactory factory;
+
     public List<ContactComposite> findAll( HasContacts hasContacts, FindFilter findFilter )
     {
         return findAll( hasContacts ).subList( findFilter.getFirst(), findFilter.getFirst() + findFilter.getCount() );
@@ -35,7 +39,7 @@ public class MockContactServiceMixin implements ContactService
         {
             public boolean callBack( ContactComposite contact )
             {
-                list.add( contact );
+                list.add( CloneUtil.cloneContact( factory, contact ) );
 
                 return true;
             }
@@ -74,7 +78,7 @@ public class MockContactServiceMixin implements ContactService
             {
                 if( contact.getContactValue().equals( contactValue ) )
                 {
-                    returnValue[ 0 ] = contact;
+                    returnValue[ 0 ] = CloneUtil.cloneContact( factory, contact );
                     return false;
                 }
 

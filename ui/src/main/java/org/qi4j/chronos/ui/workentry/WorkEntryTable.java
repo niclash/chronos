@@ -21,7 +21,7 @@ import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
-import org.qi4j.chronos.ui.util.DateUtil;
+import org.qi4j.chronos.util.DateUtil;
 
 public abstract class WorkEntryTable extends ActionTable<WorkEntryEntityComposite, String>
 {
