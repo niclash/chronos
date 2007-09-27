@@ -12,14 +12,18 @@
  */
 package org.qi4j.chronos.ui.project;
 
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
+import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.ProjectStatus;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
+import org.qi4j.chronos.ui.common.SimpleTextField;
+import org.qi4j.chronos.util.DateUtil;
 
 public abstract class ProjectDetailPage extends LeftMenuNavPage
 {
@@ -42,6 +46,20 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
     {
         private Button submitButton;
 
+        private SimpleTextField projectNameField;
+        private SimpleTextField formalReferenceField;
+        private SimpleTextField projectStatusField;
+        private SimpleTextField projectOwnerField;
+        private SimpleTextField primaryContactField;
+
+        private SimpleTextField estimateStartTimeField;
+        private SimpleTextField estimateEndTimeField;
+
+        private SimpleTextField actualStartTimeField;
+        private SimpleTextField actualEndTimeField;
+
+        private WebMarkupContainer actualTimeContainer;
+
         public ProjectDetailForm( String id )
         {
             super( id );
@@ -51,20 +69,53 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
 
         private void initComponents()
         {
-            submitButton = new Button( "submitButton", new Model( "Return" ) );
+            Project project = getProject();
+
+            projectNameField = new SimpleTextField( "projectNameField", project.getName() );
+            formalReferenceField = new SimpleTextField( "formalReferenceField", project.getReference() );
+            projectStatusField = new SimpleTextField( "projectStatusField", project.getProjectStatus().toString() );
+
+            projectOwnerField = new SimpleTextField( "projectOwnerField", project.getProjectOwner().getName() );
+
+            String primaryContact = project.getPrimaryContactPerson().getFirstName() + project.getPrimaryContactPerson().getLastName();
+            primaryContactField = new SimpleTextField( "primaryContactField", primaryContact );
+
+            estimateStartTimeField = new SimpleTextField( "estimateStartTimeField", DateUtil.formatDate( project.getEstimateTime().getStartTime() ) );
+            estimateEndTimeField = new SimpleTextField( "estimateEndTimeField", DateUtil.formatDate( project.getEstimateTime().getEndTime() ) );
+
+            String actualStartTime = project.getActualTime().getStartTime() == null ? "" : DateUtil.formatDate( project.getActualTime().getStartTime() );
+            String actualEndTime = project.getActualTime().getEndTime() == null ? "" : DateUtil.formatDate( project.getActualTime().getEndTime() );
+
+            actualStartTimeField = new SimpleTextField( "actualStartTimeField", actualStartTime );
+            actualEndTimeField = new SimpleTextField( "actualEndTimeField", actualEndTime );
+
+            actualTimeContainer = new WebMarkupContainer( "actualTimeContainer" );
+
+            actualTimeContainer.add( actualStartTimeField );
+            actualTimeContainer.add( actualEndTimeField );
+
+            submitButton = new Button( "submitButton", new Model( "Return" ) )
+            {
+                public void onSubmit()
+                {
+                    setResponsePage( returnPage );
+                }
+            };
+
+            add( projectNameField );
+            add( formalReferenceField );
+            add( projectStatusField );
+            add( projectOwnerField );
+            add( primaryContactField );
+            add( estimateStartTimeField );
+            add( estimateEndTimeField );
+            add( actualTimeContainer );
 
             add( submitButton );
-        }
 
-        protected void delegateSubmit( IFormSubmittingComponent submittingButton )
-        {
-            if( submittingButton == submitButton )
+            if( project.getProjectStatus() != ProjectStatus.CLOSED )
             {
-                setResponsePage( returnPage );
-            }
-            else
-            {
-                throw new IllegalArgumentException( submittingButton + " not handled yet." );
+                actualTimeContainer.setVisible( false );
             }
         }
     }

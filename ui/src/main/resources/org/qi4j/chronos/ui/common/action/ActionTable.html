@@ -7,24 +7,25 @@
 <wicket:panel>
     <form wicket:id="actionTableForm">
         <table>
-            <tr>
-                <td align="left"><span wicket:id="actionBar"></span></td>
-            </tr>
+            <span wicket:id="actionBar"></span>
 
+            <span wicket:id="navigatorGroupContainer">
             <tr>
                 <td>
                     <table>
                         <tr>
                             <td>
-                                <b>Select :&nbsp;</b><a wicket:id="selectAllLink">All</a>&nbsp;<a
-                                    wicket:id="selectNoneLink">None</a>
+                                <span wicket:id="selectAllOrNoneContainer">
+                                    <b>Select :&nbsp;</b><a wicket:id="selectAllLink">All</a>&nbsp;<a
+                                        wicket:id="selectNoneLink">None</a>
+                                 </span>
                             </td>
+
                             <span wicket:id="navigator"></span>
                         </tr>
                     </table>
                 </td>
             </tr>
-
             <tr>
                 <td align="center">
 
@@ -45,20 +46,22 @@
                     </span>
                 </td>
             </tr>
+            </span>
+
             <tr>
                 <td>
                     <table>
                         <tr>
-                            <th></th>
+                            <span wicket:id="checkBoxHeaderContainer"><th></th></span>
                             <span wicket:id="headers">
                                 <th><span wicket:id="header"></span></th>
                             </span>
                         </tr>
 
                         <tr wicket:id="dataView" style="padding-top: 1px">
-                            <td><input type="checkbox" wicket:id="itemCheckBox" style="width: 13"/>
-                            </td>
-
+                            <span wicket:id="checkBoxContainer">
+                                <td><input type="checkbox" wicket:id="itemCheckBox" style="width: 13"/></td>
+                            </span>
                             <wicket:child/>
                         </tr>
                     </table>

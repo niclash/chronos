@@ -47,8 +47,7 @@ public class ProjectRoleAddPage extends ProjectRoleAddEditPage
 
             logInfoMsg( "ProjectRole is added successfully!" );
 
-            BasePage goBackPage = getGoBackPage();
-            setResponsePage( new ProjectRoleDetailPage( goBackPage, projectRole.getIdentity() ) );
+            divertToGoBackPage();
         }
         catch( Exception err )
         {

@@ -20,10 +20,54 @@
             <td>
                 <form wicket:id="projectDetailForm">
                     <table>
+                        <tr>
+                            <td align="right">Name</td>
+                            <td colspan="3"><input type="text" wicket:id="projectNameField" class="textStyle"
+                                                   style="width: 350"/></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Formal Reference</td>
+                            <td colspan="3"><input type="text" wicket:id="formalReferenceField" class="textStyle"
+                                                   style="width: 350"/></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Status</td>
+                            <td><input type="text" wicket:id="projectStatusField" class="textStyle" style="width: 175"/>
+                            </td>
+                            <td colspan="2"></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Project Owner</td>
+                            <td colspan="3"><input type="text" wicket:id="projectOwnerField" class="textStyle"
+                                                   style="width: 350"/></td>
+                        </tr>
 
                         <tr>
-                            <td></td>
-                            <td>
+                            <td align="right">Primary Contact</td>
+                            <td colspan="3"><input type="text" wicket:id="primaryContactField" class="textStyle"
+                                                   style="width: 350"/></td>
+                        </tr>
+                        <tr>
+                            <td align="right">Start Date(Est.)</td>
+                            <td><input type="text" wicket:id="estimateStartTimeField" class="textStyle"
+                                       style="width: 175"/></td>
+                            <td align="right">End Date(Est.)</td>
+                            <td><input type="text" wicket:id="estimateEndTimeField" class="textStyle"
+                                       style="width: 175"/></td>
+                        </tr>
+                        <span wicket:id="actualTimeContainer">
+                            <tr>
+                                <td align="right">Start Date(Act.)</td>
+                                <td><input type="text" wicket:id="actualStartTimeField" class="textStyle"
+                                           style="width: 175"/></td>
+                                <td align="right">End Date(Act.)</td>
+                                <td><input type="text" wicket:id="actualEndTimeField" class="textStyle"
+                                           style="width: 175"/></td>
+                            </tr>
+                        </span>
+
+                        <tr>
+                            <td colspan="4" align="center">
                                 <input type="submit" wicket:id="submitButton"/>
                             </td>
                         </tr>

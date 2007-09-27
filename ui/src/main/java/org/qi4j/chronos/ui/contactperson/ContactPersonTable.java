@@ -20,13 +20,14 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
+import org.qi4j.chronos.model.associations.HasContactPersons;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 
-public abstract class ContactPersonTable extends ActionTable<ContactPersonEntityComposite, String>
+public abstract class ContactPersonTable<T extends HasContactPersons> extends ActionTable<ContactPersonEntityComposite, String>
 {
     private ContactPersonDataProvider provider;
 

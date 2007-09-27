@@ -12,11 +12,11 @@
  */
 package org.qi4j.chronos.ui.common.action;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.io.Serializable;
 import org.apache.wicket.AttributeModifier;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
@@ -58,6 +58,12 @@ public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
 
     private boolean isGrandAllSelected = false;
 
+    private WebMarkupContainer navigatorGroupContainer;
+
+    private WebMarkupContainer selectAllOrNoneContainer;
+
+    private WebMarkupContainer checkBoxHeaderContainer;
+
     public ActionTable( String id )
     {
         this( id, new ActionBar() );
@@ -92,6 +98,33 @@ public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
     public void setNoActionBar( boolean isNoActionBar )
     {
         actionBar.setVisible( !isNoActionBar );
+        selectAllOrNoneContainer.setVisible( !isNoActionBar );
+
+        updateCheckBoxHeaderContainerVisibility();
+    }
+
+    public void setNavigatorVisible( boolean isVisible )
+    {
+        navigatorGroupContainer.setVisible( isVisible );
+
+        updateCheckBoxHeaderContainerVisibility();
+    }
+
+    private void updateCheckBoxHeaderContainerVisibility()
+    {
+        checkBoxHeaderContainer.setVisible( isItemCheckBoxVisible() );
+    }
+
+    private boolean isItemCheckBoxVisible()
+    {
+        if( actionBar.isVisible() && navigatorGroupContainer.isVisible() && selectAllOrNoneContainer.isVisible() )
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
     }
 
     private class ActionTableForm extends Form
@@ -113,10 +146,11 @@ public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
 
             totalItems = dataProvider.size();
 
-            initGrandSelectAllComponents();
-            initGrandSelectNoneComponents();
-            initSelectAllOrNoneComponent();
             initDataViewComponent();
+            initNavigatorGroupComponent();
+
+            checkBoxHeaderContainer = new WebMarkupContainer( "checkBoxHeaderContainer" );
+            add( checkBoxHeaderContainer );
         }
 
         private void initDataViewComponent()
@@ -165,7 +199,13 @@ public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
                         }
                     } );
 
-                    item.add( checkBox );
+                    WebMarkupContainer checkBoxContainer = new WebMarkupContainer( "checkBoxContainer" );
+
+                    checkBoxContainer.add( checkBox );
+
+                    checkBoxContainer.setVisible( isItemCheckBoxVisible() );
+
+                    item.add( checkBoxContainer );
 
                     ActionTable.this.populateItems( item, obj );
 
@@ -182,27 +222,12 @@ public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
             add( dataView );
 
             dataView.setItemsPerPage( DEFAULT_ITEM_PER_PAGE );
-
-            add( new ActionTableNavigatorBar( "navigator", dataView )
-            {
-                public void beforeItemPerPageChanged()
-                {
-                    selectedIds.clear();
-
-                    updateCurrBatchAndGrandSelectVisibility();
-
-                    enableOrDisableActionBar( null );
-                }
-
-                public void beforeNextNagivation()
-                {
-                    updateCurrBatchAndGrandSelectVisibility();
-                }
-            } );
         }
 
-        private void initSelectAllOrNoneComponent()
+        private void initNavigatorGroupComponent()
         {
+            navigatorGroupContainer = new WebMarkupContainer( "navigatorGroupContainer" );
+
             AjaxSubmitLink selectAllLink = new AjaxSubmitLink( "selectAllLink" )
             {
                 protected void onSubmit( AjaxRequestTarget target, Form form )
@@ -219,8 +244,35 @@ public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
                 }
             };
 
-            add( selectAllLink );
-            add( selectNoneLink );
+            ActionTableNavigatorBar navigatorBar = new ActionTableNavigatorBar( "navigator", dataView )
+            {
+                public void beforeItemPerPageChanged()
+                {
+                    selectedIds.clear();
+
+                    updateCurrBatchAndGrandSelectVisibility();
+
+                    enableOrDisableActionBar( null );
+                }
+
+                public void beforeNextNagivation()
+                {
+                    updateCurrBatchAndGrandSelectVisibility();
+                }
+            };
+
+            selectAllOrNoneContainer = new WebMarkupContainer( "selectAllOrNoneContainer" );
+
+            selectAllOrNoneContainer.add( selectAllLink );
+            selectAllOrNoneContainer.add( selectNoneLink );
+
+            navigatorGroupContainer.add( selectAllOrNoneContainer );
+            navigatorGroupContainer.add( navigatorBar );
+
+            add( navigatorGroupContainer );
+
+            initGrandSelectAllComponents();
+            initGrandSelectNoneComponents();
         }
 
         private void initGrandSelectAllComponents()
@@ -230,7 +282,7 @@ public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
             grandSelectAllContainer.setOutputMarkupId( true );
             grandSelectAllContainer.setOutputMarkupPlaceholderTag( true );
 
-            add( grandSelectAllContainer );
+            navigatorGroupContainer.add( grandSelectAllContainer );
 
             AjaxSubmitLink grandSelectAllLink = new AjaxSubmitLink( "grandSelectAllLink" )
             {
@@ -256,7 +308,7 @@ public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
             grandSelectNoneContainer.setOutputMarkupId( true );
             grandSelectNoneContainer.setOutputMarkupPlaceholderTag( true );
 
-            add( grandSelectNoneContainer );
+            navigatorGroupContainer.add( grandSelectNoneContainer );
 
             AjaxSubmitLink grandSelectNoneLink = new AjaxSubmitLink( "grandSelectNoneLink" )
             {
