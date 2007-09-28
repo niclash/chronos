@@ -16,7 +16,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
-import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
@@ -38,11 +37,6 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntryEntityComposit
         {
             provider = new WorkEntryDataProvider()
             {
-                public ProjectAssigneeEntityComposite getProjectAssignee()
-                {
-                    return WorkEntryTable.this.getProjectAssignee();
-                }
-
                 public List<WorkEntryEntityComposite> dataList( int first, int count )
                 {
                     return WorkEntryTable.this.dataList( first, count );
@@ -87,8 +81,6 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntryEntityComposit
     {
         return Arrays.asList( "Title", "Created Date", "From Time", "To Time", "" );
     }
-
-    public abstract ProjectAssigneeEntityComposite getProjectAssignee();
 
     public abstract List<WorkEntryEntityComposite> dataList( int first, int count );
 

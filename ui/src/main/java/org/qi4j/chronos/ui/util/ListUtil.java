@@ -14,18 +14,68 @@ package org.qi4j.chronos.ui.util;
 
 import java.util.ArrayList;
 import java.util.Currency;
+import java.util.Iterator;
 import java.util.List;
 import org.qi4j.chronos.model.PriceRateType;
 import org.qi4j.chronos.model.ProjectStatus;
+import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
+import org.qi4j.chronos.model.associations.HasPriceRates;
+import org.qi4j.chronos.model.associations.HasStaffs;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.composites.PriceRateComposite;
+import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
+import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.ui.pricerate.PriceRateDelegator;
 import org.qi4j.chronos.ui.projectrole.ProjectRoleDelegator;
+import org.qi4j.chronos.ui.staff.StaffDelegator;
 import org.qi4j.chronos.util.CurrencyUtil;
 import org.qi4j.library.general.model.GenderType;
 
 public final class ListUtil
 {
+    public static List<String> getPriceRateScheduleNameList( HasPriceRateSchedules hasPriceRateSchedules )
+    {
+        Iterator<PriceRateScheduleComposite> iter = hasPriceRateSchedules.priceRateScheduleIterator();
+        List<String> nameList = new ArrayList<String>();
+
+        while( iter.hasNext() )
+        {
+            nameList.add( iter.next().getName() );
+        }
+
+        return nameList;
+    }
+
+
+    public static List<StaffDelegator> getStaffDelegator( HasStaffs hasStaffs )
+    {
+        Iterator<StaffEntityComposite> staffIterator = hasStaffs.staffIterator();
+        List<StaffDelegator> staffDelegatorList = new ArrayList<StaffDelegator>();
+
+        while( staffIterator.hasNext() )
+        {
+            staffDelegatorList.add( new StaffDelegator( staffIterator.next() ) );
+        }
+
+        return staffDelegatorList;
+    }
+
+
+    public static List<PriceRateDelegator> getPriceRateDelegator( HasPriceRates hasPriceRates )
+    {
+        Iterator<PriceRateComposite> priceRateIterator = hasPriceRates.priceRateIterator();
+
+        List<PriceRateDelegator> priceRateList = new ArrayList<PriceRateDelegator>();
+
+        while( priceRateIterator.hasNext() )
+        {
+            priceRateList.add( new PriceRateDelegator( priceRateIterator.next() ) );
+        }
+
+        return priceRateList;
+    }
 
     public static List<ProjectRoleDelegator> getProjectRoleDelegatorList( AccountEntityComposite account )
     {

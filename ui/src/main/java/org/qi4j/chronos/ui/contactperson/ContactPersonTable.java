@@ -18,9 +18,9 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.Model;
+import org.qi4j.chronos.model.associations.HasContactPersons;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
-import org.qi4j.chronos.model.associations.HasContactPersons;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
@@ -42,17 +42,15 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
         {
             provider = new ContactPersonDataProvider()
             {
-                public ProjectOwnerEntityComposite getProjectOwner()
+                public T getHasContactPersons()
                 {
-                    return ContactPersonTable.this.getProjectOwner();
+                    return ContactPersonTable.this.getHasContactPersons();
                 }
             };
         }
 
         return provider;
     }
-
-    public abstract ProjectOwnerEntityComposite getProjectOwner();
 
     public void populateItems( Item item, ContactPersonEntityComposite obj )
     {
@@ -106,4 +104,7 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
         return Arrays.asList( "First Name", "Last name", "Login Id", "Login Enabled", "Edit" );
     }
 
+    public abstract T getHasContactPersons();
+
+    public abstract ProjectOwnerEntityComposite getProjectOwner();
 }

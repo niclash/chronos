@@ -13,14 +13,14 @@
 package org.qi4j.chronos.ui.contactperson;
 
 import java.util.List;
+import org.qi4j.chronos.model.associations.HasContactPersons;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
 import org.qi4j.chronos.service.ContactPersonService;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
-public abstract class ContactPersonDataProvider extends AbstractSortableDataProvider<ContactPersonEntityComposite, String>
+public abstract class ContactPersonDataProvider<T extends HasContactPersons> extends AbstractSortableDataProvider<ContactPersonEntityComposite, String>
 {
     public String getId( ContactPersonEntityComposite contactPersonEntityComposite )
     {
@@ -39,13 +39,13 @@ public abstract class ContactPersonDataProvider extends AbstractSortableDataProv
 
     public List<ContactPersonEntityComposite> dataList( int first, int count )
     {
-        return getContactPersonService().findAll( getProjectOwner(), new FindFilter( first, count ) );
+        return getContactPersonService().findAll( getHasContactPersons(), new FindFilter( first, count ) );
     }
 
     public int getSize()
     {
-        return getContactPersonService().countAll( getProjectOwner() );
+        return getContactPersonService().countAll( getHasContactPersons() );
     }
 
-    public abstract ProjectOwnerEntityComposite getProjectOwner();
+    public abstract T getHasContactPersons();
 }

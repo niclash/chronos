@@ -121,6 +121,7 @@ public abstract class PriceRateScheduleOptionPanel extends Panel
 
     public PriceRateScheduleComposite getSelectedPriceRateSchedule()
     {
+        //TODO bp. use index?
         String priceRateScheduleName = priceRateScheduleChoice.getChoice();
 
         for( PriceRateScheduleComposite priceRateSchedule : addedPriceRateScheduleList )
@@ -152,7 +153,7 @@ public abstract class PriceRateScheduleOptionPanel extends Panel
         addedPriceRateScheduleList.add( priceRateSchedule );
         priceRateScheduleNameList.add( priceRateSchedule.getName() );
 
-        //set newly added relationship as default value
+        //set newly added priceRateSchedule as default value
         priceRateScheduleChoice.setChoice( priceRateSchedule.getName() );
 
         setControlVisible( true );

@@ -12,17 +12,31 @@
  */
 package org.qi4j.chronos.ui.project;
 
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
+import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.ProjectStatus;
+import org.qi4j.chronos.model.associations.HasContactPersons;
+import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
+import org.qi4j.chronos.ui.common.BorderPanel;
+import org.qi4j.chronos.ui.common.BorderPanelWrapper;
 import org.qi4j.chronos.ui.common.SimpleTextField;
+import org.qi4j.chronos.ui.common.tab.BaseTab;
+import org.qi4j.chronos.ui.contactperson.ContactPersonTable;
+import org.qi4j.chronos.ui.pricerate.PriceRateTab;
+import org.qi4j.chronos.ui.projectassignee.ProjectAssigneeTab;
 import org.qi4j.chronos.util.DateUtil;
 
 public abstract class ProjectDetailPage extends LeftMenuNavPage
@@ -59,6 +73,8 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
         private SimpleTextField actualEndTimeField;
 
         private WebMarkupContainer actualTimeContainer;
+
+        private TabbedPanel tabbedPanel;
 
         public ProjectDetailForm( String id )
         {
@@ -102,6 +118,28 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
                 }
             };
 
+            List<AbstractTab> tabs = new ArrayList<AbstractTab>();
+
+            tabs.add( new ContactTab() );
+            tabs.add( new PriceRateTab( "Price Rate Schedule" )
+            {
+                public PriceRateScheduleComposite getPriceRateSchedule()
+                {
+                    return ProjectDetailPage.this.getProject().getPriceRateSchedule();
+                }
+            } );
+
+            tabs.add( new ProjectAssigneeTab( "Project Assignee" )
+            {
+                public ProjectEntityComposite getProject()
+                {
+                    return ProjectDetailPage.this.getProject();
+                }
+            } );
+
+
+            tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
+
             add( projectNameField );
             add( formalReferenceField );
             add( projectStatusField );
@@ -113,10 +151,51 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
 
             add( submitButton );
 
+            add( tabbedPanel );
+
             if( project.getProjectStatus() != ProjectStatus.CLOSED )
             {
                 actualTimeContainer.setVisible( false );
             }
+        }
+    }
+
+    private class ContactTab extends BaseTab
+    {
+        public ContactTab()
+        {
+            super( "Contacts" );
+        }
+
+        public BorderPanel getBorderPanel( String panelId )
+        {
+            BorderPanelWrapper borderPanelWrapper = new BorderPanelWrapper( panelId )
+            {
+                public Panel getWrappedPanel( String panelId )
+                {
+                    ContactPersonTable table = new ContactPersonTable( panelId )
+                    {
+                        public HasContactPersons getHasContactPersons()
+                        {
+                            return getProject();
+                        }
+
+                        public ProjectOwnerEntityComposite getProjectOwner()
+                        {
+                            return getProject().getProjectOwner();
+                        }
+                    };
+
+                    table.setItemPerPage( 1000 );
+
+                    table.setNavigatorVisible( false );
+                    table.setNoActionBar( true );
+
+                    return table;
+                }
+            };
+
+            return borderPanelWrapper;
         }
     }
 

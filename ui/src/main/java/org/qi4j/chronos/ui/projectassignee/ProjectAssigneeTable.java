@@ -15,11 +15,13 @@ package org.qi4j.chronos.ui.projectassignee;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.Check;
+import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
@@ -51,23 +53,42 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssigneeEn
 
     public void populateItems( Item item, ProjectAssigneeEntityComposite obj )
     {
+
+        final String projectAssigneeId = obj.getIdentity();
+
         item.add( new Label( "firstName", obj.getStaff().getFirstName() ) );
         item.add( new Label( "lastName", obj.getStaff().getLastName() ) );
-        item.add( new Check( "isLead", new Model( obj.isLead() ) ) );
-        item.add( new Label( "projectRole", obj.getProjectRole().getProjectRole() ) );
+        CheckBox isLeadCheckBox = new CheckBox( "isLead", new Model( obj.isLead() ) );
+
+        isLeadCheckBox.setEnabled( false );
+
+        item.add( isLeadCheckBox );
 
         item.add( new SimpleLink( "editLink", "Edit" )
         {
             public void linkClicked()
             {
-                //TODO
+                ProjectAssigneeEditPage editPage = new ProjectAssigneeEditPage( (BasePage) this.getPage() )
+                {
+                    public ProjectAssigneeEntityComposite getProjectAssignee()
+                    {
+                        return ChronosWebApp.getServices().getProjectAssigneeService().get( projectAssigneeId );
+                    }
+
+                    public ProjectEntityComposite getProject()
+                    {
+                        return ProjectAssigneeTable.this.getProject();
+                    }
+                };
+
+                setResponsePage( editPage );
             }
         } );
     }
 
     public List<String> getTableHeaderList()
     {
-        return Arrays.asList( "First Name", "Last name", "Is Lead", "Project Role", "" );
+        return Arrays.asList( "First Name", "Last name", "Is Lead", "" );
     }
 
     public abstract ProjectEntityComposite getProject();

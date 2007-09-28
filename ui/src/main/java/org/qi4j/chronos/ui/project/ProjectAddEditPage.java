@@ -159,8 +159,6 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
         setResponsePage( this );
     }
 
-    public abstract List<PriceRateScheduleComposite> getAvailablePriceRateScheduleChoice();
-
     private void newOrReInitContactPalette()
     {
         if( contactPalette != null )
@@ -423,4 +421,6 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
 
     public abstract Iterator<ContactPersonEntityComposite> getInitSelectedContactPersonList();
 
+    public abstract List<PriceRateScheduleComposite> getAvailablePriceRateScheduleChoice();
 }
+

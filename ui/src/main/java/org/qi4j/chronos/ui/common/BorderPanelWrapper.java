@@ -10,21 +10,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.mixins;
+package org.qi4j.chronos.ui.common;
 
-import org.qi4j.chronos.model.associations.IsLead;
+import org.apache.wicket.markup.html.panel.Panel;
 
-public class IsLeadMixin implements IsLead
+public abstract class BorderPanelWrapper extends BorderPanel
 {
-    private boolean isLead;
-
-    public boolean isLead()
+    public BorderPanelWrapper( String id )
     {
-        return isLead;
+        super( id );
+
+        add( getWrappedPanel( "wrappedPanel" ) );
     }
 
-    public void setLead( boolean islead )
-    {
-        this.isLead = islead;
-    }
+    public abstract Panel getWrappedPanel( String panelId );
 }

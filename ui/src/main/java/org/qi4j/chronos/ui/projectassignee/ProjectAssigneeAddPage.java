@@ -12,10 +12,20 @@
  */
 package org.qi4j.chronos.ui.projectassignee;
 
+import java.util.List;
+import org.qi4j.chronos.model.composites.PriceRateComposite;
+import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.service.ProjectAssigneeService;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class ProjectAssigneeAddPage extends ProjectAssigneeAddEditPage
 {
+    private final static Logger LOGGER = LoggerFactory.getLogger( ProjectAssigneeAddPage.class );
+
     public ProjectAssigneeAddPage( BasePage basePage )
     {
         super( basePage );
@@ -23,7 +33,34 @@ public abstract class ProjectAssigneeAddPage extends ProjectAssigneeAddEditPage
 
     public void onsubmitting()
     {
-        //TODO
+        ProjectAssigneeService service = ChronosWebApp.getServices().getProjectAssigneeService();
+
+        try
+        {
+            ProjectAssigneeEntityComposite projectAssignee = service.newInstance( ProjectAssigneeEntityComposite.class );
+
+            assignFieldValueToProjectAssignee( projectAssignee );
+
+            ProjectEntityComposite project = getProject();
+
+            project.addProjectAssignee( projectAssignee );
+
+            ChronosWebApp.getServices().getProjectService().update( project );
+
+            logInfoMsg( "Project Assignee is added successfully." );
+
+            divertToGoBackPage();
+        }
+        catch( Exception err )
+        {
+            logErrorMsg( err.getMessage() );
+            LOGGER.error( err.getMessage(), err );
+        }
+    }
+
+    public List<PriceRateComposite> getAvailablePriceRates()
+    {
+        return ChronosWebApp.getServices().getPriceRateService().findAll( getProject().getPriceRateSchedule() );
     }
 
     public String getSubmitButtonValue()

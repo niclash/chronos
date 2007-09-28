@@ -14,6 +14,6 @@ package org.qi4j.chronos.service;
 
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 
-public interface ContactPersonService extends ProjectOwnerBasedService<ContactPersonEntityComposite>
+public interface ContactPersonService extends ProjectOwnerBasedService<ContactPersonEntityComposite>, ContactPersonMiscService
 {
 }

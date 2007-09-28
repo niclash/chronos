@@ -14,6 +14,7 @@ package org.qi4j.chronos.service.mocks;
 
 import java.util.Currency;
 import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 import org.qi4j.api.Composite;
 import org.qi4j.api.CompositeBuilder;
@@ -194,6 +195,14 @@ public class MockServicesMixin implements Services
         project.setProjectStatus( ProjectStatus.ACTIVE );
         project.setProjectOwner( projectOwner );
         project.setPrimaryContactPerson( projectOwner.contactPersonIterator().next() );
+
+        Iterator<ContactPersonEntityComposite> contactPersonIter = projectOwner.contactPersonIterator();
+
+        while( contactPersonIter.hasNext() )
+        {
+            project.addContactPerson( contactPersonIter.next() );
+        }
+
         project.setPriceRateSchedule( CloneUtil.clonePriceRateSchedule( factory, projectOwner.priceRateScheduleIterator().next() ) );
 
         account.addProject( project );

@@ -132,6 +132,4 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
     }
 
     public abstract T getHasPriceRateSchedules();
-
-    public abstract AccountEntityComposite getAccount();
 }

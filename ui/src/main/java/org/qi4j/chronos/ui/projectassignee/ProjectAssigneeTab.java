@@ -21,9 +21,9 @@ import org.qi4j.chronos.ui.common.tab.NewLinkTab;
 
 public abstract class ProjectAssigneeTab extends NewLinkTab
 {
-    public ProjectAssigneeTab( String id )
+    public ProjectAssigneeTab( String title )
     {
-        super( id );
+        super( title );
     }
 
     public NewLinkPanel getNewLinkPanel( String panelId )

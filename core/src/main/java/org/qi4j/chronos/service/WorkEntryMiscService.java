@@ -10,28 +10,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.workentry;
+package org.qi4j.chronos.service;
 
+import java.util.List;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
-import org.qi4j.chronos.service.WorkEntryService;
-import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
-public abstract class WorkEntryDataProvider extends AbstractSortableDataProvider<WorkEntryEntityComposite, String>
+public interface WorkEntryMiscService
 {
-    public String getId( WorkEntryEntityComposite t )
-    {
-        return t.getIdentity();
-    }
+    List<WorkEntryEntityComposite> findAll( ProjectEntityComposite project );
 
-    public final WorkEntryEntityComposite load( String id )
-    {
-        return getWorkEntryService().get( id );
-    }
+    List<WorkEntryEntityComposite> findAll( ProjectEntityComposite project, FindFilter findFilter );
 
-    private WorkEntryService getWorkEntryService()
-    {
-        return ChronosWebApp.getServices().getWorkEntryService();
-    }
-
+    int countAll( ProjectEntityComposite project );
 }

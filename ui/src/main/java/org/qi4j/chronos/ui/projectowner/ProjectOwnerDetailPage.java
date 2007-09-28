@@ -76,9 +76,9 @@ public class ProjectOwnerDetailPage extends LeftMenuNavPage
             customerDetailPanel = new CustomerDetailPanel( "customerDetailPanel", projectOwner );
             add( customerDetailPanel );
 
-            List<AbstractTab> abstractTabs = new ArrayList<AbstractTab>();
+            List<AbstractTab> tabs = new ArrayList<AbstractTab>();
 
-            abstractTabs.add( new ContactPersonTab()
+            tabs.add( new ContactPersonTab()
             {
                 public ProjectOwnerEntityComposite getProjectOwner()
                 {
@@ -86,7 +86,7 @@ public class ProjectOwnerDetailPage extends LeftMenuNavPage
                 }
             } );
 
-            abstractTabs.add( new PriceRateScheduleTab<ProjectOwnerEntityComposite>( "Standard Price Rate Schedules" )
+            tabs.add( new PriceRateScheduleTab<ProjectOwnerEntityComposite>( "Standard Price Rate Schedules" )
             {
                 public AccountEntityComposite getAccount()
                 {
@@ -95,13 +95,7 @@ public class ProjectOwnerDetailPage extends LeftMenuNavPage
 
                 public void addPriceRateSchedule( PriceRateScheduleComposite priceRateSchedule )
                 {
-                    ProjectOwnerEntityComposite projectOwner = getProjectOwner();
-
-                    projectOwner.addPriceRateSchedule( priceRateSchedule );
-
-                    ProjectOwnerService service = ChronosWebApp.getServices().getProjectOwnerService();
-
-                    service.update( projectOwner );
+                    handleAddPriceRateSchedule( priceRateSchedule );
                 }
 
                 public ProjectOwnerEntityComposite getHasPriceRateSchedules()
@@ -110,12 +104,23 @@ public class ProjectOwnerDetailPage extends LeftMenuNavPage
                 }
             } );
 
-            ajaxTabbedPanel = new TabbedPanel( "ajaxTabbedPanel", abstractTabs );
+            ajaxTabbedPanel = new TabbedPanel( "ajaxTabbedPanel", tabs );
 
             add( ajaxTabbedPanel );
 
             submitButton = new Button( "submitButton", new Model( "Return" ) );
             add( submitButton );
+        }
+
+        private void handleAddPriceRateSchedule( PriceRateScheduleComposite priceRateSchedule )
+        {
+            ProjectOwnerEntityComposite projectOwner = getProjectOwner();
+
+            projectOwner.addPriceRateSchedule( priceRateSchedule );
+
+            ProjectOwnerService service = ChronosWebApp.getServices().getProjectOwnerService();
+
+            service.update( projectOwner );
         }
 
         protected void delegateSubmit( IFormSubmittingComponent submittingButton )

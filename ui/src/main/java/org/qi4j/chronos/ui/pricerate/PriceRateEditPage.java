@@ -12,18 +12,46 @@
  */
 package org.qi4j.chronos.ui.pricerate;
 
+import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.chronos.ui.base.BasePage;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class PriceRateEditPage extends PriceRateAddEditPage
 {
+    private final static Logger LOGGER = LoggerFactory.getLogger( PriceRateEditPage.class );
+
     public PriceRateEditPage( BasePage goBackPage )
     {
         super( goBackPage );
+
+        initData();
+    }
+
+    private void initData()
+    {
+        assignPriceRateToFieldValue( getPriceRate() );
     }
 
     public void onSubmitting()
     {
-        //TODO bp. fixme
+        PriceRateComposite priceRate = getPriceRate();
+
+        try
+        {
+            assignFieldValueToPriceRate( priceRate );
+
+            updatePriceRate( priceRate );
+
+            logInfoMsg( "Price Rate is updated successfuly." );
+
+            divertToGoBackPage();
+        }
+        catch( Exception err )
+        {
+            logErrorMsg( err.getMessage() );
+            LOGGER.error( err.getMessage(), err );
+        }
     }
 
     public String getSubmitButtonValue()
@@ -35,4 +63,8 @@ public abstract class PriceRateEditPage extends PriceRateAddEditPage
     {
         return "Edit Price Rate";
     }
+
+    public abstract PriceRateComposite getPriceRate();
+
+    public abstract void updatePriceRate( PriceRateComposite priceRate );
 }

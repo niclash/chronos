@@ -13,14 +13,21 @@
 package org.qi4j.chronos.ui.common.tab;
 
 import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
+import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
+import org.qi4j.chronos.ui.common.BorderPanel;
 
 public abstract class BaseTab extends AbstractTab
 {
     public BaseTab( String title )
     {
         super( new Model( title ) );
-
     }
 
+    public final Panel getPanel( String panelId )
+    {
+        return getBorderPanel( panelId );
+    }
+
+    public abstract BorderPanel getBorderPanel( String panelId );
 }

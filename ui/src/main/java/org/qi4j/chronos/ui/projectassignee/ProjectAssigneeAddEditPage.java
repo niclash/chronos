@@ -12,17 +12,27 @@
  */
 package org.qi4j.chronos.ui.projectassignee;
 
+import java.util.List;
+import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.model.Model;
+import org.qi4j.chronos.model.composites.PriceRateComposite;
+import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
+import org.qi4j.chronos.ui.pricerate.PriceRateOptionPanel;
+import org.qi4j.chronos.ui.staff.StaffDelegator;
+import org.qi4j.chronos.ui.util.ListUtil;
 
 public abstract class ProjectAssigneeAddEditPage extends AddEditBasePage
 {
-    private SimpleDropDownChoice projectRoleChoice;
-    private SimpleDropDownChoice staffChoice;
-    private SimpleDropDownChoice priceRateSchedule;
+    private SimpleDropDownChoice<StaffDelegator> staffChoice;
+    private CheckBox isLeadCheckBox;
+    private PriceRateOptionPanel priceRateOptionPanel;
 
     public ProjectAssigneeAddEditPage( BasePage basePage )
     {
@@ -31,7 +41,49 @@ public abstract class ProjectAssigneeAddEditPage extends AddEditBasePage
 
     public void initComponent( Form form )
     {
-        //TODO
+        staffChoice = new SimpleDropDownChoice<StaffDelegator>( "staffChoice",
+                                                                ListUtil.getStaffDelegator( getAccount() ), true );
+
+        isLeadCheckBox = new CheckBox( "isLeadCheckBox", new Model( false ) );
+
+        priceRateOptionPanel = new PriceRateOptionPanel( "priceRateOptionPanel" )
+        {
+            public List<PriceRateComposite> getAvailablePriceRates()
+            {
+                return ProjectAssigneeAddEditPage.this.getAvailablePriceRates();
+            }
+
+            public ProjectEntityComposite getProject()
+            {
+                return ProjectAssigneeAddEditPage.this.getProject();
+            }
+        };
+
+        form.add( staffChoice );
+        form.add( isLeadCheckBox );
+        form.add( priceRateOptionPanel );
+    }
+
+    protected void assignFieldValueToProjectAssignee( ProjectAssigneeEntityComposite projectAssignee )
+    {
+        projectAssignee.setPriceRate( priceRateOptionPanel.getSelectedPriceRate() );
+        projectAssignee.setStaff( getSelectedStaff() );
+
+        projectAssignee.setLead( Boolean.parseBoolean( isLeadCheckBox.getModelObjectAsString() ) );
+    }
+
+    protected void assignProjectAssigneeToFieldValue( ProjectAssigneeEntityComposite projectAssignee )
+    {
+        priceRateOptionPanel.setSelectedPriceRate( projectAssignee.getPriceRate() );
+        staffChoice.setChoice( new StaffDelegator( projectAssignee.getStaff() ) );
+        isLeadCheckBox.setModel( new Model( projectAssignee.isLead() ) );
+
+        staffChoice.setEnabled( false );
+    }
+
+    private StaffEntityComposite getSelectedStaff()
+    {
+        return ChronosWebApp.getServices().getStaffService().get( staffChoice.getChoice().getId() );
     }
 
     public void handleSubmit()
@@ -42,4 +94,6 @@ public abstract class ProjectAssigneeAddEditPage extends AddEditBasePage
     public abstract void onsubmitting();
 
     public abstract ProjectEntityComposite getProject();
+
+    public abstract List<PriceRateComposite> getAvailablePriceRates();
 }

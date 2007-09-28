@@ -12,21 +12,28 @@
  */
 package org.qi4j.chronos.ui.pricerate;
 
+import java.util.Arrays;
+import java.util.Currency;
 import java.util.List;
 import org.apache.wicket.markup.html.form.Form;
+import org.qi4j.chronos.model.PriceRateType;
+import org.qi4j.chronos.model.composites.PriceRateComposite;
+import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.NumberTextField;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.projectrole.ProjectRoleDelegator;
 import org.qi4j.chronos.ui.util.ListUtil;
+import org.qi4j.chronos.util.CurrencyUtil;
 
 public abstract class PriceRateAddEditPage extends AddEditBasePage
 {
     private NumberTextField amountField;
-    private SimpleDropDownChoice currencyChoice;
-    private SimpleDropDownChoice roleChoice;
-    private SimpleDropDownChoice priceRateTypeChoice;
+    private SimpleDropDownChoice<Currency> currencyChoice;
+    private SimpleDropDownChoice<ProjectRoleDelegator> projectRoleChoice;
+    private SimpleDropDownChoice<PriceRateType> priceRateTypeChoice;
 
     public PriceRateAddEditPage( BasePage goBackPage )
     {
@@ -37,18 +44,39 @@ public abstract class PriceRateAddEditPage extends AddEditBasePage
     {
         amountField = new NumberTextField( "amount", "Amount" );
 
-        List<String> priceRatyeTypeList = ListUtil.getPriceRateTypeList();
+        List<PriceRateType> priceRatyeTypeList = Arrays.asList( PriceRateType.values() );
         List<ProjectRoleDelegator> roleList = ListUtil.getProjectRoleDelegatorList( getAccount() );
-        List<String> currencyList = ListUtil.getCurrencyList();
+        List<Currency> currencyList = CurrencyUtil.getCurrencyList();
 
-        priceRateTypeChoice = new SimpleDropDownChoice( "priceRateTypeChoice", priceRatyeTypeList, true );
-        currencyChoice = new SimpleDropDownChoice( "currencyChoice", currencyList, true );
-        roleChoice = new SimpleDropDownChoice( "roleChoice", roleList, true );
+        priceRateTypeChoice = new SimpleDropDownChoice<PriceRateType>( "priceRateTypeChoice", priceRatyeTypeList, true );
+        currencyChoice = new SimpleDropDownChoice<Currency>( "currencyChoice", currencyList, true );
+        projectRoleChoice = new SimpleDropDownChoice<ProjectRoleDelegator>( "projectRoleChoice", roleList, true );
 
         form.add( amountField );
         form.add( priceRateTypeChoice );
         form.add( currencyChoice );
-        form.add( roleChoice );
+        form.add( projectRoleChoice );
+    }
+
+    protected void assignFieldValueToPriceRate( PriceRateComposite priceRate )
+    {
+        priceRate.setAmount( amountField.getLongValue() );
+        priceRate.setCurrency( currencyChoice.getChoice() );
+        priceRate.setPriceRateType( priceRateTypeChoice.getChoice() );
+        priceRate.setProjectRole( getSelectedProjectRole() );
+    }
+
+    protected void assignPriceRateToFieldValue( PriceRateComposite priceRate )
+    {
+        amountField.setLongValue( priceRate.getAmount() );
+        currencyChoice.setChoice( priceRate.getCurrency() );
+        priceRateTypeChoice.setChoice( priceRate.getPriceRateType() );
+        projectRoleChoice.setChoice( new ProjectRoleDelegator( priceRate.getProjectRole() ) );
+    }
+
+    private ProjectRoleEntityComposite getSelectedProjectRole()
+    {
+        return ChronosWebApp.getServices().getProjectRoleService().get( projectRoleChoice.getChoice().getId() );
     }
 
     public final void handleSubmit()

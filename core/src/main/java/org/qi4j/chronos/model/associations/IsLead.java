@@ -20,5 +20,5 @@ public interface IsLead
 {
     boolean isLead();
 
-    void isLead( boolean islead );
+    void setLead( boolean islead );
 }

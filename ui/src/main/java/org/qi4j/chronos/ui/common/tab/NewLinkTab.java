@@ -12,7 +12,7 @@
  */
 package org.qi4j.chronos.ui.common.tab;
 
-import org.apache.wicket.markup.html.panel.Panel;
+import org.qi4j.chronos.ui.common.BorderPanel;
 import org.qi4j.chronos.ui.common.NewLinkPanel;
 
 public abstract class NewLinkTab extends BaseTab
@@ -22,7 +22,7 @@ public abstract class NewLinkTab extends BaseTab
         super( title );
     }
 
-    public final Panel getPanel( final String id )
+    public final BorderPanel getBorderPanel( final String id )
     {
         return getNewLinkPanel( id );
     }

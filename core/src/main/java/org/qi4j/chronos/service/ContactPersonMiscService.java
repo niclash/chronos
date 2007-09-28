@@ -10,21 +10,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.mixins;
+package org.qi4j.chronos.service;
 
-import org.qi4j.chronos.model.associations.IsLead;
+import java.util.List;
+import org.qi4j.chronos.model.associations.HasContactPersons;
+import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 
-public class IsLeadMixin implements IsLead
+public interface ContactPersonMiscService
 {
-    private boolean isLead;
+    List<ContactPersonEntityComposite> findAll( HasContactPersons hasContactPersons );
 
-    public boolean isLead()
-    {
-        return isLead;
-    }
+    List<ContactPersonEntityComposite> findAll( HasContactPersons hasContactPersons, FindFilter findFilter );
 
-    public void setLead( boolean islead )
-    {
-        this.isLead = islead;
-    }
+    int countAll( HasContactPersons hasContactPersons );
 }

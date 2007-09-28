@@ -14,28 +14,27 @@ package org.qi4j.chronos.ui.pricerate;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.model.composites.RelationshipComposite;
+import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
-import org.qi4j.chronos.ui.common.SimpleLink;
 
 public abstract class PriceRateOptionPanel extends Panel
 {
     private SimpleDropDownChoice<PriceRateDelegator> priceRateChoice;
-    private SimpleLink newPriceRateLink;
+
+    private SubmitLink newPriceRateLink;
+    private SubmitLink customizePriceRateLink;
 
     private List<PriceRateDelegator> priceRateList;
 
-    //TODO bp. remove static
-    private static List<PriceRateComposite> newPriceRateList;
+    private static List<PriceRateComposite> addedPriceRateList;
 
     public PriceRateOptionPanel( String id )
     {
         super( id );
-
-        newPriceRateList = new ArrayList<PriceRateComposite>();
 
         initComponents();
     }
@@ -45,62 +44,132 @@ public abstract class PriceRateOptionPanel extends Panel
         initPriceRateList();
 
         priceRateChoice = new SimpleDropDownChoice<PriceRateDelegator>( "priceRateChoice", priceRateList, true );
-        newPriceRateLink = new SimpleLink( "newLink", "Create New" )
+        newPriceRateLink = new SubmitLink( "newPriceRateLink" )
         {
-            public void linkClicked()
+            public void onSubmit()
             {
-//                RelationshipAddPage addPage = new RelationshipAddPage( (BasePage) this.getPage() )
-//                {
-//                    public ProjectOwnerEntityComposite getProjectOwner()
-//                    {
-//                        return RelationshipOptionPanel.this.getProjectOwner();
-//                    }
-//
-//                    public void newRelationship( RelationshipComposite relationship )
-//                    {
-//                        RelationshipOptionPanel.this.addedNewRelationship( relationship );
-//                    }
-//                };
-//
-//                setResponsePage( addPage );
+                handleNewPriceRate();
+            }
+        };
+
+        customizePriceRateLink = new SubmitLink( "customizePriceRateLink" )
+        {
+            public void onSubmit()
+            {
+                handleCustomizePriceRate();
             }
         };
 
         if( priceRateList.size() == 0 )
         {
-            priceRateChoice.setVisible( false );
+            setControlVisible( false );
         }
 
         add( priceRateChoice );
         add( newPriceRateLink );
+        add( customizePriceRateLink );
     }
 
-    private void addNewPriceRate( PriceRateComposite priceRateComposite )
+    private void handleNewPriceRate()
     {
-        newPriceRateList.add( priceRateComposite );
-        priceRateList.add( new PriceRateDelegator( priceRateComposite ) );
+        PriceRateAddPage addPage = new PriceRateAddPage( (BasePage) this.getPage() )
+        {
+            public void addPriceRate( PriceRateComposite priceRate )
+            {
+                PriceRateOptionPanel.this.addPriceRate( priceRate );
+            }
+        };
 
-        priceRateChoice.setVisible( true );
+        setResponsePage( addPage );
+    }
+
+    private void addPriceRate( PriceRateComposite priceRate )
+    {
+        addedPriceRateList.add( priceRate );
+
+        PriceRateDelegator delegator = new PriceRateDelegator( priceRate );
+
+        priceRateList.add( delegator );
+
+        //set newly added priceRate as default value
+        priceRateChoice.setChoice( delegator );
+
+        setControlVisible( true );
+    }
+
+    private void handleCustomizePriceRate()
+    {
+        PriceRateEditPage editPage = new PriceRateEditPage( (BasePage) this.getPage() )
+        {
+            public PriceRateComposite getPriceRate()
+            {
+                return PriceRateOptionPanel.this.getSelectedPriceRate();
+            }
+
+            public void updatePriceRate( PriceRateComposite priceRate )
+            {
+                PriceRateOptionPanel.this.updatePriceRate( priceRate );
+            }
+        };
+
+        setResponsePage( editPage );
+    }
+
+    private void updatePriceRate( PriceRateComposite priceRate )
+    {
+        initOrResetPriceRateDelegatorList();
+
+        setSelectedPriceRate( priceRate );
+    }
+
+    public PriceRateComposite getSelectedPriceRate()
+    {
+        PriceRateDelegator priceRateDelegator = priceRateChoice.getChoice();
+
+        int index = priceRateList.indexOf( priceRateDelegator );
+
+        return addedPriceRateList.get( index );
+    }
+
+    private void setControlVisible( boolean isVisible )
+    {
+        priceRateChoice.setVisible( isVisible );
+        customizePriceRateLink.setVisible( isVisible );
     }
 
     private void initPriceRateList()
     {
-//        Set<String> relationshipSet = new HashSet();
-//
-//        RelationshipService service = ChronosWebApp.getServices().getRelationshipService();
-//
-//        ProjectOwnerEntityComposite projectOwner = getProjectOwner();
-//
-//        List<RelationshipComposite> list = service.findAll( projectOwner );
-//
-//        for( RelationshipComposite relationship : list )
-//        {
-//            relationshipSet.add( relationship.getRelationship() );
-//        }
-//
-//        relationshipList = new ArrayList<String>();
-//
-//        relationshipList.addAll( relationshipSet );
+        if( addedPriceRateList == null )
+        {
+            addedPriceRateList = new ArrayList<PriceRateComposite>();
+        }
+
+        addedPriceRateList.clear();
+
+        List<PriceRateComposite> priceRates = getAvailablePriceRates();
+
+        //make a copy of availblePriceRate
+        for( PriceRateComposite priceRate : priceRates )
+        {
+            addedPriceRateList.add( priceRate );
+        }
+
+        initOrResetPriceRateDelegatorList();
+    }
+
+    private void initOrResetPriceRateDelegatorList()
+    {
+        if( priceRateList == null )
+        {
+            priceRateList = new ArrayList<PriceRateDelegator>();
+        }
+
+        priceRateList.clear();
+
+        for( PriceRateComposite priceRate : addedPriceRateList )
+        {
+            priceRateList.add( new PriceRateDelegator( priceRate ) );
+        }
     }
 
     public boolean checkIfNotValidated()
@@ -113,22 +182,7 @@ public abstract class PriceRateOptionPanel extends Panel
         priceRateChoice.setChoice( new PriceRateDelegator( priceRate ) );
     }
 
-    public RelationshipComposite getSelectedRelationship()
-    {
-        //TODO
-//        String choice = relationshipChoice.getChoiceAsString();
-//
-//        for( RelationshipComposite relationship : newRelationshipList )
-//        {
-//            if( choice.equals( relationship.getRelationship() ) )
-//            {
-//                return relationship;
-//            }
-//        }
-//
-//        return ChronosWebApp.getServices().getRelationshipService().get( getProjectOwner(), choice );
-        return null;
-    }
+    public abstract List<PriceRateComposite> getAvailablePriceRates();
 
     public abstract ProjectEntityComposite getProject();
 }

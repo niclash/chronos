@@ -12,21 +12,15 @@
  */
 package org.qi4j.chronos.ui.pricerate;
 
-import java.util.ArrayList;
-import java.util.Iterator;
-import java.util.List;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.list.ListItem;
-import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.PriceRateSchedule;
-import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.SimpleTextField;
+import org.qi4j.chronos.ui.util.ListUtil;
 
 public abstract class PriceRateScheduleDetailPage extends LeftMenuNavPage
 {
@@ -51,7 +45,7 @@ public abstract class PriceRateScheduleDetailPage extends LeftMenuNavPage
 
         private Button submitButton;
 
-        private ListView priceRateListView;
+        private PriceRateListView priceRateListView;
 
         public PriceRateScheduleDetailForm( String id )
         {
@@ -64,18 +58,8 @@ public abstract class PriceRateScheduleDetailPage extends LeftMenuNavPage
         {
             PriceRateSchedule priceRateSchedule = getPriceRateSchedule();
 
-            priceRateListView = new ListView( "priceRateListView", getPriceRateList( priceRateSchedule ) )
-            {
-                protected void populateItem( ListItem item )
-                {
-                    PriceRateDelegator delegator = (PriceRateDelegator) item.getModelObject();
+            priceRateListView = new PriceRateListView( "priceRateListView", ListUtil.getPriceRateDelegator( priceRateSchedule ) );
 
-                    item.add( new Label( "projectRole", delegator.getProjectRoleName() ) );
-                    item.add( new Label( "priceRateType", delegator.getPriceRateType().toString() ) );
-                    item.add( new Label( "currency", delegator.getCurrency().getCurrencyCode() ) );
-                    item.add( new Label( "amount", String.valueOf( delegator.getAmount() ) ) );
-                }
-            };
             nameField = new SimpleTextField( "nameField", priceRateSchedule.getName(), true );
 
             submitButton = new Button( "submitButton", new Model( "Return" ) )
@@ -90,20 +74,6 @@ public abstract class PriceRateScheduleDetailPage extends LeftMenuNavPage
             add( submitButton );
             add( priceRateListView );
         }
-    }
-
-    private List<PriceRateDelegator> getPriceRateList( PriceRateSchedule priceRateSchedule )
-    {
-        Iterator<PriceRateComposite> priceRateIterator = priceRateSchedule.priceRateIterator();
-
-        List<PriceRateDelegator> priceRateList = new ArrayList<PriceRateDelegator>();
-
-        while( priceRateIterator.hasNext() )
-        {
-            priceRateList.add( new PriceRateDelegator( priceRateIterator.next() ) );
-        }
-
-        return priceRateList;
     }
 
     public abstract PriceRateSchedule getPriceRateSchedule();
