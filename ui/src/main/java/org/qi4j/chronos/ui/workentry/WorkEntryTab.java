@@ -44,11 +44,6 @@ public abstract class WorkEntryTab extends NewLinkTab
         {
             return new WorkEntryTable( id )
             {
-                public ProjectAssigneeEntityComposite getProjectAssignee()
-                {
-                    return WorkEntryTab.this.getProjectAssignee();
-                }
-
                 public List<WorkEntryEntityComposite> dataList( int first, int count )
                 {
                     return WorkEntryTab.this.dataList( first, count );

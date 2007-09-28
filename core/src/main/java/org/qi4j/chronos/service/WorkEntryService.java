@@ -14,7 +14,7 @@ package org.qi4j.chronos.service;
 
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 
-public interface WorkEntryService extends ProjectAssigneeBasedService<WorkEntryEntityComposite>
+public interface WorkEntryService extends ProjectAssigneeBasedService<WorkEntryEntityComposite>, WorkEntryMiscService
 {
 
 }

@@ -12,6 +12,7 @@
  */
 package org.qi4j.chronos.service.mocks;
 
+import java.util.Calendar;
 import java.util.Currency;
 import java.util.Date;
 import java.util.Iterator;
@@ -34,6 +35,7 @@ import org.qi4j.chronos.model.composites.LoginComposite;
 import org.qi4j.chronos.model.composites.MoneyComposite;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
+import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
@@ -41,6 +43,7 @@ import org.qi4j.chronos.model.composites.RelationshipComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.model.composites.TimeRangeComposite;
+import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.service.AdminService;
 import org.qi4j.chronos.service.ContactPersonService;
@@ -170,10 +173,50 @@ public class MockServicesMixin implements Services
 
         initContactPerson( projectOwners, relationship );
 
-        initProjectDummyData( projectOwners[ 0 ], account );
+        ProjectEntityComposite project = initProjectDummyData( projectOwners[ 0 ], account );
+
+        ProjectAssigneeEntityComposite projectAssignee = initProjectAssigneeDummyData( project, account );
+
+        initWorkEntryDummyData( projectAssignee );
     }
 
-    private void initProjectDummyData( ProjectOwnerEntityComposite projectOwner, AccountEntityComposite account )
+    private void initWorkEntryDummyData( ProjectAssigneeEntityComposite projectAssignee )
+    {
+        Calendar starCalendar = Calendar.getInstance();
+
+        starCalendar.set( Calendar.MONTH, 8 );
+
+        for( int i = 0; i < 100; i++ )
+        {
+            WorkEntryEntityComposite workEntry = workEntryService.newInstance( WorkEntryEntityComposite.class );
+
+            workEntry.setCreatedDate( starCalendar.getTime() );
+            workEntry.setStartTime( starCalendar.getTime() );
+
+            starCalendar.add( Calendar.MINUTE, 150 );
+
+            workEntry.setEndTime( starCalendar.getTime() );
+
+            workEntry.setTitle( "Try to solve issue " + i );
+            workEntry.setDescription( "try a, then b, then c, then " + i );
+
+            projectAssignee.addWorkEntry( workEntry );
+        }
+    }
+
+    private ProjectAssigneeEntityComposite initProjectAssigneeDummyData( ProjectEntityComposite project, AccountEntityComposite account )
+    {
+        ProjectAssigneeEntityComposite projectAssignee = projectAssigneeService.newInstance( ProjectAssigneeEntityComposite.class );
+
+        projectAssignee.setLead( true );
+        projectAssignee.setPriceRate( CloneUtil.clonePriceRate( factory, project.getPriceRateSchedule().priceRateIterator().next() ) );
+        projectAssignee.setStaff( account.staffIterator().next() );
+
+        project.addProjectAssignee( projectAssignee );
+        return projectAssignee;
+    }
+
+    private ProjectEntityComposite initProjectDummyData( ProjectOwnerEntityComposite projectOwner, AccountEntityComposite account )
     {
         ProjectEntityComposite project = projectService.newInstance( ProjectEntityComposite.class );
 
@@ -206,6 +249,8 @@ public class MockServicesMixin implements Services
         project.setPriceRateSchedule( CloneUtil.clonePriceRateSchedule( factory, projectOwner.priceRateScheduleIterator().next() ) );
 
         account.addProject( project );
+
+        return project;
     }
 
     private RelationshipComposite initRelationshipDummyData()

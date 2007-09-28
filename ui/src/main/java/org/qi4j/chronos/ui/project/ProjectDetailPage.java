@@ -28,6 +28,10 @@ import org.qi4j.chronos.model.associations.HasContactPersons;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
+import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.chronos.service.FindFilter;
+import org.qi4j.chronos.service.WorkEntryService;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.BorderPanel;
@@ -37,6 +41,7 @@ import org.qi4j.chronos.ui.common.tab.BaseTab;
 import org.qi4j.chronos.ui.contactperson.ContactPersonTable;
 import org.qi4j.chronos.ui.pricerate.PriceRateTab;
 import org.qi4j.chronos.ui.projectassignee.ProjectAssigneeTab;
+import org.qi4j.chronos.ui.workentry.WorkEntryTable;
 import org.qi4j.chronos.util.DateUtil;
 
 public abstract class ProjectDetailPage extends LeftMenuNavPage
@@ -137,6 +142,7 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
                 }
             } );
 
+            tabs.add( new WorkEntryTab() );
 
             tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
 
@@ -197,6 +203,44 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
 
             return borderPanelWrapper;
         }
+    }
+
+    private class WorkEntryTab extends BaseTab
+    {
+        public WorkEntryTab()
+        {
+            super( "Work Entry" );
+
+        }
+
+        public BorderPanel getBorderPanel( String panelId )
+        {
+            return new BorderPanelWrapper( panelId )
+            {
+                public Panel getWrappedPanel( String panelId )
+                {
+                    WorkEntryTable table = new WorkEntryTable( panelId )
+                    {
+                        public List<WorkEntryEntityComposite> dataList( int first, int count )
+                        {
+                            return getWorkEntryService().findAll( getProject(), new FindFilter( first, count ) );
+                        }
+
+                        public int getSize()
+                        {
+                            return getWorkEntryService().countAll( getProject() );
+                        }
+                    };
+
+                    return table;
+                }
+            };
+        }
+    }
+
+    private WorkEntryService getWorkEntryService()
+    {
+        return ChronosWebApp.getServices().getWorkEntryService();
     }
 
     public abstract ProjectEntityComposite getProject();

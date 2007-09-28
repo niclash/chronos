@@ -17,8 +17,11 @@ import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
+import org.qi4j.chronos.ui.common.action.Action;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.util.DateUtil;
 
@@ -29,6 +32,19 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntryEntityComposit
     public WorkEntryTable( String id )
     {
         super( id );
+
+        addAction( new Action()
+        {
+            public String getActionName()
+            {
+                return "Delete";
+            }
+
+            public void performAction( AbstractSortableDataProvider dataProvider )
+            {
+                //TODO
+            }
+        } );
     }
 
     public AbstractSortableDataProvider<WorkEntryEntityComposite, String> getDetachableDataProvider()
@@ -54,12 +70,21 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntryEntityComposit
 
     public void populateItems( Item item, WorkEntryEntityComposite obj )
     {
-        //TODO bp. trim the title?
+        final String workEntryId = obj.getIdentity();
+
         item.add( new SimpleLink( "title", obj.getTitle() )
         {
             public void linkClicked()
             {
-                //TODO
+                WorkEntryDetailPage detailPage = new WorkEntryDetailPage( (BasePage) this.getPage() )
+                {
+                    public WorkEntryEntityComposite getWorkEntry()
+                    {
+                        return ChronosWebApp.getServices().getWorkEntryService().get( workEntryId );
+                    }
+                };
+
+                setResponsePage( detailPage );
             }
         } );
 
