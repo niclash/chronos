@@ -44,4 +44,9 @@ public final class HasContactsMixin implements HasContacts
     {
         return contacts.iterator();
     }
+
+    public void removeAllContact()
+    {
+        contacts.clear();
+    }
 }

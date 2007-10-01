@@ -12,23 +12,43 @@
  */
 package org.qi4j.chronos.ui.contactperson;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
+import java.util.List;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.SubmitLink;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
 import org.qi4j.chronos.model.ContactPerson;
+import org.qi4j.chronos.model.composites.ContactComposite;
 import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
 import org.qi4j.chronos.ui.base.BasePage;
+import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.relationship.RelationshipOptionPanel;
 import org.qi4j.chronos.ui.user.UserAddEditPanel;
+import org.qi4j.library.general.model.Contact;
 
 public abstract class ContactPersonAddEditPage extends AddEditBasePage
 {
     private UserAddEditPanel userAddEditPanel;
 
     private RelationshipOptionPanel relationshipOptionPanel;
+
+    private List<MaxLengthTextField> contactValueFieldList;
+    private List<MaxLengthTextField> contactTypeFieldList;
+
+    private SubmitLink newContactLink;
+
+    private ListView contactListView;
+
+    //TODO remove static
+    private static List<ContactComposite> contactList;
 
     public ContactPersonAddEditPage( BasePage goBackPage )
     {
@@ -37,6 +57,61 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
 
     public void initComponent( Form form )
     {
+        contactList = getInitContactList();
+
+        contactValueFieldList = new ArrayList<MaxLengthTextField>();
+        contactTypeFieldList = new ArrayList<MaxLengthTextField>();
+
+        newContactLink = new SubmitLink( "newContactLink" )
+        {
+            public void onSubmit()
+            {
+                handleNewContact();
+            }
+        };
+
+        contactListView = new ListView( "contactListView", Arrays.asList( new Integer[contactList.size()] ) )
+        {
+            protected void populateItem( ListItem item )
+            {
+                final int index = item.getIndex();
+                ContactComposite contact = contactList.get( index );
+
+                MaxLengthTextField contactValueField;
+                MaxLengthTextField contactTypeField;
+
+                if( contactValueFieldList.size() <= index )
+                {
+                    contactValueField = new MaxLengthTextField( "contactValueField", "Contact Value", Contact.VALUE_LEN );
+                    contactTypeField = new MaxLengthTextField( "contactTypeField", "Contact Type", Contact.CONTACT_TYPE_LEN );
+
+                    contactValueFieldList.add( contactValueField );
+                    contactTypeFieldList.add( contactTypeField );
+
+                    //init value
+                    contactValueField.setText( contact.getContactValue() );
+                    contactTypeField.setText( contact.getContactType() );
+                }
+                else
+                {
+                    contactValueField = contactValueFieldList.get( index );
+                    contactTypeField = contactTypeFieldList.get( index );
+                }
+
+                SubmitLink deleteContact = new SubmitLink( "deleteContactLink" )
+                {
+                    public void onSubmit()
+                    {
+                        removeContact( index );
+                    }
+                };
+
+                item.add( contactTypeField );
+                item.add( contactValueField );
+                item.add( deleteContact );
+            }
+        };
+
         relationshipOptionPanel = new RelationshipOptionPanel( "relationshipOptionPanel" )
         {
             public ProjectOwnerEntityComposite getProjectOwner()
@@ -58,8 +133,44 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
             }
         };
 
+        form.add( newContactLink );
+        form.add( contactListView );
         form.add( relationshipOptionPanel );
         form.add( userAddEditPanel );
+    }
+
+    private void removeContact( int index )
+    {
+        if( contactList.size() == 0 )
+        {
+            return;
+        }
+
+        contactList.remove( index );
+
+        contactTypeFieldList.remove( index );
+        contactValueFieldList.remove( index );
+
+        updateContactListView();
+    }
+
+    private void handleNewContact()
+    {
+        addNewPriceRate();
+
+        updateContactListView();
+    }
+
+    private void addNewPriceRate()
+    {
+        ContactComposite contact = ChronosWebApp.newInstance( ContactComposite.class );
+
+        contactList.add( contact );
+    }
+
+    private void updateContactListView()
+    {
+        contactListView.setList( Arrays.asList( new Integer[contactList.size()] ) );
     }
 
     protected void assignContactPersonToFieldValue( ContactPerson contactPerson )
@@ -74,6 +185,11 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
         userAddEditPanel.assignFieldValueToUser( contactPerson );
 
         contactPerson.setRelationship( relationshipOptionPanel.getSelectedRelationship() );
+
+        for( ContactComposite contact : contactList )
+        {
+            contactPerson.addContact( contact );
+        }
     }
 
     public Iterator<SystemRoleEntityComposite> getInitSelectedRoleList()
@@ -95,13 +211,109 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
             isRejected = true;
         }
 
+        if( isContactsNotValidated() || isHasDuplicateContact() )
+        {
+            isRejected = true;
+        }
+
         if( isRejected )
         {
             return;
         }
 
+        fillUpContact();
+
         onSubmitting();
     }
+
+    private void fillUpContact()
+    {
+        int index = 0;
+
+        for( ContactComposite contact : contactList )
+        {
+            MaxLengthTextField contactValueField = contactValueFieldList.get( index );
+            MaxLengthTextField contactTypeField = contactTypeFieldList.get( index );
+
+            contact.setContactValue( contactValueField.getText() );
+            contact.setContactType( contactTypeField.getText() );
+
+            index++;
+        }
+    }
+
+    private boolean isHasDuplicateContact()
+    {
+        for( int i = 0; i < contactValueFieldList.size(); i++ )
+        {
+            MaxLengthTextField contactValueField = contactValueFieldList.get( i );
+            MaxLengthTextField contactTypeField = contactTypeFieldList.get( i );
+
+            for( int j = i + 1; j < contactValueFieldList.size(); j++ )
+            {
+                MaxLengthTextField contactValueField2 = contactValueFieldList.get( j );
+                MaxLengthTextField contactTyoeField2 = contactTypeFieldList.get( j );
+
+                if( contactValueField.getText().equals( contactValueField2.getText() )
+                    && contactTypeField.getText().equals( contactTyoeField2.getText() ) )
+                {
+                    error( "Identical contact found! Please change it or remove it." );
+
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    private boolean isContactsNotValidated()
+    {
+        int index = 0;
+
+        boolean isInvalidContactValue = false;
+        boolean isInvalidContactType = false;
+
+        for( MaxLengthTextField contactValueFied : contactValueFieldList )
+        {
+            MaxLengthTextField contactTypeField = contactTypeFieldList.get( index );
+
+            if( contactValueFied.checkIsEmptyOrInvalidLength() )
+            {
+                isInvalidContactValue = true;
+            }
+
+            if( contactTypeField.checkIsEmptyOrInvalidLength() )
+            {
+                isInvalidContactType = true;
+            }
+
+            if( isInvalidContactValue && isInvalidContactType )
+            {
+                break;
+            }
+
+            index++;
+        }
+
+        return isInvalidContactType || isInvalidContactValue;
+    }
+
+    private List<ContactComposite> getInitContactList()
+    {
+        List<ContactComposite> contactList = new ArrayList<ContactComposite>();
+
+        Iterator<ContactComposite> contactIterator = getInitContactIterator();
+
+        while( contactIterator.hasNext() )
+        {
+            contactList.add( contactIterator.next() );
+        }
+
+        return contactList;
+    }
+
+    public abstract Iterator<ContactComposite> getInitContactIterator();
 
     public abstract ProjectOwnerEntityComposite getProjectOwner();
 

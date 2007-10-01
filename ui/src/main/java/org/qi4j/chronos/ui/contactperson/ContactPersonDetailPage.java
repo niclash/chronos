@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.staff;
+package org.qi4j.chronos.ui.contactperson;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -21,23 +21,25 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
+import org.qi4j.chronos.ui.common.SimpleTextField;
+import org.qi4j.chronos.ui.contact.ContactTab;
 import org.qi4j.chronos.ui.project.ProjectTab;
 import org.qi4j.chronos.ui.user.UserDetailPanel;
 
-public abstract class StaffDetailPage extends LeftMenuNavPage
+public abstract class ContactPersonDetailPage extends LeftMenuNavPage
 {
-    private BasePage returnPage;
+    private BasePage basePage;
 
-    public StaffDetailPage( BasePage returnPage )
+    public ContactPersonDetailPage( BasePage basePage )
     {
-        this.returnPage = returnPage;
+        this.basePage = basePage;
 
         initComponents();
     }
@@ -45,23 +47,20 @@ public abstract class StaffDetailPage extends LeftMenuNavPage
     private void initComponents()
     {
         add( new FeedbackPanel( "feedbackPanel" ) );
-        add( new StaffDetailForm( "staffDetailForm" ) );
+        add( new ContactPersonDetailForm( "contactPersonDetailForm" ) );
     }
 
-    private ProjectService getProjectService()
+    private class ContactPersonDetailForm extends Form
     {
-        return ChronosWebApp.getServices().getProjectService();
-    }
+        private UserDetailPanel userDetailPanel;
 
-    private class StaffDetailForm extends Form
-    {
+        private SimpleTextField relationshipField;
+
         private Button submitButton;
 
         private TabbedPanel tabbedPanel;
 
-        private UserDetailPanel userDetailPanel;
-
-        public StaffDetailForm( String id )
+        public ContactPersonDetailForm( String id )
         {
             super( id );
 
@@ -70,44 +69,63 @@ public abstract class StaffDetailPage extends LeftMenuNavPage
 
         private void initComponents()
         {
+            ContactPersonEntityComposite contactPerson = getContactPerson();
+
+            relationshipField = new SimpleTextField( "relationshipField", contactPerson.getRelationship().getRelationship() );
+
             userDetailPanel = new UserDetailPanel( "userDetailPanel" )
             {
                 public User getUser()
                 {
-                    return StaffDetailPage.this.getStaff();
+                    return ContactPersonDetailPage.this.getContactPerson();
                 }
             };
-
-            List<AbstractTab> tabs = new ArrayList<AbstractTab>();
-
-            tabs.add( new ProjectTab()
-            {
-                public int getSize()
-                {
-                    return getProjectService().countAll( StaffDetailPage.this.getStaff() );
-                }
-
-                public List<ProjectEntityComposite> dataList( int first, int count )
-                {
-                    return getProjectService().findAll( StaffDetailPage.this.getStaff(), new FindFilter( first, count ) );
-                }
-            } );
-
-            tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
 
             submitButton = new Button( "submitButton", new Model( "Return" ) )
             {
                 public void onSubmit()
                 {
-                    setResponsePage( returnPage );
+                    setResponsePage( basePage );
                 }
             };
 
-            add( userDetailPanel );
+            List<AbstractTab> tabs = new ArrayList<AbstractTab>();
+
+            tabs.add( new ContactTab()
+            {
+                public ContactPersonEntityComposite getContactPerson()
+                {
+                    return ContactPersonDetailPage.this.getContactPerson();
+                }
+            } );
+
+            tabs.add( new ProjectTab()
+            {
+                public int getSize()
+                {
+                    return getProjectService().countAll( ContactPersonDetailPage.this.getContactPerson() );
+                }
+
+                public List<ProjectEntityComposite> dataList( int first, int count )
+                {
+                    return getProjectService().findAll( ContactPersonDetailPage.this.getContactPerson(), new FindFilter( first, count ) );
+                }
+            } );
+
+            tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
+
             add( tabbedPanel );
+            add( relationshipField );
+            add( userDetailPanel );
             add( submitButton );
         }
     }
 
-    public abstract StaffEntityComposite getStaff();
+    private ProjectService getProjectService()
+    {
+        return ChronosWebApp.getServices().getProjectService();
+    }
+
+    public abstract ContactPersonEntityComposite getContactPerson();
 }
+

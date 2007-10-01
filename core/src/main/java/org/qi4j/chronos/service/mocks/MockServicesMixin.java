@@ -385,14 +385,14 @@ public class MockServicesMixin implements Services
     {
         StaffEntityComposite staff = staffService.newInstance( StaffEntityComposite.class );
 
-        staff.setFirstName( "user" );
-        staff.setLastName( "user" );
+        staff.setFirstName( "the" );
+        staff.setLastName( "boss" );
         staff.setGender( GenderType.male );
 
         LoginComposite login = factory.newCompositeBuilder( LoginComposite.class ).newInstance();
 
-        login.setName( "user" );
-        login.setPassword( "user" );
+        login.setName( "boss" );
+        login.setPassword( "boss" );
         login.setEnabled( true );
 
         staff.setLogin( login );
@@ -429,10 +429,6 @@ public class MockServicesMixin implements Services
         developer.setName( SystemRole.ACCOUNT_DEVELOPER );
         developer.setSystemRoleType( SystemRoleType.STAFF );
 
-        SystemRoleEntityComposite projectManager = systemRoleService.newInstance( SystemRoleEntityComposite.class );
-        projectManager.setName( SystemRole.ACCOUNT_PROJECT_MANAGER );
-        projectManager.setSystemRoleType( SystemRoleType.STAFF );
-
         SystemRoleEntityComposite contactPerson = systemRoleService.newInstance( SystemRoleEntityComposite.class );
         contactPerson.setName( SystemRole.CONTACT_PERSON );
         contactPerson.setSystemRoleType( SystemRoleType.CONTACT_PERSON );
@@ -440,7 +436,6 @@ public class MockServicesMixin implements Services
         systemRoleService.save( admin );
         systemRoleService.save( accountAdmin );
         systemRoleService.save( developer );
-        systemRoleService.save( projectManager );
         systemRoleService.save( contactPerson );
 
         systemRoleService.findAll();

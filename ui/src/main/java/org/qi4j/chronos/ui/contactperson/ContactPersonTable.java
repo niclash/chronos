@@ -56,21 +56,9 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
     {
         final String contactPersonId = obj.getIdentity();
 
-        item.add( new SimpleLink( "firstName", obj.getFirstName() )
-        {
-            public void linkClicked()
-            {
-                //TODO bp. fixme
-            }
-        } );
+        item.add( createDetailLink( "firstName", obj.getFirstName(), contactPersonId ) );
 
-        item.add( new SimpleLink( "lastName", obj.getLastName() )
-        {
-            public void linkClicked()
-            {
-                //TODO bp. fixme
-            }
-        } );
+        item.add( createDetailLink( "lastName", obj.getLastName(), contactPersonId ) );
 
         item.add( new Label( "loginId", obj.getLogin().getName() ) );
 
@@ -97,6 +85,25 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
                 } );
             }
         } );
+    }
+
+    private SimpleLink createDetailLink( String id, String text, final String contactPersonId )
+    {
+        return new SimpleLink( id, text )
+        {
+            public void linkClicked()
+            {
+                ContactPersonDetailPage detailPage = new ContactPersonDetailPage( (BasePage) this.getPage() )
+                {
+                    public ContactPersonEntityComposite getContactPerson()
+                    {
+                        return ChronosWebApp.getServices().getContactPersonService().get( contactPersonId );
+                    }
+                };
+
+                setResponsePage( detailPage );
+            }
+        };
     }
 
     public List<String> getTableHeaderList()

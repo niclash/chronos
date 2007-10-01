@@ -125,7 +125,7 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
 
             List<AbstractTab> tabs = new ArrayList<AbstractTab>();
 
-            tabs.add( new ContactTab() );
+            tabs.add( new ContactPersonTab() );
             tabs.add( new PriceRateTab( "Price Rate Schedule" )
             {
                 public PriceRateScheduleComposite getPriceRateSchedule()
@@ -166,11 +166,11 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
         }
     }
 
-    private class ContactTab extends BaseTab
+    private class ContactPersonTab extends BaseTab
     {
-        public ContactTab()
+        public ContactPersonTab()
         {
-            super( "Contacts" );
+            super( "Contact Person" );
         }
 
         public BorderPanel getBorderPanel( String panelId )

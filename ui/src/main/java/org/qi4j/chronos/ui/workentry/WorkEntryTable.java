@@ -96,10 +96,17 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntryEntityComposit
         {
             public void linkClicked()
             {
-                //TODO
+                WorkEntryEditPage editPage = new WorkEntryEditPage( (BasePage) this.getPage() )
+                {
+                    public WorkEntryEntityComposite getWorkEntry()
+                    {
+                        return ChronosWebApp.getServices().getWorkEntryService().get( workEntryId );
+                    }
+                };
+
+                setResponsePage( editPage );
             }
         } );
-
     }
 
     public List<String> getTableHeaderList()

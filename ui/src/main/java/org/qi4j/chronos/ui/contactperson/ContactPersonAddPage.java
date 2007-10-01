@@ -12,7 +12,10 @@
  */
 package org.qi4j.chronos.ui.contactperson;
 
+import java.util.Collections;
+import java.util.Iterator;
 import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.model.composites.ContactComposite;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.LoginComposite;
 import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
@@ -95,5 +98,10 @@ public abstract class ContactPersonAddPage extends ContactPersonAddEditPage
     public String getTitleLabel()
     {
         return "New Contact Person";
+    }
+
+    public Iterator<ContactComposite> getInitContactIterator()
+    {
+        return Collections.EMPTY_LIST.iterator();
     }
 }

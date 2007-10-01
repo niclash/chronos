@@ -16,7 +16,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.ui.ChronosWebApp;
@@ -40,9 +39,14 @@ public abstract class ProjectTable extends ActionTable<ProjectEntityComposite, S
         {
             provider = new ProjectDataProvider()
             {
-                public AccountEntityComposite getAccount()
+                public int getSize()
                 {
-                    return ProjectTable.this.getAccount();
+                    return ProjectTable.this.getSize();
+                }
+
+                public List<ProjectEntityComposite> dataList( int first, int count )
+                {
+                    return ProjectTable.this.dataList( first, count );
                 }
             };
         }
@@ -105,5 +109,7 @@ public abstract class ProjectTable extends ActionTable<ProjectEntityComposite, S
         return Arrays.asList( "Name", "Formal Reference", "Status", "" );
     }
 
-    public abstract AccountEntityComposite getAccount();
+    public abstract int getSize();
+
+    public abstract List<ProjectEntityComposite> dataList( int first, int count );
 }

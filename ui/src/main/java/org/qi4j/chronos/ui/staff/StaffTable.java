@@ -16,7 +16,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
@@ -63,9 +62,14 @@ public abstract class StaffTable extends ActionTable<StaffEntityComposite, Strin
         {
             dataProvider = new StaffDataProvider()
             {
-                public AccountEntityComposite getAccount()
+                public int getSize()
                 {
-                    return StaffTable.this.getAccount();
+                    return StaffTable.this.getSize();
+                }
+
+                public List<StaffEntityComposite> dataList( int first, int count )
+                {
+                    return StaffTable.this.dataList( first, count );
                 }
             };
         }
@@ -73,27 +77,12 @@ public abstract class StaffTable extends ActionTable<StaffEntityComposite, Strin
         return dataProvider;
     }
 
-    public abstract AccountEntityComposite getAccount();
-
     public void populateItems( Item item, StaffEntityComposite obj )
     {
         final String staffId = obj.getIdentity();
 
-        item.add( new SimpleLink( "firstName", obj.getFirstName() )
-        {
-            public void linkClicked()
-            {
-                //TODO bp. fixme
-            }
-        } );
-
-        item.add( new SimpleLink( "lastName", obj.getLastName() )
-        {
-            public void linkClicked()
-            {
-                //TODO bp. fixme
-            }
-        } );
+        item.add( createDetailLink( "firstName", obj.getFirstName(), staffId ) );
+        item.add( createDetailLink( "lastName", obj.getLastName(), staffId ) );
 
         Money salary = obj.getSalary();
 
@@ -118,8 +107,31 @@ public abstract class StaffTable extends ActionTable<StaffEntityComposite, Strin
         } );
     }
 
+    private SimpleLink createDetailLink( String id, String text, final String staffId )
+    {
+        return new SimpleLink( id, text )
+        {
+            public void linkClicked()
+            {
+                StaffDetailPage detailPage = new StaffDetailPage( (BasePage) this.getPage() )
+                {
+                    public StaffEntityComposite getStaff()
+                    {
+                        return ChronosWebApp.getServices().getStaffService().get( staffId );
+                    }
+                };
+
+                setResponsePage( detailPage );
+            }
+        };
+    }
+
     public List<String> getTableHeaderList()
     {
         return Arrays.asList( "First Name", "Last name", "Salary", "Login Id", "Login Enabled", "Edit" );
     }
+
+    public abstract int getSize();
+
+    public abstract List<StaffEntityComposite> dataList( int first, int count );
 }

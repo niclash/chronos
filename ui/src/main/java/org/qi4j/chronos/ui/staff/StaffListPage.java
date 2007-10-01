@@ -12,25 +12,19 @@
  */
 package org.qi4j.chronos.ui.staff;
 
+import java.util.List;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.ui.ChronosSession;
+import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.service.FindFilter;
+import org.qi4j.chronos.service.StaffService;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 
 public class StaffListPage extends LeftMenuNavPage
 {
-    private String accountId;
-
     public StaffListPage()
     {
-        this( ( (ChronosSession) ChronosSession.get() ).getAccountId() );
-    }
-
-    public StaffListPage( String accountId )
-    {
-        this.accountId = accountId;
-
         initComponents();
     }
 
@@ -48,17 +42,32 @@ public class StaffListPage extends LeftMenuNavPage
 
         StaffTable staffTable = new StaffTable( "staffTable" )
         {
-            public String getAccountId()
+            public int getSize()
             {
-                return accountId;
+                return StaffListPage.this.getSize();
             }
 
-            public AccountEntityComposite getAccount()
+            public List<StaffEntityComposite> dataList( int first, int count )
             {
-                return StaffListPage.this.getAccount();
+                return StaffListPage.this.dataList( first, count );
             }
         };
 
         add( staffTable );
+    }
+
+    protected StaffService getStaffService()
+    {
+        return ChronosWebApp.getServices().getStaffService();
+    }
+
+    public int getSize()
+    {
+        return getStaffService().countAll( getAccount() );
+    }
+
+    public List<StaffEntityComposite> dataList( int first, int count )
+    {
+        return getStaffService().findAll( getAccount(), new FindFilter( first, count ) );
     }
 }

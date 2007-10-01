@@ -69,4 +69,6 @@ public abstract class WorkEntryAddPage extends WorkEntryAddEditPage
     {
         return "New Work Entry";
     }
+
+    public abstract ProjectAssigneeEntityComposite getProjectAssignee();
 }

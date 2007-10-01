@@ -30,4 +30,6 @@ public interface HasContacts extends Serializable
     void removeContact( ContactComposite contact );
 
     Iterator<ContactComposite> contactIterator();
+
+    void removeAllContact();
 }

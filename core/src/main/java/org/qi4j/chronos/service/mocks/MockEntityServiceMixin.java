@@ -28,6 +28,7 @@ public class MockEntityServiceMixin
     implements EntityService
 {
     private Map<String, Identity> dataMap;
+    private static long nextId = 0;
 
     @Qi4j private CompositeBuilderFactory factory;
 
@@ -82,35 +83,8 @@ public class MockEntityServiceMixin
         return dataMap.size();
     }
 
-    public static final String newUid()
+    public synchronized static final String newUid()
     {
-        long l = 35L;
-        String result = null;
-
-        int i = 13;
-        long l1 = System.currentTimeMillis();
-        long l2 = Math.abs( l1 << (int) ( 8L + (long) ( Math.random() * 256D ) ) );
-
-        StringBuffer stringbuffer = new StringBuffer( 16 );
-
-        for( ; i > 0; i-- )
-        {
-            long l3 = Math.abs( l2 % l );
-
-            if( l3 > 9L )
-            {
-                stringbuffer.append( (char) (int) ( l3 + 55L ) );
-            }
-            else
-            {
-                stringbuffer.append( l3 );
-            }
-
-            l2 /= l;
-        }
-
-        result = stringbuffer.toString();
-
-        return result;
+        return String.valueOf( ++nextId );
     }
 }

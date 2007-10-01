@@ -4,5 +4,44 @@
 
     <span wicket:id="userAddEditPanel"></span>
     <span wicket:id="relationshipOptionPanel"></span>
+
+    <tr>
+        <td align="right" valign="top">Contacts</td>
+        <td>
+            <table>
+                <tr>
+                    <td align="right">
+                        <strong><a wicket:id="newContactLink">New Contact</a></strong>
+                    </td>
+                </tr>
+
+                <tr>
+                    <td>
+                        <table>
+                            <tr>
+                                <th>Contact Value</th>
+                                <th>Contact Type</th>
+                                <th>&nbsp;</th>
+                            </tr>
+                            <tr wicket:id="contactListView">
+                                <td>
+                                    <input type="text" wicket:id="contactValueField" class="textStyle"
+                                           style="width: 200"/>
+                                </td>
+                                <td>
+                                    <input type="text" wicket:id="contactTypeField" class="textStyle"
+                                           style="width: 200"/>
+                                </td>
+
+                                <td>
+                                    <a wicket:id="deleteContactLink">Delete</a>
+                                </td>
+                            </tr>
+                        </table>
+                    </td>
+                </tr>
+            </table>
+        </td>
+    </tr>
 </wicket:extend>
 </html>

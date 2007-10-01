@@ -14,9 +14,23 @@ package org.qi4j.chronos.service;
 
 import java.util.List;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.composites.StaffEntityComposite;
 
 public interface ProjectMiscService
 {
     List<ProjectEntityComposite> getRecentAccessedProjectList( AccountEntityComposite account, FindFilter findFilter );
+
+    List<ProjectEntityComposite> findAll( ContactPersonEntityComposite contactPerson, FindFilter findFilter );
+
+    List<ProjectEntityComposite> findAll( ContactPersonEntityComposite contactPerson );
+
+    int countAll( ContactPersonEntityComposite contactPerson );
+
+    List<ProjectEntityComposite> findAll( StaffEntityComposite staff );
+
+    List<ProjectEntityComposite> findAll( StaffEntityComposite staff, FindFilter findFilter );
+
+    int countAll( StaffEntityComposite staff );
 }

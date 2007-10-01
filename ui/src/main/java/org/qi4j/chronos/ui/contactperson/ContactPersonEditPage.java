@@ -14,6 +14,7 @@ package org.qi4j.chronos.ui.contactperson;
 
 import java.util.Iterator;
 import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.composites.ContactComposite;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
@@ -95,6 +96,11 @@ public abstract class ContactPersonEditPage extends ContactPersonAddEditPage
     public String getTitleLabel()
     {
         return "Edit Contact Person";
+    }
+
+    public Iterator<ContactComposite> getInitContactIterator()
+    {
+        return ChronosWebApp.getServices().getContactService().findAll( getContactPerson() ).iterator();
     }
 
     public abstract ContactPersonEntityComposite getContactPerson();

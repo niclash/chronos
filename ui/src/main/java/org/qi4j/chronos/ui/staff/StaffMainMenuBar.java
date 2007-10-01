@@ -35,7 +35,8 @@ public class StaffMainMenuBar extends MenuBar
             new PageMenuLink( "Project", ProjectListPage.class ),
             new PageMenuLink( "Staff", StaffListPage.class ),
             new PageMenuLink( "Project Role", ProjectRoleListPage.class ),
-            new PageMenuLink( "System Role", SystemRoleListPage.class )
+            new PageMenuLink( "System Role", SystemRoleListPage.class ),
+            new PageMenuLink( "Report", SystemRoleListPage.class ),
         };
     }
 }

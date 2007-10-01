@@ -12,10 +12,7 @@
  */
 package org.qi4j.chronos.ui.staff;
 
-import java.util.List;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
-import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
@@ -36,16 +33,4 @@ public abstract class StaffDataProvider extends AbstractSortableDataProvider<Sta
     {
         return getStaffService().get( id );
     }
-
-    public List<StaffEntityComposite> dataList( int first, int count )
-    {
-        return getStaffService().findAll( getAccount(), new FindFilter( first, count ) );
-    }
-
-    public int getSize()
-    {
-        return getStaffService().countAll( getAccount() );
-    }
-
-    public abstract AccountEntityComposite getAccount();
 }

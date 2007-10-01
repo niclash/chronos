@@ -26,7 +26,6 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
 import org.apache.wicket.markup.html.list.Loop;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
@@ -323,11 +322,6 @@ public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
 
             Label totalItem2Label = new Label( "totalItem2Label", new Model( totalItems ) );
             grandSelectNoneContainer.add( totalItem2Label );
-        }
-
-        protected void delegateSubmit( IFormSubmittingComponent submittingButton )
-        {
-            actionBar.onSubmitting( submittingButton );
         }
     }
 

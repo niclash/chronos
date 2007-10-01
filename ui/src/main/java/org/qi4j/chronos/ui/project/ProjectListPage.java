@@ -12,9 +12,13 @@
  */
 package org.qi4j.chronos.ui.project;
 
+import java.util.List;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.service.FindFilter;
+import org.qi4j.chronos.service.ProjectService;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 
 public class ProjectListPage extends LeftMenuNavPage
@@ -38,12 +42,33 @@ public class ProjectListPage extends LeftMenuNavPage
 
         ProjectTable projectTable = new ProjectTable( "projectTable" )
         {
-            public AccountEntityComposite getAccount()
+            public int getSize()
             {
-                return ProjectListPage.this.getAccount();
+                return ProjectListPage.this.getSize();
+            }
+
+            public List<ProjectEntityComposite> dataList( int first, int count )
+            {
+                return ProjectListPage.this.dataList( first, count );
             }
         };
 
         add( projectTable );
     }
+
+    protected ProjectService getProjectService()
+    {
+        return ChronosWebApp.getServices().getProjectService();
+    }
+
+    protected int getSize()
+    {
+        return getProjectService().countAll( getAccount() );
+    }
+
+    protected List<ProjectEntityComposite> dataList( int first, int count )
+    {
+        return getProjectService().findAll( getAccount(), new FindFilter( first, count ) );
+    }
+
 }

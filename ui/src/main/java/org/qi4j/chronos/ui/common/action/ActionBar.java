@@ -19,7 +19,6 @@ import java.util.List;
 import java.util.Map;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.form.Button;
-import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
@@ -49,7 +48,13 @@ public class ActionBar extends Panel
         final List<String> actionKeyList = getActionKeyList();
         actionChoices = new SimpleDropDownChoice( "actionChoices", actionKeyList, true );
 
-        goButton = new Button( "goButton", new Model( "Go" ) );
+        goButton = new Button( "goButton", new Model( "Go" ) )
+        {
+            public void onSubmit()
+            {
+                handleGo();
+            }
+        };
 
         goButton.setOutputMarkupId( true );
 
@@ -90,14 +95,6 @@ public class ActionBar extends Panel
     public void removeAction( Action action )
     {
         actionMap.remove( action.getActionName() );
-    }
-
-    public void onSubmitting( IFormSubmittingComponent submittingButton )
-    {
-        if( submittingButton == goButton )
-        {
-            handleGo();
-        }
     }
 
     private void handleGo()

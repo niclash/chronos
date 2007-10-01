@@ -12,10 +12,7 @@
  */
 package org.qi4j.chronos.ui.project;
 
-import java.util.List;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
@@ -41,16 +38,4 @@ public abstract class ProjectDataProvider extends AbstractSortableDataProvider<P
     {
         return ChronosWebApp.getServices().getProjectService();
     }
-
-    public List<ProjectEntityComposite> dataList( int first, int count )
-    {
-        return getProjectService().findAll( getAccount(), new FindFilter( first, count ) );
-    }
-
-    public int getSize()
-    {
-        return getProjectService().countAll( getAccount() );
-    }
-
-    public abstract AccountEntityComposite getAccount();
 }
