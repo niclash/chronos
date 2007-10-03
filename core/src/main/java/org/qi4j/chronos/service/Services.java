@@ -28,7 +28,7 @@ public interface Services
 
     SystemRoleService getSystemRoleService();
 
-    ProjectOwnerService getProjectOwnerService();
+    CustomerService getCustomerService();
 
     AdminService getAdminService();
 

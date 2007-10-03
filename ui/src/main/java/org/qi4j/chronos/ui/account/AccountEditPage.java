@@ -31,7 +31,7 @@ public class AccountEditPage extends AccountAddEditPage
 
         this.accountId = accountId;
 
-        customerAddEditPanel.assignCustomerToFields( getAccount() );
+        assignAccountToFieldValue( getAccount() );
     }
 
     protected AccountEntityComposite getAccount()
@@ -46,7 +46,7 @@ public class AccountEditPage extends AccountAddEditPage
 
         try
         {
-            customerAddEditPanel.assignFieldValueToCustomer( account );
+            assignFieldValueToAccount( account );
 
             accountService.update( account );
 
@@ -63,7 +63,7 @@ public class AccountEditPage extends AccountAddEditPage
 
     public String getSubmitButtonValue()
     {
-        return "Update";
+        return "Save";
     }
 
     public String getTitleLabel()

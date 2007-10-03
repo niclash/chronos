@@ -40,7 +40,7 @@ public abstract class PriceRateScheduleEditPage extends PriceRateScheduleAddEdit
 
     public String getSubmitButtonValue()
     {
-        return "Update";
+        return "Save";
     }
 
     public String getTitleLabel()

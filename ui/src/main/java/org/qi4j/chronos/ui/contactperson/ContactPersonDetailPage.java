@@ -99,7 +99,7 @@ public abstract class ContactPersonDetailPage extends LeftMenuNavPage
                 }
             } );
 
-            tabs.add( new ProjectTab()
+            tabs.add( new ProjectTab( "Project" )
             {
                 public int getSize()
                 {

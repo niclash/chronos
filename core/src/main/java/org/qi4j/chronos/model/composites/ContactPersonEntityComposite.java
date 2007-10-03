@@ -14,8 +14,7 @@ package org.qi4j.chronos.model.composites;
 
 import org.qi4j.api.persistence.EntityComposite;
 import org.qi4j.chronos.model.ContactPerson;
-import org.qi4j.library.general.model.Validatable;
 
-public interface ContactPersonEntityComposite extends ContactPerson, Validatable, EntityComposite
+public interface ContactPersonEntityComposite extends ContactPerson, EntityComposite
 {
 }

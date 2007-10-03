@@ -61,7 +61,7 @@ public abstract class WorkEntryEditPage extends WorkEntryAddEditPage
 
     public String getSubmitButtonValue()
     {
-        return "Edit";
+        return "Save";
     }
 
     public String getTitleLabel()

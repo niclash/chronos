@@ -22,8 +22,8 @@ import org.qi4j.api.CompositeBuilder;
 import org.qi4j.api.CompositeBuilderFactory;
 import org.qi4j.api.PropertyValue;
 import org.qi4j.api.annotation.scope.Qi4j;
+import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.PriceRateType;
-import org.qi4j.chronos.model.ProjectOwner;
 import org.qi4j.chronos.model.ProjectStatus;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.SystemRoleType;
@@ -31,13 +31,13 @@ import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.AddressComposite;
 import org.qi4j.chronos.model.composites.AdminEntityComposite;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.model.composites.LoginComposite;
 import org.qi4j.chronos.model.composites.MoneyComposite;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
 import org.qi4j.chronos.model.composites.RelationshipComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
@@ -48,11 +48,11 @@ import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.service.AdminService;
 import org.qi4j.chronos.service.ContactPersonService;
 import org.qi4j.chronos.service.ContactService;
+import org.qi4j.chronos.service.CustomerService;
 import org.qi4j.chronos.service.ParentBasedService;
 import org.qi4j.chronos.service.PriceRateScheduleService;
 import org.qi4j.chronos.service.PriceRateService;
 import org.qi4j.chronos.service.ProjectAssigneeService;
-import org.qi4j.chronos.service.ProjectOwnerService;
 import org.qi4j.chronos.service.ProjectRoleService;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.service.RelationshipService;
@@ -65,10 +65,10 @@ import org.qi4j.chronos.service.composites.AccountServiceComposite;
 import org.qi4j.chronos.service.composites.AdminServiceComposite;
 import org.qi4j.chronos.service.composites.ContactPersonServiceComposite;
 import org.qi4j.chronos.service.composites.ContactServiceComposite;
+import org.qi4j.chronos.service.composites.CustomerServiceComposite;
 import org.qi4j.chronos.service.composites.PriceRateScheduleServiceComposite;
 import org.qi4j.chronos.service.composites.PriceRateServiceComposite;
 import org.qi4j.chronos.service.composites.ProjectAssigneeServiceComposite;
-import org.qi4j.chronos.service.composites.ProjectOwnerServiceComposite;
 import org.qi4j.chronos.service.composites.ProjectRoleServiceComposite;
 import org.qi4j.chronos.service.composites.ProjectServiceComposite;
 import org.qi4j.chronos.service.composites.RelationshipServiceComposite;
@@ -94,7 +94,7 @@ public class MockServicesMixin implements Services
     private StaffService staffService;
     private UserService userService;
     private SystemRoleService systemRoleService;
-    private ProjectOwnerService projectOwnerService;
+    private CustomerService customerService;
     private AdminService adminService;
     private ContactPersonService contactPersonService;
     private PriceRateScheduleService priceRateScheduleService;
@@ -115,8 +115,8 @@ public class MockServicesMixin implements Services
         staffService = newParentBasedService( StaffServiceComposite.class, ACCOUNT_SERVICE, accountService );
 
         systemRoleService = newService( SystemRoleServiceComposite.class );
-        projectOwnerService = newParentBasedService( ProjectOwnerServiceComposite.class, ACCOUNT_SERVICE, accountService );
-        contactPersonService = newParentBasedService( ContactPersonServiceComposite.class, "projectOwnerService", projectOwnerService );
+        customerService = newParentBasedService( CustomerServiceComposite.class, ACCOUNT_SERVICE, accountService );
+        contactPersonService = newParentBasedService( ContactPersonServiceComposite.class, "customerService", customerService );
 
         userService = initUserService( staffService, adminService, contactPersonService );
 
@@ -165,15 +165,15 @@ public class MockServicesMixin implements Services
         initStaffDummyData( account );
         initAdminDummyData();
 
-        ProjectOwnerEntityComposite[] projectOwners = initProjectOwnerDummyData( account );
+        CustomerEntityComposite[] customers = initCustomerDummyData( account );
 
-        initPriceRateDummyValue( projectOwners, projectRoles );
+        initPriceRateDummyValue( customers, projectRoles );
 
         RelationshipComposite relationship = initRelationshipDummyData();
 
-        initContactPerson( projectOwners, relationship );
+        initContactPerson( customers, relationship );
 
-        ProjectEntityComposite project = initProjectDummyData( projectOwners[ 0 ], account );
+        ProjectEntityComposite project = initProjectDummyData( customers[ 0 ], account );
 
         ProjectAssigneeEntityComposite projectAssignee = initProjectAssigneeDummyData( project, account );
 
@@ -216,7 +216,7 @@ public class MockServicesMixin implements Services
         return projectAssignee;
     }
 
-    private ProjectEntityComposite initProjectDummyData( ProjectOwnerEntityComposite projectOwner, AccountEntityComposite account )
+    private ProjectEntityComposite initProjectDummyData( CustomerEntityComposite customer, AccountEntityComposite account )
     {
         ProjectEntityComposite project = projectService.newInstance( ProjectEntityComposite.class );
 
@@ -236,17 +236,17 @@ public class MockServicesMixin implements Services
         project.setEstimateTime( estimateTimeRange );
 
         project.setProjectStatus( ProjectStatus.ACTIVE );
-        project.setProjectOwner( projectOwner );
-        project.setPrimaryContactPerson( projectOwner.contactPersonIterator().next() );
+        project.setCustomer( customer );
+        project.setPrimaryContactPerson( customer.contactPersonIterator().next() );
 
-        Iterator<ContactPersonEntityComposite> contactPersonIter = projectOwner.contactPersonIterator();
+        Iterator<ContactPersonEntityComposite> contactPersonIter = customer.contactPersonIterator();
 
         while( contactPersonIter.hasNext() )
         {
             project.addContactPerson( contactPersonIter.next() );
         }
 
-        project.setPriceRateSchedule( CloneUtil.clonePriceRateSchedule( factory, projectOwner.priceRateScheduleIterator().next() ) );
+        project.setPriceRateSchedule( CloneUtil.clonePriceRateSchedule( factory, customer.priceRateScheduleIterator().next() ) );
 
         account.addProject( project );
 
@@ -262,10 +262,10 @@ public class MockServicesMixin implements Services
         return relationship;
     }
 
-    private void initPriceRateDummyValue( ProjectOwner[] projectOwners, ProjectRoleEntityComposite[] projectRoles )
+    private void initPriceRateDummyValue( Customer[] customers, ProjectRoleEntityComposite[] projectRoles )
     {
         int next = 0;
-        for( ProjectOwner projectOwner : projectOwners )
+        for( Customer customer : customers )
         {
             PriceRateScheduleComposite priceRateSchedule = factory.newCompositeBuilder( PriceRateScheduleComposite.class ).newInstance();
 
@@ -280,7 +280,7 @@ public class MockServicesMixin implements Services
             priceRateSchedule.addPriceRate( programmerPriceRate );
             priceRateSchedule.addPriceRate( consultantPriceRate );
 
-            projectOwner.addPriceRateSchedule( priceRateSchedule );
+            customer.addPriceRateSchedule( priceRateSchedule );
         }
     }
 
@@ -441,31 +441,31 @@ public class MockServicesMixin implements Services
         systemRoleService.findAll();
     }
 
-    private ProjectOwnerEntityComposite[] initProjectOwnerDummyData( AccountEntityComposite account )
+    private CustomerEntityComposite[] initCustomerDummyData( AccountEntityComposite account )
     {
-        ProjectOwnerEntityComposite[] projectOwners = new ProjectOwnerEntityComposite[2];
+        CustomerEntityComposite[] customers = new CustomerEntityComposite[2];
 
-        projectOwners[ 0 ] = projectOwnerService.newInstance( ProjectOwnerEntityComposite.class );
+        customers[ 0 ] = customerService.newInstance( CustomerEntityComposite.class );
 
-        projectOwners[ 0 ].setName( "Microsoft" );
-        projectOwners[ 0 ].setReference( "Microsoft Ltd" );
+        customers[ 0 ].setName( "Microsoft" );
+        customers[ 0 ].setReference( "Microsoft Ltd" );
 
-        projectOwners[ 0 ].setAddress( newAddress( "Uber Road", "Street 191", "111", "New York", "New York", "US" ) );
+        customers[ 0 ].setAddress( newAddress( "Uber Road", "Street 191", "111", "New York", "New York", "US" ) );
 
-        projectOwners[ 1 ] = projectOwnerService.newInstance( ProjectOwnerEntityComposite.class );
+        customers[ 1 ] = customerService.newInstance( CustomerEntityComposite.class );
 
-        projectOwners[ 1 ].setName( "Sun Microsytems" );
-        projectOwners[ 1 ].setReference( "Sun Microsytems Ltd" );
+        customers[ 1 ].setName( "Sun Microsytems" );
+        customers[ 1 ].setReference( "Sun Microsytems Ltd" );
 
-        projectOwners[ 1 ].setAddress( newAddress( "Old Town", "Street 191", "111", "New York", "New York", "US" ) );
+        customers[ 1 ].setAddress( newAddress( "Old Town", "Street 191", "111", "New York", "New York", "US" ) );
 
-        account.addProjectOwner( projectOwners[ 0 ] );
-        account.addProjectOwner( projectOwners[ 1 ] );
+        account.addCustomer( customers[ 0 ] );
+        account.addCustomer( customers[ 1 ] );
 
-        return projectOwners;
+        return customers;
     }
 
-    private void initContactPerson( ProjectOwner[] projectOwners, RelationshipComposite relationship )
+    private void initContactPerson( Customer[] projectOwners, RelationshipComposite relationship )
     {
         SystemRoleEntityComposite contactPersonRole = systemRoleService.getSystemRoleByName( SystemRole.CONTACT_PERSON );
 
@@ -561,9 +561,9 @@ public class MockServicesMixin implements Services
         return systemRoleService;
     }
 
-    public ProjectOwnerService getProjectOwnerService()
+    public CustomerService getCustomerService()
     {
-        return projectOwnerService;
+        return customerService;
     }
 
     public AdminService getAdminService()

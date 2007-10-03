@@ -10,19 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.associations;
+package org.qi4j.chronos.ui.report;
 
-import java.util.Iterator;
-import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
-import org.qi4j.chronos.model.mixins.HasProjectOwnersMixin;
+import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 
-@ImplementedBy( HasProjectOwnersMixin.class )
-public interface HasProjectOwners
+public class ReportMainPage extends LeftMenuNavPage
 {
-    void addProjectOwner( ProjectOwnerEntityComposite projectOwner );
+    public ReportMainPage()
+    {
 
-    void removeProjectOwner( ProjectOwnerEntityComposite projectOwner );
-
-    Iterator<ProjectOwnerEntityComposite> projectOwnerIterator();
+    }
 }

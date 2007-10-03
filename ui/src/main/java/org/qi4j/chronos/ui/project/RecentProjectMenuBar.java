@@ -43,7 +43,7 @@ public abstract class RecentProjectMenuBar extends MenuBar
         int toShowSize = Math.min( TOTAL_PROJECT_TO_SHOW, countAll );
 
         List<ProjectEntityComposite> recentProjectList = projectService.
-            getRecentAccessedProjectList( getAccount(), new FindFilter( 0, toShowSize ) );
+            getRecentProjectList( getAccount(), new FindFilter( 0, toShowSize ) );
 
         MenuItem[] menuItems = new MenuItem[recentProjectList.size()];
 

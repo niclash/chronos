@@ -10,11 +10,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service;
+package org.qi4j.chronos.model.associations;
 
-import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
+import java.util.Iterator;
+import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
+import org.qi4j.chronos.model.mixins.HasCustomersMixin;
 
-public interface ProjectOwnerService extends AccountBasedService<ProjectOwnerEntityComposite>
+@ImplementedBy( HasCustomersMixin.class )
+public interface HasCustomers
 {
+    void addCustomer( CustomerEntityComposite customer );
 
+    void removeCustomer( CustomerEntityComposite customer );
+
+    Iterator<CustomerEntityComposite> customerIterator();
 }

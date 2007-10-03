@@ -10,20 +10,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.projectowner;
+package org.qi4j.chronos.ui.customer;
 
 import java.io.Serializable;
-import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 
-public class ProjectOwnerDelegator implements Serializable
+public class CustomerDelegator implements Serializable
 {
     private String name;
     private String id;
 
-    public ProjectOwnerDelegator( ProjectOwnerEntityComposite projectOwner )
+    public CustomerDelegator( CustomerEntityComposite customer )
     {
-        name = projectOwner.getName();
-        id = projectOwner.getIdentity();
+        name = customer.getName();
+        id = customer.getIdentity();
     }
 
     public String getId()
@@ -47,7 +47,7 @@ public class ProjectOwnerDelegator implements Serializable
             return false;
         }
 
-        ProjectOwnerDelegator that = (ProjectOwnerDelegator) o;
+        CustomerDelegator that = (CustomerDelegator) o;
 
         if( id != null ? !id.equals( that.id ) : that.id != null )
         {

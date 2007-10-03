@@ -37,7 +37,7 @@ public abstract class CommentEditPage extends CommentAddEditPage
 
     public String getSubmitButtonValue()
     {
-        return "Edit";
+        return "Save";
     }
 
     public String getTitleLabel()

@@ -52,7 +52,7 @@ public class LegalConditionEditPage extends LegalConditionAddEditPage
 
     public String getSubmitButtonValue()
     {
-        return "Edit";
+        return "Save";
     }
 
     public String getTitleLabel()

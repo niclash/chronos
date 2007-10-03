@@ -38,7 +38,7 @@ public abstract class ProjectAssigneeEditPage extends ProjectAssigneeAddEditPage
 
     public String getSubmitButtonValue()
     {
-        return "Edit";
+        return "Save";
     }
 
     public String getTitleLabel()

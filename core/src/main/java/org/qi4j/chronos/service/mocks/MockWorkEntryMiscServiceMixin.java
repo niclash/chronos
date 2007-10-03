@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.qi4j.api.annotation.scope.ThisAs;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
@@ -26,6 +27,46 @@ import org.qi4j.chronos.service.WorkEntryService;
 public class MockWorkEntryMiscServiceMixin implements WorkEntryMiscService
 {
     @ThisAs private WorkEntryService workEntryService;
+
+    public List<WorkEntryEntityComposite> getRecentWorkEntryList( AccountEntityComposite account )
+    {
+        List<WorkEntryEntityComposite> resultList = new ArrayList<WorkEntryEntityComposite>();
+
+        Iterator<ProjectEntityComposite> projectIter = account.projectIterator();
+
+        while( projectIter.hasNext() )
+        {
+            List<WorkEntryEntityComposite> list = workEntryService.findAll( projectIter.next() );
+
+            resultList.addAll( list );
+        }
+
+        return resultList;
+    }
+
+    public List<WorkEntryEntityComposite> getRecentWorkEntryList( AccountEntityComposite account, FindFilter findFilter )
+    {
+        return getRecentWorkEntryList( account ).subList( findFilter.getFirst(), findFilter.getFirst() + findFilter.getCount() );
+    }
+
+    public int countAll( AccountEntityComposite account )
+    {
+        Iterator<ProjectEntityComposite> projectIter = account.projectIterator();
+
+        int total = 0;
+
+        while( projectIter.hasNext() )
+        {
+            total += workEntryService.countAll( projectIter.next() );
+        }
+
+        return total;
+    }
+
+    public void deleteWorkEntry( WorkEntryEntityComposite entryEntityComposite )
+    {
+        //TODO
+    }
 
     public List<WorkEntryEntityComposite> findAll( ProjectEntityComposite project )
     {
@@ -52,7 +93,6 @@ public class MockWorkEntryMiscServiceMixin implements WorkEntryMiscService
 
     public List<WorkEntryEntityComposite> findAll( ProjectEntityComposite project, FindFilter findFilter )
     {
-
         return findAll( project ).subList( findFilter.getFirst(), findFilter.getFirst() + findFilter.getCount() );
     }
 
@@ -60,4 +100,5 @@ public class MockWorkEntryMiscServiceMixin implements WorkEntryMiscService
     {
         return findAll( project ).size();
     }
+
 }

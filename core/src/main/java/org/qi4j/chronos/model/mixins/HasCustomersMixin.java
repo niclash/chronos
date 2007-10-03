@@ -15,29 +15,24 @@ package org.qi4j.chronos.model.mixins;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.qi4j.chronos.model.associations.HasProjectOwners;
-import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
+import org.qi4j.chronos.model.associations.HasCustomers;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 
-public class HasProjectOwnersMixin implements HasProjectOwners
+public class HasCustomersMixin implements HasCustomers
 {
-    private List<ProjectOwnerEntityComposite> list;
+    private List<CustomerEntityComposite> list = new ArrayList<CustomerEntityComposite>();
 
-    public HasProjectOwnersMixin()
+    public void addCustomer( CustomerEntityComposite customer )
     {
-        list = new ArrayList<ProjectOwnerEntityComposite>();
+        list.add( customer );
     }
 
-    public void addProjectOwner( ProjectOwnerEntityComposite projectOwner )
+    public void removeCustomer( CustomerEntityComposite customer )
     {
-        list.add( projectOwner );
+        list.remove( customer );
     }
 
-    public void removeProjectOwner( ProjectOwnerEntityComposite projectOwner )
-    {
-        list.remove( projectOwner );
-    }
-
-    public Iterator<ProjectOwnerEntityComposite> projectOwnerIterator()
+    public Iterator<CustomerEntityComposite> customerIterator()
     {
         return list.iterator();
     }

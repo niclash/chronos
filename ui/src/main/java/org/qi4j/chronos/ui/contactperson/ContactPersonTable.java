@@ -20,7 +20,7 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.associations.HasContactPersons;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
@@ -73,9 +73,9 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
             {
                 setResponsePage( new ContactPersonEditPage( (BasePage) this.getPage() )
                 {
-                    public ProjectOwnerEntityComposite getProjectOwner()
+                    public CustomerEntityComposite getCustomer()
                     {
-                        return ContactPersonTable.this.getProjectOwner();
+                        return ContactPersonTable.this.getCustomer();
                     }
 
                     public ContactPersonEntityComposite getContactPerson()
@@ -113,5 +113,5 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
 
     public abstract T getHasContactPersons();
 
-    public abstract ProjectOwnerEntityComposite getProjectOwner();
+    public abstract CustomerEntityComposite getCustomer();
 }

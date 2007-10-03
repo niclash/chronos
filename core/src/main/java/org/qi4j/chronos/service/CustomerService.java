@@ -12,10 +12,8 @@
  */
 package org.qi4j.chronos.service;
 
-import org.qi4j.api.persistence.Identity;
-import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 
-public interface ProjectOwnerBasedService<T extends Identity> extends ParentBasedService<T, ProjectOwnerEntityComposite>
+public interface CustomerService extends AccountBasedService<CustomerEntityComposite>
 {
-
 }

@@ -18,7 +18,7 @@ import java.util.List;
 import java.util.Set;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.model.composites.RelationshipComposite;
 import org.qi4j.chronos.service.RelationshipService;
 import org.qi4j.chronos.ui.ChronosWebApp;
@@ -56,9 +56,9 @@ public abstract class RelationshipOptionPanel extends Panel
             {
                 RelationshipAddPage addPage = new RelationshipAddPage( (BasePage) this.getPage() )
                 {
-                    public ProjectOwnerEntityComposite getProjectOwner()
+                    public CustomerEntityComposite getCustomer()
                     {
-                        return RelationshipOptionPanel.this.getProjectOwner();
+                        return RelationshipOptionPanel.this.getCustomer();
                     }
 
                     public void newRelationship( RelationshipComposite relationship )
@@ -97,9 +97,9 @@ public abstract class RelationshipOptionPanel extends Panel
 
         RelationshipService service = ChronosWebApp.getServices().getRelationshipService();
 
-        ProjectOwnerEntityComposite projectOwner = getProjectOwner();
+        CustomerEntityComposite customer = getCustomer();
 
-        List<RelationshipComposite> list = service.findAll( projectOwner );
+        List<RelationshipComposite> list = service.findAll( customer );
 
         for( RelationshipComposite relationship : list )
         {
@@ -139,8 +139,8 @@ public abstract class RelationshipOptionPanel extends Panel
             }
         }
 
-        return ChronosWebApp.getServices().getRelationshipService().get( getProjectOwner(), choice );
+        return ChronosWebApp.getServices().getRelationshipService().get( getCustomer(), choice );
     }
 
-    public abstract ProjectOwnerEntityComposite getProjectOwner();
+    public abstract CustomerEntityComposite getCustomer();
 }

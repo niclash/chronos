@@ -10,16 +10,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.associations;
+package org.qi4j.chronos.service.mocks;
 
-import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
-import org.qi4j.chronos.model.mixins.HasProjectOwnerMixin;
+import java.util.Iterator;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 
-@ImplementedBy( HasProjectOwnerMixin.class )
-public interface HasProjectOwner
+public class MockCustomerServiceMixin extends MockAccountBasedServiceMixin<CustomerEntityComposite>
 {
-    public ProjectOwnerEntityComposite getProjectOwner();
-
-    public void setProjectOwner( ProjectOwnerEntityComposite projectOwner );
+    protected Iterator<CustomerEntityComposite> getItems( AccountEntityComposite accountEntityComposite )
+    {
+        return accountEntityComposite.customerIterator();
+    }
 }

@@ -1,8 +1,56 @@
 <html xmlns:wicket>
 
 <wicket:extend>
+    <table>
+        <tr>
+            <td align="left" valign="middle">
+                <table>
+                    <tr>
+                        <td width="50%"><strong>Account - Admin</strong></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
 
-    <h2>Staff Home Page</h2>
+        <tr>
+            <td width="100%"><span wicket:id="feedbackPanel">feedback messages</span>&nbsp;</td>
+        </tr>
+
+        <tr>
+            <td>
+                <form wicket:id="staffHomeForm">
+                    <table>
+                        <span wicket:id="staffHomePanel"></span>
+                        <tr>
+                            <hr>
+                        </tr>
+                        <tr>
+                            <td>
+                                <table>
+                                    <tr>
+                                        <td align="center">Monthly Profit</td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center"><img title="PieChartDemo1.java"
+                                                                src="http://www.jfree.org/jfreechart/images/PieChartDemo1.png"/>
+                                        </td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center">Activities Trend</td>
+                                    </tr>
+                                    <tr>
+                                        <td align="center"><img title="PriceVolumeDemo1.java"
+                                                                src="http://www.jfree.org/jfreechart/images/PriceVolumeDemo1.png"/>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </td>
+        </tr>
+    </table>
 
 </wicket:extend>
 

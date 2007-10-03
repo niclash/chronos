@@ -18,7 +18,7 @@ import java.util.List;
 import org.qi4j.api.CompositeBuilderFactory;
 import org.qi4j.api.annotation.scope.Qi4j;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.model.composites.RelationshipComposite;
 import org.qi4j.chronos.service.RelationshipService;
 
@@ -30,11 +30,11 @@ public class MockRelationshipServiceMixin implements RelationshipService
     {
     }
 
-    public List<RelationshipComposite> findAll( ProjectOwnerEntityComposite projectOwner )
+    public List<RelationshipComposite> findAll( CustomerEntityComposite customer )
     {
         final List<RelationshipComposite> relationshipList = new ArrayList<RelationshipComposite>();
 
-        loopRelationship( projectOwner, new LoopCallBack<RelationshipComposite>()
+        loopRelationship( customer, new LoopCallBack<RelationshipComposite>()
         {
             public boolean callBack( RelationshipComposite relationshipComposite )
             {
@@ -48,9 +48,9 @@ public class MockRelationshipServiceMixin implements RelationshipService
     }
 
 
-    private void loopRelationship( ProjectOwnerEntityComposite projectOwner, LoopCallBack<RelationshipComposite> loopCallBack )
+    private void loopRelationship( CustomerEntityComposite customer, LoopCallBack<RelationshipComposite> loopCallBack )
     {
-        Iterator<ContactPersonEntityComposite> contactPersonIterator = projectOwner.contactPersonIterator();
+        Iterator<ContactPersonEntityComposite> contactPersonIterator = customer.contactPersonIterator();
 
         while( contactPersonIterator.hasNext() )
         {
@@ -65,11 +65,11 @@ public class MockRelationshipServiceMixin implements RelationshipService
         }
     }
 
-    public RelationshipComposite get( ProjectOwnerEntityComposite projectOwner, final String relationship )
+    public RelationshipComposite get( CustomerEntityComposite customer, final String relationship )
     {
         final RelationshipComposite[] returnValue = new RelationshipComposite[1];
 
-        loopRelationship( projectOwner, new LoopCallBack<RelationshipComposite>()
+        loopRelationship( customer, new LoopCallBack<RelationshipComposite>()
         {
             public boolean callBack( RelationshipComposite relationshipComposite )
             {

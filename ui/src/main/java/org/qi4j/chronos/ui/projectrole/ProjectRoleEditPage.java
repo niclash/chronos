@@ -45,7 +45,7 @@ public class ProjectRoleEditPage extends ProjectRoleAddEditPage
 
     public String getSubmitButtonValue()
     {
-        return "Edit";
+        return "Save";
     }
 
     public String getTitleLabel()

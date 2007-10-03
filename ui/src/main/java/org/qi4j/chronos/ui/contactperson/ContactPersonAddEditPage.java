@@ -23,8 +23,8 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.composites.ContactComposite;
-import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
 import org.qi4j.chronos.ui.base.BasePage;
@@ -114,9 +114,9 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
 
         relationshipOptionPanel = new RelationshipOptionPanel( "relationshipOptionPanel" )
         {
-            public ProjectOwnerEntityComposite getProjectOwner()
+            public CustomerEntityComposite getCustomer()
             {
-                return ContactPersonAddEditPage.this.getProjectOwner();
+                return ContactPersonAddEditPage.this.getCustomer();
             }
         };
 
@@ -315,7 +315,7 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
 
     public abstract Iterator<ContactComposite> getInitContactIterator();
 
-    public abstract ProjectOwnerEntityComposite getProjectOwner();
+    public abstract CustomerEntityComposite getCustomer();
 
     public abstract void onSubmitting();
 

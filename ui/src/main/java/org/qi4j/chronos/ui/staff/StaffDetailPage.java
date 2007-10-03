@@ -80,7 +80,7 @@ public abstract class StaffDetailPage extends LeftMenuNavPage
 
             List<AbstractTab> tabs = new ArrayList<AbstractTab>();
 
-            tabs.add( new ProjectTab()
+            tabs.add( new ProjectTab( "Project" )
             {
                 public int getSize()
                 {

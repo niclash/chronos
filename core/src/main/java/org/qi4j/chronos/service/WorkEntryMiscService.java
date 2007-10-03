@@ -13,6 +13,7 @@
 package org.qi4j.chronos.service;
 
 import java.util.List;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 
@@ -23,4 +24,12 @@ public interface WorkEntryMiscService
     List<WorkEntryEntityComposite> findAll( ProjectEntityComposite project, FindFilter findFilter );
 
     int countAll( ProjectEntityComposite project );
+
+    public List<WorkEntryEntityComposite> getRecentWorkEntryList( AccountEntityComposite account );
+
+    List<WorkEntryEntityComposite> getRecentWorkEntryList( AccountEntityComposite account, FindFilter findFilter );
+
+    int countAll( AccountEntityComposite account );
+
+    void deleteWorkEntry( WorkEntryEntityComposite entryEntityComposite );
 }

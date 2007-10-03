@@ -20,4 +20,7 @@ import org.qi4j.library.general.model.HasName;
  */
 public interface NameWithReference extends HasName, Reference
 {
+    public final static int NAME_LEN = 80;
+
+    public final static int REFERENCE_LEN = 80;
 }

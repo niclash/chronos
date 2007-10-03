@@ -10,12 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.composites;
+package org.qi4j.chronos.service;
 
-import org.qi4j.api.persistence.EntityComposite;
-import org.qi4j.chronos.model.ProjectOwner;
+import org.qi4j.api.persistence.Identity;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 
-public interface ProjectOwnerEntityComposite extends ProjectOwner, EntityComposite
+public interface CustomerBasedService<T extends Identity> extends ParentBasedService<T, CustomerEntityComposite>
 {
-
 }

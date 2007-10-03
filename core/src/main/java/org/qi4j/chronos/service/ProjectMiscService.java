@@ -20,7 +20,7 @@ import org.qi4j.chronos.model.composites.StaffEntityComposite;
 
 public interface ProjectMiscService
 {
-    List<ProjectEntityComposite> getRecentAccessedProjectList( AccountEntityComposite account, FindFilter findFilter );
+    List<ProjectEntityComposite> getRecentProjectList( AccountEntityComposite account, FindFilter findFilter );
 
     List<ProjectEntityComposite> findAll( ContactPersonEntityComposite contactPerson, FindFilter findFilter );
 

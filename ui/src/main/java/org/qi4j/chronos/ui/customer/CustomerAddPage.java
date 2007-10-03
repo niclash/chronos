@@ -10,13 +10,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.projectowner;
+package org.qi4j.chronos.ui.customer;
 
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.AddressComposite;
-import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.service.AccountService;
-import org.qi4j.chronos.service.ProjectOwnerService;
+import org.qi4j.chronos.service.CustomerService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.library.general.model.composites.CityComposite;
@@ -25,20 +25,20 @@ import org.qi4j.library.general.model.composites.StateComposite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ProjectOwnerAddPage extends ProjectOwnerAddEditPage
+public class CustomerAddPage extends CustomerAddEditPage
 {
-    private final static Logger LOGGER = LoggerFactory.getLogger( ProjectOwnerAddPage.class );
+    private final static Logger LOGGER = LoggerFactory.getLogger( CustomerAddPage.class );
 
-    public ProjectOwnerAddPage( BasePage basePage )
+    public CustomerAddPage( BasePage basePage )
     {
         super( basePage );
     }
 
     public void onSubmitting()
     {
-        ProjectOwnerService service = ChronosWebApp.getServices().getProjectOwnerService();
+        CustomerService service = ChronosWebApp.getServices().getCustomerService();
 
-        ProjectOwnerEntityComposite projectOwner = service.newInstance( ProjectOwnerEntityComposite.class );
+        CustomerEntityComposite customer = service.newInstance( CustomerEntityComposite.class );
 
         try
         {
@@ -52,19 +52,19 @@ public class ProjectOwnerAddPage extends ProjectOwnerAddEditPage
             city.setState( state );
             city.setCountry( country );
 
-            projectOwner.setAddress( address );
+            customer.setAddress( address );
 
-            customerAddEditPanel.assignFieldValueToCustomer( projectOwner );
+            assignFieldValueToCustomer( customer );
 
             AccountService accountService = ChronosWebApp.getServices().getAccountService();
 
             AccountEntityComposite account = getAccount();
 
-            account.addProjectOwner( projectOwner );
+            account.addCustomer( customer );
 
             accountService.update( account );
 
-            logInfoMsg( "Project Owner is added successfully." );
+            logInfoMsg( "Customer is added successfully." );
 
             divertToGoBackPage();
         }
@@ -82,6 +82,6 @@ public class ProjectOwnerAddPage extends ProjectOwnerAddEditPage
 
     public String getTitleLabel()
     {
-        return "Add Project Owner";
+        return "Add Customer";
     }
 }

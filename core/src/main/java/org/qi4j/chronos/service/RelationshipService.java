@@ -13,12 +13,12 @@
 package org.qi4j.chronos.service;
 
 import java.util.List;
-import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.model.composites.RelationshipComposite;
 
 public interface RelationshipService
 {
-    List<RelationshipComposite> findAll( ProjectOwnerEntityComposite projectOwner );
+    List<RelationshipComposite> findAll( CustomerEntityComposite customer );
 
-    RelationshipComposite get( ProjectOwnerEntityComposite projectOwner, String relationship );
+    RelationshipComposite get( CustomerEntityComposite customer, String relationship );
 }

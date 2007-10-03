@@ -12,38 +12,54 @@
  */
 package org.qi4j.chronos.ui.customer;
 
+import org.apache.wicket.markup.html.form.Form;
 import org.qi4j.chronos.model.Customer;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.ui.address.AddressAddEditPanel;
-import org.qi4j.chronos.ui.base.AddEditBasePanel;
+import org.qi4j.chronos.ui.base.AddEditBasePage;
+import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 
-public class CustomerAddEditPanel extends AddEditBasePanel
+public abstract class CustomerAddEditPage extends AddEditBasePage
 {
     protected MaxLengthTextField nameField;
     protected MaxLengthTextField referenceField;
 
     protected AddressAddEditPanel addressAddEditPanel;
 
-    public CustomerAddEditPanel( String id )
+    public CustomerAddEditPage( BasePage goBackPage )
     {
-        super( id );
-
-        initComponents();
+        super( goBackPage );
     }
 
-    private void initComponents()
+    public final void initComponent( Form form )
     {
         nameField = new MaxLengthTextField( "nameField", "Name", Customer.NAME_LEN );
         referenceField = new MaxLengthTextField( "referenceField", "Reference", Customer.REFERENCE_LEN );
 
         addressAddEditPanel = new AddressAddEditPanel( "addressAddEditPanel" );
 
-        add( nameField );
-        add( referenceField );
-        add( addressAddEditPanel );
+        form.add( nameField );
+        form.add( referenceField );
+        form.add( addressAddEditPanel );
     }
 
-    public boolean checkIsNotValidated()
+    protected void assignFieldValueToCustomer( CustomerEntityComposite customer )
+    {
+        customer.setName( nameField.getText() );
+        customer.setReference( referenceField.getText() );
+
+        addressAddEditPanel.assignFieldValueToAddress( customer.getAddress() );
+    }
+
+    protected void assignCustomerToFieldValue( CustomerEntityComposite customer )
+    {
+        nameField.setText( customer.getName() );
+        referenceField.setText( customer.getReference() );
+        addressAddEditPanel.assignAddressToFieldValue( customer.getAddress() );
+    }
+
+    public final void handleSubmit()
     {
         boolean isRejected = false;
 
@@ -61,24 +77,14 @@ public class CustomerAddEditPanel extends AddEditBasePanel
         {
             isRejected = true;
         }
+        if( isRejected )
+        {
+            return;
+        }
 
-        return isRejected;
+        onSubmitting();
     }
 
-    public void assignFieldValueToCustomer( Customer customer )
-    {
-        customer.setName( nameField.getText() );
-        customer.setReference( referenceField.getText() );
-
-        addressAddEditPanel.assignFieldValueToAddress( customer.getAddress() );
-    }
-
-    public void assignCustomerToFields( Customer customer )
-    {
-        nameField.setText( customer.getName() );
-        referenceField.setText( customer.getReference() );
-
-        addressAddEditPanel.assignAddressToFieldValue( customer.getAddress() );
-    }
+    public abstract void onSubmitting();
 }
 

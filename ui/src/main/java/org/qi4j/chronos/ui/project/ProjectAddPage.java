@@ -17,9 +17,9 @@ import java.util.Iterator;
 import java.util.List;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
 import org.qi4j.chronos.model.composites.TimeRangeComposite;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.ui.ChronosWebApp;
@@ -88,8 +88,8 @@ public class ProjectAddPage extends ProjectAddEditPage
 
     public List<PriceRateScheduleComposite> getAvailablePriceRateScheduleChoice()
     {
-        ProjectOwnerEntityComposite projectOwner = getProjectOwnerService().get( projectOwnerChoice.getChoice().getId() );
+        CustomerEntityComposite customer = getCustomerService().get( customerChoice.getChoice().getId() );
 
-        return ChronosWebApp.getServices().getPriceRateScheduleService().findAll( projectOwner );
+        return ChronosWebApp.getServices().getPriceRateScheduleService().findAll( customer );
     }
 }

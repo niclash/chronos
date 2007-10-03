@@ -28,7 +28,7 @@ public class RelationshipEditPage extends RelationshipAddEditPage
 
     public String getSubmitButtonValue()
     {
-        return "Edit";
+        return "Save";
     }
 
     public String getTitleLabel()

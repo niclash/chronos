@@ -5,7 +5,7 @@
             <td align="left" valign="middle">
                 <table>
                     <tr>
-                        <td width="50%"><strong>Project Owner Detail</strong></td>
+                        <td width="50%"><strong>Customer Detail</strong></td>
                     </tr>
                 </table>
             </td>
@@ -17,14 +17,24 @@
 
         <tr>
             <td>
-                <form wicket:id="projectOwnerDetailForm">
+                <form wicket:id="customerDetailForm">
                     <table>
                         <tr>
                             <td>
                                 <table>
                                     <tr>
-                                        <span wicket:id="customerDetailPanel"></span>
+                                        <td align="right">Name</td>
+                                        <td><input type="text" wicket:id="nameField" class="textStyle"
+                                                   style="width: 350"/></td>
                                     </tr>
+
+                                    <tr>
+                                        <td align="right">Reference</td>
+                                        <td><input type="text" wicket:id="referenceField" class="textStyle"
+                                                   style="width: 350"/></td>
+                                    </tr>
+
+                                    <span wicket:id="addressDetailPanel"></span>
                                 </table>
                             </td>
                         </tr>

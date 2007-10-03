@@ -10,36 +10,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.projectowner;
+package org.qi4j.chronos.ui.customer;
 
 import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
+import org.qi4j.chronos.service.CustomerService;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 
-public abstract class ProjectOwnerTable extends ActionTable<ProjectOwnerEntityComposite, String>
+public abstract class CustomerTable extends ActionTable<CustomerEntityComposite, String>
 {
-    private ProjectOwnerDataProvider provider;
+    private CustomerDataProvider provider;
 
-    public ProjectOwnerTable( String id )
+    public CustomerTable( String id )
     {
         super( id );
     }
 
-    public AbstractSortableDataProvider<ProjectOwnerEntityComposite, String> getDetachableDataProvider()
+    public AbstractSortableDataProvider<CustomerEntityComposite, String> getDetachableDataProvider()
     {
         if( provider == null )
         {
-            provider = new ProjectOwnerDataProvider()
+            provider = new CustomerDataProvider()
             {
                 public AccountEntityComposite getAccount()
                 {
-                    return ProjectOwnerTable.this.getAccount();
+                    return CustomerTable.this.getAccount();
                 }
             };
         }
@@ -49,21 +51,21 @@ public abstract class ProjectOwnerTable extends ActionTable<ProjectOwnerEntityCo
 
     public abstract AccountEntityComposite getAccount();
 
-    public void populateItems( Item item, ProjectOwnerEntityComposite obj )
+    public void populateItems( Item item, CustomerEntityComposite obj )
     {
-        final String projectOwnerId = obj.getIdentity();
+        final String customerId = obj.getIdentity();
 
-        item.add( createDetailLink( "name", obj.getName(), projectOwnerId ) );
-        item.add( createDetailLink( "formalReference", obj.getReference(), projectOwnerId ) );
+        item.add( createDetailLink( "name", obj.getName(), customerId ) );
+        item.add( createDetailLink( "formalReference", obj.getReference(), customerId ) );
         item.add( new SimpleLink( "editLink", "Edit" )
         {
             public void linkClicked()
             {
-                ProjectOwnerEditPage editPage = new ProjectOwnerEditPage( (BasePage) this.getPage() )
+                CustomerEditPage editPage = new CustomerEditPage( (BasePage) this.getPage() )
                 {
-                    public String getProjectOwnerId()
+                    public CustomerEntityComposite getCustomer()
                     {
-                        return projectOwnerId;
+                        return getCustomerService().get( customerId );
                     }
                 };
 
@@ -72,17 +74,28 @@ public abstract class ProjectOwnerTable extends ActionTable<ProjectOwnerEntityCo
         } );
     }
 
-    private SimpleLink createDetailLink( String id, String displayValue, final String projectOwnerId )
+    private SimpleLink createDetailLink( String id, String displayValue, final String customerId )
     {
         return new SimpleLink( id, displayValue )
         {
             public void linkClicked()
             {
-                ProjectOwnerDetailPage detailPage = new ProjectOwnerDetailPage( (BasePage) this.getPage(), projectOwnerId );
+                CustomerDetailPage detailPage = new CustomerDetailPage( (BasePage) this.getPage() )
+                {
+                    public CustomerEntityComposite getCustomer()
+                    {
+                        return getCustomerService().get( customerId );
+                    }
+                };
 
                 setResponsePage( detailPage );
             }
         };
+    }
+
+    private CustomerService getCustomerService()
+    {
+        return ChronosWebApp.getServices().getCustomerService();
     }
 
     public List<String> getTableHeaderList()

@@ -10,18 +10,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.project;
+package org.qi4j.chronos.ui.staff;
 
 import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.ui.common.BorderPanel;
 import org.qi4j.chronos.ui.common.BorderPanelWrapper;
 import org.qi4j.chronos.ui.common.tab.BaseTab;
 
-public abstract class ProjectTab extends BaseTab
+public abstract class StaffTab extends BaseTab
 {
-    public ProjectTab( String title )
+    public StaffTab( String title )
     {
         super( title );
     }
@@ -32,20 +32,20 @@ public abstract class ProjectTab extends BaseTab
         {
             public Panel getWrappedPanel( String panelId )
             {
-                ProjectTable projectTable = new ProjectTable( panelId )
+                StaffTable staffTable = new StaffTable( panelId )
                 {
                     public int getSize()
                     {
-                        return ProjectTab.this.getSize();
+                        return StaffTab.this.getSize();
                     }
 
-                    public List<ProjectEntityComposite> dataList( int first, int count )
+                    public List<StaffEntityComposite> dataList( int first, int count )
                     {
-                        return ProjectTab.this.dataList( first, count );
+                        return StaffTab.this.dataList( first, count );
                     }
                 };
 
-                return projectTable;
+                return staffTable;
             }
         };
 
@@ -54,5 +54,5 @@ public abstract class ProjectTab extends BaseTab
 
     public abstract int getSize();
 
-    public abstract List<ProjectEntityComposite> dataList( int first, int count );
+    public abstract List<StaffEntityComposite> dataList( int first, int count );
 }

@@ -10,16 +10,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.projectowner;
+package org.qi4j.chronos.ui.customer;
 
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 
-public class ProjectOwnerListPage extends LeftMenuNavPage
+public class CustomerListPage extends LeftMenuNavPage
 {
-    public ProjectOwnerListPage()
+    public CustomerListPage()
     {
         initComponents();
     }
@@ -28,22 +28,22 @@ public class ProjectOwnerListPage extends LeftMenuNavPage
     {
         add( new FeedbackPanel( "feedbackPanel" ) );
 
-        add( new Link( "newProjectOwnerLink" )
+        add( new Link( "newCustomerLink" )
         {
             public void onClick()
             {
-                setResponsePage( new ProjectOwnerAddPage( ProjectOwnerListPage.this ) );
+                setResponsePage( new CustomerAddPage( CustomerListPage.this ) );
             }
         } );
 
-        ProjectOwnerTable projectOwnerTable = new ProjectOwnerTable( "projectOwnerTable" )
+        CustomerTable customerTable = new CustomerTable( "customerTable" )
         {
             public AccountEntityComposite getAccount()
             {
-                return ProjectOwnerListPage.this.getAccount();
+                return CustomerListPage.this.getAccount();
             }
         };
 
-        add( projectOwnerTable );
+        add( customerTable );
     }
 }

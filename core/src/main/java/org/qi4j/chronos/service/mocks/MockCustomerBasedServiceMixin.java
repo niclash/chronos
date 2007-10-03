@@ -12,19 +12,18 @@
  */
 package org.qi4j.chronos.service.mocks;
 
-import java.util.Iterator;
-import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import java.util.List;
+import org.qi4j.api.annotation.scope.PropertyField;
+import org.qi4j.api.persistence.Identity;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
+import org.qi4j.chronos.service.CustomerService;
 
-public class MockContactPersonServiceMixin extends MockCustomerBasedServiceMixin<ContactPersonEntityComposite>
+public abstract class MockCustomerBasedServiceMixin<ITEM extends Identity> extends MockParentBasedServiceMixin<ITEM, CustomerEntityComposite>
 {
-    public MockContactPersonServiceMixin()
-    {
-        super();
-    }
+    @PropertyField private CustomerService customerService;
 
-    protected Iterator<ContactPersonEntityComposite> getItems( CustomerEntityComposite customerEntityComposite )
+    protected List<CustomerEntityComposite> getParentList()
     {
-        return customerEntityComposite.contactPersonIterator();
+        return customerService.findAll();
     }
 }

@@ -10,21 +10,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.projectowner;
+package org.qi4j.chronos.ui.customer;
 
-import org.qi4j.chronos.model.ProjectOwner;
-import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
-import org.qi4j.chronos.service.ProjectOwnerService;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
+import org.qi4j.chronos.service.CustomerService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class ProjectOwnerEditPage extends ProjectOwnerAddEditPage
+public abstract class CustomerEditPage extends CustomerAddEditPage
 {
-    private final static Logger LOGGER = LoggerFactory.getLogger( ProjectOwnerEditPage.class );
+    private final static Logger LOGGER = LoggerFactory.getLogger( CustomerEditPage.class );
 
-    public ProjectOwnerEditPage( BasePage basePage )
+    public CustomerEditPage( BasePage basePage )
     {
         super( basePage );
 
@@ -33,22 +32,20 @@ public abstract class ProjectOwnerEditPage extends ProjectOwnerAddEditPage
 
     private void initData()
     {
-        ProjectOwner projectOwner = ChronosWebApp.getServices().getProjectOwnerService().get( getProjectOwnerId() );
-
-        customerAddEditPanel.assignCustomerToFields( projectOwner );
+        assignCustomerToFieldValue( getCustomer() );
     }
 
     public void onSubmitting()
     {
         try
         {
-            ProjectOwnerService service = ChronosWebApp.getServices().getProjectOwnerService();
+            CustomerService service = ChronosWebApp.getServices().getCustomerService();
 
-            ProjectOwnerEntityComposite projectOwner = service.get( getProjectOwnerId() );
+            CustomerEntityComposite customer = getCustomer();
 
-            service.update( projectOwner );
+            service.update( customer );
 
-            logInfoMsg( "Project Owner is updated successfully." );
+            logInfoMsg( "Customer is updated successfully." );
 
             divertToGoBackPage();
         }
@@ -61,13 +58,13 @@ public abstract class ProjectOwnerEditPage extends ProjectOwnerAddEditPage
 
     public String getSubmitButtonValue()
     {
-        return "Edit";
+        return "Save";
     }
 
     public String getTitleLabel()
     {
-        return "Edit Project Owner";
+        return "Edit Customer";
     }
 
-    public abstract String getProjectOwnerId();
+    public abstract CustomerEntityComposite getCustomer();
 }

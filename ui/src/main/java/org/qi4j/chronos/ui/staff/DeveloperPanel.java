@@ -10,14 +10,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service.composites;
+package org.qi4j.chronos.ui.staff;
 
-import org.qi4j.api.Composite;
-import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.chronos.service.ProjectOwnerService;
-import org.qi4j.chronos.service.mocks.MockProjectOwnerServiceMixin;
+import org.apache.wicket.markup.html.panel.Panel;
 
-@ImplementedBy( MockProjectOwnerServiceMixin.class )
-public interface ProjectOwnerServiceComposite extends ProjectOwnerService, Composite
+public class DeveloperPanel extends Panel
 {
+    public DeveloperPanel( String id )
+    {
+        super( id );
+
+        initComponents();
+    }
+
+    private void initComponents()
+    {
+                
+    }
 }

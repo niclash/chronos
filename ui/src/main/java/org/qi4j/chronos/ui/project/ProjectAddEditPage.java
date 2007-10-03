@@ -26,11 +26,11 @@ import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.ProjectStatus;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
 import org.qi4j.chronos.service.ContactPersonService;
-import org.qi4j.chronos.service.ProjectOwnerService;
+import org.qi4j.chronos.service.CustomerService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
 import org.qi4j.chronos.ui.base.BasePage;
@@ -38,8 +38,8 @@ import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.common.SimpleDateField;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.contactperson.ContactPersonDelegator;
+import org.qi4j.chronos.ui.customer.CustomerDelegator;
 import org.qi4j.chronos.ui.pricerate.PriceRateScheduleOptionPanel;
-import org.qi4j.chronos.ui.projectowner.ProjectOwnerDelegator;
 import org.qi4j.chronos.ui.util.ListUtil;
 import org.qi4j.chronos.ui.util.ValidatorUtil;
 
@@ -51,7 +51,7 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
     protected SimpleDropDownChoice<String> statusChoice;
     protected SimpleDropDownChoice<ContactPersonDelegator> primaryContactChoice;
 
-    protected SimpleDropDownChoice<ProjectOwnerDelegator> projectOwnerChoice;
+    protected SimpleDropDownChoice<CustomerDelegator> customerChoice;
 
     protected Palette contactPalette;
 
@@ -76,7 +76,7 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
     {
         this.form = form;
 
-        projectOwnerChoice = new SimpleDropDownChoice<ProjectOwnerDelegator>( "projectOwnerChoice", getProjectOwnerList(), true )
+        customerChoice = new SimpleDropDownChoice<CustomerDelegator>( "customerChoice", getProjectOwnerList(), true )
         {
             protected void onSelectionChanged( Object newSelection )
             {
@@ -136,7 +136,7 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
         actualDateContainer.add( actualEndDate );
 
         form.add( priceRateScheduleOptionPanel );
-        form.add( projectOwnerChoice );
+        form.add( customerChoice );
         form.add( projectNameField );
         form.add( formalReferenceField );
         form.add( statusChoice );
@@ -195,7 +195,7 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
 
     private List<ContactPersonDelegator> getAvailableContactPersonChoices()
     {
-        ProjectOwnerEntityComposite projectOwner = getProjectOwnerService().get( projectOwnerChoice.getChoice().getId() );
+        CustomerEntityComposite projectOwner = getCustomerService().get( customerChoice.getChoice().getId() );
 
         List<ContactPersonEntityComposite> contactPersonList = getContactPersonService().findAll( projectOwner );
 
@@ -274,15 +274,15 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
         return projectStatus;
     }
 
-    private List<ProjectOwnerDelegator> getProjectOwnerList()
+    private List<CustomerDelegator> getProjectOwnerList()
     {
-        List<ProjectOwnerDelegator> delegatorList = new ArrayList<ProjectOwnerDelegator>();
+        List<CustomerDelegator> delegatorList = new ArrayList<CustomerDelegator>();
 
-        List<ProjectOwnerEntityComposite> projectOwners = getProjectOwnerService().findAll( getAccount() );
+        List<CustomerEntityComposite> customers = getCustomerService().findAll( getAccount() );
 
-        for( ProjectOwnerEntityComposite projectOwner : projectOwners )
+        for( CustomerEntityComposite customer : customers )
         {
-            delegatorList.add( new ProjectOwnerDelegator( projectOwner ) );
+            delegatorList.add( new CustomerDelegator( customer ) );
         }
 
         return delegatorList;
@@ -295,9 +295,9 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
 
         project.setProjectStatus( getSelectedProjectStatus() );
 
-        ProjectOwnerEntityComposite projectOwner = getProjectOwnerService().get( projectOwnerChoice.getChoice().getId() );
+        CustomerEntityComposite customer = getCustomerService().get( customerChoice.getChoice().getId() );
 
-        project.setProjectOwner( projectOwner );
+        project.setCustomer( customer );
 
         project.setPrimaryContactPerson( null );
 
@@ -345,7 +345,7 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
             actualDateContainer.setVisible( true );
         }
 
-        projectOwnerChoice.setChoice( new ProjectOwnerDelegator( project.getProjectOwner() ) );
+        customerChoice.setChoice( new CustomerDelegator( project.getCustomer() ) );
 
         primaryContactChoice.setNewChoices( getAvailableContactPersonChoices() );
 
@@ -367,12 +367,12 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
         priceRateScheduleOptionPanel.setSelectedPriceRateSchedule( project.getPriceRateSchedule() );
 
         //TODO bp. move this to other place?
-        projectOwnerChoice.setEnabled( false );
+        customerChoice.setEnabled( false );
     }
 
-    protected ProjectOwnerService getProjectOwnerService()
+    protected CustomerService getCustomerService()
     {
-        return ChronosWebApp.getServices().getProjectOwnerService();
+        return ChronosWebApp.getServices().getCustomerService();
     }
 
     public void handleSubmit()

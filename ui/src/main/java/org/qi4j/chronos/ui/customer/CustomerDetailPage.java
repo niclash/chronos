@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.projectowner;
+package org.qi4j.chronos.ui.customer;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -18,30 +18,26 @@ import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
-import org.qi4j.chronos.model.ProjectOwner;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
-import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
-import org.qi4j.chronos.service.ProjectOwnerService;
+import org.qi4j.chronos.service.CustomerService;
 import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.ui.address.AddressDetailPanel;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
+import org.qi4j.chronos.ui.common.SimpleTextField;
 import org.qi4j.chronos.ui.contactperson.ContactPersonTab;
-import org.qi4j.chronos.ui.customer.CustomerDetailPanel;
 import org.qi4j.chronos.ui.pricerate.PriceRateScheduleTab;
 
-public class ProjectOwnerDetailPage extends LeftMenuNavPage
+public abstract class CustomerDetailPage extends LeftMenuNavPage
 {
-    private String projectOwnerId;
-
     private BasePage returnPage;
 
-    public ProjectOwnerDetailPage( BasePage returnPage, String projectOwnerId )
+    public CustomerDetailPage( BasePage returnPage )
     {
-        this.projectOwnerId = projectOwnerId;
         this.returnPage = returnPage;
 
         initComponents();
@@ -50,47 +46,48 @@ public class ProjectOwnerDetailPage extends LeftMenuNavPage
     private void initComponents()
     {
         add( new FeedbackPanel( "feedbackPanel" ) );
-        add( new ProjectOwnerDetailForm( "projectOwnerDetailForm" ) );
+        add( new CustomerDetailForm( "customerDetailForm" ) );
     }
 
-    private ProjectOwnerEntityComposite getProjectOwner()
-    {
-        return ChronosWebApp.getServices().getProjectOwnerService().get( projectOwnerId );
-    }
+    public abstract CustomerEntityComposite getCustomer();
 
-
-    private class ProjectOwnerDetailForm extends Form
+    private class CustomerDetailForm extends Form
     {
         private Button submitButton;
 
-        private CustomerDetailPanel customerDetailPanel;
+        private SimpleTextField nameField;
+        private SimpleTextField referenceField;
+
+        private AddressDetailPanel addressDetailPanel;
 
         private TabbedPanel ajaxTabbedPanel;
 
-        public ProjectOwnerDetailForm( String id )
+        public CustomerDetailForm( String id )
         {
             super( id );
 
-            ProjectOwner projectOwner = getProjectOwner();
+            CustomerEntityComposite customer = getCustomer();
 
-            customerDetailPanel = new CustomerDetailPanel( "customerDetailPanel", projectOwner );
-            add( customerDetailPanel );
+            nameField = new SimpleTextField( "nameField", customer.getName(), true );
+            referenceField = new SimpleTextField( "referenceField", customer.getReference(), true );
+
+            addressDetailPanel = new AddressDetailPanel( "addressDetailPanel", customer.getAddress() );
 
             List<AbstractTab> tabs = new ArrayList<AbstractTab>();
 
             tabs.add( new ContactPersonTab()
             {
-                public ProjectOwnerEntityComposite getProjectOwner()
+                public CustomerEntityComposite getCustomer()
                 {
-                    return ProjectOwnerDetailPage.this.getProjectOwner();
+                    return CustomerDetailPage.this.getCustomer();
                 }
             } );
 
-            tabs.add( new PriceRateScheduleTab<ProjectOwnerEntityComposite>( "Standard Price Rate Schedules" )
+            tabs.add( new PriceRateScheduleTab<CustomerEntityComposite>( "Standard Price Rate Schedules" )
             {
                 public AccountEntityComposite getAccount()
                 {
-                    return ProjectOwnerDetailPage.this.getAccount();
+                    return CustomerDetailPage.this.getAccount();
                 }
 
                 public void addPriceRateSchedule( PriceRateScheduleComposite priceRateSchedule )
@@ -98,41 +95,40 @@ public class ProjectOwnerDetailPage extends LeftMenuNavPage
                     handleAddPriceRateSchedule( priceRateSchedule );
                 }
 
-                public ProjectOwnerEntityComposite getHasPriceRateSchedules()
+                public CustomerEntityComposite getHasPriceRateSchedules()
                 {
-                    return getProjectOwner();
+                    return getCustomer();
                 }
             } );
 
             ajaxTabbedPanel = new TabbedPanel( "ajaxTabbedPanel", tabs );
 
-            add( ajaxTabbedPanel );
+            submitButton = new Button( "submitButton", new Model( "Return" ) )
+            {
+                public void onSubmit()
+                {
+                    setResponsePage( returnPage );
+                }
+            };
 
-            submitButton = new Button( "submitButton", new Model( "Return" ) );
+            add( nameField );
+            add( referenceField );
+            add( addressDetailPanel );
+            add( ajaxTabbedPanel );
             add( submitButton );
         }
 
         private void handleAddPriceRateSchedule( PriceRateScheduleComposite priceRateSchedule )
         {
-            ProjectOwnerEntityComposite projectOwner = getProjectOwner();
+            CustomerEntityComposite customer = getCustomer();
 
-            projectOwner.addPriceRateSchedule( priceRateSchedule );
+            customer.addPriceRateSchedule( priceRateSchedule );
 
-            ProjectOwnerService service = ChronosWebApp.getServices().getProjectOwnerService();
+            CustomerService service = ChronosWebApp.getServices().getCustomerService();
 
-            service.update( projectOwner );
+            service.update( customer );
         }
 
-        protected void delegateSubmit( IFormSubmittingComponent submittingButton )
-        {
-            if( submittingButton == submitButton )
-            {
-                setResponsePage( returnPage );
-            }
-            else
-            {
-                throw new IllegalArgumentException( submittingButton + " not handled yet!" );
-            }
-        }
     }
 }
+

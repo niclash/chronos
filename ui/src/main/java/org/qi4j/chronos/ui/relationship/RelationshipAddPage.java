@@ -12,8 +12,8 @@
  */
 package org.qi4j.chronos.ui.relationship;
 
-import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
 import org.qi4j.chronos.model.composites.RelationshipComposite;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.service.RelationshipService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
@@ -33,7 +33,7 @@ public abstract class RelationshipAddPage extends RelationshipAddEditPage
 
         RelationshipService service = ChronosWebApp.getServices().getRelationshipService();
 
-        if( service.get( getProjectOwner(), relationship ) != null )
+        if( service.get( getCustomer(), relationship ) != null )
         {
             isRejected = true;
         }
@@ -62,7 +62,7 @@ public abstract class RelationshipAddPage extends RelationshipAddEditPage
         return "Add Relationship";
     }
 
-    public abstract ProjectOwnerEntityComposite getProjectOwner();
+    public abstract CustomerEntityComposite getCustomer();
 
     public abstract void newRelationship( RelationshipComposite relationship );
 }

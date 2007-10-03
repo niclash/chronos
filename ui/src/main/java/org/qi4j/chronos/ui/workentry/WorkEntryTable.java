@@ -42,7 +42,7 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntryEntityComposit
 
             public void performAction( AbstractSortableDataProvider dataProvider )
             {
-                //TODO
+                
             }
         } );
     }

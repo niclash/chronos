@@ -73,7 +73,7 @@ public abstract class StaffEditPage extends StaffAddEditPage
 
     public String getSubmitButtonValue()
     {
-        return "Edit";
+        return "Save";
     }
 
     public String getTitleLabel()

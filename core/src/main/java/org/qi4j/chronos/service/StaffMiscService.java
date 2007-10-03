@@ -10,21 +10,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service.mocks;
+package org.qi4j.chronos.service;
 
-import java.util.Iterator;
-import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
-import org.qi4j.chronos.model.composites.CustomerEntityComposite;
+import java.util.List;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.composites.StaffEntityComposite;
 
-public class MockContactPersonServiceMixin extends MockCustomerBasedServiceMixin<ContactPersonEntityComposite>
+public interface StaffMiscService
 {
-    public MockContactPersonServiceMixin()
-    {
-        super();
-    }
-
-    protected Iterator<ContactPersonEntityComposite> getItems( CustomerEntityComposite customerEntityComposite )
-    {
-        return customerEntityComposite.contactPersonIterator();
-    }
+    public List<StaffEntityComposite> getRecentActiveStaff( AccountEntityComposite account, FindFilter findFilter );
 }

@@ -15,7 +15,7 @@ package org.qi4j.chronos.ui.contactperson;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.qi4j.chronos.model.associations.HasContactPersons;
-import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.NewLinkPanel;
 import org.qi4j.chronos.ui.common.tab.NewLinkTab;
@@ -45,12 +45,12 @@ public abstract class ContactPersonTab extends NewLinkTab
             {
                 public HasContactPersons getHasContactPersons()
                 {
-                    return ContactPersonTab.this.getProjectOwner();
+                    return ContactPersonTab.this.getCustomer();
                 }
 
-                public ProjectOwnerEntityComposite getProjectOwner()
+                public CustomerEntityComposite getCustomer()
                 {
-                    return ContactPersonTab.this.getProjectOwner();
+                    return ContactPersonTab.this.getCustomer();
                 }
             };
         }
@@ -63,9 +63,9 @@ public abstract class ContactPersonTab extends NewLinkTab
                 {
                     setResponsePage( new ContactPersonAddPage( (BasePage) this.getPage() )
                     {
-                        public ProjectOwnerEntityComposite getProjectOwner()
+                        public CustomerEntityComposite getCustomer()
                         {
-                            return ContactPersonTab.this.getProjectOwner();
+                            return ContactPersonTab.this.getCustomer();
                         }
                     } );
                 }
@@ -78,5 +78,5 @@ public abstract class ContactPersonTab extends NewLinkTab
         }
     }
 
-    public abstract ProjectOwnerEntityComposite getProjectOwner();
+    public abstract CustomerEntityComposite getCustomer();
 }

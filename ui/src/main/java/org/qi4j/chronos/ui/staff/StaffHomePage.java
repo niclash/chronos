@@ -12,9 +12,37 @@
  */
 package org.qi4j.chronos.ui.staff;
 
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 
 public class StaffHomePage extends LeftMenuNavPage
 {
+    public StaffHomePage()
+    {
+        initComponents();
+    }
 
+    private void initComponents()
+    {
+        add( new FeedbackPanel( "feedbackPanel" ) );
+        add( new StaffHomeForm( "staffHomeForm" ) );
+    }
+
+    private class StaffHomeForm extends Form
+    {
+        public StaffHomeForm( String id )
+        {
+            super( id );
+
+            add( new AccountAdminPanel( "staffHomePanel" )
+            {
+                public AccountEntityComposite getAccount()
+                {
+                    return StaffHomePage.this.getAccount();
+                }
+            } );
+        }
+    }
 }

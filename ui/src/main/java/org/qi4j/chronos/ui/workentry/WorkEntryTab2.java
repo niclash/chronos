@@ -10,49 +10,47 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.project;
+package org.qi4j.chronos.ui.workentry;
 
 import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.ui.common.BorderPanel;
 import org.qi4j.chronos.ui.common.BorderPanelWrapper;
 import org.qi4j.chronos.ui.common.tab.BaseTab;
 
-public abstract class ProjectTab extends BaseTab
+public abstract class WorkEntryTab2 extends BaseTab
 {
-    public ProjectTab( String title )
+    public WorkEntryTab2( String title )
     {
         super( title );
     }
 
     public BorderPanel getBorderPanel( String panelId )
     {
-        BorderPanelWrapper wrapper = new BorderPanelWrapper( panelId )
+        return new BorderPanelWrapper( panelId )
         {
             public Panel getWrappedPanel( String panelId )
             {
-                ProjectTable projectTable = new ProjectTable( panelId )
+                WorkEntryTable table = new WorkEntryTable( panelId )
                 {
-                    public int getSize()
+                    public List<WorkEntryEntityComposite> dataList( int first, int count )
                     {
-                        return ProjectTab.this.getSize();
+                        return WorkEntryTab2.this.dataList( first, count );
                     }
 
-                    public List<ProjectEntityComposite> dataList( int first, int count )
+                    public int getSize()
                     {
-                        return ProjectTab.this.dataList( first, count );
+                        return WorkEntryTab2.this.getSize();
                     }
                 };
 
-                return projectTable;
+                return table;
             }
         };
-
-        return wrapper;
     }
 
-    public abstract int getSize();
+    public abstract List<WorkEntryEntityComposite> dataList( int first, int count );
 
-    public abstract List<ProjectEntityComposite> dataList( int first, int count );
+    public abstract int getSize();
 }

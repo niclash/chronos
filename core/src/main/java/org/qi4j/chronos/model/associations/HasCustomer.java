@@ -10,22 +10,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.mixins;
+package org.qi4j.chronos.model.associations;
 
-import org.qi4j.chronos.model.associations.HasProjectOwner;
-import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
+import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
+import org.qi4j.chronos.model.mixins.HasCustomerMixin;
 
-public class HasProjectOwnerMixin implements HasProjectOwner
+@ImplementedBy( HasCustomerMixin.class )
+public interface HasCustomer
 {
-    private ProjectOwnerEntityComposite projectOwner;
+    void setCustomer( CustomerEntityComposite customer );
 
-    public ProjectOwnerEntityComposite getProjectOwner()
-    {
-        return projectOwner;
-    }
-
-    public void setProjectOwner( ProjectOwnerEntityComposite projectOwner )
-    {
-        this.projectOwner = projectOwner;
-    }
+    CustomerEntityComposite getCustomer();
 }

@@ -56,7 +56,7 @@ public abstract class PriceRateEditPage extends PriceRateAddEditPage
 
     public String getSubmitButtonValue()
     {
-        return "Edit";
+        return "Save";
     }
 
     public String getTitleLabel()

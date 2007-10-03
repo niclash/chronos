@@ -25,9 +25,9 @@ import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.ProjectStatus;
 import org.qi4j.chronos.model.associations.HasContactPersons;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.WorkEntryService;
@@ -41,7 +41,7 @@ import org.qi4j.chronos.ui.common.tab.BaseTab;
 import org.qi4j.chronos.ui.contactperson.ContactPersonTable;
 import org.qi4j.chronos.ui.pricerate.PriceRateTab;
 import org.qi4j.chronos.ui.projectassignee.ProjectAssigneeTab;
-import org.qi4j.chronos.ui.workentry.WorkEntryTable;
+import org.qi4j.chronos.ui.workentry.WorkEntryTab2;
 import org.qi4j.chronos.util.DateUtil;
 
 public abstract class ProjectDetailPage extends LeftMenuNavPage
@@ -96,7 +96,7 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
             formalReferenceField = new SimpleTextField( "formalReferenceField", project.getReference() );
             projectStatusField = new SimpleTextField( "projectStatusField", project.getProjectStatus().toString() );
 
-            projectOwnerField = new SimpleTextField( "projectOwnerField", project.getProjectOwner().getName() );
+            projectOwnerField = new SimpleTextField( "customerField", project.getCustomer().getName() );
 
             String primaryContact = project.getPrimaryContactPerson().getFirstName() + project.getPrimaryContactPerson().getLastName();
             primaryContactField = new SimpleTextField( "primaryContactField", primaryContact );
@@ -142,7 +142,19 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
                 }
             } );
 
-            tabs.add( new WorkEntryTab() );
+            tabs.add( new WorkEntryTab2( "Work Entry" )
+            {
+                public List<WorkEntryEntityComposite> dataList( int first, int count )
+                {
+                    return getWorkEntryService().findAll( getProject(), new FindFilter( first, count ) );
+                }
+
+                public int getSize()
+                {
+                    return getWorkEntryService().countAll( getProject() );
+                }
+            } );
+
 
             tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
 
@@ -186,9 +198,9 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
                             return getProject();
                         }
 
-                        public ProjectOwnerEntityComposite getProjectOwner()
+                        public CustomerEntityComposite getCustomer()
                         {
-                            return getProject().getProjectOwner();
+                            return getProject().getCustomer();
                         }
                     };
 
@@ -202,39 +214,6 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
             };
 
             return borderPanelWrapper;
-        }
-    }
-
-    private class WorkEntryTab extends BaseTab
-    {
-        public WorkEntryTab()
-        {
-            super( "Work Entry" );
-
-        }
-
-        public BorderPanel getBorderPanel( String panelId )
-        {
-            return new BorderPanelWrapper( panelId )
-            {
-                public Panel getWrappedPanel( String panelId )
-                {
-                    WorkEntryTable table = new WorkEntryTable( panelId )
-                    {
-                        public List<WorkEntryEntityComposite> dataList( int first, int count )
-                        {
-                            return getWorkEntryService().findAll( getProject(), new FindFilter( first, count ) );
-                        }
-
-                        public int getSize()
-                        {
-                            return getWorkEntryService().countAll( getProject() );
-                        }
-                    };
-
-                    return table;
-                }
-            };
         }
     }
 

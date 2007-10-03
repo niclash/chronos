@@ -13,21 +13,19 @@
 package org.qi4j.chronos.service.mocks;
 
 import java.util.List;
-import org.qi4j.api.annotation.scope.PropertyField;
-import org.qi4j.api.persistence.Identity;
-import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
-import org.qi4j.chronos.service.ProjectOwnerService;
+import org.qi4j.api.annotation.scope.ThisAs;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.service.FindFilter;
+import org.qi4j.chronos.service.StaffMiscService;
+import org.qi4j.chronos.service.StaffService;
 
-public abstract class MockProjectOwnerBasedServiceMixin<ITEM extends Identity> extends MockParentBasedServiceMixin<ITEM, ProjectOwnerEntityComposite>
+public class MockStaffMiscServiceMixin implements StaffMiscService
 {
-    @PropertyField private ProjectOwnerService projectOwnerService;
+    @ThisAs private StaffService staffService;
 
-    public MockProjectOwnerBasedServiceMixin()
+    public List<StaffEntityComposite> getRecentActiveStaff( AccountEntityComposite account, FindFilter findFilter )
     {
-    }
-
-    protected List<ProjectOwnerEntityComposite> getParentList()
-    {
-        return projectOwnerService.findAll();
+        return staffService.findAll( account );
     }
 }

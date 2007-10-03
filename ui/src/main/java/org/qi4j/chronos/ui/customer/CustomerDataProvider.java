@@ -10,42 +10,42 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.projectowner;
+package org.qi4j.chronos.ui.customer;
 
 import java.util.List;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
-import org.qi4j.chronos.service.ProjectOwnerService;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
+import org.qi4j.chronos.service.CustomerService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
-public abstract class ProjectOwnerDataProvider extends AbstractSortableDataProvider<ProjectOwnerEntityComposite, String>
+public abstract class CustomerDataProvider extends AbstractSortableDataProvider<CustomerEntityComposite, String>
 {
-    public String getId( ProjectOwnerEntityComposite projectOwnerEntityComposite )
+    public String getId( CustomerEntityComposite customer )
     {
-        return projectOwnerEntityComposite.getIdentity();
+        return customer.getIdentity();
     }
 
-    public ProjectOwnerEntityComposite load( String id )
+    public CustomerEntityComposite load( String id )
     {
-        return getProjectOwnerService().get( id );
+        return getCustomerService().get( id );
     }
 
-    private ProjectOwnerService getProjectOwnerService()
+    private CustomerService getCustomerService()
     {
-        return ChronosWebApp.getServices().getProjectOwnerService();
+        return ChronosWebApp.getServices().getCustomerService();
     }
 
-    public List<ProjectOwnerEntityComposite> dataList( int first, int count )
+    public List<CustomerEntityComposite> dataList( int first, int count )
     {
-        return getProjectOwnerService().findAll( getAccount() );
+        return getCustomerService().findAll( getAccount() );
     }
 
     public abstract AccountEntityComposite getAccount();
 
     public int getSize()
     {
-        return getProjectOwnerService().countAll( getAccount() );
+        return getCustomerService().countAll( getAccount() );
     }
 
 }

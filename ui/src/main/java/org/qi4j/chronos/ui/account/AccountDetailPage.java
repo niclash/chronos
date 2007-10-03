@@ -15,13 +15,12 @@ package org.qi4j.chronos.ui.account;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.ui.address.AddressDetailPanel;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
-import org.qi4j.chronos.ui.customer.CustomerDetailPanel;
+import org.qi4j.chronos.ui.common.SimpleTextField;
 
 public class AccountDetailPage extends LeftMenuNavPage
 {
@@ -47,7 +46,10 @@ public class AccountDetailPage extends LeftMenuNavPage
     private class AccountDetailForm extends Form
     {
         private Button goButton;
-        private CustomerDetailPanel customerDetailPanel;
+        private SimpleTextField nameField;
+        private SimpleTextField referenceField;
+
+        private AddressDetailPanel addressDetailPanel;
 
         public AccountDetailForm( String id )
         {
@@ -55,24 +57,24 @@ public class AccountDetailPage extends LeftMenuNavPage
 
             AccountEntityComposite account = getAccount();
 
-            goButton = new Button( "submitButton", new Model( "Return" ) );
+            nameField = new SimpleTextField( "nameField", account.getName(), true );
+            referenceField = new SimpleTextField( "referenceField", account.getReference(), true );
 
-            customerDetailPanel = new CustomerDetailPanel( "customerDetailPanel", account );
+            addressDetailPanel = new AddressDetailPanel( "addressDetailPanel", account.getAddress() );
 
-            add( customerDetailPanel );
+            goButton = new Button( "submitButton", new Model( "Return" ) )
+            {
+                public void onSubmit()
+                {
+                    setResponsePage( returnPage );
+                }
+            };
+
+            add( nameField );
+            add( referenceField );
+            add( addressDetailPanel );
+
             add( goButton );
-        }
-
-        protected void delegateSubmit( IFormSubmittingComponent submittingButton )
-        {
-            if( submittingButton == goButton )
-            {
-                setResponsePage( returnPage );
-            }
-            else
-            {
-                throw new IllegalArgumentException( submittingButton + " not handled yet." );
-            }
         }
     }
 

@@ -14,12 +14,7 @@ package org.qi4j.chronos.model.composites;
 
 import org.qi4j.api.persistence.EntityComposite;
 import org.qi4j.chronos.model.Customer;
-import org.qi4j.library.general.model.Validatable;
 
-/**
- * Persistable customer entity that contains customer name, customer reference name, address,
- * contact persons and accounts.
- */
-public interface CustomerEntityComposite extends Customer, Validatable, EntityComposite
+public interface CustomerEntityComposite extends Customer, EntityComposite
 {
 }

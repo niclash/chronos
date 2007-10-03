@@ -14,7 +14,7 @@ package org.qi4j.chronos.service;
 
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 
-public interface StaffService extends AccountBasedService<StaffEntityComposite>
+public interface StaffService extends AccountBasedService<StaffEntityComposite>, StaffMiscService
 {
 
 }

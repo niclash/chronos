@@ -31,7 +31,7 @@ public class MockProjectMiscServiceMixin implements ProjectMiscService
 {
     @ThisAs private ProjectService projectService;
 
-    public List<ProjectEntityComposite> getRecentAccessedProjectList( AccountEntityComposite account, FindFilter findFilter )
+    public List<ProjectEntityComposite> getRecentProjectList( AccountEntityComposite account, FindFilter findFilter )
     {
         return projectService.findAll( account, findFilter );
     }

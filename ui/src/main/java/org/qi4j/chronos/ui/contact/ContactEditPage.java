@@ -38,7 +38,7 @@ public abstract class ContactEditPage extends ContactAddEditPage
 
     public String getSubmitButtonValue()
     {
-        return "Edit";
+        return "Save";
     }
 
     public String getTitleLabel()

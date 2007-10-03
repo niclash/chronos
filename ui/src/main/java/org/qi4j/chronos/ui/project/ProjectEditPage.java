@@ -15,9 +15,9 @@ package org.qi4j.chronos.ui.project;
 import java.util.Iterator;
 import java.util.List;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectOwnerEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.slf4j.Logger;
@@ -63,7 +63,7 @@ public abstract class ProjectEditPage extends ProjectAddEditPage
 
     public String getSubmitButtonValue()
     {
-        return "Edit";
+        return "Save";
     }
 
     public String getTitleLabel()
@@ -78,9 +78,9 @@ public abstract class ProjectEditPage extends ProjectAddEditPage
 
     public List<PriceRateScheduleComposite> getAvailablePriceRateScheduleChoice()
     {
-        ProjectOwnerEntityComposite projectOwner = getProjectOwnerService().get( projectOwnerChoice.getChoice().getId() );
+        CustomerEntityComposite customer = getCustomerService().get( customerChoice.getChoice().getId() );
 
-        List<PriceRateScheduleComposite> list = ChronosWebApp.getServices().getPriceRateScheduleService().findAll( projectOwner );
+        List<PriceRateScheduleComposite> list = ChronosWebApp.getServices().getPriceRateScheduleService().findAll( customer );
 
         list.add( getProject().getPriceRateSchedule() );
 
