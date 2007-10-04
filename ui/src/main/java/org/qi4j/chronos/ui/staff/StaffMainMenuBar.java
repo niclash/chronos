@@ -16,6 +16,7 @@ import org.qi4j.chronos.ui.common.menu.MenuBar;
 import org.qi4j.chronos.ui.common.menu.MenuItem;
 import org.qi4j.chronos.ui.common.menu.PageMenuLink;
 import org.qi4j.chronos.ui.customer.CustomerListPage;
+import org.qi4j.chronos.ui.pricerate.PriceRateScheduleListPage;
 import org.qi4j.chronos.ui.project.ProjectListPage;
 import org.qi4j.chronos.ui.projectrole.ProjectRoleListPage;
 import org.qi4j.chronos.ui.report.ReportMainPage;
@@ -32,6 +33,7 @@ public class StaffMainMenuBar extends MenuBar
     {
         return new MenuItem[]{
             new PageMenuLink( "Home", StaffHomePage.class ),
+            new PageMenuLink( "Price Rate Schedule", PriceRateScheduleListPage.class ),
             new PageMenuLink( "Customer", CustomerListPage.class ),
             new PageMenuLink( "Project", ProjectListPage.class ),
             new PageMenuLink( "Staff", StaffListPage.class ),

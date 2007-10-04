@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.Currency;
 import java.util.Iterator;
 import java.util.List;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.list.ListItem;
@@ -24,6 +25,7 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.PriceRateType;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
+import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
@@ -41,7 +43,6 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
 
     private List<SimpleDropDownChoice<ProjectRoleDelegator>> projectRoleChoiceList;
     private List<SimpleDropDownChoice<PriceRateType>> priceRateTypeChoiceList;
-    private List<SimpleDropDownChoice<Currency>> currencyChoiceList;
     private List<NumberTextField> amountFieldList;
 
     private ListView priceRateListView;
@@ -51,14 +52,49 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
     //TODO remove static
     private static List<PriceRateComposite> priceRateList;
 
+    private SimpleDropDownChoice<Currency> currencyChoice;
+
+    private SubmitLink selectPriceRateScheduleLink;
+
+    private WebMarkupContainer selectPriceRateScheduleContainer;
+
     public PriceRateScheduleAddEditPage( BasePage goBackPage )
     {
         super( goBackPage );
     }
 
+    protected void hideSelectPriceRateScheduleLink()
+    {
+        selectPriceRateScheduleContainer.setVisible( false );
+    }
+
+    private int getTotalAvailablePriceRateSchedule()
+    {
+        return ChronosWebApp.getServices().getPriceRateScheduleService().countAll( getAccount() );
+    }
+
     public final void initComponent( Form form )
     {
-        priceRateList = getInitPriceRateList();
+        selectPriceRateScheduleLink = new SubmitLink( "selectPriceRateScheduleLink" )
+        {
+            public void onSubmit()
+            {
+                handleSelectPriceRateSchedule();
+            }
+        };
+
+        selectPriceRateScheduleContainer = new WebMarkupContainer( "selectPriceRateScheduleContainer" );
+
+        selectPriceRateScheduleContainer.add( selectPriceRateScheduleLink );
+
+        if( getTotalAvailablePriceRateSchedule() == 0 )
+        {
+            selectPriceRateScheduleContainer.setVisible( false );
+        }
+
+        currencyChoice = new SimpleDropDownChoice<Currency>( "currencyChoice", CurrencyUtil.getCurrencyList(), true );
+
+        priceRateList = buildPriceRateList( getInitPriceRateIterator() );
 
         //let create one price rates for default.
         if( priceRateList.size() == 0 )
@@ -68,7 +104,6 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
 
         projectRoleChoiceList = new ArrayList<SimpleDropDownChoice<ProjectRoleDelegator>>();
         priceRateTypeChoiceList = new ArrayList<SimpleDropDownChoice<PriceRateType>>();
-        currencyChoiceList = new ArrayList<SimpleDropDownChoice<Currency>>();
 
         amountFieldList = new ArrayList<NumberTextField>();
 
@@ -89,33 +124,28 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
 
                 SimpleDropDownChoice<ProjectRoleDelegator> projectRoleChoice;
                 SimpleDropDownChoice<PriceRateType> priceRateTypeChoice;
-                SimpleDropDownChoice<Currency> currencyChoice;
                 NumberTextField amountField;
 
                 if( projectRoleChoiceList.size() <= index )
                 {
                     projectRoleChoice = new SimpleDropDownChoice<ProjectRoleDelegator>( "projectRoleChoice", ListUtil.getProjectRoleDelegatorList( getAccount() ), true );
                     priceRateTypeChoice = new SimpleDropDownChoice<PriceRateType>( "priceRateTypeChoice", Arrays.asList( PriceRateType.values() ), true );
-                    currencyChoice = new SimpleDropDownChoice<Currency>( "currencyChoice", CurrencyUtil.getCurrencyList(), true );
 
                     amountField = new NumberTextField( "amountField", "Amount" );
 
                     projectRoleChoiceList.add( projectRoleChoice );
                     priceRateTypeChoiceList.add( priceRateTypeChoice );
-                    currencyChoiceList.add( currencyChoice );
                     amountFieldList.add( amountField );
 
                     //init value
                     projectRoleChoice.setChoice( new ProjectRoleDelegator( priceRate.getProjectRole() ) );
                     priceRateTypeChoice.setChoice( priceRate.getPriceRateType() );
-                    currencyChoice.setChoice( priceRate.getCurrency() );
                     amountField.setLongValue( priceRate.getAmount() );
                 }
                 else
                 {
                     projectRoleChoice = projectRoleChoiceList.get( index );
                     priceRateTypeChoice = priceRateTypeChoiceList.get( index );
-                    currencyChoice = currencyChoiceList.get( index );
                     amountField = amountFieldList.get( index );
                 }
 
@@ -129,7 +159,6 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
 
                 item.add( projectRoleChoice );
                 item.add( priceRateTypeChoice );
-                item.add( currencyChoice );
                 item.add( amountField );
                 item.add( deletePriceRateLink );
             }
@@ -137,9 +166,38 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
 
         nameField = new MaxLengthTextField( "name", "Name", PriceRateSchedule.NAME_LEN );
 
+        form.add( selectPriceRateScheduleContainer );
+        form.add( currencyChoice );
         form.add( newPriceRateLink );
         form.add( priceRateListView );
         form.add( nameField );
+    }
+
+    private void handleSelectPriceRateSchedule()
+    {
+        PriceRateScheduleSelectionPage selectionPage = new PriceRateScheduleSelectionPage( this )
+        {
+            public void handleSelectedPriceRateSchedule( PriceRateScheduleComposite priceRateSchedule )
+            {
+                resetPriceRateSchedule( priceRateSchedule );
+            }
+        };
+
+        setResponsePage( selectionPage );
+    }
+
+    private void resetPriceRateSchedule( PriceRateScheduleComposite priceRateSchedule )
+    {
+        nameField.setText( "[Customize] " + priceRateSchedule.getName() );
+        currencyChoice.setChoice( priceRateSchedule.getCurrency() );
+
+        priceRateList = buildPriceRateList( priceRateSchedule.priceRateIterator() );
+
+        projectRoleChoiceList.clear();
+        priceRateTypeChoiceList.clear();
+        amountFieldList.clear();
+
+        updatePriceRateListView();
     }
 
     private void handleNewPriceRate()
@@ -158,7 +216,6 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
         List<ProjectRoleEntityComposite> projectRolelists = ChronosWebApp.getServices().getProjectRoleService().findAll( getAccount() );
 
         priceRate.setProjectRole( projectRolelists.get( 0 ) );
-        priceRate.setCurrency( CurrencyUtil.getDefaultCurrency() );
         priceRate.setAmount( 0L );
 
         priceRateList.add( priceRate );
@@ -175,7 +232,6 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
 
         projectRoleChoiceList.remove( index );
         priceRateTypeChoiceList.remove( index );
-        currencyChoiceList.remove( index );
         amountFieldList.remove( index );
 
         updatePriceRateListView();
@@ -230,25 +286,23 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
         return false;
     }
 
+    //TODO bp. This can be simplified when we have ValueComposite
     private boolean isHasDuplicatePriceRate()
     {
         for( int i = 0; i < projectRoleChoiceList.size(); i++ )
         {
             ProjectRoleDelegator projectRole = projectRoleChoiceList.get( i ).getChoice();
             PriceRateType priceRateType = priceRateTypeChoiceList.get( i ).getChoice();
-            Currency currency = currencyChoiceList.get( i ).getChoice();
             long amount = amountFieldList.get( i ).getLongValue();
 
             for( int j = i + 1; j < projectRoleChoiceList.size(); j++ )
             {
                 ProjectRoleDelegator projectRole2 = projectRoleChoiceList.get( j ).getChoice();
                 PriceRateType priceRateType2 = priceRateTypeChoiceList.get( j ).getChoice();
-                Currency currency2 = currencyChoiceList.get( j ).getChoice();
                 long amount2 = amountFieldList.get( j ).getLongValue();
 
                 if( projectRole.getId().equals( projectRole2.getId() )
                     && priceRateType.equals( priceRateType2 )
-                    && currency.equals( currency2 )
                     && amount == amount2 )
                 {
                     error( "Identical price rate found! Please change it or remove it." );
@@ -271,7 +325,6 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
 
             priceRate.setProjectRole( projectRole );
             priceRate.setPriceRateType( priceRateTypeChoiceList.get( index ).getChoice() );
-            priceRate.setCurrency( currencyChoiceList.get( index ).getChoice() );
             priceRate.setAmount( amountFieldList.get( index ).getLongValue() );
 
             index++;
@@ -286,6 +339,7 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
     protected void assignFieldValueToPriceRateSchedule( PriceRateSchedule priceRateSchedule )
     {
         priceRateSchedule.setName( nameField.getText() );
+        priceRateSchedule.setCurrency( currencyChoice.getChoice() );
 
         priceRateSchedule.removeAllPriceRate();
 
@@ -298,15 +352,13 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
     protected void assignPriceRateScheduleToFieldValue( PriceRateSchedule priceRateSchedule )
     {
         nameField.setText( priceRateSchedule.getName() );
-
+        currencyChoice.setChoice( priceRateSchedule.getCurrency() );
         //skip initializing priceRate as it is done in getInitPriceRateInit
     }
 
-    private List<PriceRateComposite> getInitPriceRateList()
+    private List<PriceRateComposite> buildPriceRateList( Iterator<PriceRateComposite> priceRateIterator )
     {
         List<PriceRateComposite> priceRateList = new ArrayList<PriceRateComposite>();
-
-        Iterator<PriceRateComposite> priceRateIterator = getInitPriceRateIterator();
 
         while( priceRateIterator.hasNext() )
         {
@@ -315,6 +367,7 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
 
         return priceRateList;
     }
+
 
     public abstract Iterator<PriceRateComposite> getInitPriceRateIterator();
 

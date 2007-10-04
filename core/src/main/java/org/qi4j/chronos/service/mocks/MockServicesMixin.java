@@ -17,6 +17,7 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Random;
 import org.qi4j.api.Composite;
 import org.qi4j.api.CompositeBuilder;
 import org.qi4j.api.CompositeBuilderFactory;
@@ -118,7 +119,7 @@ public class MockServicesMixin implements Services
         customerService = newParentBasedService( CustomerServiceComposite.class, ACCOUNT_SERVICE, accountService );
         contactPersonService = newParentBasedService( ContactPersonServiceComposite.class, "customerService", customerService );
 
-        userService = initUserService( staffService, adminService, contactPersonService );
+        userService = initUserService( staffService, adminService, contactPersonService, customerService );
 
         priceRateScheduleService = newService( PriceRateScheduleServiceComposite.class );
 
@@ -144,14 +145,15 @@ public class MockServicesMixin implements Services
         return (T) compositeBuilder.newInstance();
     }
 
-    private UserService initUserService( StaffService staffService, AdminService adminService, ContactPersonService contactPersonService )
+    private UserService initUserService( StaffService staffService, AdminService adminService, ContactPersonService contactPersonService, CustomerService customerService )
     {
         CompositeBuilder<UserServiceComposite> compositeBuilder = factory.newCompositeBuilder( UserServiceComposite.class );
 
         compositeBuilder.properties( UserService.class,
                                      PropertyValue.property( "staffService", staffService ),
                                      PropertyValue.property( "adminService", adminService ),
-                                     PropertyValue.property( "contactPersonService", contactPersonService ) );
+                                     PropertyValue.property( "contactPersonService", contactPersonService ),
+                                     PropertyValue.property( "customerService", customerService ) );
 
         return compositeBuilder.newInstance();
     }
@@ -161,13 +163,17 @@ public class MockServicesMixin implements Services
         AccountEntityComposite account = initAccountDummyData();
 
         ProjectRoleEntityComposite[] projectRoles = initProjectRoleDummyData( account );
+
+        account.addPriceRateSchedule( newPriceRateSchedule( projectRoles ) );
+        account.addPriceRateSchedule( newPriceRateSchedule( projectRoles ) );
+
         initSystemRoleDummyData();
         initStaffDummyData( account );
         initAdminDummyData();
 
         CustomerEntityComposite[] customers = initCustomerDummyData( account );
 
-        initPriceRateDummyValue( customers, projectRoles );
+        initPriceRateScheduleDummyValue( customers, projectRoles );
 
         RelationshipComposite relationship = initRelationshipDummyData();
 
@@ -262,40 +268,41 @@ public class MockServicesMixin implements Services
         return relationship;
     }
 
-    private void initPriceRateDummyValue( Customer[] customers, ProjectRoleEntityComposite[] projectRoles )
+    private void initPriceRateScheduleDummyValue( Customer[] customers, ProjectRoleEntityComposite[] projectRoles )
     {
-        int next = 0;
         for( Customer customer : customers )
         {
-            PriceRateScheduleComposite priceRateSchedule = factory.newCompositeBuilder( PriceRateScheduleComposite.class ).newInstance();
-
-            priceRateSchedule.setName( "Standard Rate" + ( ++next ) );
-
-            PriceRateComposite programmerPriceRate = newPriceRate( 100L, CurrencyUtil.getDefaultCurrency(), PriceRateType.daily,
-                                                                   projectRoles[ 0 ] );
-
-            PriceRateComposite consultantPriceRate = newPriceRate( 200L, CurrencyUtil.getDefaultCurrency(), PriceRateType.daily,
-                                                                   projectRoles[ 1 ] );
-
-            priceRateSchedule.addPriceRate( programmerPriceRate );
-            priceRateSchedule.addPriceRate( consultantPriceRate );
-
-            customer.addPriceRateSchedule( priceRateSchedule );
+            customer.addPriceRateSchedule( newPriceRateSchedule( projectRoles ) );
         }
     }
 
-    private PriceRateComposite newPriceRate( long amount, Currency currency, PriceRateType priceRateType, ProjectRoleEntityComposite projectRole )
+    private PriceRateScheduleComposite newPriceRateSchedule( ProjectRoleEntityComposite[] projectRoles )
+    {
+        PriceRateScheduleComposite priceRateSchedule = factory.newCompositeBuilder( PriceRateScheduleComposite.class ).newInstance();
+
+        priceRateSchedule.setName( "Standard Rate" + new Random().nextInt() );
+        priceRateSchedule.setCurrency( CurrencyUtil.getDefaultCurrency() );
+
+        PriceRateComposite programmerPriceRate = newPriceRate( 100L, PriceRateType.daily, projectRoles[ 0 ] );
+
+        PriceRateComposite consultantPriceRate = newPriceRate( 200L, PriceRateType.daily, projectRoles[ 1 ] );
+
+        priceRateSchedule.addPriceRate( programmerPriceRate );
+        priceRateSchedule.addPriceRate( consultantPriceRate );
+
+        return priceRateSchedule;
+    }
+
+    private PriceRateComposite newPriceRate( long amount, PriceRateType priceRateType, ProjectRoleEntityComposite projectRole )
     {
         PriceRateComposite priceRate = factory.newCompositeBuilder( PriceRateComposite.class ).newInstance();
 
         priceRate.setAmount( amount );
-        priceRate.setCurrency( currency );
         priceRate.setPriceRateType( priceRateType );
         priceRate.setProjectRole( projectRole );
 
         return priceRate;
     }
-
 
     private AccountEntityComposite initAccountDummyData()
     {

@@ -26,7 +26,6 @@ public final class CloneUtil
         PriceRateComposite cloned = factory.newCompositeBuilder( PriceRateComposite.class ).newInstance();
 
         cloned.setAmount( priceRate.getAmount() );
-        cloned.setCurrency( priceRate.getCurrency() );
         cloned.setPriceRateType( priceRate.getPriceRateType() );
         cloned.setProjectRole( priceRate.getProjectRole() );
 
@@ -38,6 +37,7 @@ public final class CloneUtil
         PriceRateScheduleComposite cloned = factory.newCompositeBuilder( PriceRateScheduleComposite.class ).newInstance();
 
         cloned.setName( priceRateSchedule.getName() );
+        cloned.setCurrency( priceRateSchedule.getCurrency() );
 
         Iterator<PriceRateComposite> priceRateIter = priceRateSchedule.priceRateIterator();
 

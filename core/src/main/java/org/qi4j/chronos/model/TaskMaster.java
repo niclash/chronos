@@ -10,20 +10,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service;
+package org.qi4j.chronos.model;
 
-import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.associations.HasCreatedDate;
+import org.qi4j.library.general.model.Description;
 
-public interface UserService
+public interface TaskMaster extends Title, Description, HasCreatedDate
 {
-    public User get( String userId );
 
-    public User getUser( AccountEntityComposite account, String loginId, String password );
-
-    public User getUser( String loginId, String password );
-
-    public void update( User user );
-
-    public boolean hasThisSystemRole( User user, String systemRoleName );
 }

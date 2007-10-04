@@ -13,7 +13,6 @@
 package org.qi4j.chronos.ui.pricerate;
 
 import java.io.Serializable;
-import java.util.Currency;
 import org.qi4j.chronos.model.PriceRateType;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
 
@@ -21,7 +20,6 @@ import org.qi4j.chronos.model.composites.PriceRateComposite;
 public class PriceRateDelegator implements Serializable
 {
     private String projectRoleName;
-    private Currency currency;
     private long amonunt;
     private PriceRateType priceRateType;
 
@@ -30,7 +28,6 @@ public class PriceRateDelegator implements Serializable
     public PriceRateDelegator( PriceRateComposite priceRate )
     {
         projectRoleName = priceRate.getProjectRole().getProjectRole();
-        currency = priceRate.getCurrency();
         amonunt = priceRate.getAmount();
         priceRateType = priceRate.getPriceRateType();
 
@@ -39,7 +36,6 @@ public class PriceRateDelegator implements Serializable
         builder.append( projectRoleName ).append( " - " )
             .append( priceRateType.toString() )
             .append( " - " )
-            .append( currency.getSymbol() )
             .append( String.valueOf( amonunt ) );
 
         toString = builder.toString();
@@ -48,11 +44,6 @@ public class PriceRateDelegator implements Serializable
     public String getProjectRoleName()
     {
         return projectRoleName;
-    }
-
-    public Currency getCurrency()
-    {
-        return currency;
     }
 
     public PriceRateType getPriceRateType()

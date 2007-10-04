@@ -42,6 +42,7 @@ public abstract class PriceRateScheduleDetailPage extends LeftMenuNavPage
     private class PriceRateScheduleDetailForm extends Form
     {
         private SimpleTextField nameField;
+        private SimpleTextField currencyField;
 
         private Button submitButton;
 
@@ -59,6 +60,7 @@ public abstract class PriceRateScheduleDetailPage extends LeftMenuNavPage
             PriceRateSchedule priceRateSchedule = getPriceRateSchedule();
 
             priceRateListView = new PriceRateListView( "priceRateListView", ListUtil.getPriceRateDelegator( priceRateSchedule ) );
+            currencyField = new SimpleTextField( "currencyField", priceRateSchedule.getCurrency().getCurrencyCode() );
 
             nameField = new SimpleTextField( "nameField", priceRateSchedule.getName(), true );
 
@@ -70,6 +72,7 @@ public abstract class PriceRateScheduleDetailPage extends LeftMenuNavPage
                 }
             };
 
+            add( currencyField );
             add( nameField );
             add( submitButton );
             add( priceRateListView );

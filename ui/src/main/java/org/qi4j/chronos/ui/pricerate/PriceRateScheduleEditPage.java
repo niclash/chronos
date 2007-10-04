@@ -28,6 +28,7 @@ public abstract class PriceRateScheduleEditPage extends PriceRateScheduleAddEdit
     {
         super( basePage );
 
+        hideSelectPriceRateScheduleLink();
         initData();
     }
 

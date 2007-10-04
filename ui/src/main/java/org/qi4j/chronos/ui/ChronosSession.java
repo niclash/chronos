@@ -16,6 +16,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import org.apache.wicket.Request;
+import org.apache.wicket.Session;
 import org.apache.wicket.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authorization.strategies.role.Roles;
@@ -25,10 +26,8 @@ import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
-import org.qi4j.chronos.service.AccountService;
+import org.qi4j.chronos.service.UserService;
 
 public class ChronosSession extends AuthenticatedWebSession
 {
@@ -41,43 +40,57 @@ public class ChronosSession extends AuthenticatedWebSession
         super( authenticatedWebApplication, request );
     }
 
+    public static ChronosSession get()
+    {
+        return (ChronosSession) Session.get();
+    }
+
+    public void setAccountId( String accountId )
+    {
+        this.accountId = accountId;
+    }
+
+    private UserService getUserService()
+    {
+        return ChronosWebApp.getServices().getUserService();
+    }
+
     public boolean authenticate( String username, String password )
     {
-        User user = ChronosWebApp.getServices().getUserService().getUser( username, password );
+        AccountEntityComposite account = null;
 
-        if( user != null && user.getLogin().isEnabled() )
+        if( accountId != null )
         {
-            AccountService accountService = ChronosWebApp.getServices().getAccountService();
+            account = ChronosWebApp.getServices().getAccountService().get( accountId );
 
-            AccountEntityComposite account = null;
-
-            if( user instanceof Staff )
+            if( !account.isEnabled() )
             {
-                account = accountService.getAccount( (StaffEntityComposite) user );
+                this.error( "Account is disabled." );
+                return false;
             }
-            else if( user instanceof ContactPerson )
-            {
-                account = accountService.getAccount( (ContactPersonEntityComposite) user );
-            }
+        }
 
-            if( account != null )
-            {
-                if( !account.isEnabled() )
-                {
-                    this.error( "Account is disabled!" );
-                    return false;
-                }
+        User user;
 
-                accountId = account.getIdentity();
-            }
-
-            userId = ( (Identity) user ).getIdentity();
-
-            return true;
+        if( account != null )
+        {
+            user = getUserService().getUser( account, username, password );
         }
         else
         {
-            this.error( "Login account is disabled." );
+            user = getUserService().getUser( username, password );
+        }
+
+        if( user != null )
+        {
+            if( !user.getLogin().isEnabled() )
+            {
+                this.error( "User login is disabled." );
+                return false;
+            }
+
+            userId = ( (Identity) user ).getIdentity();
+            return true;
         }
 
         return false;
@@ -148,5 +161,4 @@ public class ChronosSession extends AuthenticatedWebSession
 
         return null;
     }
-
 }

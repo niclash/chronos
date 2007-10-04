@@ -15,10 +15,10 @@ package org.qi4j.chronos.ui.pricerate;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
@@ -72,6 +72,8 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
             }
         } );
 
+        item.add( new Label( "currencyLabel", obj.getCurrency().getCurrencyCode() ) );
+
         item.add( new SimpleLink( "editLink", "Edit" )
         {
             public void linkClicked()
@@ -108,6 +110,7 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
             if( priceRateSchedule.getName().equals( originalName ) )
             {
                 priceRateSchedule.setName( updated.getName() );
+                priceRateSchedule.setCurrency( updated.getCurrency() );
 
                 priceRateSchedule.removeAllPriceRate();
 
@@ -128,7 +131,7 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
 
     public List<String> getTableHeaderList()
     {
-        return Arrays.asList( "Name", "" );
+        return Arrays.asList( "Name", "Currency", "" );
     }
 
     public abstract T getHasPriceRateSchedules();

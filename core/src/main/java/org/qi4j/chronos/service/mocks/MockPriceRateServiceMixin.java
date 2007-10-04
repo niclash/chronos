@@ -41,7 +41,7 @@ public class MockPriceRateServiceMixin implements PriceRateService
         {
             public boolean callBack( PriceRateComposite priceRate )
             {
-                list.add( CloneUtil.clonePriceRate( factory,priceRate ) );
+                list.add( CloneUtil.clonePriceRate( factory, priceRate ) );
 
                 return true;
             }
@@ -80,7 +80,7 @@ public class MockPriceRateServiceMixin implements PriceRateService
             public boolean callBack( PriceRateComposite priceRate )
             {
                 if( priceRate.getProjectRole().getProjectRole().equals( projectRoleName )
-                    && priceRate.getPriceRateType().equals( priceRateType ) && priceRate.getCurrency().equals( currency )
+                    && priceRate.getPriceRateType().equals( priceRateType )
                     && priceRate.getAmount().equals( amount ) )
                 {
                     returnValue[ 0 ] = CloneUtil.clonePriceRate( factory, priceRate );

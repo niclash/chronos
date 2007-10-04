@@ -18,12 +18,15 @@ import java.util.List;
 import org.qi4j.api.annotation.scope.PropertyField;
 import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.AdminEntityComposite;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.service.AdminService;
 import org.qi4j.chronos.service.ContactPersonService;
+import org.qi4j.chronos.service.CustomerService;
 import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.service.UserService;
 
@@ -32,6 +35,7 @@ public class MockUserServiceMixin implements UserService
     @PropertyField private StaffService staffService;
     @PropertyField private AdminService adminService;
     @PropertyField private ContactPersonService contactPersonService;
+    @PropertyField private CustomerService customerService;
 
     public MockUserServiceMixin()
     {
@@ -58,18 +62,13 @@ public class MockUserServiceMixin implements UserService
 
     public User getUser( String loginId, String password )
     {
-        List<StaffEntityComposite> staffs = staffService.findAll();
-
         List<AdminEntityComposite> admins = adminService.findAll();
 
-        List<ContactPersonEntityComposite> contactPersons = contactPersonService.findAll();
+        return loopUser( admins, loginId, password );
+    }
 
-        List<User> users = new ArrayList<User>();
-
-        users.addAll( staffs );
-        users.addAll( admins );
-        users.addAll( contactPersons );
-
+    private User loopUser( List<? extends User> users, String loginId, String password )
+    {
         for( User user : users )
         {
             Login login = user.getLogin();
@@ -81,6 +80,22 @@ public class MockUserServiceMixin implements UserService
         }
 
         return null;
+    }
+
+    public User getUser( AccountEntityComposite account, String loginId, String password )
+    {
+        List<User> users = new ArrayList<User>();
+
+        users.addAll( staffService.findAll( account ) );
+
+        List<CustomerEntityComposite> customers = customerService.findAll( account );
+
+        for( CustomerEntityComposite customer : customers )
+        {
+            users.addAll( contactPersonService.findAll( customer ) );
+        }
+
+        return loopUser( users, loginId, password );
     }
 
     public void update( User user )

@@ -1,10 +1,41 @@
 <html xmlns:wicket>
 <wicket:extend>
     <center>
-        <p>admin, admin - login as Super Admin</p>
+        <p>[ System ] - admin, admin - login as Super Admin</p>
 
-        <p>boss, boss - login to Jayway Account</p>
-        <span wicket:id="signInPanel"></span>
+        <p>Jayway Malaysia - boss, boss - login to Jayway Account</p>
+
+        <span wicket:id="feedbackPanel"/>
+
+        <form wicket:id="loginForm">
+            <table>
+                <tr>
+                    <td align="right">Account</td>
+                    <td>
+                        <select wicket:id="accountDropDownChoice"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">Username</td>
+                    <td>
+                        <input wicket:id="username" type="text" value="foo@goo.moo" size="30"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td align="right">Password</td>
+                    <td>
+                        <input wicket:id="password" type="password" value="password" size="30"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td></td>
+                    <td>
+                        <input type="submit" name="submit" value="Sign In"/>
+                        <input type="reset" value="Reset"/>
+                    </td>
+                </tr>
+            </table>
+        </form>
     </center>
 </wicket:extend>
 </html>

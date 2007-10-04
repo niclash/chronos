@@ -31,7 +31,6 @@ import org.qi4j.chronos.util.CurrencyUtil;
 public abstract class PriceRateAddEditPage extends AddEditBasePage
 {
     private NumberTextField amountField;
-    private SimpleDropDownChoice<Currency> currencyChoice;
     private SimpleDropDownChoice<ProjectRoleDelegator> projectRoleChoice;
     private SimpleDropDownChoice<PriceRateType> priceRateTypeChoice;
 
@@ -49,19 +48,16 @@ public abstract class PriceRateAddEditPage extends AddEditBasePage
         List<Currency> currencyList = CurrencyUtil.getCurrencyList();
 
         priceRateTypeChoice = new SimpleDropDownChoice<PriceRateType>( "priceRateTypeChoice", priceRatyeTypeList, true );
-        currencyChoice = new SimpleDropDownChoice<Currency>( "currencyChoice", currencyList, true );
         projectRoleChoice = new SimpleDropDownChoice<ProjectRoleDelegator>( "projectRoleChoice", roleList, true );
 
         form.add( amountField );
         form.add( priceRateTypeChoice );
-        form.add( currencyChoice );
         form.add( projectRoleChoice );
     }
 
     protected void assignFieldValueToPriceRate( PriceRateComposite priceRate )
     {
         priceRate.setAmount( amountField.getLongValue() );
-        priceRate.setCurrency( currencyChoice.getChoice() );
         priceRate.setPriceRateType( priceRateTypeChoice.getChoice() );
         priceRate.setProjectRole( getSelectedProjectRole() );
     }
@@ -69,7 +65,6 @@ public abstract class PriceRateAddEditPage extends AddEditBasePage
     protected void assignPriceRateToFieldValue( PriceRateComposite priceRate )
     {
         amountField.setLongValue( priceRate.getAmount() );
-        currencyChoice.setChoice( priceRate.getCurrency() );
         priceRateTypeChoice.setChoice( priceRate.getPriceRateType() );
         projectRoleChoice.setChoice( new ProjectRoleDelegator( priceRate.getProjectRole() ) );
     }

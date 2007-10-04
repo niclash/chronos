@@ -34,11 +34,15 @@ public class PriceRateListView extends Panel
 
                 item.add( new Label( "projectRole", delegator.getProjectRoleName() ) );
                 item.add( new Label( "priceRateType", delegator.getPriceRateType().toString() ) );
-                item.add( new Label( "currency", delegator.getCurrency().getCurrencyCode() ) );
                 item.add( new Label( "amount", String.valueOf( delegator.getAmount() ) ) );
             }
         };
 
         add( listView );
+    }
+
+    public void resetPriceRateList( List<PriceRateDelegator> priceRateDelegators )
+    {
+        listView.setList( priceRateDelegators );
     }
 }

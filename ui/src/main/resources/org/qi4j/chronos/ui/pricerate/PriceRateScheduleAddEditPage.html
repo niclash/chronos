@@ -2,11 +2,20 @@
 
 <wicket:extend>
 
+    <span wicket:id="selectPriceRateScheduleContainer">
+        <tr>
+            <td align="right">&nbsp;</td>
+            <td><a wicket:id="selectPriceRateScheduleLink">Select price rate schedule</a></td>
+        </tr>
+    </span>
     <tr>
         <td align="right">Name</td>
         <td><input type="text" wicket:id="name" class="textStyle" style="width: 350"/></td>
     </tr>
-
+    <tr>
+        <td align="right">Currency</td>
+        <td><select wicket:id="currencyChoice"></select></td>
+    </tr>
     <tr>
         <td align="right" valign="top">Price rates</td>
         <td>
@@ -23,7 +32,6 @@
                             <tr>
                                 <th>Project Role</th>
                                 <th>Rate Type</th>
-                                <th>Currency</th>
                                 <th>Amount</th>
                                 <th>&nbsp;</th>
                             </tr>
@@ -34,9 +42,6 @@
                                 </td>
                                 <td>
                                     <select wicket:id="priceRateTypeChoice"></select>
-                                </td>
-                                <td>
-                                    <select wicket:id="currencyChoice"></select>
                                 </td>
                                 <td>
                                     <input type="text" wicket:id="amountField" class="textStyle" style="width: 60"/>

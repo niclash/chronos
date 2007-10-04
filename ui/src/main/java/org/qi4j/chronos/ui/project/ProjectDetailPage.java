@@ -20,12 +20,9 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.ProjectStatus;
-import org.qi4j.chronos.model.associations.HasContactPersons;
-import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
@@ -34,11 +31,8 @@ import org.qi4j.chronos.service.WorkEntryService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
-import org.qi4j.chronos.ui.common.BorderPanel;
-import org.qi4j.chronos.ui.common.BorderPanelWrapper;
 import org.qi4j.chronos.ui.common.SimpleTextField;
-import org.qi4j.chronos.ui.common.tab.BaseTab;
-import org.qi4j.chronos.ui.contactperson.ContactPersonTable;
+import org.qi4j.chronos.ui.contactperson.ContactPersonTab2;
 import org.qi4j.chronos.ui.pricerate.PriceRateTab;
 import org.qi4j.chronos.ui.projectassignee.ProjectAssigneeTab;
 import org.qi4j.chronos.ui.workentry.WorkEntryTab2;
@@ -125,36 +119,10 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
 
             List<AbstractTab> tabs = new ArrayList<AbstractTab>();
 
-            tabs.add( new ContactPersonTab() );
-            tabs.add( new PriceRateTab( "Price Rate Schedule" )
-            {
-                public PriceRateScheduleComposite getPriceRateSchedule()
-                {
-                    return ProjectDetailPage.this.getProject().getPriceRateSchedule();
-                }
-            } );
-
-            tabs.add( new ProjectAssigneeTab( "Project Assignee" )
-            {
-                public ProjectEntityComposite getProject()
-                {
-                    return ProjectDetailPage.this.getProject();
-                }
-            } );
-
-            tabs.add( new WorkEntryTab2( "Work Entry" )
-            {
-                public List<WorkEntryEntityComposite> dataList( int first, int count )
-                {
-                    return getWorkEntryService().findAll( getProject(), new FindFilter( first, count ) );
-                }
-
-                public int getSize()
-                {
-                    return getWorkEntryService().countAll( getProject() );
-                }
-            } );
-
+            tabs.add( createContactPersonTab() );
+            tabs.add( createPriceRateTab() );
+            tabs.add( createProjectAssigneeTab() );
+            tabs.add( createWorkEntryTab() );
 
             tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
 
@@ -178,43 +146,53 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
         }
     }
 
-    private class ContactPersonTab extends BaseTab
+    private WorkEntryTab2 createWorkEntryTab()
     {
-        public ContactPersonTab()
+        return new WorkEntryTab2( "Work Entry" )
         {
-            super( "Contact Person" );
-        }
-
-        public BorderPanel getBorderPanel( String panelId )
-        {
-            BorderPanelWrapper borderPanelWrapper = new BorderPanelWrapper( panelId )
+            public List<WorkEntryEntityComposite> dataList( int first, int count )
             {
-                public Panel getWrappedPanel( String panelId )
-                {
-                    ContactPersonTable table = new ContactPersonTable( panelId )
-                    {
-                        public HasContactPersons getHasContactPersons()
-                        {
-                            return getProject();
-                        }
+                return getWorkEntryService().findAll( getProject(), new FindFilter( first, count ) );
+            }
 
-                        public CustomerEntityComposite getCustomer()
-                        {
-                            return getProject().getCustomer();
-                        }
-                    };
+            public int getSize()
+            {
+                return getWorkEntryService().countAll( getProject() );
+            }
+        };
+    }
 
-                    table.setItemPerPage( 1000 );
+    private ProjectAssigneeTab createProjectAssigneeTab()
+    {
+        return new ProjectAssigneeTab( "Project Assignee" )
+        {
+            public ProjectEntityComposite getProject()
+            {
+                return ProjectDetailPage.this.getProject();
+            }
+        };
+    }
 
-                    table.setNavigatorVisible( false );
-                    table.setNoActionBar( true );
+    private PriceRateTab createPriceRateTab()
+    {
+        return new PriceRateTab( "Price Rate Schedule" )
+        {
+            public PriceRateScheduleComposite getPriceRateSchedule()
+            {
+                return ProjectDetailPage.this.getProject().getPriceRateSchedule();
+            }
+        };
+    }
 
-                    return table;
-                }
-            };
-
-            return borderPanelWrapper;
-        }
+    private ContactPersonTab2 createContactPersonTab()
+    {
+        return new ContactPersonTab2( "Contact Person" )
+        {
+            public ProjectEntityComposite getProject()
+            {
+                return ProjectDetailPage.this.getProject();
+            }
+        };
     }
 
     private WorkEntryService getWorkEntryService()
