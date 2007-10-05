@@ -45,5 +45,9 @@ public interface Services
     ContactService getContactService();
 
     PriceRateService getPriceRateService();
+
+    TaskService getTaskService();
+
+    TaskAssigneeService getTaskAssigneeService();
 }
 

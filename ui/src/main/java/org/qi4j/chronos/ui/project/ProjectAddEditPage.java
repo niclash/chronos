@@ -154,8 +154,6 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
 
         primaryContactChoice.setNewChoices( getAvailableContactPersonChoices() );
 
-        priceRateScheduleOptionPanel.initPriceRateScheduleList();
-
         setResponsePage( this );
     }
 
@@ -329,7 +327,7 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
             project.getActualTime().setEndTime( actualEndDate.getDate() );
         }
 
-        project.setPriceRateSchedule( priceRateScheduleOptionPanel.getSelectedPriceRateSchedule() );
+        project.setPriceRateSchedule( priceRateScheduleOptionPanel.getPriceRateSchedule() );
     }
 
     protected void assignProjectToFieldValues( Project project )
@@ -362,9 +360,8 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
 
         //re-initilizae contact and priceRateSchedule values to reflect the selected projectOwner.
         newOrReInitContactPalette();
-        priceRateScheduleOptionPanel.initPriceRateScheduleList();
 
-        priceRateScheduleOptionPanel.setSelectedPriceRateSchedule( project.getPriceRateSchedule() );
+        priceRateScheduleOptionPanel.setPriceRateSchedule( project.getPriceRateSchedule() );
 
         //TODO bp. move this to other place?
         customerChoice.setEnabled( false );

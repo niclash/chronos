@@ -16,7 +16,9 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.ui.ChronosSession;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.login.LoginPage;
 
 public abstract class TopMenuNavPage extends BasePage
@@ -74,8 +76,13 @@ public abstract class TopMenuNavPage extends BasePage
 
     private User getUser()
     {
-        ChronosSession session = (ChronosSession) ChronosSession.get();
+        ChronosSession session = ChronosSession.get();
 
         return session.getUser();
+    }
+
+    public Services getServices()
+    {
+        return ChronosWebApp.getServices();
     }
 }

@@ -12,7 +12,6 @@
  */
 package org.qi4j.chronos.ui.pricerate;
 
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
@@ -56,22 +55,16 @@ public abstract class PriceRateScheduleTab<T extends HasPriceRateSchedules> exte
             };
         }
 
-        public Link getNewLink( String id )
+        public void newLinkOnClick()
         {
-            return new Link( id )
+            PriceRateScheduleAddPage addPage = new PriceRateScheduleAddPage( (BasePage) this.getPage() )
             {
-                public void onClick()
+                public void addPriceRateSchedule( PriceRateScheduleComposite priceRateSchedule )
                 {
-                    PriceRateScheduleAddPage addPage = new PriceRateScheduleAddPage( (BasePage) this.getPage() )
-                    {
-                        public void addPriceRateSchedule( PriceRateScheduleComposite priceRateSchedule )
-                        {
-                            PriceRateScheduleTab.this.addPriceRateSchedule( priceRateSchedule );
-                        }
-                    };
-                    setResponsePage( addPage );
+                    PriceRateScheduleTab.this.addPriceRateSchedule( priceRateSchedule );
                 }
             };
+            setResponsePage( addPage );
         }
 
         public String getNewLinkText()

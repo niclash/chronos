@@ -10,12 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model;
+package org.qi4j.chronos.service.composites;
 
-import org.qi4j.chronos.model.associations.HasCreatedDate;
-import org.qi4j.library.general.model.Description;
+import org.qi4j.api.Composite;
+import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.chronos.service.TaskAssigneeService;
+import org.qi4j.chronos.service.mocks.MockTaskAssigneeServiceMixin;
 
-public interface TaskMaster extends Title, Description, HasCreatedDate
+@ImplementedBy( MockTaskAssigneeServiceMixin.class )
+public interface TaskAssigneeServiceComposite extends TaskAssigneeService, Composite
 {
-
 }

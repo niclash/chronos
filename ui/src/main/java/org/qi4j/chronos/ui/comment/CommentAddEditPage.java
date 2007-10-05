@@ -15,7 +15,6 @@ package org.qi4j.chronos.ui.comment;
 import org.apache.wicket.markup.html.form.Form;
 import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.model.composites.CommentComposite;
-import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.MaxLengthTextArea;
@@ -64,6 +63,4 @@ public abstract class CommentAddEditPage extends AddEditBasePage
     }
 
     public abstract void onSubmitting();
-
-    public abstract WorkEntryEntityComposite getWorkEntry();
 }

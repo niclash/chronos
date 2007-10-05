@@ -31,7 +31,13 @@ public abstract class NewLinkPanel extends BorderPanel
 
         Label linkLabel = new Label( "linkLabel", getNewLinkText() );
 
-        Link link = getNewLink( "link" );
+        Link link = new Link( "link" )
+        {
+            public void onClick()
+            {
+                newLinkOnClick();
+            }
+        };
 
         link.add( linkLabel );
 
@@ -40,7 +46,12 @@ public abstract class NewLinkPanel extends BorderPanel
 
     public abstract Panel getContent( String id );
 
-    public abstract Link getNewLink( String id );
+    public abstract void newLinkOnClick();
+
+    public final Link getNewLink( String id )
+    {
+        return null;
+    }
 
     public abstract String getNewLinkText();
 }

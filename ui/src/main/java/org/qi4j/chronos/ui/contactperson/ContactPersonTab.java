@@ -12,7 +12,6 @@
  */
 package org.qi4j.chronos.ui.contactperson;
 
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.qi4j.chronos.model.associations.HasContactPersons;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
@@ -55,21 +54,15 @@ public abstract class ContactPersonTab extends NewLinkTab
             };
         }
 
-        public Link getNewLink( String id )
+        public void newLinkOnClick()
         {
-            return new Link( id )
+            setResponsePage( new ContactPersonAddPage( (BasePage) this.getPage() )
             {
-                public void onClick()
+                public CustomerEntityComposite getCustomer()
                 {
-                    setResponsePage( new ContactPersonAddPage( (BasePage) this.getPage() )
-                    {
-                        public CustomerEntityComposite getCustomer()
-                        {
-                            return ContactPersonTab.this.getCustomer();
-                        }
-                    } );
+                    return ContactPersonTab.this.getCustomer();
                 }
-            };
+            } );
         }
 
         public String getNewLinkText()

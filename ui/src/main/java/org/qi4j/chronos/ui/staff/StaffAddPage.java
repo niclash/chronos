@@ -58,7 +58,7 @@ public class StaffAddPage extends StaffAddEditPage
 
     public void onSubmitting()
     {
-        StaffService staffService = ChronosWebApp.getServices().getStaffService();
+        StaffService staffService = getServices().getStaffService();
 
         StaffEntityComposite staff = staffService.newInstance( StaffEntityComposite.class );
 
@@ -78,7 +78,7 @@ public class StaffAddPage extends StaffAddEditPage
 
             account.addStaff( staff );
 
-            AccountService accountService = ChronosWebApp.getServices().getAccountService();
+            AccountService accountService = getServices().getAccountService();
 
             accountService.update( account );
 

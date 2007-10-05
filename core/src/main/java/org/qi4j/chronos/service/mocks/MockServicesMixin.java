@@ -60,6 +60,8 @@ import org.qi4j.chronos.service.RelationshipService;
 import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.service.SystemRoleService;
+import org.qi4j.chronos.service.TaskAssigneeService;
+import org.qi4j.chronos.service.TaskService;
 import org.qi4j.chronos.service.UserService;
 import org.qi4j.chronos.service.WorkEntryService;
 import org.qi4j.chronos.service.composites.AccountServiceComposite;
@@ -75,6 +77,8 @@ import org.qi4j.chronos.service.composites.ProjectServiceComposite;
 import org.qi4j.chronos.service.composites.RelationshipServiceComposite;
 import org.qi4j.chronos.service.composites.StaffServiceComposite;
 import org.qi4j.chronos.service.composites.SystemRoleServiceComposite;
+import org.qi4j.chronos.service.composites.TaskAssigneeServiceComposite;
+import org.qi4j.chronos.service.composites.TaskServiceComposite;
 import org.qi4j.chronos.service.composites.UserServiceComposite;
 import org.qi4j.chronos.service.composites.WorkEntryServiceComposite;
 import org.qi4j.chronos.util.CurrencyUtil;
@@ -104,6 +108,8 @@ public class MockServicesMixin implements Services
     private RelationshipService relationshipService;
     private ContactService contactService;
     private PriceRateService priceRateService;
+    private TaskService taskService;
+    private TaskAssigneeService taskAssigneeService;
 
     public void initServices()
     {
@@ -132,6 +138,10 @@ public class MockServicesMixin implements Services
         contactService = newService( ContactServiceComposite.class );
 
         priceRateService = newService( PriceRateServiceComposite.class );
+
+        taskService = newParentBasedService( TaskServiceComposite.class, "projectService", projectService );
+
+        taskAssigneeService = newParentBasedService( TaskAssigneeServiceComposite.class, "taskService", taskService );
 
         initDummyData();
     }
@@ -611,6 +621,16 @@ public class MockServicesMixin implements Services
     public PriceRateService getPriceRateService()
     {
         return priceRateService;
+    }
+
+    public TaskService getTaskService()
+    {
+        return taskService;
+    }
+
+    public TaskAssigneeService getTaskAssigneeService()
+    {
+        return taskAssigneeService;
     }
 
     @SuppressWarnings( { "unchecked" } )

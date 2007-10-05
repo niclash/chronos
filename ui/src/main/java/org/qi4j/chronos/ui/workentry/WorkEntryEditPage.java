@@ -14,7 +14,6 @@ package org.qi4j.chronos.ui.workentry;
 
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.service.WorkEntryService;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -43,7 +42,7 @@ public abstract class WorkEntryEditPage extends WorkEntryAddEditPage
         {
             assignFieldValueToWorkEntry( workEntry );
 
-            WorkEntryService service = ChronosWebApp.getServices().getWorkEntryService();
+            WorkEntryService service = getServices().getWorkEntryService();
 
             service.update( workEntry );
 

@@ -10,18 +10,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.comment;
+package org.qi4j.chronos.ui.task;
 
-import org.qi4j.chronos.model.composites.CommentComposite;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class CommentEditPage extends CommentAddEditPage
+public abstract class TaskEditPage extends TaskAddEditPage
 {
-    private final static Logger LOGGER = LoggerFactory.getLogger( CommentEditPage.class );
+    private final static Logger LOGGER = LoggerFactory.getLogger( TaskEditPage.class );
 
-    public CommentEditPage( BasePage basePage )
+    public TaskEditPage( BasePage basePage )
     {
         super( basePage );
 
@@ -30,9 +30,28 @@ public abstract class CommentEditPage extends CommentAddEditPage
 
     private void initData()
     {
-        CommentComposite comment = getComment();
+        assignTaskMasterToFieldValie( getTaskMaster() );
+    }
 
-        assignCommentToFieldValue( comment );
+    public void onSubmitting()
+    {
+        TaskEntityComposite taskMaster = getTaskMaster();
+
+        try
+        {
+            assignFieldValueToTaskMaster( taskMaster );
+
+            getServices().getTaskService().update( taskMaster );
+
+            logInfoMsg( "Task is updated successfully." );
+
+            divertToGoBackPage();
+        }
+        catch( Exception err )
+        {
+            logErrorMsg( err.getMessage() );
+            LOGGER.error( err.getMessage() );
+        }
     }
 
     public String getSubmitButtonValue()
@@ -42,31 +61,8 @@ public abstract class CommentEditPage extends CommentAddEditPage
 
     public String getTitleLabel()
     {
-        return "Edit Comment";
+        return "Edit Task";
     }
 
-    public void onSubmitting()
-    {
-        CommentComposite comment = getComment();
-
-        try
-        {
-            assignFieldValueToComment( comment );
-
-            updateComment( comment );
-
-            logInfoMsg( "Comment is updated successfully." );
-
-            divertToGoBackPage();
-        }
-        catch( Exception err )
-        {
-            logErrorMsg( err.getMessage() );
-            LOGGER.error( err.getMessage(), err );
-        }
-    }
-
-    public abstract CommentComposite getComment();
-
-    public abstract void updateComment( CommentComposite comment );
+    public abstract TaskEntityComposite getTaskMaster();
 }

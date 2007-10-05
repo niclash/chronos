@@ -10,43 +10,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.comment;
+package org.qi4j.chronos.ui.taskassignee;
 
-import java.util.Date;
-import org.qi4j.chronos.model.composites.CommentComposite;
-import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.model.composites.TaskAssigneeEntityComposite;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.service.TaskAssigneeService;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class CommentAddPage extends CommentAddEditPage
+public abstract class TaskAssigneeAddPage extends TaskAssigneeAddEditPage
 {
-    private final static Logger LOGGER = LoggerFactory.getLogger( CommentAddPage.class );
+    private final static Logger LOGGER = LoggerFactory.getLogger( TaskAssigneeAddPage.class );
 
-    public CommentAddPage( BasePage basePage )
+    public TaskAssigneeAddPage( BasePage basePage )
     {
         super( basePage );
     }
 
+    private TaskAssigneeService getTaskAssigneeService()
+    {
+        return getServices().getTaskAssigneeService();
+    }
+
     public void onSubmitting()
     {
-        CommentComposite comment = ChronosWebApp.newInstance( CommentComposite.class );
+        TaskAssigneeEntityComposite taskAssignee = getTaskAssigneeService().newInstance( TaskAssigneeEntityComposite.class );
 
         try
         {
-            assignFieldValueToComment( comment );
+            assignFieldValuesToTaskAssignee( taskAssignee );
 
-            comment.setCreatedDate( new Date() );
+            TaskEntityComposite task = getTask();
 
-            addComment( comment );
+            task.addTaskAssignee( taskAssignee );
 
-            logInfoMsg( "Comment is added successfully" );
+            logInfoMsg( "Task assignee is added successfully." );
 
             divertToGoBackPage();
         }
         catch( Exception err )
         {
             logErrorMsg( err.getMessage() );
+
             LOGGER.error( err.getMessage(), err );
         }
     }
@@ -58,8 +64,8 @@ public abstract class CommentAddPage extends CommentAddEditPage
 
     public String getTitleLabel()
     {
-        return "Add Comment";
+        return "Add Task Assignee";
     }
 
-    public abstract void addComment( CommentComposite comment );
+    public abstract TaskEntityComposite getTask();
 }

@@ -10,37 +10,44 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.comment;
+package org.qi4j.chronos.ui.task;
 
 import java.util.Date;
-import org.qi4j.chronos.model.composites.CommentComposite;
-import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.service.TaskService;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class CommentAddPage extends CommentAddEditPage
+public abstract class TaskAddPage extends TaskAddEditPage
 {
-    private final static Logger LOGGER = LoggerFactory.getLogger( CommentAddPage.class );
+    private final static Logger LOGGER = LoggerFactory.getLogger( TaskAddPage.class );
 
-    public CommentAddPage( BasePage basePage )
+    public TaskAddPage( BasePage basePage )
     {
         super( basePage );
     }
 
     public void onSubmitting()
     {
-        CommentComposite comment = ChronosWebApp.newInstance( CommentComposite.class );
+        TaskService taskService = getServices().getTaskService();
 
         try
         {
-            assignFieldValueToComment( comment );
+            TaskEntityComposite taskMaster = taskService.newInstance( TaskEntityComposite.class );
 
-            comment.setCreatedDate( new Date() );
+            taskMaster.setCreatedDate( new Date() );
 
-            addComment( comment );
+            assignFieldValueToTaskMaster( taskMaster );
 
-            logInfoMsg( "Comment is added successfully" );
+            ProjectEntityComposite project = getProject();
+
+            project.addTaskMaster( taskMaster );
+
+            getServices().getProjectService().update( project );
+
+            logInfoMsg( "Task is added successfully." );
 
             divertToGoBackPage();
         }
@@ -58,8 +65,8 @@ public abstract class CommentAddPage extends CommentAddEditPage
 
     public String getTitleLabel()
     {
-        return "Add Comment";
+        return "Add Task";
     }
 
-    public abstract void addComment( CommentComposite comment );
+    public abstract ProjectEntityComposite getProject();
 }

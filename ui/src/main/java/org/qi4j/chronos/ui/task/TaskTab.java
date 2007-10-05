@@ -10,61 +10,76 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.projectassignee;
+package org.qi4j.chronos.ui.task;
 
+import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.service.FindFilter;
+import org.qi4j.chronos.service.TaskService;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.NewLinkPanel;
 import org.qi4j.chronos.ui.common.tab.NewLinkTab;
 
-public abstract class ProjectAssigneeTab extends NewLinkTab
+public abstract class TaskTab extends NewLinkTab
 {
-    public ProjectAssigneeTab( String title )
+    public TaskTab( String id )
     {
-        super( title );
+        super( id );
     }
 
-    public NewLinkPanel getNewLinkPanel( String panelId )
+    public NewLinkPanel getNewLinkPanel( String id )
     {
-        return new ProjectAssigneeNewLinkPanel( panelId );
+        return new TaskMasterNewLinkPanel( id );
     }
 
-    private class ProjectAssigneeNewLinkPanel extends NewLinkPanel
+    private TaskService getTaskMasterService()
     {
+        return ChronosWebApp.getServices().getTaskService();
+    }
 
-        public ProjectAssigneeNewLinkPanel( String id )
+    private class TaskMasterNewLinkPanel extends NewLinkPanel
+    {
+        public TaskMasterNewLinkPanel( String id )
         {
             super( id );
         }
 
         public Panel getContent( String id )
         {
-            return new ProjectAssigneeTable( id )
+            return new TaskTable( id )
             {
-                public ProjectEntityComposite getProject()
+                public int getSize()
                 {
-                    return ProjectAssigneeTab.this.getProject();
+                    return getTaskMasterService().countAll( getProject() );
+                }
+
+                public List<TaskEntityComposite> dataList( int first, int count )
+                {
+                    return getTaskMasterService().findAll( getProject(), new FindFilter( first, count ) );
                 }
             };
         }
 
         public void newLinkOnClick()
         {
-            ProjectAssigneeAddPage addPage = new ProjectAssigneeAddPage( (BasePage) this.getPage() )
+            TaskAddPage addPage = new TaskAddPage( (BasePage) this.getPage() )
             {
                 public ProjectEntityComposite getProject()
                 {
-                    return ProjectAssigneeTab.this.getProject();
+                    return TaskTab.this.getProject();
                 }
             };
 
             setResponsePage( addPage );
         }
 
+
         public String getNewLinkText()
         {
-            return "New Project Assignee";
+            return "New Task";
         }
     }
 

@@ -13,7 +13,6 @@
 package org.qi4j.chronos.ui.workentry;
 
 import java.util.List;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
@@ -56,23 +55,17 @@ public abstract class WorkEntryTab extends NewLinkTab
             };
         }
 
-        public Link getNewLink( String id )
+        public void newLinkOnClick()
         {
-            return new Link( id )
+            WorkEntryAddPage addPage = new WorkEntryAddPage( (BasePage) this.getPage() )
             {
-                public void onClick()
+                public ProjectAssigneeEntityComposite getProjectAssignee()
                 {
-                    WorkEntryAddPage addPage = new WorkEntryAddPage( (BasePage) this.getPage() )
-                    {
-                        public ProjectAssigneeEntityComposite getProjectAssignee()
-                        {
-                            return WorkEntryTab.this.getProjectAssignee();
-                        }
-                    };
-
-                    setResponsePage( addPage );
+                    return WorkEntryTab.this.getProjectAssignee();
                 }
             };
+
+            setResponsePage( addPage );
         }
 
         public String getNewLinkText()

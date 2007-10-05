@@ -25,8 +25,6 @@ import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.ProjectStatus;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
-import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.WorkEntryService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
@@ -35,7 +33,7 @@ import org.qi4j.chronos.ui.common.SimpleTextField;
 import org.qi4j.chronos.ui.contactperson.ContactPersonTab2;
 import org.qi4j.chronos.ui.pricerate.PriceRateTab;
 import org.qi4j.chronos.ui.projectassignee.ProjectAssigneeTab;
-import org.qi4j.chronos.ui.workentry.WorkEntryTab2;
+import org.qi4j.chronos.ui.task.TaskTab;
 import org.qi4j.chronos.util.DateUtil;
 
 public abstract class ProjectDetailPage extends LeftMenuNavPage
@@ -122,7 +120,7 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
             tabs.add( createContactPersonTab() );
             tabs.add( createPriceRateTab() );
             tabs.add( createProjectAssigneeTab() );
-            tabs.add( createWorkEntryTab() );
+            tabs.add( createTaskTab() );
 
             tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
 
@@ -146,18 +144,13 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
         }
     }
 
-    private WorkEntryTab2 createWorkEntryTab()
+    private TaskTab createTaskTab()
     {
-        return new WorkEntryTab2( "Work Entry" )
+        return new TaskTab( "Task" )
         {
-            public List<WorkEntryEntityComposite> dataList( int first, int count )
+            public ProjectEntityComposite getProject()
             {
-                return getWorkEntryService().findAll( getProject(), new FindFilter( first, count ) );
-            }
-
-            public int getSize()
-            {
-                return getWorkEntryService().countAll( getProject() );
+                return ProjectDetailPage.this.getProject();
             }
         };
     }
