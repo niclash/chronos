@@ -27,8 +27,8 @@ import org.qi4j.library.general.model.Validatable;
  * <p/>
  * TODO: Fix the required fields validation as Lifecycle is not part of the interface anymore
  */
-//@ModifiedBy( { RequiredFieldsValidationModifier.class } )
-//@ImplementedBy( { AddressDescriptorMixin.class } )
+//@Assertions( { RequiredFieldsValidationModifier.class } )
+//@Mixins( { AddressDescriptorMixin.class } )
 //@RequiredFields( { "firstLine", "zipCode", "city" } )
 public interface AddressComposite extends Address, Validatable, Descriptor, Composite
 {

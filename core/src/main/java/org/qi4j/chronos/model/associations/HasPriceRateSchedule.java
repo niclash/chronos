@@ -12,11 +12,11 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.api.annotation.Mixins;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.model.mixins.HasPriceRateScheduleMixin;
 
-@ImplementedBy( HasPriceRateScheduleMixin.class )
+@Mixins( HasPriceRateScheduleMixin.class )
 public interface HasPriceRateSchedule
 {
     void setPriceRateSchedule( PriceRateScheduleComposite priceRateSchedule );

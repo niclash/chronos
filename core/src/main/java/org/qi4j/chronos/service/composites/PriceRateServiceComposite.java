@@ -13,11 +13,11 @@
 package org.qi4j.chronos.service.composites;
 
 import org.qi4j.api.Composite;
-import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.api.annotation.Mixins;
 import org.qi4j.chronos.service.PriceRateService;
 import org.qi4j.chronos.service.mocks.MockPriceRateServiceMixin;
 
-@ImplementedBy( MockPriceRateServiceMixin.class )
+@Mixins( MockPriceRateServiceMixin.class )
 public interface PriceRateServiceComposite extends PriceRateService, Composite
 {
 }

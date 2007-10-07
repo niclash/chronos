@@ -68,7 +68,7 @@ public class AddressEntityCompositeTest extends AbstractTest
         CountryComposite country = builderFactory.newCompositeBuilder( CountryComposite.class ).newInstance();
         country.setName( "Australia" );
         city.setCountry( country );
-        address.validate();
+        address.checkValid();
     }
 
     public void testValidateCityNull() throws Exception
@@ -79,7 +79,7 @@ public class AddressEntityCompositeTest extends AbstractTest
 
         try
         {
-            address.validate();
+            address.checkValid();
             fail( "ValidationException should be thrown as City is null." );
         }
         catch( ValidationException e )
@@ -103,7 +103,7 @@ public class AddressEntityCompositeTest extends AbstractTest
 
         try
         {
-            address.validate();
+            address.checkValid();
             fail( "ValidationException should be thrown as first line address is null." );
         }
         catch( ValidationException e )
@@ -127,7 +127,7 @@ public class AddressEntityCompositeTest extends AbstractTest
 
         try
         {
-            address.validate();
+            address.checkValid();
             fail( "ValidationException should be thrown as zipcode is null." );
         }
         catch( ValidationException e )

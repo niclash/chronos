@@ -14,14 +14,14 @@ package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
 import java.util.Iterator;
-import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.api.annotation.Mixins;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.mixins.HasUsersMixin;
 
 /**
  * Describe association with {@link User}
  */
-@ImplementedBy( { HasUsersMixin.class } )
+@Mixins( { HasUsersMixin.class } )
 public interface HasUsers extends Serializable
 {
     void addUser( User user );

@@ -12,9 +12,9 @@
  */
 package org.qi4j.chronos.sample;
 
-import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.api.annotation.Mixins;
 
-@ImplementedBy( SampleMixin.class )
+@Mixins( SampleMixin.class )
 public interface Sample
 {
     String getSampleName();

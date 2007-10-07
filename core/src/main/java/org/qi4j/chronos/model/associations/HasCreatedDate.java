@@ -13,10 +13,10 @@
 package org.qi4j.chronos.model.associations;
 
 import java.util.Date;
-import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.api.annotation.Mixins;
 import org.qi4j.chronos.model.mixins.HasCreatedDateMixin;
 
-@ImplementedBy( HasCreatedDateMixin.class )
+@Mixins( HasCreatedDateMixin.class )
 public interface HasCreatedDate
 {
     void setCreatedDate( Date date );

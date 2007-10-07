@@ -12,10 +12,10 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.api.annotation.Mixins;
 import org.qi4j.chronos.model.mixins.HasTextMixin;
 
-@ImplementedBy( HasTextMixin.class )
+@Mixins( HasTextMixin.class )
 public interface HasText
 {
     void setText( String text );

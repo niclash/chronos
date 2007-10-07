@@ -14,11 +14,11 @@
 package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
-import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.api.annotation.Mixins;
 import org.qi4j.chronos.model.TimeRange;
 import org.qi4j.chronos.model.mixins.HasProjectTimeRangeMixin;
 
-@ImplementedBy( HasProjectTimeRangeMixin.class )
+@Mixins( HasProjectTimeRangeMixin.class )
 public interface HasProjectTimeRange extends Serializable
 {
     TimeRange getEstimateTime();

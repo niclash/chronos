@@ -13,10 +13,10 @@
  */
 package org.qi4j.chronos.model;
 
-import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.api.annotation.Mixins;
 import org.qi4j.chronos.model.mixins.LegalConditionMixin;
 
-@ImplementedBy( LegalConditionMixin.class )
+@Mixins( LegalConditionMixin.class )
 public interface LegalCondition
 {
     public final static int LEGAL_CONDITION_NAME_LEN = 120;

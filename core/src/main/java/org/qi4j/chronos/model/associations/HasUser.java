@@ -12,11 +12,11 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.api.annotation.Mixins;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.mixins.HasUserMixin;
 
-@ImplementedBy( HasUserMixin.class )
+@Mixins( HasUserMixin.class )
 public interface HasUser
 {
     void setUser( User user );

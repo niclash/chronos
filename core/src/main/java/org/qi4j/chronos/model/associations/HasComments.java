@@ -15,12 +15,11 @@ package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
 import java.util.Iterator;
-import org.qi4j.api.annotation.ImplementedBy;
-import org.qi4j.chronos.model.Comment;
+import org.qi4j.api.annotation.Mixins;
 import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.chronos.model.mixins.HasCommentsMixin;
 
-@ImplementedBy( { HasCommentsMixin.class } )
+@Mixins( { HasCommentsMixin.class } )
 public interface HasComments extends Serializable
 {
     void addComment( CommentComposite comment );

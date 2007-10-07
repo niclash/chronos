@@ -12,11 +12,11 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.api.annotation.Mixins;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.mixins.HasProjectAssigneeMixin;
 
-@ImplementedBy( HasProjectAssigneeMixin.class )
+@Mixins( HasProjectAssigneeMixin.class )
 public interface HasProjectAssignee
 {
     void setProjectAssignee( ProjectAssigneeEntityComposite projectAssignee );

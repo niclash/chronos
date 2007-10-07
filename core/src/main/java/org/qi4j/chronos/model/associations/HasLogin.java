@@ -13,14 +13,14 @@
 package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
-import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.api.annotation.Mixins;
 import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.model.mixins.HasLoginMixin;
 
 /**
  * Describe association with {@link org.qi4j.chronos.model.composites.LoginComposite}
  */
-@ImplementedBy( { HasLoginMixin.class } )
+@Mixins( { HasLoginMixin.class } )
 public interface HasLogin extends Serializable
 {
     void setLogin( Login login );

@@ -13,11 +13,11 @@
 package org.qi4j.chronos.service.composites;
 
 import org.qi4j.api.Composite;
-import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.api.annotation.Mixins;
 import org.qi4j.chronos.service.CustomerService;
 import org.qi4j.chronos.service.mocks.MockCustomerServiceMixin;
 
-@ImplementedBy( MockCustomerServiceMixin.class )
+@Mixins( MockCustomerServiceMixin.class )
 public interface CustomerServiceComposite extends CustomerService, Composite
 {
 }

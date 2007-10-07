@@ -15,13 +15,13 @@ package org.qi4j.chronos.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.api.annotation.Mixins;
 import org.qi4j.chronos.model.mixins.TimeRangeMixin;
 
 /**
  * Generic interface for TimeRange
  */
-@ImplementedBy( TimeRangeMixin.class )
+@Mixins( TimeRangeMixin.class )
 public interface TimeRange extends Serializable
 {
     Date getStartTime();

@@ -15,11 +15,11 @@ package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
 import java.util.Iterator;
-import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.api.annotation.Mixins;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.mixins.HasProjectAssigneesMixin;
 
-@ImplementedBy( HasProjectAssigneesMixin.class )
+@Mixins( HasProjectAssigneesMixin.class )
 public interface HasProjectAssignees extends Serializable
 {
     void addProjectAssignee( ProjectAssigneeEntityComposite assignee );

@@ -12,11 +12,11 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.api.annotation.Mixins;
 import org.qi4j.chronos.model.SystemRoleType;
 import org.qi4j.chronos.model.mixins.HasSystemRoleTypeMixin;
 
-@ImplementedBy( HasSystemRoleTypeMixin.class )
+@Mixins( HasSystemRoleTypeMixin.class )
 public interface HasSystemRoleType
 {
     void setSystemRoleType( SystemRoleType systemRoleType );

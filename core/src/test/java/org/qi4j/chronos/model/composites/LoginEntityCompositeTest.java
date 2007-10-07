@@ -25,7 +25,7 @@ public class LoginEntityCompositeTest extends AbstractTest
 
         try
         {
-            login.validate();
+            login.checkValid();
         }
         catch( ValidationException e )
         {
@@ -40,7 +40,7 @@ public class LoginEntityCompositeTest extends AbstractTest
 
         try
         {
-            login.validate();
+            login.checkValid();
             fail();
         }
         catch( ValidationException e )
@@ -56,7 +56,7 @@ public class LoginEntityCompositeTest extends AbstractTest
 
         try
         {
-            login.validate();
+            login.checkValid();
             fail();
         }
         catch( ValidationException e )
@@ -71,7 +71,7 @@ public class LoginEntityCompositeTest extends AbstractTest
 
         try
         {
-            login.validate();
+            login.checkValid();
             fail();
         }
         catch( ValidationException e )

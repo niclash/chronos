@@ -13,11 +13,11 @@
 package org.qi4j.chronos.model.associations;
 
 import java.util.Iterator;
-import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.api.annotation.Mixins;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.mixins.HasStaffsMixin;
 
-@ImplementedBy( HasStaffsMixin.class )
+@Mixins( HasStaffsMixin.class )
 public interface HasStaffs
 {
     void addStaff( StaffEntityComposite staff );

@@ -13,11 +13,11 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.api.annotation.Mixins;
 import org.qi4j.chronos.model.PriceRateType;
 import org.qi4j.chronos.model.mixins.HasPriceRateTypeMixin;
 
-@ImplementedBy( HasPriceRateTypeMixin.class )
+@Mixins( HasPriceRateTypeMixin.class )
 public interface HasPriceRateType
 {
     PriceRateType getPriceRateType();

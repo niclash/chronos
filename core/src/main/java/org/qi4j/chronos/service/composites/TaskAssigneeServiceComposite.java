@@ -13,11 +13,11 @@
 package org.qi4j.chronos.service.composites;
 
 import org.qi4j.api.Composite;
-import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.api.annotation.Mixins;
 import org.qi4j.chronos.service.TaskAssigneeService;
 import org.qi4j.chronos.service.mocks.MockTaskAssigneeServiceMixin;
 
-@ImplementedBy( MockTaskAssigneeServiceMixin.class )
+@Mixins( MockTaskAssigneeServiceMixin.class )
 public interface TaskAssigneeServiceComposite extends TaskAssigneeService, Composite
 {
 }

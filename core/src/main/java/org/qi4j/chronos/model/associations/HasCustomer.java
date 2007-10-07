@@ -12,11 +12,11 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.api.annotation.Mixins;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.model.mixins.HasCustomerMixin;
 
-@ImplementedBy( HasCustomerMixin.class )
+@Mixins( HasCustomerMixin.class )
 public interface HasCustomer
 {
     void setCustomer( CustomerEntityComposite customer );

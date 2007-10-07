@@ -13,14 +13,14 @@
 package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
-import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.api.annotation.Mixins;
 import org.qi4j.chronos.model.composites.RelationshipComposite;
 import org.qi4j.chronos.model.mixins.HasRelationshipMixin;
 
 /**
  * Generic interface to describe association with relationship.
  */
-@ImplementedBy( HasRelationshipMixin.class )
+@Mixins( HasRelationshipMixin.class )
 public interface HasRelationship extends Serializable
 {
     void setRelationship( RelationshipComposite relationship );

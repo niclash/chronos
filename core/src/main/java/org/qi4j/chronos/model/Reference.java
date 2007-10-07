@@ -14,10 +14,10 @@
 package org.qi4j.chronos.model;
 
 import java.io.Serializable;
-import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.api.annotation.Mixins;
 import org.qi4j.chronos.model.mixins.ReferenceMixin;
 
-@ImplementedBy( ReferenceMixin.class )
+@Mixins( ReferenceMixin.class )
 public interface Reference extends Serializable
 {
     String getReference();

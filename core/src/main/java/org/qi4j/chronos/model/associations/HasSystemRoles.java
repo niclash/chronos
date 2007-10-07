@@ -14,11 +14,11 @@ package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
 import java.util.Iterator;
-import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.api.annotation.Mixins;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.model.mixins.HasSystemRolesMixin;
 
-@ImplementedBy( HasSystemRolesMixin.class )
+@Mixins( HasSystemRolesMixin.class )
 public interface HasSystemRoles extends Serializable
 {
     void removeAllSystemRole();

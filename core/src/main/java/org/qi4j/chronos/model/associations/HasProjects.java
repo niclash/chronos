@@ -14,11 +14,11 @@
 package org.qi4j.chronos.model.associations;
 
 import java.util.Iterator;
-import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.api.annotation.Mixins;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.mixins.HasProjectsMixin;
 
-@ImplementedBy( HasProjectsMixin.class )
+@Mixins( HasProjectsMixin.class )
 public interface HasProjects
 {
     void addProject( ProjectEntityComposite project );

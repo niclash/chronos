@@ -24,7 +24,7 @@ public class AccountPersistentCompositeTest extends AbstractTest
         try
         {
             account.setName( null );
-            account.validate();
+            account.checkValid();
             fail( "Should throw ValidationException" );
         }
         catch( ValidationException err )

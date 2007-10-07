@@ -13,11 +13,11 @@
 package org.qi4j.chronos.service.composites;
 
 import org.qi4j.api.Composite;
-import org.qi4j.api.annotation.ImplementedBy;
+import org.qi4j.api.annotation.Mixins;
 import org.qi4j.chronos.service.SystemRoleService;
 import org.qi4j.chronos.service.mocks.MockSystemRoleServiceMiscMixin;
 
-@ImplementedBy( MockSystemRoleServiceMiscMixin.class )
+@Mixins( MockSystemRoleServiceMiscMixin.class )
 public interface SystemRoleServiceComposite extends SystemRoleService, Composite
 {
 }

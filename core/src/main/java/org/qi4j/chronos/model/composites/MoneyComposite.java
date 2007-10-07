@@ -20,7 +20,7 @@ import org.qi4j.library.general.model.Money;
  * ValueObject for {@link org.qi4j.library.general.model.Money} that provides the service to display
  * the formatted money value.
  */
-//@ImplementedBy( { MoneyDescriptorMixin.class} )
+//@Mixins( { MoneyDescriptorMixin.class} )
 public interface MoneyComposite extends Money, Descriptor, Composite
 {
 }
