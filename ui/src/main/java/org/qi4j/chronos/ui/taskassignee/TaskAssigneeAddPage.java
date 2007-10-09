@@ -12,10 +12,12 @@
  */
 package org.qi4j.chronos.ui.taskassignee;
 
+import java.util.List;
+import org.apache.wicket.Page;
+import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.TaskAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.TaskAssigneeService;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +25,7 @@ public abstract class TaskAssigneeAddPage extends TaskAssigneeAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( TaskAssigneeAddPage.class );
 
-    public TaskAssigneeAddPage( BasePage basePage )
+    public TaskAssigneeAddPage( Page basePage )
     {
         super( basePage );
     }
@@ -65,6 +67,11 @@ public abstract class TaskAssigneeAddPage extends TaskAssigneeAddEditPage
     public String getTitleLabel()
     {
         return "Add Task Assignee";
+    }
+
+    public List<ProjectAssigneeEntityComposite> getAvailableProjectAssigneeList()
+    {
+        return getServices().getProjectAssigneeService().getUnassignedProjectAssignee( getTask() );
     }
 
     public abstract TaskEntityComposite getTask();

@@ -13,10 +13,10 @@
 package org.qi4j.chronos.ui.task;
 
 import java.util.Date;
+import org.apache.wicket.Page;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.TaskService;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +24,7 @@ public abstract class TaskAddPage extends TaskAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( TaskAddPage.class );
 
-    public TaskAddPage( BasePage basePage )
+    public TaskAddPage( Page basePage )
     {
         super( basePage );
     }
@@ -43,7 +43,7 @@ public abstract class TaskAddPage extends TaskAddEditPage
 
             ProjectEntityComposite project = getProject();
 
-            project.addTaskMaster( taskMaster );
+            project.addTask( taskMaster );
 
             getServices().getProjectService().update( project );
 

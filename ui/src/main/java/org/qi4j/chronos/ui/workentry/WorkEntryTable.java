@@ -42,7 +42,7 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntryEntityComposit
 
             public void performAction( AbstractSortableDataProvider dataProvider )
             {
-                
+
             }
         } );
     }
@@ -76,7 +76,7 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntryEntityComposit
         {
             public void linkClicked()
             {
-                WorkEntryDetailPage detailPage = new WorkEntryDetailPage( (BasePage) this.getPage() )
+                WorkEntryDetailPage detailPage = new WorkEntryDetailPage( this.getPage() )
                 {
                     public WorkEntryEntityComposite getWorkEntry()
                     {

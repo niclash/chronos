@@ -10,19 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.associations;
+package org.qi4j.chronos.service.composites;
 
-import java.util.Iterator;
+import org.qi4j.api.Composite;
 import org.qi4j.api.annotation.Mixins;
-import org.qi4j.chronos.model.composites.TaskEntityComposite;
-import org.qi4j.chronos.model.mixins.HasTaskMastersMixin;
+import org.qi4j.chronos.service.CommentService;
+import org.qi4j.chronos.service.mocks.MockCommentServiceMixin;
 
-@Mixins( HasTaskMastersMixin.class )
-public interface HasTaskMasters
+@Mixins( MockCommentServiceMixin.class )
+public interface CommentServiceComposite extends CommentService, Composite
 {
-    void addTaskMaster( TaskEntityComposite taskMaster );
-
-    void removeTaskMaster( TaskEntityComposite taskMaster );
-
-    Iterator<TaskEntityComposite> taskMasterIteraotr();
 }

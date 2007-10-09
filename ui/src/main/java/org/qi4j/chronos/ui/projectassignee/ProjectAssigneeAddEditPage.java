@@ -13,6 +13,7 @@
 package org.qi4j.chronos.ui.projectassignee;
 
 import java.util.List;
+import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.model.Model;
@@ -22,7 +23,6 @@ import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.pricerate.PriceRateOptionPanel;
 import org.qi4j.chronos.ui.staff.StaffDelegator;
@@ -34,7 +34,7 @@ public abstract class ProjectAssigneeAddEditPage extends AddEditBasePage
     private CheckBox isLeadCheckBox;
     private PriceRateOptionPanel priceRateOptionPanel;
 
-    public ProjectAssigneeAddEditPage( BasePage basePage )
+    public ProjectAssigneeAddEditPage( Page basePage )
     {
         super( basePage );
     }

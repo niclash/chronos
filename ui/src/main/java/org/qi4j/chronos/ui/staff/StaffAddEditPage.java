@@ -15,11 +15,11 @@ package org.qi4j.chronos.ui.staff;
 import java.util.Collections;
 import java.util.Currency;
 import java.util.Iterator;
+import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.form.Form;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.NumberTextField;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
@@ -33,7 +33,7 @@ public abstract class StaffAddEditPage extends AddEditBasePage
 
     private UserAddEditPanel userAddEditPanel;
 
-    public StaffAddEditPage( BasePage basePage )
+    public StaffAddEditPage( Page basePage )
     {
         super( basePage );
     }

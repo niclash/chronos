@@ -86,7 +86,7 @@ public abstract class ProjectTable extends ActionTable<ProjectEntityComposite, S
         {
             public void linkClicked()
             {
-                ProjectDetailPage detailPage = new ProjectDetailPage( (BasePage) this.getPage() )
+                ProjectDetailPage detailPage = new ProjectDetailPage( this.getPage() )
                 {
                     public ProjectEntityComposite getProject()
                     {

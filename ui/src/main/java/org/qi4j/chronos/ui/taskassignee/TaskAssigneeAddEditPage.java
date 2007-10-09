@@ -14,11 +14,11 @@ package org.qi4j.chronos.ui.taskassignee;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.form.Form;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.TaskAssigneeEntityComposite;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.projectassignee.ProjectAssigneeDelegator;
 
@@ -26,7 +26,7 @@ public abstract class TaskAssigneeAddEditPage extends AddEditBasePage
 {
     private SimpleDropDownChoice<ProjectAssigneeDelegator> projectAssigneeStaffChoice;
 
-    public TaskAssigneeAddEditPage( BasePage basePage )
+    public TaskAssigneeAddEditPage( Page basePage )
     {
         super( basePage );
     }

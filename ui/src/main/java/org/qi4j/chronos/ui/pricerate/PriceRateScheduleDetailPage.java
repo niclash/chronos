@@ -12,21 +12,21 @@
  */
 package org.qi4j.chronos.ui.pricerate;
 
+import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.PriceRateSchedule;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.SimpleTextField;
 import org.qi4j.chronos.ui.util.ListUtil;
 
 public abstract class PriceRateScheduleDetailPage extends LeftMenuNavPage
 {
-    private BasePage returnBase;
+    private Page returnBase;
 
-    public PriceRateScheduleDetailPage( BasePage returnBase )
+    public PriceRateScheduleDetailPage( Page returnBase )
     {
         this.returnBase = returnBase;
 

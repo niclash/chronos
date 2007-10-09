@@ -19,7 +19,6 @@ import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.service.EntityService;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleCheckBox;
 import org.qi4j.chronos.ui.common.SimpleDataProvider;
@@ -98,7 +97,7 @@ public class AccountTable extends ActionTable<AccountEntityComposite, String>
         {
             public void linkClicked()
             {
-                AccountEditPage editPage = new AccountEditPage( (BasePage) this.getPage(), accountId );
+                AccountEditPage editPage = new AccountEditPage( this.getPage(), accountId );
 
                 setResponsePage( editPage );
             }
@@ -111,7 +110,7 @@ public class AccountTable extends ActionTable<AccountEntityComposite, String>
         {
             public void linkClicked()
             {
-                AccountDetailPage detailPage = new AccountDetailPage( (BasePage) this.getPage(), accountId );
+                AccountDetailPage detailPage = new AccountDetailPage( this.getPage(), accountId );
 
                 setResponsePage( detailPage );
             }

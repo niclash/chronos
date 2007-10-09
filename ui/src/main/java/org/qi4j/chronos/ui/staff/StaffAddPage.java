@@ -12,6 +12,8 @@
  */
 package org.qi4j.chronos.ui.staff;
 
+import java.util.List;
+import org.apache.wicket.Page;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.LoginComposite;
 import org.qi4j.chronos.model.composites.MoneyComposite;
@@ -19,19 +21,16 @@ import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.login.LoginUserAddPanel;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.qi4j.library.general.model.ValidationException;
+import org.qi4j.library.general.model.mixins.ValidationMessage;
 
 public class StaffAddPage extends StaffAddEditPage
 {
-    private final static Logger LOGGER = LoggerFactory.getLogger( StaffAddPage.class );
-
     private LoginUserAddPanel loginUserAddPanel;
 
-    public StaffAddPage( BasePage basePage )
+    public StaffAddPage( Page basePage )
     {
         super( basePage );
     }
@@ -86,10 +85,15 @@ public class StaffAddPage extends StaffAddEditPage
 
             divertToGoBackPage();
         }
-        catch( Exception err )
+        catch( ValidationException err )
         {
-            logErrorMsg( err.getMessage() );
-            LOGGER.error( err.getMessage() );
+            List<ValidationMessage> validation = err.getMessages();
+
+            for( ValidationMessage msg : validation )
+            {
+                error( msg.getSource() );
+            }
         }
+
     }
 }

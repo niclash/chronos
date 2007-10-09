@@ -10,35 +10,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.mixins;
+package org.qi4j.chronos.service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
-import org.qi4j.chronos.model.associations.HasTaskMasters;
+import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 
-public class HasTaskMastersMixin implements HasTaskMasters
+public interface ProjectAssigneeMiscService
 {
-    private List<TaskEntityComposite> list;
-
-    public HasTaskMastersMixin()
-    {
-        list = new ArrayList<TaskEntityComposite>();
-    }
-
-    public void addTaskMaster( TaskEntityComposite taskMaster )
-    {
-        list.add( taskMaster );
-    }
-
-    public void removeTaskMaster( TaskEntityComposite taskMaster )
-    {
-        list.remove( taskMaster );
-    }
-
-    public Iterator<TaskEntityComposite> taskMasterIteraotr()
-    {
-        return list.iterator();
-    }
+    public List<ProjectAssigneeEntityComposite> getUnassignedProjectAssignee( TaskEntityComposite task );
 }

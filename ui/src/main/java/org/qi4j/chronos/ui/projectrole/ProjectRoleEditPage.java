@@ -12,9 +12,9 @@
  */
 package org.qi4j.chronos.ui.projectrole;
 
+import org.apache.wicket.Page;
 import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
 import org.qi4j.chronos.service.ProjectRoleService;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +24,7 @@ public class ProjectRoleEditPage extends ProjectRoleAddEditPage
 
     private String roleId;
 
-    public ProjectRoleEditPage( BasePage goBackPage, String roleId )
+    public ProjectRoleEditPage( Page goBackPage, String roleId )
     {
         super( goBackPage );
 

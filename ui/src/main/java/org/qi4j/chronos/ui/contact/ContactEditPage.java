@@ -12,12 +12,12 @@
  */
 package org.qi4j.chronos.ui.contact;
 
+import org.apache.wicket.Page;
 import org.qi4j.chronos.model.composites.ContactComposite;
-import org.qi4j.chronos.ui.base.BasePage;
 
 public abstract class ContactEditPage extends ContactAddEditPage
 {
-    public ContactEditPage( BasePage basePage )
+    public ContactEditPage( Page basePage )
     {
         super( basePage );
 

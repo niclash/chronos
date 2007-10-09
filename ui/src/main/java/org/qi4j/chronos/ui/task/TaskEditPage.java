@@ -12,8 +12,8 @@
  */
 package org.qi4j.chronos.ui.task;
 
+import org.apache.wicket.Page;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -21,7 +21,7 @@ public abstract class TaskEditPage extends TaskAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( TaskEditPage.class );
 
-    public TaskEditPage( BasePage basePage )
+    public TaskEditPage( Page basePage )
     {
         super( basePage );
 

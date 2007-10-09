@@ -12,8 +12,8 @@
  */
 package org.qi4j.chronos.service;
 
-import java.util.List;
 import java.util.Date;
+import java.util.List;
 import org.qi4j.chronos.model.associations.HasComments;
 import org.qi4j.chronos.model.composites.CommentComposite;
 
@@ -28,4 +28,6 @@ public interface CommentService
     CommentComposite get( HasComments hasComments, Date createdDate );
 
     void update( CommentComposite commentComposite );
+
+    CommentComposite get( HasComments hasComments, Date createdDate, String userId );
 }

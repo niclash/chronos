@@ -12,9 +12,9 @@
  */
 package org.qi4j.chronos.ui.pricerate;
 
+import org.apache.wicket.Page;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +22,7 @@ public abstract class PriceRateAddPage extends PriceRateAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( PriceRateAddPage.class );
 
-    public PriceRateAddPage( BasePage goBackPage )
+    public PriceRateAddPage( Page goBackPage )
     {
         super( goBackPage );
     }

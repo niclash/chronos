@@ -15,6 +15,7 @@ package org.qi4j.chronos.ui.project;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import org.apache.wicket.Page;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
@@ -23,7 +24,6 @@ import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.TimeRangeComposite;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +31,7 @@ public class ProjectAddPage extends ProjectAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( ProjectAddPage.class );
 
-    public ProjectAddPage( BasePage basePage )
+    public ProjectAddPage( Page basePage )
     {
         super( basePage );
     }

@@ -14,6 +14,7 @@ package org.qi4j.chronos.ui.staff;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.wicket.Page;
 import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.form.Button;
@@ -26,16 +27,15 @@ import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.project.ProjectTab;
 import org.qi4j.chronos.ui.user.UserDetailPanel;
 
 public abstract class StaffDetailPage extends LeftMenuNavPage
 {
-    private BasePage returnPage;
+    private Page returnPage;
 
-    public StaffDetailPage( BasePage returnPage )
+    public StaffDetailPage( Page returnPage )
     {
         this.returnPage = returnPage;
 

@@ -12,10 +12,10 @@
  */
 package org.qi4j.chronos.ui.legalcondition;
 
+import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.form.Form;
 import org.qi4j.chronos.model.LegalCondition;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.MaxLengthTextArea;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 
@@ -24,7 +24,7 @@ public abstract class LegalConditionAddEditPage extends AddEditBasePage
     protected MaxLengthTextField nameField;
     protected MaxLengthTextArea descField;
 
-    public LegalConditionAddEditPage( BasePage goBackPage )
+    public LegalConditionAddEditPage( Page goBackPage )
     {
         super( goBackPage );
     }

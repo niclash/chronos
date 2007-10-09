@@ -24,12 +24,13 @@ import org.qi4j.library.general.model.composites.CountryComposite;
 import org.qi4j.library.general.model.composites.StateComposite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.apache.wicket.Page;
 
 public class CustomerAddPage extends CustomerAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( CustomerAddPage.class );
 
-    public CustomerAddPage( BasePage basePage )
+    public CustomerAddPage( Page basePage )
     {
         super( basePage );
     }

@@ -19,7 +19,6 @@ import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.TaskService;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.NewLinkPanel;
 import org.qi4j.chronos.ui.common.tab.NewLinkTab;
 
@@ -65,14 +64,14 @@ public abstract class TaskTab extends NewLinkTab
 
         public void newLinkOnClick()
         {
-            TaskAddPage addPage = new TaskAddPage( (BasePage) this.getPage() )
+            TaskAddPage addPage = new TaskAddPage( this.getPage() )
             {
                 public ProjectEntityComposite getProject()
                 {
                     return TaskTab.this.getProject();
                 }
             };
-
+            
             setResponsePage( addPage );
         }
 

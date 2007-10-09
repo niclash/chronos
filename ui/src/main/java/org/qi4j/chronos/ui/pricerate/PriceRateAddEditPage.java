@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.Currency;
 import java.util.List;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.Page;
 import org.qi4j.chronos.model.PriceRateType;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
@@ -34,7 +35,7 @@ public abstract class PriceRateAddEditPage extends AddEditBasePage
     private SimpleDropDownChoice<ProjectRoleDelegator> projectRoleChoice;
     private SimpleDropDownChoice<PriceRateType> priceRateTypeChoice;
 
-    public PriceRateAddEditPage( BasePage goBackPage )
+    public PriceRateAddEditPage( Page goBackPage )
     {
         super( goBackPage );
     }

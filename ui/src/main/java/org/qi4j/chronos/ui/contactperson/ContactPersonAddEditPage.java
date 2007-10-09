@@ -17,17 +17,17 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.composites.ContactComposite;
-import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
+import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.relationship.RelationshipOptionPanel;
@@ -50,7 +50,7 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
     //TODO remove static
     private static List<ContactComposite> contactList;
 
-    public ContactPersonAddEditPage( BasePage goBackPage )
+    public ContactPersonAddEditPage( Page goBackPage )
     {
         super( goBackPage );
     }

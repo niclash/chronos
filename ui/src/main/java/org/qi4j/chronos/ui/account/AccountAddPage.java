@@ -12,11 +12,11 @@
  */
 package org.qi4j.chronos.ui.account;
 
+import org.apache.wicket.Page;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.AddressComposite;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.library.general.model.composites.CityComposite;
 import org.qi4j.library.general.model.composites.CountryComposite;
 import org.qi4j.library.general.model.composites.StateComposite;
@@ -27,7 +27,7 @@ public class AccountAddPage extends AccountAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( AccountAddPage.class );
 
-    public AccountAddPage( BasePage goBackPage )
+    public AccountAddPage( Page goBackPage )
     {
         super( goBackPage );
     }

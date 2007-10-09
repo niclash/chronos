@@ -12,8 +12,8 @@
  */
 package org.qi4j.chronos.ui.legalcondition;
 
+import org.apache.wicket.Page;
 import org.qi4j.chronos.model.LegalCondition;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +23,7 @@ public class LegalConditionEditPage extends LegalConditionAddEditPage
 
     private LegalCondition legalCondition;
 
-    public LegalConditionEditPage( BasePage goBackPage, LegalCondition legalCondition )
+    public LegalConditionEditPage( Page goBackPage, LegalCondition legalCondition )
     {
         super( goBackPage );
 

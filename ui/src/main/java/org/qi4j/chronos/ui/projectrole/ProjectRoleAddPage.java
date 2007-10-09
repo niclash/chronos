@@ -12,11 +12,11 @@
  */
 package org.qi4j.chronos.ui.projectrole;
 
+import org.apache.wicket.Page;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
 import org.qi4j.chronos.service.ProjectRoleService;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +24,7 @@ public class ProjectRoleAddPage extends ProjectRoleAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( ProjectRoleAddPage.class );
 
-    public ProjectRoleAddPage( BasePage goBackpage )
+    public ProjectRoleAddPage( Page goBackpage )
     {
         super( goBackpage );
     }

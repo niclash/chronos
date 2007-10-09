@@ -13,8 +13,11 @@
 package org.qi4j.chronos.model.associations;
 
 import java.util.Iterator;
+import org.qi4j.api.annotation.Mixins;
 import org.qi4j.chronos.model.composites.TaskAssigneeEntityComposite;
+import org.qi4j.chronos.model.mixins.HasTaskAssigneesMixin;
 
+@Mixins( HasTaskAssigneesMixin.class )
 public interface HasTaskAssignees
 {
     void addTaskAssignee( TaskAssigneeEntityComposite taskAssignee );

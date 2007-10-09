@@ -149,6 +149,14 @@ h2 {
     padding-left: 2px;
 }
 
+.readOnlyTextStyle {
+    border: 1px solid #96ab6b;
+    color: #959595;
+    width: 130px;
+    padding-left: 2px;
+    background: #ebebeb;
+}
+
 div.tabpanel div.tab-row ul {
     height: 20px;
     margin: 0;

@@ -12,9 +12,9 @@
  */
 package org.qi4j.chronos.ui.legalcondition;
 
+import org.apache.wicket.Page;
 import org.qi4j.chronos.model.composites.LegalConditionComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +22,7 @@ public class LegalConditionAddPage extends LegalConditionAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( LegalConditionAddPage.class );
 
-    public LegalConditionAddPage( BasePage goBackPage )
+    public LegalConditionAddPage( Page goBackPage )
     {
         super( goBackPage );
     }

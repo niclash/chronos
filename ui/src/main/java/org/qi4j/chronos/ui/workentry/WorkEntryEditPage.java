@@ -12,9 +12,9 @@
  */
 package org.qi4j.chronos.ui.workentry;
 
+import org.apache.wicket.Page;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.service.WorkEntryService;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -22,7 +22,7 @@ public abstract class WorkEntryEditPage extends WorkEntryAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( WorkEntryEditPage.class );
 
-    public WorkEntryEditPage( BasePage basePage )
+    public WorkEntryEditPage( Page basePage )
     {
         super( basePage );
 

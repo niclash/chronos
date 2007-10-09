@@ -98,7 +98,6 @@ public class ChronosWebApp extends AuthenticatedWebApplication
                 throw new IllegalArgumentException( "Unhandle user type " +
                                                     chronosSession.getUser().getClass().getName() );
             }
-
         }
     }
 

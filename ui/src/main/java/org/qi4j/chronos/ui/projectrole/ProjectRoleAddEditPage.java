@@ -12,19 +12,19 @@
  */
 package org.qi4j.chronos.ui.projectrole;
 
+import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.form.Form;
 import org.qi4j.chronos.model.ProjectRole;
 import org.qi4j.chronos.service.ProjectRoleService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 
 public abstract class ProjectRoleAddEditPage extends AddEditBasePage
 {
     protected MaxLengthTextField nameField;
 
-    public ProjectRoleAddEditPage( BasePage goBackPage )
+    public ProjectRoleAddEditPage( Page goBackPage )
     {
         super( goBackPage );
     }

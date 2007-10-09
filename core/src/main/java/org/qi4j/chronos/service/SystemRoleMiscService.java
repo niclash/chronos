@@ -15,7 +15,7 @@ package org.qi4j.chronos.service;
 import java.util.List;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 
-public interface SystemRoleServiceMisc
+public interface SystemRoleMiscService
 {
     List<SystemRoleEntityComposite> findAllStaffSystemRole();
 

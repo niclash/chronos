@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import org.qi4j.api.persistence.Identity;
 import org.qi4j.chronos.model.associations.HasComments;
 import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.chronos.service.CommentService;
@@ -65,5 +66,23 @@ public class MockCommentServiceMixin implements CommentService
     public void update( CommentComposite commentComposite )
     {
         //nothing
+    }
+
+    public CommentComposite get( HasComments hasComments, Date createdDate, String userId )
+    {
+        Iterator<CommentComposite> iterator = hasComments.commentIterator();
+
+        while( iterator.hasNext() )
+        {
+            CommentComposite comment = iterator.next();
+
+            String tempId = ( (Identity) comment.getUser() ).getIdentity();
+            if( comment.getCreatedDate().equals( createdDate ) && tempId.equals( userId ) )
+            {
+                return comment;
+            }
+        }
+
+        return null;
     }
 }

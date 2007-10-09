@@ -13,9 +13,9 @@
 package org.qi4j.chronos.ui.comment;
 
 import java.util.Date;
+import org.apache.wicket.Page;
 import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +23,7 @@ public abstract class CommentAddPage extends CommentAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( CommentAddPage.class );
 
-    public CommentAddPage( BasePage basePage )
+    public CommentAddPage( Page basePage )
     {
         super( basePage );
     }

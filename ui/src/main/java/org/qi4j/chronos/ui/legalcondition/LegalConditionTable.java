@@ -16,7 +16,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.LegalCondition;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
@@ -52,7 +51,7 @@ public class LegalConditionTable extends ActionTable<LegalCondition, String>
             public void linkClicked()
             {
                 LegalConditionDetailPage detailPage =
-                    new LegalConditionDetailPage( (BasePage) this.getPage(), obj );
+                    new LegalConditionDetailPage( this.getPage(), obj );
 
                 setResponsePage( detailPage );
             }
@@ -63,7 +62,7 @@ public class LegalConditionTable extends ActionTable<LegalCondition, String>
             public void linkClicked()
             {
                 LegalConditionEditPage editPage =
-                    new LegalConditionEditPage( (BasePage) this.getPage(), obj );
+                    new LegalConditionEditPage( this.getPage(), obj );
 
                 setResponsePage( editPage );
             }

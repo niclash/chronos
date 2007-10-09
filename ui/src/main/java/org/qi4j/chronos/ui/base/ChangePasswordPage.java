@@ -12,6 +12,7 @@
  */
 package org.qi4j.chronos.ui.base;
 
+import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
@@ -30,9 +31,9 @@ public abstract class ChangePasswordPage extends LeftMenuNavPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( ChangePasswordPage.class );
 
-    private BasePage goBackPage;
+    private Page goBackPage;
 
-    public ChangePasswordPage( BasePage goBackPage )
+    public ChangePasswordPage( Page goBackPage )
     {
         this.goBackPage = goBackPage;
 

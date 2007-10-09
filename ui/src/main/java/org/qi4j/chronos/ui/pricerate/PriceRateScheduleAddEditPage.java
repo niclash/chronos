@@ -17,6 +17,7 @@ import java.util.Arrays;
 import java.util.Currency;
 import java.util.Iterator;
 import java.util.List;
+import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.SubmitLink;
@@ -29,7 +30,6 @@ import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.common.NumberTextField;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
@@ -58,7 +58,7 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
 
     private WebMarkupContainer selectPriceRateScheduleContainer;
 
-    public PriceRateScheduleAddEditPage( BasePage goBackPage )
+    public PriceRateScheduleAddEditPage( Page goBackPage )
     {
         super( goBackPage );
     }

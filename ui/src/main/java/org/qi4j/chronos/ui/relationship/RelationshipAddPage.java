@@ -12,15 +12,15 @@
  */
 package org.qi4j.chronos.ui.relationship;
 
-import org.qi4j.chronos.model.composites.RelationshipComposite;
+import org.apache.wicket.Page;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
+import org.qi4j.chronos.model.composites.RelationshipComposite;
 import org.qi4j.chronos.service.RelationshipService;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.base.BasePage;
 
 public abstract class RelationshipAddPage extends RelationshipAddEditPage
 {
-    public RelationshipAddPage( BasePage basePage )
+    public RelationshipAddPage( Page basePage )
     {
         super( basePage );
     }

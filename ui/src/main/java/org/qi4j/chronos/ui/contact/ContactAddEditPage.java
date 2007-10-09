@@ -12,11 +12,11 @@
  */
 package org.qi4j.chronos.ui.contact;
 
+import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.form.Form;
 import org.qi4j.chronos.model.composites.ContactComposite;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.library.general.model.Contact;
 
@@ -25,7 +25,7 @@ public abstract class ContactAddEditPage extends AddEditBasePage
     private MaxLengthTextField valueField;
     private MaxLengthTextField contactTypeField;
 
-    public ContactAddEditPage( BasePage basePage )
+    public ContactAddEditPage( Page basePage )
     {
         super( basePage );
     }

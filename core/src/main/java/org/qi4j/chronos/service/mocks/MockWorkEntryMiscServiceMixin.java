@@ -17,8 +17,9 @@ import java.util.Iterator;
 import java.util.List;
 import org.qi4j.api.annotation.scope.ThisAs;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.composites.TaskAssigneeEntityComposite;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.WorkEntryMiscService;
@@ -70,21 +71,18 @@ public class MockWorkEntryMiscServiceMixin implements WorkEntryMiscService
 
     public List<WorkEntryEntityComposite> findAll( ProjectEntityComposite project )
     {
-        Iterator<ProjectAssigneeEntityComposite> iterator = project.projectAssigneeIterator();
+        Iterator<TaskEntityComposite> iterator = project.taskIteraotr();
 
         List<WorkEntryEntityComposite> resultList = new ArrayList<WorkEntryEntityComposite>();
 
         while( iterator.hasNext() )
         {
-            resultList.addAll( workEntryService.findAll( iterator.next() ) );
-//            ProjectAssigneeEntityComposite projectAssignee = iterator.next();
-//
-//            Iterator<WorkEntryEntityComposite> workEntryIter = projectAssignee.workEntryIterator();
-//
-//            while( workEntryIter.hasNext() )
-//            {
-//                resultList.add( workEntryIter.next() );
-//            }
+            Iterator<TaskAssigneeEntityComposite> taskAssigneeIter = iterator.next().taskAssigneeIterator();
+
+            while( taskAssigneeIter.hasNext() )
+            {
+                resultList.addAll( workEntryService.findAll( taskAssigneeIter.next() ) );
+            }
         }
 
         return resultList;

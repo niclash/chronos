@@ -12,6 +12,7 @@
  */
 package org.qi4j.chronos.ui.base;
 
+import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
@@ -20,9 +21,9 @@ import org.apache.wicket.model.Model;
 
 public abstract class AddEditBasePage extends LeftMenuNavPage
 {
-    private BasePage goBackPage;
+    private Page goBackPage;
 
-    public AddEditBasePage( final BasePage goBackPage )
+    public AddEditBasePage( final Page goBackPage )
     {
         this.goBackPage = goBackPage;
 
@@ -81,7 +82,7 @@ public abstract class AddEditBasePage extends LeftMenuNavPage
         setResponsePage( goBackPage );
     }
 
-    protected BasePage getGoBackPage()
+    protected Page getGoBackPage()
     {
         return goBackPage;
     }

@@ -14,18 +14,29 @@ package org.qi4j.chronos.ui.comment;
 
 import java.io.Serializable;
 import java.util.Date;
+import org.qi4j.api.persistence.Identity;
 import org.qi4j.chronos.model.composites.CommentComposite;
 
 //TODO bp. we don't need this when comment can be made serilizable
 public class CommentDelegator implements Serializable
 {
-    private String text;
     private Date createdDate;
+    private String userId;
 
     public CommentDelegator( CommentComposite comment )
     {
-        this.text = comment.getText();
         createdDate = comment.getCreatedDate();
+        userId = ( (Identity) comment.getUser() ).getIdentity();
+    }
+
+    public String getUserId()
+    {
+        return userId;
+    }
+
+    public Date getCreatedDate()
+    {
+        return createdDate;
     }
 
     public boolean equals( Object o )
@@ -45,7 +56,7 @@ public class CommentDelegator implements Serializable
         {
             return false;
         }
-        if( text != null ? !text.equals( that.text ) : that.text != null )
+        if( userId != null ? !userId.equals( that.userId ) : that.userId != null )
         {
             return false;
         }
@@ -56,8 +67,8 @@ public class CommentDelegator implements Serializable
     public int hashCode()
     {
         int result;
-        result = ( text != null ? text.hashCode() : 0 );
-        result = 31 * result + ( createdDate != null ? createdDate.hashCode() : 0 );
+        result = ( createdDate != null ? createdDate.hashCode() : 0 );
+        result = 31 * result + ( userId != null ? userId.hashCode() : 0 );
         return result;
     }
 }

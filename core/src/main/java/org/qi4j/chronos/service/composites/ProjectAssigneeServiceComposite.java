@@ -15,9 +15,10 @@ package org.qi4j.chronos.service.composites;
 import org.qi4j.api.Composite;
 import org.qi4j.api.annotation.Mixins;
 import org.qi4j.chronos.service.ProjectAssigneeService;
+import org.qi4j.chronos.service.mocks.MockProjectAssigneeMiscServiceMixin;
 import org.qi4j.chronos.service.mocks.MockProjectAssigneeServiceMixin;
 
-@Mixins( MockProjectAssigneeServiceMixin.class )
+@Mixins( { MockProjectAssigneeServiceMixin.class, MockProjectAssigneeMiscServiceMixin.class } )
 public interface ProjectAssigneeServiceComposite extends ProjectAssigneeService, Composite
 {
 }

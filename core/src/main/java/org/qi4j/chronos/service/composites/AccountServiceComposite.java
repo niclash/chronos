@@ -15,9 +15,9 @@ package org.qi4j.chronos.service.composites;
 import org.qi4j.api.Composite;
 import org.qi4j.api.annotation.Mixins;
 import org.qi4j.chronos.service.AccountService;
-import org.qi4j.chronos.service.mocks.MockAccountServiceMiscMixin;
+import org.qi4j.chronos.service.mocks.MockAccountMiscServiceMixin;
 
-@Mixins( MockAccountServiceMiscMixin.class )
+@Mixins( MockAccountMiscServiceMixin.class )
 public interface AccountServiceComposite extends AccountService, Composite
 {
 

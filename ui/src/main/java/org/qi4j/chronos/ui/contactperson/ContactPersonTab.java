@@ -56,7 +56,7 @@ public abstract class ContactPersonTab extends NewLinkTab
 
         public void newLinkOnClick()
         {
-            setResponsePage( new ContactPersonAddPage( (BasePage) this.getPage() )
+            setResponsePage( new ContactPersonAddPage(this.getPage() )
             {
                 public CustomerEntityComposite getCustomer()
                 {

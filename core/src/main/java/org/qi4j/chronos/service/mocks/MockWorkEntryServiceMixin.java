@@ -13,17 +13,13 @@
 package org.qi4j.chronos.service.mocks;
 
 import java.util.Iterator;
-import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
+import org.qi4j.chronos.model.composites.TaskAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 
-public class MockWorkEntryServiceMixin extends MockProjectAssigneeBasedServiceMixin<WorkEntryEntityComposite>
+public class MockWorkEntryServiceMixin extends MockTaskAssigneeBasedServiceMixin<WorkEntryEntityComposite>
 {
-    public MockWorkEntryServiceMixin()
+    protected Iterator<WorkEntryEntityComposite> getItems( TaskAssigneeEntityComposite taskAssigneeEntityComposite )
     {
-    }
-
-    protected Iterator<WorkEntryEntityComposite> getItems( ProjectAssigneeEntityComposite projectAssigneeEntityComposite )
-    {
-        return projectAssigneeEntityComposite.workEntryIterator();
+        return taskAssigneeEntityComposite.workEntryIterator();
     }
 }

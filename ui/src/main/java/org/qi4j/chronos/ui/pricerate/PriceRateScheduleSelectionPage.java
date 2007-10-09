@@ -18,6 +18,7 @@ import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.Page;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.service.PriceRateScheduleService;
 import org.qi4j.chronos.ui.ChronosWebApp;
@@ -29,9 +30,9 @@ import org.qi4j.chronos.ui.util.ListUtil;
 
 public abstract class PriceRateScheduleSelectionPage extends LeftMenuNavPage
 {
-    private BasePage basePage;
+    private Page basePage;
 
-    public PriceRateScheduleSelectionPage( BasePage basePage )
+    public PriceRateScheduleSelectionPage( Page basePage )
     {
         this.basePage = basePage;
 

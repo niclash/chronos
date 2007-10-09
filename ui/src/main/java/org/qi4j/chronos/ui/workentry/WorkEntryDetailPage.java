@@ -12,13 +12,13 @@
  */
 package org.qi4j.chronos.ui.workentry;
 
+import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.SimpleTextArea;
 import org.qi4j.chronos.ui.common.SimpleTextField;
@@ -26,9 +26,9 @@ import org.qi4j.chronos.util.DateUtil;
 
 public abstract class WorkEntryDetailPage extends LeftMenuNavPage
 {
-    private BasePage returnPage;
+    private Page returnPage;
 
-    public WorkEntryDetailPage( BasePage returnPage )
+    public WorkEntryDetailPage( Page returnPage )
     {
         this.returnPage = returnPage;
 

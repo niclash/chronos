@@ -12,11 +12,11 @@
  */
 package org.qi4j.chronos.ui.contact;
 
+import org.apache.wicket.Page;
 import org.qi4j.chronos.model.composites.ContactComposite;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.service.ContactPersonService;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -24,7 +24,7 @@ public abstract class ContactAddPage extends ContactAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( ContactAddPage.class );
 
-    public ContactAddPage( BasePage basePage )
+    public ContactAddPage( Page basePage )
     {
         super( basePage );
     }

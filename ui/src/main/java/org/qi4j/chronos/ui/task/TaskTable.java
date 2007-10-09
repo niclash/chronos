@@ -17,6 +17,7 @@ import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
@@ -81,7 +82,8 @@ public abstract class TaskTable extends ActionTable<TaskEntityComposite, String>
     {
         TaskDetailPage detailPage = new TaskDetailPage( (BasePage) this.getPage() )
         {
-            public TaskEntityComposite getTaskMaster()
+
+            public TaskEntityComposite getTask()
             {
                 return ChronosWebApp.getServices().getTaskService().get( id );
             }

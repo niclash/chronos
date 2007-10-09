@@ -12,12 +12,12 @@
  */
 package org.qi4j.chronos.ui.account;
 
+import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.form.Form;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.ui.address.AddressAddEditPanel;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 
 public abstract class AccountAddEditPage extends AddEditBasePage
@@ -27,7 +27,7 @@ public abstract class AccountAddEditPage extends AddEditBasePage
 
     protected AddressAddEditPanel addressAddEditPanel;
 
-    public AccountAddEditPage( BasePage goBackPage )
+    public AccountAddEditPage( Page goBackPage )
     {
         super( goBackPage );
     }

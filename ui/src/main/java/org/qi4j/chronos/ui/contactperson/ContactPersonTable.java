@@ -22,7 +22,6 @@ import org.qi4j.chronos.model.associations.HasContactPersons;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
@@ -71,7 +70,7 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
         {
             public void linkClicked()
             {
-                setResponsePage( new ContactPersonEditPage( (BasePage) this.getPage() )
+                setResponsePage( new ContactPersonEditPage( this.getPage() )
                 {
                     public CustomerEntityComposite getCustomer()
                     {
@@ -93,7 +92,7 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
         {
             public void linkClicked()
             {
-                ContactPersonDetailPage detailPage = new ContactPersonDetailPage( (BasePage) this.getPage() )
+                ContactPersonDetailPage detailPage = new ContactPersonDetailPage( this.getPage() )
                 {
                     public ContactPersonEntityComposite getContactPerson()
                     {

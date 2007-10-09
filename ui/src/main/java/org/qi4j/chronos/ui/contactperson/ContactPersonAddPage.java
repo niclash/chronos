@@ -14,6 +14,7 @@ package org.qi4j.chronos.ui.contactperson;
 
 import java.util.Collections;
 import java.util.Iterator;
+import org.apache.wicket.Page;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.ContactComposite;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
@@ -24,7 +25,6 @@ import org.qi4j.chronos.service.ContactPersonService;
 import org.qi4j.chronos.service.CustomerService;
 import org.qi4j.chronos.service.SystemRoleService;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.login.LoginUserAddPanel;
 import org.slf4j.Logger;
@@ -36,7 +36,7 @@ public abstract class ContactPersonAddPage extends ContactPersonAddEditPage
 
     private LoginUserAddPanel loginUserAddPanel;
 
-    public ContactPersonAddPage( BasePage basePage )
+    public ContactPersonAddPage( Page basePage )
     {
         super( basePage );
     }
@@ -65,7 +65,7 @@ public abstract class ContactPersonAddPage extends ContactPersonAddEditPage
 
             customer.addContactPerson( contactPerson );
 
-            CustomerService customerService = ChronosWebApp.getServices().getCustomerService();
+            CustomerService customerService = getServices().getCustomerService();
 
             customerService.update( customer );
 

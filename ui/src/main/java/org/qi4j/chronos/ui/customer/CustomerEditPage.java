@@ -12,10 +12,10 @@
  */
 package org.qi4j.chronos.ui.customer;
 
+import org.apache.wicket.Page;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.service.CustomerService;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,7 +23,7 @@ public abstract class CustomerEditPage extends CustomerAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( CustomerEditPage.class );
 
-    public CustomerEditPage( BasePage basePage )
+    public CustomerEditPage( Page basePage )
     {
         super( basePage );
 

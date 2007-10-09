@@ -12,10 +12,10 @@
  */
 package org.qi4j.chronos.ui.account;
 
+import org.apache.wicket.Page;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +25,7 @@ public class AccountEditPage extends AccountAddEditPage
 
     private String accountId;
 
-    public AccountEditPage( BasePage goBackPage, String accountId )
+    public AccountEditPage( Page goBackPage, String accountId )
     {
         super( goBackPage );
 

@@ -15,6 +15,7 @@ package org.qi4j.chronos.ui.legalcondition;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.CheckBox;
@@ -25,7 +26,6 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.LegalCondition;
 import org.qi4j.chronos.model.composites.LegalConditionComposite;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.MaxLengthTextArea;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
@@ -33,9 +33,9 @@ import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 
 public class GetLegalConditionPage extends LeftMenuNavPage
 {
-    private BasePage goBackPage;
+    private Page goBackPage;
 
-    public GetLegalConditionPage( BasePage goBackPage )
+    public GetLegalConditionPage( Page goBackPage )
     {
         this.goBackPage = goBackPage;
 

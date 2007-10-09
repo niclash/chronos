@@ -16,6 +16,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import org.apache.wicket.Page;
 import org.apache.wicket.extensions.markup.html.form.palette.Palette;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
@@ -33,7 +34,6 @@ import org.qi4j.chronos.service.ContactPersonService;
 import org.qi4j.chronos.service.CustomerService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.common.SimpleDateField;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
@@ -67,7 +67,7 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
 
     private Form form;
 
-    public ProjectAddEditPage( BasePage basePage )
+    public ProjectAddEditPage( Page basePage )
     {
         super( basePage );
     }

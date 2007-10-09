@@ -12,11 +12,11 @@
  */
 package org.qi4j.chronos.ui.relationship;
 
-import org.qi4j.chronos.ui.base.BasePage;
+import org.apache.wicket.Page;
 
 public class RelationshipEditPage extends RelationshipAddEditPage
 {
-    public RelationshipEditPage( BasePage goBackPage )
+    public RelationshipEditPage( Page goBackPage )
     {
         super( goBackPage );
     }

@@ -14,6 +14,7 @@ package org.qi4j.chronos.ui.contactperson;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.wicket.Page;
 import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.form.Button;
@@ -26,7 +27,6 @@ import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.SimpleTextField;
 import org.qi4j.chronos.ui.contact.ContactTab;
@@ -35,9 +35,9 @@ import org.qi4j.chronos.ui.user.UserDetailPanel;
 
 public abstract class ContactPersonDetailPage extends LeftMenuNavPage
 {
-    private BasePage basePage;
+    private Page basePage;
 
-    public ContactPersonDetailPage( BasePage basePage )
+    public ContactPersonDetailPage( Page basePage )
     {
         this.basePage = basePage;
 

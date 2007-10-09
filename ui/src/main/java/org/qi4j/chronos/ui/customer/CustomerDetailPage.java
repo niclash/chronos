@@ -14,6 +14,7 @@ package org.qi4j.chronos.ui.customer;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.wicket.Page;
 import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.form.Button;
@@ -24,9 +25,7 @@ import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.service.CustomerService;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.address.AddressDetailPanel;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.SimpleTextField;
 import org.qi4j.chronos.ui.contactperson.ContactPersonTab;
@@ -34,9 +33,9 @@ import org.qi4j.chronos.ui.pricerate.PriceRateScheduleTab;
 
 public abstract class CustomerDetailPage extends LeftMenuNavPage
 {
-    private BasePage returnPage;
+    private Page returnPage;
 
-    public CustomerDetailPage( BasePage returnPage )
+    public CustomerDetailPage( Page returnPage )
     {
         this.returnPage = returnPage;
 
@@ -124,7 +123,7 @@ public abstract class CustomerDetailPage extends LeftMenuNavPage
 
             customer.addPriceRateSchedule( priceRateSchedule );
 
-            CustomerService service = ChronosWebApp.getServices().getCustomerService();
+            CustomerService service = getServices().getCustomerService();
 
             service.update( customer );
         }

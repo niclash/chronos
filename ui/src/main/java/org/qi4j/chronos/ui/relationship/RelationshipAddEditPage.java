@@ -12,17 +12,17 @@
  */
 package org.qi4j.chronos.ui.relationship;
 
+import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.form.Form;
 import org.qi4j.chronos.model.Relationship;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 
 public abstract class RelationshipAddEditPage extends AddEditBasePage
 {
     protected MaxLengthTextField relationshipField;
 
-    public RelationshipAddEditPage( BasePage goBackPage )
+    public RelationshipAddEditPage( Page goBackPage )
     {
         super( goBackPage );
     }

@@ -23,6 +23,7 @@ import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.login.LoginUserEditPanel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.apache.wicket.Page;
 
 public abstract class ContactPersonEditPage extends ContactPersonAddEditPage
 {
@@ -30,7 +31,7 @@ public abstract class ContactPersonEditPage extends ContactPersonAddEditPage
 
     private LoginUserEditPanel loginUserEditPanel;
 
-    public ContactPersonEditPage( BasePage basePage )
+    public ContactPersonEditPage( Page basePage )
     {
         super( basePage );
 

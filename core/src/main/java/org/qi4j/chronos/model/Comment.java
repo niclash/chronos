@@ -15,8 +15,11 @@ package org.qi4j.chronos.model;
 
 import org.qi4j.chronos.model.associations.HasCreatedDate;
 import org.qi4j.chronos.model.associations.HasText;
+import org.qi4j.chronos.model.associations.HasUser;
 
-public interface Comment extends HasCreatedDate, HasText
+public interface Comment extends HasCreatedDate, HasText, HasUser
 {
     public final static int COMMENT_LEN = 512;
+
+    
 }

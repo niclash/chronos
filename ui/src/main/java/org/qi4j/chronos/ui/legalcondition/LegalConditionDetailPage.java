@@ -12,25 +12,25 @@
  */
 package org.qi4j.chronos.ui.legalcondition;
 
+import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.LegalCondition;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.SimpleTextArea;
 import org.qi4j.chronos.ui.common.SimpleTextField;
 
 public class LegalConditionDetailPage extends LeftMenuNavPage
 {
-    private BasePage returnPage;
+    private Page returnPage;
 
     //TODO fixme
     private static LegalCondition legalCondition;
 
-    public LegalConditionDetailPage( BasePage returnBack, LegalCondition legalCondition )
+    public LegalConditionDetailPage( Page returnBack, LegalCondition legalCondition )
     {
         this.returnPage = returnBack;
         this.legalCondition = legalCondition;

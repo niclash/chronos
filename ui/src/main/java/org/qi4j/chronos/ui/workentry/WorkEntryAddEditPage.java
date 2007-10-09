@@ -12,10 +12,10 @@
  */
 package org.qi4j.chronos.ui.workentry;
 
+import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.form.Form;
 import org.qi4j.chronos.model.WorkEntry;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.MaxLengthTextArea;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.common.SimpleDateTimeField;
@@ -28,7 +28,7 @@ public abstract class WorkEntryAddEditPage extends AddEditBasePage
     private SimpleDateTimeField fromDateTimeField;
     private SimpleDateTimeField toDateTimeField;
 
-    public WorkEntryAddEditPage( BasePage basePage )
+    public WorkEntryAddEditPage( Page basePage )
     {
         super( basePage );
     }

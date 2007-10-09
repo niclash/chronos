@@ -18,13 +18,13 @@ import org.qi4j.api.annotation.scope.ThisAs;
 import org.qi4j.chronos.model.SystemRoleType;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.service.EntityService;
-import org.qi4j.chronos.service.SystemRoleServiceMisc;
+import org.qi4j.chronos.service.SystemRoleMiscService;
 
-public class MockSystemRoleServiceMiscMixin implements SystemRoleServiceMisc
+public class MockSystemRoleMiscServiceMixin implements SystemRoleMiscService
 {
     @ThisAs private EntityService<SystemRoleEntityComposite> systemRoleService;
 
-    public MockSystemRoleServiceMiscMixin()
+    public MockSystemRoleMiscServiceMixin()
     {
 
     }

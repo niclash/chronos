@@ -12,13 +12,9 @@
  */
 package org.qi4j.chronos.service;
 
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.api.persistence.Identity;
+import org.qi4j.chronos.model.composites.TaskAssigneeEntityComposite;
 
-public interface AccountServiceMisc
+public interface TaskAssigneeBasedService<ITEM extends Identity> extends ParentBasedService<ITEM, TaskAssigneeEntityComposite>
 {
-    public AccountEntityComposite getAccount( StaffEntityComposite staff );
-
-    public AccountEntityComposite getAccount( ContactPersonEntityComposite contactPerson );
 }

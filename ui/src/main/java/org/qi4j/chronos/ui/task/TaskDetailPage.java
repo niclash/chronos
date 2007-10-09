@@ -14,6 +14,7 @@ package org.qi4j.chronos.ui.task;
 
 import java.util.ArrayList;
 import java.util.List;
+import org.apache.wicket.Page;
 import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.form.Button;
@@ -21,17 +22,17 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.SimpleTextArea;
 import org.qi4j.chronos.ui.common.SimpleTextField;
+import org.qi4j.chronos.ui.taskassignee.TaskAssigneeTab;
 import org.qi4j.chronos.util.DateUtil;
 
 public abstract class TaskDetailPage extends LeftMenuNavPage
 {
-    private BasePage basePage;
+    private Page basePage;
 
-    public TaskDetailPage( BasePage basePage )
+    public TaskDetailPage( Page basePage )
     {
         this.basePage = basePage;
 
@@ -63,7 +64,7 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
 
         private void initComponents()
         {
-            TaskEntityComposite taskMaster = getTaskMaster();
+            TaskEntityComposite taskMaster = getTask();
 
             titleField = new SimpleTextField( "titleField", taskMaster.getTitle() );
             createDateField = new SimpleTextField( "createDateField", DateUtil.formatDateTime( taskMaster.getCreatedDate() ) );
@@ -79,6 +80,8 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
 
             List<AbstractTab> tabs = new ArrayList<AbstractTab>();
 
+            tabs.add( createTaskAssigneeTab() );
+
             tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
 
             add( titleField );
@@ -87,7 +90,19 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
             add( submitButton );
             add( tabbedPanel );
         }
+
+        private TaskAssigneeTab createTaskAssigneeTab()
+        {
+            return new TaskAssigneeTab( "Task Assignee" )
+            {
+                public TaskEntityComposite getTask()
+                {
+                    return TaskDetailPage.this.getTask();
+                }
+            };
+        }
     }
 
-    public abstract TaskEntityComposite getTaskMaster();
+
+    public abstract TaskEntityComposite getTask();
 }

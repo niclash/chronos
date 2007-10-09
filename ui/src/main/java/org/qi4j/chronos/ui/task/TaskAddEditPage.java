@@ -12,11 +12,11 @@
  */
 package org.qi4j.chronos.ui.task;
 
+import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.form.Form;
 import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.MaxLengthTextArea;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 
@@ -25,7 +25,7 @@ public abstract class TaskAddEditPage extends AddEditBasePage
     private MaxLengthTextField titleField;
     private MaxLengthTextArea descriptionTextArea;
 
-    public TaskAddEditPage( BasePage basePage )
+    public TaskAddEditPage( Page basePage )
     {
         super( basePage );
     }

@@ -19,7 +19,6 @@ import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.service.CustomerService;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
@@ -61,7 +60,7 @@ public abstract class CustomerTable extends ActionTable<CustomerEntityComposite,
         {
             public void linkClicked()
             {
-                CustomerEditPage editPage = new CustomerEditPage( (BasePage) this.getPage() )
+                CustomerEditPage editPage = new CustomerEditPage( this.getPage() )
                 {
                     public CustomerEntityComposite getCustomer()
                     {
@@ -80,7 +79,7 @@ public abstract class CustomerTable extends ActionTable<CustomerEntityComposite,
         {
             public void linkClicked()
             {
-                CustomerDetailPage detailPage = new CustomerDetailPage( (BasePage) this.getPage() )
+                CustomerDetailPage detailPage = new CustomerDetailPage( this.getPage() )
                 {
                     public CustomerEntityComposite getCustomer()
                     {

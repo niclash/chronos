@@ -14,10 +14,10 @@ package org.qi4j.chronos.ui.pricerate;
 
 import java.util.Collections;
 import java.util.Iterator;
+import org.apache.wicket.Page;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +25,7 @@ public abstract class PriceRateScheduleAddPage extends PriceRateScheduleAddEditP
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( PriceRateScheduleAddPage.class );
 
-    public PriceRateScheduleAddPage( BasePage goBackPage )
+    public PriceRateScheduleAddPage( Page goBackPage )
     {
         super( goBackPage );
     }

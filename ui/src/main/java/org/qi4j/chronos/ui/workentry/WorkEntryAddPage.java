@@ -13,11 +13,10 @@
 package org.qi4j.chronos.ui.workentry;
 
 import java.util.Date;
-import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
+import org.apache.wicket.Page;
+import org.qi4j.chronos.model.composites.TaskAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
-import org.qi4j.chronos.service.ProjectAssigneeService;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -25,7 +24,7 @@ public abstract class WorkEntryAddPage extends WorkEntryAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( WorkEntryAddPage.class );
 
-    public WorkEntryAddPage( BasePage basePage )
+    public WorkEntryAddPage( Page basePage )
     {
         super( basePage );
     }
@@ -40,13 +39,11 @@ public abstract class WorkEntryAddPage extends WorkEntryAddEditPage
 
             assignFieldValueToWorkEntry( workEntry );
 
-            ProjectAssigneeEntityComposite projectAssignee = getProjectAssignee();
+            TaskAssigneeEntityComposite taskAssignee = getTaskAssignee();
 
-            projectAssignee.addWorkEntry( workEntry );
+            taskAssignee.addWorkEntry( workEntry );
 
-            ProjectAssigneeService service = ChronosWebApp.getServices().getProjectAssigneeService();
-
-            service.update( projectAssignee );
+            getServices().getTaskAssigneeService().update( taskAssignee );
 
             logInfoMsg( "Work Entry is added successfully." );
 
@@ -70,5 +67,6 @@ public abstract class WorkEntryAddPage extends WorkEntryAddEditPage
         return "New Work Entry";
     }
 
-    public abstract ProjectAssigneeEntityComposite getProjectAssignee();
+    public abstract TaskAssigneeEntityComposite getTaskAssignee();
+
 }

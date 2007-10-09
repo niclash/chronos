@@ -14,6 +14,6 @@ package org.qi4j.chronos.service;
 
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 
-public interface ProjectAssigneeService extends ProjectBasedService<ProjectAssigneeEntityComposite>
+public interface ProjectAssigneeService extends ProjectBasedService<ProjectAssigneeEntityComposite>, ProjectAssigneeMiscService
 {
 }

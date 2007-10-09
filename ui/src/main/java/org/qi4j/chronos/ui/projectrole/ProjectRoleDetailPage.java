@@ -12,6 +12,7 @@
  */
 package org.qi4j.chronos.ui.projectrole;
 
+import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
@@ -19,16 +20,15 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.SimpleTextField;
 
 public class ProjectRoleDetailPage extends LeftMenuNavPage
 {
-    private BasePage goBackPage;
+    private Page goBackPage;
     private String roleId;
 
-    public ProjectRoleDetailPage( BasePage goBackPage, String roleId )
+    public ProjectRoleDetailPage( Page goBackPage, String roleId )
     {
         this.goBackPage = goBackPage;
         this.roleId = roleId;
