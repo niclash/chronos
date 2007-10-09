@@ -13,7 +13,6 @@
 package org.qi4j.chronos.service.mocks;
 
 import java.util.ArrayList;
-import java.util.Currency;
 import java.util.Iterator;
 import java.util.List;
 import org.qi4j.api.CompositeBuilderFactory;
@@ -70,8 +69,8 @@ public class MockPriceRateServiceMixin implements PriceRateService
         }
     }
 
-    public PriceRateComposite get( HasPriceRates hasPriceRates, final String projectRoleName, final PriceRateType priceRateType,
-                                   final Currency currency, final long amount )
+    public PriceRateComposite get( HasPriceRates hasPriceRates, final String projectRoleName,
+                                   final PriceRateType priceRateType, final long amount )
     {
         final PriceRateComposite[] returnValue = new PriceRateComposite[1];
 

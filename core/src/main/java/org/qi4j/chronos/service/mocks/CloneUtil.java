@@ -15,6 +15,7 @@ package org.qi4j.chronos.service.mocks;
 import java.util.Iterator;
 import org.qi4j.api.CompositeBuilderFactory;
 import org.qi4j.chronos.model.composites.ContactComposite;
+import org.qi4j.chronos.model.composites.LegalConditionComposite;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.model.composites.RelationshipComposite;
@@ -28,6 +29,16 @@ public final class CloneUtil
         cloned.setAmount( priceRate.getAmount() );
         cloned.setPriceRateType( priceRate.getPriceRateType() );
         cloned.setProjectRole( priceRate.getProjectRole() );
+
+        return cloned;
+    }
+
+    public static LegalConditionComposite cloneLegalCondition( CompositeBuilderFactory factory, LegalConditionComposite legalCondition )
+    {
+        LegalConditionComposite cloned = factory.newCompositeBuilder( LegalConditionComposite.class ).newInstance();
+
+        cloned.setName( legalCondition.getName() );
+        cloned.setDescription( legalCondition.getDescription() );
 
         return cloned;
     }

@@ -1,6 +1,5 @@
 /*
  * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
- * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -11,35 +10,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.mixins;
+package org.qi4j.chronos.service;
 
-import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
 import org.qi4j.chronos.model.associations.HasLegalConditions;
 import org.qi4j.chronos.model.composites.LegalConditionComposite;
 
-public final class HasLegalConditionsMixin implements HasLegalConditions
+public interface LegalConditionService
 {
-    private final List<LegalConditionComposite> list;
+    List<LegalConditionComposite> findAll( HasLegalConditions hasLegalConditions, FindFilter findFilter );
 
-    public HasLegalConditionsMixin()
-    {
-        list = new ArrayList<LegalConditionComposite>();
-    }
+    List<LegalConditionComposite> findAll( HasLegalConditions hasLegalConditions );
 
-    public void addLegalCondition( LegalConditionComposite legalCondition )
-    {
-        list.add( legalCondition );
-    }
+    int countAll( HasLegalConditions hasLegalConditions );
 
-    public void removeLegalCondition( LegalConditionComposite legalCondition )
-    {
-        list.remove( legalCondition );
-    }
-
-    public Iterator<LegalConditionComposite> legalConditionIterator()
-    {
-        return list.iterator();
-    }
+    LegalConditionComposite get( HasLegalConditions hasLegalConditions, String name );
 }

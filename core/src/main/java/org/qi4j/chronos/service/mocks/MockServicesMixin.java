@@ -54,6 +54,7 @@ import org.qi4j.chronos.service.CommentService;
 import org.qi4j.chronos.service.ContactPersonService;
 import org.qi4j.chronos.service.ContactService;
 import org.qi4j.chronos.service.CustomerService;
+import org.qi4j.chronos.service.LegalConditionService;
 import org.qi4j.chronos.service.ParentBasedService;
 import org.qi4j.chronos.service.PriceRateScheduleService;
 import org.qi4j.chronos.service.PriceRateService;
@@ -74,6 +75,7 @@ import org.qi4j.chronos.service.composites.CommentServiceComposite;
 import org.qi4j.chronos.service.composites.ContactPersonServiceComposite;
 import org.qi4j.chronos.service.composites.ContactServiceComposite;
 import org.qi4j.chronos.service.composites.CustomerServiceComposite;
+import org.qi4j.chronos.service.composites.LegalConditionServiceComposite;
 import org.qi4j.chronos.service.composites.PriceRateScheduleServiceComposite;
 import org.qi4j.chronos.service.composites.PriceRateServiceComposite;
 import org.qi4j.chronos.service.composites.ProjectAssigneeServiceComposite;
@@ -116,6 +118,7 @@ public class MockServicesMixin implements Services
     private TaskService taskService;
     private TaskAssigneeService taskAssigneeService;
     private CommentService commentService;
+    private LegalConditionService legalConditionService;
 
     public void initServices()
     {
@@ -150,6 +153,8 @@ public class MockServicesMixin implements Services
         workEntryService = newParentBasedService( WorkEntryServiceComposite.class, "taskAssigneeService", taskAssigneeService );
 
         commentService = newService( CommentServiceComposite.class );
+
+        legalConditionService = newService( LegalConditionServiceComposite.class );
 
         initDummyData();
     }
@@ -671,6 +676,11 @@ public class MockServicesMixin implements Services
     public CommentService getCommentService()
     {
         return commentService;
+    }
+
+    public LegalConditionService getLegalConditionService()
+    {
+        return legalConditionService;
     }
 
     @SuppressWarnings( { "unchecked" } )

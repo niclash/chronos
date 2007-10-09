@@ -15,7 +15,6 @@ package org.qi4j.chronos.ui.pricerate;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.ui.base.BasePage;
@@ -68,19 +67,6 @@ public abstract class PriceRateScheduleOptionPanel extends Panel
         add( customizePriceRateScheduleLink );
     }
 
-    private void handleViewPriceRateSchedule()
-    {
-        PriceRateScheduleDetailPage detailPage = new PriceRateScheduleDetailPage( (BasePage) this.getPage() )
-        {
-            public PriceRateSchedule getPriceRateSchedule()
-            {
-                return PriceRateScheduleOptionPanel.this.getPriceRateSchedule();
-            }
-        };
-
-        setResponsePage( detailPage );
-    }
-
     private void handleCustomizePriceRateSchedule()
     {
         PriceRateScheduleEditPage editPage = new PriceRateScheduleEditPage( (BasePage) this.getPage() )
@@ -111,6 +97,11 @@ public abstract class PriceRateScheduleOptionPanel extends Panel
             public void addPriceRateSchedule( PriceRateScheduleComposite priceRateScheduleComposite )
             {
                 PriceRateScheduleOptionPanel.this.addPriceRateSchedule( priceRateScheduleComposite );
+            }
+
+            public String getSubmitButtonValue()
+            {
+                return "Done";
             }
         };
 

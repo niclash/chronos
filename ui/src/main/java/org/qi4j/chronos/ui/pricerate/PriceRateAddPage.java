@@ -37,8 +37,6 @@ public abstract class PriceRateAddPage extends PriceRateAddEditPage
 
             addPriceRate( priceRate );
 
-            logInfoMsg( "Price Rate is added successfully." );
-
             divertToGoBackPage();
         }
         catch( Exception err )

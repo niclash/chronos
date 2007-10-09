@@ -13,31 +13,35 @@
 package org.qi4j.chronos.ui.legalcondition;
 
 import org.apache.wicket.Page;
-import org.qi4j.chronos.model.LegalCondition;
+import org.qi4j.chronos.model.composites.LegalConditionComposite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class LegalConditionEditPage extends LegalConditionAddEditPage
+public abstract class LegalConditionEditPage extends LegalConditionAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( LegalConditionEditPage.class );
 
-    private LegalCondition legalCondition;
-
-    public LegalConditionEditPage( Page goBackPage, LegalCondition legalCondition )
+    public LegalConditionEditPage( Page goBackPage )
     {
         super( goBackPage );
 
-        this.legalCondition = legalCondition;
+        initData();
+    }
+
+    private void initData()
+    {
+        assignLegalConditionToFieldValue( getLegalCondition() );
     }
 
     public void onSubmitting()
     {
-        legalCondition.setLegalConditionName( nameField.getText() );
-        legalCondition.setLegalConditionDesc( descField.getText() );
-
         try
         {
-            //TODO bp. FIXME
+            LegalConditionComposite legalCondition = getLegalCondition();
+
+            assignFieldValueToLegalCondition( legalCondition );
+
+            //TODO 
 
             logInfoMsg( "Legal conditation is updated successfully!" );
 
@@ -59,4 +63,6 @@ public class LegalConditionEditPage extends LegalConditionAddEditPage
     {
         return "Edit Legal Condition";
     }
+
+    public abstract LegalConditionComposite getLegalCondition();
 }

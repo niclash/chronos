@@ -18,6 +18,7 @@ import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
+import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
@@ -53,9 +54,9 @@ public abstract class ProjectAssigneeAddEditPage extends AddEditBasePage
                 return ProjectAssigneeAddEditPage.this.getAvailablePriceRates();
             }
 
-            public ProjectEntityComposite getProject()
+            public PriceRateScheduleComposite getPriceRateSchedule()
             {
-                return ProjectAssigneeAddEditPage.this.getProject();
+                return getProject().getPriceRateSchedule();
             }
         };
 
@@ -66,7 +67,7 @@ public abstract class ProjectAssigneeAddEditPage extends AddEditBasePage
 
     protected void assignFieldValueToProjectAssignee( ProjectAssigneeEntityComposite projectAssignee )
     {
-        projectAssignee.setPriceRate( priceRateOptionPanel.getSelectedPriceRate() );
+        projectAssignee.setPriceRate( priceRateOptionPanel.getPriceRate() );
         projectAssignee.setStaff( getSelectedStaff() );
 
         projectAssignee.setLead( Boolean.parseBoolean( isLeadCheckBox.getModelObjectAsString() ) );
@@ -74,7 +75,7 @@ public abstract class ProjectAssigneeAddEditPage extends AddEditBasePage
 
     protected void assignProjectAssigneeToFieldValue( ProjectAssigneeEntityComposite projectAssignee )
     {
-        priceRateOptionPanel.setSelectedPriceRate( projectAssignee.getPriceRate() );
+        priceRateOptionPanel.setPriceRate( projectAssignee.getPriceRate() );
         staffChoice.setChoice( new StaffDelegator( projectAssignee.getStaff() ) );
         isLeadCheckBox.setModel( new Model( projectAssignee.isLead() ) );
 
@@ -93,7 +94,7 @@ public abstract class ProjectAssigneeAddEditPage extends AddEditBasePage
 
     public abstract void onsubmitting();
 
-    public abstract ProjectEntityComposite getProject();
-
     public abstract List<PriceRateComposite> getAvailablePriceRates();
+
+    public abstract ProjectEntityComposite getProject();
 }

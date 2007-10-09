@@ -15,14 +15,15 @@ package org.qi4j.chronos.ui.legalcondition;
 import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.form.Form;
 import org.qi4j.chronos.model.LegalCondition;
+import org.qi4j.chronos.model.composites.LegalConditionComposite;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
 import org.qi4j.chronos.ui.common.MaxLengthTextArea;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 
 public abstract class LegalConditionAddEditPage extends AddEditBasePage
 {
-    protected MaxLengthTextField nameField;
-    protected MaxLengthTextArea descField;
+    private MaxLengthTextField nameField;
+    private MaxLengthTextArea descField;
 
     public LegalConditionAddEditPage( Page goBackPage )
     {
@@ -32,11 +33,23 @@ public abstract class LegalConditionAddEditPage extends AddEditBasePage
     public void initComponent( Form form )
     {
         nameField = new MaxLengthTextField( "nameField", "Legal Condition Name",
-                                            LegalCondition.LEGAL_CONDITION_NAME_LEN );
+                                            LegalCondition.NAME_LEN );
         descField = new MaxLengthTextArea( "descTextArea", "Legal Condition Description",
-                                           LegalCondition.LEGAL_CONDITION_DESC_LEN );
+                                           LegalCondition.DESC_LEN );
         form.add( nameField );
         form.add( descField );
+    }
+
+    protected void assignFieldValueToLegalCondition( LegalConditionComposite legalCondition )
+    {
+        legalCondition.setName( nameField.getText() );
+        legalCondition.setDescription( descField.getText() );
+    }
+
+    protected void assignLegalConditionToFieldValue( LegalConditionComposite legalCondition )
+    {
+        nameField.setText( legalCondition.getName() );
+        descField.setText( legalCondition.getDescription() );
     }
 
     public void handleSubmit()

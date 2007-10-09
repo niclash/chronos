@@ -49,9 +49,9 @@ public abstract class CommentTable extends ActionTable<CommentComposite, Comment
 
     public void populateItems( Item item, CommentComposite obj )
     {
-        add( new Label( "createdDate", DateUtil.formatDateTime( obj.getCreatedDate() ) ) );
-        add( new Label( "user", obj.getUser().getFirstName() + " " + obj.getUser().getLastName() ) );
-        add( new Label( "comment", obj.getText() ) );
+        item.add( new Label( "createdDate", DateUtil.formatDateTime( obj.getCreatedDate() ) ) );
+        item.add( new Label( "user", obj.getUser().getFirstName() + " " + obj.getUser().getLastName() ) );
+        item.add( new Label( "comment", obj.getText() ) );
     }
 
     public List<String> getTableHeaderList()

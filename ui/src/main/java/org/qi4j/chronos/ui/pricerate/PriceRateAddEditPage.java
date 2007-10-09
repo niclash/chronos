@@ -13,21 +13,21 @@
 package org.qi4j.chronos.ui.pricerate;
 
 import java.util.Arrays;
-import java.util.Currency;
 import java.util.List;
-import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.Page;
+import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.SubmitLink;
 import org.qi4j.chronos.model.PriceRateType;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
+import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.NumberTextField;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.projectrole.ProjectRoleDelegator;
 import org.qi4j.chronos.ui.util.ListUtil;
-import org.qi4j.chronos.util.CurrencyUtil;
 
 public abstract class PriceRateAddEditPage extends AddEditBasePage
 {
@@ -35,25 +35,67 @@ public abstract class PriceRateAddEditPage extends AddEditBasePage
     private SimpleDropDownChoice<ProjectRoleDelegator> projectRoleChoice;
     private SimpleDropDownChoice<PriceRateType> priceRateTypeChoice;
 
+    private SubmitLink selectPriceRateLink;
+    private WebMarkupContainer selectPriceRateContainer;
+
     public PriceRateAddEditPage( Page goBackPage )
     {
         super( goBackPage );
     }
 
+    protected void hidePriceRateSelectionLink()
+    {
+        selectPriceRateContainer.setVisible( false );
+    }
+
     public final void initComponent( Form form )
     {
+        selectPriceRateLink = new SubmitLink( "selectPriceRateLink" )
+        {
+            public void onSubmit()
+            {
+                handleSelectPriceRate();
+            }
+        };
+
+        selectPriceRateContainer = new WebMarkupContainer( "selectPriceRateContainer" );
+        selectPriceRateContainer.add( selectPriceRateLink );
+
         amountField = new NumberTextField( "amount", "Amount" );
 
         List<PriceRateType> priceRatyeTypeList = Arrays.asList( PriceRateType.values() );
         List<ProjectRoleDelegator> roleList = ListUtil.getProjectRoleDelegatorList( getAccount() );
-        List<Currency> currencyList = CurrencyUtil.getCurrencyList();
 
         priceRateTypeChoice = new SimpleDropDownChoice<PriceRateType>( "priceRateTypeChoice", priceRatyeTypeList, true );
         projectRoleChoice = new SimpleDropDownChoice<ProjectRoleDelegator>( "projectRoleChoice", roleList, true );
 
+        form.add( selectPriceRateContainer );
         form.add( amountField );
         form.add( priceRateTypeChoice );
         form.add( projectRoleChoice );
+    }
+
+    private void handleSelectPriceRate()
+    {
+        PriceRateSelectionPage selectionPage = new PriceRateSelectionPage( this )
+        {
+            public void handleSelectedPriceRate( PriceRateComposite priceRate )
+            {
+                PriceRateAddEditPage.this.handleSelectedPriceRate( priceRate );
+            }
+
+            public PriceRateScheduleComposite getPriceRateSchedule()
+            {
+                return PriceRateAddEditPage.this.getPriceRateSchedule();
+            }
+        };
+
+        setResponsePage( selectionPage );
+    }
+
+    private void handleSelectedPriceRate( PriceRateComposite priceRate )
+    {
+        assignPriceRateToFieldValue( priceRate );
     }
 
     protected void assignFieldValueToPriceRate( PriceRateComposite priceRate )
@@ -93,4 +135,6 @@ public abstract class PriceRateAddEditPage extends AddEditBasePage
     }
 
     public abstract void onSubmitting();
+
+    public abstract PriceRateScheduleComposite getPriceRateSchedule();
 }

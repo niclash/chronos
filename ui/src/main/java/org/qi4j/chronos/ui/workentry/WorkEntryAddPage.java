@@ -16,7 +16,6 @@ import java.util.Date;
 import org.apache.wicket.Page;
 import org.qi4j.chronos.model.composites.TaskAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -31,7 +30,7 @@ public abstract class WorkEntryAddPage extends WorkEntryAddEditPage
 
     public void onSubmitting()
     {
-        WorkEntryEntityComposite workEntry = ChronosWebApp.newInstance( WorkEntryEntityComposite.class );
+        WorkEntryEntityComposite workEntry = getServices().getWorkEntryService().newInstance( WorkEntryEntityComposite.class );
 
         try
         {

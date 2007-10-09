@@ -25,6 +25,8 @@ public abstract class PriceRateEditPage extends PriceRateAddEditPage
     {
         super( goBackPage );
 
+        hidePriceRateSelectionLink();
+
         initData();
     }
 

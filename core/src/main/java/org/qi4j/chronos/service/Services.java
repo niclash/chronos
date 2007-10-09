@@ -51,5 +51,7 @@ public interface Services
     TaskAssigneeService getTaskAssigneeService();
 
     CommentService getCommentService();
+
+    LegalConditionService getLegalConditionService();
 }
 

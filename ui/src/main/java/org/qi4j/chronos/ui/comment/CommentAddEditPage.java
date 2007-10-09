@@ -17,6 +17,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.CommentComposite;
+import org.qi4j.chronos.ui.ChronosSession;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
 import org.qi4j.chronos.ui.common.MaxLengthTextArea;
 import org.qi4j.chronos.ui.common.SimpleTextField;
@@ -70,7 +71,10 @@ public abstract class CommentAddEditPage extends AddEditBasePage
         onSubmitting();
     }
 
-    public abstract void onSubmitting();
+    public User getUser()
+    {
+        return ChronosSession.get().getUser();
+    }
 
-    public abstract User getUser();
+    public abstract void onSubmitting();
 }

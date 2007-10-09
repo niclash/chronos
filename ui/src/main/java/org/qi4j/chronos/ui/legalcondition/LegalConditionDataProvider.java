@@ -28,14 +28,14 @@ public class LegalConditionDataProvider extends AbstractSortableDataProvider<Leg
 
     public String getId( LegalCondition legalCondition )
     {
-        return legalCondition.getLegalConditionName();
+        return legalCondition.getName();
     }
 
     public LegalCondition load( String id )
     {
         for( LegalCondition legalCondition : list )
         {
-            if( legalCondition.getLegalConditionName().equals( id ) )
+            if( legalCondition.getName().equals( id ) )
             {
                 return legalCondition;
             }

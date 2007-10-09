@@ -12,25 +12,22 @@
  */
 package org.qi4j.chronos.ui.pricerate;
 
-import java.util.ArrayList;
-import java.util.List;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.ui.base.BasePage;
-import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 
 public abstract class PriceRateOptionPanel extends Panel
 {
-    private SimpleDropDownChoice<PriceRateDelegator> priceRateChoice;
-
     private SubmitLink newPriceRateLink;
     private SubmitLink customizePriceRateLink;
 
-    private List<PriceRateDelegator> priceRateList;
+    //TODO bp. fix this
+    private static PriceRateComposite priceRate;
 
-    private static List<PriceRateComposite> addedPriceRateList;
+    private Label priceRateDetailLabel;
 
     public PriceRateOptionPanel( String id )
     {
@@ -41,9 +38,8 @@ public abstract class PriceRateOptionPanel extends Panel
 
     private void initComponents()
     {
-        initPriceRateList();
+        priceRateDetailLabel = new Label( "priceRateDetailLabel", "" );
 
-        priceRateChoice = new SimpleDropDownChoice<PriceRateDelegator>( "priceRateChoice", priceRateList, true );
         newPriceRateLink = new SubmitLink( "newPriceRateLink" )
         {
             public void onSubmit()
@@ -60,12 +56,10 @@ public abstract class PriceRateOptionPanel extends Panel
             }
         };
 
-        if( priceRateList.size() == 0 )
-        {
-            setControlVisible( false );
-        }
+        priceRateDetailLabel.setVisible( false );
+        customizePriceRateLink.setVisible( false );
 
-        add( priceRateChoice );
+        add( priceRateDetailLabel );
         add( newPriceRateLink );
         add( customizePriceRateLink );
     }
@@ -78,6 +72,16 @@ public abstract class PriceRateOptionPanel extends Panel
             {
                 PriceRateOptionPanel.this.addPriceRate( priceRate );
             }
+
+            public PriceRateScheduleComposite getPriceRateSchedule()
+            {
+                return PriceRateOptionPanel.this.getPriceRateSchedule();
+            }
+
+            public String getSubmitButtonValue()
+            {
+                return "Done";
+            }
         };
 
         setResponsePage( addPage );
@@ -85,16 +89,7 @@ public abstract class PriceRateOptionPanel extends Panel
 
     private void addPriceRate( PriceRateComposite priceRate )
     {
-        addedPriceRateList.add( priceRate );
-
-        PriceRateDelegator delegator = new PriceRateDelegator( priceRate );
-
-        priceRateList.add( delegator );
-
-        //set newly added priceRate as default value
-        priceRateChoice.setChoice( delegator );
-
-        setControlVisible( true );
+        setPriceRate( priceRate );
     }
 
     private void handleCustomizePriceRate()
@@ -103,12 +98,17 @@ public abstract class PriceRateOptionPanel extends Panel
         {
             public PriceRateComposite getPriceRate()
             {
-                return PriceRateOptionPanel.this.getSelectedPriceRate();
+                return PriceRateOptionPanel.this.getPriceRate();
             }
 
             public void updatePriceRate( PriceRateComposite priceRate )
             {
                 PriceRateOptionPanel.this.updatePriceRate( priceRate );
+            }
+
+            public PriceRateScheduleComposite getPriceRateSchedule()
+            {
+                return PriceRateOptionPanel.this.getPriceRateSchedule();
             }
         };
 
@@ -117,73 +117,42 @@ public abstract class PriceRateOptionPanel extends Panel
 
     private void updatePriceRate( PriceRateComposite priceRate )
     {
-        initOrResetPriceRateDelegatorList();
-
-        setSelectedPriceRate( priceRate );
+        setPriceRate( priceRate );
     }
 
-    public PriceRateComposite getSelectedPriceRate()
+    public PriceRateComposite getPriceRate()
     {
-        PriceRateDelegator priceRateDelegator = priceRateChoice.getChoice();
-
-        int index = priceRateList.indexOf( priceRateDelegator );
-
-        return addedPriceRateList.get( index );
-    }
-
-    private void setControlVisible( boolean isVisible )
-    {
-        priceRateChoice.setVisible( isVisible );
-        customizePriceRateLink.setVisible( isVisible );
-    }
-
-    private void initPriceRateList()
-    {
-        if( addedPriceRateList == null )
-        {
-            addedPriceRateList = new ArrayList<PriceRateComposite>();
-        }
-
-        addedPriceRateList.clear();
-
-        List<PriceRateComposite> priceRates = getAvailablePriceRates();
-
-        //make a copy of availblePriceRate
-        for( PriceRateComposite priceRate : priceRates )
-        {
-            addedPriceRateList.add( priceRate );
-        }
-
-        initOrResetPriceRateDelegatorList();
-    }
-
-    private void initOrResetPriceRateDelegatorList()
-    {
-        if( priceRateList == null )
-        {
-            priceRateList = new ArrayList<PriceRateDelegator>();
-        }
-
-        priceRateList.clear();
-
-        for( PriceRateComposite priceRate : addedPriceRateList )
-        {
-            priceRateList.add( new PriceRateDelegator( priceRate ) );
-        }
+        return priceRate;
     }
 
     public boolean checkIfNotValidated()
     {
-        return priceRateList.size() == 0 ? true : false;
+        if( priceRate == null )
+        {
+            error( "Please create a new price Rate." );
+            return true;
+        }
+
+        return false;
     }
 
-    public void setSelectedPriceRate( PriceRateComposite priceRate )
+    public void setPriceRate( PriceRateComposite priceRate )
     {
-        priceRateChoice.setChoice( new PriceRateDelegator( priceRate ) );
+        this.priceRate = priceRate;
+
+        StringBuilder builder = new StringBuilder();
+
+        builder.append( priceRate.getProjectRole().getProjectRole() ).append( " - " )
+            .append( priceRate.getPriceRateType().toString() )
+            .append( " - " )
+            .append( String.valueOf( priceRate.getAmount() ) );
+
+        priceRateDetailLabel.setModelObject( builder.toString() );
+
+        priceRateDetailLabel.setVisible( true );
+        customizePriceRateLink.setVisible( true );
     }
 
-    public abstract List<PriceRateComposite> getAvailablePriceRates();
-
-    public abstract ProjectEntityComposite getProject();
+    public abstract PriceRateScheduleComposite getPriceRateSchedule();
 }
 

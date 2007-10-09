@@ -16,11 +16,13 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.LegalCondition;
+import org.qi4j.chronos.model.composites.LegalConditionComposite;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 
-public class LegalConditionTable extends ActionTable<LegalCondition, String>
+public abstract class LegalConditionTable extends ActionTable<LegalCondition, String>
 {
     private LegalConditionDataProvider provider;
 
@@ -44,14 +46,21 @@ public class LegalConditionTable extends ActionTable<LegalCondition, String>
         return provider;
     }
 
-    public void populateItems( Item item, final LegalCondition obj )
+    public void populateItems( Item item, LegalCondition obj )
     {
-        add( new SimpleLink( "name", obj.getLegalConditionName() )
+        final String name = obj.getName();
+
+        add( new SimpleLink( "name", obj.getName() )
         {
             public void linkClicked()
             {
-                LegalConditionDetailPage detailPage =
-                    new LegalConditionDetailPage( this.getPage(), obj );
+                LegalConditionDetailPage detailPage = new LegalConditionDetailPage( this.getPage() )
+                {
+                    public LegalConditionComposite getLegalCondition()
+                    {
+                        return getServices().getLegalConditionService().get( getProject(), name );
+                    }
+                };
 
                 setResponsePage( detailPage );
             }
@@ -61,8 +70,13 @@ public class LegalConditionTable extends ActionTable<LegalCondition, String>
         {
             public void linkClicked()
             {
-                LegalConditionEditPage editPage =
-                    new LegalConditionEditPage( this.getPage(), obj );
+                LegalConditionEditPage editPage = new LegalConditionEditPage( this.getPage() )
+                {
+                    public LegalConditionComposite getLegalCondition()
+                    {
+                        return getServices().getLegalConditionService().get( getProject(), name );
+                    }
+                };
 
                 setResponsePage( editPage );
             }
@@ -73,4 +87,6 @@ public class LegalConditionTable extends ActionTable<LegalCondition, String>
     {
         return Arrays.asList( "Name", "" );
     }
+
+    public abstract ProjectEntityComposite getProject();
 }

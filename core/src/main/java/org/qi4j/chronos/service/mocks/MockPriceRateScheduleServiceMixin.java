@@ -48,7 +48,7 @@ public class MockPriceRateScheduleServiceMixin implements PriceRateScheduleServi
         return list;
     }
 
-    private void loopPriceRateSchedule( HasPriceRateSchedules hasPriceRateSchedules, LoopCallBack loopCallBack )
+    private void loopPriceRateSchedule( HasPriceRateSchedules hasPriceRateSchedules, LoopCallBack<PriceRateScheduleComposite> loopCallBack )
     {
         Iterator<PriceRateScheduleComposite> iter = hasPriceRateSchedules.priceRateScheduleIterator();
 

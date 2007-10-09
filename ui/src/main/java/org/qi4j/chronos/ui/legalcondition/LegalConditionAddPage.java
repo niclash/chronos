@@ -41,8 +41,7 @@ public class LegalConditionAddPage extends LegalConditionAddEditPage
     {
         LegalConditionComposite legalCondition = ChronosWebApp.newInstance( LegalConditionComposite.class );
 
-        legalCondition.setLegalConditionName( nameField.getText() );
-        legalCondition.setLegalConditionDesc( descField.getText() );
+        assignFieldValueToLegalCondition( legalCondition );
 
         try
         {

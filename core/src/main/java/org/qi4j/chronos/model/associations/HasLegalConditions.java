@@ -16,15 +16,15 @@ package org.qi4j.chronos.model.associations;
 import java.io.Serializable;
 import java.util.Iterator;
 import org.qi4j.api.annotation.Mixins;
-import org.qi4j.chronos.model.LegalCondition;
+import org.qi4j.chronos.model.composites.LegalConditionComposite;
 import org.qi4j.chronos.model.mixins.HasLegalConditionsMixin;
 
 @Mixins( HasLegalConditionsMixin.class )
 public interface HasLegalConditions extends Serializable
 {
-    void addLegalCondition( LegalCondition legalCondition );
+    void addLegalCondition( LegalConditionComposite legalCondition );
 
-    void removeLegalCondition( LegalCondition legalCondition );
+    void removeLegalCondition( LegalConditionComposite legalCondition );
 
-    Iterator<LegalCondition> legalConditionIterator();
+    Iterator<LegalConditionComposite> legalConditionIterator();
 }

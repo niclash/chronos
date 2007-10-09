@@ -14,7 +14,6 @@ package org.qi4j.chronos.ui.projectassignee;
 
 import org.apache.wicket.markup.html.panel.Panel;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.NewLinkPanel;
 import org.qi4j.chronos.ui.common.tab.NewLinkTab;
 
@@ -51,7 +50,7 @@ public abstract class ProjectAssigneeTab extends NewLinkTab
 
         public void newLinkOnClick()
         {
-            ProjectAssigneeAddPage addPage = new ProjectAssigneeAddPage( (BasePage) this.getPage() )
+            ProjectAssigneeAddPage addPage = new ProjectAssigneeAddPage( this.getPage() )
             {
                 public ProjectEntityComposite getProject()
                 {

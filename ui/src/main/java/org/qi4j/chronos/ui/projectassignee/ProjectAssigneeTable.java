@@ -18,6 +18,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.Model;
+import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
@@ -73,6 +74,11 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssigneeEn
                     public ProjectAssigneeEntityComposite getProjectAssignee()
                     {
                         return ChronosWebApp.getServices().getProjectAssigneeService().get( projectAssigneeId );
+                    }
+
+                    public PriceRateScheduleComposite getPriceRateSchedule()
+                    {
+                        return getProject().getPriceRateSchedule();
                     }
 
                     public ProjectEntityComposite getProject()

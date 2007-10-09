@@ -13,55 +13,61 @@
 package org.qi4j.chronos.ui.comment;
 
 import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.associations.HasComments;
 import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.chronos.ui.common.NewLinkPanel;
+import org.qi4j.chronos.ui.common.tab.NewLinkTab;
 
-public abstract class CommentTab extends NewLinkPanel
+public abstract class CommentTab extends NewLinkTab
 {
     public CommentTab( String title )
     {
         super( title );
     }
 
-    public Panel getContent( String id )
+    public NewLinkPanel getNewLinkPanel( String id )
     {
-        return new CommentTable( id )
-        {
-            public HasComments getHasComments()
-            {
-                return CommentTab.this.getHasComments();
-            }
-        };
+        return new CommentNewLinkPanel( id );
     }
 
-    public void newLinkOnClick()
+    private class CommentNewLinkPanel extends NewLinkPanel
     {
-        CommentAddPage addPage = new CommentAddPage( this.getPage() )
+        public CommentNewLinkPanel( String id )
         {
-            public void addComment( CommentComposite comment )
+            super( id );
+        }
+
+        public Panel getContent( String id )
+        {
+            return new CommentTable( id )
             {
-                CommentTab.this.addComment( comment );
-            }
+                public HasComments getHasComments()
+                {
+                    return CommentTab.this.getHasComments();
+                }
+            };
+        }
 
-            public User getUser()
+        public void newLinkOnClick()
+        {
+            CommentAddPage addPage = new CommentAddPage( this.getPage() )
             {
-                return CommentTab.this.getUser();
-            }
-        };
+                public void addComment( CommentComposite comment )
+                {
+                    CommentTab.this.addComment( comment );
+                }
+            };
 
-        setResponsePage( addPage );
-    }
+            setResponsePage( addPage );
+        }
 
-    public String getNewLinkText()
-    {
-        return "New Comment";
+        public String getNewLinkText()
+        {
+            return "New Comment";
+        }
     }
 
     public abstract HasComments getHasComments();
-
-    public abstract User getUser();
 
     public abstract void addComment( CommentComposite comment );
 }

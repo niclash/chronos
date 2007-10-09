@@ -50,8 +50,6 @@ public abstract class PriceRateScheduleAddPage extends PriceRateScheduleAddEditP
 
             addPriceRateSchedule( priceRateSchedule );
 
-            logInfoMsg( "Price Rate Schedule is added successfully." );
-
             divertToGoBackPage();
         }
         catch( Exception err )

@@ -1,5 +1,4 @@
 /*
- * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -11,15 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model;
+package org.qi4j.chronos.service.composites;
 
-import org.qi4j.library.general.model.Description;
-import org.qi4j.library.general.model.HasName;
+import org.qi4j.api.Composite;
+import org.qi4j.api.annotation.Mixins;
+import org.qi4j.chronos.service.LegalConditionService;
+import org.qi4j.chronos.service.mocks.MockLegalConditionServiceMixin;
 
-public interface LegalCondition extends HasName, Description
+@Mixins( MockLegalConditionServiceMixin.class )
+public interface LegalConditionServiceComposite extends LegalConditionService, Composite
 {
-    public final static int NAME_LEN = 120;
-
-    public final static int DESC_LEN = 2000;
-
 }

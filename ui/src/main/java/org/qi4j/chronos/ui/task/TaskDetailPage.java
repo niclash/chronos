@@ -21,8 +21,11 @@ import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
+import org.qi4j.chronos.model.associations.HasComments;
+import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
+import org.qi4j.chronos.ui.comment.CommentTab;
 import org.qi4j.chronos.ui.common.SimpleTextArea;
 import org.qi4j.chronos.ui.common.SimpleTextField;
 import org.qi4j.chronos.ui.taskassignee.TaskAssigneeTab;
@@ -81,6 +84,7 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
             List<AbstractTab> tabs = new ArrayList<AbstractTab>();
 
             tabs.add( createTaskAssigneeTab() );
+            tabs.add( createCommenTab() );
 
             tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
 
@@ -89,6 +93,22 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
             add( descriptionTextArea );
             add( submitButton );
             add( tabbedPanel );
+        }
+
+        private CommentTab createCommenTab()
+        {
+            return new CommentTab( "Comment" )
+            {
+                public HasComments getHasComments()
+                {
+                    return TaskDetailPage.this.getTask();
+                }
+                
+                public void addComment( CommentComposite comment )
+                {
+                    TaskDetailPage.this.addComment( comment );
+                }
+            };
         }
 
         private TaskAssigneeTab createTaskAssigneeTab()
@@ -103,6 +123,14 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
         }
     }
 
+    private void addComment( CommentComposite comment )
+    {
+        TaskEntityComposite task = getTask();
+
+        task.addComment( comment );
+
+        getServices().getTaskService().update( task );
+    }
 
     public abstract TaskEntityComposite getTask();
 }

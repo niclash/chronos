@@ -18,22 +18,18 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
-import org.qi4j.chronos.model.LegalCondition;
+import org.qi4j.chronos.model.composites.LegalConditionComposite;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.SimpleTextArea;
 import org.qi4j.chronos.ui.common.SimpleTextField;
 
-public class LegalConditionDetailPage extends LeftMenuNavPage
+public abstract class LegalConditionDetailPage extends LeftMenuNavPage
 {
     private Page returnPage;
 
-    //TODO fixme
-    private static LegalCondition legalCondition;
-
-    public LegalConditionDetailPage( Page returnBack, LegalCondition legalCondition )
+    public LegalConditionDetailPage( Page returnBack )
     {
         this.returnPage = returnBack;
-        this.legalCondition = legalCondition;
 
         initComponents();
     }
@@ -60,8 +56,10 @@ public class LegalConditionDetailPage extends LeftMenuNavPage
 
         private void initComponents()
         {
-            nameField = new SimpleTextField( "nameField", legalCondition.getLegalConditionName(), true );
-            descField = new SimpleTextArea( "descTextArea", legalCondition.getLegalConditionDesc(), true );
+            LegalConditionComposite legalCondition = getLegalCondition();
+
+            nameField = new SimpleTextField( "nameField", legalCondition.getName(), true );
+            descField = new SimpleTextArea( "descTextArea", legalCondition.getDescription(), true );
 
             submitButton = new Button( "submitButton", new Model( "Return" ) );
 
@@ -83,4 +81,6 @@ public class LegalConditionDetailPage extends LeftMenuNavPage
             }
         }
     }
+
+    public abstract LegalConditionComposite getLegalCondition();
 }
