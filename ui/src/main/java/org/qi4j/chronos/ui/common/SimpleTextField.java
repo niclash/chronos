@@ -48,5 +48,7 @@ public class SimpleTextField extends TextField
     public void setText( String text )
     {
         this.text = text;
+
+        modelChanged();
     }
 }

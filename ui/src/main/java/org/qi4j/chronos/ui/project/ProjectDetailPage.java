@@ -31,6 +31,7 @@ import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.SimpleTextField;
 import org.qi4j.chronos.ui.contactperson.ContactPersonTab2;
+import org.qi4j.chronos.ui.legalcondition.LegalConditionTab;
 import org.qi4j.chronos.ui.pricerate.PriceRateTab;
 import org.qi4j.chronos.ui.projectassignee.ProjectAssigneeTab;
 import org.qi4j.chronos.ui.task.TaskTab;
@@ -121,6 +122,7 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
             tabs.add( createPriceRateTab() );
             tabs.add( createProjectAssigneeTab() );
             tabs.add( createTaskTab() );
+            tabs.add( createLegalConditionTab() );
 
             tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
 
@@ -142,6 +144,17 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
                 actualTimeContainer.setVisible( false );
             }
         }
+    }
+
+    private LegalConditionTab createLegalConditionTab()
+    {
+        return new LegalConditionTab( "Legal Condition" )
+        {
+            public ProjectEntityComposite getProject()
+            {
+                return ProjectDetailPage.this.getProject();
+            }
+        };
     }
 
     private TaskTab createTaskTab()

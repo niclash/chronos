@@ -1,6 +1,13 @@
 <html xmlns:wicket>
 
 <wicket:extend>
+    <span wicket:id="selectLegalConditionContainer">
+        <tr>
+            <td align="right">&nbsp;</td>
+            <td><a wicket:id="selectLegalConditionLink">Select Legal Condition</a></td>
+        </tr>
+    </span>
+
     <tr>
         <td align="right">Name</td>
         <td><input type="text" wicket:id="nameField" class="textStyle" style="width: 350"/>
@@ -9,7 +16,7 @@
 
     <tr>
         <td align="right">Description</td>
-        <td><select wicket:id="descTextArea" class="formStyle" style="width: 350"></select></td>
+        <td><textarea wicket:id="descTextArea" rows="5" class="textStyle" style="width: 350"></textarea></td>
     </tr>
 </wicket:extend>
 

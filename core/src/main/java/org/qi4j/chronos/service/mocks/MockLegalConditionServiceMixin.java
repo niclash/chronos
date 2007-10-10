@@ -18,7 +18,9 @@ import java.util.List;
 import org.qi4j.api.CompositeBuilderFactory;
 import org.qi4j.api.annotation.scope.Qi4j;
 import org.qi4j.chronos.model.associations.HasLegalConditions;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.LegalConditionComposite;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.LegalConditionService;
 
@@ -87,5 +89,24 @@ public class MockLegalConditionServiceMixin implements LegalConditionService
         } );
 
         return returnValue[ 0 ];
+    }
+
+    public List<LegalConditionComposite> findAll( AccountEntityComposite account )
+    {
+        List<LegalConditionComposite> list = new ArrayList<LegalConditionComposite>();
+
+        Iterator<ProjectEntityComposite> projectIter = account.projectIterator();
+
+        while( projectIter.hasNext() )
+        {
+            list.addAll( findAll( projectIter.next() ) );
+        }
+
+        return list;
+    }
+
+    public int countAll( AccountEntityComposite account )
+    {
+        return findAll( account ).size();
     }
 }

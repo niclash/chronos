@@ -18,21 +18,23 @@
 
         <tr>
             <td>
-                <form wicket:id="roleDetailForm">
+                <form wicket:id="legalConditionDetailForm">
                     <table>
+
                         <tr>
                             <td align="right">Name</td>
                             <td><input type="text" wicket:id="nameField" class="readOnlyTextStyle" style="width: 350"/>
                             </td>
                         </tr>
+
                         <tr>
                             <td align="right">Description</td>
-                            <td><select wicket:id="descTextArea" class="formStyle" style="width: 350"></select></td>
+                            <td><textarea wicket:id="descTextArea" rows="5" class="readOnlyTextStyle"
+                                          style="width: 350"></textarea></td>
                         </tr>
 
                         <tr>
-                            <td></td>
-                            <td>
+                            <td colspan="2" align="center">
                                 <input type="submit" wicket:id="submitButton"/>
                             </td>
                         </tr>

@@ -13,44 +13,45 @@
 package org.qi4j.chronos.ui.legalcondition;
 
 import java.util.Arrays;
+import java.util.Iterator;
 import java.util.List;
 import org.apache.wicket.markup.repeater.Item;
-import org.qi4j.chronos.model.LegalCondition;
 import org.qi4j.chronos.model.composites.LegalConditionComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 
-public abstract class LegalConditionTable extends ActionTable<LegalCondition, String>
+public abstract class LegalConditionTable extends ActionTable<LegalConditionComposite, String>
 {
     private LegalConditionDataProvider provider;
 
-    //TODO bp. fixme
-    private static List<LegalCondition> list;
-
-    public LegalConditionTable( String id, List<LegalCondition> list )
+    public LegalConditionTable( String id )
     {
         super( id );
-
-        this.list = list;
     }
 
-    public AbstractSortableDataProvider<LegalCondition, String> getDetachableDataProvider()
+    public AbstractSortableDataProvider<LegalConditionComposite, String> getDetachableDataProvider()
     {
         if( provider == null )
         {
-            provider = new LegalConditionDataProvider( list );
+            provider = new LegalConditionDataProvider()
+            {
+                public ProjectEntityComposite getProject()
+                {
+                    return LegalConditionTable.this.getProject();
+                }
+            };
         }
 
         return provider;
     }
 
-    public void populateItems( Item item, LegalCondition obj )
+    public void populateItems( Item item, LegalConditionComposite obj )
     {
         final String name = obj.getName();
 
-        add( new SimpleLink( "name", obj.getName() )
+        item.add( new SimpleLink( "name", obj.getName() )
         {
             public void linkClicked()
             {
@@ -66,7 +67,7 @@ public abstract class LegalConditionTable extends ActionTable<LegalCondition, St
             }
         } );
 
-        add( new SimpleLink( "editLink", "Edit" )
+        item.add( new SimpleLink( "editLink", "Edit" )
         {
             public void linkClicked()
             {
@@ -76,11 +77,44 @@ public abstract class LegalConditionTable extends ActionTable<LegalCondition, St
                     {
                         return getServices().getLegalConditionService().get( getProject(), name );
                     }
+
+                    public void updateLegalCondition( LegalConditionComposite legalCondition )
+                    {
+                        LegalConditionTable.this.updateLegalCondition( legalCondition, name );
+                    }
                 };
 
                 setResponsePage( editPage );
             }
         } );
+    }
+
+    private void updateLegalCondition( LegalConditionComposite legalCondition, String oldLegalConditionName )
+    {
+        //TODO bp. workaround, wait for ValueObjectComposite
+        ProjectEntityComposite project = getProject();
+
+        Iterator<LegalConditionComposite> legalConditionIter = project.legalConditionIterator();
+
+        LegalConditionComposite toDelete = null;
+
+        while( legalConditionIter.hasNext() )
+        {
+            LegalConditionComposite temp = legalConditionIter.next();
+
+            if( temp.getName().equals( oldLegalConditionName ) )
+            {
+                toDelete = temp;
+                break;
+            }
+        }
+
+        if( toDelete != null )
+        {
+            project.removeLegalCondition( toDelete );
+        }
+
+        project.addLegalCondition( legalCondition );
     }
 
     public List<String> getTableHeaderList()

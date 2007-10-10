@@ -14,43 +14,44 @@ package org.qi4j.chronos.ui.legalcondition;
 
 import java.util.List;
 import org.qi4j.chronos.model.LegalCondition;
+import org.qi4j.chronos.model.composites.LegalConditionComposite;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.service.FindFilter;
+import org.qi4j.chronos.service.LegalConditionService;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
-public class LegalConditionDataProvider extends AbstractSortableDataProvider<LegalCondition, String>
+public abstract class LegalConditionDataProvider extends AbstractSortableDataProvider<LegalConditionComposite, String>
 {
-    //TODO bp. FIXME. Remove static and use non detachable model.
-    private static List<LegalCondition> list;
-
-    public LegalConditionDataProvider( List<LegalCondition> legalConditions )
-    {
-        this.list = legalConditions;
-    }
-
     public String getId( LegalCondition legalCondition )
     {
         return legalCondition.getName();
     }
 
-    public LegalCondition load( String id )
+    public String getId( LegalConditionComposite t )
     {
-        for( LegalCondition legalCondition : list )
-        {
-            if( legalCondition.getName().equals( id ) )
-            {
-                return legalCondition;
-            }
-        }
-
-        return null;
+        return t.getName();
     }
 
-    public List<LegalCondition> dataList( int first, int count )
+    public LegalConditionComposite load( String id )
     {
-        return list.subList( first, first + count );
+        return getLegalConditionService().get( getProject(), id );
+    }
+
+    public List<LegalConditionComposite> dataList( int first, int count )
+    {
+        return getLegalConditionService().findAll( getProject(), new FindFilter( first, count ) );
     }
 
     public int getSize()
     {
-        return list.size();
+        return getLegalConditionService().countAll( getProject() );
     }
+
+    private LegalConditionService getLegalConditionService()
+    {
+        return ChronosWebApp.getServices().getLegalConditionService();
+    }
+
+    public abstract ProjectEntityComposite getProject();
 }

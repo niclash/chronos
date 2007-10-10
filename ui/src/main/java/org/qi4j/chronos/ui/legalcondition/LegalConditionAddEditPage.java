@@ -13,7 +13,9 @@
 package org.qi4j.chronos.ui.legalcondition;
 
 import org.apache.wicket.Page;
+import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.SubmitLink;
 import org.qi4j.chronos.model.LegalCondition;
 import org.qi4j.chronos.model.composites.LegalConditionComposite;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
@@ -25,19 +27,58 @@ public abstract class LegalConditionAddEditPage extends AddEditBasePage
     private MaxLengthTextField nameField;
     private MaxLengthTextArea descField;
 
+    private SubmitLink selectLegalConditionLink;
+    private WebMarkupContainer selectLegalConditionContainer;
+
     public LegalConditionAddEditPage( Page goBackPage )
     {
         super( goBackPage );
     }
 
+    protected void hideSelectionLegalConditionLink()
+    {
+        selectLegalConditionContainer.setVisible( false );
+    }
+
     public void initComponent( Form form )
     {
+        selectLegalConditionLink = new SubmitLink( "selectLegalConditionLink" )
+        {
+            public void onSubmit()
+            {
+                handleSelectLegalConditionClick();
+            }
+        };
+
+        selectLegalConditionContainer = new WebMarkupContainer( "selectLegalConditionContainer" );
+        selectLegalConditionContainer.add( selectLegalConditionLink );
+
+        if( getServices().getLegalConditionService().countAll( getAccount() ) == 0 )
+        {
+            selectLegalConditionContainer.setVisible( false );
+        }
+
         nameField = new MaxLengthTextField( "nameField", "Legal Condition Name",
                                             LegalCondition.NAME_LEN );
         descField = new MaxLengthTextArea( "descTextArea", "Legal Condition Description",
                                            LegalCondition.DESC_LEN );
+
+        form.add( selectLegalConditionContainer );
         form.add( nameField );
         form.add( descField );
+    }
+
+    private void handleSelectLegalConditionClick()
+    {
+        LegalConditionSelectionPage page = new LegalConditionSelectionPage( this )
+        {
+            public void selectedLegalCondition( LegalConditionComposite legalCondition )
+            {
+                assignLegalConditionToFieldValue( legalCondition );
+            }
+        };
+
+        setResponsePage( page );
     }
 
     protected void assignFieldValueToLegalCondition( LegalConditionComposite legalCondition )

@@ -1,0 +1,51 @@
+<html xmlns:wicket>
+
+<wicket:extend>
+    <table>
+        <tr>
+            <td align="left" valign="middle">
+                <table>
+                    <tr>
+                        <td width="50%"><strong>Legal Condition Selection</strong></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td width="100%"><span wicket:id="feedbackPanel">feedback messages</span>&nbsp;</td>
+        </tr>
+
+        <tr>
+            <td>
+                <form wicket:id="legalConditionSelectionForm">
+                    <table>
+                        <tr>
+                            <td align="left">
+                                <table>
+                                    <tr>
+                                        <td>Name</td>
+                                        <td><select wicket:id="legalConditionChoice"></select></td>
+                                    </tr>
+                                    <tr>
+                                        <td align="right">Description</td>
+                                        <td><textarea wicket:id="descTextArea" rows="5" class="readOnlyTextStyle"
+                                                      style="width: 350"></textarea></td>
+                                    </tr>
+                                </table>
+                            </td>
+                        </tr>
+
+                        <tr>
+                            <td align="center">
+                                <input type="submit" wicket:id="submitButton"/>&nbsp;
+                                <input type="submit" wicket:id="cancelButton"/>
+                            </td>
+                        </tr>
+                    </table>
+                </form>
+            </td>
+        </tr>
+    </table>
+</wicket:extend>
+</html>

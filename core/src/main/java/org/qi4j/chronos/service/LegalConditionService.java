@@ -14,6 +14,7 @@ package org.qi4j.chronos.service;
 
 import java.util.List;
 import org.qi4j.chronos.model.associations.HasLegalConditions;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.LegalConditionComposite;
 
 public interface LegalConditionService
@@ -25,4 +26,8 @@ public interface LegalConditionService
     int countAll( HasLegalConditions hasLegalConditions );
 
     LegalConditionComposite get( HasLegalConditions hasLegalConditions, String name );
+
+    List<LegalConditionComposite> findAll( AccountEntityComposite account );
+
+    int countAll( AccountEntityComposite account );
 }

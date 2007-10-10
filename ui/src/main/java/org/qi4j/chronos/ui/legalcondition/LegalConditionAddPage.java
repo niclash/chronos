@@ -18,7 +18,7 @@ import org.qi4j.chronos.ui.ChronosWebApp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class LegalConditionAddPage extends LegalConditionAddEditPage
+public abstract class LegalConditionAddPage extends LegalConditionAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( LegalConditionAddPage.class );
 
@@ -41,11 +41,11 @@ public class LegalConditionAddPage extends LegalConditionAddEditPage
     {
         LegalConditionComposite legalCondition = ChronosWebApp.newInstance( LegalConditionComposite.class );
 
-        assignFieldValueToLegalCondition( legalCondition );
-
         try
         {
-            //TODO bp. fixme
+            assignFieldValueToLegalCondition( legalCondition );
+
+            addLegalCondition( legalCondition );
 
             logInfoMsg( "Legal condition is added successfully!" );
 
@@ -57,4 +57,6 @@ public class LegalConditionAddPage extends LegalConditionAddEditPage
             LOGGER.error( err.getMessage(), err );
         }
     }
+
+    public abstract void addLegalCondition( LegalConditionComposite legalCondition );
 }

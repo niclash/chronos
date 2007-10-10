@@ -48,5 +48,7 @@ public class SimpleTextArea extends TextArea
     public void setText( String text )
     {
         this.text = text;
+
+        modelChanged();
     }
 }

@@ -25,6 +25,8 @@ public abstract class LegalConditionEditPage extends LegalConditionAddEditPage
     {
         super( goBackPage );
 
+        hideSelectionLegalConditionLink();
+
         initData();
     }
 
@@ -41,7 +43,7 @@ public abstract class LegalConditionEditPage extends LegalConditionAddEditPage
 
             assignFieldValueToLegalCondition( legalCondition );
 
-            //TODO 
+            updateLegalCondition( legalCondition );
 
             logInfoMsg( "Legal conditation is updated successfully!" );
 
@@ -65,4 +67,6 @@ public abstract class LegalConditionEditPage extends LegalConditionAddEditPage
     }
 
     public abstract LegalConditionComposite getLegalCondition();
+
+    public abstract void updateLegalCondition( LegalConditionComposite legalCondition );
 }
