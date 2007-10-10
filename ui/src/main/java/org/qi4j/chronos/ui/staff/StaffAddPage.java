@@ -24,7 +24,7 @@ import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.login.LoginUserAddPanel;
 import org.qi4j.library.general.model.ValidationException;
-import org.qi4j.library.general.model.mixins.ValidationMessage;
+import org.qi4j.library.general.model.ValidationMessage;
 
 public class StaffAddPage extends StaffAddEditPage
 {
@@ -91,7 +91,7 @@ public class StaffAddPage extends StaffAddEditPage
 
             for( ValidationMessage msg : validation )
             {
-                error( msg.getSource() );
+                error( msg.getMessage() );
             }
         }
 
