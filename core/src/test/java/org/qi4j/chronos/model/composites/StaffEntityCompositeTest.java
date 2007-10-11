@@ -22,7 +22,7 @@ public class StaffEntityCompositeTest extends AbstractTest
     public void testValidateStaffEntityComposite() throws Exception
     {
         CompositeBuilder<StaffEntityComposite> builder = session.newEntityBuilder( null, StaffEntityComposite.class );
-        StaffEntityComposite props = builder.properties();
+        StaffEntityComposite props = builder.propertiesOfComposite();
         props.setFirstName( "Sianny" );
         props.setLastName( "Halim" );
         StaffEntityComposite staff = builder.newInstance();
@@ -33,7 +33,7 @@ public class StaffEntityCompositeTest extends AbstractTest
         try
         {
             CompositeBuilder<StaffEntityComposite> builder = session.newEntityBuilder( null, StaffEntityComposite.class );
-            StaffEntityComposite props = builder.properties();
+            StaffEntityComposite props = builder.propertiesOfComposite();
             props.setLastName( "Halim" );
             props.setGender( GenderType.female );
             StaffEntityComposite staff = builder.newInstance();
@@ -50,7 +50,7 @@ public class StaffEntityCompositeTest extends AbstractTest
         try
         {
             CompositeBuilder<StaffEntityComposite> builder = session.newEntityBuilder( null, StaffEntityComposite.class );
-            StaffEntityComposite props = builder.properties();
+            StaffEntityComposite props = builder.propertiesOfComposite();
             props.setFirstName( "Sianny" );
             props.setGender( GenderType.female );
             StaffEntityComposite staff = builder.newInstance();
@@ -67,7 +67,7 @@ public class StaffEntityCompositeTest extends AbstractTest
         try
         {
             CompositeBuilder<StaffEntityComposite> builder = session.newEntityBuilder( null, StaffEntityComposite.class );
-            StaffEntityComposite props = builder.properties();
+            StaffEntityComposite props = builder.propertiesOfComposite();
             props.setFirstName( "Sianny" );
             props.setLastName( "Halim" );
             StaffEntityComposite staff = builder.newInstance();

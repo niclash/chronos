@@ -16,7 +16,7 @@ import java.io.Serializable;
 import org.qi4j.api.Composite;
 import org.qi4j.api.annotation.Mixins;
 import org.qi4j.chronos.model.TimeRange;
-import org.qi4j.library.framework.PropertiesMixin;
+import org.qi4j.library.framework.properties.PropertiesMixin;
 
 @Mixins( { PropertiesMixin.class } )
 //@Assertions({ TimeRangeValidationModifier.class })

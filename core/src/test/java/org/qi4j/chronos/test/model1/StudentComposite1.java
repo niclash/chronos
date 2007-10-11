@@ -15,10 +15,10 @@ package org.qi4j.chronos.test.model1;
 import org.qi4j.api.Composite;
 import org.qi4j.api.annotation.Assertions;
 import org.qi4j.api.annotation.Mixins;
-import org.qi4j.chronos.model.modifiers.NotNullValidationModifier;
+import org.qi4j.chronos.model.modifiers.NotNullValidationAssertion;
 
 @Mixins( { AddressImpl.class, SchoolImpl.class } )
-@Assertions( { NotNullValidationModifier.class } )
+@Assertions( { NotNullValidationAssertion.class } )
 public interface StudentComposite1 extends Address, School, Composite
 {
 

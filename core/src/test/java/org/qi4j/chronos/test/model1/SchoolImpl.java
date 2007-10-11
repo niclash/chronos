@@ -12,14 +12,14 @@
 */
 package org.qi4j.chronos.test.model1;
 
-import org.qi4j.chronos.model.modifiers.NotNullable;
+import org.qi4j.chronos.model.modifiers.NotNull;
 
 public class SchoolImpl implements School
 {
     private String schoolName;
     private String type;
 
-    @NotNullable
+    @NotNull
     public void setSchoolName( String schoolName )
     {
         this.schoolName = schoolName;

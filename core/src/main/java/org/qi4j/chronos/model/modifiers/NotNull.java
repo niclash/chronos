@@ -18,8 +18,8 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 @Retention( RetentionPolicy.RUNTIME )
-@Target({ ElementType.METHOD })
-public @interface NotNullable
+@Target( { ElementType.METHOD } )
+public @interface NotNull
 {
 
 }

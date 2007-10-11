@@ -12,22 +12,26 @@
 */
 package org.qi4j.chronos.model.modifiers;
 
+import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import org.qi4j.api.annotation.AppliesTo;
+import org.qi4j.api.annotation.scope.AssertionFor;
 import org.qi4j.library.general.model.ValidationException;
 
-@AppliesTo( NotNullable.class )
-public final class NotNullValidationModifier extends AbstractSetterGetterModifier
+@AppliesTo( { Setters.class, NotNull.class } )
+public final class NotNullValidationAssertion
+    implements InvocationHandler
 {
-    public final void onCallingSetter( Method method, Object[] args )
+    @AssertionFor InvocationHandler next;
+
+    public Object invoke( Object object, Method method, Object[] objects ) throws Throwable
     {
-        if( args[ 0 ] == null )
+        if( objects[ 0 ] == null )
         {
-            final String methodName = method.getName();
-
-            final String fieldName = methodName.substring( 3, methodName.length());
-
+            String methodName = method.getName();
+            String fieldName = methodName.substring( 3, methodName.length() );
             throw new ValidationException( "[" + fieldName + "] must not be null!" );
         }
+        return next.invoke( object, method, objects );
     }
 }
