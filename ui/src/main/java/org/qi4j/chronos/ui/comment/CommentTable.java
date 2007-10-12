@@ -13,12 +13,14 @@
 package org.qi4j.chronos.ui.comment;
 
 import java.util.Arrays;
+import java.util.Date;
 import java.util.List;
-import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
+import org.qi4j.api.persistence.Identity;
 import org.qi4j.chronos.model.associations.HasComments;
 import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
+import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.util.DateUtil;
 
@@ -49,14 +51,36 @@ public abstract class CommentTable extends ActionTable<CommentComposite, Comment
 
     public void populateItems( Item item, CommentComposite obj )
     {
-        item.add( new Label( "createdDate", DateUtil.formatDateTime( obj.getCreatedDate() ) ) );
-        item.add( new Label( "user", obj.getUser().getFirstName() + " " + obj.getUser().getLastName() ) );
-        item.add( new Label( "comment", obj.getText() ) );
+        String userId = ( (Identity) obj.getUser() ).getIdentity();
+
+        item.add( createDetailLink( "user", obj.getUser().getFirstName() + " " + obj.getUser().getLastName(), userId, obj.getCreatedDate() ) );
+        item.add( createDetailLink( "createdDate", DateUtil.formatDateTime( obj.getCreatedDate() ), userId, obj.getCreatedDate() ) );
+        //TODO bp.  truncate comment
+        item.add( createDetailLink( "comment", obj.getText(), userId, obj.getCreatedDate() ) );
+    }
+
+    private SimpleLink createDetailLink( String id, String text, final String userId, final Date createdDate )
+    {
+        return new SimpleLink( id, text )
+        {
+            public void linkClicked()
+            {
+                CommentDetailPage detailPage = new CommentDetailPage( this.getPage() )
+                {
+                    public CommentComposite getComment()
+                    {
+                        return getServices().getCommentService().get( getHasComments(), createdDate, userId );
+                    }
+                };
+
+                setResponsePage( detailPage );
+            }
+        };
     }
 
     public List<String> getTableHeaderList()
     {
-        return Arrays.asList( "Created Date", "User", "Comment" );
+        return Arrays.asList( "User", "Created Date", "Comment" );
     }
 
     public abstract HasComments getHasComments();

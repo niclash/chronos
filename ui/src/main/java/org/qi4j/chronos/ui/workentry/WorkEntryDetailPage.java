@@ -87,10 +87,11 @@ public abstract class WorkEntryDetailPage extends LeftMenuNavPage
 
             List<AbstractTab> tabs = new ArrayList<AbstractTab>();
 
+            tabs.add( createCommentTab() );
+
             tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
 
             submitButton = new Button( "submitButton", new Model( "Return" ) );
-
 
             add( titleTextField );
             add( descriptionTextArea );
