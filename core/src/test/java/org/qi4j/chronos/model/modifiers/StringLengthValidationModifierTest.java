@@ -14,7 +14,7 @@ package org.qi4j.chronos.model.modifiers;
 
 import org.qi4j.chronos.model.AbstractTest;
 import org.qi4j.chronos.test.model1.StudentComposite2;
-import org.qi4j.library.general.model.ValidationException;
+import org.qi4j.library.framework.validation.ValidationException;
 
 public class StringLengthValidationModifierTest
     extends AbstractTest
@@ -23,14 +23,14 @@ public class StringLengthValidationModifierTest
     {
         StudentComposite2 sample = builderFactory.newCompositeBuilder( StudentComposite2.class ).newInstance();
 
-        sample.setAddress1( "Address 1");
+        sample.setAddress1( "Address 1" );
 
         try
         {
-            sample.setAddress1( "1");
-            fail( "Should throw a ValidationException");
+            sample.setAddress1( "1" );
+            fail( "Should throw a ValidationException" );
         }
-        catch( ValidationException  e)
+        catch( ValidationException e )
         {
             //expected
         }

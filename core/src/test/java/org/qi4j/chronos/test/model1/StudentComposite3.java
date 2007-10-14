@@ -13,7 +13,7 @@
 package org.qi4j.chronos.test.model1;
 
 import org.qi4j.api.persistence.EntityComposite;
-import org.qi4j.library.general.model.Validatable;
+import org.qi4j.library.framework.validation.Validatable;
 
 public interface StudentComposite3 extends Validatable, EntityComposite
 {

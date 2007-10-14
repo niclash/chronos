@@ -1,7 +1,7 @@
 package org.qi4j.chronos.model.composites;
 
 import org.qi4j.chronos.model.AbstractTest;
-import org.qi4j.library.general.model.ValidationException;
+import org.qi4j.library.framework.validation.ValidationException;
 import org.qi4j.library.general.model.composites.CityComposite;
 import org.qi4j.library.general.model.composites.CountryComposite;
 import org.qi4j.library.general.model.composites.StateComposite;

@@ -14,7 +14,7 @@ package org.qi4j.chronos.model.modifiers;
 
 import org.qi4j.chronos.model.AbstractTest;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.library.general.model.ValidationException;
+import org.qi4j.library.framework.validation.ValidationException;
 
 public class ProjectCreationValidationModifierTest extends AbstractTest
 {

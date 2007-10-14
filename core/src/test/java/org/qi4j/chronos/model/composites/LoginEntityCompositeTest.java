@@ -13,7 +13,7 @@
 package org.qi4j.chronos.model.composites;
 
 import org.qi4j.chronos.model.AbstractTest;
-import org.qi4j.library.general.model.ValidationException;
+import org.qi4j.library.framework.validation.ValidationException;
 
 public class LoginEntityCompositeTest extends AbstractTest
 {

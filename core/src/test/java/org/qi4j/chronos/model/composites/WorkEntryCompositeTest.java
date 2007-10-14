@@ -15,7 +15,7 @@ package org.qi4j.chronos.model.composites;
 import java.util.Calendar;
 import org.qi4j.api.CompositeBuilder;
 import org.qi4j.chronos.model.AbstractTest;
-import org.qi4j.library.general.model.ValidationException;
+import org.qi4j.library.framework.validation.ValidationException;
 
 public class WorkEntryCompositeTest extends AbstractTest
 {

@@ -16,7 +16,7 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import org.qi4j.chronos.model.AbstractTest;
 import org.qi4j.chronos.test.model1.CourseComposite;
-import org.qi4j.library.general.model.ValidationException;
+import org.qi4j.library.framework.validation.ValidationException;
 
 public class TimeRangeValidationModifierTest
     extends AbstractTest

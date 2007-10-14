@@ -23,8 +23,8 @@ import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.login.LoginUserAddPanel;
-import org.qi4j.library.general.model.ValidationException;
-import org.qi4j.library.general.model.ValidationMessage;
+import org.qi4j.library.framework.validation.ValidationException;
+import org.qi4j.library.framework.validation.ValidationMessage;
 
 public class StaffAddPage extends StaffAddEditPage
 {

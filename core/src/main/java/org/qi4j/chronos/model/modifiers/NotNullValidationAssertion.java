@@ -16,7 +16,7 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 import org.qi4j.api.annotation.AppliesTo;
 import org.qi4j.api.annotation.scope.AssertionFor;
-import org.qi4j.library.general.model.ValidationException;
+import org.qi4j.library.framework.validation.ValidationException;
 
 @AppliesTo( { Setters.class, NotNull.class } )
 public final class NotNullValidationAssertion
