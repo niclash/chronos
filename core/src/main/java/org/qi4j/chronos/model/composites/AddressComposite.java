@@ -13,7 +13,6 @@
 package org.qi4j.chronos.model.composites;
 
 import org.qi4j.api.Composite;
-import org.qi4j.library.framework.validation.Validatable;
 import org.qi4j.library.general.model.Address;
 import org.qi4j.library.general.model.Descriptor;
 
@@ -27,9 +26,6 @@ import org.qi4j.library.general.model.Descriptor;
  * <p/>
  * TODO: Fix the required fields validation as Lifecycle is not part of the interface anymore
  */
-//@Assertions( { RequiredFieldsValidationModifier.class } )
-//@Mixins( { AddressDescriptorMixin.class } )
-//@RequiredFields( { "firstLine", "zipCode", "city" } )
-public interface AddressComposite extends Address, Validatable, Descriptor, Composite
+public interface AddressComposite extends Address, Descriptor, Composite
 {
 }

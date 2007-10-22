@@ -17,7 +17,7 @@ import org.qi4j.api.persistence.EntityComposite;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.library.framework.validation.Validatable;
 
-public interface ProjectEntityComposite extends Project, Validatable, EntityComposite
+public interface ProjectEntityComposite extends Project, EntityComposite
 {
 
 }

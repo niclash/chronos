@@ -33,6 +33,6 @@ import org.qi4j.library.framework.validation.Validatable;
  * <ol>Projects that this staff is working on
  * </li>
  */
-public interface StaffEntityComposite extends Staff, Validatable, EntityComposite
+public interface StaffEntityComposite extends Staff, EntityComposite
 {
 }

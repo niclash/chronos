@@ -22,11 +22,7 @@ import org.qi4j.library.framework.validation.Validatable;
 /**
  * Validatable login composite.
  * <p/>
- * TODO: Create password validation modifier to make sure password is non-dictionary word and complex enough
- * TODO: Fix the required fields validation as Lifecycle is not part of the interface anymore
  */
-//@Assertions( { RequiredFieldsValidationModifier.class } )
-//@RequiredFields( { "name", "password" } )
-public interface LoginComposite extends Login, Validatable, Composite
+public interface LoginComposite extends Login, Composite
 {
 }
