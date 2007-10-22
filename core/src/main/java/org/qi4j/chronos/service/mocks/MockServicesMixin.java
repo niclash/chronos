@@ -202,6 +202,11 @@ public class MockServicesMixin implements Services
 
         initContactPerson( customers, relationship );
 
+        for( CustomerEntityComposite customer : customers )
+        {
+            System.err.println( "customer.contactPersonIterator().hasNext()" + customer.contactPersonIterator().hasNext() );
+        }
+
         ProjectEntityComposite project = initProjectDummyData( customers[ 0 ], account );
 
         ProjectAssigneeEntityComposite projectAssignee = initProjectAssigneeDummyData( project, account );
@@ -293,6 +298,9 @@ public class MockServicesMixin implements Services
 
         project.setProjectStatus( ProjectStatus.ACTIVE );
         project.setCustomer( customer );
+
+        System.err.println( "customer.contactPersonIterator " + customer.contactPersonIterator().next() );
+
         project.setPrimaryContactPerson( customer.contactPersonIterator().next() );
 
         Iterator<ContactPersonEntityComposite> contactPersonIter = customer.contactPersonIterator();
@@ -522,7 +530,7 @@ public class MockServicesMixin implements Services
         return customers;
     }
 
-    private void initContactPerson( Customer[] projectOwners, RelationshipComposite relationship )
+    private void initContactPerson( Customer[] customers, RelationshipComposite relationship )
     {
         SystemRoleEntityComposite contactPersonRole = systemRoleService.getSystemRoleByName( SystemRole.CONTACT_PERSON );
 
@@ -574,9 +582,13 @@ public class MockServicesMixin implements Services
         contactPerson3.setLogin( login3 );
         contactPerson3.addSystemRole( contactPersonRole );
 
-        projectOwners[ 0 ].addContactPerson( contactPerson );
-        projectOwners[ 0 ].addContactPerson( contactPerson2 );
-        projectOwners[ 1 ].addContactPerson( contactPerson3 );
+        customers[ 0 ].addContactPerson( contactPerson );
+        customers[ 0 ].addContactPerson( contactPerson2 );
+        customers[ 1 ].addContactPerson( contactPerson3 );
+
+
+        System.err.println( "customers[ 0 ]" + customers[ 0 ].contactPersonIterator().hasNext() );
+        System.err.println( "customers[ 1 ]" + customers[ 1 ].contactPersonIterator().hasNext() );
     }
 
     private RelationshipComposite cloneRelationship( RelationshipComposite relationshipComposite )
