@@ -22,10 +22,9 @@ import org.qi4j.chronos.model.composites.TaskAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
-import org.qi4j.chronos.service.WorkEntryMiscService;
 import org.qi4j.chronos.service.WorkEntryService;
 
-public class MockWorkEntryMiscServiceMixin implements WorkEntryMiscService
+public abstract class MockWorkEntryMiscServiceMixin implements WorkEntryService
 {
     @ThisAs private WorkEntryService workEntryService;
 

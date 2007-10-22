@@ -10,47 +10,49 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.workentry;
+package org.qi4j.chronos.ui.task;
 
 import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.ui.common.BorderPanel;
 import org.qi4j.chronos.ui.common.BorderPanelWrapper;
 import org.qi4j.chronos.ui.common.tab.BaseTab;
 
-public abstract class WorkEntryTab2 extends BaseTab
+public abstract class RecentTaskTab extends BaseTab
 {
-    public WorkEntryTab2( String title )
+    public RecentTaskTab( String title )
     {
         super( title );
     }
 
     public BorderPanel getBorderPanel( String panelId )
     {
-        return new BorderPanelWrapper( panelId )
+        BorderPanelWrapper wrapper = new BorderPanelWrapper( panelId )
         {
             public Panel getWrappedPanel( String panelId )
             {
-                WorkEntryTable table = new WorkEntryTable( panelId )
+                TaskTable taskTable = new TaskTable( panelId )
                 {
-                    public List<WorkEntryEntityComposite> dataList( int first, int count )
-                    {
-                        return WorkEntryTab2.this.dataList( first, count );
-                    }
-
                     public int getSize()
                     {
-                        return WorkEntryTab2.this.getSize();
+                        return RecentTaskTab.this.getSize();
+                    }
+
+                    public List<TaskEntityComposite> dataList( int first, int count )
+                    {
+                        return RecentTaskTab.this.dataList( first, count );
                     }
                 };
 
-                return table;
+                return taskTable;
             }
         };
+
+        return wrapper;
     }
 
-    public abstract List<WorkEntryEntityComposite> dataList( int first, int count );
-
     public abstract int getSize();
+
+    public abstract List<TaskEntityComposite> dataList( int first, int count );
 }

@@ -18,16 +18,13 @@ import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
-import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
-import org.qi4j.chronos.service.ProjectService;
-import org.qi4j.chronos.service.StaffService;
-import org.qi4j.chronos.service.WorkEntryService;
+import org.qi4j.chronos.service.TaskService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.project.ProjectTab;
-import org.qi4j.chronos.ui.workentry.WorkEntryTab2;
+import org.qi4j.chronos.ui.project.RecentProjectTab;
+import org.qi4j.chronos.ui.task.RecentTaskTab;
 
 public abstract class AccountAdminPanel extends Panel
 {
@@ -44,76 +41,42 @@ public abstract class AccountAdminPanel extends Panel
     {
         List<AbstractTab> tabs = new ArrayList<AbstractTab>();
 
-        tabs.add( createWorkEntry() );
-        tabs.add( createProjectTab() );
-        tabs.add( createStaffTab() );
+        tabs.add( createRecentTaskTab() );
+        tabs.add( createRecentProjectTab() );
 
         tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
 
         add( tabbedPanel );
     }
 
-    private ProjectService getProjectService()
+    private TaskService getTaskService()
     {
-        return ChronosWebApp.getServices().getProjectService();
+        return ChronosWebApp.getServices().getTaskService();
     }
 
-    private StaffService getStaffService()
+    private RecentTaskTab createRecentTaskTab()
     {
-        return ChronosWebApp.getServices().getStaffService();
-    }
-
-    private WorkEntryService getWorkEntryService()
-    {
-        return ChronosWebApp.getServices().getWorkEntryService();
-    }
-
-    private StaffTab createStaffTab()
-    {
-        StaffTab staffTab = new StaffTab( "Active Staff" )
+        return new RecentTaskTab( "Recent Tasks" )
         {
             public int getSize()
             {
-                return getStaffService().countAll( getAccount() );
+                return getTaskService().countAll( getAccount() );
             }
 
-            public List<StaffEntityComposite> dataList( int first, int count )
+            public List<TaskEntityComposite> dataList( int first, int count )
             {
-                return getStaffService().getRecentActiveStaff( getAccount(), new FindFilter( first, count ) );
-            }
-        };
-
-        return staffTab;
-    }
-
-    private WorkEntryTab2 createWorkEntry()
-    {
-        return new WorkEntryTab2( "Recent Work Entry" )
-        {
-            public List<WorkEntryEntityComposite> dataList( int first, int count )
-            {
-                return getWorkEntryService().getRecentWorkEntryList( getAccount(), new FindFilter( first, count ) );
-            }
-
-            public int getSize()
-            {
-                return getWorkEntryService().countAll( getAccount() );
+                return getTaskService().findAll( getAccount(), new FindFilter( first, count ) );
             }
         };
     }
 
-    private ProjectTab createProjectTab()
+    private ProjectTab createRecentProjectTab()
     {
-        return new ProjectTab( "Recent Projects" )
+        return new RecentProjectTab( "Recent Projects" )
         {
-            public int getSize()
+            public AccountEntityComposite getAccount()
             {
-                return getProjectService().countAll( getAccount() );
-            }
-
-            public List<ProjectEntityComposite> dataList( int first, int count )
-            {
-                return getProjectService().getRecentProjectList( getAccount(), new FindFilter( first, count ) );
+                return AccountAdminPanel.this.getAccount();
             }
         };
     }

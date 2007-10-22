@@ -13,7 +13,14 @@
 package org.qi4j.chronos.service;
 
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.model.associations.HasContactPersons;
+import java.util.List;
 
-public interface ContactPersonService extends ContactPersonMiscService, CustomerBasedService<ContactPersonEntityComposite>
+public interface ContactPersonService extends CustomerBasedService<ContactPersonEntityComposite>
 {
+    List<ContactPersonEntityComposite> findAll( HasContactPersons hasContactPersons );
+
+    List<ContactPersonEntityComposite> findAll( HasContactPersons hasContactPersons, FindFilter findFilter );
+
+    int countAll( HasContactPersons hasContactPersons );
 }

@@ -17,10 +17,9 @@ import org.qi4j.api.annotation.scope.ThisAs;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
-import org.qi4j.chronos.service.StaffMiscService;
 import org.qi4j.chronos.service.StaffService;
 
-public class MockStaffMiscServiceMixin implements StaffMiscService
+public abstract class MockStaffMiscServiceMixin implements StaffService
 {
     @ThisAs private StaffService staffService;
 

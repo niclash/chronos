@@ -13,8 +13,12 @@
 package org.qi4j.chronos.service;
 
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.model.composites.StaffEntityComposite;
 
-public interface AccountService extends AccountMiscService, EntityService<AccountEntityComposite>
+public interface AccountService extends EntityService<AccountEntityComposite>
 {
+    public AccountEntityComposite getAccount( StaffEntityComposite staff );
 
+    public AccountEntityComposite getAccount( ContactPersonEntityComposite contactPerson );
 }

@@ -17,10 +17,10 @@ import java.util.Iterator;
 import java.util.List;
 import org.qi4j.chronos.model.associations.HasContactPersons;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
-import org.qi4j.chronos.service.ContactPersonMiscService;
+import org.qi4j.chronos.service.ContactPersonService;
 import org.qi4j.chronos.service.FindFilter;
 
-public class MockContactPersonMiscServiceMixin implements ContactPersonMiscService
+public abstract class MockContactPersonMiscServiceMixin implements ContactPersonService
 {
     public List<ContactPersonEntityComposite> findAll( HasContactPersons hasContactPersons )
     {

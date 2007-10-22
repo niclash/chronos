@@ -16,10 +16,9 @@ import java.util.List;
 import org.qi4j.api.annotation.scope.ThisAs;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
-import org.qi4j.chronos.service.ProjectAssigneeMiscService;
 import org.qi4j.chronos.service.ProjectAssigneeService;
 
-public class MockProjectAssigneeMiscServiceMixin implements ProjectAssigneeMiscService
+public abstract class MockProjectAssigneeMiscServiceMixin implements ProjectAssigneeService
 {
     @ThisAs private ProjectAssigneeService projectAssigneeService;
 

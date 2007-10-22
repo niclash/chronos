@@ -20,16 +20,6 @@ import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 
 public class AutorizationUtil
 {
-    public static boolean isVisibled( User user, String... systemRoles )
-    {
-        return isAuthorized( user, systemRoles );
-    }
-
-    public static boolean isEnabled( User user, String... systemRoles )
-    {
-        return isAuthorized( user, systemRoles );
-    }
-
     public static boolean isAuthorized( User user, String... systemRoles )
     {
         String[] userSystemRoles = getSystemRole( user );
@@ -66,11 +56,8 @@ public class AutorizationUtil
             if( !roles.contains( next.getName() ) )
             {
                 roles.add( next.getName() );
-
                 getSystemRole( next.systemRoleIterator(), roles );
             }
-
-            roles.add( next.getName() );
         }
     }
 }

@@ -12,9 +12,16 @@
  */
 package org.qi4j.chronos.service;
 
+import java.util.List;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 
-public interface SystemRoleService extends SystemRoleMiscService, EntityService<SystemRoleEntityComposite>
+public interface SystemRoleService extends EntityService<SystemRoleEntityComposite>
 {
+    List<SystemRoleEntityComposite> findAllStaffSystemRole();
 
+    List<SystemRoleEntityComposite> findAllStaffSystemRole( int first, int count );
+
+    int countAllStaffSystemRole();
+
+    SystemRoleEntityComposite getSystemRoleByName( String name );
 }

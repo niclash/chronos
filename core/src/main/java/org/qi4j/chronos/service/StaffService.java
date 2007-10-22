@@ -12,10 +12,12 @@
  */
 package org.qi4j.chronos.service;
 
+import java.util.List;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 
-public interface StaffService extends AccountBasedService<StaffEntityComposite>, StaffMiscService
+public interface StaffService extends AccountBasedService<StaffEntityComposite>
 {
-
+    public List<StaffEntityComposite> getRecentActiveStaff( AccountEntityComposite account, FindFilter findFilter );
 }
 

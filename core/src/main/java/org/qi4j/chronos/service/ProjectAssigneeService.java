@@ -13,7 +13,10 @@
 package org.qi4j.chronos.service;
 
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import java.util.List;
 
-public interface ProjectAssigneeService extends ProjectBasedService<ProjectAssigneeEntityComposite>, ProjectAssigneeMiscService
+public interface ProjectAssigneeService extends ProjectBasedService<ProjectAssigneeEntityComposite>
 {
+       public List<ProjectAssigneeEntityComposite> getUnassignedProjectAssignee( TaskEntityComposite task );
 }

@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.lang.reflect.Method;
 import org.qi4j.api.Composite;
 import org.qi4j.api.CompositeBuilder;
 import org.qi4j.api.CompositeBuilderFactory;
@@ -202,11 +203,6 @@ public class MockServicesMixin implements Services
 
         initContactPerson( customers, relationship );
 
-        for( CustomerEntityComposite customer : customers )
-        {
-            System.err.println( "customer.contactPersonIterator().hasNext()" + customer.contactPersonIterator().hasNext() );
-        }
-
         ProjectEntityComposite project = initProjectDummyData( customers[ 0 ], account );
 
         ProjectAssigneeEntityComposite projectAssignee = initProjectAssigneeDummyData( project, account );
@@ -298,8 +294,6 @@ public class MockServicesMixin implements Services
 
         project.setProjectStatus( ProjectStatus.ACTIVE );
         project.setCustomer( customer );
-
-        System.err.println( "customer.contactPersonIterator " + customer.contactPersonIterator().next() );
 
         project.setPrimaryContactPerson( customer.contactPersonIterator().next() );
 
@@ -585,10 +579,6 @@ public class MockServicesMixin implements Services
         customers[ 0 ].addContactPerson( contactPerson );
         customers[ 0 ].addContactPerson( contactPerson2 );
         customers[ 1 ].addContactPerson( contactPerson3 );
-
-
-        System.err.println( "customers[ 0 ]" + customers[ 0 ].contactPersonIterator().hasNext() );
-        System.err.println( "customers[ 1 ]" + customers[ 1 ].contactPersonIterator().hasNext() );
     }
 
     private RelationshipComposite cloneRelationship( RelationshipComposite relationshipComposite )

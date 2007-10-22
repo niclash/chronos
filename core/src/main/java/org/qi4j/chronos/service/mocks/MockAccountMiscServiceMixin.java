@@ -18,10 +18,10 @@ import org.qi4j.api.annotation.scope.ThisAs;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
-import org.qi4j.chronos.service.AccountMiscService;
 import org.qi4j.chronos.service.EntityService;
+import org.qi4j.chronos.service.AccountService;
 
-public class MockAccountMiscServiceMixin implements AccountMiscService
+public abstract class MockAccountMiscServiceMixin implements AccountService
 {
     @ThisAs private EntityService entityService;
 

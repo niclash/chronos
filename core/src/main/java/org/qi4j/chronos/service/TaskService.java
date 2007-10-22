@@ -13,8 +13,14 @@
 package org.qi4j.chronos.service;
 
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import java.util.List;
 
 public interface TaskService extends ProjectBasedService<TaskEntityComposite>
 {
+    List<TaskEntityComposite> findAll( AccountEntityComposite account );
 
+    List<TaskEntityComposite> findAll( AccountEntityComposite account, FindFilter findFilter );
+
+    int countAll( AccountEntityComposite account );
 }

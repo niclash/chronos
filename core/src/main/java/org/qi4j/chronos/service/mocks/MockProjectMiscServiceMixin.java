@@ -24,10 +24,9 @@ import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
-import org.qi4j.chronos.service.ProjectMiscService;
 import org.qi4j.chronos.service.ProjectService;
 
-public class MockProjectMiscServiceMixin implements ProjectMiscService
+public abstract class MockProjectMiscServiceMixin implements ProjectService
 {
     @ThisAs private ProjectService projectService;
 
