@@ -14,10 +14,14 @@ package org.qi4j.chronos.ui.projectassignee;
 
 import java.util.Arrays;
 import java.util.List;
+import org.apache.wicket.Component;
+import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckBox;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.Model;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
@@ -34,6 +38,11 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssigneeEn
     public ProjectAssigneeTable( String id )
     {
         super( id );
+    }
+
+    protected void authorizatiingActionBar( Component component )
+    {
+        MetaDataRoleAuthorizationStrategy.authorize( component, RENDER, SystemRole.ACCOUNT_ADMIN );
     }
 
     public AbstractSortableDataProvider<ProjectAssigneeEntityComposite, String> getDetachableDataProvider()
@@ -54,7 +63,6 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssigneeEn
 
     public void populateItems( Item item, ProjectAssigneeEntityComposite obj )
     {
-
         final String projectAssigneeId = obj.getIdentity();
 
         item.add( new Label( "firstName", obj.getStaff().getFirstName() ) );
@@ -65,7 +73,14 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssigneeEn
 
         item.add( isLeadCheckBox );
 
-        item.add( new SimpleLink( "editLink", "Edit" )
+        SimpleLink editLink = createEditLink( projectAssigneeId );
+
+        item.add( editLink );
+    }
+
+    private SimpleLink createEditLink( final String projectAssigneeId )
+    {
+        return new SimpleLink( "editLink", "Edit" )
         {
             public void linkClicked()
             {
@@ -89,7 +104,12 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssigneeEn
 
                 setResponsePage( editPage );
             }
-        } );
+
+            protected void authorizingLink( Link link )
+            {
+                MetaDataRoleAuthorizationStrategy.authorize( link, ENABLE, SystemRole.ACCOUNT_ADMIN );
+            }
+        };
     }
 
     public List<String> getTableHeaderList()

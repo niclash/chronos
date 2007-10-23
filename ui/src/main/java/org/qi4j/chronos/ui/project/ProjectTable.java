@@ -14,8 +14,11 @@ package org.qi4j.chronos.ui.project;
 
 import java.util.Arrays;
 import java.util.List;
+import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.Item;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.ui.ChronosWebApp;
@@ -63,7 +66,14 @@ public abstract class ProjectTable extends ActionTable<ProjectEntityComposite, S
 
         item.add( new Label( "status", obj.getProjectStatus().toString() ) );
 
-        item.add( new SimpleLink( "editLink", "Edit" )
+        SimpleLink editLink = createEditLink( projectId );
+
+        item.add( editLink );
+    }
+
+    private SimpleLink createEditLink( final String projectId )
+    {
+        return new SimpleLink( "editLink", "Edit" )
         {
             public void linkClicked()
             {
@@ -77,7 +87,12 @@ public abstract class ProjectTable extends ActionTable<ProjectEntityComposite, S
 
                 setResponsePage( editPage );
             }
-        } );
+
+            protected void authorizingLink( Link link )
+            {
+                MetaDataRoleAuthorizationStrategy.authorize( link, ENABLE, SystemRole.ACCOUNT_ADMIN );
+            }
+        };
     }
 
     private SimpleLink createDetailLink( String id, String text, final String projectId )

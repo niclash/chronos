@@ -12,10 +12,25 @@
  */
 package org.qi4j.chronos.ui.staff;
 
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
+import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.service.FindFilter;
+import org.qi4j.chronos.service.ProjectService;
+import org.qi4j.chronos.service.TaskService;
+import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.ui.project.ProjectTab;
+import org.qi4j.chronos.ui.task.RecentTaskTab;
 
-public class DeveloperPanel extends Panel
+public abstract class DeveloperPanel extends Panel
 {
+    private TabbedPanel tabbedPanel;
+
     public DeveloperPanel( String id )
     {
         super( id );
@@ -25,6 +40,57 @@ public class DeveloperPanel extends Panel
 
     private void initComponents()
     {
-                
+        List<AbstractTab> tabs = new ArrayList<AbstractTab>();
+
+        tabs.add( createRecentTaskTab() );
+        tabs.add( createRecentProjectTab() );
+
+        tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
+
+        add( tabbedPanel );
     }
+
+    private TaskService getTaskService()
+    {
+        return ChronosWebApp.getServices().getTaskService();
+    }
+
+    private ProjectService getProjectService()
+    {
+        return ChronosWebApp.getServices().getProjectService();
+    }
+
+    private ProjectTab createRecentProjectTab()
+    {
+        return new ProjectTab( "Recent Projects" )
+        {
+            public int getSize()
+            {
+                return getProjectService().countRecentProject( getStaff() );
+            }
+
+            public List<ProjectEntityComposite> dataList( int first, int count )
+            {
+                return getProjectService().getRecentProjects( getStaff(), new FindFilter( first, count ) );
+            }
+        };
+    }
+
+    private RecentTaskTab createRecentTaskTab()
+    {
+        return new RecentTaskTab( "Recent Tasks" )
+        {
+            public int getSize()
+            {
+                return getTaskService().countRecentTasks( getStaff() );
+            }
+
+            public List<TaskEntityComposite> dataList( int first, int count )
+            {
+                return getTaskService().getRecentTasks( getStaff(), new FindFilter( first, count ) );
+            }
+        };
+    }
+
+    public abstract StaffEntityComposite getStaff();
 }

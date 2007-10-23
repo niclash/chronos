@@ -12,11 +12,14 @@
  */
 package org.qi4j.chronos.ui.contactperson;
 
+import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.common.menu.MenuBar;
 import org.qi4j.chronos.ui.common.menu.MenuItem;
 import org.qi4j.chronos.ui.common.menu.PageMenuLink;
 import org.qi4j.chronos.ui.project.ProjectListPage;
 
+@AuthorizeInstantiation( SystemRole.CONTACT_PERSON )
 public class ContactPersonMainMenuBar extends MenuBar
 {
     public ContactPersonMainMenuBar()

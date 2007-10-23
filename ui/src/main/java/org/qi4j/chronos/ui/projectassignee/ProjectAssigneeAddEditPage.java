@@ -14,9 +14,11 @@ package org.qi4j.chronos.ui.projectassignee;
 
 import java.util.List;
 import org.apache.wicket.Page;
+import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.model.Model;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
@@ -29,6 +31,7 @@ import org.qi4j.chronos.ui.pricerate.PriceRateOptionPanel;
 import org.qi4j.chronos.ui.staff.StaffDelegator;
 import org.qi4j.chronos.ui.util.ListUtil;
 
+@AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public abstract class ProjectAssigneeAddEditPage extends AddEditBasePage
 {
     private SimpleDropDownChoice<StaffDelegator> staffChoice;

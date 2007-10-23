@@ -23,6 +23,7 @@ import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.ProjectService;
 
@@ -30,7 +31,7 @@ public abstract class MockProjectMiscServiceMixin implements ProjectService
 {
     @ThisAs private ProjectService projectService;
 
-    public List<ProjectEntityComposite> getRecentProjectList( AccountEntityComposite account, FindFilter findFilter )
+    public List<ProjectEntityComposite> getRecentProjects( AccountEntityComposite account, FindFilter findFilter )
     {
         return projectService.findAll( account, findFilter );
     }
@@ -130,5 +131,49 @@ public abstract class MockProjectMiscServiceMixin implements ProjectService
     public int countAll( StaffEntityComposite staff )
     {
         return findAll( staff ).size();
+    }
+
+    public List<ProjectEntityComposite> getRecentProjects( StaffEntityComposite staff )
+    {
+        //bp. temp solution.
+        return findAll( staff );
+    }
+
+    public List<ProjectEntityComposite> getRecentProjects( StaffEntityComposite staff, FindFilter findFilter )
+    {
+        //bp. temp solution.
+        return findAll( staff, findFilter );
+    }
+
+    public int countRecentProject( StaffEntityComposite staff )
+    {
+        //bp. temp solution.
+        return countAll( staff );
+    }
+
+    public int countRecentProject( AccountEntityComposite account )
+    {
+        //bp. temp solution
+        return projectService.countAll( account );
+    }
+
+    public ProjectEntityComposite getProjectByTask( TaskEntityComposite task )
+    {
+        List<ProjectEntityComposite> projects = projectService.findAll();
+
+        for( ProjectEntityComposite project : projects )
+        {
+            Iterator<TaskEntityComposite> taskIter = project.taskIteraotr();
+
+            while( taskIter.hasNext() )
+            {
+                if( taskIter.next().getIdentity().equals( task.getIdentity() ) )
+                {
+                    return project;
+                }
+            }
+        }
+
+        return null;
     }
 }

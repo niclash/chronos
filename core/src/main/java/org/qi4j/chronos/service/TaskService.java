@@ -12,15 +12,26 @@
  */
 package org.qi4j.chronos.service;
 
-import org.qi4j.chronos.model.composites.TaskEntityComposite;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import java.util.List;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.model.composites.TaskAssigneeEntityComposite;
+import org.qi4j.chronos.model.TaskAssignee;
 
 public interface TaskService extends ProjectBasedService<TaskEntityComposite>
 {
-    List<TaskEntityComposite> findAll( AccountEntityComposite account );
+    List<TaskEntityComposite> getRecentTasks( AccountEntityComposite account );
 
-    List<TaskEntityComposite> findAll( AccountEntityComposite account, FindFilter findFilter );
+    List<TaskEntityComposite> getRecentTasks( AccountEntityComposite account, FindFilter findFilter );
 
-    int countAll( AccountEntityComposite account );
+    int countRecentTasks( AccountEntityComposite account );
+
+    List<TaskEntityComposite> getRecentTasks( StaffEntityComposite staff);
+
+    List<TaskEntityComposite> getRecentTasks( StaffEntityComposite staff, FindFilter findFilter );
+
+    int countRecentTasks( StaffEntityComposite staff );
+
+    TaskEntityComposite getTaskByTaskAssignee( TaskAssigneeEntityComposite taskAssignee );
 }

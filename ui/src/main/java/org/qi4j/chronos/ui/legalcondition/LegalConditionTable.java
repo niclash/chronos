@@ -15,7 +15,10 @@ package org.qi4j.chronos.ui.legalcondition;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.Item;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.LegalConditionComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
@@ -49,7 +52,7 @@ public abstract class LegalConditionTable extends ActionTable<LegalConditionComp
 
     public void populateItems( Item item, LegalConditionComposite obj )
     {
-        final String name = obj.getName();
+        final String legalConditionName = obj.getName();
 
         item.add( new SimpleLink( "name", obj.getName() )
         {
@@ -59,7 +62,7 @@ public abstract class LegalConditionTable extends ActionTable<LegalConditionComp
                 {
                     public LegalConditionComposite getLegalCondition()
                     {
-                        return getServices().getLegalConditionService().get( getProject(), name );
+                        return getServices().getLegalConditionService().get( getProject(), legalConditionName );
                     }
                 };
 
@@ -67,7 +70,14 @@ public abstract class LegalConditionTable extends ActionTable<LegalConditionComp
             }
         } );
 
-        item.add( new SimpleLink( "editLink", "Edit" )
+        SimpleLink simpleLink = createEditLink( legalConditionName );
+
+        item.add( simpleLink );
+    }
+
+    private SimpleLink createEditLink( final String legalConditionName )
+    {
+        return new SimpleLink( "editLink", "Edit" )
         {
             public void linkClicked()
             {
@@ -75,18 +85,23 @@ public abstract class LegalConditionTable extends ActionTable<LegalConditionComp
                 {
                     public LegalConditionComposite getLegalCondition()
                     {
-                        return getServices().getLegalConditionService().get( getProject(), name );
+                        return getServices().getLegalConditionService().get( getProject(), legalConditionName );
                     }
 
                     public void updateLegalCondition( LegalConditionComposite legalCondition )
                     {
-                        LegalConditionTable.this.updateLegalCondition( legalCondition, name );
+                        LegalConditionTable.this.updateLegalCondition( legalCondition, legalConditionName );
                     }
                 };
 
                 setResponsePage( editPage );
             }
-        } );
+
+            protected void authorizingLink( Link link )
+            {
+                MetaDataRoleAuthorizationStrategy.authorize( link, ENABLE, SystemRole.ACCOUNT_ADMIN );
+            }
+        };
     }
 
     private void updateLegalCondition( LegalConditionComposite legalCondition, String oldLegalConditionName )

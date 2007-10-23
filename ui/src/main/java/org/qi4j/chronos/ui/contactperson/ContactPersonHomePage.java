@@ -12,8 +12,11 @@
  */
 package org.qi4j.chronos.ui.contactperson;
 
+import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 
+@AuthorizeInstantiation( SystemRole.CONTACT_PERSON )
 public class ContactPersonHomePage extends LeftMenuNavPage
 {
     public ContactPersonHomePage()

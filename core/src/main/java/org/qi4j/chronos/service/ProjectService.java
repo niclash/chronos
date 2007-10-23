@@ -17,10 +17,17 @@ import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
 
 public interface ProjectService extends AccountBasedService<ProjectEntityComposite>
 {
-    List<ProjectEntityComposite> getRecentProjectList( AccountEntityComposite account, FindFilter findFilter );
+    List<ProjectEntityComposite> getRecentProjects( AccountEntityComposite account, FindFilter findFilter );
+
+    List<ProjectEntityComposite> getRecentProjects( StaffEntityComposite staff );
+
+    List<ProjectEntityComposite> getRecentProjects( StaffEntityComposite staff, FindFilter findFilter );
+
+    int countRecentProject( StaffEntityComposite staff );
 
     List<ProjectEntityComposite> findAll( ContactPersonEntityComposite contactPerson, FindFilter findFilter );
 
@@ -33,4 +40,8 @@ public interface ProjectService extends AccountBasedService<ProjectEntityComposi
     List<ProjectEntityComposite> findAll( StaffEntityComposite staff, FindFilter findFilter );
 
     int countAll( StaffEntityComposite staff );
+
+    int countRecentProject( AccountEntityComposite account );
+
+    ProjectEntityComposite getProjectByTask( TaskEntityComposite task );
 }

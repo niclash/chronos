@@ -17,9 +17,17 @@ import java.util.Iterator;
 import java.util.Set;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
+import org.qi4j.chronos.ui.ChronosSession;
 
-public class AutorizationUtil
+public class AuthorizationUtil
 {
+    public static boolean isAuthorized( String... systemRoles )
+    {
+        User user = ChronosSession.get().getUser();
+
+        return isAuthorized( user, systemRoles );
+    }
+
     public static boolean isAuthorized( User user, String... systemRoles )
     {
         String[] userSystemRoles = getSystemRole( user );

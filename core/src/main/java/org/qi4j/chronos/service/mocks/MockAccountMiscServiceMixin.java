@@ -17,13 +17,13 @@ import java.util.List;
 import org.qi4j.api.annotation.scope.ThisAs;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
-import org.qi4j.chronos.service.EntityService;
 import org.qi4j.chronos.service.AccountService;
 
 public abstract class MockAccountMiscServiceMixin implements AccountService
 {
-    @ThisAs private EntityService entityService;
+    @ThisAs private AccountService accountService;
 
     public MockAccountMiscServiceMixin()
     {
@@ -32,7 +32,7 @@ public abstract class MockAccountMiscServiceMixin implements AccountService
 
     public AccountEntityComposite getAccount( StaffEntityComposite target )
     {
-        List<AccountEntityComposite> accountList = entityService.findAll();
+        List<AccountEntityComposite> accountList = accountService.findAll();
 
         for( AccountEntityComposite account : accountList )
         {
@@ -58,8 +58,24 @@ public abstract class MockAccountMiscServiceMixin implements AccountService
         return null;
     }
 
-    public String toString()
+    public AccountEntityComposite getAccountByProject( ProjectEntityComposite project )
     {
-        return "TATA";
+        List<AccountEntityComposite> accounts = accountService.findAll();
+
+        for( AccountEntityComposite account : accounts )
+        {
+            Iterator<ProjectEntityComposite> projectIter = account.projectIterator();
+
+            while( projectIter.hasNext() )
+            {
+                if( projectIter.next().getIdentity().equals( project.getIdentity() ) )
+                {
+                    return account;
+                }
+            }
+        }
+
+        return null;
     }
+
 }

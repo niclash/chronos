@@ -18,11 +18,13 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.wicket.Page;
+import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.qi4j.chronos.model.ContactPerson;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.ContactComposite;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
@@ -34,6 +36,7 @@ import org.qi4j.chronos.ui.relationship.RelationshipOptionPanel;
 import org.qi4j.chronos.ui.user.UserAddEditPanel;
 import org.qi4j.library.general.model.Contact;
 
+@AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public abstract class ContactPersonAddEditPage extends AddEditBasePage
 {
     private UserAddEditPanel userAddEditPanel;

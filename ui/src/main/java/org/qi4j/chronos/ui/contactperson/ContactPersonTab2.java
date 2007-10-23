@@ -46,10 +46,8 @@ public abstract class ContactPersonTab2 extends BaseTab
                     }
                 };
 
-                table.setItemPerPage( 1000 );
-
                 table.setNavigatorVisible( false );
-                table.setNoActionBar( true );
+                table.setActionBarVisible( false );
 
                 return table;
             }

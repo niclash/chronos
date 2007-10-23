@@ -17,6 +17,7 @@ import org.qi4j.api.annotation.Mixins;
 import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.service.mocks.MockServicesMixin;
 
+//TODO bp. use mock services for now.
 @Mixins( MockServicesMixin.class )
 public interface ServicesComposite extends Services, Composite
 {

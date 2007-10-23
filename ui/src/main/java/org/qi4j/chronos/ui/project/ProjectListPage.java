@@ -13,14 +13,18 @@
 package org.qi4j.chronos.ui.project;
 
 import java.util.List;
+import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
+import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 
+@AuthorizeInstantiation( { SystemRole.ACCOUNT_ADMIN, SystemRole.ACCOUNT_DEVELOPER } )
 public class ProjectListPage extends LeftMenuNavPage
 {
     public ProjectListPage()
@@ -30,15 +34,15 @@ public class ProjectListPage extends LeftMenuNavPage
 
     private void initComponents()
     {
-        add( new Link( "newProjectLink" )
+        Link newProjectLink = new Link( "newProjectLink" )
         {
             public void onClick()
             {
                 setResponsePage( new ProjectAddPage( ProjectListPage.this ) );
             }
-        } );
+        };
 
-        add( new FeedbackPanel( "feedbackPanel" ) );
+        FeedbackPanel feedbackPanel = new FeedbackPanel( "feedbackPanel" );
 
         ProjectTable projectTable = new ProjectTable( "projectTable" )
         {
@@ -53,6 +57,11 @@ public class ProjectListPage extends LeftMenuNavPage
             }
         };
 
+        //authorise render/enable action
+        MetaDataRoleAuthorizationStrategy.authorize( newProjectLink, RENDER, SystemRole.ACCOUNT_ADMIN );
+
+        add( newProjectLink );
+        add( feedbackPanel );
         add( projectTable );
     }
 
@@ -70,5 +79,4 @@ public class ProjectListPage extends LeftMenuNavPage
     {
         return getProjectService().findAll( getAccount(), new FindFilter( first, count ) );
     }
-
 }

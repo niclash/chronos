@@ -18,12 +18,13 @@ import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
+import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.service.TaskService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.project.ProjectTab;
-import org.qi4j.chronos.ui.project.RecentProjectTab;
 import org.qi4j.chronos.ui.task.RecentTaskTab;
 
 public abstract class AccountAdminPanel extends Panel
@@ -60,23 +61,33 @@ public abstract class AccountAdminPanel extends Panel
         {
             public int getSize()
             {
-                return getTaskService().countAll( getAccount() );
+                return getTaskService().countRecentTasks( getAccount() );
             }
 
             public List<TaskEntityComposite> dataList( int first, int count )
             {
-                return getTaskService().findAll( getAccount(), new FindFilter( first, count ) );
+                return getTaskService().getRecentTasks( getAccount(), new FindFilter( first, count ) );
             }
         };
     }
 
+    private ProjectService getProjectService()
+    {
+        return ChronosWebApp.getServices().getProjectService();
+    }
+
     private ProjectTab createRecentProjectTab()
     {
-        return new RecentProjectTab( "Recent Projects" )
+        return new ProjectTab( "Recent Projects" )
         {
-            public AccountEntityComposite getAccount()
+            public int getSize()
             {
-                return AccountAdminPanel.this.getAccount();
+                return getProjectService().countRecentProject( getAccount() );
+            }
+
+            public List<ProjectEntityComposite> dataList( int first, int count )
+            {
+                return getProjectService().getRecentProjects( getAccount(), new FindFilter( first, count ) );
             }
         };
     }

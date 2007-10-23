@@ -15,10 +15,12 @@ package org.qi4j.chronos.ui.pricerate;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.Page;
+import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.qi4j.chronos.model.PriceRateType;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
@@ -29,6 +31,7 @@ import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.projectrole.ProjectRoleDelegator;
 import org.qi4j.chronos.ui.util.ListUtil;
 
+@AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public abstract class PriceRateAddEditPage extends AddEditBasePage
 {
     private NumberTextField amountField;

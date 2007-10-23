@@ -18,6 +18,8 @@ import java.util.List;
 import org.qi4j.api.annotation.scope.ThisAs;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.composites.TaskAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.TaskService;
@@ -26,7 +28,7 @@ public abstract class MockTaskMiscServiceMixin implements TaskService
 {
     @ThisAs private TaskService taskService;
 
-    public List<TaskEntityComposite> findAll( AccountEntityComposite account )
+    public List<TaskEntityComposite> getRecentTasks( AccountEntityComposite account )
     {
         List<TaskEntityComposite> resultList = new ArrayList<TaskEntityComposite>();
 
@@ -40,13 +42,65 @@ public abstract class MockTaskMiscServiceMixin implements TaskService
         return resultList;
     }
 
-    public List<TaskEntityComposite> findAll( AccountEntityComposite account, FindFilter findFilter )
+    public List<TaskEntityComposite> getRecentTasks( AccountEntityComposite account, FindFilter findFilter )
     {
-        return findAll( account ).subList( findFilter.getFirst(), findFilter.getFirst() + findFilter.getCount() );
+        return getRecentTasks( account ).subList( findFilter.getFirst(), findFilter.getFirst() + findFilter.getCount() );
     }
 
-    public int countAll( AccountEntityComposite account )
+    public int countRecentTasks( AccountEntityComposite account )
     {
-        return findAll( account ).size();
+        return getRecentTasks( account ).size();
+    }
+
+    public List<TaskEntityComposite> getRecentTasks( StaffEntityComposite staff )
+    {
+        List<TaskEntityComposite> resultList = new ArrayList<TaskEntityComposite>();
+
+        List<TaskEntityComposite> allTasks = taskService.findAll();
+
+        for( TaskEntityComposite task : allTasks )
+        {
+            Iterator<TaskAssigneeEntityComposite> taskAssigneeIter = task.taskAssigneeIterator();
+
+            while( taskAssigneeIter.hasNext() )
+            {
+                if( taskAssigneeIter.next().getProjectAssignee().getStaff().getIdentity().equals( staff.getIdentity() ) )
+                {
+                    resultList.add( task );
+                }
+            }
+        }
+
+        return resultList;
+    }
+
+    public List<TaskEntityComposite> getRecentTasks( StaffEntityComposite staff, FindFilter findFilter )
+    {
+        return getRecentTasks( staff ).subList( findFilter.getFirst(), findFilter.getFirst() + findFilter.getCount() );
+    }
+
+    public int countRecentTasks( StaffEntityComposite staff )
+    {
+        return getRecentTasks( staff ).size();
+    }
+
+    public TaskEntityComposite getTaskByTaskAssignee( TaskAssigneeEntityComposite taskAssignee )
+    {
+        List<TaskEntityComposite> tasks = taskService.findAll();
+
+        for( TaskEntityComposite task : tasks )
+        {
+            Iterator<TaskAssigneeEntityComposite> taskAssigneeIter = task.taskAssigneeIterator();
+
+            while( taskAssigneeIter.hasNext() )
+            {
+                if(taskAssigneeIter.next().getIdentity().equals( taskAssignee.getIdentity()))
+                {
+                    return task;
+                }
+            }
+        }
+
+        return null;
     }
 }

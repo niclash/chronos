@@ -23,10 +23,18 @@ public abstract class SimpleLink extends Panel
     private Link link;
     private Label label;
 
+    private String text;
+
     public SimpleLink( String id, String text )
     {
         super( id );
+        this.text = text;
 
+        initComponents();
+    }
+
+    private void initComponents()
+    {
         link = new Link( "link" )
         {
             @Override
@@ -41,6 +49,13 @@ public abstract class SimpleLink extends Panel
         link.add( label );
 
         add( link );
+
+        authorizingLink( link );
+    }
+
+    protected void authorizingLink( Link link )
+    {
+        //overrides me.
     }
 
     public void setText( String text )

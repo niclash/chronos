@@ -18,7 +18,6 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
-import java.lang.reflect.Method;
 import org.qi4j.api.Composite;
 import org.qi4j.api.CompositeBuilder;
 import org.qi4j.api.CompositeBuilderFactory;
@@ -139,7 +138,7 @@ public class MockServicesMixin implements Services
 
         priceRateScheduleService = newService( PriceRateScheduleServiceComposite.class );
 
-        projectAssigneeService = newParentBasedService( ProjectAssigneeServiceComposite.class, "projectService", projectService );
+        projectAssigneeService = initProjectAssigneeService( "projectService", projectService );
 
         relationshipService = newService( RelationshipServiceComposite.class );
 
@@ -168,6 +167,7 @@ public class MockServicesMixin implements Services
 
         return (T) compositeBuilder.newInstance();
     }
+
 
     private UserService initUserService( StaffService staffService, AdminService adminService, ContactPersonService contactPersonService, CustomerService customerService )
     {
@@ -205,13 +205,24 @@ public class MockServicesMixin implements Services
 
         ProjectEntityComposite project = initProjectDummyData( customers[ 0 ], account );
 
-        ProjectAssigneeEntityComposite projectAssignee = initProjectAssigneeDummyData( project, account );
+        ProjectAssigneeEntityComposite[] projectAssignees = initProjectAssigneeDummyData( project, account );
 
         TaskEntityComposite task = initTaskDummyData( project );
 
-        TaskAssigneeEntityComposite taskAssignee = initTaskAssignee( task, projectAssignee );
+        TaskAssigneeEntityComposite taskAssignee = initTaskAssignee( task, projectAssignees[ 0 ] );
 
         initWorkEntryDummyData( taskAssignee );
+    }
+
+    private ProjectAssigneeService initProjectAssigneeService( String propertyName, Object propertyValue )
+    {
+        CompositeBuilder<ProjectAssigneeServiceComposite> compositeBuilder = factory.newCompositeBuilder( ProjectAssigneeServiceComposite.class );
+
+        compositeBuilder.properties( ParentBasedService.class, PropertyValue.property( propertyName, propertyValue ) );
+
+        compositeBuilder.properties( ProjectAssigneeService.class, PropertyValue.property( propertyName, propertyValue ) );
+
+        return compositeBuilder.newInstance();
     }
 
     private TaskEntityComposite initTaskDummyData( ProjectEntityComposite project )
@@ -261,15 +272,28 @@ public class MockServicesMixin implements Services
         }
     }
 
-    private ProjectAssigneeEntityComposite initProjectAssigneeDummyData( ProjectEntityComposite project, AccountEntityComposite account )
+    private ProjectAssigneeEntityComposite[] initProjectAssigneeDummyData( ProjectEntityComposite project, AccountEntityComposite account )
+    {
+        ProjectAssigneeEntityComposite[] projectAssignees = new ProjectAssigneeEntityComposite[2];
+
+        PriceRateComposite priceRate = project.getPriceRateSchedule().priceRateIterator().next();
+
+        Iterator<StaffEntityComposite> staffIter = account.staffIterator();
+
+        project.addProjectAssignee( projectAssignees[ 0 ] = createProjectAssignee( true, priceRate, staffIter.next() ) );
+        project.addProjectAssignee( projectAssignees[ 1 ] = createProjectAssignee( true, priceRate, staffIter.next() ) );
+
+        return projectAssignees;
+    }
+
+    private ProjectAssigneeEntityComposite createProjectAssignee( boolean isLead, PriceRateComposite priceRate, StaffEntityComposite staff )
     {
         ProjectAssigneeEntityComposite projectAssignee = projectAssigneeService.newInstance( ProjectAssigneeEntityComposite.class );
 
-        projectAssignee.setLead( true );
-        projectAssignee.setPriceRate( CloneUtil.clonePriceRate( factory, project.getPriceRateSchedule().priceRateIterator().next() ) );
-        projectAssignee.setStaff( account.staffIterator().next() );
+        projectAssignee.setLead( isLead );
+        projectAssignee.setPriceRate( CloneUtil.clonePriceRate( factory, priceRate ) );
+        projectAssignee.setStaff( staff );
 
-        project.addProjectAssignee( projectAssignee );
         return projectAssignee;
     }
 
@@ -442,37 +466,66 @@ public class MockServicesMixin implements Services
 
     private void initStaffDummyData( AccountEntityComposite account )
     {
-        StaffEntityComposite staff = staffService.newInstance( StaffEntityComposite.class );
+        StaffEntityComposite boss = newStaff( "the", "boss", GenderType.male );
 
-        staff.setFirstName( "the" );
-        staff.setLastName( "boss" );
-        staff.setGender( GenderType.male );
+        boss.setLogin( newLogin( "boss", "boss", true ) );
 
-        LoginComposite login = factory.newCompositeBuilder( LoginComposite.class ).newInstance();
+        boss.setSalary( createMoney( 0l, Currency.getInstance( "USD" ) ) );
 
-        login.setName( "boss" );
-        login.setPassword( "boss" );
-        login.setEnabled( true );
 
-        staff.setLogin( login );
+        StaffEntityComposite developer = newStaff( "the", "developer", GenderType.male );
 
-        MoneyComposite money = factory.newCompositeBuilder( MoneyComposite.class ).newInstance();
+        developer.setLogin( newLogin( "developer", "developer", true ) );
+        developer.setSalary( createMoney( 0l, Currency.getInstance( "USD" ) ) );
 
-        money.setAmount( 0L );
-        money.setCurrency( Currency.getInstance( "USD" ) );
-
-        staff.setSalary( money );
 
         List<SystemRoleEntityComposite> systemRoleList = systemRoleService.findAllStaffSystemRole();
 
         for( SystemRoleEntityComposite systemRole : systemRoleList )
         {
-            staff.addSystemRole( systemRole );
+            boss.addSystemRole( systemRole );
+
+            if( systemRole.getName().equals( SystemRole.ACCOUNT_DEVELOPER ) )
+            {
+                developer.addSystemRole( systemRole );
+            }
         }
 
-        account.addStaff( staff );
+        account.addStaff( boss );
+        account.addStaff( developer );
     }
 
+    private StaffEntityComposite newStaff( String firstName, String lastName, GenderType gender )
+    {
+        StaffEntityComposite staff = staffService.newInstance( StaffEntityComposite.class );
+
+        staff.setFirstName( firstName );
+        staff.setLastName( lastName );
+        staff.setGender( gender );
+
+        return staff;
+    }
+
+    private MoneyComposite createMoney( long amount, Currency currency )
+    {
+        MoneyComposite money = factory.newCompositeBuilder( MoneyComposite.class ).newInstance();
+
+        money.setAmount( amount );
+        money.setCurrency( currency );
+
+        return money;
+    }
+
+    private LoginComposite newLogin( String loginId, String password, boolean enabled )
+    {
+        LoginComposite login = factory.newCompositeBuilder( LoginComposite.class ).newInstance();
+
+        login.setName( loginId );
+        login.setPassword( password );
+        login.setEnabled( enabled );
+
+        return login;
+    }
 
     private void initSystemRoleDummyData()
     {

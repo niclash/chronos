@@ -12,9 +12,12 @@
  */
 package org.qi4j.chronos.ui.systemrole;
 
+import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 
+@AuthorizeInstantiation( { SystemRole.SYSTEM_ADMIN, SystemRole.ACCOUNT_ADMIN } )
 public class SystemRoleListPage extends LeftMenuNavPage
 {
     public SystemRoleListPage()
@@ -28,7 +31,7 @@ public class SystemRoleListPage extends LeftMenuNavPage
 
         SystemRoleTable systemRoleTable = new SystemRoleTable( "systemRoleTable" );
 
-        systemRoleTable.setNoActionBar( true );
+        systemRoleTable.setActionBarVisible( false );
 
         add( systemRoleTable );
     }

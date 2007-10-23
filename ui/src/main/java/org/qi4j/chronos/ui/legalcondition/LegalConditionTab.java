@@ -12,7 +12,10 @@
  */
 package org.qi4j.chronos.ui.legalcondition;
 
+import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.LegalConditionComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.ui.common.NewLinkPanel;
@@ -35,6 +38,11 @@ public abstract class LegalConditionTab extends NewLinkTab
         public LegalConditionNewLinkPanel( String id )
         {
             super( id );
+        }
+
+        protected void authorizingLink( Link link )
+        {
+            MetaDataRoleAuthorizationStrategy.authorize( link, RENDER, SystemRole.ACCOUNT_ADMIN );
         }
 
         public Panel getContent( String id )

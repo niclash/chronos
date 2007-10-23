@@ -12,28 +12,24 @@
  */
 package org.qi4j.chronos.ui;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 import org.apache.wicket.Request;
 import org.apache.wicket.Session;
 import org.apache.wicket.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authorization.strategies.role.Roles;
 import org.qi4j.api.persistence.Identity;
-import org.qi4j.chronos.model.Admin;
-import org.qi4j.chronos.model.ContactPerson;
-import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.service.UserService;
+import org.qi4j.chronos.ui.util.AuthorizationUtil;
 
 public class ChronosSession extends AuthenticatedWebSession
 {
     private String userId = null;
 
     private String accountId = null;
+
+    private SystemRoleResolver roleResolver;
 
     public ChronosSession( AuthenticatedWebApplication authenticatedWebApplication, Request request )
     {
@@ -90,6 +86,9 @@ public class ChronosSession extends AuthenticatedWebSession
             }
 
             userId = ( (Identity) user ).getIdentity();
+
+            roleResolver = new SystemRoleResolver( user );
+
             return true;
         }
 
@@ -118,19 +117,9 @@ public class ChronosSession extends AuthenticatedWebSession
         }
     }
 
-    public boolean isAdmin()
+    public SystemRoleResolver getSystemRoleResolver()
     {
-        return getUser() instanceof Admin;
-    }
-
-    public boolean isStaff()
-    {
-        return getUser() instanceof Staff;
-    }
-
-    public boolean isContactPerson()
-    {
-        return getUser() instanceof ContactPerson;
+        return roleResolver;
     }
 
     public boolean isSignIn()
@@ -142,21 +131,9 @@ public class ChronosSession extends AuthenticatedWebSession
     {
         if( isSignedIn() )
         {
-            User user = getUser();
+            String[] roles = AuthorizationUtil.getSystemRole( getUser() );
 
-            Iterator<SystemRoleEntityComposite> iterator = user.systemRoleIterator();
-
-            Set<String> roles = new HashSet<String>();
-
-            //TODO bp. get system role group.
-            while( iterator.hasNext() )
-            {
-                SystemRoleEntityComposite systemRole = iterator.next();
-
-                roles.add( systemRole.getIdentity() );
-            }
-
-            return new Roles( roles.toArray( new String[roles.size()] ) );
+            return new Roles( roles );
         }
 
         return null;

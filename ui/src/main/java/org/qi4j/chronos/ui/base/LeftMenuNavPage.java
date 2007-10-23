@@ -17,6 +17,7 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.ui.ChronosSession;
+import org.qi4j.chronos.ui.SystemRoleResolver;
 import org.qi4j.chronos.ui.admin.AdminMainMenuBar;
 import org.qi4j.chronos.ui.common.menu.MenuBar;
 import org.qi4j.chronos.ui.contactperson.ContactPersonMainMenuBar;
@@ -27,19 +28,21 @@ public abstract class LeftMenuNavPage extends TopMenuNavPage
 {
     public LeftMenuNavPage()
     {
-        ChronosSession session = (ChronosSession) ChronosSession.get();
+        ChronosSession session = ChronosSession.get();
 
         MenuBar[] menuBars = null;
 
-        if( session.isAdmin() )
+        SystemRoleResolver systemRoleResolver = session.getSystemRoleResolver();
+
+        if( systemRoleResolver.isAdmin() )
         {
             menuBars = getAdminMenuBars();
         }
-        else if( session.isStaff() )
+        else if( systemRoleResolver.isStaff() )
         {
             menuBars = getStaffMenuBars();
         }
-        else if( session.isContactPerson() )
+        else if( systemRoleResolver.isContactPerson() )
         {
             menuBars = getContactPersonMenuBars();
         }
@@ -86,7 +89,7 @@ public abstract class LeftMenuNavPage extends TopMenuNavPage
 
     protected ChronosSession getChronosSession()
     {
-        return (ChronosSession) ChronosSession.get();
+        return ChronosSession.get();
     }
 
     protected AccountEntityComposite getAccount()

@@ -13,14 +13,17 @@
 package org.qi4j.chronos.ui.staff;
 
 import java.util.List;
+import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 
+@AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public class StaffListPage extends LeftMenuNavPage
 {
     public StaffListPage()

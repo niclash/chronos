@@ -12,6 +12,12 @@
  */
 package org.qi4j.chronos.ui.staff;
 
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
+import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.ui.ChronosSession;
+import org.qi4j.chronos.ui.SystemRoleResolver;
 import org.qi4j.chronos.ui.common.menu.MenuBar;
 import org.qi4j.chronos.ui.common.menu.MenuItem;
 import org.qi4j.chronos.ui.common.menu.PageMenuLink;
@@ -22,6 +28,7 @@ import org.qi4j.chronos.ui.projectrole.ProjectRoleListPage;
 import org.qi4j.chronos.ui.report.ReportMainPage;
 import org.qi4j.chronos.ui.systemrole.SystemRoleListPage;
 
+@AuthorizeInstantiation( { SystemRole.ACCOUNT_ADMIN, SystemRole.ACCOUNT_DEVELOPER } )
 public class StaffMainMenuBar extends MenuBar
 {
     public StaffMainMenuBar()
@@ -31,15 +38,28 @@ public class StaffMainMenuBar extends MenuBar
 
     public MenuItem[] getMenuItemList()
     {
-        return new MenuItem[]{
-            new PageMenuLink( "Home", StaffHomePage.class ),
-            new PageMenuLink( "Price Rate Schedule", PriceRateScheduleListPage.class ),
-            new PageMenuLink( "Customer", CustomerListPage.class ),
-            new PageMenuLink( "Project", ProjectListPage.class ),
-            new PageMenuLink( "Staff", StaffListPage.class ),
-            new PageMenuLink( "Project Role", ProjectRoleListPage.class ),
-            new PageMenuLink( "System Role", SystemRoleListPage.class ),
-            new PageMenuLink( "Report", ReportMainPage.class ),
-        };
+        List<MenuItem> menuItemList = new ArrayList<MenuItem>();
+
+        menuItemList.add( new PageMenuLink( "Home", StaffHomePage.class ) );
+
+        SystemRoleResolver resolver = ChronosSession.get().getSystemRoleResolver();
+
+        if( resolver.isAccountAdmin() )
+        {
+            menuItemList.add( new PageMenuLink( "Price Rate Schedule", PriceRateScheduleListPage.class ) );
+            menuItemList.add( new PageMenuLink( "Customer", CustomerListPage.class ) );
+        }
+
+        menuItemList.add( new PageMenuLink( "Project", ProjectListPage.class ) );
+
+        if( resolver.isAccountAdmin() )
+        {
+            menuItemList.add( new PageMenuLink( "Staff", StaffListPage.class ) );
+            menuItemList.add( new PageMenuLink( "Project Role", ProjectRoleListPage.class ) );
+            menuItemList.add( new PageMenuLink( "System Role", SystemRoleListPage.class ) );
+            menuItemList.add( new PageMenuLink( "Report", ReportMainPage.class ) );
+        }
+
+        return menuItemList.toArray( new MenuItem[menuItemList.size()] );
     }
 }

@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 import org.apache.wicket.AttributeModifier;
+import org.apache.wicket.Component;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.ajax.markup.html.form.AjaxSubmitLink;
@@ -87,6 +88,21 @@ public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
     private void initComponents()
     {
         add( new ActionTableForm( "actionTableForm" ) );
+
+        authorizingActionBar();
+    }
+
+    private void authorizingActionBar()
+    {
+        authorizatiingActionBar( actionBar );
+        authorizatiingActionBar( selectAllOrNoneContainer );
+
+        updateCheckBoxHeaderContainerVisibility();
+    }
+
+    protected void authorizatiingActionBar( Component component )
+    {
+        //override this
     }
 
     public void setItemPerPage( int itemPerPage )
@@ -94,10 +110,10 @@ public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
         dataView.setItemsPerPage( itemPerPage );
     }
 
-    public void setNoActionBar( boolean isNoActionBar )
+    public void setActionBarVisible( boolean visible )
     {
-        actionBar.setVisible( !isNoActionBar );
-        selectAllOrNoneContainer.setVisible( !isNoActionBar );
+        actionBar.setVisible( visible );
+        selectAllOrNoneContainer.setVisible( visible );
 
         updateCheckBoxHeaderContainerVisibility();
     }

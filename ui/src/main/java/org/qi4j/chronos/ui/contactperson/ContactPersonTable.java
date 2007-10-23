@@ -14,10 +14,14 @@ package org.qi4j.chronos.ui.contactperson;
 
 import java.util.Arrays;
 import java.util.List;
+import org.apache.wicket.Component;
+import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckBox;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.Model;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.associations.HasContactPersons;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
@@ -33,6 +37,11 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
     public ContactPersonTable( String id )
     {
         super( id );
+    }
+
+    protected void authorizatiingActionBar( Component component )
+    {
+        MetaDataRoleAuthorizationStrategy.authorize( component, RENDER, SystemRole.ACCOUNT_ADMIN );
     }
 
     public AbstractSortableDataProvider<ContactPersonEntityComposite, String> getDetachableDataProvider()
@@ -64,9 +73,17 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
         CheckBox loginEnabled = new CheckBox( "loginEnabled", new Model( obj.getLogin().isEnabled() ) );
 
         loginEnabled.setEnabled( false );
+
         item.add( loginEnabled );
 
-        item.add( new SimpleLink( "editLink", "Edit" )
+        SimpleLink editLink = createEditLink( contactPersonId );
+
+        item.add( editLink );
+    }
+
+    private SimpleLink createEditLink( final String contactPersonId )
+    {
+        return new SimpleLink( "editLink", "Edit" )
         {
             public void linkClicked()
             {
@@ -83,7 +100,12 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
                     }
                 } );
             }
-        } );
+
+            protected void authorizingLink( Link link )
+            {
+                MetaDataRoleAuthorizationStrategy.authorize( link, ENABLE, SystemRole.ACCOUNT_ADMIN );
+            }
+        };
     }
 
     private SimpleLink createDetailLink( String id, String text, final String contactPersonId )

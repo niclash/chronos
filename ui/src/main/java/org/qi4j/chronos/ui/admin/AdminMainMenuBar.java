@@ -12,12 +12,15 @@
  */
 package org.qi4j.chronos.ui.admin;
 
+import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.account.AccountListPage;
 import org.qi4j.chronos.ui.common.menu.MenuBar;
 import org.qi4j.chronos.ui.common.menu.MenuItem;
 import org.qi4j.chronos.ui.common.menu.PageMenuLink;
 import org.qi4j.chronos.ui.systemrole.SystemRoleListPage;
 
+@AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public class AdminMainMenuBar extends MenuBar
 {
     public AdminMainMenuBar()

@@ -12,7 +12,6 @@
  */
 package org.qi4j.chronos.ui;
 
-import org.apache.wicket.Session;
 import org.apache.wicket.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.markup.html.WebPage;
@@ -38,9 +37,6 @@ public class ChronosWebApp extends AuthenticatedWebApplication
         factory = new CompositeBuilderFactoryImpl();
 
         CompositeBuilder<ServicesComposite> serviceBuilder = factory.newCompositeBuilder( ServicesComposite.class );
-
-        //TODO bp. use mock services for now.
-//        serviceBuilder.decorate( new MockServicesMixin( factory ) );
 
         services = serviceBuilder.newInstance();
 
@@ -73,7 +69,9 @@ public class ChronosWebApp extends AuthenticatedWebApplication
 
     public Class getHomePage()
     {
-        ChronosSession chronosSession = (ChronosSession) Session.get();
+        ChronosSession chronosSession = ChronosSession.get();
+
+        SystemRoleResolver resolver = chronosSession.getSystemRoleResolver();
 
         if( !chronosSession.isSignIn() )
         {
@@ -81,15 +79,15 @@ public class ChronosWebApp extends AuthenticatedWebApplication
         }
         else
         {
-            if( chronosSession.isAdmin() )
+            if( resolver.isAdmin() )
             {
                 return AdminHomePage.class;
             }
-            else if( chronosSession.isStaff() )
+            else if( resolver.isStaff() )
             {
                 return StaffHomePage.class;
             }
-            else if( chronosSession.isContactPerson() )
+            else if( resolver.isContactPerson() )
             {
                 return ContactPersonHomePage.class;
             }
@@ -110,5 +108,4 @@ public class ChronosWebApp extends AuthenticatedWebApplication
     {
         return LoginPage.class;
     }
-
 }

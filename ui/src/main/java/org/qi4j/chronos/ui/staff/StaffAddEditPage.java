@@ -16,8 +16,10 @@ import java.util.Collections;
 import java.util.Currency;
 import java.util.Iterator;
 import org.apache.wicket.Page;
+import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.form.Form;
 import org.qi4j.chronos.model.Staff;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
 import org.qi4j.chronos.ui.common.NumberTextField;
@@ -26,6 +28,7 @@ import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.user.UserAddEditPanel;
 import org.qi4j.chronos.ui.util.ListUtil;
 
+@AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public abstract class StaffAddEditPage extends AddEditBasePage
 {
     private NumberTextField salaryAmountField;

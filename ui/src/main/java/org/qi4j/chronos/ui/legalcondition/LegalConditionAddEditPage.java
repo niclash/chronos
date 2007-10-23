@@ -13,15 +13,18 @@
 package org.qi4j.chronos.ui.legalcondition;
 
 import org.apache.wicket.Page;
+import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.qi4j.chronos.model.LegalCondition;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.LegalConditionComposite;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
 import org.qi4j.chronos.ui.common.MaxLengthTextArea;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 
+@AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public abstract class LegalConditionAddEditPage extends AddEditBasePage
 {
     private MaxLengthTextField nameField;
