@@ -26,4 +26,9 @@ public class MockProjectAssigneeServiceMixin extends MockProjectBasedServiceMixi
     {
         return projectEntityComposite.projectAssigneeIterator();
     }
+
+    protected void removeItem( ProjectEntityComposite projectEntity, ProjectAssigneeEntityComposite projectAssignee )
+    {
+        projectEntity.removeProjectAssignee( projectAssignee );
+    }
 }

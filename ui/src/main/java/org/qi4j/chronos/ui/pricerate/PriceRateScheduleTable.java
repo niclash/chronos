@@ -34,6 +34,13 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
     public PriceRateScheduleTable( String id )
     {
         super( id );
+
+        initActions();
+    }
+
+    private void initActions()
+    {
+        //TODO
     }
 
     public AbstractSortableDataProvider<PriceRateScheduleComposite, String> getDetachableDataProvider()

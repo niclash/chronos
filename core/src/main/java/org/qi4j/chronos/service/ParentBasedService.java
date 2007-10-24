@@ -12,6 +12,7 @@
  */
 package org.qi4j.chronos.service;
 
+import java.util.Collection;
 import java.util.List;
 import org.qi4j.api.persistence.EntityComposite;
 import org.qi4j.api.persistence.Identity;
@@ -21,6 +22,12 @@ public interface ParentBasedService<ITEM extends Identity, PARENT extends Entity
     ITEM get( String id );
 
     void update( ITEM t );
+
+    PARENT getParent( ITEM t );
+
+    void delete( Collection<ITEM> items );
+
+    void delete( ITEM item );
 
     List<ITEM> findAll( PARENT parent, FindFilter findFilter );
 

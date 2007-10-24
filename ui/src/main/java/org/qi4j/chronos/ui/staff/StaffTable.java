@@ -17,13 +17,14 @@ import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleCheckBox;
 import org.qi4j.chronos.ui.common.SimpleLink;
-import org.qi4j.chronos.ui.common.action.ActionAdapter;
 import org.qi4j.chronos.ui.common.action.ActionTable;
+import org.qi4j.chronos.ui.common.action.SimpleAction;
 import org.qi4j.library.general.model.Money;
 
 public abstract class StaffTable extends ActionTable<StaffEntityComposite, String>
@@ -39,21 +40,28 @@ public abstract class StaffTable extends ActionTable<StaffEntityComposite, Strin
 
     private void initActions()
     {
-        addAction( new ActionAdapter( "Delete Staff" )
+        addAction( new SimpleAction<StaffEntityComposite>( "Delete Staff" )
         {
-            public void performAction( AbstractSortableDataProvider dataProvider )
+            public void performAction( List<StaffEntityComposite> staffs )
             {
-                //TODO bp. fixme
+                getStaffService().delete( staffs );
+
+                info( "Staff(s) are deleted." );
             }
         } );
 
-        addAction( new ActionAdapter( "Disable Login" )
+        addAction( new SimpleAction<StaffEntityComposite>( "Disable Login" )
         {
-            public void performAction( AbstractSortableDataProvider dataProvider )
+            public void performAction( List<StaffEntityComposite> staffEntityComposites )
             {
-                //TODO bp. fixme
+                //TODO
             }
         } );
+    }
+
+    private StaffService getStaffService()
+    {
+        return ChronosWebApp.getServices().getStaffService();
     }
 
     public AbstractSortableDataProvider<StaffEntityComposite, String> getDetachableDataProvider()
@@ -100,7 +108,7 @@ public abstract class StaffTable extends ActionTable<StaffEntityComposite, Strin
                 {
                     public StaffEntityComposite getStaff()
                     {
-                        return ChronosWebApp.getServices().getStaffService().get( staffId );
+                        return getStaffService().get( staffId );
                     }
                 } );
             }
@@ -117,7 +125,7 @@ public abstract class StaffTable extends ActionTable<StaffEntityComposite, Strin
                 {
                     public StaffEntityComposite getStaff()
                     {
-                        return ChronosWebApp.getServices().getStaffService().get( staffId );
+                        return getStaffService().get( staffId );
                     }
                 };
 

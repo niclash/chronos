@@ -16,14 +16,14 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.markup.repeater.data.IDataProvider;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.chronos.service.WorkEntryService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
-import org.qi4j.chronos.ui.common.action.Action;
 import org.qi4j.chronos.ui.common.action.ActionTable;
+import org.qi4j.chronos.ui.common.action.SimpleAction;
 import org.qi4j.chronos.util.DateUtil;
 
 public abstract class WorkEntryTable extends ActionTable<WorkEntryEntityComposite, String>
@@ -34,16 +34,18 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntryEntityComposit
     {
         super( id );
 
-        addAction( new Action()
+        initActions();
+    }
+
+    private void initActions()
+    {
+        addAction( new SimpleAction<WorkEntryEntityComposite>( "Delete" )
         {
-            public String getActionName()
+            public void performAction( List<WorkEntryEntityComposite> workEntries )
             {
-                return "Delete";
-            }
+                getWorkEntryService().delete( workEntries );
 
-            public void performAction( IDataProvider dataProvider )
-            {
-
+                info( "Work Entries are deleted." );
             }
         } );
     }
@@ -69,6 +71,11 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntryEntityComposit
         return provider;
     }
 
+    private WorkEntryService getWorkEntryService()
+    {
+        return ChronosWebApp.getServices().getWorkEntryService();
+    }
+
     public void populateItems( Item item, WorkEntryEntityComposite obj )
     {
         final String workEntryId = obj.getIdentity();
@@ -81,7 +88,7 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntryEntityComposit
                 {
                     public WorkEntryEntityComposite getWorkEntry()
                     {
-                        return ChronosWebApp.getServices().getWorkEntryService().get( workEntryId );
+                        return getWorkEntryService().get( workEntryId );
                     }
                 };
 
@@ -101,7 +108,7 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntryEntityComposit
                 {
                     public WorkEntryEntityComposite getWorkEntry()
                     {
-                        return ChronosWebApp.getServices().getWorkEntryService().get( workEntryId );
+                        return getWorkEntryService().get( workEntryId );
                     }
                 };
 

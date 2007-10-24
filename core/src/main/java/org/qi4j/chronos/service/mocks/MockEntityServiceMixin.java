@@ -13,6 +13,7 @@
 package org.qi4j.chronos.service.mocks;
 
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
@@ -25,7 +26,7 @@ import org.qi4j.chronos.service.EntityService;
 import org.qi4j.chronos.service.FindFilter;
 
 public class MockEntityServiceMixin
-    implements EntityService
+    implements EntityService<Identity>
 {
     private Map<String, Identity> dataMap;
     private static long nextId = 0;
@@ -86,5 +87,18 @@ public class MockEntityServiceMixin
     public synchronized static final String newUid()
     {
         return String.valueOf( ++nextId );
+    }
+
+    public void delete( Identity obj )
+    {
+        delete( obj.getIdentity() );
+    }
+
+    public void delete( Collection<Identity> objs )
+    {
+        for( Identity identity : objs )
+        {
+            delete( identity );
+        }
     }
 }

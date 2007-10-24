@@ -10,26 +10,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service.mocks;
+package org.qi4j.chronos.ui.common.action;
 
-import java.util.Iterator;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import java.util.List;
+import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
-public class MockStaffServiceMixin extends MockAccountBasedServiceMixin<StaffEntityComposite>
+public abstract class SimpleAction<ITEM> extends AbstractAction<ITEM>
 {
-    public MockStaffServiceMixin()
+    public SimpleAction( String actionName )
     {
-        super();
+        super( actionName );
     }
 
-    protected Iterator<StaffEntityComposite> getItems( AccountEntityComposite accountEntityComposite )
+    public final void performAction( AbstractSortableDataProvider<ITEM, ?> abstractSortableDataProvider )
     {
-        return accountEntityComposite.staffIterator();
+        int size = abstractSortableDataProvider.getSize();
+
+        List<ITEM> items = abstractSortableDataProvider.dataList( 0, size );
+
+        performAction( items );
     }
 
-    protected void removeItem( AccountEntityComposite account, StaffEntityComposite staff )
-    {
-        account.removeStaff( staff );
-    }
+    public abstract void performAction( List<ITEM> items );
+
 }

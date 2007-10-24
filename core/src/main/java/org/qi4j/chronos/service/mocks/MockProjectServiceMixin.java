@@ -26,4 +26,9 @@ public class MockProjectServiceMixin extends MockAccountBasedServiceMixin<Projec
     {
         return accountEntityComposite.projectIterator();
     }
+
+    protected void removeItem( AccountEntityComposite account, ProjectEntityComposite project )
+    {
+        account.removeProject( project );
+    }
 }

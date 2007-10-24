@@ -12,13 +12,11 @@
  */
 package org.qi4j.chronos.ui.common.action;
 
-import org.apache.wicket.markup.repeater.data.IDataProvider;
-
-public class ActionAdapter implements Action
+public abstract class AbstractAction<ITEM> implements Action<ITEM>
 {
     private String actionName;
 
-    public ActionAdapter( String actionName )
+    public AbstractAction( String actionName )
     {
         this.actionName = actionName;
     }
@@ -27,9 +25,5 @@ public class ActionAdapter implements Action
     {
         return actionName;
     }
-
-    public void performAction( IDataProvider dataProvider )
-    {
-        //override me
-    }
 }
+

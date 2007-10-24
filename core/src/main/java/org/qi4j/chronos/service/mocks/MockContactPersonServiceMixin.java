@@ -27,4 +27,9 @@ public class MockContactPersonServiceMixin extends MockCustomerBasedServiceMixin
     {
         return customerEntityComposite.contactPersonIterator();
     }
+
+    protected void removeItem( CustomerEntityComposite customer, ContactPersonEntityComposite contactPerson )
+    {
+        customer.removeContactPerson( contactPerson );
+    }
 }

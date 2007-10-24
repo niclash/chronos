@@ -12,6 +12,7 @@
  */
 package org.qi4j.chronos.service;
 
+import java.util.Collection;
 import java.util.List;
 import org.qi4j.api.annotation.Mixins;
 import org.qi4j.api.persistence.EntityComposite;
@@ -26,6 +27,10 @@ public interface EntityService<T extends Identity>
     void save( T obj );
 
     void delete( String id );
+
+    void delete( T obj );
+
+    void delete( Collection<T> objs );
 
     void update( T obj );
 

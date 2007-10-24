@@ -22,4 +22,9 @@ public class MockCustomerServiceMixin extends MockAccountBasedServiceMixin<Custo
     {
         return accountEntityComposite.customerIterator();
     }
+
+    protected void removeItem( AccountEntityComposite account, CustomerEntityComposite customer )
+    {
+        account.removeCustomer( customer );
+    }
 }

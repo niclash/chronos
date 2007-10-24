@@ -18,11 +18,13 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
+import org.qi4j.chronos.service.ProjectRoleService;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
-import org.qi4j.chronos.ui.common.action.ActionAdapter;
 import org.qi4j.chronos.ui.common.action.ActionTable;
+import org.qi4j.chronos.ui.common.action.SimpleAction;
 
 public abstract class ProjectRoleTable extends ActionTable<ProjectRoleEntityComposite, String>
 {
@@ -37,13 +39,20 @@ public abstract class ProjectRoleTable extends ActionTable<ProjectRoleEntityComp
 
     private void initActions()
     {
-        addAction( new ActionAdapter( "Delete" )
+        addAction( new SimpleAction<ProjectRoleEntityComposite>( "Delete" )
         {
-            public void performAction( AbstractSortableDataProvider dataProvider )
+            public void performAction( List<ProjectRoleEntityComposite> projectRoles )
             {
-                //TODO bp. fixme
+                getProjectRoleService().delete( projectRoles );
+
+                info( "Project role(s) are deleted." );
             }
         } );
+    }
+
+    private ProjectRoleService getProjectRoleService()
+    {
+        return ChronosWebApp.getServices().getProjectRoleService();
     }
 
     public AbstractSortableDataProvider<ProjectRoleEntityComposite, String> getDetachableDataProvider()

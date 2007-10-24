@@ -15,7 +15,6 @@ package org.qi4j.chronos.service;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 
 public interface AccountService extends EntityService<AccountEntityComposite>
 {
@@ -23,5 +22,4 @@ public interface AccountService extends EntityService<AccountEntityComposite>
 
     AccountEntityComposite getAccount( ContactPersonEntityComposite contactPerson );
 
-    AccountEntityComposite getAccountByProject( ProjectEntityComposite project );
 }

@@ -17,14 +17,15 @@ import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.service.EntityService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleCheckBox;
 import org.qi4j.chronos.ui.common.SimpleDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
-import org.qi4j.chronos.ui.common.action.ActionAdapter;
 import org.qi4j.chronos.ui.common.action.ActionTable;
+import org.qi4j.chronos.ui.common.action.SimpleAction;
 
 public class AccountTable extends ActionTable<AccountEntityComposite, String>
 {
@@ -39,27 +40,29 @@ public class AccountTable extends ActionTable<AccountEntityComposite, String>
 
     private void initAction()
     {
-        addAction( new ActionAdapter( "Delete account" )
+        addAction( new SimpleAction<AccountEntityComposite>( "Delete account" )
         {
-            public void performAction( AbstractSortableDataProvider dataProvider )
+            public void performAction( List<AccountEntityComposite> accountEntityComposites )
             {
-                info( "Delete - Not implemented yet - total items " + dataProvider.size() );
+                getAccountService().delete( accountEntityComposites );
+
+                info( "Accounts are deleted." );
             }
         } );
 
-        addAction( new ActionAdapter( "Disable account" )
+        addAction( new SimpleAction<AccountEntityComposite>( "Disable account" )
         {
-            public void performAction( AbstractSortableDataProvider dataProvider )
+            public void performAction( List<AccountEntityComposite> accountEntityComposites )
             {
-                info( "Disable - Not implemented yet - total items " + dataProvider.size() );
+                //TOODO
             }
         } );
 
-        addAction( new ActionAdapter( "Enable account" )
+        addAction( new SimpleAction<AccountEntityComposite>( "Enable account" )
         {
-            public void performAction( AbstractSortableDataProvider dataProvider )
+            public void performAction( List<AccountEntityComposite> accountEntityComposites )
             {
-                info( "Enable- Not implemented yet - total items " + dataProvider.size() );
+                //TOODO
             }
         } );
     }
@@ -72,11 +75,16 @@ public class AccountTable extends ActionTable<AccountEntityComposite, String>
             {
                 public EntityService<AccountEntityComposite> getEntityService()
                 {
-                    return ChronosWebApp.getServices().getAccountService();
+                    return AccountTable.this.getAccountService();
                 }
             };
         }
         return dataProvider;
+    }
+
+    private AccountService getAccountService()
+    {
+        return ChronosWebApp.getServices().getAccountService();
     }
 
     public void populateItems( Item item, AccountEntityComposite obj )

@@ -22,4 +22,9 @@ public class MockTaskAssigneeServiceMixin extends MockTaskBasedServiceMixin<Task
     {
         return taskEntityComposite.taskAssigneeIterator();
     }
+
+    protected void removeItem( TaskEntityComposite task, TaskAssigneeEntityComposite taskAssignee )
+    {
+        task.removeTaskAssignee( taskAssignee );
+    }
 }

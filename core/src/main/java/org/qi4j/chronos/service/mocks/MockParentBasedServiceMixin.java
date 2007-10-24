@@ -13,6 +13,7 @@
 package org.qi4j.chronos.service.mocks;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import org.qi4j.api.CompositeBuilder;
@@ -122,7 +123,44 @@ public abstract class MockParentBasedServiceMixin<ITEM extends Identity, PARENT 
         }
     }
 
+    public void delete( Collection<ITEM> items )
+    {
+        for( ITEM item : items )
+        {
+            delete( item );
+        }
+    }
+
+    public void delete( ITEM item )
+    {
+        PARENT parent = getParent( item );
+
+        removeItem( parent, item );
+    }
+
+    public PARENT getParent( ITEM t )
+    {
+        List<PARENT> parentList = getParentList();
+
+        for( PARENT parent : parentList )
+        {
+            Iterator<ITEM> itemIter = getItems( parent );
+
+            while( itemIter.hasNext() )
+            {
+                if( itemIter.next().getIdentity().equals( t.getIdentity() ) )
+                {
+                    return parent;
+                }
+            }
+        }
+
+        return null;
+    }
+
     protected abstract List<PARENT> getParentList();
 
     protected abstract Iterator<ITEM> getItems( PARENT parent );
+
+    protected abstract void removeItem( PARENT parent, ITEM item );
 }

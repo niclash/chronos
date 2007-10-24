@@ -22,4 +22,9 @@ public class MockProjectRoleServiceMixin extends MockAccountBasedServiceMixin<Pr
     {
         return accountEntityComposite.projectRoleIterator();
     }
+
+    protected void removeItem( AccountEntityComposite account, ProjectRoleEntityComposite projectRole )
+    {
+        account.removeProjectRole( projectRole );
+    }
 }
