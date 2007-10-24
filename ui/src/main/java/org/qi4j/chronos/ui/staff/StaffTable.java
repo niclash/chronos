@@ -90,7 +90,7 @@ public abstract class StaffTable extends ActionTable<StaffEntityComposite, Strin
 
         item.add( new Label( "loginId", obj.getLogin().getName() ) );
 
-        item.add( new SimpleCheckBox( "loginEnabled", obj.getLogin().isEnabled(), true ) );
+        item.add( new SimpleCheckBox( "loginEnabled", obj.getLogin().getEnabled(), true ) );
 
         item.add( new SimpleLink( "editLink", "Edit" )
         {

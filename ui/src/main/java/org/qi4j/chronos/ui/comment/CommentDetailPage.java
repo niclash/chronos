@@ -60,7 +60,7 @@ public abstract class CommentDetailPage extends LeftMenuNavPage
             CommentComposite comment = getComment();
 
             createdDateField = new SimpleTextField( "createdDateField", DateUtil.formatDateTime( comment.getCreatedDate() ) );
-            userField = new SimpleTextField( "userField", comment.getUser().getFirstName() + " " + comment.getUser().getLastName() );
+            userField = new SimpleTextField( "userField", comment.getUser().getFullname() );
 
             commentTextArea = new SimpleTextArea( "commentTextArea", comment.getText() );
 

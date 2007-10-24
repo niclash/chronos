@@ -14,7 +14,9 @@ package org.qi4j.chronos.ui.comment;
 
 import java.util.Date;
 import org.apache.wicket.Page;
+import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.CommentComposite;
+import org.qi4j.chronos.ui.ChronosSession;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -59,6 +61,11 @@ public abstract class CommentAddPage extends CommentAddEditPage
     public String getTitleLabel()
     {
         return "Add Comment";
+    }
+
+    public User getCommentOwner()
+    {
+        return ChronosSession.get().getUser();
     }
 
     public abstract void addComment( CommentComposite comment );

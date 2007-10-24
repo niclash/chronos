@@ -13,13 +13,13 @@
 package org.qi4j.chronos.ui.common.action;
 
 import java.io.Serializable;
-import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
+import org.apache.wicket.markup.repeater.data.IDataProvider;
 
 public interface Action extends Serializable
 {
     public String getActionName();
 
-    public void performAction( AbstractSortableDataProvider dataProvider );
+    public void performAction( IDataProvider dataProvider );
 
 }
 

@@ -77,7 +77,7 @@ public abstract class LoginUserEditPanel extends LoginUserAbstractPanel
     public void assignLoginToFieldValue( Login login )
     {
         loginIdLabel.setModel( new Model( login.getName() ) );
-        loginEnabledCheckBox.setModel( new Model( login.isEnabled() ) );
+        loginEnabledCheckBox.setModel( new Model( login.getEnabled() ) );
     }
 
     public void assignFieldValueToLogin( Login login )

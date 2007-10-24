@@ -85,7 +85,7 @@ public class AccountTable extends ActionTable<AccountEntityComposite, String>
 
         item.add( createDetailPage( "name", obj.getName(), accountId ) );
         item.add( createDetailPage( "formalReference", obj.getReference(), accountId ) );
-        item.add( new SimpleCheckBox( "enabled", obj.isEnabled(), true ) );
+        item.add( new SimpleCheckBox( "enabled", obj.getEnabled(), true ) );
 
         //TODO bp. fix these valeues.
         item.add( new Label( "totalProject", "10" ) );

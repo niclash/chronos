@@ -91,7 +91,7 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
 
             projectOwnerField = new SimpleTextField( "customerField", project.getCustomer().getName() );
 
-            String primaryContact = project.getPrimaryContactPerson().getFirstName() + project.getPrimaryContactPerson().getLastName();
+            String primaryContact = project.getPrimaryContactPerson().getFullname();
             primaryContactField = new SimpleTextField( "primaryContactField", primaryContact );
 
             estimateStartTimeField = new SimpleTextField( "estimateStartTimeField", DateUtil.formatDate( project.getEstimateTime().getStartTime() ) );

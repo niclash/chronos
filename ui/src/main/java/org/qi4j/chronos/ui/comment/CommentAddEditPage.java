@@ -17,7 +17,6 @@ import org.apache.wicket.markup.html.form.Form;
 import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.CommentComposite;
-import org.qi4j.chronos.ui.ChronosSession;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
 import org.qi4j.chronos.ui.common.MaxLengthTextArea;
 import org.qi4j.chronos.ui.common.SimpleTextField;
@@ -25,7 +24,6 @@ import org.qi4j.chronos.ui.common.SimpleTextField;
 public abstract class CommentAddEditPage extends AddEditBasePage
 {
     private MaxLengthTextArea commentTextArea;
-    private SimpleTextField userField;
 
     public CommentAddEditPage( Page goBackPage )
     {
@@ -36,22 +34,21 @@ public abstract class CommentAddEditPage extends AddEditBasePage
     {
         commentTextArea = new MaxLengthTextArea( "commentTextArea", "Comment", Comment.COMMENT_LEN );
 
-        userField = new SimpleTextField( "userField", getUser().getFirstName() + " " + getUser().getLastName(), true );
+        SimpleTextField userField = new SimpleTextField( "userField", getCommentOwner().getFullname(), true );
 
         form.add( commentTextArea );
         form.add( userField );
     }
 
-    protected void assignFieldValueToComment( CommentComposite commentComposite )
+    protected void assignFieldValueToComment( CommentComposite comment )
     {
-        commentComposite.setText( commentTextArea.getText() );
-        commentComposite.setUser( getUser() );
+        comment.setText( commentTextArea.getText() );
+        comment.setUser( getCommentOwner() );
     }
 
-    protected void assignCommentToFieldValue( CommentComposite commentComposite )
+    protected void assignCommentToFieldValue( CommentComposite comment )
     {
-        commentTextArea.setText( commentComposite.getText() );
-        userField.setText( getUser().getFirstName() + " " + getUser().getLastName() );
+        commentTextArea.setText( comment.getText() );
     }
 
     public void handleSubmit()
@@ -71,10 +68,7 @@ public abstract class CommentAddEditPage extends AddEditBasePage
         onSubmitting();
     }
 
-    public User getUser()
-    {
-        return ChronosSession.get().getUser();
-    }
+    public abstract User getCommentOwner();
 
     public abstract void onSubmitting();
 }

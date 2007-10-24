@@ -21,7 +21,6 @@ import org.qi4j.api.persistence.Identity;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.service.UserService;
-import org.qi4j.chronos.ui.util.AuthorizationUtil;
 
 public class ChronosSession extends AuthenticatedWebSession
 {
@@ -59,7 +58,7 @@ public class ChronosSession extends AuthenticatedWebSession
         {
             account = ChronosWebApp.getServices().getAccountService().get( accountId );
 
-            if( !account.isEnabled() )
+            if( !account.getEnabled() )
             {
                 this.error( "Account is disabled." );
                 return false;
@@ -79,7 +78,7 @@ public class ChronosSession extends AuthenticatedWebSession
 
         if( user != null )
         {
-            if( !user.getLogin().isEnabled() )
+            if( !user.getLogin().getEnabled() )
             {
                 this.error( "User login is disabled." );
                 return false;
@@ -129,13 +128,6 @@ public class ChronosSession extends AuthenticatedWebSession
 
     public Roles getRoles()
     {
-        if( isSignedIn() )
-        {
-            String[] roles = AuthorizationUtil.getSystemRole( getUser() );
-
-            return new Roles( roles );
-        }
-
-        return null;
+        return roleResolver.getRoles();
     }
 }

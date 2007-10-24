@@ -56,7 +56,7 @@ public abstract class TopMenuNavPage extends BasePage
 
     private String getAccountName()
     {
-        ChronosSession chronosSession = (ChronosSession) ChronosSession.get();
+        ChronosSession chronosSession = ChronosSession.get();
 
         AccountEntityComposite account = chronosSession.getAccount();
 

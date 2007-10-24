@@ -52,6 +52,7 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
     {
         private Button submitButton;
 
+        private SimpleTextField userField;
         private SimpleTextField titleField;
         private SimpleTextField createDateField;
         private SimpleTextArea descriptionTextArea;
@@ -69,6 +70,7 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
         {
             TaskEntityComposite taskMaster = getTask();
 
+            userField = new SimpleTextField( "userField", taskMaster.getUser().getFullname() );
             titleField = new SimpleTextField( "titleField", taskMaster.getTitle() );
             createDateField = new SimpleTextField( "createDateField", DateUtil.formatDateTime( taskMaster.getCreatedDate() ) );
             descriptionTextArea = new SimpleTextArea( "descriptionTextArea", taskMaster.getDescription() );
@@ -88,6 +90,7 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
 
             tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
 
+            add( userField );
             add( titleField );
             add( createDateField );
             add( descriptionTextArea );
@@ -103,7 +106,7 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
                 {
                     return TaskDetailPage.this.getTask();
                 }
-                
+
                 public void addComment( CommentComposite comment )
                 {
                     TaskDetailPage.this.addComment( comment );

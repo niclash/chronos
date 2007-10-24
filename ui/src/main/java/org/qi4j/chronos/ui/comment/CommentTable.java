@@ -53,7 +53,7 @@ public abstract class CommentTable extends ActionTable<CommentComposite, Comment
     {
         String userId = ( (Identity) obj.getUser() ).getIdentity();
 
-        item.add( createDetailLink( "user", obj.getUser().getFirstName() + " " + obj.getUser().getLastName(), userId, obj.getCreatedDate() ) );
+        item.add( createDetailLink( "user", obj.getUser().getFullname(), userId, obj.getCreatedDate() ) );
         item.add( createDetailLink( "createdDate", DateUtil.formatDateTime( obj.getCreatedDate() ), userId, obj.getCreatedDate() ) );
         //TODO bp.  truncate comment
         item.add( createDetailLink( "comment", obj.getText(), userId, obj.getCreatedDate() ) );

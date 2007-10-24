@@ -13,6 +13,7 @@
 package org.qi4j.chronos.ui.comment;
 
 import org.apache.wicket.Page;
+import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.CommentComposite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -64,6 +65,11 @@ public abstract class CommentEditPage extends CommentAddEditPage
             logErrorMsg( err.getMessage() );
             LOGGER.error( err.getMessage(), err );
         }
+    }
+
+    public User getCommentOwner()
+    {
+        return getComment().getUser();
     }
 
     public abstract CommentComposite getComment();

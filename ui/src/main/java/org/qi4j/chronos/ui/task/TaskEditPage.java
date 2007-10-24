@@ -13,6 +13,7 @@
 package org.qi4j.chronos.ui.task;
 
 import org.apache.wicket.Page;
+import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,12 +31,12 @@ public abstract class TaskEditPage extends TaskAddEditPage
 
     private void initData()
     {
-        assignTaskMasterToFieldValie( getTaskMaster() );
+        assignTaskMasterToFieldValie( getTask() );
     }
 
     public void onSubmitting()
     {
-        TaskEntityComposite taskMaster = getTaskMaster();
+        TaskEntityComposite taskMaster = getTask();
 
         try
         {
@@ -64,5 +65,10 @@ public abstract class TaskEditPage extends TaskAddEditPage
         return "Edit Task";
     }
 
-    public abstract TaskEntityComposite getTaskMaster();
+    public User getTaskOwner()
+    {
+        return getTask().getUser();
+    }
+
+    public abstract TaskEntityComposite getTask();
 }

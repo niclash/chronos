@@ -68,6 +68,8 @@ public abstract class TaskTable extends ActionTable<TaskEntityComposite, String>
 
         item.add( new Label( "createdDateLabel", DateUtil.formatDateTime( obj.getCreatedDate() ) ) );
 
+        item.add( new Label( "createdByLabel", obj.getUser().getFullname() ) );
+
         item.add( new SimpleLink( "editLink", "Edit" )
         {
             public void linkClicked()
@@ -95,7 +97,7 @@ public abstract class TaskTable extends ActionTable<TaskEntityComposite, String>
     {
         TaskEditPage editPage = new TaskEditPage( (BasePage) this.getPage() )
         {
-            public TaskEntityComposite getTaskMaster()
+            public TaskEntityComposite getTask()
             {
                 return ChronosWebApp.getServices().getTaskService().get( id );
             }
@@ -106,7 +108,7 @@ public abstract class TaskTable extends ActionTable<TaskEntityComposite, String>
 
     public List<String> getTableHeaderList()
     {
-        return Arrays.asList( "Title", "Created Date", "" );
+        return Arrays.asList( "Title", "Created Date", "Created by", "" );
     }
 
     public abstract int getSize();

@@ -207,7 +207,7 @@ public class MockServicesMixin implements Services
 
         ProjectAssigneeEntityComposite[] projectAssignees = initProjectAssigneeDummyData( project, account );
 
-        TaskEntityComposite task = initTaskDummyData( project );
+        TaskEntityComposite task = initTaskDummyData( project, account.staffIterator().next() );
 
         TaskAssigneeEntityComposite taskAssignee = initTaskAssignee( task, projectAssignees[ 0 ] );
 
@@ -225,12 +225,13 @@ public class MockServicesMixin implements Services
         return compositeBuilder.newInstance();
     }
 
-    private TaskEntityComposite initTaskDummyData( ProjectEntityComposite project )
+    private TaskEntityComposite initTaskDummyData( ProjectEntityComposite project, StaffEntityComposite staff )
     {
         TaskEntityComposite task = taskService.newInstance( TaskEntityComposite.class );
         task.setCreatedDate( new Date() );
         task.setTitle( "Fix bug 10-1" );
         task.setDescription( "It cause nullpointerexception in bla bla." );
+        task.setUser( staff );
 
         project.addTask( task );
 
@@ -477,7 +478,6 @@ public class MockServicesMixin implements Services
 
         developer.setLogin( newLogin( "developer", "developer", true ) );
         developer.setSalary( createMoney( 0l, Currency.getInstance( "USD" ) ) );
-
 
         List<SystemRoleEntityComposite> systemRoleList = systemRoleService.findAllStaffSystemRole();
 

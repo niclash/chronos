@@ -70,7 +70,7 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
 
         item.add( new Label( "loginId", obj.getLogin().getName() ) );
 
-        CheckBox loginEnabled = new CheckBox( "loginEnabled", new Model( obj.getLogin().isEnabled() ) );
+        CheckBox loginEnabled = new CheckBox( "loginEnabled", new Model( obj.getLogin().getEnabled() ) );
 
         loginEnabled.setEnabled( false );
 

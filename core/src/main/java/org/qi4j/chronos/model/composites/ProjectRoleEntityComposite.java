@@ -18,7 +18,4 @@ import org.qi4j.chronos.model.ProjectRole;
 public interface ProjectRoleEntityComposite extends ProjectRole, EntityComposite
 {
 
-    class Doit{
-        
-    }
 }

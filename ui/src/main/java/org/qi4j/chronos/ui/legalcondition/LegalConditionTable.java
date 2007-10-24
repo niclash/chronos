@@ -15,6 +15,7 @@ package org.qi4j.chronos.ui.legalcondition;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import org.apache.wicket.Component;
 import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.Item;
@@ -32,6 +33,11 @@ public abstract class LegalConditionTable extends ActionTable<LegalConditionComp
     public LegalConditionTable( String id )
     {
         super( id );
+    }
+
+    protected void authorizatiingActionBar( Component component )
+    {
+        MetaDataRoleAuthorizationStrategy.authorize( component, RENDER, SystemRole.ACCOUNT_ADMIN );
     }
 
     public AbstractSortableDataProvider<LegalConditionComposite, String> getDetachableDataProvider()

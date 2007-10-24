@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.markup.repeater.data.IDataProvider;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
@@ -40,7 +41,7 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntryEntityComposit
                 return "Delete";
             }
 
-            public void performAction( AbstractSortableDataProvider dataProvider )
+            public void performAction( IDataProvider dataProvider )
             {
 
             }

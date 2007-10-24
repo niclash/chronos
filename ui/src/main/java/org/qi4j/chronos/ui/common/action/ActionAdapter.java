@@ -12,7 +12,7 @@
  */
 package org.qi4j.chronos.ui.common.action;
 
-import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
+import org.apache.wicket.markup.repeater.data.IDataProvider;
 
 public class ActionAdapter implements Action
 {
@@ -28,7 +28,7 @@ public class ActionAdapter implements Action
         return actionName;
     }
 
-    public void performAction( AbstractSortableDataProvider dataProvider )
+    public void performAction( IDataProvider dataProvider )
     {
         //override me
     }

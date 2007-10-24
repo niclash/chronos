@@ -14,9 +14,11 @@ package org.qi4j.chronos.ui.task;
 
 import java.util.Date;
 import org.apache.wicket.Page;
+import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.TaskService;
+import org.qi4j.chronos.ui.ChronosSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -66,6 +68,11 @@ public abstract class TaskAddPage extends TaskAddEditPage
     public String getTitleLabel()
     {
         return "Add Task";
+    }
+
+    public User getTaskOwner()
+    {
+        return ChronosSession.get().getUser();
     }
 
     public abstract ProjectEntityComposite getProject();

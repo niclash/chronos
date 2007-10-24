@@ -13,6 +13,7 @@
 package org.qi4j.chronos.ui;
 
 import java.io.Serializable;
+import org.apache.wicket.authorization.strategies.role.Roles;
 import org.qi4j.chronos.model.Admin;
 import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.Staff;
@@ -28,6 +29,8 @@ public class SystemRoleResolver implements Serializable
 
     private boolean isAccountAdmin;
     private boolean isAccountDeveloper;
+
+    private Roles roles;
 
     public SystemRoleResolver( User user )
     {
@@ -46,6 +49,10 @@ public class SystemRoleResolver implements Serializable
 
         isAccountAdmin = AuthorizationUtil.isAuthorized( user, SystemRole.ACCOUNT_ADMIN );
         isAccountDeveloper = AuthorizationUtil.isAuthorized( user, SystemRole.ACCOUNT_DEVELOPER );
+
+        String[] systemRoles = AuthorizationUtil.getSystemRole( user );
+
+        roles = new Roles( systemRoles );
     }
 
     public boolean isAdmin()
@@ -71,5 +78,10 @@ public class SystemRoleResolver implements Serializable
     public boolean isAccountDeveloper()
     {
         return isAccountDeveloper;
+    }
+
+    public Roles getRoles()
+    {
+        return roles;
     }
 }
