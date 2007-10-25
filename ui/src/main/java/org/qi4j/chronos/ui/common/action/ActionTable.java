@@ -426,6 +426,13 @@ public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
         enableOrDisableActionBar( target );
     }
 
+    void resetCurrBatchData()
+    {
+        selectedIds.clear();
+        currBatchIds.clear();
+        currBatchCheckBoxs.clear();
+    }
+
     public void dataViewModelChanged()
     {
         dataView.modelChanged();

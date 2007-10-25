@@ -18,6 +18,7 @@ import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuth
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.Item;
+import org.qi4j.chronos.model.ProjectStatus;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.service.ProjectService;
@@ -26,6 +27,8 @@ import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
+import org.qi4j.chronos.ui.common.action.SimpleAction;
+import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 
 public abstract class ProjectTable extends ActionTable<ProjectEntityComposite, String>
 {
@@ -34,6 +37,51 @@ public abstract class ProjectTable extends ActionTable<ProjectEntityComposite, S
     public ProjectTable( String id )
     {
         super( id );
+
+        addActions();
+    }
+
+    private void addActions()
+    {
+        addAction( new SimpleDeleteAction<ProjectEntityComposite>( "Delete" )
+        {
+            public void performAction( List<ProjectEntityComposite> projects )
+            {
+                getProjectService().delete( projects );
+
+                info( "Selected project(s) are deleted." );
+            }
+        } );
+
+        addAction( new SimpleAction<ProjectEntityComposite>( "Change to active status" )
+        {
+            public void performAction( List<ProjectEntityComposite> projects )
+            {
+                getProjectService().changeProjectStatus( ProjectStatus.ACTIVE, projects );
+
+                info( "Selected project(s) are changed to status Active" );
+            }
+        } );
+
+        addAction( new SimpleAction<ProjectEntityComposite>( "Change to inactive status" )
+        {
+            public void performAction( List<ProjectEntityComposite> projects )
+            {
+                getProjectService().changeProjectStatus( ProjectStatus.INACTIVE, projects );
+
+                info( "Selected project(s) are changed to inactive status" );
+            }
+        } );
+
+        addAction( new SimpleAction<ProjectEntityComposite>( "Change to closed status " )
+        {
+            public void performAction( List<ProjectEntityComposite> projects )
+            {
+                getProjectService().changeProjectStatus( ProjectStatus.CLOSED, projects );
+
+                info( "Selected project(s) are changed to  Closed Status" );
+            }
+        } );
     }
 
     public AbstractSortableDataProvider<ProjectEntityComposite, String> getDetachableDataProvider()

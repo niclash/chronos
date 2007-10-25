@@ -148,7 +148,7 @@ public abstract class MockParentBasedServiceMixin<ITEM extends Identity, PARENT 
 
             while( itemIter.hasNext() )
             {
-                if( itemIter.next().getIdentity().equals( t.getIdentity() ) )
+                if( itemIter.next().getIdentity().equals( t.getIdentity()    ) )
                 {
                     return parent;
                 }

@@ -22,6 +22,7 @@ import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
+import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 
 public abstract class CustomerTable extends ActionTable<CustomerEntityComposite, String>
 {
@@ -30,6 +31,21 @@ public abstract class CustomerTable extends ActionTable<CustomerEntityComposite,
     public CustomerTable( String id )
     {
         super( id );
+
+        addActions();
+    }
+
+    private void addActions()
+    {
+        addAction( new SimpleDeleteAction<CustomerEntityComposite>( "Delete" )
+        {
+            public void performAction( List<CustomerEntityComposite> customers )
+            {
+                getCustomerService().delete( customers );
+
+                info( "Selected customer(s) are deleted." );
+            }
+        } );
     }
 
     public AbstractSortableDataProvider<CustomerEntityComposite, String> getDetachableDataProvider()

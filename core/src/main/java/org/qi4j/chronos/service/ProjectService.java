@@ -12,7 +12,9 @@
  */
 package org.qi4j.chronos.service;
 
+import java.util.Collection;
 import java.util.List;
+import org.qi4j.chronos.model.ProjectStatus;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
@@ -44,4 +46,6 @@ public interface ProjectService extends AccountBasedService<ProjectEntityComposi
     int countRecentProject( AccountEntityComposite account );
 
     ProjectEntityComposite getProjectByTask( TaskEntityComposite task );
+
+    void changeProjectStatus( ProjectStatus projectStatus, Collection<ProjectEntityComposite> projects );
 }

@@ -13,6 +13,7 @@
 package org.qi4j.chronos.service.mocks;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import org.qi4j.api.CompositeBuilderFactory;
@@ -108,5 +109,28 @@ public class MockLegalConditionServiceMixin implements LegalConditionService
     public int countAll( AccountEntityComposite account )
     {
         return findAll( account ).size();
+    }
+
+    public void deleteLegalCondition( HasLegalConditions hasLegalConditions, Collection<LegalConditionComposite> legalConditions )
+    {
+        for( LegalConditionComposite legalCondition : legalConditions )
+        {
+            LegalConditionComposite toBeDeleted = null;
+
+            Iterator<LegalConditionComposite> legalConditionIter = hasLegalConditions.legalConditionIterator();
+
+            while( legalConditionIter.hasNext() )
+            {
+                LegalConditionComposite tempLegalCondition = legalConditionIter.next();
+
+                if( tempLegalCondition.getName().equals( legalCondition.getName() ) )
+                {
+                    toBeDeleted = tempLegalCondition;
+                    break;
+                }
+            }
+
+            hasLegalConditions.removeLegalCondition( toBeDeleted );
+        }
     }
 }

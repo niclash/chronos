@@ -24,7 +24,7 @@ import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
-import org.qi4j.chronos.ui.common.action.SimpleAction;
+import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 
 public abstract class ProjectRoleTable extends ActionTable<ProjectRoleEntityComposite, String>
 {
@@ -34,18 +34,18 @@ public abstract class ProjectRoleTable extends ActionTable<ProjectRoleEntityComp
     {
         super( id );
 
-        initActions();
+        addActions();
     }
 
-    private void initActions()
+    private void addActions()
     {
-        addAction( new SimpleAction<ProjectRoleEntityComposite>( "Delete" )
+        addAction( new SimpleDeleteAction<ProjectRoleEntityComposite>( "Delete" )
         {
             public void performAction( List<ProjectRoleEntityComposite> projectRoles )
             {
                 getProjectRoleService().delete( projectRoles );
 
-                info( "Project role(s) are deleted." );
+                info( "Selected project role(s) are deleted." );
             }
         } );
     }

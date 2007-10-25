@@ -13,11 +13,13 @@
 package org.qi4j.chronos.service.mocks;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import org.qi4j.api.annotation.scope.ThisAs;
+import org.qi4j.chronos.model.ProjectStatus;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
@@ -175,5 +177,15 @@ public abstract class MockProjectMiscServiceMixin implements ProjectService
         }
 
         return null;
+    }
+
+    public void changeProjectStatus( ProjectStatus projectStatus, Collection<ProjectEntityComposite> projects )
+    {
+        for( ProjectEntityComposite project : projects )
+        {
+            project.setProjectStatus( projectStatus );
+
+            projectService.update( project );
+        }
     }
 }

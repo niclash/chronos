@@ -13,6 +13,7 @@
 package org.qi4j.chronos.service.mocks;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import org.qi4j.api.CompositeBuilderFactory;
@@ -92,5 +93,29 @@ public class MockContactServiceMixin implements ContactService
     public void update( ContactComposite contactComposite )
     {
         //nothing
+    }
+
+    public void deleteContact( HasContacts hasContacts, Collection<ContactComposite> contacts )
+    {
+        for( ContactComposite contact : contacts )
+        {
+            ContactComposite toBeDeleted = null;
+
+            Iterator<ContactComposite> contactIter = hasContacts.contactIterator();
+
+            while( contactIter.hasNext() )
+            {
+                ContactComposite tempContact = contactIter.next();
+
+                if( tempContact.getContactValue().equals( contact.getContactValue() ) &&
+                    tempContact.getContactType().equals( contact.getContactType() ) )
+                {
+                    toBeDeleted = tempContact;
+                    break;
+                }
+            }
+
+            hasContacts.removeContact( toBeDeleted );
+        }
     }
 }

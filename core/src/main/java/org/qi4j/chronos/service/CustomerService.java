@@ -16,4 +16,5 @@ import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 
 public interface CustomerService extends AccountBasedService<CustomerEntityComposite>
 {
+
 }

@@ -12,6 +12,7 @@
  */
 package org.qi4j.chronos.service;
 
+import java.util.Collection;
 import java.util.List;
 import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
@@ -26,4 +27,5 @@ public interface PriceRateScheduleService
 
     PriceRateScheduleComposite get( HasPriceRateSchedules hasPriceRateSchedules, String priceRateName );
 
+    void deletePriceRateSchedule( HasPriceRateSchedules hasPriceRateSchedules, Collection<PriceRateScheduleComposite> priceRateSchedules );
 }

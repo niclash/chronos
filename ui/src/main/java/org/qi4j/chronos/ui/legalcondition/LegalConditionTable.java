@@ -22,9 +22,12 @@ import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.LegalConditionComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.service.LegalConditionService;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
+import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 
 public abstract class LegalConditionTable extends ActionTable<LegalConditionComposite, String>
 {
@@ -33,6 +36,26 @@ public abstract class LegalConditionTable extends ActionTable<LegalConditionComp
     public LegalConditionTable( String id )
     {
         super( id );
+
+        addActions();
+    }
+
+    private void addActions()
+    {
+        addAction( new SimpleDeleteAction<LegalConditionComposite>( "Delete" )
+        {
+            public void performAction( List<LegalConditionComposite> legalConditions )
+            {
+                getLegalConditionService().deleteLegalCondition( getProject(), legalConditions );
+
+                info( "Selected legal condition(s) are deleted." );
+            }
+        } );
+    }
+
+    private LegalConditionService getLegalConditionService()
+    {
+        return ChronosWebApp.getServices().getLegalConditionService();
     }
 
     protected void authorizatiingActionBar( Component component )
@@ -91,7 +114,7 @@ public abstract class LegalConditionTable extends ActionTable<LegalConditionComp
                 {
                     public LegalConditionComposite getLegalCondition()
                     {
-                        return getServices().getLegalConditionService().get( getProject(), legalConditionName );
+                        return getLegalConditionService().get( getProject(), legalConditionName );
                     }
 
                     public void updateLegalCondition( LegalConditionComposite legalCondition )

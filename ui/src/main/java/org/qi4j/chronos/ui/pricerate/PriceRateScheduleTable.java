@@ -21,11 +21,13 @@ import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
+import org.qi4j.chronos.service.PriceRateScheduleService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
+import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 
 public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> extends ActionTable<PriceRateScheduleComposite, String>
 {
@@ -35,12 +37,25 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
     {
         super( id );
 
-        initActions();
+        addActions();
     }
 
-    private void initActions()
+    private void addActions()
     {
-        //TODO
+        addAction( new SimpleDeleteAction<PriceRateScheduleComposite>( "Delete" )
+        {
+            public void performAction( List<PriceRateScheduleComposite> priceRateSchedules )
+            {
+                getPriceRateScheduleService().deletePriceRateSchedule( getHasPriceRateSchedules(), priceRateSchedules );
+
+                info( "Selected price rate schedule(s) are deleted." );
+            }
+        } );
+    }
+
+    private PriceRateScheduleService getPriceRateScheduleService()
+    {
+        return ChronosWebApp.getServices().getPriceRateScheduleService();
     }
 
     public AbstractSortableDataProvider<PriceRateScheduleComposite, String> getDetachableDataProvider()
@@ -133,7 +148,7 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
 
     private PriceRateScheduleComposite getPriceRateSchedule( String name )
     {
-        return ChronosWebApp.getServices().getPriceRateScheduleService().get( getHasPriceRateSchedules(), name );
+        return getPriceRateScheduleService().get( getHasPriceRateSchedules(), name );
     }
 
     public List<String> getTableHeaderList()

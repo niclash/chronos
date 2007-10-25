@@ -18,17 +18,34 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.composites.ContactComposite;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.service.ContactService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
+import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 
 public abstract class ContactTable extends ActionTable<ContactComposite, String>
 {
     public ContactTable( String id )
     {
         super( id );
+
+        addActions();
+    }
+
+    private void addActions()
+    {
+        addAction( new SimpleDeleteAction<ContactComposite>( "Delete" )
+        {
+            public void performAction( List<ContactComposite> contactComposites )
+            {
+                getContactService().deleteContact( getContactPerson(), contactComposites );
+
+                info( "Selected contact(s) are deleted" );
+            }
+        } );
     }
 
     public AbstractSortableDataProvider<ContactComposite, String> getDetachableDataProvider()
@@ -40,6 +57,11 @@ public abstract class ContactTable extends ActionTable<ContactComposite, String>
                 return ContactTable.this.getContactPerson();
             }
         };
+    }
+
+    private ContactService getContactService()
+    {
+        return ChronosWebApp.getServices().getContactService();
     }
 
     public void populateItems( Item item, ContactComposite obj )
@@ -57,7 +79,7 @@ public abstract class ContactTable extends ActionTable<ContactComposite, String>
                 {
                     public ContactComposite getContact()
                     {
-                        return ChronosWebApp.getServices().getContactService().get( ContactTable.this.getContactPerson(), contactValue );
+                        return getContactService().get( ContactTable.this.getContactPerson(), contactValue );
                     }
 
                     public ContactPersonEntityComposite getContactPerson()

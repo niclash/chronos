@@ -12,6 +12,7 @@
  */
 package org.qi4j.chronos.service.mocks;
 
+import java.util.Collection;
 import java.util.List;
 import org.qi4j.api.annotation.scope.ThisAs;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
@@ -26,5 +27,15 @@ public abstract class MockStaffMiscServiceMixin implements StaffService
     public List<StaffEntityComposite> getRecentActiveStaff( AccountEntityComposite account, FindFilter findFilter )
     {
         return staffService.findAll( account );
+    }
+
+    public void enableLogin( boolean enabled, Collection<StaffEntityComposite> staffs )
+    {
+        for( StaffEntityComposite staff : staffs )
+        {
+            staff.getLogin().setEnabled( enabled );
+
+            staffService.update( staff );
+        }
     }
 }

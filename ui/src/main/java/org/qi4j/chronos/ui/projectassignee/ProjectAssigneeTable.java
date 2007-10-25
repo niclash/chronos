@@ -25,11 +25,13 @@ import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.service.ProjectAssigneeService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
+import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 
 public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssigneeEntityComposite, String>
 {
@@ -38,6 +40,21 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssigneeEn
     public ProjectAssigneeTable( String id )
     {
         super( id );
+
+        addActions();
+    }
+
+    private void addActions()
+    {
+        addAction( new SimpleDeleteAction<ProjectAssigneeEntityComposite>( "Delete" )
+        {
+            public void performAction( List<ProjectAssigneeEntityComposite> projectAsssignees )
+            {
+                getProjectAssigneeService().delete( projectAsssignees );
+
+                info( "Selected project assignee(s) are deleted." );
+            }
+        } );
     }
 
     protected void authorizatiingActionBar( Component component )
@@ -78,6 +95,11 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssigneeEn
         item.add( editLink );
     }
 
+    private ProjectAssigneeService getProjectAssigneeService()
+    {
+        return ChronosWebApp.getServices().getProjectAssigneeService();
+    }
+
     private SimpleLink createEditLink( final String projectAssigneeId )
     {
         return new SimpleLink( "editLink", "Edit" )
@@ -88,7 +110,7 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssigneeEn
                 {
                     public ProjectAssigneeEntityComposite getProjectAssignee()
                     {
-                        return ChronosWebApp.getServices().getProjectAssigneeService().get( projectAssigneeId );
+                        return getProjectAssigneeService().get( projectAssigneeId );
                     }
 
                     public PriceRateScheduleComposite getPriceRateSchedule()

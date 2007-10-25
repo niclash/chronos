@@ -25,6 +25,7 @@ import org.qi4j.chronos.ui.common.SimpleCheckBox;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleAction;
+import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.library.general.model.Money;
 
 public abstract class StaffTable extends ActionTable<StaffEntityComposite, String>
@@ -40,21 +41,33 @@ public abstract class StaffTable extends ActionTable<StaffEntityComposite, Strin
 
     private void initActions()
     {
-        addAction( new SimpleAction<StaffEntityComposite>( "Delete Staff" )
+        addAction( new SimpleDeleteAction<StaffEntityComposite>( "Delete Staff" )
         {
             public void performAction( List<StaffEntityComposite> staffs )
             {
                 getStaffService().delete( staffs );
 
-                info( "Staff(s) are deleted." );
+                info( "Selected staff(s) are deleted." );
             }
         } );
 
         addAction( new SimpleAction<StaffEntityComposite>( "Disable Login" )
         {
-            public void performAction( List<StaffEntityComposite> staffEntityComposites )
+            public void performAction( List<StaffEntityComposite> staffs )
             {
-                //TODO
+                getStaffService().enableLogin( false, staffs );
+
+                info( "Selected staff(s) are disabled login." );
+            }
+        } );
+
+        addAction( new SimpleAction<StaffEntityComposite>( "Enable Login" )
+        {
+            public void performAction( List<StaffEntityComposite> staffs )
+            {
+                getStaffService().enableLogin( true, staffs );
+
+                info( "Selected staff(s) are enabled login." );
             }
         } );
     }

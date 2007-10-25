@@ -12,9 +12,10 @@
  */
 package org.qi4j.chronos.service;
 
-import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
-import org.qi4j.chronos.model.associations.HasContactPersons;
+import java.util.Collection;
 import java.util.List;
+import org.qi4j.chronos.model.associations.HasContactPersons;
+import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 
 public interface ContactPersonService extends CustomerBasedService<ContactPersonEntityComposite>
 {
@@ -23,4 +24,6 @@ public interface ContactPersonService extends CustomerBasedService<ContactPerson
     List<ContactPersonEntityComposite> findAll( HasContactPersons hasContactPersons, FindFilter findFilter );
 
     int countAll( HasContactPersons hasContactPersons );
+
+    void enableLogin( boolean enabled, Collection<ContactPersonEntityComposite> contactPersons );
 }

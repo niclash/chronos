@@ -10,15 +10,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service;
+package org.qi4j.chronos.ui.common.action;
 
-import java.util.Collection;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
-
-public interface AccountService extends EntityService<AccountEntityComposite>
+public abstract class SimpleDeleteAction<ITEM> extends SimpleAction<ITEM>
 {
-    AccountEntityComposite getAccount( StaffEntityComposite staff );
-
-    void enableAccount( boolean enabled,Collection<AccountEntityComposite> accounts );
+    public SimpleDeleteAction( String actionName )
+    {
+        super( actionName, true, "Are you sure want to delete selected item(s)?" );
+    }
 }

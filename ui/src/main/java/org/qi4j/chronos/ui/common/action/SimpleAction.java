@@ -22,6 +22,11 @@ public abstract class SimpleAction<ITEM> extends AbstractAction<ITEM>
         super( actionName );
     }
 
+    public SimpleAction( String actionName, boolean isConfirmShowDialog, String confirmMsg )
+    {
+        super( actionName, isConfirmShowDialog, confirmMsg );
+    }
+
     public final void performAction( AbstractSortableDataProvider<ITEM, ?> abstractSortableDataProvider )
     {
         int size = abstractSortableDataProvider.getSize();

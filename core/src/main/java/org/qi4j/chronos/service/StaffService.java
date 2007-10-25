@@ -12,12 +12,15 @@
  */
 package org.qi4j.chronos.service;
 
+import java.util.Collection;
 import java.util.List;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 
 public interface StaffService extends AccountBasedService<StaffEntityComposite>
 {
-    public List<StaffEntityComposite> getRecentActiveStaff( AccountEntityComposite account, FindFilter findFilter );
+    List<StaffEntityComposite> getRecentActiveStaff( AccountEntityComposite account, FindFilter findFilter );
+
+    void enableLogin( boolean enabled, Collection<StaffEntityComposite> staffs );
 }
 

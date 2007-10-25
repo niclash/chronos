@@ -23,7 +23,7 @@ import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
-import org.qi4j.chronos.ui.common.action.SimpleAction;
+import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.util.DateUtil;
 
 public abstract class WorkEntryTable extends ActionTable<WorkEntryEntityComposite, String>
@@ -39,13 +39,13 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntryEntityComposit
 
     private void initActions()
     {
-        addAction( new SimpleAction<WorkEntryEntityComposite>( "Delete" )
+        addAction( new SimpleDeleteAction<WorkEntryEntityComposite>( "Delete" )
         {
             public void performAction( List<WorkEntryEntityComposite> workEntries )
             {
                 getWorkEntryService().delete( workEntries );
 
-                info( "Work Entries are deleted." );
+                info( "Selected work entries are deleted." );
             }
         } );
     }

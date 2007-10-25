@@ -17,11 +17,13 @@ import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.service.TaskService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
+import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.util.DateUtil;
 
 public abstract class TaskTable extends ActionTable<TaskEntityComposite, String>
@@ -31,6 +33,26 @@ public abstract class TaskTable extends ActionTable<TaskEntityComposite, String>
     public TaskTable( String id )
     {
         super( id );
+
+        addActions();
+    }
+
+    private void addActions()
+    {
+        addAction( new SimpleDeleteAction<TaskEntityComposite>( "Delete" )
+        {
+            public void performAction( List<TaskEntityComposite> tasks )
+            {
+                getTaskService().delete( tasks );
+
+                info( "Selected task(s) are deleted." );
+            }
+        } );
+    }
+
+    private TaskService getTaskService()
+    {
+        return ChronosWebApp.getServices().getTaskService();
     }
 
     public AbstractSortableDataProvider<TaskEntityComposite, String> getDetachableDataProvider()
@@ -83,10 +105,9 @@ public abstract class TaskTable extends ActionTable<TaskEntityComposite, String>
     {
         TaskDetailPage detailPage = new TaskDetailPage( (BasePage) this.getPage() )
         {
-
             public TaskEntityComposite getTask()
             {
-                return ChronosWebApp.getServices().getTaskService().get( id );
+                return getTaskService().get( id );
             }
         };
 
@@ -99,7 +120,7 @@ public abstract class TaskTable extends ActionTable<TaskEntityComposite, String>
         {
             public TaskEntityComposite getTask()
             {
-                return ChronosWebApp.getServices().getTaskService().get( id );
+                return getTaskService().get( id );
             }
         };
 

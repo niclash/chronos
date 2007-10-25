@@ -25,10 +25,13 @@ import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.associations.HasContactPersons;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
+import org.qi4j.chronos.service.ContactPersonService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
+import org.qi4j.chronos.ui.common.action.SimpleAction;
+import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 
 public abstract class ContactPersonTable<T extends HasContactPersons> extends ActionTable<ContactPersonEntityComposite, String>
 {
@@ -37,6 +40,41 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
     public ContactPersonTable( String id )
     {
         super( id );
+
+        addActions();
+    }
+
+    private void addActions()
+    {
+        addAction( new SimpleDeleteAction<ContactPersonEntityComposite>( "Delete" )
+        {
+            public void performAction( List<ContactPersonEntityComposite> contactPersons )
+            {
+                getContactPersonService().delete( contactPersons );
+
+                info( "Selected contact person(s) are deleted." );
+            }
+        } );
+
+        addAction( new SimpleAction<ContactPersonEntityComposite>( "Disable login" )
+        {
+            public void performAction( List<ContactPersonEntityComposite> contactPersons )
+            {
+                getContactPersonService().enableLogin( false, contactPersons );
+
+                info( "Selected contact person(s) are disabled login." );
+            }
+        } );
+
+        addAction( new SimpleAction<ContactPersonEntityComposite>( "Enable login" )
+        {
+            public void performAction( List<ContactPersonEntityComposite> contactPersons )
+            {
+                getContactPersonService().enableLogin( true, contactPersons );
+
+                info( "Selected contact person(s) are enabled login." );
+            }
+        } );
     }
 
     protected void authorizatiingActionBar( Component component )
@@ -81,6 +119,11 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
         item.add( editLink );
     }
 
+    private ContactPersonService getContactPersonService()
+    {
+        return ChronosWebApp.getServices().getContactPersonService();
+    }
+
     private SimpleLink createEditLink( final String contactPersonId )
     {
         return new SimpleLink( "editLink", "Edit" )
@@ -96,7 +139,7 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
 
                     public ContactPersonEntityComposite getContactPerson()
                     {
-                        return ChronosWebApp.getServices().getContactPersonService().get( contactPersonId );
+                        return getContactPersonService().get( contactPersonId );
                     }
                 } );
             }
@@ -118,7 +161,7 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
                 {
                     public ContactPersonEntityComposite getContactPerson()
                     {
-                        return ChronosWebApp.getServices().getContactPersonService().get( contactPersonId );
+                        return getContactPersonService().get( contactPersonId );
                     }
                 };
 

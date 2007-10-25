@@ -21,5 +21,8 @@ public interface Action<ITEM> extends Serializable
 
     public void performAction( AbstractSortableDataProvider<ITEM, ?> dataProvider );
 
+    public boolean isShowConfirmDialog();
+
+    public String getConfirmMsg();
 }
 

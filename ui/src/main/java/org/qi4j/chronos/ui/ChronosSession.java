@@ -60,7 +60,7 @@ public class ChronosSession extends AuthenticatedWebSession
 
             if( !account.getEnabled() )
             {
-                this.error( "Account is disabled." );
+                this.error( "Account[" + account.getName() + "] is disabled." );
                 return false;
             }
         }

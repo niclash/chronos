@@ -26,6 +26,7 @@ import org.qi4j.chronos.ui.common.SimpleDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleAction;
+import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 
 public class AccountTable extends ActionTable<AccountEntityComposite, String>
 {
@@ -35,34 +36,38 @@ public class AccountTable extends ActionTable<AccountEntityComposite, String>
     {
         super( id );
 
-        initAction();
+        addActions();
     }
 
-    private void initAction()
+    private void addActions()
     {
-        addAction( new SimpleAction<AccountEntityComposite>( "Delete account" )
+        addAction( new SimpleDeleteAction<AccountEntityComposite>( "Delete account" )
         {
-            public void performAction( List<AccountEntityComposite> accountEntityComposites )
+            public void performAction( List<AccountEntityComposite> accounts )
             {
-                getAccountService().delete( accountEntityComposites );
+                getAccountService().delete( accounts );
 
-                info( "Accounts are deleted." );
+                info( "Selected account(s) are deleted." );
             }
         } );
 
         addAction( new SimpleAction<AccountEntityComposite>( "Disable account" )
         {
-            public void performAction( List<AccountEntityComposite> accountEntityComposites )
+            public void performAction( List<AccountEntityComposite> accounts )
             {
-                //TOODO
+                getAccountService().enableAccount( false, accounts );
+
+                info( "Selected account(s) are disabled." );
             }
         } );
 
         addAction( new SimpleAction<AccountEntityComposite>( "Enable account" )
         {
-            public void performAction( List<AccountEntityComposite> accountEntityComposites )
+            public void performAction( List<AccountEntityComposite> accounts )
             {
-                //TOODO
+                getAccountService().enableAccount( true, accounts );
+
+                info( "Selected account(s) are enabled." );
             }
         } );
     }

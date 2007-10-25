@@ -12,6 +12,7 @@
  */
 package org.qi4j.chronos.service;
 
+import java.util.Collection;
 import java.util.List;
 import org.qi4j.chronos.model.associations.HasLegalConditions;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
@@ -30,4 +31,8 @@ public interface LegalConditionService
     List<LegalConditionComposite> findAll( AccountEntityComposite account );
 
     int countAll( AccountEntityComposite account );
+
+    void deleteLegalCondition( HasLegalConditions hasLegalConditions, Collection<LegalConditionComposite> legalConditions );
+
+    
 }

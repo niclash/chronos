@@ -18,7 +18,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import org.apache.wicket.ajax.AjaxRequestTarget;
+import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
@@ -34,6 +37,12 @@ public class ActionBar extends Panel
 
     private Button goButton;
 
+    private Label confirmMsgLabel;
+    private Link yesLink;
+    private Link noLink;
+
+    private WebMarkupContainer confirmationContainer;
+
     public ActionBar()
     {
         super( "actionBar" );
@@ -48,7 +57,7 @@ public class ActionBar extends Panel
         final List<String> actionKeyList = getActionKeyList();
         actionChoices = new SimpleDropDownChoice( "actionChoices", actionKeyList, true );
 
-        goButton = new Button( "goButton", new Model( "Go" ) )
+        goButton = new Button( "goButton" )
         {
             public void onSubmit()
             {
@@ -57,11 +66,93 @@ public class ActionBar extends Panel
         };
 
         goButton.setOutputMarkupId( true );
-
         goButton.setEnabled( false );
+
+        yesLink = new Link( "yesLink" )
+        {
+            public void onClick()
+            {
+                handleYes();
+            }
+        };
+
+        noLink = new Link( "noLink" )
+        {
+            public void onClick()
+            {
+                handleNo();
+            }
+        };
+
+        confirmMsgLabel = new Label( "confirmMsgLabel", "" );
+
+        confirmationContainer = new WebMarkupContainer( "confirmationContainer" );
+
+        confirmationContainer.setOutputMarkupId( true );
+        confirmationContainer.setOutputMarkupPlaceholderTag( true );
+        confirmationContainer.setVisible( false );
+
+        confirmationContainer.add( yesLink );
+        confirmationContainer.add( noLink );
+        confirmationContainer.add( confirmMsgLabel );
 
         add( actionChoices );
         add( goButton );
+        add( confirmationContainer );
+    }
+
+    private void handleNo()
+    {
+        updateConfirmationVisibility( null, false );
+    }
+
+    private void handleYes()
+    {
+        performAction();
+    }
+
+    private void handleGo()
+    {
+        if( !actionTable.isSelectedItems() )
+        {
+            return;
+        }
+
+        Action action = getSelectedAction();
+
+        if( action.isShowConfirmDialog() )
+        {
+            confirmMsgLabel.setModel( new Model( action.getConfirmMsg() ) );
+
+            updateConfirmationVisibility( null, true );
+        }
+        else
+        {
+            performAction();
+        }
+    }
+
+    private void performAction()
+    {
+        Action action = getSelectedAction();
+
+        AbstractSortableDataProvider dataProvider = actionTable.getSelectedItemsDataProvider();
+
+        action.performAction( dataProvider );
+
+        goButton.setEnabled( false );
+        updateConfirmationVisibility( null, false );
+
+        actionTable.resetCurrBatchData();
+    }
+
+    private Action getSelectedAction()
+    {
+        String key = actionChoices.getModelObjectAsString();
+
+        Action action = actionMap.get( key );
+
+        return action;
     }
 
     private void updateActionChoiceList()
@@ -97,22 +188,6 @@ public class ActionBar extends Panel
         actionMap.remove( action.getActionName() );
     }
 
-    private void handleGo()
-    {
-        if( !actionTable.isSelectedItems() )
-        {
-            return;
-        }
-
-        AbstractSortableDataProvider dataProvider = actionTable.getSelectedItemsDataProvider();
-
-        String key = actionChoices.getModelObjectAsString();
-
-        Action actionTarget = actionMap.get( key );
-
-        actionTarget.performAction( dataProvider );
-    }
-
     void setActionBarEnabled( boolean isEnabled, AjaxRequestTarget target )
     {
         goButton.setEnabled( isEnabled );
@@ -120,6 +195,18 @@ public class ActionBar extends Panel
         if( target != null )
         {
             target.addComponent( goButton );
+        }
+
+        updateConfirmationVisibility( target, false );
+    }
+
+    private void updateConfirmationVisibility( AjaxRequestTarget target, boolean visible )
+    {
+        confirmationContainer.setVisible( visible );
+
+        if( target != null )
+        {
+            target.addComponent( confirmationContainer );
         }
     }
 }

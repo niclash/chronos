@@ -13,6 +13,7 @@
 package org.qi4j.chronos.service.mocks;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import org.qi4j.api.CompositeBuilderFactory;
@@ -87,5 +88,28 @@ public class MockPriceRateScheduleServiceMixin implements PriceRateScheduleServi
         } );
 
         return returnValue[ 0 ];
+    }
+
+    public void deletePriceRateSchedule( HasPriceRateSchedules hasPriceRateSchedules, Collection<PriceRateScheduleComposite> priceRateSchedules )
+    {
+        for( PriceRateScheduleComposite priceRateSchedule : priceRateSchedules )
+        {
+            PriceRateScheduleComposite toBeDeleted = null;
+
+            Iterator<PriceRateScheduleComposite> iter = hasPriceRateSchedules.priceRateScheduleIterator();
+
+            while( iter.hasNext() )
+            {
+                PriceRateScheduleComposite temp = iter.next();
+
+                if( temp.getName().equals( priceRateSchedule.getName() ) )
+                {
+                    toBeDeleted = temp;
+                    break;
+                }
+            }
+
+            hasPriceRateSchedules.removePriceRateSchedule( toBeDeleted );
+        }
     }
 }

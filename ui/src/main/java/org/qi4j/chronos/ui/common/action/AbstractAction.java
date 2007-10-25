@@ -15,15 +15,34 @@ package org.qi4j.chronos.ui.common.action;
 public abstract class AbstractAction<ITEM> implements Action<ITEM>
 {
     private String actionName;
+    private boolean showConfirmDialog;
+    private String confirmMsg;
 
     public AbstractAction( String actionName )
     {
+        this( actionName, false, null );
+    }
+
+    public AbstractAction( String actionName, boolean showConfirmDialog, String confirmMsg )
+    {
         this.actionName = actionName;
+        this.showConfirmDialog = showConfirmDialog;
+        this.confirmMsg = confirmMsg;
     }
 
     public String getActionName()
     {
         return actionName;
+    }
+
+    public boolean isShowConfirmDialog()
+    {
+        return showConfirmDialog;
+    }
+
+    public String getConfirmMsg()
+    {
+        return confirmMsg;
     }
 }
 
