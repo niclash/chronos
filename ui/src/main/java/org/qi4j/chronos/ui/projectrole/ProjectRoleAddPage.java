@@ -14,8 +14,7 @@ package org.qi4j.chronos.ui.projectrole;
 
 import org.apache.wicket.Page;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
-import org.qi4j.chronos.service.ProjectRoleService;
+import org.qi4j.chronos.model.composites.ProjectRoleComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,14 +30,12 @@ public class ProjectRoleAddPage extends ProjectRoleAddEditPage
 
     public void onSubmitting()
     {
-        ProjectRoleService roleService = getRoleService();
-
-        ProjectRoleEntityComposite projectRole = roleService.newInstance( ProjectRoleEntityComposite.class );
-
-        projectRole.setProjectRole( nameField.getText() );
+        ProjectRoleComposite projectRole = ChronosWebApp.newInstance( ProjectRoleComposite.class );
 
         try
         {
+            assignFieldValueToProjectRole( projectRole );
+
             AccountEntityComposite account = getAccount();
 
             account.addProjectRole( projectRole );

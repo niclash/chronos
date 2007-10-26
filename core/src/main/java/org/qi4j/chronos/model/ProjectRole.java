@@ -14,15 +14,9 @@
 package org.qi4j.chronos.model;
 
 import java.io.Serializable;
-import org.qi4j.api.annotation.Mixins;
-import org.qi4j.chronos.model.mixins.ProjectRoleMixin;
+import org.qi4j.library.general.model.HasName;
 
-@Mixins( ProjectRoleMixin.class )
-public interface ProjectRole extends Serializable
+public interface ProjectRole extends HasName, Serializable
 {
     public final static int NAME_LEN = 80;
-
-    String getProjectRole();
-
-    void setProjectRole( String role );
 }

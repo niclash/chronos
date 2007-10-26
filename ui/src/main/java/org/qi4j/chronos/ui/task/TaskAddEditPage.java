@@ -26,6 +26,7 @@ public abstract class TaskAddEditPage extends AddEditBasePage
 {
     private MaxLengthTextField titleField;
     private MaxLengthTextArea descriptionTextArea;
+    private SimpleTextField userField;
 
     public TaskAddEditPage( Page basePage )
     {
@@ -37,23 +38,24 @@ public abstract class TaskAddEditPage extends AddEditBasePage
         titleField = new MaxLengthTextField( "titleField", "Title", Task.TITLE_LEN );
         descriptionTextArea = new MaxLengthTextArea( "descriptionTextArea", "Description", Task.DESCRIPTION_LEN );
 
-        SimpleTextField userField = new SimpleTextField( "userField", getTaskOwner().getFullname(), true );
+        userField = new SimpleTextField( "userField", getTaskOwner().getFullname(), true );
 
         form.add( titleField );
         form.add( descriptionTextArea );
         form.add( userField );
     }
 
-    protected void assignFieldValueToTaskMaster( TaskEntityComposite taskMaster )
+    protected void assignFieldValueToTaskMaster( TaskEntityComposite task )
     {
-        taskMaster.setDescription( descriptionTextArea.getText() );
-        taskMaster.setTitle( titleField.getText() );
+        task.setDescription( descriptionTextArea.getText() );
+        task.setTitle( titleField.getText() );
+        task.setUser( getTaskOwner() );
     }
 
-    protected void assignTaskMasterToFieldValie( TaskEntityComposite taskMaster )
+    protected void assignTaskMasterToFieldValie( TaskEntityComposite task )
     {
-        descriptionTextArea.setText( taskMaster.getDescription() );
-        titleField.setText( taskMaster.getTitle() );
+        descriptionTextArea.setText( task.getDescription() );
+        titleField.setText( task.getTitle() );
     }
 
     public void handleSubmit()

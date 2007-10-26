@@ -17,7 +17,7 @@ import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectRoleComposite;
 import org.qi4j.chronos.service.ProjectRoleService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
@@ -26,7 +26,7 @@ import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 
-public abstract class ProjectRoleTable extends ActionTable<ProjectRoleEntityComposite, String>
+public abstract class ProjectRoleTable extends ActionTable<ProjectRoleComposite, String>
 {
     private ProjectRoleDataProvider roleDataProvider;
 
@@ -39,11 +39,11 @@ public abstract class ProjectRoleTable extends ActionTable<ProjectRoleEntityComp
 
     private void addActions()
     {
-        addAction( new SimpleDeleteAction<ProjectRoleEntityComposite>( "Delete" )
+        addAction( new SimpleDeleteAction<ProjectRoleComposite>( "Delete" )
         {
-            public void performAction( List<ProjectRoleEntityComposite> projectRoles )
+            public void performAction( List<ProjectRoleComposite> projectRoles )
             {
-                getProjectRoleService().delete( projectRoles );
+                getProjectRoleService().deleteProjectRole( getAccount(), projectRoles );
 
                 info( "Selected project role(s) are deleted." );
             }
@@ -55,7 +55,7 @@ public abstract class ProjectRoleTable extends ActionTable<ProjectRoleEntityComp
         return ChronosWebApp.getServices().getProjectRoleService();
     }
 
-    public AbstractSortableDataProvider<ProjectRoleEntityComposite, String> getDetachableDataProvider()
+    public AbstractSortableDataProvider<ProjectRoleComposite, String> getDetachableDataProvider()
     {
         if( roleDataProvider == null )
         {
@@ -71,27 +71,39 @@ public abstract class ProjectRoleTable extends ActionTable<ProjectRoleEntityComp
         return roleDataProvider;
     }
 
-    public void populateItems( Item item, ProjectRoleEntityComposite obj )
+    public void populateItems( Item item, ProjectRoleComposite obj )
     {
-        final String roleId = obj.getIdentity();
+        String projectRoleName = obj.getName();
 
-        item.add( new Label( "roleName", obj.getProjectRole() ) );
+        item.add( new Label( "roleName", obj.getName() ) );
 
-        item.add( new SimpleLink( "editLink", "Edit" )
+        SimpleLink editLink = createEditLink( projectRoleName );
+
+        item.add( editLink );
+    }
+
+    private SimpleLink createEditLink( final String projectRoleName )
+    {
+        return new SimpleLink( "editLink", "Edit" )
         {
             public void linkClicked()
             {
-                ProjectRoleEditPage roleEditPage = new ProjectRoleEditPage( getBasePage(), roleId );
+                ProjectRoleEditPage roleEditPage = new ProjectRoleEditPage( getBasePage() )
+                {
+                    public ProjectRoleComposite getProjectRole()
+                    {
+                        return getProjectRoleService().get( getAccount(), projectRoleName );
+                    }
+                };
                 setResponsePage( roleEditPage );
             }
-        } );
+        };
     }
 
     private BasePage getBasePage()
     {
         return (BasePage) this.getPage();
     }
-
 
     public List<String> getTableHeaderList()
     {

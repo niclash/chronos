@@ -16,7 +16,7 @@ import java.util.Iterator;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.ContactComposite;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
-import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
+import org.qi4j.chronos.model.composites.SystemRoleComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.login.LoginUserEditPanel;
@@ -44,7 +44,7 @@ public abstract class ContactPersonEditPage extends ContactPersonAddEditPage
         assignContactPersonToFieldValue( contactPerson );
     }
 
-    public Iterator<SystemRoleEntityComposite> getInitSelectedRoleList()
+    public Iterator<SystemRoleComposite> getInitSelectedRoleList()
     {
         return getContactPerson().systemRoleIterator();
     }

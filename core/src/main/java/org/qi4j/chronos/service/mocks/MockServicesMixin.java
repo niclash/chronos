@@ -40,10 +40,10 @@ import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectRoleComposite;
 import org.qi4j.chronos.model.composites.RelationshipComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
-import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
+import org.qi4j.chronos.model.composites.SystemRoleComposite;
 import org.qi4j.chronos.model.composites.TaskAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.model.composites.TimeRangeComposite;
@@ -126,7 +126,7 @@ public class MockServicesMixin implements Services
 
         projectService = newParentBasedService( ProjectServiceComposite.class, ACCOUNT_SERVICE, accountService );
 
-        projectRoleService = newParentBasedService( ProjectRoleServiceComposite.class, ACCOUNT_SERVICE, accountService );
+        projectRoleService = newService( ProjectRoleServiceComposite.class );
         adminService = newService( AdminServiceComposite.class );
         staffService = newParentBasedService( StaffServiceComposite.class, ACCOUNT_SERVICE, accountService );
 
@@ -186,7 +186,7 @@ public class MockServicesMixin implements Services
     {
         AccountEntityComposite account = initAccountDummyData();
 
-        ProjectRoleEntityComposite[] projectRoles = initProjectRoleDummyData( account );
+        ProjectRoleComposite[] projectRoles = initProjectRoleDummyData( account );
 
         account.addPriceRateSchedule( newPriceRateSchedule( projectRoles ) );
         account.addPriceRateSchedule( newPriceRateSchedule( projectRoles ) );
@@ -345,7 +345,7 @@ public class MockServicesMixin implements Services
         return relationship;
     }
 
-    private void initPriceRateScheduleDummyValue( Customer[] customers, ProjectRoleEntityComposite[] projectRoles )
+    private void initPriceRateScheduleDummyValue( Customer[] customers, ProjectRoleComposite[] projectRoles )
     {
         for( Customer customer : customers )
         {
@@ -353,7 +353,7 @@ public class MockServicesMixin implements Services
         }
     }
 
-    private PriceRateScheduleComposite newPriceRateSchedule( ProjectRoleEntityComposite[] projectRoles )
+    private PriceRateScheduleComposite newPriceRateSchedule( ProjectRoleComposite[] projectRoles )
     {
         PriceRateScheduleComposite priceRateSchedule = factory.newCompositeBuilder( PriceRateScheduleComposite.class ).newInstance();
 
@@ -370,7 +370,7 @@ public class MockServicesMixin implements Services
         return priceRateSchedule;
     }
 
-    private PriceRateComposite newPriceRate( long amount, PriceRateType priceRateType, ProjectRoleEntityComposite projectRole )
+    private PriceRateComposite newPriceRate( long amount, PriceRateType priceRateType, ProjectRoleComposite projectRole )
     {
         PriceRateComposite priceRate = factory.newCompositeBuilder( PriceRateComposite.class ).newInstance();
 
@@ -419,18 +419,18 @@ public class MockServicesMixin implements Services
         return address;
     }
 
-    private ProjectRoleEntityComposite[] initProjectRoleDummyData( AccountEntityComposite account )
+    private ProjectRoleComposite[] initProjectRoleDummyData( AccountEntityComposite account )
     {
-        ProjectRoleEntityComposite[] projectRoles = new ProjectRoleEntityComposite[3];
+        ProjectRoleComposite[] projectRoles = new ProjectRoleComposite[3];
 
-        projectRoles[ 0 ] = projectRoleService.newInstance( ProjectRoleEntityComposite.class );
-        projectRoles[ 0 ].setProjectRole( "Programmer" );
+        projectRoles[ 0 ] = factory.newCompositeBuilder( ProjectRoleComposite.class ).newInstance();
+        projectRoles[ 0 ].setName( "Programmer" );
 
-        projectRoles[ 1 ] = projectRoleService.newInstance( ProjectRoleEntityComposite.class );
-        projectRoles[ 1 ].setProjectRole( "Consultant" );
+        projectRoles[ 1 ] = factory.newCompositeBuilder( ProjectRoleComposite.class ).newInstance();
+        projectRoles[ 1 ].setName( "Consultant" );
 
-        projectRoles[ 2 ] = projectRoleService.newInstance( ProjectRoleEntityComposite.class );
-        projectRoles[ 2 ].setProjectRole( "Project Manager" );
+        projectRoles[ 2 ] = factory.newCompositeBuilder( ProjectRoleComposite.class ).newInstance();
+        projectRoles[ 2 ].setName( "Project Manager" );
 
         account.addProjectRole( projectRoles[ 0 ] );
         account.addProjectRole( projectRoles[ 1 ] );
@@ -455,9 +455,9 @@ public class MockServicesMixin implements Services
 
         admin.setLogin( login );
 
-        List<SystemRoleEntityComposite> systemRoleList = systemRoleService.findAll();
+        List<SystemRoleComposite> systemRoleList = systemRoleService.findAll();
 
-        for( SystemRoleEntityComposite systemRole : systemRoleList )
+        for( SystemRoleComposite systemRole : systemRoleList )
         {
             admin.addSystemRole( systemRole );
         }
@@ -479,9 +479,9 @@ public class MockServicesMixin implements Services
         developer.setLogin( newLogin( "developer", "developer", true ) );
         developer.setSalary( createMoney( 0l, Currency.getInstance( "USD" ) ) );
 
-        List<SystemRoleEntityComposite> systemRoleList = systemRoleService.findAllStaffSystemRole();
+        List<SystemRoleComposite> systemRoleList = systemRoleService.findAllStaffSystemRole();
 
-        for( SystemRoleEntityComposite systemRole : systemRoleList )
+        for( SystemRoleComposite systemRole : systemRoleList )
         {
             boss.addSystemRole( systemRole );
 
@@ -529,19 +529,19 @@ public class MockServicesMixin implements Services
 
     private void initSystemRoleDummyData()
     {
-        SystemRoleEntityComposite admin = systemRoleService.newInstance( SystemRoleEntityComposite.class );
+        SystemRoleComposite admin = factory.newCompositeBuilder( SystemRoleComposite.class ).newInstance();
         admin.setName( SystemRole.SYSTEM_ADMIN );
         admin.setSystemRoleType( SystemRoleType.ADMIN );
 
-        SystemRoleEntityComposite accountAdmin = systemRoleService.newInstance( SystemRoleEntityComposite.class );
+        SystemRoleComposite accountAdmin = factory.newCompositeBuilder( SystemRoleComposite.class ).newInstance();
         accountAdmin.setName( SystemRole.ACCOUNT_ADMIN );
         accountAdmin.setSystemRoleType( SystemRoleType.STAFF );
 
-        SystemRoleEntityComposite developer = systemRoleService.newInstance( SystemRoleEntityComposite.class );
+        SystemRoleComposite developer = factory.newCompositeBuilder( SystemRoleComposite.class ).newInstance();
         developer.setName( SystemRole.ACCOUNT_DEVELOPER );
         developer.setSystemRoleType( SystemRoleType.STAFF );
 
-        SystemRoleEntityComposite contactPerson = systemRoleService.newInstance( SystemRoleEntityComposite.class );
+        SystemRoleComposite contactPerson = factory.newCompositeBuilder( SystemRoleComposite.class ).newInstance();
         contactPerson.setName( SystemRole.CONTACT_PERSON );
         contactPerson.setSystemRoleType( SystemRoleType.CONTACT_PERSON );
 
@@ -579,7 +579,7 @@ public class MockServicesMixin implements Services
 
     private void initContactPerson( Customer[] customers, RelationshipComposite relationship )
     {
-        SystemRoleEntityComposite contactPersonRole = systemRoleService.getSystemRoleByName( SystemRole.CONTACT_PERSON );
+        SystemRoleComposite contactPersonRole = systemRoleService.getSystemRoleByName( SystemRole.CONTACT_PERSON );
 
         ContactPersonEntityComposite contactPerson = contactPersonService.newInstance( ContactPersonEntityComposite.class );
 

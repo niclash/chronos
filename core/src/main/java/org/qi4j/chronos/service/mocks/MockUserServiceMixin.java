@@ -23,7 +23,7 @@ import org.qi4j.chronos.model.composites.AdminEntityComposite;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
-import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
+import org.qi4j.chronos.model.composites.SystemRoleComposite;
 import org.qi4j.chronos.service.AdminService;
 import org.qi4j.chronos.service.ContactPersonService;
 import org.qi4j.chronos.service.CustomerService;
@@ -120,12 +120,12 @@ public class MockUserServiceMixin implements UserService
 
     public boolean hasThisSystemRole( User user, String systemRoleName )
     {
-        Iterator<SystemRoleEntityComposite> roleIterator = user.systemRoleIterator();
+        Iterator<SystemRoleComposite> roleIterator = user.systemRoleIterator();
 
         while( roleIterator.hasNext() )
         {
             //TODO bp. loop system role group
-            SystemRoleEntityComposite systemRole = roleIterator.next();
+            SystemRoleComposite systemRole = roleIterator.next();
 
             if( systemRole.getName().equals( systemRoleName ) )
             {

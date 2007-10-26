@@ -27,7 +27,7 @@ import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.ContactComposite;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
-import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
+import org.qi4j.chronos.model.composites.SystemRoleComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
@@ -130,7 +130,7 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
                 return ContactPersonAddEditPage.this.getLoginUserAbstractPanel( id );
             }
 
-            public Iterator<SystemRoleEntityComposite> getInitSelectedRoleList()
+            public Iterator<SystemRoleComposite> getInitSelectedRoleList()
             {
                 return ContactPersonAddEditPage.this.getInitSelectedRoleList();
             }
@@ -195,7 +195,7 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
         }
     }
 
-    public Iterator<SystemRoleEntityComposite> getInitSelectedRoleList()
+    public Iterator<SystemRoleComposite> getInitSelectedRoleList()
     {
         return Collections.EMPTY_LIST.iterator();
     }

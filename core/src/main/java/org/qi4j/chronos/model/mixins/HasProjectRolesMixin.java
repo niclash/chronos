@@ -16,28 +16,28 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.qi4j.chronos.model.associations.HasProjectRoles;
-import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectRoleComposite;
 
 public class HasProjectRolesMixin implements HasProjectRoles
 {
-    private List<ProjectRoleEntityComposite> list;
+    private List<ProjectRoleComposite> list;
 
     public HasProjectRolesMixin()
     {
-        list = new ArrayList<ProjectRoleEntityComposite>();
+        list = new ArrayList<ProjectRoleComposite>();
     }
 
-    public void addProjectRole( ProjectRoleEntityComposite projectRole )
+    public void addProjectRole( ProjectRoleComposite projectRole )
     {
         list.add( projectRole );
     }
 
-    public void removeProjectRole( ProjectRoleEntityComposite projectRole )
+    public void removeProjectRole( ProjectRoleComposite projectRole )
     {
         list.remove( projectRole );
     }
 
-    public Iterator<ProjectRoleEntityComposite> projectRoleIterator()
+    public Iterator<ProjectRoleComposite> projectRoleIterator()
     {
         return list.iterator();
     }

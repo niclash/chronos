@@ -14,7 +14,7 @@ package org.qi4j.chronos.model.associations;
 
 import org.qi4j.api.annotation.Mixins;
 import org.qi4j.chronos.model.ProjectRole;
-import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectRoleComposite;
 import org.qi4j.chronos.model.mixins.HasProjectRoleMixin;
 
 /**
@@ -23,7 +23,7 @@ import org.qi4j.chronos.model.mixins.HasProjectRoleMixin;
 @Mixins( HasProjectRoleMixin.class )
 public interface HasProjectRole
 {
-    void setProjectRole( ProjectRoleEntityComposite role );
+    void setProjectRole( ProjectRoleComposite role );
 
-    ProjectRoleEntityComposite getProjectRole();
+    ProjectRoleComposite getProjectRole();
 }

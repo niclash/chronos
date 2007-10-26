@@ -12,19 +12,102 @@
  */
 package org.qi4j.chronos.service.mocks;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
+import java.util.List;
+import org.qi4j.api.CompositeBuilderFactory;
+import org.qi4j.api.annotation.scope.Qi4j;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectRoleComposite;
+import org.qi4j.chronos.service.FindFilter;
+import org.qi4j.chronos.service.ProjectRoleService;
 
-public class MockProjectRoleServiceMixin extends MockAccountBasedServiceMixin<ProjectRoleEntityComposite>
+public class MockProjectRoleServiceMixin implements ProjectRoleService
 {
-    protected Iterator<ProjectRoleEntityComposite> getItems( AccountEntityComposite accountEntityComposite )
+    @Qi4j private CompositeBuilderFactory factory;
+
+    public List<ProjectRoleComposite> findAll( AccountEntityComposite account, FindFilter findFilter )
     {
-        return accountEntityComposite.projectRoleIterator();
+        return findAll( account ).subList( findFilter.getFirst(), findFilter.getFirst() + findFilter.getCount() );
     }
 
-    protected void removeItem( AccountEntityComposite account, ProjectRoleEntityComposite projectRole )
+    public List<ProjectRoleComposite> findAll( AccountEntityComposite account )
     {
-        account.removeProjectRole( projectRole );
+        List<ProjectRoleComposite> projectRoles = new ArrayList<ProjectRoleComposite>();
+
+        Iterator<ProjectRoleComposite> projectRoleIter = account.projectRoleIterator();
+
+        while( projectRoleIter.hasNext() )
+        {
+            projectRoles.add( CloneUtil.cloneProjectRole( factory, projectRoleIter.next() ) );
+        }
+
+        return projectRoles;
+    }
+
+    public int countAll( AccountEntityComposite account )
+    {
+        return findAll( account ).size();
+    }
+
+    public ProjectRoleComposite get( AccountEntityComposite account, String projectRoleName )
+    {
+        ProjectRoleComposite projectRole = get_0( account, projectRoleName );
+
+        if( projectRole != null )
+        {
+            return CloneUtil.cloneProjectRole( factory, projectRole );
+        }
+
+        return null;
+    }
+
+    private ProjectRoleComposite get_0( AccountEntityComposite account, String projectRoleName )
+    {
+        List<ProjectRoleComposite> projectRoles = findAll( account );
+
+        for( ProjectRoleComposite projectRole : projectRoles )
+        {
+            if( projectRole.getName().equals( projectRoleName ) )
+            {
+                return projectRole;
+            }
+        }
+
+        return null;
+    }
+
+    public void updateProjectRole( AccountEntityComposite account, ProjectRoleComposite oldProjectRole, ProjectRoleComposite updatedProjectRole )
+    {
+        ProjectRoleComposite originalOld = get_0( account, oldProjectRole.getName() );
+
+        account.removeProjectRole( originalOld );
+
+        account.addProjectRole( updatedProjectRole );
+    }
+
+    public void deleteProjectRole( AccountEntityComposite account, Collection<ProjectRoleComposite> projectRoles )
+    {
+        for( ProjectRoleComposite projectRole : projectRoles )
+        {
+            ProjectRoleComposite toBeDeleted = null;
+            Iterator<ProjectRoleComposite> projectRoleIter = account.projectRoleIterator();
+
+            while( projectRoleIter.hasNext() )
+            {
+                ProjectRoleComposite temp = projectRoleIter.next();
+
+                if( temp.getName().equals( projectRole.getName() ) )
+                {
+                    toBeDeleted = temp;
+                }
+            }
+
+            if( toBeDeleted != null )
+            {
+                account.removeProjectRole( toBeDeleted );
+            }
+        }
     }
 }

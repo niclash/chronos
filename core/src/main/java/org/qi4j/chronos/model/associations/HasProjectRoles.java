@@ -14,15 +14,15 @@ package org.qi4j.chronos.model.associations;
 
 import java.util.Iterator;
 import org.qi4j.api.annotation.Mixins;
-import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectRoleComposite;
 import org.qi4j.chronos.model.mixins.HasProjectRolesMixin;
 
 @Mixins( HasProjectRolesMixin.class )
 public interface HasProjectRoles
 {
-    void addProjectRole( ProjectRoleEntityComposite projectRole );
+    void addProjectRole( ProjectRoleComposite projectRole );
 
-    void removeProjectRole( ProjectRoleEntityComposite projectRole );
+    void removeProjectRole( ProjectRoleComposite projectRole );
 
-    Iterator<ProjectRoleEntityComposite> projectRoleIterator();
+    Iterator<ProjectRoleComposite> projectRoleIterator();
 }

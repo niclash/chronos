@@ -24,7 +24,7 @@ import org.qi4j.chronos.model.associations.HasStaffs;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
-import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectRoleComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.pricerate.PriceRateDelegator;
@@ -79,11 +79,11 @@ public final class ListUtil
 
     public static List<ProjectRoleDelegator> getProjectRoleDelegatorList( AccountEntityComposite account )
     {
-        List<ProjectRoleEntityComposite> projectRolelists = ChronosWebApp.getServices().getProjectRoleService().findAll( account );
+        List<ProjectRoleComposite> projectRolelists = ChronosWebApp.getServices().getProjectRoleService().findAll( account );
 
         List<ProjectRoleDelegator> resultList = new ArrayList<ProjectRoleDelegator>();
 
-        for( ProjectRoleEntityComposite projectRole : projectRolelists )
+        for( ProjectRoleComposite projectRole : projectRolelists )
         {
             resultList.add( new ProjectRoleDelegator( projectRole ) );
         }

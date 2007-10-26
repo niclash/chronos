@@ -22,14 +22,14 @@ import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
+import org.qi4j.chronos.model.composites.SystemRoleComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.util.ListUtil;
 import org.qi4j.chronos.ui.base.AddEditBasePanel;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.systemrole.SystemRoleDelegator;
+import org.qi4j.chronos.ui.util.ListUtil;
 import org.qi4j.library.general.model.GenderType;
 
 public abstract class UserAddEditPanel extends AddEditBasePanel
@@ -90,9 +90,9 @@ public abstract class UserAddEditPanel extends AddEditBasePanel
 
     private List<SystemRoleDelegator> getSelectedRoleChoices()
     {
-        Iterator<SystemRoleEntityComposite> roleIterator = getInitSelectedRoleList();
+        Iterator<SystemRoleComposite> roleIterator = getInitSelectedRoleList();
 
-        List<SystemRoleEntityComposite> resultList = new ArrayList<SystemRoleEntityComposite>();
+        List<SystemRoleComposite> resultList = new ArrayList<SystemRoleComposite>();
 
         while( roleIterator.hasNext() )
         {
@@ -104,13 +104,13 @@ public abstract class UserAddEditPanel extends AddEditBasePanel
         return systemRoleDelegators;
     }
 
-    private List<SystemRoleDelegator> constuctRoleDelegatorList( List<SystemRoleEntityComposite> projectRoleLists )
+    private List<SystemRoleDelegator> constuctRoleDelegatorList( List<SystemRoleComposite> projectRoleLists )
     {
         List<SystemRoleDelegator> systemRoleDelegators = new ArrayList<SystemRoleDelegator>();
 
-        for( SystemRoleEntityComposite role : projectRoleLists )
+        for( SystemRoleComposite role : projectRoleLists )
         {
-            systemRoleDelegators.add( new SystemRoleDelegator( role.getIdentity(), role.getName() ) );
+            systemRoleDelegators.add( new SystemRoleDelegator( role ) );
         }
 
         return systemRoleDelegators;
@@ -118,7 +118,7 @@ public abstract class UserAddEditPanel extends AddEditBasePanel
 
     private List<SystemRoleDelegator> getAvailableRoleChoices()
     {
-        List<SystemRoleEntityComposite> systemRoleList = ChronosWebApp.getServices().
+        List<SystemRoleComposite> systemRoleList = ChronosWebApp.getServices().
             getSystemRoleService().findAllStaffSystemRole();
 
         List<SystemRoleDelegator> systemRoleDelegators = constuctRoleDelegatorList( systemRoleList );
@@ -126,17 +126,20 @@ public abstract class UserAddEditPanel extends AddEditBasePanel
         return systemRoleDelegators;
     }
 
-    public List<SystemRoleEntityComposite> getSelectedRoleList()
+    public List<SystemRoleComposite> getSelectedRoleList()
     {
         Iterator<SystemRoleDelegator> selectedIterator = rolePalette.getSelectedChoices();
 
-        List<SystemRoleEntityComposite> SystemRoleList = new ArrayList<SystemRoleEntityComposite>();
+        List<SystemRoleComposite> SystemRoleList = new ArrayList<SystemRoleComposite>();
 
         while( selectedIterator.hasNext() )
         {
             SystemRoleDelegator delegator = selectedIterator.next();
 
-            SystemRoleEntityComposite systemRole = ChronosWebApp.getServices().getSystemRoleService().get( delegator.getRoleId() );
+            SystemRoleComposite systemRole = ChronosWebApp.newInstance( SystemRoleComposite.class );
+
+            systemRole.setSystemRoleType( delegator.getSystemRoleType() );
+            systemRole.setName( delegator.getSystemRoleName() );
 
             SystemRoleList.add( systemRole );
         }
@@ -174,9 +177,9 @@ public abstract class UserAddEditPanel extends AddEditBasePanel
 
         if( !isHideRolePalette )
         {
-            List<SystemRoleEntityComposite> roleLists = getSelectedRoleList();
+            List<SystemRoleComposite> roleLists = getSelectedRoleList();
 
-            for( SystemRoleEntityComposite role : roleLists )
+            for( SystemRoleComposite role : roleLists )
             {
                 user.addSystemRole( role );
             }
@@ -225,7 +228,7 @@ public abstract class UserAddEditPanel extends AddEditBasePanel
         return isRejected;
     }
 
-    protected abstract Iterator<SystemRoleEntityComposite> getInitSelectedRoleList();
+    protected abstract Iterator<SystemRoleComposite> getInitSelectedRoleList();
 
     public abstract LoginUserAbstractPanel getLoginUserAbstractPanel( String id );
 }

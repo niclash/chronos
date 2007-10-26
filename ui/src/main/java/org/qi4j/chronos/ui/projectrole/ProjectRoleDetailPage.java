@@ -18,20 +18,17 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
-import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
-import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.model.composites.ProjectRoleComposite;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.SimpleTextField;
 
-public class ProjectRoleDetailPage extends LeftMenuNavPage
+public abstract class ProjectRoleDetailPage extends LeftMenuNavPage
 {
     private Page goBackPage;
-    private String roleId;
 
-    public ProjectRoleDetailPage( Page goBackPage, String roleId )
+    public ProjectRoleDetailPage( Page goBackPage )
     {
         this.goBackPage = goBackPage;
-        this.roleId = roleId;
 
         initComponents();
     }
@@ -40,11 +37,6 @@ public class ProjectRoleDetailPage extends LeftMenuNavPage
     {
         add( new FeedbackPanel( "feedbackPanel" ) );
         add( new RoleDetailForm( "roleDetailForm" ) );
-    }
-
-    private ProjectRoleEntityComposite getRole()
-    {
-        return ChronosWebApp.getServices().getProjectRoleService().get( roleId );
     }
 
     private class RoleDetailForm extends Form
@@ -61,9 +53,9 @@ public class ProjectRoleDetailPage extends LeftMenuNavPage
 
         private void initComponents()
         {
-            ProjectRoleEntityComposite projectRole = getRole();
+            ProjectRoleComposite projectRole = getProjectRole();
 
-            roleNameField = new SimpleTextField( "roleName", projectRole.getProjectRole(), false );
+            roleNameField = new SimpleTextField( "roleName", projectRole.getName(), false );
 
             returnButton = new Button( "submitButton", new Model( "Return" ) );
 
@@ -84,4 +76,6 @@ public class ProjectRoleDetailPage extends LeftMenuNavPage
             setResponsePage( goBackPage );
         }
     }
+
+    public abstract ProjectRoleComposite getProjectRole();
 }

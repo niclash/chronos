@@ -16,15 +16,15 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.qi4j.chronos.model.associations.HasSystemRoles;
-import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
+import org.qi4j.chronos.model.composites.SystemRoleComposite;
 
 public class HasSystemRolesMixin implements HasSystemRoles
 {
-    private List<SystemRoleEntityComposite> list;
+    private List<SystemRoleComposite> list;
 
     public HasSystemRolesMixin()
     {
-        list = new ArrayList<SystemRoleEntityComposite>();
+        list = new ArrayList<SystemRoleComposite>();
     }
 
     public void removeAllSystemRole()
@@ -32,17 +32,17 @@ public class HasSystemRolesMixin implements HasSystemRoles
         list.clear();
     }
 
-    public void addSystemRole( SystemRoleEntityComposite systemRole )
+    public void addSystemRole( SystemRoleComposite systemRole )
     {
         list.add( systemRole );
     }
 
-    public void removeSystemRole( SystemRoleEntityComposite systemRole )
+    public void removeSystemRole( SystemRoleComposite systemRole )
     {
         list.remove( systemRole );
     }
 
-    public Iterator<SystemRoleEntityComposite> systemRoleIterator()
+    public Iterator<SystemRoleComposite> systemRoleIterator()
     {
         return list.iterator();
     }

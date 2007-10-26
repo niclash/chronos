@@ -17,6 +17,7 @@ import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInst
 import org.apache.wicket.markup.html.form.Form;
 import org.qi4j.chronos.model.ProjectRole;
 import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.model.composites.ProjectRoleComposite;
 import org.qi4j.chronos.service.ProjectRoleService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
@@ -25,7 +26,7 @@ import org.qi4j.chronos.ui.common.MaxLengthTextField;
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public abstract class ProjectRoleAddEditPage extends AddEditBasePage
 {
-    protected MaxLengthTextField nameField;
+    private MaxLengthTextField nameField;
 
     public ProjectRoleAddEditPage( Page goBackPage )
     {
@@ -42,6 +43,16 @@ public abstract class ProjectRoleAddEditPage extends AddEditBasePage
     protected ProjectRoleService getRoleService()
     {
         return ChronosWebApp.getServices().getProjectRoleService();
+    }
+
+    protected void assignFieldValueToProjectRole( ProjectRoleComposite projectRole )
+    {
+        projectRole.setName( nameField.getText() );
+    }
+
+    protected void assignProjectRoleToFieldValue( ProjectRoleComposite projectRole )
+    {
+        nameField.setText( projectRole.getName() );
     }
 
     public final void handleSubmit()

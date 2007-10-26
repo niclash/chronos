@@ -78,7 +78,7 @@ public class MockPriceRateServiceMixin implements PriceRateService
         {
             public boolean callBack( PriceRateComposite priceRate )
             {
-                if( priceRate.getProjectRole().getProjectRole().equals( projectRoleName )
+                if( priceRate.getProjectRole().getName().equals( projectRoleName )
                     && priceRate.getPriceRateType().equals( priceRateType )
                     && priceRate.getAmount().equals( amount ) )
                 {

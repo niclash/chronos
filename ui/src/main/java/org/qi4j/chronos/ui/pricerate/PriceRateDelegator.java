@@ -27,7 +27,7 @@ public class PriceRateDelegator implements Serializable
 
     public PriceRateDelegator( PriceRateComposite priceRate )
     {
-        projectRoleName = priceRate.getProjectRole().getProjectRole();
+        projectRoleName = priceRate.getProjectRole().getName();
         amonunt = priceRate.getAmount();
         priceRateType = priceRate.getPriceRateType();
 

@@ -12,9 +12,22 @@
  */
 package org.qi4j.chronos.service;
 
-import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
+import java.util.Collection;
+import java.util.List;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectRoleComposite;
 
-public interface ProjectRoleService extends AccountBasedService<ProjectRoleEntityComposite>
+public interface ProjectRoleService
 {
+    List<ProjectRoleComposite> findAll( AccountEntityComposite account, FindFilter findFilter );
 
+    List<ProjectRoleComposite> findAll( AccountEntityComposite account );
+
+    int countAll( AccountEntityComposite account );
+
+    ProjectRoleComposite get( AccountEntityComposite account, String projectRoleName );
+
+    void deleteProjectRole( AccountEntityComposite account, Collection<ProjectRoleComposite> projectRoles );
+
+    void updateProjectRole( AccountEntityComposite account, ProjectRoleComposite oldProjectRole, ProjectRoleComposite newProjectRole );
 }

@@ -18,6 +18,7 @@ import org.qi4j.chronos.model.composites.ContactComposite;
 import org.qi4j.chronos.model.composites.LegalConditionComposite;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
+import org.qi4j.chronos.model.composites.ProjectRoleComposite;
 import org.qi4j.chronos.model.composites.RelationshipComposite;
 
 public final class CloneUtil
@@ -75,6 +76,15 @@ public final class CloneUtil
 
         cloned.setContactType( contact.getContactType() );
         cloned.setContactValue( contact.getContactValue() );
+
+        return cloned;
+    }
+
+    public static ProjectRoleComposite cloneProjectRole( CompositeBuilderFactory factory, ProjectRoleComposite projectRole )
+    {
+        ProjectRoleComposite cloned = factory.newCompositeBuilder( ProjectRoleComposite.class ).newInstance();
+
+        cloned.setName( projectRole.getName() );
 
         return cloned;
     }

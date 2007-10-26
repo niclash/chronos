@@ -13,33 +13,26 @@
 package org.qi4j.chronos.ui.projectrole;
 
 import java.io.Serializable;
-import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectRoleComposite;
 
 //TODO bp. we don't need this when ProjectRole can be made serializable
 public class ProjectRoleDelegator implements Serializable
 {
-    private String projectRole;
-    private String id;
+    private String name;
 
-    public ProjectRoleDelegator( ProjectRoleEntityComposite projectRole )
+    public ProjectRoleDelegator( ProjectRoleComposite name )
     {
-        this.projectRole = projectRole.getProjectRole();
-        this.id = projectRole.getIdentity();
+        this.name = name.getName();
     }
 
-    public String getProjectRole()
+    public String getName()
     {
-        return projectRole;
-    }
-
-    public String getId()
-    {
-        return id;
+        return name;
     }
 
     public String toString()
     {
-        return projectRole;
+        return name;
     }
 
     public boolean equals( Object o )
@@ -55,7 +48,7 @@ public class ProjectRoleDelegator implements Serializable
 
         ProjectRoleDelegator that = (ProjectRoleDelegator) o;
 
-        if( id != null ? !id.equals( that.id ) : that.id != null )
+        if( name != null ? !name.equals( that.name ) : that.name != null )
         {
             return false;
         }
@@ -65,6 +58,6 @@ public class ProjectRoleDelegator implements Serializable
 
     public int hashCode()
     {
-        return ( id != null ? id.hashCode() : 0 );
+        return ( name != null ? name.hashCode() : 0 );
     }
 }

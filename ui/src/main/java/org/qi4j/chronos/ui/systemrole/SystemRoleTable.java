@@ -16,11 +16,11 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
-import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
+import org.qi4j.chronos.model.composites.SystemRoleComposite;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 
-public class SystemRoleTable extends ActionTable<SystemRoleEntityComposite, String>
+public class SystemRoleTable extends ActionTable<SystemRoleComposite, String>
 {
     private StaffSystemRoleDataProvider dataProvider;
 
@@ -29,7 +29,7 @@ public class SystemRoleTable extends ActionTable<SystemRoleEntityComposite, Stri
         super( id );
     }
 
-    public AbstractSortableDataProvider<SystemRoleEntityComposite, String> getDetachableDataProvider()
+    public AbstractSortableDataProvider<SystemRoleComposite, String> getDetachableDataProvider()
     {
         if( dataProvider == null )
         {
@@ -39,7 +39,7 @@ public class SystemRoleTable extends ActionTable<SystemRoleEntityComposite, Stri
         return dataProvider;
     }
 
-    public void populateItems( Item item, SystemRoleEntityComposite obj )
+    public void populateItems( Item item, SystemRoleComposite obj )
     {
         item.add( new Label( "systemRoleName", obj.getName() ) );
     }

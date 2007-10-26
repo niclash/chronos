@@ -13,34 +13,25 @@
 package org.qi4j.chronos.ui.projectrole;
 
 import org.apache.wicket.Page;
-import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectRoleComposite;
 import org.qi4j.chronos.service.ProjectRoleService;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class ProjectRoleEditPage extends ProjectRoleAddEditPage
+public abstract class ProjectRoleEditPage extends ProjectRoleAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( ProjectRoleEditPage.class );
 
-    private String roleId;
-
-    public ProjectRoleEditPage( Page goBackPage, String roleId )
+    public ProjectRoleEditPage( Page goBackPage )
     {
         super( goBackPage );
-
-        this.roleId = roleId;
 
         initData();
     }
 
     private void initData()
     {
-        nameField.setText( getRole().getProjectRole() );
-    }
-
-    private ProjectRoleEntityComposite getRole()
-    {
-        return getRoleService().get( roleId );
+        assignProjectRoleToFieldValue( getProjectRole() );
     }
 
     public String getSubmitButtonValue()
@@ -57,13 +48,15 @@ public class ProjectRoleEditPage extends ProjectRoleAddEditPage
     {
         ProjectRoleService roleService = getRoleService();
 
-        ProjectRoleEntityComposite projectRole = getRole();
+        ProjectRoleComposite oldProjectRole = getProjectRole();
 
-        projectRole.setProjectRole( nameField.getText() );
+        ProjectRoleComposite toBeUpdated = getProjectRole();
 
         try
         {
-            roleService.update( projectRole );
+            assignProjectRoleToFieldValue( toBeUpdated );
+
+            roleService.updateProjectRole( getAccount(), oldProjectRole, toBeUpdated );
 
             logInfoMsg( "ProjectRole is updated successfull!" );
 
@@ -74,4 +67,6 @@ public class ProjectRoleEditPage extends ProjectRoleAddEditPage
             LOGGER.error( err.getMessage(), err );
         }
     }
+
+    public abstract ProjectRoleComposite getProjectRole();
 }

@@ -23,7 +23,7 @@ import org.qi4j.chronos.model.PriceRateType;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
-import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectRoleComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
 import org.qi4j.chronos.ui.common.NumberTextField;
@@ -115,9 +115,13 @@ public abstract class PriceRateAddEditPage extends AddEditBasePage
         projectRoleChoice.setChoice( new ProjectRoleDelegator( priceRate.getProjectRole() ) );
     }
 
-    private ProjectRoleEntityComposite getSelectedProjectRole()
+    private ProjectRoleComposite getSelectedProjectRole()
     {
-        return ChronosWebApp.getServices().getProjectRoleService().get( projectRoleChoice.getChoice().getId() );
+        ProjectRoleComposite projectRole = ChronosWebApp.newInstance( ProjectRoleComposite.class );
+
+        projectRole.setName( projectRoleChoice.getChoice().getName() );
+
+        return projectRole;
     }
 
     public final void handleSubmit()

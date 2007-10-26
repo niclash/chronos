@@ -13,19 +13,15 @@
 package org.qi4j.chronos.model.composites;
 
 import org.qi4j.api.Composite;
+import org.qi4j.api.annotation.Assertions;
+import org.qi4j.api.annotation.Mixins;
+import org.qi4j.chronos.model.validations.AddressValidableAssertion;
+import org.qi4j.library.framework.validation.ValidatableMixin;
 import org.qi4j.library.general.model.Address;
 import org.qi4j.library.general.model.Descriptor;
 
-/**
- * Address composite provides services including:
- * {@link org.qi4j.library.framework.validation.Validatable} and {@link org.qi4j.library.general.model.Descriptor}.
- * <p/>
- * Address doesn't extend {@link org.qi4j.api.persistence.EntityComposite} because
- * Address is bound to {@link org.qi4j.chronos.model.Customer}.
- * Address is removed when {@link org.qi4j.chronos.model.Customer} is removed.
- * <p/>
- * TODO: Fix the required fields validation as Lifecycle is not part of the interface anymore
- */
+//@Mixins( ValidatableMixin.class )
+//@Assertions( AddressValidableAssertion.class )
 public interface AddressComposite extends Address, Descriptor, Composite
 {
 }

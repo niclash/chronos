@@ -17,7 +17,7 @@ import org.apache.wicket.Page;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
-import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
+import org.qi4j.chronos.model.composites.SystemRoleComposite;
 import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
@@ -45,7 +45,7 @@ public abstract class StaffEditPage extends StaffAddEditPage
         assignStaffToFieldValue( staff );
     }
 
-    public Iterator<SystemRoleEntityComposite> getInitSelectedRoleList()
+    public Iterator<SystemRoleComposite> getInitSelectedRoleList()
     {
         return getStaff().systemRoleIterator();
     }

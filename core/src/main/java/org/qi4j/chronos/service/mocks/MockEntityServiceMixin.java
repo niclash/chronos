@@ -24,6 +24,7 @@ import org.qi4j.api.annotation.scope.Qi4j;
 import org.qi4j.api.persistence.Identity;
 import org.qi4j.chronos.service.EntityService;
 import org.qi4j.chronos.service.FindFilter;
+import org.qi4j.library.framework.validation.Validatable;
 
 public class MockEntityServiceMixin
     implements EntityService<Identity>
@@ -45,7 +46,19 @@ public class MockEntityServiceMixin
 
     public void save( Identity obj )
     {
+        validate( obj );
+
         dataMap.put( obj.getIdentity(), obj );
+    }
+
+    private void validate( Identity obj )
+    {
+        if( obj instanceof Validatable )
+        {
+            Validatable validatable = (Validatable) obj;
+
+            validatable.checkValid();
+        }
     }
 
     public void delete( String id )
@@ -55,6 +68,7 @@ public class MockEntityServiceMixin
 
     public void update( Identity obj )
     {
+        validate( obj );        
         //TODO bp fixme.
     }
 

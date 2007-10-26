@@ -13,15 +13,19 @@
 package org.qi4j.chronos.service;
 
 import java.util.List;
-import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
+import org.qi4j.chronos.model.composites.SystemRoleComposite;
 
-public interface SystemRoleService extends EntityService<SystemRoleEntityComposite>
+public interface SystemRoleService
 {
-    List<SystemRoleEntityComposite> findAllStaffSystemRole();
+    List<SystemRoleComposite> findAll();
 
-    List<SystemRoleEntityComposite> findAllStaffSystemRole( int first, int count );
+    void save( SystemRoleComposite systemRole );
+
+    List<SystemRoleComposite> findAllStaffSystemRole();
+
+    List<SystemRoleComposite> findAllStaffSystemRole( int first, int count );
 
     int countAllStaffSystemRole();
 
-    SystemRoleEntityComposite getSystemRoleByName( String name );
+    SystemRoleComposite getSystemRoleByName( String name );
 }

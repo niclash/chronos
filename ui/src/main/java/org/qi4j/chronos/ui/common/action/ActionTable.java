@@ -34,6 +34,7 @@ import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
+//TODO bp. tidy up, code is not readable.
 public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
 {
     private final static String CHECKBOX_CLASS_NAME = "checkBoxClass";

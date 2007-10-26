@@ -12,11 +12,14 @@
  */
 package org.qi4j.chronos.ui.account;
 
+import java.util.List;
 import org.apache.wicket.Page;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.AddressComposite;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.library.framework.validation.ValidationException;
+import org.qi4j.library.framework.validation.ValidationMessage;
 import org.qi4j.library.general.model.composites.CityComposite;
 import org.qi4j.library.general.model.composites.CountryComposite;
 import org.qi4j.library.general.model.composites.StateComposite;
@@ -60,6 +63,16 @@ public class AccountAddPage extends AccountAddEditPage
             logInfoMsg( "Account is added successfully." );
 
             divertToGoBackPage();
+        }
+        catch( ValidationException validationErr )
+        {
+            //TODO bp. create a utility class.
+            List<ValidationMessage> msgs = validationErr.getMessages();
+
+            for( ValidationMessage msg : msgs )
+            {
+                logErrorMsg( msg.getMessage() );
+            }
         }
         catch( Exception err )
         {

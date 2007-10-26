@@ -20,7 +20,7 @@ import org.qi4j.chronos.model.composites.ContactComposite;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.model.composites.LoginComposite;
-import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
+import org.qi4j.chronos.model.composites.SystemRoleComposite;
 import org.qi4j.chronos.service.ContactPersonService;
 import org.qi4j.chronos.service.CustomerService;
 import org.qi4j.chronos.service.SystemRoleService;
@@ -55,7 +55,7 @@ public abstract class ContactPersonAddPage extends ContactPersonAddEditPage
 
         SystemRoleService systemRoleService = ChronosWebApp.getServices().getSystemRoleService();
 
-        SystemRoleEntityComposite contactPersonSystemRole = systemRoleService.getSystemRoleByName( SystemRole.CONTACT_PERSON );
+        SystemRoleComposite contactPersonSystemRole = systemRoleService.getSystemRoleByName( SystemRole.CONTACT_PERSON );
 
         contactPerson.addSystemRole( contactPersonSystemRole );
 

@@ -13,36 +13,31 @@
 package org.qi4j.chronos.ui.systemrole;
 
 import java.io.Serializable;
+import org.qi4j.chronos.model.SystemRoleType;
+import org.qi4j.chronos.model.composites.SystemRoleComposite;
 
+
+//TODO bp. we dun need this when we have ValueComposite
 public class SystemRoleDelegator implements Serializable
 {
-    private String roleId;
-    private String roleName;
+    private String systemRoleName;
 
-    public SystemRoleDelegator( String roleId, String roleName )
+    private SystemRoleType systemRoleType;
+
+    public SystemRoleDelegator( SystemRoleComposite systemRole )
     {
-        this.roleId = roleId;
-        this.roleName = roleName;
+        this.systemRoleName = systemRole.getName();
+        this.systemRoleType = systemRole.getSystemRoleType();
     }
 
-    public String getRoleId()
+    public String getSystemRoleName()
     {
-        return roleId;
+        return systemRoleName;
     }
 
-    public void setRoleId( String roleId )
+    public SystemRoleType getSystemRoleType()
     {
-        this.roleId = roleId;
-    }
-
-    public String getRoleName()
-    {
-        return roleName;
-    }
-
-    public void setRoleName( String roleName )
-    {
-        this.roleName = roleName;
+        return systemRoleType;
     }
 
     public boolean equals( Object o )
@@ -58,7 +53,7 @@ public class SystemRoleDelegator implements Serializable
 
         SystemRoleDelegator that = (SystemRoleDelegator) o;
 
-        if( roleId != null ? !roleId.equals( that.roleId ) : that.roleId != null )
+        if( systemRoleName != null ? !systemRoleName.equals( that.systemRoleName ) : that.systemRoleName != null )
         {
             return false;
         }
@@ -68,6 +63,6 @@ public class SystemRoleDelegator implements Serializable
 
     public int hashCode()
     {
-        return ( roleId != null ? roleId.hashCode() : 0 );
+        return ( systemRoleName != null ? systemRoleName.hashCode() : 0 );
     }
 }

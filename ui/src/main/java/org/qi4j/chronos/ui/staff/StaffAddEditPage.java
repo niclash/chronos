@@ -20,7 +20,7 @@ import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInst
 import org.apache.wicket.markup.html.form.Form;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
+import org.qi4j.chronos.model.composites.SystemRoleComposite;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
 import org.qi4j.chronos.ui.common.NumberTextField;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
@@ -50,7 +50,7 @@ public abstract class StaffAddEditPage extends AddEditBasePage
                 return StaffAddEditPage.this.getLoginUserAbstractPanel( id );
             }
 
-            public Iterator<SystemRoleEntityComposite> getInitSelectedRoleList()
+            public Iterator<SystemRoleComposite> getInitSelectedRoleList()
             {
                 return StaffAddEditPage.this.getInitSelectedRoleList();
             }
@@ -84,7 +84,7 @@ public abstract class StaffAddEditPage extends AddEditBasePage
         salaryCurrencyField.setChoice( staff.getSalary().getCurrency().getCurrencyCode() );
     }
 
-    public Iterator<SystemRoleEntityComposite> getInitSelectedRoleList()
+    public Iterator<SystemRoleComposite> getInitSelectedRoleList()
     {
         return Collections.EMPTY_LIST.iterator();
     }
