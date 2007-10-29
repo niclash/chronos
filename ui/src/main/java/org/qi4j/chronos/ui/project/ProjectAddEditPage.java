@@ -391,7 +391,7 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
             isRejected = true;
         }
 
-        if( ValidatorUtil.isAfterDate( estimateStartDate.getDate(), estimateEndDate.getDate(),
+        if( ValidatorUtil.isAfter( estimateStartDate.getDate(), estimateEndDate.getDate(),
                                        "Start Date(Est.)", "End Date(Est.)", this ) )
         {
             isRejected = true;
@@ -399,7 +399,7 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
 
         if( getSelectedProjectStatus() == ProjectStatus.CLOSED )
         {
-            if( ValidatorUtil.isAfterDate( actualStartDate.getDate(), actualEndDate.getDate(),
+            if( ValidatorUtil.isAfter( actualStartDate.getDate(), actualEndDate.getDate(),
                                            "Start Date(Act.)", "End Date(Act.)", this ) )
             {
                 isRejected = true;

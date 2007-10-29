@@ -112,17 +112,17 @@ public abstract class ChangePasswordPage extends LeftMenuNavPage
         {
             boolean isRejected = false;
 
-            if( oldPasswordField.checkIsNullOrInvalidLength() )
+            if( oldPasswordField.checkIsEmptyOrInvalidLength() )
             {
                 isRejected = true;
             }
 
-            if( newPasswordField.checkIsNullOrInvalidLength() )
+            if( newPasswordField.checkIsEmptyOrInvalidLength() )
             {
                 isRejected = true;
             }
 
-            if( confirmPasswordField.checkIsNullOrInvalidLength() )
+            if( confirmPasswordField.checkIsEmptyOrInvalidLength() )
             {
                 isRejected = true;
             }

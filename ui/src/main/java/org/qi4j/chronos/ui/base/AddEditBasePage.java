@@ -12,12 +12,14 @@
  */
 package org.qi4j.chronos.ui.base;
 
+import java.util.List;
 import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
+import org.qi4j.library.framework.validation.ValidationMessage;
 
 public abstract class AddEditBasePage extends LeftMenuNavPage
 {
@@ -95,6 +97,14 @@ public abstract class AddEditBasePage extends LeftMenuNavPage
     protected void logErrorMsg( String msg )
     {
         goBackPage.error( msg );
+    }
+
+    protected void logErrorMsg( List<ValidationMessage> msgs )
+    {
+        for( ValidationMessage msg : msgs )
+        {
+            logErrorMsg( msg.getMessage() );
+        }
     }
 
     public abstract void initComponent( Form form );

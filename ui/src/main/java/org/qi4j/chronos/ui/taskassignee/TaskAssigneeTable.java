@@ -14,7 +14,10 @@ package org.qi4j.chronos.ui.taskassignee;
 
 import java.util.Arrays;
 import java.util.List;
+import org.apache.wicket.Component;
+import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
 import org.apache.wicket.markup.repeater.Item;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.TaskAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.TaskAssigneeService;
@@ -33,6 +36,11 @@ public abstract class TaskAssigneeTable extends ActionTable<TaskAssigneeEntityCo
         super( id );
 
         addActions();
+    }
+
+    protected void authorizatiingActionBar( Component component )
+    {
+        MetaDataRoleAuthorizationStrategy.authorize( component, RENDER, SystemRole.ACCOUNT_ADMIN );
     }
 
     private void addActions()

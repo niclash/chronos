@@ -13,23 +13,28 @@
 package org.qi4j.chronos.model.validations;
 
 import org.qi4j.api.annotation.scope.ThisAs;
-import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.Login;
+import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.util.ValidatorUtil;
 import org.qi4j.library.framework.validation.AbstractValidatableConcern;
 import org.qi4j.library.framework.validation.Validator;
-import org.qi4j.library.general.model.Address;
 
-public final class AccountValidatableConcern extends AbstractValidatableConcern
+public class UserValidatableConcern extends AbstractValidatableConcern
 {
-    @ThisAs private Account account;
+    @ThisAs private User user;
 
     protected void isValid( Validator validator )
     {
-        ValidatorUtil.isEmptyOrInvalidLength( account.getName(), "Account Name", Account.NAME_LEN, validator );
-        ValidatorUtil.isEmptyOrInvalidLength( account.getReference(), "Account reference", Account.REFERENCE_LEN, validator );
+        ValidatorUtil.isEmptyOrInvalidLength( user.getFirstName(), "First name", User.FIRST_NAME_LEN, validator );
+        ValidatorUtil.isEmptyOrInvalidLength( user.getLastName(), "Last name", User.LAST_NAME_LEN, validator );
 
-        ValidatorUtil.isEmptyOrInvalidLength( account.getAddress().getFirstLine(), "Address 1", Address.ADDRESS1_LEN, validator );
-        ValidatorUtil.isEmptyOrInvalidLength( account.getAddress().getCity().getCountry().getName(), "Country", Address.COUNTRY_NAME_LEN, validator );
+        if( !user.systemRoleIterator().hasNext() )
+        {
+            validator.error( true, "Please add at least one system role!" );
+        }
+
+        ValidatorUtil.isEmptyOrInvalidLength( user.getLogin().getName(), "LoginId", Login.LOGIN_ID_LEN, validator );
+        ValidatorUtil.isEmptyOrInvalidLength( user.getLogin().getPassword(), "Password", Login.PASSWORD_LEN, validator );
     }
 
     protected String getResourceBundle()

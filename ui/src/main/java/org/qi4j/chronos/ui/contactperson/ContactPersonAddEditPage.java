@@ -85,7 +85,7 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
 
                 if( contactValueFieldList.size() <= index )
                 {
-                    contactValueField = new MaxLengthTextField( "contactValueField", "Contact Value", Contact.VALUE_LEN );
+                    contactValueField = new MaxLengthTextField( "contactValueField", "Contact Value", Contact.CONTACT_VALUE_LEN );
                     contactTypeField = new MaxLengthTextField( "contactTypeField", "Contact Type", Contact.CONTACT_TYPE_LEN );
 
                     contactValueFieldList.add( contactValueField );
@@ -214,7 +214,7 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
             isRejected = true;
         }
 
-        if( isContactsNotValidated() || isHasDuplicateContact() )
+        if( areContactsNotValidated() || isHasDuplicateContact() )
         {
             isRejected = true;
         }
@@ -270,7 +270,7 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
         return false;
     }
 
-    private boolean isContactsNotValidated()
+    private boolean areContactsNotValidated()
     {
         int index = 0;
 

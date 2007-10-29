@@ -13,23 +13,17 @@
 package org.qi4j.chronos.model.validations;
 
 import org.qi4j.api.annotation.scope.ThisAs;
-import org.qi4j.chronos.model.Account;
-import org.qi4j.chronos.util.ValidatorUtil;
+import org.qi4j.chronos.model.Staff;
 import org.qi4j.library.framework.validation.AbstractValidatableConcern;
 import org.qi4j.library.framework.validation.Validator;
-import org.qi4j.library.general.model.Address;
 
-public final class AccountValidatableConcern extends AbstractValidatableConcern
+public class StaffValidatableConcern extends AbstractValidatableConcern
 {
-    @ThisAs private Account account;
+    @ThisAs private Staff staff;
 
     protected void isValid( Validator validator )
     {
-        ValidatorUtil.isEmptyOrInvalidLength( account.getName(), "Account Name", Account.NAME_LEN, validator );
-        ValidatorUtil.isEmptyOrInvalidLength( account.getReference(), "Account reference", Account.REFERENCE_LEN, validator );
-
-        ValidatorUtil.isEmptyOrInvalidLength( account.getAddress().getFirstLine(), "Address 1", Address.ADDRESS1_LEN, validator );
-        ValidatorUtil.isEmptyOrInvalidLength( account.getAddress().getCity().getCountry().getName(), "Country", Address.COUNTRY_NAME_LEN, validator );
+        //TODO
     }
 
     protected String getResourceBundle()

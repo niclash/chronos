@@ -48,12 +48,12 @@ public class LoginUserAddPanel extends LoginUserAbstractPanel
             isRejected = true;
         }
 
-        if( passwordField.checkIsNullOrInvalidLength() )
+        if( passwordField.checkIsEmptyOrInvalidLength() )
         {
             isRejected = true;
         }
 
-        if( confirmPasswordField.checkIsNullOrInvalidLength() )
+        if( confirmPasswordField.checkIsEmptyOrInvalidLength() )
         {
             isRejected = true;
         }

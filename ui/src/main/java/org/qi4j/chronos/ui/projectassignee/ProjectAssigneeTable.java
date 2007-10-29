@@ -43,7 +43,7 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssigneeEn
 
         addActions();
     }
-
+    
     private void addActions()
     {
         addAction( new SimpleDeleteAction<ProjectAssigneeEntityComposite>( "Delete" )

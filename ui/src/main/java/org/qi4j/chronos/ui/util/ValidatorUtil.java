@@ -122,7 +122,7 @@ public class ValidatorUtil
         return false;
     }
 
-    public static boolean isAfterDate( final Date source, final Date when, final String sourceFieldName,
+    public static boolean isAfter( final Date source, final Date when, final String sourceFieldName,
                                        final String whenFieldName, Component component )
     {
         if( source.after( when ) )

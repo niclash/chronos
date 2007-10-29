@@ -35,7 +35,7 @@ public abstract class ContactAddEditPage extends AddEditBasePage
 
     public void initComponent( Form form )
     {
-        valueField = new MaxLengthTextField( "valueField", "Value", Contact.VALUE_LEN );
+        valueField = new MaxLengthTextField( "valueField", "Value", Contact.CONTACT_VALUE_LEN );
         contactTypeField = new MaxLengthTextField( "contactTypeField", "Contact Type", Contact.CONTACT_TYPE_LEN );
 
         form.add( valueField );
@@ -50,6 +50,7 @@ public abstract class ContactAddEditPage extends AddEditBasePage
         {
             isRejected = true;
         }
+        
 
         if( isRejected )
         {

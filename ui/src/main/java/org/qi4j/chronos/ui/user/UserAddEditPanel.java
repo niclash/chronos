@@ -64,7 +64,7 @@ public abstract class UserAddEditPanel extends AddEditBasePanel
 
         genderChoice = new SimpleDropDownChoice( "genderChoice", genderTypeList, true );
 
-        IChoiceRenderer renderer = new ChoiceRenderer( "roleName", "roleName" );
+        IChoiceRenderer renderer = new ChoiceRenderer( "systemRoleName", "systemRoleName" );
 
         List<SystemRoleDelegator> selecteds = getSelectedRoleChoices();
         List<SystemRoleDelegator> choices = getAvailableRoleChoices();

@@ -66,15 +66,15 @@ public abstract class AccountAddEditPage extends AddEditBasePage
     {
         boolean isRejected = false;
 
-//        if( nameField.checkIsEmptyOrInvalidLength() )
-//        {
-//            isRejected = true;
-//        }
-//
-//        if( referenceField.checkIsEmptyOrInvalidLength() )
-//        {
-//            isRejected = true;
-//        }
+        if( nameField.checkIsEmptyOrInvalidLength() )
+        {
+            isRejected = true;
+        }
+
+        if( referenceField.checkIsEmptyOrInvalidLength() )
+        {
+            isRejected = true;
+        }
 
         if( addressAddEditPanel.checkIsNotValidated() )
         {

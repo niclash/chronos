@@ -12,6 +12,7 @@
  */
 package org.qi4j.chronos.util;
 
+import java.util.Date;
 import org.qi4j.library.framework.validation.Validator;
 
 public final class ValidatorUtil
@@ -58,4 +59,42 @@ public final class ValidatorUtil
         return false;
     }
 
+    public static boolean isAfter( final Date source, final Date when, final String sourceFieldName,
+                                   final String whenFieldName, Validator validator )
+    {
+        if( source.after( when ) )
+        {
+            validator.error( true, sourceFieldName + " must not be after " + whenFieldName );
+
+            return true;
+        }
+
+        return false;
+    }
+
+    public static boolean isEmptyOrNotLong( String text, String fieldName, Validator validator )
+    {
+        if( isEmpty( text, fieldName, validator ) )
+        {
+            return isNotLongValue( text, fieldName, validator );
+        }
+
+        return true;
+    }
+
+    public static boolean isNotLongValue( String text, String fieldName, Validator validator )
+    {
+        try
+        {
+            Long.parseLong( text );
+
+            return false;
+        }
+        catch( Exception e )
+        {
+            validator.error( true, fieldName + " must be type of numeric number." );
+
+            return true;
+        }
+    }
 }

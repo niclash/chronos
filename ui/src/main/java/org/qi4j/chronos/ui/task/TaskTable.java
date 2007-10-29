@@ -92,13 +92,15 @@ public abstract class TaskTable extends ActionTable<TaskEntityComposite, String>
 
         item.add( new Label( "createdByLabel", obj.getUser().getFullname() ) );
 
-        item.add( new SimpleLink( "editLink", "Edit" )
+        SimpleLink editLink = new SimpleLink( "editLink", "Edit" )
         {
             public void linkClicked()
             {
                 handleEdit( id );
             }
-        } );
+        };
+
+        item.add( editLink );
     }
 
     private void handleViewDetail( final String id )

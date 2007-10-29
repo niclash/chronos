@@ -13,6 +13,7 @@
 package org.qi4j.chronos.service.mocks;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
@@ -84,5 +85,30 @@ public class MockCommentServiceMixin implements CommentService
         }
 
         return null;
+    }
+
+    public void deleteComments( HasComments hasComments, Collection<CommentComposite> comments )
+    {
+        for( CommentComposite comment : comments )
+        {
+            CommentComposite toBeDeleted = null;
+            Iterator<CommentComposite> commentIter = hasComments.commentIterator();
+
+            while( commentIter.hasNext() )
+            {
+                CommentComposite temp = commentIter.next();
+
+                if( temp.getCreatedDate().equals( comment.getCreatedDate() ) && temp.getUser().getLogin().getName().equals( comment.getUser().getLogin().getName() ) )
+                {
+                    toBeDeleted = temp;
+                    break;
+                }
+            }
+
+            if( toBeDeleted != null )
+            {
+                hasComments.removeComment( toBeDeleted );
+            }
+        }
     }
 }

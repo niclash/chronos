@@ -14,6 +14,7 @@ package org.qi4j.chronos.ui.project;
 
 import java.util.Arrays;
 import java.util.List;
+import org.apache.wicket.Component;
 import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
@@ -39,6 +40,11 @@ public abstract class ProjectTable extends ActionTable<ProjectEntityComposite, S
         super( id );
 
         addActions();
+    }
+
+    protected void authorizatiingActionBar( Component component )
+    {
+        MetaDataRoleAuthorizationStrategy.authorize( component, RENDER, SystemRole.ACCOUNT_ADMIN );
     }
 
     private void addActions()

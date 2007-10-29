@@ -12,24 +12,18 @@
  */
 package org.qi4j.chronos.ui.account;
 
-import java.util.List;
 import org.apache.wicket.Page;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.AddressComposite;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.library.framework.validation.ValidationException;
-import org.qi4j.library.framework.validation.ValidationMessage;
 import org.qi4j.library.general.model.composites.CityComposite;
 import org.qi4j.library.general.model.composites.CountryComposite;
 import org.qi4j.library.general.model.composites.StateComposite;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 public class AccountAddPage extends AccountAddEditPage
 {
-    private final static Logger LOGGER = LoggerFactory.getLogger( AccountAddPage.class );
-
     public AccountAddPage( Page goBackPage )
     {
         super( goBackPage );
@@ -66,18 +60,7 @@ public class AccountAddPage extends AccountAddEditPage
         }
         catch( ValidationException validationErr )
         {
-            //TODO bp. create a utility class.
-            List<ValidationMessage> msgs = validationErr.getMessages();
-
-            for( ValidationMessage msg : msgs )
-            {
-                logErrorMsg( msg.getMessage() );
-            }
-        }
-        catch( Exception err )
-        {
-            logErrorMsg( err.getMessage() );
-            LOGGER.error( err.getMessage(), err );
+            logErrorMsg( validationErr.getMessages() );
         }
     }
 

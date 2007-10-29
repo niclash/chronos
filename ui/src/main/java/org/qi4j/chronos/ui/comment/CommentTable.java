@@ -19,9 +19,12 @@ import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.api.persistence.Identity;
 import org.qi4j.chronos.model.associations.HasComments;
 import org.qi4j.chronos.model.composites.CommentComposite;
+import org.qi4j.chronos.service.CommentService;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
+import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.util.DateUtil;
 
 public abstract class CommentTable extends ActionTable<CommentComposite, CommentId>
@@ -31,6 +34,19 @@ public abstract class CommentTable extends ActionTable<CommentComposite, Comment
     public CommentTable( String id )
     {
         super( id );
+
+        addActions();
+    }
+
+    private void addActions()
+    {
+        addAction( new SimpleDeleteAction<CommentComposite>( "Delete" )
+        {
+            public void performAction( List<CommentComposite> comments )
+            {
+                getCommentService().deleteComments( getHasComments(), comments );
+            }
+        } );
     }
 
     public AbstractSortableDataProvider<CommentComposite, CommentId> getDetachableDataProvider()
@@ -69,13 +85,18 @@ public abstract class CommentTable extends ActionTable<CommentComposite, Comment
                 {
                     public CommentComposite getComment()
                     {
-                        return getServices().getCommentService().get( getHasComments(), createdDate, userId );
+                        return getCommentService().get( getHasComments(), createdDate, userId );
                     }
                 };
 
                 setResponsePage( detailPage );
             }
         };
+    }
+
+    private CommentService getCommentService()
+    {
+        return ChronosWebApp.getServices().getCommentService();
     }
 
     public List<String> getTableHeaderList()
