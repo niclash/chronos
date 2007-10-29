@@ -25,7 +25,7 @@ import org.qi4j.library.general.model.Contact;
  * <p/>
  * TODO: Fix the validation modifier as Lifecycle is not part of the interface anymore
  */
-//@Assertions( { ContactRegexValidationModifier.class } )
+//@Concerns( { ContactRegexValidationModifier.class } )
 public interface ContactComposite extends Contact, Composite
 {
 }
