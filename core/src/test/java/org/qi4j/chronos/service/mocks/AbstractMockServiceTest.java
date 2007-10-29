@@ -13,8 +13,8 @@
 package org.qi4j.chronos.service.mocks;
 
 import junit.framework.TestCase;
-import org.qi4j.api.CompositeBuilder;
-import org.qi4j.api.CompositeBuilderFactory;
+import org.qi4j.CompositeBuilder;
+import org.qi4j.CompositeBuilderFactory;
 import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.service.composites.ServicesComposite;
 import org.qi4j.runtime.CompositeBuilderFactoryImpl;

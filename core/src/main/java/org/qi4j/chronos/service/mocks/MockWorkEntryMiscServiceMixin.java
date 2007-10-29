@@ -15,7 +15,7 @@ package org.qi4j.chronos.service.mocks;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.qi4j.api.annotation.scope.ThisAs;
+import org.qi4j.annotation.scope.ThisCompositeAs;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.TaskAssigneeEntityComposite;
@@ -26,7 +26,7 @@ import org.qi4j.chronos.service.WorkEntryService;
 
 public abstract class MockWorkEntryMiscServiceMixin implements WorkEntryService
 {
-    @ThisAs private WorkEntryService workEntryService;
+    @ThisCompositeAs private WorkEntryService workEntryService;
 
     public List<WorkEntryEntityComposite> getRecentWorkEntryList( AccountEntityComposite account )
     {

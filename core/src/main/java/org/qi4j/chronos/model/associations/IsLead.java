@@ -12,7 +12,7 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.api.annotation.Mixins;
+import org.qi4j.annotation.Mixins;
 import org.qi4j.chronos.model.mixins.IsLeadMixin;
 
 @Mixins( IsLeadMixin.class )

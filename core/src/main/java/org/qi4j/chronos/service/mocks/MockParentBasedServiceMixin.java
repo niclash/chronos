@@ -16,14 +16,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import org.qi4j.api.CompositeBuilder;
-import org.qi4j.api.CompositeBuilderFactory;
-import static org.qi4j.api.PropertyValue.property;
-import org.qi4j.api.annotation.scope.Qi4j;
-import org.qi4j.api.persistence.EntityComposite;
-import org.qi4j.api.persistence.Identity;
+import org.qi4j.CompositeBuilder;
+import org.qi4j.CompositeBuilderFactory;
+import static org.qi4j.PropertyValue.property;
+import org.qi4j.annotation.scope.Qi4j;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.ParentBasedService;
+import org.qi4j.persistence.EntityComposite;
+import org.qi4j.persistence.Identity;
 
 public abstract class MockParentBasedServiceMixin<ITEM extends Identity, PARENT extends EntityComposite> implements ParentBasedService<ITEM, PARENT>
 {

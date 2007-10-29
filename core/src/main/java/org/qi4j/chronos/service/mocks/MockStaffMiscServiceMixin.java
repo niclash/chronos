@@ -14,7 +14,7 @@ package org.qi4j.chronos.service.mocks;
 
 import java.util.Collection;
 import java.util.List;
-import org.qi4j.api.annotation.scope.ThisAs;
+import org.qi4j.annotation.scope.ThisCompositeAs;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
@@ -22,7 +22,7 @@ import org.qi4j.chronos.service.StaffService;
 
 public abstract class MockStaffMiscServiceMixin implements StaffService
 {
-    @ThisAs private StaffService staffService;
+    @ThisCompositeAs private StaffService staffService;
 
     public List<StaffEntityComposite> getRecentActiveStaff( AccountEntityComposite account, FindFilter findFilter )
     {

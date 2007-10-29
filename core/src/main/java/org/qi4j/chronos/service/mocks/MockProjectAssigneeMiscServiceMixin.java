@@ -15,8 +15,8 @@ package org.qi4j.chronos.service.mocks;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.qi4j.api.annotation.scope.PropertyField;
-import org.qi4j.api.annotation.scope.ThisAs;
+import org.qi4j.annotation.scope.PropertyField;
+import org.qi4j.annotation.scope.ThisCompositeAs;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.TaskAssigneeEntityComposite;
@@ -26,7 +26,7 @@ import org.qi4j.chronos.service.ProjectService;
 
 public abstract class MockProjectAssigneeMiscServiceMixin implements ProjectAssigneeService
 {
-    @ThisAs private ProjectAssigneeService projectAssigneeService;
+    @ThisCompositeAs private ProjectAssigneeService projectAssigneeService;
     @PropertyField private ProjectService projectService;
 
     public List<ProjectAssigneeEntityComposite> getUnassignedProjectAssignee( TaskEntityComposite task )

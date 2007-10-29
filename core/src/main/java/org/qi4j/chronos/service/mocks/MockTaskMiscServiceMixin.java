@@ -15,7 +15,7 @@ package org.qi4j.chronos.service.mocks;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.qi4j.api.annotation.scope.ThisAs;
+import org.qi4j.annotation.scope.ThisCompositeAs;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
@@ -26,7 +26,7 @@ import org.qi4j.chronos.service.TaskService;
 
 public abstract class MockTaskMiscServiceMixin implements TaskService
 {
-    @ThisAs private TaskService taskService;
+    @ThisCompositeAs private TaskService taskService;
 
     public List<TaskEntityComposite> getRecentTasks( AccountEntityComposite account )
     {
@@ -94,7 +94,7 @@ public abstract class MockTaskMiscServiceMixin implements TaskService
 
             while( taskAssigneeIter.hasNext() )
             {
-                if(taskAssigneeIter.next().getIdentity().equals( taskAssignee.getIdentity()))
+                if( taskAssigneeIter.next().getIdentity().equals( taskAssignee.getIdentity() ) )
                 {
                     return task;
                 }

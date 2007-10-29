@@ -17,14 +17,14 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
-import org.qi4j.api.CompositeBuilder;
-import org.qi4j.api.CompositeBuilderFactory;
-import static org.qi4j.api.PropertyValue.property;
-import org.qi4j.api.annotation.scope.Qi4j;
-import org.qi4j.api.persistence.Identity;
+import org.qi4j.CompositeBuilder;
+import org.qi4j.CompositeBuilderFactory;
+import static org.qi4j.PropertyValue.property;
+import org.qi4j.annotation.scope.Qi4j;
 import org.qi4j.chronos.service.EntityService;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.library.framework.validation.Validatable;
+import org.qi4j.persistence.Identity;
 
 public class MockEntityServiceMixin
     implements EntityService<Identity>
@@ -68,7 +68,7 @@ public class MockEntityServiceMixin
 
     public void update( Identity obj )
     {
-        validate( obj );        
+        validate( obj );
         //TODO bp fixme.
     }
 

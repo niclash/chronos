@@ -13,9 +13,8 @@
  */
 package org.qi4j.chronos.model.composites;
 
-import org.qi4j.api.Composite;
+import org.qi4j.Composite;
 import org.qi4j.chronos.model.Login;
-import org.qi4j.library.framework.validation.Validatable;
 //import org.qi4j.chronos.model.modifiers.RequiredFieldsValidationModifier;
 
 

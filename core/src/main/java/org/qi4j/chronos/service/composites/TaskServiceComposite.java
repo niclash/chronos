@@ -12,14 +12,14 @@
  */
 package org.qi4j.chronos.service.composites;
 
-import org.qi4j.api.Composite;
-import org.qi4j.api.annotation.Mixins;
+import org.qi4j.Composite;
+import org.qi4j.annotation.Mixins;
 import org.qi4j.chronos.service.TaskService;
-import org.qi4j.chronos.service.mocks.MockTaskServiceMixin;
 import org.qi4j.chronos.service.mocks.MockTaskMiscServiceMixin;
+import org.qi4j.chronos.service.mocks.MockTaskServiceMixin;
 
-@Mixins( {MockTaskServiceMixin.class, MockTaskMiscServiceMixin.class } )
+@Mixins( { MockTaskServiceMixin.class, MockTaskMiscServiceMixin.class } )
 public interface TaskServiceComposite extends TaskService, Composite
 {
-    
+
 }

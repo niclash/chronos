@@ -16,7 +16,6 @@ import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import org.apache.wicket.markup.repeater.Item;
-import org.qi4j.api.persistence.Identity;
 import org.qi4j.chronos.model.associations.HasComments;
 import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.chronos.service.CommentService;
@@ -26,6 +25,7 @@ import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.util.DateUtil;
+import org.qi4j.persistence.Identity;
 
 public abstract class CommentTable extends ActionTable<CommentComposite, CommentId>
 {

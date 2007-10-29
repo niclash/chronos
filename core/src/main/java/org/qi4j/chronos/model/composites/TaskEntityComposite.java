@@ -12,8 +12,8 @@
  */
 package org.qi4j.chronos.model.composites;
 
-import org.qi4j.api.persistence.EntityComposite;
 import org.qi4j.chronos.model.Task;
+import org.qi4j.persistence.EntityComposite;
 
 public interface TaskEntityComposite extends Task, EntityComposite
 {

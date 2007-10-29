@@ -14,10 +14,10 @@ package org.qi4j.chronos.service;
 
 import java.util.Collection;
 import java.util.List;
-import org.qi4j.api.annotation.Mixins;
-import org.qi4j.api.persistence.EntityComposite;
-import org.qi4j.api.persistence.Identity;
+import org.qi4j.annotation.Mixins;
 import org.qi4j.chronos.service.mocks.MockEntityServiceMixin;
+import org.qi4j.persistence.EntityComposite;
+import org.qi4j.persistence.Identity;
 
 @Mixins( MockEntityServiceMixin.class )
 public interface EntityService<T extends Identity>

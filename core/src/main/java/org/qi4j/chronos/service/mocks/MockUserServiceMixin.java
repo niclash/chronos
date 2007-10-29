@@ -15,7 +15,7 @@ package org.qi4j.chronos.service.mocks;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.qi4j.api.annotation.scope.PropertyField;
+import org.qi4j.annotation.scope.PropertyField;
 import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;

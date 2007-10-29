@@ -14,7 +14,7 @@
 package org.qi4j.chronos.model;
 
 import java.io.Serializable;
-import org.qi4j.api.annotation.Mixins;
+import org.qi4j.annotation.Mixins;
 import org.qi4j.chronos.model.mixins.ReferenceMixin;
 
 @Mixins( ReferenceMixin.class )

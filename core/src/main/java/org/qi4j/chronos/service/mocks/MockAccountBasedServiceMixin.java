@@ -13,10 +13,10 @@
 package org.qi4j.chronos.service.mocks;
 
 import java.util.List;
-import org.qi4j.api.annotation.scope.PropertyField;
-import org.qi4j.api.persistence.Identity;
+import org.qi4j.annotation.scope.PropertyField;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.service.AccountService;
+import org.qi4j.persistence.Identity;
 
 public abstract class MockAccountBasedServiceMixin<ITEM extends Identity> extends MockParentBasedServiceMixin<ITEM, AccountEntityComposite>
 {

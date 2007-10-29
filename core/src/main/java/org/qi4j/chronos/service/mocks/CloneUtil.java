@@ -13,7 +13,7 @@
 package org.qi4j.chronos.service.mocks;
 
 import java.util.Iterator;
-import org.qi4j.api.CompositeBuilderFactory;
+import org.qi4j.CompositeBuilderFactory;
 import org.qi4j.chronos.model.composites.ContactComposite;
 import org.qi4j.chronos.model.composites.LegalConditionComposite;
 import org.qi4j.chronos.model.composites.PriceRateComposite;

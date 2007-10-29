@@ -15,14 +15,14 @@ package org.qi4j.chronos.service.mocks;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import org.qi4j.api.annotation.scope.ThisAs;
+import org.qi4j.annotation.scope.ThisCompositeAs;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.service.AccountService;
 
 public abstract class MockAccountMiscServiceMixin implements AccountService
 {
-    @ThisAs private AccountService accountService;
+    @ThisCompositeAs private AccountService accountService;
 
     public MockAccountMiscServiceMixin()
     {

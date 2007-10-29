@@ -1,11 +1,11 @@
 package org.qi4j.chronos.model;
 
 import junit.framework.TestCase;
-import org.qi4j.api.CompositeBuilderFactory;
-import org.qi4j.api.persistence.EntitySession;
-import org.qi4j.api.persistence.IdentityGenerator;
+import org.qi4j.CompositeBuilderFactory;
 import org.qi4j.extension.persistence.quick.MapPersistenceProvider;
 import org.qi4j.extension.persistence.quick.SerializablePersistence;
+import org.qi4j.persistence.EntitySession;
+import org.qi4j.persistence.IdentityGenerator;
 import org.qi4j.runtime.CompositeBuilderFactoryImpl;
 import org.qi4j.runtime.CompositeModelFactory;
 import org.qi4j.runtime.UuidIdentityGenerator;

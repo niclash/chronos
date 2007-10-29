@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
-import org.qi4j.api.annotation.scope.ThisAs;
+import org.qi4j.annotation.scope.ThisCompositeAs;
 import org.qi4j.chronos.model.associations.HasContactPersons;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.service.ContactPersonService;
@@ -24,7 +24,7 @@ import org.qi4j.chronos.service.FindFilter;
 
 public abstract class MockContactPersonMiscServiceMixin implements ContactPersonService
 {
-    @ThisAs private ContactPersonService contactPersonService;
+    @ThisCompositeAs private ContactPersonService contactPersonService;
 
     public List<ContactPersonEntityComposite> findAll( HasContactPersons hasContactPersons )
     {

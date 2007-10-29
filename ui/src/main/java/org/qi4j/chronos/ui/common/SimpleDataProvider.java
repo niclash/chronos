@@ -13,9 +13,9 @@
 package org.qi4j.chronos.ui.common;
 
 import java.util.List;
-import org.qi4j.api.persistence.Identity;
 import org.qi4j.chronos.service.EntityService;
 import org.qi4j.chronos.service.FindFilter;
+import org.qi4j.persistence.Identity;
 
 public abstract class SimpleDataProvider<ITEM extends Identity> extends AbstractSortableDataProvider<ITEM, String>
 {

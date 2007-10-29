@@ -13,7 +13,7 @@
  */
 package org.qi4j.chronos.model.composites;
 
-import org.qi4j.api.Composite;
+import org.qi4j.Composite;
 import org.qi4j.chronos.model.LegalCondition;
 
 public interface LegalConditionComposite extends LegalCondition, Composite

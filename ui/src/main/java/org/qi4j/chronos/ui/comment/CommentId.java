@@ -14,8 +14,8 @@ package org.qi4j.chronos.ui.comment;
 
 import java.io.Serializable;
 import java.util.Date;
-import org.qi4j.api.persistence.Identity;
 import org.qi4j.chronos.model.composites.CommentComposite;
+import org.qi4j.persistence.Identity;
 
 public class CommentId implements Serializable
 {
