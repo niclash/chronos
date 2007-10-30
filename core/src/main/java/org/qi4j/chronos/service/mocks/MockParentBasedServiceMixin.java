@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import java.util.UUID;
 import org.qi4j.CompositeBuilder;
 import org.qi4j.CompositeBuilderFactory;
 import static org.qi4j.PropertyValue.property;
@@ -106,7 +107,7 @@ public abstract class MockParentBasedServiceMixin<ITEM extends Identity, PARENT 
     {
         CompositeBuilder compositeBuilder = factory.newCompositeBuilder( clazz );
 
-        String uid = MockEntityServiceMixin.newUid();
+        String uid = UUID.randomUUID().toString();
 
         compositeBuilder.properties( Identity.class, property( "identity", uid ) );
 

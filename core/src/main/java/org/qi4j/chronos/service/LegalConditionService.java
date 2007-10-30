@@ -34,5 +34,5 @@ public interface LegalConditionService
 
     void deleteLegalCondition( HasLegalConditions hasLegalConditions, Collection<LegalConditionComposite> legalConditions );
 
-    
+    void updateLegalCondition( HasLegalConditions hasLegalConditions, LegalConditionComposite oldLegalCondition, LegalConditionComposite newLegalCondition );
 }

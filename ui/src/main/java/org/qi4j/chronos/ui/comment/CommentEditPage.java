@@ -14,7 +14,10 @@ package org.qi4j.chronos.ui.comment;
 
 import org.apache.wicket.Page;
 import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.associations.HasComments;
 import org.qi4j.chronos.model.composites.CommentComposite;
+import org.qi4j.chronos.service.CommentService;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -46,15 +49,21 @@ public abstract class CommentEditPage extends CommentAddEditPage
         return "Edit Comment";
     }
 
+    private CommentService getCommentService()
+    {
+        return ChronosWebApp.getServices().getCommentService();
+    }
+
     public void onSubmitting()
     {
-        CommentComposite comment = getComment();
-
         try
         {
-            assignFieldValueToComment( comment );
+            CommentComposite toBeUpdated = getComment();
+            CommentComposite oldComment = getComment();
 
-            updateComment( comment );
+            assignFieldValueToComment( toBeUpdated );
+
+            getCommentService().update( getHasComments(), oldComment, toBeUpdated );
 
             logInfoMsg( "Comment is updated successfully." );
 
@@ -72,7 +81,8 @@ public abstract class CommentEditPage extends CommentAddEditPage
         return getComment().getUser();
     }
 
+    public abstract HasComments getHasComments();
+
     public abstract CommentComposite getComment();
 
-    public abstract void updateComment( CommentComposite comment );
 }

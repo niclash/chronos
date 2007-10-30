@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 import java.util.concurrent.ConcurrentHashMap;
 import org.qi4j.CompositeBuilder;
 import org.qi4j.CompositeBuilderFactory;
@@ -30,7 +31,6 @@ public class MockEntityServiceMixin
     implements EntityService<Identity>
 {
     private Map<String, Identity> dataMap;
-    private static long nextId = 0;
 
     @Qi4j private CompositeBuilderFactory factory;
 
@@ -86,7 +86,7 @@ public class MockEntityServiceMixin
     public Identity newInstance( Class clazz )
     {
         CompositeBuilder compositeBuilder = factory.newCompositeBuilder( clazz );
-        String uid = newUid();
+        String uid = UUID.randomUUID().toString();
 
         compositeBuilder.properties( Identity.class, property( "identity", uid ) );
 
@@ -96,11 +96,6 @@ public class MockEntityServiceMixin
     public int countAll()
     {
         return dataMap.size();
-    }
-
-    public synchronized static final String newUid()
-    {
-        return String.valueOf( ++nextId );
     }
 
     public void delete( Identity obj )

@@ -133,4 +133,24 @@ public class MockLegalConditionServiceMixin implements LegalConditionService
             hasLegalConditions.removeLegalCondition( toBeDeleted );
         }
     }
+
+    public void updateLegalCondition( HasLegalConditions hasLegalConditions, LegalConditionComposite oldLegalCondition, LegalConditionComposite newLegalCondition )
+    {
+        LegalConditionComposite toBeDeleted = null;
+
+        Iterator<LegalConditionComposite> legalConditionIter = hasLegalConditions.legalConditionIterator();
+
+        while( legalConditionIter.hasNext() )
+        {
+            LegalConditionComposite temp = legalConditionIter.next();
+
+            if( temp.getName().equals( oldLegalCondition.getName() ) )
+            {
+                toBeDeleted = temp;
+            }
+        }
+
+        hasLegalConditions.removeLegalCondition( toBeDeleted );
+        hasLegalConditions.addLegalCondition( newLegalCondition );
+    }
 }

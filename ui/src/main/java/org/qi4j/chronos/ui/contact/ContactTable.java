@@ -71,7 +71,14 @@ public abstract class ContactTable extends ActionTable<ContactComposite, String>
         item.add( new Label( "contact", obj.getContactValue() ) );
         item.add( new Label( "contactType", obj.getContactType() ) );
 
-        item.add( new SimpleLink( "editLink", "Edit" )
+        SimpleLink simpleLink = createEditLink( contactValue );
+
+        item.add( simpleLink );
+    }
+
+    private SimpleLink createEditLink( final String contactValue )
+    {
+        return new SimpleLink( "editLink", "Edit" )
         {
             public void linkClicked()
             {
@@ -90,7 +97,7 @@ public abstract class ContactTable extends ActionTable<ContactComposite, String>
 
                 setResponsePage( editPage );
             }
-        } );
+        };
     }
 
     public List<String> getTableHeaderList()

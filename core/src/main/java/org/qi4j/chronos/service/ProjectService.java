@@ -48,4 +48,6 @@ public interface ProjectService extends AccountBasedService<ProjectEntityComposi
     ProjectEntityComposite getProjectByTask( TaskEntityComposite task );
 
     void changeProjectStatus( ProjectStatus projectStatus, Collection<ProjectEntityComposite> projects );
+
+    int countAll( AccountEntityComposite account, ProjectStatus projectStatus );
 }

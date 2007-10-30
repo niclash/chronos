@@ -188,4 +188,21 @@ public abstract class MockProjectMiscServiceMixin implements ProjectService
             projectService.update( project );
         }
     }
+
+    public int countAll( AccountEntityComposite account, ProjectStatus projectStatus )
+    {
+        List<ProjectEntityComposite> projects = projectService.findAll( account );
+
+        int total = 0;
+
+        for( ProjectEntityComposite project : projects )
+        {
+            if( project.getProjectStatus() == projectStatus )
+            {
+                total++;
+            }
+        }
+
+        return total;
+    }
 }

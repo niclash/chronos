@@ -30,6 +30,4 @@ public interface WorkEntryService extends TaskAssigneeBasedService<WorkEntryEnti
     List<WorkEntryEntityComposite> getRecentWorkEntryList( AccountEntityComposite account, FindFilter findFilter );
 
     int countAll( AccountEntityComposite account );
-
-    void deleteWorkEntry( WorkEntryEntityComposite entryEntityComposite );
 }

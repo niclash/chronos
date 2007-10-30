@@ -16,6 +16,7 @@ import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInst
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 
 @AuthorizeInstantiation( SystemRole.SYSTEM_ADMIN )
@@ -38,7 +39,13 @@ public class AccountListPage extends LeftMenuNavPage
 
         add( new FeedbackPanel( "feedbackPanel" ) );
 
-        AccountTable accountTable = new AccountTable( "accountTable" );
+        AccountTable accountTable = new AccountTable( "accountTable" )
+        {
+            public AccountEntityComposite getAccount()
+            {
+                return AccountListPage.this.getAccount();
+            }
+        };
 
         add( accountTable );
     }

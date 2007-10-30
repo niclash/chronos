@@ -14,9 +14,15 @@ package org.qi4j.chronos.ui.contact;
 
 import org.apache.wicket.Page;
 import org.qi4j.chronos.model.composites.ContactComposite;
+import org.qi4j.chronos.service.ContactService;
+import org.qi4j.chronos.ui.ChronosWebApp;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class ContactEditPage extends ContactAddEditPage
 {
+    private final static Logger LOGGER = LoggerFactory.getLogger( ContactEditPage.class );
+
     public ContactEditPage( Page basePage )
     {
         super( basePage );
@@ -31,9 +37,31 @@ public abstract class ContactEditPage extends ContactAddEditPage
         assignContactToFieldValue( contact );
     }
 
+    private ContactService getContactService()
+    {
+        return ChronosWebApp.getServices().getContactService();
+    }
+
     public void onSubmitting()
     {
-        //TODO fixme
+        try
+        {
+            ContactComposite toBeUpdated = getContact();
+            ContactComposite old = getContact();
+
+            assignFieldValueToContact( toBeUpdated );
+
+            getContactService().update( getContactPerson(), old, toBeUpdated );
+
+            info( "Contact is updated." );
+
+            divertToGoBackPage();
+        }
+        catch( Exception err )
+        {
+            LOGGER.error( err.getMessage(), err );
+            err.printStackTrace();
+        }
     }
 
     public String getSubmitButtonValue()

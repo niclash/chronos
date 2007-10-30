@@ -13,7 +13,10 @@
 package org.qi4j.chronos.ui.legalcondition;
 
 import org.apache.wicket.Page;
+import org.qi4j.chronos.model.associations.HasLegalConditions;
 import org.qi4j.chronos.model.composites.LegalConditionComposite;
+import org.qi4j.chronos.service.LegalConditionService;
+import org.qi4j.chronos.ui.ChronosWebApp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -35,15 +38,21 @@ public abstract class LegalConditionEditPage extends LegalConditionAddEditPage
         assignLegalConditionToFieldValue( getLegalCondition() );
     }
 
+    private LegalConditionService getLegalConditionService()
+    {
+        return ChronosWebApp.getServices().getLegalConditionService();
+    }
+
     public void onSubmitting()
     {
         try
         {
-            LegalConditionComposite legalCondition = getLegalCondition();
+            LegalConditionComposite toBeUpdated = getLegalCondition();
+            LegalConditionComposite old = getLegalCondition();
 
-            assignFieldValueToLegalCondition( legalCondition );
+            assignFieldValueToLegalCondition( toBeUpdated );
 
-            updateLegalCondition( legalCondition );
+            getLegalConditionService().updateLegalCondition( getHasLegalConditions(), old, toBeUpdated );
 
             logInfoMsg( "Legal conditation is updated successfully!" );
 
@@ -68,5 +77,5 @@ public abstract class LegalConditionEditPage extends LegalConditionAddEditPage
 
     public abstract LegalConditionComposite getLegalCondition();
 
-    public abstract void updateLegalCondition( LegalConditionComposite legalCondition );
+    public abstract HasLegalConditions getHasLegalConditions();
 }

@@ -64,9 +64,24 @@ public class MockCommentServiceMixin implements CommentService
         return null;
     }
 
-    public void update( CommentComposite commentComposite )
+    public void update( HasComments hasComments, CommentComposite oldComment, CommentComposite newComment )
     {
-        //nothing
+        CommentComposite toBeDeleted = null;
+        Iterator<CommentComposite> commentIter = hasComments.commentIterator();
+
+        while( commentIter.hasNext() )
+        {
+            CommentComposite temp = commentIter.next();
+
+            if( temp.getText().equals( oldComment.getText() ) &&
+                temp.getUser().getLogin().getName().equals( oldComment.getUser().getLogin().getName() ) )
+            {
+                toBeDeleted = temp;
+            }
+        }
+
+        hasComments.removeComment( toBeDeleted );
+        hasComments.addComment( newComment );
     }
 
     public CommentComposite get( HasComments hasComments, Date createdDate, String userId )

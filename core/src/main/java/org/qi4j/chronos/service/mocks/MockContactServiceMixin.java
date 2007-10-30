@@ -90,9 +90,24 @@ public class MockContactServiceMixin implements ContactService
         return returnValue[ 0 ];
     }
 
-    public void update( ContactComposite contactComposite )
+    public void update( HasContacts hasContacts, ContactComposite oldContact, ContactComposite newContact )
     {
-        //nothing
+        Iterator<ContactComposite> contactIter = hasContacts.contactIterator();
+
+        ContactComposite toBeDeleted = null;
+
+        while( contactIter.hasNext() )
+        {
+            ContactComposite temp = contactIter.next();
+
+            if( temp.getContactType().equals( oldContact.getContactType() ) && temp.getContactValue().equals( oldContact.getContactValue() ) )
+            {
+                toBeDeleted = temp;
+            }
+        }
+
+        hasContacts.removeContact( toBeDeleted );
+        hasContacts.addContact( newContact );
     }
 
     public void deleteContact( HasContacts hasContacts, Collection<ContactComposite> contacts )

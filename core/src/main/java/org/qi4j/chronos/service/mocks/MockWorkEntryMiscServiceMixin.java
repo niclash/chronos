@@ -63,11 +63,6 @@ public abstract class MockWorkEntryMiscServiceMixin implements WorkEntryService
         return total;
     }
 
-    public void deleteWorkEntry( WorkEntryEntityComposite entryEntityComposite )
-    {
-        //TODO
-    }
-
     public List<WorkEntryEntityComposite> findAll( ProjectEntityComposite project )
     {
         Iterator<TaskEntityComposite> iterator = project.taskIteraotr();

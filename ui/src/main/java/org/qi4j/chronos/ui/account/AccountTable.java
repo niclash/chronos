@@ -16,9 +16,11 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
+import org.qi4j.chronos.model.ProjectStatus;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.service.EntityService;
+import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleCheckBox;
@@ -28,7 +30,7 @@ import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleAction;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 
-public class AccountTable extends ActionTable<AccountEntityComposite, String>
+public abstract class AccountTable extends ActionTable<AccountEntityComposite, String>
 {
     private SimpleDataProvider<AccountEntityComposite> dataProvider;
 
@@ -92,6 +94,11 @@ public class AccountTable extends ActionTable<AccountEntityComposite, String>
         return ChronosWebApp.getServices().getAccountService();
     }
 
+    private ProjectService getProjectService()
+    {
+        return ChronosWebApp.getServices().getProjectService();
+    }
+
     public void populateItems( Item item, AccountEntityComposite obj )
     {
         final String accountId = obj.getIdentity();
@@ -101,11 +108,16 @@ public class AccountTable extends ActionTable<AccountEntityComposite, String>
 
         item.add( new SimpleCheckBox( "enabled", obj.getEnabled(), true ) );
 
-        //TODO bp. fix these valeues.
-        item.add( new Label( "totalProject", "10" ) );
-        item.add( new Label( "activeProject", "3" ) );
-        item.add( new Label( "inactiveProject", "2" ) );
-        item.add( new Label( "closedProject", "5" ) );
+        int totalProject = getProjectService().countAll( getAccount() );
+        int totalActive = getProjectService().countAll( getAccount(), ProjectStatus.ACTIVE );
+        int totalInactive = getProjectService().countAll( getAccount(), ProjectStatus.INACTIVE );
+        int totalClosed = getProjectService().countAll( getAccount(), ProjectStatus.CLOSED );
+
+        item.add( new Label( "totalProject", String.valueOf( totalProject ) ) );
+
+        item.add( new Label( "activeProject", String.valueOf( totalActive ) ) );
+        item.add( new Label( "inactiveProject", String.valueOf( totalInactive ) ) );
+        item.add( new Label( "closedProject", String.valueOf( totalClosed ) ) );
 
         item.add( new SimpleLink( "editLink", "Edit" )
         {
@@ -135,4 +147,6 @@ public class AccountTable extends ActionTable<AccountEntityComposite, String>
     {
         return Arrays.asList( "Name", "Formal Reference", "Enabled", "Total Project", "Active", "Inactive", "Closed", "" );
     }
+
+    public abstract AccountEntityComposite getAccount();
 }

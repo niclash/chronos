@@ -13,13 +13,13 @@
 package org.qi4j.chronos.ui.legalcondition;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import org.apache.wicket.Component;
 import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.model.associations.HasLegalConditions;
 import org.qi4j.chronos.model.composites.LegalConditionComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.service.LegalConditionService;
@@ -117,9 +117,9 @@ public abstract class LegalConditionTable extends ActionTable<LegalConditionComp
                         return getLegalConditionService().get( getProject(), legalConditionName );
                     }
 
-                    public void updateLegalCondition( LegalConditionComposite legalCondition )
+                    public HasLegalConditions getHasLegalConditions()
                     {
-                        LegalConditionTable.this.updateLegalCondition( legalCondition, legalConditionName );
+                        return LegalConditionTable.this.getProject();
                     }
                 };
 
@@ -131,34 +131,6 @@ public abstract class LegalConditionTable extends ActionTable<LegalConditionComp
                 MetaDataRoleAuthorizationStrategy.authorize( link, ENABLE, SystemRole.ACCOUNT_ADMIN );
             }
         };
-    }
-
-    private void updateLegalCondition( LegalConditionComposite legalCondition, String oldLegalConditionName )
-    {
-        //TODO bp. workaround, wait for ValueObjectComposite
-        ProjectEntityComposite project = getProject();
-
-        Iterator<LegalConditionComposite> legalConditionIter = project.legalConditionIterator();
-
-        LegalConditionComposite toDelete = null;
-
-        while( legalConditionIter.hasNext() )
-        {
-            LegalConditionComposite temp = legalConditionIter.next();
-
-            if( temp.getName().equals( oldLegalConditionName ) )
-            {
-                toDelete = temp;
-                break;
-            }
-        }
-
-        if( toDelete != null )
-        {
-            project.removeLegalCondition( toDelete );
-        }
-
-        project.addLegalCondition( legalCondition );
     }
 
     public List<String> getTableHeaderList()

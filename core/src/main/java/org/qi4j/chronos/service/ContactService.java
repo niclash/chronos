@@ -12,8 +12,8 @@
  */
 package org.qi4j.chronos.service;
 
-import java.util.List;
 import java.util.Collection;
+import java.util.List;
 import org.qi4j.chronos.model.associations.HasContacts;
 import org.qi4j.chronos.model.composites.ContactComposite;
 
@@ -27,7 +27,7 @@ public interface ContactService
 
     ContactComposite get( HasContacts hasContacts, String contactValue );
 
-    void update( ContactComposite contactComposite );
+    void update( HasContacts hasContacts, ContactComposite oldContact, ContactComposite updatedContact );
 
     void deleteContact( HasContacts hasContacts, Collection<ContactComposite> contacts );
 }
