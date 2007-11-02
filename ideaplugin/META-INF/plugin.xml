@@ -1,0 +1,28 @@
+<!DOCTYPE idea-plugin PUBLIC "Plugin/DTD" "http://plugins.intellij.net/plugin.dtd">
+<idea-plugin>
+  <name>Chronos</name>
+  <description>Chronos</description>
+  <version>1.0</version>
+  <vendor>ops4j</vendor>
+  <idea-version since-build="3000"/>
+  <project-components>
+    <component>
+      <implementation-class>org.qi4j.chronos.ui.setting.ChronosSetting</implementation-class>
+    </component>
+  </project-components>
+  <actions>
+    <group id="ChronosActionGroupWrapper" text="Chronos " popup="false">
+      <separator/>
+      <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+    </group>
+
+    <group id="ChronosActionGroup" text="Chronos" description="Chronos Action Group" popup="true">
+      <action id="ChronosNewTaskAction" class="org.qi4j.chronos.action.NewTaskAction" text="Add Task"
+              description="New Task"/>
+      <action id="ChronosTaskListAction" class="org.qi4j.chronos.action.TaskListAction"
+              text="Task List"/>
+
+      <add-to-group group-id="ChronosActionGroupWrapper" anchor="last"/>
+    </group>
+  </actions>
+</idea-plugin>

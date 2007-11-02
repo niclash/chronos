@@ -1,0 +1,146 @@
+/*
+ * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+package org.qi4j.chronos.ui.setting;
+
+import com.intellij.openapi.components.ProjectComponent;
+import com.intellij.openapi.diagnostic.Logger;
+import com.intellij.openapi.options.Configurable;
+import com.intellij.openapi.options.ConfigurationException;
+import com.intellij.openapi.util.InvalidDataException;
+import com.intellij.openapi.util.JDOMExternalizable;
+import com.intellij.openapi.util.WriteExternalException;
+import java.io.IOException;
+import javax.imageio.ImageIO;
+import javax.swing.Icon;
+import javax.swing.ImageIcon;
+import javax.swing.JComponent;
+import org.jdom.Element;
+import org.jetbrains.annotations.Nls;
+import org.jetbrains.annotations.NonNls;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import org.qi4j.chronos.config.ChronosConfig;
+import org.qi4j.chronos.ui.util.SwingMiscUtil;
+
+public class ChronosSetting implements ProjectComponent, Configurable, JDOMExternalizable
+{
+    private static final Logger LOG = Logger.getInstance( ChronosSetting.class.getName() );
+
+    private ChronosConfig chronosConfig;
+
+    private ChronosSettingPanel chronosSettingPanel;
+
+    private Icon icon;
+
+    public ChronosSetting()
+    {
+        chronosConfig = new ChronosConfig();
+    }
+
+    public void projectOpened()
+    {
+
+    }
+
+    public void projectClosed()
+    {
+
+    }
+
+    @NonNls @NotNull public String getComponentName()
+    {
+        return "chronos.setting";
+    }
+
+    public void initComponent()
+    {
+        chronosSettingPanel = new ChronosSettingPanel();
+    }
+
+    public void disposeComponent()
+    {
+
+    }
+
+    @Nls public String getDisplayName()
+    {
+        return "Chronos Setting";
+    }
+
+    public Icon getIcon()
+    {
+        if( icon == null )
+        {
+            try
+            {
+                icon = SwingMiscUtil.getIcon( "org/qi4j/chronos/ui/setting/icon.png", getClass() );
+            }
+            catch( IOException e )
+            {
+                LOG.error( "Error while reading icon for IDEA Doc", e );
+            }
+        }
+        return icon;
+    }
+
+    public static ImageIcon getIcon( String packageName, Class clazz ) throws IOException
+    {
+        return new ImageIcon( ImageIO.read( clazz.getClassLoader().getResourceAsStream( packageName ) ) );
+    }
+
+    @Nullable @NonNls public String getHelpTopic()
+    {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public JComponent createComponent()
+    {
+        if( chronosSettingPanel == null )
+        {
+            chronosSettingPanel = new ChronosSettingPanel();
+        }
+
+        return chronosSettingPanel;
+    }
+
+    public boolean isModified()
+    {
+        //TODO bp. auto save?
+        return true;
+    }
+
+    public void apply() throws ConfigurationException
+    {
+        chronosSettingPanel.updateChronosConfig( chronosConfig );
+    }
+
+    public void reset()
+    {
+        chronosSettingPanel.readChronosConfig( chronosConfig );
+    }
+
+    public void disposeUIResources()
+    {
+
+    }
+
+    public void readExternal( Element element ) throws InvalidDataException
+    {
+        chronosConfig.readExternal( element );
+    }
+
+    public void writeExternal( Element element ) throws WriteExternalException
+    {
+        chronosConfig.writeExternal( element );
+    }
+}
