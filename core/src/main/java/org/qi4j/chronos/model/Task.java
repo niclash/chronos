@@ -14,11 +14,12 @@ package org.qi4j.chronos.model;
 
 import org.qi4j.chronos.model.associations.HasComments;
 import org.qi4j.chronos.model.associations.HasCreatedDate;
-import org.qi4j.chronos.model.associations.HasTaskAssignees;
+import org.qi4j.chronos.model.associations.OngoingWorkEntries;
 import org.qi4j.chronos.model.associations.HasUser;
+import org.qi4j.chronos.model.associations.HasWorkEntries;
 import org.qi4j.library.general.model.Description;
 
-public interface Task extends Title, Description, HasCreatedDate, HasComments, HasTaskAssignees, HasUser
+public interface Task extends Title, Description, HasCreatedDate, HasComments, OngoingWorkEntries, HasWorkEntries, HasUser
 {
     public final static int TITLE_LEN = 120;
 

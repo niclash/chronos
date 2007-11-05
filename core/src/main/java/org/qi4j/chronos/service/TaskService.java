@@ -16,8 +16,6 @@ import java.util.List;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
-import org.qi4j.chronos.model.composites.TaskAssigneeEntityComposite;
-import org.qi4j.chronos.model.TaskAssignee;
 
 public interface TaskService extends ProjectBasedService<TaskEntityComposite>
 {
@@ -33,5 +31,5 @@ public interface TaskService extends ProjectBasedService<TaskEntityComposite>
 
     int countRecentTasks( StaffEntityComposite staff );
 
-    TaskEntityComposite getTaskByTaskAssignee( TaskAssigneeEntityComposite taskAssignee );
+//    TaskEntityComposite getTaskByTaskAssignee( TaskAssigneeEntityComposite taskAssignee );
 }

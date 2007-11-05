@@ -14,7 +14,8 @@ package org.qi4j.chronos.ui.workentry;
 
 import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.model.composites.TaskAssigneeEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.ui.common.NewLinkPanel;
 import org.qi4j.chronos.ui.common.tab.NewLinkTab;
@@ -58,9 +59,14 @@ public abstract class WorkEntryTab extends NewLinkTab
         {
             WorkEntryAddPage addPage = new WorkEntryAddPage( this.getPage() )
             {
-                public TaskAssigneeEntityComposite getTaskAssignee()
+                public TaskEntityComposite getTask()
                 {
-                    return WorkEntryTab.this.getTaskAssignee();
+                    return WorkEntryTab.this.getTask();
+                }
+
+                public ProjectAssigneeEntityComposite getProjectAssignee()
+                {
+                    return WorkEntryTab.this.getProjectAssignee();
                 }
             };
 
@@ -73,7 +79,9 @@ public abstract class WorkEntryTab extends NewLinkTab
         }
     }
 
-    public abstract TaskAssigneeEntityComposite getTaskAssignee();
+    public abstract TaskEntityComposite getTask();
+
+    public abstract ProjectAssigneeEntityComposite getProjectAssignee();
 
     public abstract List<WorkEntryEntityComposite> dataList( int first, int count );
 

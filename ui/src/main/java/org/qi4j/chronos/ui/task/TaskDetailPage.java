@@ -28,7 +28,6 @@ import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.comment.CommentTab;
 import org.qi4j.chronos.ui.common.SimpleTextArea;
 import org.qi4j.chronos.ui.common.SimpleTextField;
-import org.qi4j.chronos.ui.taskassignee.TaskAssigneeTab;
 import org.qi4j.chronos.util.DateUtil;
 
 public abstract class TaskDetailPage extends LeftMenuNavPage
@@ -85,7 +84,6 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
 
             List<AbstractTab> tabs = new ArrayList<AbstractTab>();
 
-            tabs.add( createTaskAssigneeTab() );
             tabs.add( createCommenTab() );
 
             tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
@@ -110,17 +108,6 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
                 public void addComment( CommentComposite comment )
                 {
                     TaskDetailPage.this.addComment( comment );
-                }
-            };
-        }
-
-        private TaskAssigneeTab createTaskAssigneeTab()
-        {
-            return new TaskAssigneeTab( "Task Assignee" )
-            {
-                public TaskEntityComposite getTask()
-                {
-                    return TaskDetailPage.this.getTask();
                 }
             };
         }

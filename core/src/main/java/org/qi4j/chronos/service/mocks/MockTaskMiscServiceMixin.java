@@ -13,14 +13,16 @@
 package org.qi4j.chronos.service.mocks;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Set;
 import org.qi4j.annotation.scope.ThisCompositeAs;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
-import org.qi4j.chronos.model.composites.TaskAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.TaskService;
 
@@ -54,24 +56,24 @@ public abstract class MockTaskMiscServiceMixin implements TaskService
 
     public List<TaskEntityComposite> getRecentTasks( StaffEntityComposite staff )
     {
-        List<TaskEntityComposite> resultList = new ArrayList<TaskEntityComposite>();
+        Set<TaskEntityComposite> resultSet = new HashSet<TaskEntityComposite>();
 
         List<TaskEntityComposite> allTasks = taskService.findAll();
 
         for( TaskEntityComposite task : allTasks )
         {
-            Iterator<TaskAssigneeEntityComposite> taskAssigneeIter = task.taskAssigneeIterator();
+            Iterator<WorkEntryEntityComposite> workEntryIter = task.workEntryIterator();
 
-            while( taskAssigneeIter.hasNext() )
+            while( workEntryIter.hasNext() )
             {
-                if( taskAssigneeIter.next().getProjectAssignee().getStaff().getIdentity().equals( staff.getIdentity() ) )
+                if( workEntryIter.next().getProjectAssignee().getStaff().getIdentity().equals( staff.getIdentity() ) )
                 {
-                    resultList.add( task );
+                    resultSet.add( task );
                 }
             }
         }
 
-        return resultList;
+        return new ArrayList( resultSet );
     }
 
     public List<TaskEntityComposite> getRecentTasks( StaffEntityComposite staff, FindFilter findFilter )
@@ -84,23 +86,23 @@ public abstract class MockTaskMiscServiceMixin implements TaskService
         return getRecentTasks( staff ).size();
     }
 
-    public TaskEntityComposite getTaskByTaskAssignee( TaskAssigneeEntityComposite taskAssignee )
-    {
-        List<TaskEntityComposite> tasks = taskService.findAll();
-
-        for( TaskEntityComposite task : tasks )
-        {
-            Iterator<TaskAssigneeEntityComposite> taskAssigneeIter = task.taskAssigneeIterator();
-
-            while( taskAssigneeIter.hasNext() )
-            {
-                if( taskAssigneeIter.next().getIdentity().equals( taskAssignee.getIdentity() ) )
-                {
-                    return task;
-                }
-            }
-        }
-
-        return null;
-    }
+//    public TaskEntityComposite getTaskByTaskAssignee( TaskAssigneeEntityComposite taskAssignee )
+//    {
+//        List<TaskEntityComposite> tasks = taskService.findAll();
+//
+//        for( TaskEntityComposite task : tasks )
+//        {
+//            Iterator<TaskAssigneeEntityComposite> taskAssigneeIter = task.taskAssigneeIterator();
+//
+//            while( taskAssigneeIter.hasNext() )
+//            {
+//                if( taskAssigneeIter.next().getIdentity().equals( taskAssignee.getIdentity() ) )
+//                {
+//                    return task;
+//                }
+//            }
+//        }
+//
+//        return null;
+//    }
 }

@@ -10,11 +10,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.composites;
+package org.qi4j.chronos.model;
 
-import org.qi4j.chronos.model.TaskAssignee;
-import org.qi4j.persistence.EntityComposite;
+import org.qi4j.chronos.model.associations.HasCreatedDate;
+import org.qi4j.chronos.model.associations.HasProjectAssignee;
 
-public interface TaskAssigneeEntityComposite extends TaskAssignee, EntityComposite
+public interface OngoingWorkEntry extends HasCreatedDate, HasProjectAssignee
 {
+
 }

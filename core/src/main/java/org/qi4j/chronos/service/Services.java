@@ -48,8 +48,6 @@ public interface Services
 
     TaskService getTaskService();
 
-    TaskAssigneeService getTaskAssigneeService();
-
     CommentService getCommentService();
 
     LegalConditionService getLegalConditionService();

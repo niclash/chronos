@@ -28,7 +28,7 @@ import org.qi4j.chronos.model.PriceRateType;
 import org.qi4j.chronos.model.ProjectStatus;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.SystemRoleType;
-import org.qi4j.chronos.model.TaskAssignee;
+import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.AddressComposite;
 import org.qi4j.chronos.model.composites.AdminEntityComposite;
@@ -44,7 +44,6 @@ import org.qi4j.chronos.model.composites.ProjectRoleComposite;
 import org.qi4j.chronos.model.composites.RelationshipComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.SystemRoleComposite;
-import org.qi4j.chronos.model.composites.TaskAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.model.composites.TimeRangeComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
@@ -65,7 +64,6 @@ import org.qi4j.chronos.service.RelationshipService;
 import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.service.SystemRoleService;
-import org.qi4j.chronos.service.TaskAssigneeService;
 import org.qi4j.chronos.service.TaskService;
 import org.qi4j.chronos.service.UserService;
 import org.qi4j.chronos.service.WorkEntryService;
@@ -84,7 +82,6 @@ import org.qi4j.chronos.service.composites.ProjectServiceComposite;
 import org.qi4j.chronos.service.composites.RelationshipServiceComposite;
 import org.qi4j.chronos.service.composites.StaffServiceComposite;
 import org.qi4j.chronos.service.composites.SystemRoleServiceComposite;
-import org.qi4j.chronos.service.composites.TaskAssigneeServiceComposite;
 import org.qi4j.chronos.service.composites.TaskServiceComposite;
 import org.qi4j.chronos.service.composites.UserServiceComposite;
 import org.qi4j.chronos.service.composites.WorkEntryServiceComposite;
@@ -116,7 +113,6 @@ public class MockServicesMixin implements Services
     private ContactService contactService;
     private PriceRateService priceRateService;
     private TaskService taskService;
-    private TaskAssigneeService taskAssigneeService;
     private CommentService commentService;
     private LegalConditionService legalConditionService;
 
@@ -148,9 +144,7 @@ public class MockServicesMixin implements Services
 
         taskService = newParentBasedService( TaskServiceComposite.class, "projectService", projectService );
 
-        taskAssigneeService = newParentBasedService( TaskAssigneeServiceComposite.class, "taskService", taskService );
-
-        workEntryService = newParentBasedService( WorkEntryServiceComposite.class, "taskAssigneeService", taskAssigneeService );
+        workEntryService = newParentBasedService( WorkEntryServiceComposite.class, "taskService", taskService );
 
         commentService = newService( CommentServiceComposite.class );
 
@@ -209,9 +203,7 @@ public class MockServicesMixin implements Services
 
         TaskEntityComposite task = initTaskDummyData( project, account.staffIterator().next() );
 
-        TaskAssigneeEntityComposite taskAssignee = initTaskAssignee( task, projectAssignees[ 0 ] );
-
-        initWorkEntryDummyData( taskAssignee );
+        initWorkEntryDummyData( task, projectAssignees[ 0 ] );
     }
 
     private ProjectAssigneeService initProjectAssigneeService( String propertyName, Object propertyValue )
@@ -219,8 +211,6 @@ public class MockServicesMixin implements Services
         CompositeBuilder<ProjectAssigneeServiceComposite> compositeBuilder = factory.newCompositeBuilder( ProjectAssigneeServiceComposite.class );
 
         compositeBuilder.properties( ParentBasedService.class, PropertyValue.property( propertyName, propertyValue ) );
-
-        compositeBuilder.properties( ProjectAssigneeService.class, PropertyValue.property( propertyName, propertyValue ) );
 
         return compositeBuilder.newInstance();
     }
@@ -238,18 +228,7 @@ public class MockServicesMixin implements Services
         return task;
     }
 
-    private TaskAssigneeEntityComposite initTaskAssignee( TaskEntityComposite task, ProjectAssigneeEntityComposite projectAssignee )
-    {
-        TaskAssigneeEntityComposite taskAssignee = taskAssigneeService.newInstance( TaskAssigneeEntityComposite.class );
-
-        taskAssignee.setProjectAssignee( projectAssignee );
-
-        task.addTaskAssignee( taskAssignee );
-
-        return taskAssignee;
-    }
-
-    private void initWorkEntryDummyData( TaskAssignee taskAssignee )
+    private void initWorkEntryDummyData( Task task, ProjectAssigneeEntityComposite projectAssignee )
     {
         Calendar starCalendar = Calendar.getInstance();
 
@@ -268,8 +247,9 @@ public class MockServicesMixin implements Services
 
             workEntry.setTitle( "Try to solve " + i );
             workEntry.setDescription( "try a, then b, then c, then " + i );
+            workEntry.setProjectAssignee( projectAssignee );
 
-            taskAssignee.addWorkEntry( workEntry );
+            task.addWorkEntry( workEntry );
         }
     }
 
@@ -721,11 +701,6 @@ public class MockServicesMixin implements Services
     public TaskService getTaskService()
     {
         return taskService;
-    }
-
-    public TaskAssigneeService getTaskAssigneeService()
-    {
-        return taskAssigneeService;
     }
 
     public CommentService getCommentService()

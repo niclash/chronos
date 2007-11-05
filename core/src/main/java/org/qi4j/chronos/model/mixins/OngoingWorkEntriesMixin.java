@@ -15,29 +15,29 @@ package org.qi4j.chronos.model.mixins;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.qi4j.chronos.model.associations.HasTaskAssignees;
-import org.qi4j.chronos.model.composites.TaskAssigneeEntityComposite;
+import org.qi4j.chronos.model.associations.OngoingWorkEntries;
+import org.qi4j.chronos.model.composites.OngoingWorkEntryComposite;
 
-public class HasTaskAssigneesMixin implements HasTaskAssignees
+public class OngoingWorkEntriesMixin implements OngoingWorkEntries
 {
-    private List<TaskAssigneeEntityComposite> list;
+    private List<OngoingWorkEntryComposite> list;
 
-    public HasTaskAssigneesMixin()
+    public OngoingWorkEntriesMixin()
     {
-        list = new ArrayList<TaskAssigneeEntityComposite>();
+        list = new ArrayList<OngoingWorkEntryComposite>();
     }
 
-    public void addTaskAssignee( TaskAssigneeEntityComposite taskAssignee )
+    public void addInProgressWorkEntry( OngoingWorkEntryComposite workEntry )
     {
-        list.add( taskAssignee );
+        list.add( workEntry );
     }
 
-    public void removeTaskAssignee( TaskAssigneeEntityComposite taskAssignee )
+    public void removeInProgressWorkEntry( OngoingWorkEntryComposite workEntry )
     {
-        list.remove( taskAssignee );
+        list.remove( workEntry );
     }
 
-    public Iterator<TaskAssigneeEntityComposite> taskAssigneeIterator()
+    public Iterator<OngoingWorkEntryComposite> inProgressWorkEntryIterator()
     {
         return list.iterator();
     }

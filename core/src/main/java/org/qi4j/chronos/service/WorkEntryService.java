@@ -15,9 +15,10 @@ package org.qi4j.chronos.service;
 import java.util.List;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 
-public interface WorkEntryService extends TaskAssigneeBasedService<WorkEntryEntityComposite>
+public interface WorkEntryService extends ParentBasedService<WorkEntryEntityComposite, TaskEntityComposite>
 {
     List<WorkEntryEntityComposite> findAll( ProjectEntityComposite project );
 

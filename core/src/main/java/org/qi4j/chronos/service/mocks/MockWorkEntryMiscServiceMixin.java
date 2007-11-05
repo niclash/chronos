@@ -18,7 +18,6 @@ import java.util.List;
 import org.qi4j.annotation.scope.ThisCompositeAs;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.model.composites.TaskAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
@@ -71,12 +70,7 @@ public abstract class MockWorkEntryMiscServiceMixin implements WorkEntryService
 
         while( iterator.hasNext() )
         {
-            Iterator<TaskAssigneeEntityComposite> taskAssigneeIter = iterator.next().taskAssigneeIterator();
-
-            while( taskAssigneeIter.hasNext() )
-            {
-                resultList.addAll( workEntryService.findAll( taskAssigneeIter.next() ) );
-            }
+            resultList.addAll( workEntryService.findAll( iterator.next() ) );
         }
 
         return resultList;

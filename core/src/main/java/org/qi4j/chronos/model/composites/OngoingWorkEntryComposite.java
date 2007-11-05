@@ -10,11 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service;
+package org.qi4j.chronos.model.composites;
 
-import org.qi4j.chronos.model.composites.TaskAssigneeEntityComposite;
-import org.qi4j.persistence.Identity;
+import org.qi4j.Composite;
+import org.qi4j.chronos.model.OngoingWorkEntry;
 
-public interface TaskAssigneeBasedService<ITEM extends Identity> extends ParentBasedService<ITEM, TaskAssigneeEntityComposite>
+public interface OngoingWorkEntryComposite extends OngoingWorkEntry, Composite
 {
 }
