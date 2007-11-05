@@ -15,14 +15,14 @@ package org.qi4j.chronos.model.associations;
 import java.util.Iterator;
 import org.qi4j.annotation.Mixins;
 import org.qi4j.chronos.model.composites.OngoingWorkEntryComposite;
-import org.qi4j.chronos.model.mixins.OngoingWorkEntriesMixin;
+import org.qi4j.chronos.model.mixins.HasOngoingWorkEntriesMixin;
 
-@Mixins( OngoingWorkEntriesMixin.class )
-public interface OngoingWorkEntries
+@Mixins( HasOngoingWorkEntriesMixin.class )
+public interface HasOngoingWorkEntries
 {
-    void addInProgressWorkEntry( OngoingWorkEntryComposite workEntry );
+    void addOngoingWorkEntry( OngoingWorkEntryComposite workEntry );
 
-    void removeInProgressWorkEntry( OngoingWorkEntryComposite workEntry );
+    void removeOngoingWorkEntry( OngoingWorkEntryComposite workEntry );
 
-    Iterator<OngoingWorkEntryComposite> inProgressWorkEntryIterator();
+    Iterator<OngoingWorkEntryComposite> ongoingWorkEntryIterator();
 }

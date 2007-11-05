@@ -15,29 +15,29 @@ package org.qi4j.chronos.model.mixins;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.qi4j.chronos.model.associations.OngoingWorkEntries;
+import org.qi4j.chronos.model.associations.HasOngoingWorkEntries;
 import org.qi4j.chronos.model.composites.OngoingWorkEntryComposite;
 
-public class OngoingWorkEntriesMixin implements OngoingWorkEntries
+public class HasOngoingWorkEntriesMixin implements HasOngoingWorkEntries
 {
     private List<OngoingWorkEntryComposite> list;
 
-    public OngoingWorkEntriesMixin()
+    public HasOngoingWorkEntriesMixin()
     {
         list = new ArrayList<OngoingWorkEntryComposite>();
     }
 
-    public void addInProgressWorkEntry( OngoingWorkEntryComposite workEntry )
+    public void addOngoingWorkEntry( OngoingWorkEntryComposite workEntry )
     {
         list.add( workEntry );
     }
 
-    public void removeInProgressWorkEntry( OngoingWorkEntryComposite workEntry )
+    public void removeOngoingWorkEntry( OngoingWorkEntryComposite workEntry )
     {
         list.remove( workEntry );
     }
 
-    public Iterator<OngoingWorkEntryComposite> inProgressWorkEntryIterator()
+    public Iterator<OngoingWorkEntryComposite> ongoingWorkEntryIterator()
     {
         return list.iterator();
     }
