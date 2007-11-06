@@ -10,25 +10,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.action;
+package org.qi4j.chronos.ui.common;
 
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.util.IconLoader;
-import org.qi4j.chronos.ui.task.TaskAddDialog;
-
-public class NewTaskAction extends AnAction
+public abstract class AddEditDialog extends AbstractDialog
 {
-    public void actionPerformed( AnActionEvent e )
+    public AddEditDialog()
     {
-        new TaskAddDialog().show();
+        setOKButtonText( getOkButtonText() );
     }
 
-    public void update( AnActionEvent e )
+    protected final void doOKAction()
     {
-        super.update( e );
-
-        //TODO fix icon
-        e.getPresentation().setIcon( IconLoader.getIcon( "/general/add.png" ) );
+        handleOkClicked();
     }
+
+    protected final void okExit()
+    {
+        close( OK_EXIT_CODE );
+    }
+
+    public abstract String getOkButtonText();
+
+    public abstract void handleOkClicked();
 }

@@ -10,25 +10,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.action;
+package org.qi4j.chronos.ui.comment;
 
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.util.IconLoader;
-import org.qi4j.chronos.ui.task.TaskAddDialog;
-
-public class NewTaskAction extends AnAction
+public class CommentEditDialog extends CommentAddEditDialog
 {
-    public void actionPerformed( AnActionEvent e )
+    public CommentEditDialog()
     {
-        new TaskAddDialog().show();
     }
 
-    public void update( AnActionEvent e )
+    public String getOkButtonText()
     {
-        super.update( e );
+        return "Update";
+    }
 
-        //TODO fix icon
-        e.getPresentation().setIcon( IconLoader.getIcon( "/general/add.png" ) );
+    public String getDialogTitle()
+    {
+        return "Edit Comment";
     }
 }

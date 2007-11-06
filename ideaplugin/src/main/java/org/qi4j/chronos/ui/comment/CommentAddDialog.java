@@ -10,15 +10,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.action;
+package org.qi4j.chronos.ui.comment;
 
-import com.intellij.openapi.actionSystem.AnAction;
-import com.intellij.openapi.actionSystem.AnActionEvent;
-
-public class TaskListAction extends AnAction
+public class CommentAddDialog extends CommentAddEditDialog
 {
-    public void actionPerformed( AnActionEvent e )
+    public CommentAddDialog()
     {
-        // TODO: insert action logic here
+    }
+
+    public String getOkButtonText()
+    {
+        return "Add";
+    }
+
+    public String getDialogTitle()
+    {
+        return "Add Comment";
     }
 }

@@ -12,14 +12,7 @@
  */
 package org.qi4j.chronos.ui.util;
 
-import javax.swing.ImageIcon;
-import javax.imageio.ImageIO;
-import java.io.IOException;
-
 public final class SwingMiscUtil
 {
-     public static ImageIcon getIcon( String packageName, Class clazz ) throws IOException
-     {
-        return new ImageIcon( ImageIO.read( clazz.getClassLoader().getResourceAsStream( packageName ) ) );
-    }
+
 }

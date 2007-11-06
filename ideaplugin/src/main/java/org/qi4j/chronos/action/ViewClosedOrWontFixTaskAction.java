@@ -15,13 +15,12 @@ package org.qi4j.chronos.action;
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.util.IconLoader;
-import org.qi4j.chronos.ui.task.TaskAddDialog;
 
-public class NewTaskAction extends AnAction
+public class ViewClosedOrWontFixTaskAction extends AnAction
 {
     public void actionPerformed( AnActionEvent e )
     {
-        new TaskAddDialog().show();
+
     }
 
     public void update( AnActionEvent e )
@@ -29,6 +28,6 @@ public class NewTaskAction extends AnAction
         super.update( e );
 
         //TODO fix icon
-        e.getPresentation().setIcon( IconLoader.getIcon( "/general/add.png" ) );
+        e.getPresentation().setIcon( IconLoader.getIcon( "/general/smallConfigurableVcs.png" ) );
     }
 }

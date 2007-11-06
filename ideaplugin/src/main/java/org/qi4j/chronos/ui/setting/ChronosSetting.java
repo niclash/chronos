@@ -16,6 +16,7 @@ import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
+import com.intellij.openapi.util.IconLoader;
 import com.intellij.openapi.util.InvalidDataException;
 import com.intellij.openapi.util.JDOMExternalizable;
 import com.intellij.openapi.util.WriteExternalException;
@@ -26,14 +27,13 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import org.jdom.Element;
 import org.jetbrains.annotations.Nls;
-import org.jetbrains.annotations.NonNls;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import org.qi4j.chronos.config.ChronosConfig;
-import org.qi4j.chronos.ui.util.SwingMiscUtil;
 
 public class ChronosSetting implements ProjectComponent, Configurable, JDOMExternalizable
 {
+    public final static String DISPLAY_NAME = "Chronos Setting";
+    public final static String COMPONENT_NAME = "ChronosSetting";
+
     private static final Logger LOG = Logger.getInstance( ChronosSetting.class.getName() );
 
     private ChronosConfig chronosConfig;
@@ -49,7 +49,6 @@ public class ChronosSetting implements ProjectComponent, Configurable, JDOMExter
 
     public void projectOpened()
     {
-
     }
 
     public void projectClosed()
@@ -57,9 +56,9 @@ public class ChronosSetting implements ProjectComponent, Configurable, JDOMExter
 
     }
 
-    @NonNls @NotNull public String getComponentName()
+    public String getComponentName()
     {
-        return "chronos.setting";
+        return COMPONENT_NAME;
     }
 
     public void initComponent()
@@ -74,21 +73,14 @@ public class ChronosSetting implements ProjectComponent, Configurable, JDOMExter
 
     @Nls public String getDisplayName()
     {
-        return "Chronos Setting";
+        return DISPLAY_NAME;
     }
 
     public Icon getIcon()
     {
         if( icon == null )
         {
-            try
-            {
-                icon = SwingMiscUtil.getIcon( "org/qi4j/chronos/ui/setting/icon.png", getClass() );
-            }
-            catch( IOException e )
-            {
-                LOG.error( "Error while reading icon for IDEA Doc", e );
-            }
+            icon = IconLoader.getIcon( "/org/qi4j/chronos/ui/setting/icon.png" );
         }
         return icon;
     }
@@ -98,9 +90,9 @@ public class ChronosSetting implements ProjectComponent, Configurable, JDOMExter
         return new ImageIcon( ImageIO.read( clazz.getClassLoader().getResourceAsStream( packageName ) ) );
     }
 
-    @Nullable @NonNls public String getHelpTopic()
+    public String getHelpTopic()
     {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 
     public JComponent createComponent()

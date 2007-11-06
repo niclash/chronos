@@ -9,20 +9,23 @@
     <component>
       <implementation-class>org.qi4j.chronos.ui.setting.ChronosSetting</implementation-class>
     </component>
+    <component>
+      <implementation-class>org.qi4j.chronos.ui.task.TaskToolWindow</implementation-class>
+    </component>
   </project-components>
   <actions>
-    <group id="ChronosActionGroupWrapper" text="Chronos " popup="false">
-      <separator/>
-      <add-to-group group-id="ProjectViewPopupMenu" anchor="last"/>
+    <group id="ChronosTaskGroup">
+      <action id="ChronosNewTaskAction" class="org.qi4j.chronos.action.NewTaskAction" text="New Task"
+              description="New Task"/>
+      <action id="ChronosViewClosedOrWontFixTaskAction" class="org.qi4j.chronos.action.ViewClosedOrWontFixTaskAction"
+              text="View Closed/Won't Fix Task"
+              description="View Closed/Won't Fix Task"/>
     </group>
 
-    <group id="ChronosActionGroup" text="Chronos" description="Chronos Action Group" popup="true">
-      <action id="ChronosNewTaskAction" class="org.qi4j.chronos.action.NewTaskAction" text="Add Task"
-              description="New Task"/>
-      <action id="ChronosTaskListAction" class="org.qi4j.chronos.action.TaskListAction"
-              text="Task List"/>
-
-      <add-to-group group-id="ChronosActionGroupWrapper" anchor="last"/>
+    <group id="ChronosSettingGroup">
+      <action id="ChronosSettingAction" class="org.qi4j.chronos.action.ChronosSettingAction"
+              text="Chronos Setting"
+              description="Chronos Setting"/>
     </group>
   </actions>
 </idea-plugin>

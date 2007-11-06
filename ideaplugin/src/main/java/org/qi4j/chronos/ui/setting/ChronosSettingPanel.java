@@ -14,19 +14,18 @@ package org.qi4j.chronos.ui.setting;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
-import com.jgoodies.forms.layout.FormLayout;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JPanel;
 import javax.swing.JPasswordField;
 import javax.swing.JTextField;
 import org.qi4j.chronos.config.ChronosConfig;
+import org.qi4j.chronos.ui.common.AbstractPanel;
 
-public class ChronosSettingPanel extends JPanel
+public class ChronosSettingPanel extends AbstractPanel
 {
     private JTextField loginIdField;
     private JPasswordField passwordField;
@@ -45,10 +44,10 @@ public class ChronosSettingPanel extends JPanel
 
     public ChronosSettingPanel()
     {
-        initComponents();
+        renderComponent();
     }
 
-    private void initComponents()
+    protected void initComponents()
     {
         loginIdField = new JTextField();
         passwordField = new JPasswordField();
@@ -63,7 +62,6 @@ public class ChronosSettingPanel extends JPanel
         loginButton = new JButton( "Login" );
         logoutButton = new JButton( "Logout" );
 
-        initLayout();
         initActions();
     }
 
@@ -79,20 +77,20 @@ public class ChronosSettingPanel extends JPanel
         return new String[]{ "Chronos", "Qi4j", "Pax Runner" };
     }
 
-    private void initLayout()
+    protected String getLayoutColSpec()
     {
-        String cols = "right:p, 3dlu, 120dlu, 1dlu:grow";
+        return "right:p, 3dlu, 120dlu, 1dlu:grow";
+    }
 
-        String rows = "p, 3dlu, p,3dlu,p," +
-                      "3dlu,p, 3dlu, p,3dlu," +
-                      "p,3dlu,p, 3dlu, p";
+    protected String getLayoutRowSpec()
+    {
+        return "p, 3dlu, p,3dlu,p," +
+               "3dlu,p, 3dlu, p,3dlu," +
+               "p,3dlu,p, 3dlu, p";
+    }
 
-        FormLayout layout = new FormLayout( cols, rows );
-
-        PanelBuilder builder = new PanelBuilder( layout, this );
-        builder.setDefaultDialogBorder();
-        CellConstraints cc = new CellConstraints();
-
+    protected void initLayout( PanelBuilder builder, CellConstraints cc )
+    {
         builder.add( qi4jSettingButton, cc.xyw( 1, 1, 3 ) );
 
         builder.addSeparator( "Login Setting", cc.xyw( 1, 3, 4 ) );
