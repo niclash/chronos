@@ -29,6 +29,7 @@ import org.qi4j.chronos.model.ProjectStatus;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.SystemRoleType;
 import org.qi4j.chronos.model.Task;
+import org.qi4j.chronos.model.TaskStatus;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.AddressComposite;
 import org.qi4j.chronos.model.composites.AdminEntityComposite;
@@ -222,6 +223,7 @@ public class MockServicesMixin implements Services
         task.setTitle( "Fix bug 10-1" );
         task.setDescription( "It cause nullpointerexception in bla bla." );
         task.setUser( staff );
+        task.setTaskStatus( TaskStatus.OPEN );
 
         project.addTask( task );
 

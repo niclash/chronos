@@ -12,14 +12,17 @@
  */
 package org.qi4j.chronos.ui.task;
 
+import java.util.Arrays;
 import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.form.Form;
 import org.qi4j.chronos.model.Task;
+import org.qi4j.chronos.model.TaskStatus;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.ui.base.AddEditBasePage;
 import org.qi4j.chronos.ui.common.MaxLengthTextArea;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
+import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.common.SimpleTextField;
 
 public abstract class TaskAddEditPage extends AddEditBasePage
@@ -27,6 +30,7 @@ public abstract class TaskAddEditPage extends AddEditBasePage
     private MaxLengthTextField titleField;
     private MaxLengthTextArea descriptionTextArea;
     private SimpleTextField userField;
+    private SimpleDropDownChoice<TaskStatus> taskStatusChoice;
 
     public TaskAddEditPage( Page basePage )
     {
@@ -40,9 +44,12 @@ public abstract class TaskAddEditPage extends AddEditBasePage
 
         userField = new SimpleTextField( "userField", getTaskOwner().getFullname(), true );
 
+        taskStatusChoice = new SimpleDropDownChoice<TaskStatus>( "taskStatusChoice", Arrays.asList( TaskStatus.values() ), true );
+
         form.add( titleField );
         form.add( descriptionTextArea );
         form.add( userField );
+        form.add( taskStatusChoice );
     }
 
     protected void assignFieldValueToTaskMaster( TaskEntityComposite task )
@@ -50,12 +57,14 @@ public abstract class TaskAddEditPage extends AddEditBasePage
         task.setDescription( descriptionTextArea.getText() );
         task.setTitle( titleField.getText() );
         task.setUser( getTaskOwner() );
+        task.setTaskStatus( taskStatusChoice.getChoice() );
     }
 
     protected void assignTaskMasterToFieldValie( TaskEntityComposite task )
     {
         descriptionTextArea.setText( task.getDescription() );
         titleField.setText( task.getTitle() );
+        taskStatusChoice.setChoice( task.getTaskStatus() );
     }
 
     public void handleSubmit()

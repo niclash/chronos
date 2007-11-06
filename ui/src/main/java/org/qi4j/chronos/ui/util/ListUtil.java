@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 import org.qi4j.chronos.model.PriceRateType;
 import org.qi4j.chronos.model.ProjectStatus;
+import org.qi4j.chronos.model.TaskStatus;
 import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
 import org.qi4j.chronos.model.associations.HasPriceRates;
 import org.qi4j.chronos.model.associations.HasStaffs;
@@ -143,5 +144,19 @@ public final class ListUtil
         }
 
         return result;
+    }
+
+    public static List<String> getTaskStatusList()
+    {
+        TaskStatus[] taskStatuses = TaskStatus.values();
+
+        List<String> resultList = new ArrayList<String>();
+
+        for( TaskStatus taskStatus : taskStatuses )
+        {
+            resultList.add( taskStatus.toString() );
+        }
+
+        return resultList;
     }
 }

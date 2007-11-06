@@ -14,6 +14,7 @@ package org.qi4j.chronos.ui.project;
 
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.wicket.Page;
@@ -40,7 +41,6 @@ import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.contactperson.ContactPersonDelegator;
 import org.qi4j.chronos.ui.customer.CustomerDelegator;
 import org.qi4j.chronos.ui.pricerate.PriceRateScheduleOptionPanel;
-import org.qi4j.chronos.ui.util.ListUtil;
 import org.qi4j.chronos.ui.util.ValidatorUtil;
 
 public abstract class ProjectAddEditPage extends AddEditBasePage
@@ -48,7 +48,7 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
     protected MaxLengthTextField projectNameField;
     protected MaxLengthTextField formalReferenceField;
 
-    protected SimpleDropDownChoice<String> statusChoice;
+    protected SimpleDropDownChoice<ProjectStatus> statusChoice;
     protected SimpleDropDownChoice<ContactPersonDelegator> primaryContactChoice;
 
     protected SimpleDropDownChoice<CustomerDelegator> customerChoice;
@@ -105,7 +105,7 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
         projectNameField = new MaxLengthTextField( "projectName", "Project Name", Project.PROJECT_NAME_LEN );
         formalReferenceField = new MaxLengthTextField( "projectFormalReference", "Project Formal Reference", Project.PROJECT_FORMAL_REFERENCE_LEN );
 
-        statusChoice = new SimpleDropDownChoice<String>( "statusChoice", ListUtil.getProjectStatusList(), true )
+        statusChoice = new SimpleDropDownChoice<ProjectStatus>( "statusChoice", Arrays.asList( ProjectStatus.values() ), true )
         {
 
             protected void onSelectionChanged( Object newSelection )
@@ -249,7 +249,7 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
 
     private void handleStatusChanged()
     {
-        ProjectStatus projectStatus = getSelectedProjectStatus();
+        ProjectStatus projectStatus = statusChoice.getChoice();
 
         if( projectStatus == ProjectStatus.CLOSED )
         {
@@ -261,15 +261,6 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
         }
 
         setResponsePage( this );
-    }
-
-    private ProjectStatus getSelectedProjectStatus()
-    {
-        String choice = statusChoice.getChoice();
-
-        ProjectStatus projectStatus = ProjectStatus.valueOf( choice );
-
-        return projectStatus;
     }
 
     private List<CustomerDelegator> getProjectOwnerList()
@@ -291,7 +282,7 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
         project.setName( projectNameField.getText() );
         project.setReference( formalReferenceField.getText() );
 
-        project.setProjectStatus( getSelectedProjectStatus() );
+        project.setProjectStatus( statusChoice.getChoice() );
 
         CustomerEntityComposite customer = getCustomerService().get( customerChoice.getChoice().getId() );
 
@@ -336,7 +327,7 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
 
         formalReferenceField.setText( project.getReference() );
 
-        statusChoice.setChoice( project.getProjectStatus().toString() );
+        statusChoice.setChoice( project.getProjectStatus() );
 
         if( project.getProjectStatus() == ProjectStatus.CLOSED )
         {
@@ -392,15 +383,15 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
         }
 
         if( ValidatorUtil.isAfter( estimateStartDate.getDate(), estimateEndDate.getDate(),
-                                       "Start Date(Est.)", "End Date(Est.)", this ) )
+                                   "Start Date(Est.)", "End Date(Est.)", this ) )
         {
             isRejected = true;
         }
 
-        if( getSelectedProjectStatus() == ProjectStatus.CLOSED )
+        if( statusChoice.getChoice() == ProjectStatus.CLOSED )
         {
             if( ValidatorUtil.isAfter( actualStartDate.getDate(), actualEndDate.getDate(),
-                                           "Start Date(Act.)", "End Date(Act.)", this ) )
+                                       "Start Date(Act.)", "End Date(Act.)", this ) )
             {
                 isRejected = true;
             }
