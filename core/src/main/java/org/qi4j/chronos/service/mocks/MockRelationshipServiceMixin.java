@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.qi4j.CompositeBuilderFactory;
-import org.qi4j.annotation.scope.Qi4j;
+import org.qi4j.annotation.scope.Structure;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.model.composites.RelationshipComposite;
@@ -24,7 +24,7 @@ import org.qi4j.chronos.service.RelationshipService;
 
 public class MockRelationshipServiceMixin implements RelationshipService
 {
-    @Qi4j private CompositeBuilderFactory factory;
+    @Structure private CompositeBuilderFactory factory;
 
     public MockRelationshipServiceMixin()
     {

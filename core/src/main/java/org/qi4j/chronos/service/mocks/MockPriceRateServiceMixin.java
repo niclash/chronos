@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import org.qi4j.CompositeBuilderFactory;
-import org.qi4j.annotation.scope.Qi4j;
+import org.qi4j.annotation.scope.Structure;
 import org.qi4j.chronos.model.PriceRateType;
 import org.qi4j.chronos.model.associations.HasPriceRates;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
@@ -25,7 +25,7 @@ import org.qi4j.chronos.service.PriceRateService;
 
 public class MockPriceRateServiceMixin implements PriceRateService
 {
-    @Qi4j private CompositeBuilderFactory factory;
+    @Structure private CompositeBuilderFactory factory;
 
     public List<PriceRateComposite> findAll( HasPriceRates hasPriceRates, FindFilter findFilter )
     {

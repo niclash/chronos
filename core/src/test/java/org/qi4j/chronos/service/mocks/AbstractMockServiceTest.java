@@ -12,21 +12,18 @@
  */
 package org.qi4j.chronos.service.mocks;
 
-import junit.framework.TestCase;
 import org.qi4j.CompositeBuilder;
-import org.qi4j.CompositeBuilderFactory;
 import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.service.composites.ServicesComposite;
-import org.qi4j.runtime.CompositeBuilderFactoryImpl;
+import org.qi4j.test.AbstractQi4jTest;
 
-public abstract class AbstractMockServiceTest extends TestCase
+public abstract class AbstractMockServiceTest extends AbstractQi4jTest
 {
     protected Services services;
-    protected CompositeBuilderFactory factory;
 
     protected void setUp() throws Exception
     {
-        factory = new CompositeBuilderFactoryImpl();
+        super.setUp();
 
         CompositeBuilder<ServicesComposite> serviceBuilder = factory.newCompositeBuilder( ServicesComposite.class );
 

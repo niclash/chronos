@@ -22,7 +22,7 @@ import org.qi4j.Composite;
 import org.qi4j.CompositeBuilder;
 import org.qi4j.CompositeBuilderFactory;
 import org.qi4j.PropertyValue;
-import org.qi4j.annotation.scope.Qi4j;
+import org.qi4j.annotation.scope.Structure;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.PriceRateType;
 import org.qi4j.chronos.model.ProjectStatus;
@@ -94,7 +94,7 @@ import org.qi4j.library.general.model.composites.StateComposite;
 
 public class MockServicesMixin implements Services
 {
-    @Qi4j private CompositeBuilderFactory factory;
+    @Structure private CompositeBuilderFactory factory;
 
     private final static String ACCOUNT_SERVICE = "accountService";
 

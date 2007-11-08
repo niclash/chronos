@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import org.qi4j.CompositeBuilderFactory;
-import org.qi4j.annotation.scope.Qi4j;
+import org.qi4j.annotation.scope.Structure;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectRoleComposite;
 import org.qi4j.chronos.service.FindFilter;
@@ -25,7 +25,7 @@ import org.qi4j.chronos.service.ProjectRoleService;
 
 public class MockProjectRoleServiceMixin implements ProjectRoleService
 {
-    @Qi4j private CompositeBuilderFactory factory;
+    @Structure private CompositeBuilderFactory factory;
 
     public List<ProjectRoleComposite> findAll( AccountEntityComposite account, FindFilter findFilter )
     {

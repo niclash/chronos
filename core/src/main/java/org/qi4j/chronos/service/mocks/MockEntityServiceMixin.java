@@ -21,7 +21,7 @@ import java.util.concurrent.ConcurrentHashMap;
 import org.qi4j.CompositeBuilder;
 import org.qi4j.CompositeBuilderFactory;
 import static org.qi4j.PropertyValue.property;
-import org.qi4j.annotation.scope.Qi4j;
+import org.qi4j.annotation.scope.Structure;
 import org.qi4j.chronos.service.EntityService;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.library.framework.validation.Validatable;
@@ -32,7 +32,7 @@ public class MockEntityServiceMixin
 {
     private Map<String, Identity> dataMap;
 
-    @Qi4j private CompositeBuilderFactory factory;
+    @Structure private CompositeBuilderFactory factory;
 
     public MockEntityServiceMixin()
     {

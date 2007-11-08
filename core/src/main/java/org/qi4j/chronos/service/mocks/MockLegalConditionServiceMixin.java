@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import org.qi4j.CompositeBuilderFactory;
-import org.qi4j.annotation.scope.Qi4j;
+import org.qi4j.annotation.scope.Structure;
 import org.qi4j.chronos.model.associations.HasLegalConditions;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.LegalConditionComposite;
@@ -27,7 +27,7 @@ import org.qi4j.chronos.service.LegalConditionService;
 
 public class MockLegalConditionServiceMixin implements LegalConditionService
 {
-    @Qi4j private CompositeBuilderFactory factory;
+    @Structure private CompositeBuilderFactory factory;
 
     public List<LegalConditionComposite> findAll( HasLegalConditions hasLegalConditions, FindFilter findFilter )
     {

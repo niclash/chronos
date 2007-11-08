@@ -20,7 +20,7 @@ import java.util.UUID;
 import org.qi4j.CompositeBuilder;
 import org.qi4j.CompositeBuilderFactory;
 import static org.qi4j.PropertyValue.property;
-import org.qi4j.annotation.scope.Qi4j;
+import org.qi4j.annotation.scope.Structure;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.ParentBasedService;
 import org.qi4j.persistence.EntityComposite;
@@ -28,7 +28,7 @@ import org.qi4j.persistence.Identity;
 
 public abstract class MockParentBasedServiceMixin<ITEM extends Identity, PARENT extends EntityComposite> implements ParentBasedService<ITEM, PARENT>
 {
-    @Qi4j private CompositeBuilderFactory factory;
+    @Structure private CompositeBuilderFactory factory;
 
     public MockParentBasedServiceMixin()
     {

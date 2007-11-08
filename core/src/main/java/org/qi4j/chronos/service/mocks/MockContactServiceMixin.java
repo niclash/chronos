@@ -17,7 +17,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import org.qi4j.CompositeBuilderFactory;
-import org.qi4j.annotation.scope.Qi4j;
+import org.qi4j.annotation.scope.Structure;
 import org.qi4j.chronos.model.associations.HasContacts;
 import org.qi4j.chronos.model.composites.ContactComposite;
 import org.qi4j.chronos.service.ContactService;
@@ -25,7 +25,7 @@ import org.qi4j.chronos.service.FindFilter;
 
 public class MockContactServiceMixin implements ContactService
 {
-    @Qi4j private CompositeBuilderFactory factory;
+    @Structure private CompositeBuilderFactory factory;
 
     public List<ContactComposite> findAll( HasContacts hasContacts, FindFilter findFilter )
     {

@@ -85,7 +85,7 @@ public abstract class ProjectTable extends ActionTable<ProjectEntityComposite, S
             {
                 getProjectService().changeProjectStatus( ProjectStatus.CLOSED, projects );
 
-                info( "Selected project(s) are changed to  Closed Status" );
+                info( "Selected project(s) are changed to  Closed ActivationStatus" );
             }
         } );
     }
@@ -175,7 +175,7 @@ public abstract class ProjectTable extends ActionTable<ProjectEntityComposite, S
 
     public List<String> getTableHeaderList()
     {
-        return Arrays.asList( "Name", "Formal Reference", "Status", "" );
+        return Arrays.asList( "Name", "Formal Reference", "ActivationStatus", "" );
     }
 
     public abstract int getSize();

@@ -24,7 +24,7 @@ import org.qi4j.chronos.ui.admin.AdminHomePage;
 import org.qi4j.chronos.ui.contactperson.ContactPersonHomePage;
 import org.qi4j.chronos.ui.login.LoginPage;
 import org.qi4j.chronos.ui.staff.StaffHomePage;
-import org.qi4j.runtime.CompositeBuilderFactoryImpl;
+import org.qi4j.runtime.Energy4Java;
 
 public class ChronosWebApp extends AuthenticatedWebApplication
 {
@@ -34,7 +34,7 @@ public class ChronosWebApp extends AuthenticatedWebApplication
 
     static
     {
-        factory = new CompositeBuilderFactoryImpl();
+        factory = new Energy4Java().newCompositeBuilderFactory();
 
         CompositeBuilder<ServicesComposite> serviceBuilder = factory.newCompositeBuilder( ServicesComposite.class );
 
