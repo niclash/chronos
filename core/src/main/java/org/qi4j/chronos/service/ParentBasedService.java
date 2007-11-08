@@ -14,8 +14,8 @@ package org.qi4j.chronos.service;
 
 import java.util.Collection;
 import java.util.List;
-import org.qi4j.persistence.EntityComposite;
-import org.qi4j.persistence.Identity;
+import org.qi4j.entity.EntityComposite;
+import org.qi4j.entity.Identity;
 
 public interface ParentBasedService<ITEM extends Identity, PARENT extends EntityComposite>
 {

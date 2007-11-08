@@ -16,7 +16,7 @@ import java.util.List;
 import org.qi4j.annotation.scope.PropertyField;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.service.ProjectAssigneeService;
-import org.qi4j.persistence.Identity;
+import org.qi4j.entity.Identity;
 
 public abstract class MockProjectAssigneeBasedServiceMixin<ITEM extends Identity> extends MockParentBasedServiceMixin<ITEM, ProjectAssigneeEntityComposite>
 {

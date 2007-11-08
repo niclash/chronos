@@ -15,7 +15,7 @@ package org.qi4j.chronos.ui.comment;
 import java.io.Serializable;
 import java.util.Date;
 import org.qi4j.chronos.model.composites.CommentComposite;
-import org.qi4j.persistence.Identity;
+import org.qi4j.entity.Identity;
 
 //TODO bp. we don't need this when comment can be made serilizable
 public class CommentDelegator implements Serializable

@@ -19,7 +19,7 @@ import org.qi4j.library.general.model.Contact;
  * Validatable Contact composite. Contact must have {@link org.qi4j.library.general.model.ContactType}.
  * E.g. email contact would be john.smith@gmail.com
  * <p/>
- * Contact does not extend {@link org.qi4j.persistence.EntityComposite} because
+ * Contact does not extend {@link org.qi4j.entity.EntityComposite} because
  * Contact is bound to {@link org.qi4j.chronos.model.ContactPerson}.
  * When contact person is removed, the contact is removed as well
  * <p/>

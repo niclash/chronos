@@ -14,7 +14,7 @@
 package org.qi4j.chronos.model.composites;
 
 import org.qi4j.chronos.model.ProjectAssignee;
-import org.qi4j.persistence.EntityComposite;
+import org.qi4j.entity.EntityComposite;
 
 public interface ProjectAssigneeEntityComposite extends ProjectAssignee, EntityComposite
 {

@@ -25,7 +25,7 @@ import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.util.DateUtil;
-import org.qi4j.persistence.Identity;
+import org.qi4j.entity.Identity;
 
 public abstract class CommentTable extends ActionTable<CommentComposite, CommentId>
 {

@@ -19,7 +19,7 @@
 package org.qi4j.chronos.model.composites;
 
 import org.qi4j.chronos.model.Staff;
-import org.qi4j.persistence.EntityComposite;
+import org.qi4j.entity.EntityComposite;
 
 /**
  * Staff works for the company and hence contains more information on top of the basic user information provided in

@@ -13,7 +13,7 @@
 package org.qi4j.chronos.service;
 
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
-import org.qi4j.persistence.Identity;
+import org.qi4j.entity.Identity;
 
 public interface TaskBasedService<ITEM extends Identity> extends ParentBasedService<ITEM, TaskEntityComposite>
 {

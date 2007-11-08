@@ -23,8 +23,8 @@ import static org.qi4j.PropertyValue.property;
 import org.qi4j.annotation.scope.Structure;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.ParentBasedService;
-import org.qi4j.persistence.EntityComposite;
-import org.qi4j.persistence.Identity;
+import org.qi4j.entity.EntityComposite;
+import org.qi4j.entity.Identity;
 
 public abstract class MockParentBasedServiceMixin<ITEM extends Identity, PARENT extends EntityComposite> implements ParentBasedService<ITEM, PARENT>
 {

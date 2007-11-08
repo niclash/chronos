@@ -13,7 +13,7 @@
 package org.qi4j.chronos.service;
 
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.persistence.Identity;
+import org.qi4j.entity.Identity;
 
 public interface ProjectBasedService<T extends Identity> extends ParentBasedService<T, ProjectEntityComposite>
 {

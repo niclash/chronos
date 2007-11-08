@@ -1,10 +1,10 @@
 package org.qi4j.chronos.model;
 
 import org.qi4j.CompositeBuilderFactory;
+import org.qi4j.entity.EntitySession;
+import org.qi4j.entity.IdentityGenerator;
 import org.qi4j.extension.persistence.quick.MapPersistenceProvider;
 import org.qi4j.extension.persistence.quick.SerializablePersistence;
-import org.qi4j.persistence.EntitySession;
-import org.qi4j.persistence.IdentityGenerator;
 import org.qi4j.runtime.CompositeModelFactory;
 import org.qi4j.runtime.UuidIdentityGenerator;
 import org.qi4j.runtime.persistence.EntitySessionImpl;

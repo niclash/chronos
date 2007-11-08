@@ -20,7 +20,7 @@ import org.apache.wicket.authorization.strategies.role.Roles;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.service.UserService;
-import org.qi4j.persistence.Identity;
+import org.qi4j.entity.Identity;
 
 public class ChronosSession extends AuthenticatedWebSession
 {

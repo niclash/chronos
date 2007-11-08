@@ -24,8 +24,8 @@ import static org.qi4j.PropertyValue.property;
 import org.qi4j.annotation.scope.Structure;
 import org.qi4j.chronos.service.EntityService;
 import org.qi4j.chronos.service.FindFilter;
+import org.qi4j.entity.Identity;
 import org.qi4j.library.framework.validation.Validatable;
-import org.qi4j.persistence.Identity;
 
 public class MockEntityServiceMixin
     implements EntityService<Identity>
