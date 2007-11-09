@@ -17,9 +17,9 @@ import com.intellij.openapi.project.Project;
 import com.intellij.openapi.wm.ToolWindowAnchor;
 import com.intellij.openapi.wm.ToolWindowManager;
 import javax.swing.JPanel;
-import org.qi4j.chronos.ui.common.BaseToolWindow;
+import org.qi4j.chronos.ui.common.AbstractToolWindow;
 
-public class TaskToolWindow extends BaseToolWindow
+public class TaskToolWindow extends AbstractToolWindow
 {
     private static final String TOOL_WINDOW_ID = "Chronos Task";
     private static final String COMPONENT_NAME = "ChronosTaskToolWindow";

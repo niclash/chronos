@@ -20,13 +20,14 @@ import javax.swing.JComponent;
 import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JTextField;
+import org.qi4j.chronos.ui.common.text.JNonFloatingPointTextField;
 
 public class Qi4jSessionSettingDialog extends DialogWrapper
 {
     private JPanel panel;
 
     private JTextField ipField;
-    private JTextField portField;
+    private JNonFloatingPointTextField portField;
 
     public Qi4jSessionSettingDialog()
     {
@@ -54,7 +55,7 @@ public class Qi4jSessionSettingDialog extends DialogWrapper
     {
         panel = new JPanel();
         ipField = new JTextField();
-        portField = new JTextField();
+        portField = new JNonFloatingPointTextField( false );
 
         initLayout( panel );
     }

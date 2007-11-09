@@ -20,15 +20,16 @@ import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
-import javax.swing.JPasswordField;
-import javax.swing.JTextField;
 import org.qi4j.chronos.config.ChronosConfig;
+import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.ui.common.AbstractPanel;
+import org.qi4j.chronos.ui.common.text.JMaxLengthPasswordField;
+import org.qi4j.chronos.ui.common.text.JMaxLengthTextField;
 
 public class ChronosSettingPanel extends AbstractPanel
 {
-    private JTextField loginIdField;
-    private JPasswordField passwordField;
+    private JMaxLengthTextField loginIdField;
+    private JMaxLengthPasswordField passwordField;
 
     private JComboBox accountComboBox;
     private JComboBox projectComboBox;
@@ -49,8 +50,8 @@ public class ChronosSettingPanel extends AbstractPanel
 
     protected void initComponents()
     {
-        loginIdField = new JTextField();
-        passwordField = new JPasswordField();
+        loginIdField = new JMaxLengthTextField( Login.LOGIN_ID_LEN );
+        passwordField = new JMaxLengthPasswordField( Login.PASSWORD_LEN );
 
         accountComboBox = new JComboBox( getAvailableAccount() );
         projectComboBox = new JComboBox( getAssignedProjects() );

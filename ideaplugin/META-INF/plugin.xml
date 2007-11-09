@@ -15,7 +15,7 @@
   </project-components>
   <actions>
     <group id="ChronosTaskGroup">
-      <action id="ChronosNewTaskAction" class="org.qi4j.chronos.action.NewTaskAction" text="New Task"
+      <action id="ChronosNewTaskAction" class="org.qi4j.chronos.action.task.NewTaskAction" text="New Task"
               description="New Task"/>
       <action id="ChronosViewClosedOrWontFixTaskAction" class="org.qi4j.chronos.action.ViewClosedOrWontFixTaskAction"
               text="View Closed/Won't Fix Task"

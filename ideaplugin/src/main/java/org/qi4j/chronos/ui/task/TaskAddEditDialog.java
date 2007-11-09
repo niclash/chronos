@@ -16,37 +16,40 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import javax.swing.JLabel;
 import javax.swing.JScrollPane;
-import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.ui.common.AddEditDialog;
+import org.qi4j.chronos.ui.common.text.JMaxLengthTextArea;
+import org.qi4j.chronos.ui.common.text.JMaxLengthTextField;
+import org.qi4j.chronos.ui.util.SwingMiscUtil;
 
 public abstract class TaskAddEditDialog extends AddEditDialog
 {
-    private JTextField titleField;
+    private JMaxLengthTextField titleField;
     private JTextField userField;
     private JTextField createdDateField;
 
-    private JTextArea descTextArea;
+    private JMaxLengthTextArea descTextArea;
     private JScrollPane descScrollPanel;
 
-    public TaskAddEditDialog( )
+    public TaskAddEditDialog()
     {
 
     }
 
     protected void initComponents()
     {
-        titleField = new JTextField();
+        titleField = new JMaxLengthTextField( Task.TITLE_LEN );
         userField = new JTextField();
         createdDateField = new JTextField( "--" );
 
         createdDateField.setEditable( false );
         userField.setEditable( false );
 
-        descTextArea = new JTextArea();
+        descTextArea = new JMaxLengthTextArea( Task.DESCRIPTION_LEN );
 
-        descScrollPanel = new JScrollPane( descTextArea, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
+        descScrollPanel = SwingMiscUtil.createScrollPanel( descTextArea );
     }
 
     protected String getLayoutColSpec()

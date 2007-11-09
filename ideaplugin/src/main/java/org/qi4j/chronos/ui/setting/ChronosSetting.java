@@ -31,10 +31,13 @@ import org.qi4j.chronos.config.ChronosConfig;
 
 public class ChronosSetting implements ProjectComponent, Configurable, JDOMExternalizable
 {
+    private static final Logger LOG = Logger.getInstance( ChronosSetting.class.getName() );
+
+    //TODO fix icon
+    private static final Icon ICON = IconLoader.getIcon( "/org/qi4j/chronos/ui/setting/icon.png" );
+
     public final static String DISPLAY_NAME = "Chronos Setting";
     public final static String COMPONENT_NAME = "ChronosSetting";
-
-    private static final Logger LOG = Logger.getInstance( ChronosSetting.class.getName() );
 
     private ChronosConfig chronosConfig;
 
@@ -78,11 +81,7 @@ public class ChronosSetting implements ProjectComponent, Configurable, JDOMExter
 
     public Icon getIcon()
     {
-        if( icon == null )
-        {
-            icon = IconLoader.getIcon( "/org/qi4j/chronos/ui/setting/icon.png" );
-        }
-        return icon;
+        return ICON;
     }
 
     public static ImageIcon getIcon( String packageName, Class clazz ) throws IOException

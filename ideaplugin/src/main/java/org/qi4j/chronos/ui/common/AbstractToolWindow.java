@@ -25,13 +25,13 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-public abstract class BaseToolWindow implements ProjectComponent
+public abstract class AbstractToolWindow implements ProjectComponent
 {
     private final ToolWindowManager toolWindowManager;
     private final ActionManager actionManager;
     private final Project project;
 
-    protected BaseToolWindow( ToolWindowManager toolWindowManager, ActionManager actionManager, Project project )
+    protected AbstractToolWindow( ToolWindowManager toolWindowManager, ActionManager actionManager, Project project )
     {
         this.project = project;
         this.toolWindowManager = toolWindowManager;

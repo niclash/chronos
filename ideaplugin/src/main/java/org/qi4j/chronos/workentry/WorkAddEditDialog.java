@@ -10,38 +10,33 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.comment;
+package org.qi4j.chronos.workentry;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import javax.swing.JLabel;
-import javax.swing.JScrollPane;
+import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.ui.common.AddEditDialog;
-import org.qi4j.chronos.ui.common.text.JMaxLengthTextArea;
-import org.qi4j.chronos.ui.util.SwingMiscUtil;
 
-public abstract class CommentAddEditDialog extends AddEditDialog
+public abstract class WorkAddEditDialog extends AddEditDialog
 {
+    private JTextField titleField;
     private JTextField createdDateField;
     private JTextField userField;
 
-    private JMaxLengthTextArea commentTextArea;
-    private JScrollPane commentScrollPanel;
+    private JTextArea descTextArea;
 
-    public CommentAddEditDialog()
+    //TODO DateChooser ??
+
+    public void handleOkClicked()
     {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 
     protected void initComponents()
     {
-        createdDateField = new JTextField( "--" );
-
-        userField = new JTextField();
-
-        commentTextArea = new JMaxLengthTextArea( Comment.COMMENT_LEN );
-        commentScrollPanel = SwingMiscUtil.createScrollPanel( commentTextArea );
+        //To change body of implemented methods use File | Settings | File Templates.    
     }
 
     protected String getLayoutColSpec()
@@ -61,13 +56,5 @@ public abstract class CommentAddEditDialog extends AddEditDialog
 
         builder.add( new JLabel( "Created Date" ), cc.xy( 5, 1 ) );
         builder.add( createdDateField, cc.xy( 7, 1 ) );
-
-        builder.add( new JLabel( "Comment" ), cc.xy( 1, 3, "right,top" ) );
-        builder.add( commentScrollPanel, cc.xyw( 3, 3, 5, "fill, fill" ) );
-    }
-
-    public void handleOkClicked()
-    {
-        //TODO
     }
 }

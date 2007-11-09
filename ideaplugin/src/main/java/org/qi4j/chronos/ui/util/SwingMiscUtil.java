@@ -12,7 +12,42 @@
  */
 package org.qi4j.chronos.ui.util;
 
+import java.awt.event.FocusAdapter;
+import java.awt.event.FocusEvent;
+import javax.swing.JComponent;
+import javax.swing.JScrollPane;
+import javax.swing.text.JTextComponent;
+import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreePath;
+
 public final class SwingMiscUtil
 {
+    public static JScrollPane createScrollPanel( JComponent component )
+    {
+        return new JScrollPane( component, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
+    }
+
+    public static Object getUserObject( TreePath path )
+    {
+        Object value = path.getLastPathComponent();
+
+        if( value instanceof DefaultMutableTreeNode )
+        {
+            return ( (DefaultMutableTreeNode) value ).getUserObject();
+        }
+
+        return value;
+    }
+
+    public static void addSelectAllTextOnFocus( final JTextComponent component )
+    {
+        component.addFocusListener( new FocusAdapter()
+        {
+            public void focusGained( FocusEvent e )
+            {
+                component.selectAll();
+            }
+        } );
+    }
 
 }
