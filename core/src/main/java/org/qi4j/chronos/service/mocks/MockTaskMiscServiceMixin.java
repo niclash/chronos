@@ -18,6 +18,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 import org.qi4j.annotation.scope.ThisCompositeAs;
+import org.qi4j.chronos.model.TaskStatus;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
@@ -86,23 +87,20 @@ public abstract class MockTaskMiscServiceMixin implements TaskService
         return getRecentTasks( staff ).size();
     }
 
-//    public TaskEntityComposite getTaskByTaskAssignee( TaskAssigneeEntityComposite taskAssignee )
-//    {
-//        List<TaskEntityComposite> tasks = taskService.findAll();
-//
-//        for( TaskEntityComposite task : tasks )
-//        {
-//            Iterator<TaskAssigneeEntityComposite> taskAssigneeIter = task.taskAssigneeIterator();
-//
-//            while( taskAssigneeIter.hasNext() )
-//            {
-//                if( taskAssigneeIter.next().getIdentity().equals( taskAssignee.getIdentity() ) )
-//                {
-//                    return task;
-//                }
-//            }
-//        }
-//
-//        return null;
-//    }
+    public List<TaskEntityComposite> findTask( ProjectEntityComposite project, TaskStatus taskStatus )
+    {
+        List<TaskEntityComposite> list = taskService.findAll( project );
+
+        List<TaskEntityComposite> resultList = new ArrayList<TaskEntityComposite>();
+
+        for( TaskEntityComposite task : list )
+        {
+            if( task.getTaskStatus() == taskStatus )
+            {
+                resultList.add( task );
+            }
+        }
+
+        return resultList;
+    }
 }

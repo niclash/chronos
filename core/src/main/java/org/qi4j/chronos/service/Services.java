@@ -51,5 +51,7 @@ public interface Services
     CommentService getCommentService();
 
     LegalConditionService getLegalConditionService();
+
+    OngoingWorkEntryService getOngoingWorkEntryService();
 }
 

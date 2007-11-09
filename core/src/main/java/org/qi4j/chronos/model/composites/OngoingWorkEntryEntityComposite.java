@@ -13,8 +13,9 @@
 package org.qi4j.chronos.model.composites;
 
 import org.qi4j.Composite;
+import org.qi4j.entity.EntityComposite;
 import org.qi4j.chronos.model.OngoingWorkEntry;
 
-public interface OngoingWorkEntryComposite extends OngoingWorkEntry, Composite
+public interface OngoingWorkEntryEntityComposite extends OngoingWorkEntry, EntityComposite
 {
 }

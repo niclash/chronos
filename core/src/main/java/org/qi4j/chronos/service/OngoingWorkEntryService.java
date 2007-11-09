@@ -10,19 +10,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.associations;
+package org.qi4j.chronos.service;
 
-import java.util.Iterator;
-import org.qi4j.annotation.Mixins;
 import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
-import org.qi4j.chronos.model.mixins.HasOngoingWorkEntriesMixin;
+import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
 
-@Mixins( HasOngoingWorkEntriesMixin.class )
-public interface HasOngoingWorkEntries
+public interface OngoingWorkEntryService extends TaskBasedService<OngoingWorkEntryEntityComposite>
 {
-    void addOngoingWorkEntry( OngoingWorkEntryEntityComposite workEntry );
-
-    void removeOngoingWorkEntry( OngoingWorkEntryEntityComposite workEntry );
-
-    Iterator<OngoingWorkEntryEntityComposite> ongoingWorkEntryIterator();
+    OngoingWorkEntryEntityComposite getOngoingWorkEntry( TaskEntityComposite task, StaffEntityComposite staff );
 }
