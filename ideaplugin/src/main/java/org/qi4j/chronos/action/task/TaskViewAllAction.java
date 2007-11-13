@@ -12,13 +12,25 @@
  */
 package org.qi4j.chronos.action.task;
 
-import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.util.IconLoader;
+import javax.swing.Icon;
+import org.qi4j.chronos.action.AbstractAction;
 
-public class DeleteTaskAction extends AnAction
+public class TaskViewAllAction extends AbstractAction
 {
+    //TODO fix icon
+    private final static Icon ICON = IconLoader.getIcon( "/general/smallConfigurableVcs.png" );
+
     public void actionPerformed( AnActionEvent e )
     {
-        //TODO
+
+    }
+
+    public void update( AnActionEvent e )
+    {
+        super.update( e );
+
+        e.getPresentation().setIcon( ICON );
     }
 }

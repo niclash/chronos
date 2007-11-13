@@ -12,13 +12,15 @@
  */
 package org.qi4j.chronos.ui.task.tree;
 
+import com.intellij.openapi.project.Project;
 import javax.swing.tree.DefaultTreeModel;
+import org.qi4j.chronos.service.TaskService;
 
 public class TaskTreeModel extends DefaultTreeModel
 {
-    public TaskTreeModel()
+    public TaskTreeModel( Project project, TaskService taskService )
     {
-        super( new TaskRootTreeNode() );
+        super( new TaskRootTreeNode( project, taskService ) );
 
         //TODO init listener to get Task status changed/New Task/DeleteTask/modified Task event here
     }

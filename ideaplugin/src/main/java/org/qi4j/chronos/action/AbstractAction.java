@@ -10,28 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.common;
+package org.qi4j.chronos.action;
 
-public abstract class AddEditDialog extends AbstractDialog
+import com.intellij.openapi.actionSystem.AnAction;
+
+public abstract class AbstractAction extends AnAction
 {
-    public AddEditDialog()
-    {
-        super(false);
 
-        setOKButtonText( getOkButtonText() );
-    }
-
-    protected final void doOKAction()
-    {
-        handleOkClicked();
-    }
-
-    protected final void okExit()
-    {
-        close( OK_EXIT_CODE );
-    }
-
-    public abstract String getOkButtonText();
-
-    public abstract void handleOkClicked();
 }

@@ -14,7 +14,7 @@ package org.qi4j.chronos.ui.common.text;
 
 import javax.swing.JTextArea;
 import javax.swing.text.Document;
-import org.qi4j.chronos.ui.util.SwingMiscUtil;
+import org.qi4j.chronos.ui.util.UiUtil;
 
 public abstract class AbstractTextArea extends JTextArea
 {
@@ -62,6 +62,6 @@ public abstract class AbstractTextArea extends JTextArea
 
     private void initListeners()
     {
-        SwingMiscUtil.addSelectAllTextOnFocus( this );
+        UiUtil.addSelectAllTextOnFocus( this );
     }
 }

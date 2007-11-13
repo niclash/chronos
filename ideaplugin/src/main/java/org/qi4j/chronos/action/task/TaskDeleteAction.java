@@ -12,13 +12,13 @@
  */
 package org.qi4j.chronos.action.task;
 
-import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import org.qi4j.chronos.action.AbstractAction;
 
-public class EditTaskAction extends AnAction
+public class TaskDeleteAction extends AbstractAction
 {
     public void actionPerformed( AnActionEvent e )
     {
-      //TODO
+        //TODO
     }
 }

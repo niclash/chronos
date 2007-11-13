@@ -10,14 +10,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.task.tree;
+package org.qi4j.chronos.action.task;
 
-import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import org.qi4j.chronos.action.AbstractAction;
 
-public class TaskWontFixTreeNode extends TaskTreeNode
+public class WorkStartAction extends AbstractAction
 {
-    public TaskWontFixTreeNode( TaskEntityComposite task )
+    public void actionPerformed( AnActionEvent e )
     {
-        super( task );
+
     }
 }

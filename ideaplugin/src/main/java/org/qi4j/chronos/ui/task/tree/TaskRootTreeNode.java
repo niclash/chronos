@@ -12,64 +12,92 @@
  */
 package org.qi4j.chronos.ui.task.tree;
 
+import com.intellij.openapi.project.Project;
+import java.util.List;
 import org.qi4j.chronos.model.TaskStatus;
+import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.service.OngoingWorkEntryService;
+import org.qi4j.chronos.service.TaskService;
 import org.qi4j.chronos.ui.common.AbstractTreeNode;
+import org.qi4j.chronos.ui.setting.ChronosSetting;
+import org.qi4j.chronos.util.ChronosUtil;
 
 public class TaskRootTreeNode extends AbstractTreeNode
 {
-    private ClosedTaskGroupTreeNode taskClosedGroupTreeNode;
-    private WontFixTaskGroupTreeNode taskWontFixGroupTreeNode;
+    private TaskOngoingGroupTreeNode taskOngoingGroupTreeNode;
+    private TaskOpenedGroupTreeNode taskOpenedGroupTreeNode;
 
-    public TaskRootTreeNode()
+    private Project project;
+
+    public TaskRootTreeNode( Project project, TaskService taskService )
     {
+        this.project = project;
+
         initGroupTreeNodes();
-        loadTaskTreeNode();
+        loadTaskTreeNode( taskService );
     }
 
-    private void loadTaskTreeNode()
+    private void loadTaskTreeNode( TaskService taskService )
     {
-        //TODO
+        List<TaskEntityComposite> tasks = taskService.findTask( getChronosSetting().getChronosProject(), TaskStatus.OPEN );
+
+        for( TaskEntityComposite task : tasks )
+        {
+            addTaskTreeNode( task );
+        }
+    }
+
+    private ChronosSetting getChronosSetting()
+    {
+        return ChronosUtil.getChronosSetting( project );
     }
 
     private void initGroupTreeNodes()
     {
-        taskClosedGroupTreeNode = new ClosedTaskGroupTreeNode();
-        taskWontFixGroupTreeNode = new WontFixTaskGroupTreeNode();
+        taskOngoingGroupTreeNode = new TaskOngoingGroupTreeNode();
+        taskOpenedGroupTreeNode = new TaskOpenedGroupTreeNode();
 
-        this.add( taskClosedGroupTreeNode );
-        this.add( taskWontFixGroupTreeNode );
+        this.add( taskOngoingGroupTreeNode );
+        this.add( taskOpenedGroupTreeNode );
     }
 
     public void addTaskTreeNode( TaskEntityComposite task )
     {
-        if( task.getTaskStatus() == TaskStatus.CLOSED )
+        if( task.getTaskStatus() != TaskStatus.OPEN )
         {
-            taskClosedGroupTreeNode.add( new TaskClosedTreeNode( task ) );
-        }
-        else if( task.getTaskStatus() == TaskStatus.WONT_FIX )
-        {
-            taskWontFixGroupTreeNode.add( new TaskWontFixTreeNode( task ) );
+            System.err.println( "Task with Closed or Won't Fix status should not shown up here." );
         }
         else
         {
-            System.err.println( "Task with non Closed or Won't Fix status should not shown up here." );
+            OngoingWorkEntryService ongoingWorkEntryService = getChronosSetting().getServices().getOngoingWorkEntryService();
+
+            OngoingWorkEntryEntityComposite ongoingWorkEntry = ongoingWorkEntryService.getOngoingWorkEntry( task, getChronosSetting().getStaff() );
+
+            if( ongoingWorkEntry != null )
+            {
+                taskOngoingGroupTreeNode.add( new TaskOngoingTreeNode( task, ongoingWorkEntry ) );
+            }
+            else
+            {
+                taskOpenedGroupTreeNode.add( new TaskOpenedTreeNode( task ) );
+            }
         }
     }
 
-    public class WontFixTaskGroupTreeNode extends AbstractTreeNode
+    public class TaskOpenedGroupTreeNode extends AbstractTreeNode
     {
         public String toString()
         {
-            return "Won't Fix";
+            return "Opened Task(s)";
         }
     }
 
-    public class ClosedTaskGroupTreeNode extends AbstractTreeNode
+    public class TaskOngoingGroupTreeNode extends AbstractTreeNode
     {
         public String toString()
         {
-            return "Closed";
+            return "Ongoing Task(s)";
         }
     }
 

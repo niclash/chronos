@@ -17,6 +17,7 @@ import com.intellij.openapi.actionSystem.ActionManager;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import javax.swing.JComponent;
+import org.qi4j.chronos.action.ChronosActionConstant;
 import org.qi4j.chronos.ui.common.AbstractPanel;
 
 public class TaskToolBar extends AbstractPanel
@@ -35,8 +36,8 @@ public class TaskToolBar extends AbstractPanel
 
     protected void initComponents()
     {
-        ActionGroup chronosTaskGroup = (ActionGroup) actionManager.getAction( "ChronosTaskGroup" );
-        ActionGroup chronosSettingGroup = (ActionGroup) actionManager.getAction( "ChronosSettingGroup" );
+        ActionGroup chronosTaskGroup = (ActionGroup) actionManager.getAction( ChronosActionConstant.TASK_TOOLBAR_GROUP );
+        ActionGroup chronosSettingGroup = (ActionGroup) actionManager.getAction( ChronosActionConstant.SETTING_GROUP );
 
         taskToolBar = actionManager.createActionToolbar( "tasktoolBar", chronosTaskGroup, true ).getComponent();
         settingToolBar = actionManager.createActionToolbar( "settingToolBar", chronosSettingGroup, true ).getComponent();

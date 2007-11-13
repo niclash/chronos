@@ -12,13 +12,15 @@
  */
 package org.qi4j.chronos.action;
 
-import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.util.IconLoader;
+import javax.swing.Icon;
 import org.qi4j.chronos.ui.setting.ChronosSettingDialog;
 
-public class ChronosSettingAction extends AnAction
+public class ChronosSettingAction extends AbstractAction
 {
+    private final static Icon ICON = IconLoader.getIcon( "/general/applicationSettings.png" );
+
     public void actionPerformed( AnActionEvent e )
     {
         new ChronosSettingDialog().show();
@@ -29,6 +31,6 @@ public class ChronosSettingAction extends AnAction
         super.update( e );
 
         //TODO fix icon
-        e.getPresentation().setIcon( IconLoader.getIcon( "/general/applicationSettings.png" ) );
+        e.getPresentation().setIcon( ICON );
     }
 }

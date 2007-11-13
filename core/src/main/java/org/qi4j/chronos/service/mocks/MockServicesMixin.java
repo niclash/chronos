@@ -37,6 +37,7 @@ import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.model.composites.LoginComposite;
 import org.qi4j.chronos.model.composites.MoneyComposite;
+import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
@@ -207,9 +208,11 @@ public class MockServicesMixin implements Services
 
         ProjectAssigneeEntityComposite[] projectAssignees = initProjectAssigneeDummyData( project, account );
 
-        TaskEntityComposite task = initTaskDummyData( project, account.staffIterator().next() );
+        TaskEntityComposite[] tasks = initTaskDummyData( project, account.staffIterator().next() );
 
-        initWorkEntryDummyData( task, projectAssignees[ 0 ] );
+        initOngoingWorkEntry( tasks, projectAssignees );
+
+        initWorkEntryDummyData( tasks[ 0 ], projectAssignees[ 0 ] );
     }
 
     private ProjectAssigneeService initProjectAssigneeService( String propertyName, Object propertyValue )
@@ -221,18 +224,44 @@ public class MockServicesMixin implements Services
         return compositeBuilder.newInstance();
     }
 
-    private TaskEntityComposite initTaskDummyData( ProjectEntityComposite project, StaffEntityComposite staff )
+    private void initOngoingWorkEntry( TaskEntityComposite[] tasks, ProjectAssigneeEntityComposite[] projectAssignees )
     {
-        TaskEntityComposite task = taskService.newInstance( TaskEntityComposite.class );
-        task.setCreatedDate( new Date() );
-        task.setTitle( "Fix bug 10-1" );
-        task.setDescription( "It cause nullpointerexception in bla bla." );
-        task.setUser( staff );
-        task.setTaskStatus( TaskStatus.OPEN );
+        for( int i = 0; i < tasks.length; i++ )
+        {
+            OngoingWorkEntryEntityComposite workEntry = ongoingWorkEntryService.newInstance( OngoingWorkEntryEntityComposite.class );
 
-        project.addTask( task );
+            workEntry.setCreatedDate( new Date() );
 
-        return task;
+            if( i % 2 == 0 )
+            {
+                workEntry.setProjectAssignee( projectAssignees[ 0 ] );
+            }
+            else
+            {
+                workEntry.setProjectAssignee( projectAssignees[ 1 ] );
+            }
+
+            tasks[ i ].addOngoingWorkEntry( workEntry );
+        }
+    }
+
+    private TaskEntityComposite[] initTaskDummyData( ProjectEntityComposite project, StaffEntityComposite staff )
+    {
+        TaskEntityComposite[] tasks = new TaskEntityComposite[20];
+
+        for( int i = 0; i < tasks.length; i++ )
+        {
+            tasks[ i ] = taskService.newInstance( TaskEntityComposite.class );
+            tasks[ i ].setCreatedDate( new Date() );
+            tasks[ i ].setTitle( "Fix bug 10-" + i );
+            tasks[ i ].setDescription( "It cause nullpointerexception in bla bla." );
+            tasks[ i ].setUser( staff );
+            tasks[ i ].setTaskStatus( TaskStatus.OPEN );
+
+            project.addTask( tasks[ i ] );
+        }
+
+        return tasks;
     }
 
     private void initWorkEntryDummyData( Task task, ProjectAssigneeEntityComposite projectAssignee )

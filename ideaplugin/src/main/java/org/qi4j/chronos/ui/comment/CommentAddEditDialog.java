@@ -20,7 +20,7 @@ import javax.swing.JTextField;
 import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.ui.common.AddEditDialog;
 import org.qi4j.chronos.ui.common.text.JMaxLengthTextArea;
-import org.qi4j.chronos.ui.util.SwingMiscUtil;
+import org.qi4j.chronos.ui.util.UiUtil;
 
 public abstract class CommentAddEditDialog extends AddEditDialog
 {
@@ -41,7 +41,7 @@ public abstract class CommentAddEditDialog extends AddEditDialog
         userField = new JTextField();
 
         commentTextArea = new JMaxLengthTextArea( Comment.COMMENT_LEN );
-        commentScrollPanel = SwingMiscUtil.createScrollPanel( commentTextArea );
+        commentScrollPanel = UiUtil.createScrollPanel( commentTextArea );
     }
 
     protected String getLayoutColSpec()

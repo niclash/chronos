@@ -20,7 +20,7 @@ import javax.swing.text.JTextComponent;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
 
-public final class SwingMiscUtil
+public final class UiUtil
 {
     public static JScrollPane createScrollPanel( JComponent component )
     {
@@ -49,5 +49,4 @@ public final class SwingMiscUtil
             }
         } );
     }
-
 }

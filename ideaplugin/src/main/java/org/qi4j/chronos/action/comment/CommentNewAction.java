@@ -10,38 +10,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.common.text;
+package org.qi4j.chronos.action.comment;
 
-import javax.swing.JTextField;
-import javax.swing.text.Document;
-import org.qi4j.chronos.ui.util.UiUtil;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import org.qi4j.chronos.action.AbstractAction;
 
-public abstract class AbstractTextField extends JTextField
+public class CommentNewAction extends AbstractAction
 {
-    public AbstractTextField()
+    public void actionPerformed( AnActionEvent e )
     {
-        super();
-
-        initListeners();
-    }
-
-    public AbstractTextField( String text )
-    {
-        super( text );
-
-        initListeners();
-    }
-
-    public AbstractTextField( Document doc, String text, int columns )
-    {
-        super( doc, text, columns );
-
-        initListeners();
-    }
-
-    private void initListeners()
-    {
-        UiUtil.addSelectAllTextOnFocus( this );
+        //TODO
     }
 }
-

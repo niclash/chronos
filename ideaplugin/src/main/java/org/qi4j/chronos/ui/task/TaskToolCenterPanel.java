@@ -13,23 +13,24 @@
 package org.qi4j.chronos.ui.task;
 
 import com.intellij.openapi.actionSystem.ActionManager;
+import com.intellij.openapi.project.Project;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import java.awt.Color;
-import javax.swing.JScrollPane;
-import javax.swing.JTree;
-import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
 import org.qi4j.chronos.ui.common.AbstractPanel;
+import org.qi4j.chronos.ui.task.tree.TaskTreePanel;
 
 public class TaskToolCenterPanel extends AbstractPanel
 {
-    private final ActionManager actionManager;
-
     private TaskToolBar taskToolBar;
+    private TaskTreePanel taskTreePanel;
 
-    public TaskToolCenterPanel( ActionManager actionManager )
+    private Project project;
+    private ActionManager actionManager;
+
+    public TaskToolCenterPanel( ActionManager actionManager, Project project )
     {
+        this.project = project;
         this.actionManager = actionManager;
 
         renderComponent();
@@ -38,6 +39,7 @@ public class TaskToolCenterPanel extends AbstractPanel
     public void initComponents()
     {
         taskToolBar = new TaskToolBar( actionManager );
+        taskTreePanel = new TaskTreePanel( project, actionManager );
 
         this.setOpaque( true );
         this.setBackground( Color.white );
@@ -55,14 +57,7 @@ public class TaskToolCenterPanel extends AbstractPanel
 
     public void initLayout( PanelBuilder builder, CellConstraints cc )
     {
-        DefaultMutableTreeNode treeNode = new DefaultMutableTreeNode( "Hello" );
-
-        //TODO dummy component
-        JTree jTree = new JTree( new DefaultTreeModel( treeNode ) );
-
-        JScrollPane scrollPane = new JScrollPane( jTree );
-
         builder.add( taskToolBar, cc.xy( 1, 1, "fill, fill" ) );
-        builder.add( scrollPane, cc.xy( 1, 2, "fill, fill" ) );
+        builder.add( taskTreePanel, cc.xy( 1, 2, "fill, fill" ) );
     }
 }

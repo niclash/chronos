@@ -41,7 +41,7 @@ public class TaskToolWindow extends AbstractToolWindow
 
     protected JPanel createToolWindowComponent()
     {
-        return new TaskToolCenterPanel( getActionManager() );
+        return new TaskToolCenterPanel( getActionManager(), getProject() );
     }
 
     protected ToolWindowAnchor getAnchor()

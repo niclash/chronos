@@ -21,6 +21,7 @@ public interface UserService
 
     public User getUser( AccountEntityComposite account, String loginId, String password );
 
+    //TODO bp. renamed this to getAdmin
     public User getUser( String loginId, String password );
 
     public void update( User user );

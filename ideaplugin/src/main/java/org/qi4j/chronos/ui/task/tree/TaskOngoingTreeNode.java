@@ -10,38 +10,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.common.text;
+package org.qi4j.chronos.ui.task.tree;
 
-import javax.swing.JTextField;
-import javax.swing.text.Document;
-import org.qi4j.chronos.ui.util.UiUtil;
+import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
 
-public abstract class AbstractTextField extends JTextField
+public class TaskOngoingTreeNode extends TaskTreeNode
 {
-    public AbstractTextField()
-    {
-        super();
+    private OngoingWorkEntryEntityComposite ongoingWorkEntry;
 
-        initListeners();
+    public TaskOngoingTreeNode( TaskEntityComposite task, OngoingWorkEntryEntityComposite ongoingWorkEntry )
+    {
+        super( task );
+
+        this.ongoingWorkEntry = ongoingWorkEntry;
     }
 
-    public AbstractTextField( String text )
+    public OngoingWorkEntryEntityComposite getOngoingWorkEntry()
     {
-        super( text );
-
-        initListeners();
-    }
-
-    public AbstractTextField( Document doc, String text, int columns )
-    {
-        super( doc, text, columns );
-
-        initListeners();
-    }
-
-    private void initListeners()
-    {
-        UiUtil.addSelectAllTextOnFocus( this );
+        return ongoingWorkEntry;
     }
 }
-

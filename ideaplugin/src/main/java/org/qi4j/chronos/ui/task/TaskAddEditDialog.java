@@ -22,7 +22,7 @@ import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.ui.common.AddEditDialog;
 import org.qi4j.chronos.ui.common.text.JMaxLengthTextArea;
 import org.qi4j.chronos.ui.common.text.JMaxLengthTextField;
-import org.qi4j.chronos.ui.util.SwingMiscUtil;
+import org.qi4j.chronos.ui.util.UiUtil;
 
 public abstract class TaskAddEditDialog extends AddEditDialog
 {
@@ -49,7 +49,7 @@ public abstract class TaskAddEditDialog extends AddEditDialog
 
         descTextArea = new JMaxLengthTextArea( Task.DESCRIPTION_LEN );
 
-        descScrollPanel = SwingMiscUtil.createScrollPanel( descTextArea );
+        descScrollPanel = UiUtil.createScrollPanel( descTextArea );
     }
 
     protected String getLayoutColSpec()

@@ -13,7 +13,6 @@
 package org.qi4j.chronos.ui.setting;
 
 import com.intellij.openapi.components.ProjectComponent;
-import com.intellij.openapi.diagnostic.Logger;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
 import com.intellij.openapi.util.IconLoader;
@@ -27,12 +26,19 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import org.jdom.Element;
 import org.jetbrains.annotations.Nls;
+import org.qi4j.CompositeBuilder;
+import org.qi4j.CompositeBuilderFactory;
 import org.qi4j.chronos.config.ChronosConfig;
+import org.qi4j.chronos.model.Staff;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.service.Services;
+import org.qi4j.chronos.service.composites.ServicesComposite;
+import org.qi4j.runtime.Energy4Java;
 
 public class ChronosSetting implements ProjectComponent, Configurable, JDOMExternalizable
 {
-    private static final Logger LOG = Logger.getInstance( ChronosSetting.class.getName() );
-
     //TODO fix icon
     private static final Icon ICON = IconLoader.getIcon( "/org/qi4j/chronos/ui/setting/icon.png" );
 
@@ -43,7 +49,11 @@ public class ChronosSetting implements ProjectComponent, Configurable, JDOMExter
 
     private ChronosSettingPanel chronosSettingPanel;
 
-    private Icon icon;
+    private CompositeBuilderFactory factory;
+    private Services services;
+
+    private StaffEntityComposite staff;
+    private ProjectEntityComposite chronosProject;
 
     public ChronosSetting()
     {
@@ -64,9 +74,42 @@ public class ChronosSetting implements ProjectComponent, Configurable, JDOMExter
         return COMPONENT_NAME;
     }
 
+    public Services getServices()
+    {
+        return services;
+    }
+
+    public StaffEntityComposite getStaff()
+    {
+        return staff;
+    }
+
     public void initComponent()
     {
-        chronosSettingPanel = new ChronosSettingPanel();
+        //TODO bp. Initialize the qi4j session here?
+        factory = new Energy4Java().newCompositeBuilderFactory();
+
+        CompositeBuilder<ServicesComposite> serviceBuilder = factory.newCompositeBuilder( ServicesComposite.class );
+
+        services = serviceBuilder.newInstance();
+
+        services.initServices();
+
+        //TODO bp. fix this.
+        AccountEntityComposite account = services.getAccountService().findAll().get( 0 );
+
+        //TODO bp. where/how to handle userLogin? Let just hard coded it for now.
+        staff = (StaffEntityComposite) services.getUserService().getUser( account, "boss", "boss" );
+
+        //TODO bp. assume this project is selected.
+        chronosProject = services.getProjectService().findAll().get( 0 );
+
+        chronosSettingPanel = new ChronosSettingPanel( this );
+    }
+
+    public ProjectEntityComposite getChronosProject()
+    {
+        return chronosProject;
     }
 
     public void disposeComponent()
@@ -96,11 +139,6 @@ public class ChronosSetting implements ProjectComponent, Configurable, JDOMExter
 
     public JComponent createComponent()
     {
-        if( chronosSettingPanel == null )
-        {
-            chronosSettingPanel = new ChronosSettingPanel();
-        }
-
         return chronosSettingPanel;
     }
 

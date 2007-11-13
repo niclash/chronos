@@ -15,6 +15,7 @@ package org.qi4j.chronos.ui.setting;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import org.qi4j.chronos.ui.common.AbstractDialog;
+import org.qi4j.chronos.util.ChronosUtil;
 
 public class ChronosSettingDialog extends AbstractDialog
 {
@@ -22,12 +23,12 @@ public class ChronosSettingDialog extends AbstractDialog
 
     public ChronosSettingDialog()
     {
-
+        super( true );
     }
 
     protected void initComponents()
     {
-        chronosSettingPanel = new ChronosSettingPanel();
+        chronosSettingPanel = new ChronosSettingPanel( ChronosUtil.getChronosSetting() );
     }
 
     protected String getLayoutColSpec()

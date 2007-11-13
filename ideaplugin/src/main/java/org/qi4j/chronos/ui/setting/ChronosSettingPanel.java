@@ -16,12 +16,17 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
+import java.util.ArrayList;
+import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JCheckBox;
 import javax.swing.JComboBox;
 import javax.swing.JLabel;
 import org.qi4j.chronos.config.ChronosConfig;
 import org.qi4j.chronos.model.Login;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.ui.common.AbstractPanel;
 import org.qi4j.chronos.ui.common.text.JMaxLengthPasswordField;
 import org.qi4j.chronos.ui.common.text.JMaxLengthTextField;
@@ -43,8 +48,12 @@ public class ChronosSettingPanel extends AbstractPanel
     private String qi4jSessionIp;
     private int qi4jSessionPort;
 
-    public ChronosSettingPanel()
+    private ChronosSetting chronosSetting;
+
+    public ChronosSettingPanel( ChronosSetting chronosSetting )
     {
+        this.chronosSetting = chronosSetting;
+
         renderComponent();
     }
 
@@ -68,14 +77,34 @@ public class ChronosSettingPanel extends AbstractPanel
 
     private String[] getAvailableAccount()
     {
-        //TODO bp. fixme
-        return new String[]{ "Jayway Malaysia", "Microsoft", "Google" };
+        //TODO bp. temp solution. duplicate code found in LoginPage
+        List<AccountEntityComposite> accounts = chronosSetting.getServices().getAccountService().findAll();
+
+        List<String> accountNames = new ArrayList<String>();
+
+        for( AccountEntityComposite account : accounts )
+        {
+            accountNames.add( account.getName() );
+        }
+
+        return accountNames.toArray( new String[accountNames.size()] );
     }
 
     private String[] getAssignedProjects()
     {
-        //TODO bp. fixme
-        return new String[]{ "Chronos", "Qi4j", "Pax Runner" };
+        //TODO bp. temp solution.
+        Services services = chronosSetting.getServices();
+
+        List<ProjectEntityComposite> projects = services.getProjectService().findAll( chronosSetting.getStaff() );
+
+        List<String> projectNames = new ArrayList<String>();
+
+        for( ProjectEntityComposite project : projects )
+        {
+            projectNames.add( project.getName() );
+        }
+
+        return projectNames.toArray( new String[projectNames.size()] );
     }
 
     protected String getLayoutColSpec()

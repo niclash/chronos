@@ -16,8 +16,8 @@ import com.intellij.openapi.util.IconLoader;
 import java.awt.Component;
 import javax.swing.Icon;
 import javax.swing.JTree;
+import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
-import org.qi4j.chronos.ui.common.AbstractTreeNode;
 
 public class TaskTreeCellRenderer extends DefaultTreeCellRenderer
 {
@@ -35,25 +35,25 @@ public class TaskTreeCellRenderer extends DefaultTreeCellRenderer
         super.getTreeCellRendererComponent( tree, value, sel,
                                             expanded, leaf, row, hasFocus );
 
-        AbstractTreeNode tempNode = (AbstractTreeNode) value;
+        DefaultMutableTreeNode tempNode = (DefaultMutableTreeNode) value;
 
         if( tempNode instanceof TaskRootTreeNode )
         {
             setIcon( TASK_ROOT_ICON );
         }
-        else if( tempNode instanceof TaskRootTreeNode.ClosedTaskGroupTreeNode )
+        else if( tempNode instanceof TaskRootTreeNode.TaskOngoingGroupTreeNode )
         {
             setIcon( TASK_CLOSED_GROUP_ICON );
         }
-        else if( tempNode instanceof TaskRootTreeNode.WontFixTaskGroupTreeNode )
+        else if( tempNode instanceof TaskRootTreeNode.TaskOpenedGroupTreeNode )
         {
             setIcon( TASK_WONT_FIX_GROUP_ICON );
         }
-        else if( tempNode instanceof TaskClosedTreeNode )
+        else if( tempNode instanceof TaskOpenedTreeNode )
         {
             setIcon( TASK_CLOSED_ICON );
         }
-        else if( tempNode instanceof TaskWontFixTreeNode )
+        else if( tempNode instanceof TaskOngoingTreeNode )
         {
             setIcon( TASK_WONT_FIX_ICON );
         }

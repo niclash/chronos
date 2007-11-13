@@ -12,6 +12,7 @@
  */
 package org.qi4j.chronos.ui.common;
 
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -19,12 +20,14 @@ import com.jgoodies.forms.layout.FormLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import org.jetbrains.annotations.Nullable;
+import org.qi4j.chronos.ui.setting.ChronosSetting;
+import org.qi4j.chronos.util.ChronosUtil;
 
 public abstract class AbstractDialog extends DialogWrapper
 {
-    public AbstractDialog()
+    public AbstractDialog( boolean canBeParent )
     {
-        super( false );
+        super( canBeParent );
 
         setModal( true );
         setTitle( getDialogTitle() );

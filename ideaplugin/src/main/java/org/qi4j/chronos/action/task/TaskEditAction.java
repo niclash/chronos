@@ -10,24 +10,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.action;
+package org.qi4j.chronos.action.task;
 
-import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.util.IconLoader;
+import org.qi4j.chronos.action.AbstractAction;
 
-public class ViewClosedOrWontFixTaskAction extends AnAction
+public class TaskEditAction extends AbstractAction
 {
     public void actionPerformed( AnActionEvent e )
     {
-
-    }
-
-    public void update( AnActionEvent e )
-    {
-        super.update( e );
-
-        //TODO fix icon
-        e.getPresentation().setIcon( IconLoader.getIcon( "/general/smallConfigurableVcs.png" ) );
+        //TODO
     }
 }

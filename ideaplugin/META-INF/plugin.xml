@@ -6,6 +6,7 @@
   <vendor>ops4j</vendor>
   <idea-version since-build="3000"/>
   <project-components>
+    <!--  Note: ChronosSetting must be placed on top, because it handles the initializateion of qi4j runtime-->
     <component>
       <implementation-class>org.qi4j.chronos.ui.setting.ChronosSetting</implementation-class>
     </component>
@@ -14,18 +15,54 @@
     </component>
   </project-components>
   <actions>
-    <group id="ChronosTaskGroup">
-      <action id="ChronosNewTaskAction" class="org.qi4j.chronos.action.task.NewTaskAction" text="New Task"
+    <group id="ChronosTaskToolBarGroup">
+      <action id="ChronosTaskNewAction" class="org.qi4j.chronos.action.task.TaskNewAction" text="New Task"
               description="New Task"/>
-      <action id="ChronosViewClosedOrWontFixTaskAction" class="org.qi4j.chronos.action.ViewClosedOrWontFixTaskAction"
-              text="View Closed/Won't Fix Task"
-              description="View Closed/Won't Fix Task"/>
+      <action id="ChronosTaskViewAllAction" class="org.qi4j.chronos.action.task.TaskViewAllAction"
+              text="View All Tasks"
+              description="View all tasks."/>
     </group>
 
     <group id="ChronosSettingGroup">
       <action id="ChronosSettingAction" class="org.qi4j.chronos.action.ChronosSettingAction"
               text="Chronos Setting"
               description="Chronos Setting"/>
+    </group>
+
+    <action id="ChronosCommentNewAction" class="org.qi4j.chronos.action.comment.CommentNewAction" text="New Comment"
+            description="New Comment"/>
+
+    <action id="ChronosTaskEditAction" class="org.qi4j.chronos.action.task.TaskEditAction" text="Edit Task"
+            description="Edit Task"/>
+
+    <action id="ChronosTaskViewDetailAction" class="org.qi4j.chronos.action.task.TaskViewDetailAction"
+            text="View Task Detail" description="View Task Detail"/>
+
+    <action id="ChronosTaskDeleteAction" class="org.qi4j.chronos.action.task.TaskDeleteAction" text="Delete Task"
+            description="Delete Task"/>
+
+    <group id="ChronosTaskOngoingGroup">
+      <action id="ChronosWorkStopAction" class="org.qi4j.chronos.action.task.WorkStopAction" text="Stop Work"
+              description="Stop Work"/>
+
+      <action id="ChronosWorkCancelAction" class="org.qi4j.chronos.action.task.WorkCancelAction" text="Cancel Work"
+              description="Cancel Work"/>
+      <separator/>
+      <reference id="ChronosCommentNewAction"/>
+      <separator/>
+      <reference id="ChronosTaskEditAction"/>
+      <reference id="ChronosTaskViewDetailAction"/>
+    </group>
+
+    <group id="ChronosTaskOpenedGroup">
+      <action id="ChronosWorkStartAction" class="org.qi4j.chronos.action.task.WorkStartAction" text="Start Work"
+              description="Start Work"/>
+      <separator/>
+      <reference id="ChronosCommentNewAction"/>
+      <separator/>
+      <reference id="ChronosTaskEditAction"/>
+      <reference id="ChronosTaskDeleteAction"/>
+      <reference id="ChronosTaskViewDetailAction"/>
     </group>
   </actions>
 </idea-plugin>
