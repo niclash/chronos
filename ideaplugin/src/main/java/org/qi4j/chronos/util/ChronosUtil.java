@@ -17,6 +17,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataConstants;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.project.Project;
+import java.util.Date;
 import org.qi4j.chronos.ui.setting.ChronosSetting;
 
 public final class ChronosUtil
@@ -44,5 +45,11 @@ public final class ChronosUtil
     public static ChronosSetting getChronosSetting()
     {
         return getChronosSetting( getProject( DataManager.getInstance().getDataContext() ) );
+    }
+
+    public static Date getCurrentDate()
+    {
+        //TODO bp. get it from where? server? need to ensure all have consistent time?
+        return new Date();
     }
 }

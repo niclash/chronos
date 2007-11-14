@@ -55,8 +55,6 @@ public class TaskTree extends AbstractTree
 
     private void startOrStopTask( TaskTreeNode taskTreeNode )
     {
-        System.err.println( "Start or Stop task" );
-
         AbstractAction action = null;
 
         ActionManager actionManager = ActionManager.getInstance();

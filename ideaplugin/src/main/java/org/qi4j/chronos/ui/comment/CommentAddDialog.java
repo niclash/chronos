@@ -12,7 +12,10 @@
  */
 package org.qi4j.chronos.ui.comment;
 
-public class CommentAddDialog extends CommentAddEditDialog
+import org.qi4j.chronos.model.composites.CommentComposite;
+import org.qi4j.chronos.util.ChronosUtil;
+
+public abstract class CommentAddDialog extends CommentAddEditDialog
 {
     public CommentAddDialog()
     {
@@ -22,6 +25,25 @@ public class CommentAddDialog extends CommentAddEditDialog
     {
         return "Add";
     }
+
+    public void handleOkClicked()
+    {
+        CommentComposite comment = getChronosSetting().newInstance( CommentComposite.class );
+
+        //set the owner
+        comment.setUser( getChronosSetting().getStaff() );
+
+        //set created date
+        comment.setCreatedDate( ChronosUtil.getCurrentDate() );
+
+        //set values
+        assignFieldValueToComment( comment );
+
+        //adding comment
+        addingComment( comment );
+    }
+
+    public abstract void addingComment( CommentComposite comment );
 
     public String getDialogTitle()
     {

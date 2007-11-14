@@ -14,13 +14,13 @@ package org.qi4j.chronos.ui.comment;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
 import javax.swing.JTextField;
 import org.qi4j.chronos.model.Comment;
+import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.chronos.ui.common.AddEditDialog;
 import org.qi4j.chronos.ui.common.text.JMaxLengthTextArea;
 import org.qi4j.chronos.ui.util.UiUtil;
+import org.qi4j.chronos.util.DateUtil;
 
 public abstract class CommentAddEditDialog extends AddEditDialog
 {
@@ -28,7 +28,6 @@ public abstract class CommentAddEditDialog extends AddEditDialog
     private JTextField userField;
 
     private JMaxLengthTextArea commentTextArea;
-    private JScrollPane commentScrollPanel;
 
     public CommentAddEditDialog()
     {
@@ -41,7 +40,6 @@ public abstract class CommentAddEditDialog extends AddEditDialog
         userField = new JTextField();
 
         commentTextArea = new JMaxLengthTextArea( Comment.COMMENT_LEN );
-        commentScrollPanel = UiUtil.createScrollPanel( commentTextArea );
     }
 
     protected String getLayoutColSpec()
@@ -56,18 +54,25 @@ public abstract class CommentAddEditDialog extends AddEditDialog
 
     protected void initLayout( PanelBuilder builder, CellConstraints cc )
     {
-        builder.add( new JLabel( "User" ), cc.xy( 1, 1 ) );
+        builder.addLabel( "User", cc.xy( 1, 1 ) );
         builder.add( userField, cc.xy( 3, 1 ) );
 
-        builder.add( new JLabel( "Created Date" ), cc.xy( 5, 1 ) );
+        builder.addLabel( "Created Date", cc.xy( 5, 1 ) );
         builder.add( createdDateField, cc.xy( 7, 1 ) );
 
-        builder.add( new JLabel( "Comment" ), cc.xy( 1, 3, "right,top" ) );
-        builder.add( commentScrollPanel, cc.xyw( 3, 3, 5, "fill, fill" ) );
+        builder.addLabel( "Comment", cc.xy( 1, 3, "right,top" ) );
+        builder.add( UiUtil.createScrollPanel( commentTextArea ), cc.xyw( 3, 3, 5, "fill, fill" ) );
     }
 
-    public void handleOkClicked()
+    public void assignFieldValueToComment( CommentComposite comment )
     {
-        //TODO
+        comment.setText( commentTextArea.getText() );
+    }
+
+    protected void assignCommentToFieldValue( CommentComposite comment )
+    {
+        createdDateField.setText( DateUtil.formatDateTime( comment.getCreatedDate() ) );
+        userField.setText( comment.getUser().getFullname() );
+        commentTextArea.setText( comment.getText() );
     }
 }

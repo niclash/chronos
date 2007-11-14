@@ -15,6 +15,15 @@
     <orderEntry type="module" module-name="library-framework" />
     <orderEntry type="module" module-name="library-general" />
     <orderEntry type="module" module-name="z_app-chronos-core" />
+    <orderEntry type="module-library">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/microba-0.4.4.1.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+      </library>
+    </orderEntry>
     <orderEntryProperties />
   </component>
 </module>

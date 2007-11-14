@@ -12,23 +12,47 @@
  */
 package org.qi4j.chronos.ui.common;
 
+import javax.swing.JOptionPane;
+import org.qi4j.chronos.service.Services;
+import org.qi4j.chronos.ui.setting.ChronosSetting;
+import org.qi4j.chronos.util.ChronosUtil;
+import org.qi4j.library.framework.validation.ValidationException;
+
 public abstract class AddEditDialog extends AbstractDialog
 {
     public AddEditDialog()
     {
-        super(false);
+        super( false );
 
         setOKButtonText( getOkButtonText() );
     }
 
     protected final void doOKAction()
     {
-        handleOkClicked();
+        try
+        {
+            handleOkClicked();
+
+            close( OK_EXIT_CODE );
+        }
+        catch( ValidationException err )
+        {
+            JOptionPane.showMessageDialog( null, err.getLocalizedMessage(), "Validation Failure", JOptionPane.WARNING_MESSAGE );
+        }
+        catch( Exception err )
+        {
+            JOptionPane.showMessageDialog( null, err.getMessage(), "Error", JOptionPane.ERROR_MESSAGE );
+        }
     }
 
-    protected final void okExit()
+    protected Services getServices()
     {
-        close( OK_EXIT_CODE );
+        return getChronosSetting().getServices();
+    }
+
+    protected ChronosSetting getChronosSetting()
+    {
+        return ChronosUtil.getChronosSetting();
     }
 
     public abstract String getOkButtonText();

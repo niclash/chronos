@@ -10,33 +10,39 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.workentry;
+package org.qi4j.chronos.ui.task;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
-import javax.swing.JLabel;
+import javax.swing.JTable;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import org.qi4j.chronos.ui.common.AddEditDialog;
+import org.qi4j.chronos.ui.common.AbstractDialog;
 
-public abstract class WorkAddEditDialog extends AddEditDialog
+public class TaskDetailDialog extends AbstractDialog
 {
     private JTextField titleField;
-    private JTextField createdDateField;
     private JTextField userField;
-
+    private JTextField createdDateField;
+    private JTextField taskStatusField;
     private JTextArea descTextArea;
 
-    //TODO DateChooser ??
+    private JTable commentTable;
+    private JTable workEntryTable;
 
-    public void handleOkClicked()
+    public TaskDetailDialog()
     {
-        //To change body of implemented methods use File | Settings | File Templates.
+        super( false );
     }
 
     protected void initComponents()
     {
-        //To change body of implemented methods use File | Settings | File Templates.    
+        titleField = new JTextField();
+        userField = new JTextField();
+        createdDateField = new JTextField();
+        taskStatusField = new JTextField();
+
+        descTextArea = new JTextArea();
     }
 
     protected String getLayoutColSpec()
@@ -46,15 +52,16 @@ public abstract class WorkAddEditDialog extends AddEditDialog
 
     protected String getLayoutRowSpec()
     {
-        return "p, 3dlu, 80dlu";
+        return "p, 3dlu, p, 3dlu, p, 3dlu, 80dlu";
     }
 
     protected void initLayout( PanelBuilder builder, CellConstraints cc )
     {
-        builder.add( new JLabel( "User" ), cc.xy( 1, 1 ) );
-        builder.add( userField, cc.xy( 3, 1 ) );
 
-        builder.add( new JLabel( "Created Date" ), cc.xy( 5, 1 ) );
-        builder.add( createdDateField, cc.xy( 7, 1 ) );
+    }
+
+    protected String getDialogTitle()
+    {
+        return "Task Detail";
     }
 }

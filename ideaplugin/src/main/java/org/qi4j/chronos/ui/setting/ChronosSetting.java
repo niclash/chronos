@@ -26,11 +26,12 @@ import javax.swing.ImageIcon;
 import javax.swing.JComponent;
 import org.jdom.Element;
 import org.jetbrains.annotations.Nls;
+import org.qi4j.Composite;
 import org.qi4j.CompositeBuilder;
 import org.qi4j.CompositeBuilderFactory;
 import org.qi4j.chronos.config.ChronosConfig;
-import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.service.Services;
@@ -89,7 +90,7 @@ public class ChronosSetting implements ProjectComponent, Configurable, JDOMExter
         //TODO bp. Initialize the qi4j session here?
         factory = new Energy4Java().newCompositeBuilderFactory();
 
-        CompositeBuilder<ServicesComposite> serviceBuilder = factory.newCompositeBuilder( ServicesComposite.class );
+        CompositeBuilder<ServicesComposite> serviceBuilder = newCompositeBuilder( ServicesComposite.class );
 
         services = serviceBuilder.newInstance();
 
@@ -107,9 +108,24 @@ public class ChronosSetting implements ProjectComponent, Configurable, JDOMExter
         chronosSettingPanel = new ChronosSettingPanel( this );
     }
 
+    public <T extends Composite> CompositeBuilder<T> newCompositeBuilder( Class<T> compositeType )
+    {
+        return factory.newCompositeBuilder( compositeType );
+    }
+
+    public <T extends Composite> T newInstance( Class<T> compositeType )
+    {
+        return factory.newCompositeBuilder( compositeType ).newInstance();
+    }
+
     public ProjectEntityComposite getChronosProject()
     {
         return chronosProject;
+    }
+
+    public ProjectAssigneeEntityComposite getProjectAssignee()
+    {
+        return getServices().getProjectAssigneeService().getProjectAssignee( getChronosProject(), getStaff() );
     }
 
     public void disposeComponent()

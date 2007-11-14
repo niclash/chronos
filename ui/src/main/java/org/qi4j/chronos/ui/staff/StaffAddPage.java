@@ -12,7 +12,6 @@
  */
 package org.qi4j.chronos.ui.staff;
 
-import java.util.List;
 import org.apache.wicket.Page;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.LoginComposite;
@@ -24,7 +23,6 @@ import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.login.LoginUserAddPanel;
 import org.qi4j.library.framework.validation.ValidationException;
-import org.qi4j.library.framework.validation.ValidationMessage;
 
 public class StaffAddPage extends StaffAddEditPage
 {
@@ -87,13 +85,7 @@ public class StaffAddPage extends StaffAddEditPage
         }
         catch( ValidationException err )
         {
-            List<ValidationMessage> validation = err.getMessages();
-
-            for( ValidationMessage msg : validation )
-            {
-                error( msg.getMessage() );
-            }
+            logErrorMsg( err.getMessages() );
         }
-
     }
 }

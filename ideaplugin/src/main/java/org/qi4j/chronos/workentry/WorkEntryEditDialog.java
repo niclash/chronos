@@ -10,21 +10,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.task;
+package org.qi4j.chronos.workentry;
 
-import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
+import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 
-public abstract class TaskEditDialog extends TaskAddEditDialog
+public abstract class WorkEntryEditDialog extends WorkEntryAddEditDialog
 {
-    public TaskEditDialog()
+    public WorkEntryEditDialog()
     {
-        assignTaskToFieldValue( getTask() );
+        assignWorkEntryToFieldValue( getWorkEntry() );
     }
 
-    public User getTaskOwner()
+    public ProjectAssigneeEntityComposite getProjectAssignee()
     {
-        return getTask().getUser();
+        return getWorkEntry().getProjectAssignee();
     }
 
     public String getOkButtonText()
@@ -34,19 +34,19 @@ public abstract class TaskEditDialog extends TaskAddEditDialog
 
     public void handleOkClicked()
     {
-        TaskEntityComposite task = getTask();
+        WorkEntryEntityComposite workEntry = getWorkEntry();
 
         //set values
-        assignFieldValueToTask( task );
+        assignFieldValueToWorkEntry( workEntry );
 
-        //update task
-        getServices().getTaskService().update( task );
+        //update work entry
+        getServices().getWorkEntryService().update( workEntry );
     }
 
-    public String getDialogTitle()
+    protected String getDialogTitle()
     {
-        return "Edit Task";
+        return "Edit Work Entry";
     }
 
-    public abstract TaskEntityComposite getTask();
+    public abstract WorkEntryEntityComposite getWorkEntry();
 }

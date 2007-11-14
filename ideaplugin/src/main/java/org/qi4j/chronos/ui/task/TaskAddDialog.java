@@ -12,10 +12,21 @@
  */
 package org.qi4j.chronos.ui.task;
 
+import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.service.TaskService;
+import org.qi4j.chronos.util.ChronosUtil;
+
 public class TaskAddDialog extends TaskAddEditDialog
 {
     public TaskAddDialog()
     {
+    }
+
+    public User getTaskOwner()
+    {
+        return getChronosSetting().getStaff();
     }
 
     public String getOkButtonText()
@@ -23,14 +34,34 @@ public class TaskAddDialog extends TaskAddEditDialog
         return "Add";
     }
 
-    public void onSubmitting()
+    public void handleOkClicked()
     {
-        //TODO
-        okExit();
+        TaskService taskService = getServices().getTaskService();
+
+        TaskEntityComposite task = taskService.newInstance( TaskEntityComposite.class );
+
+        //set the owner of this task
+        task.setUser( getChronosSetting().getStaff() );
+
+        //set created date
+        task.setCreatedDate( ChronosUtil.getCurrentDate() );
+
+        //set values
+        assignFieldValueToTask( task );
+
+        ProjectEntityComposite project = getChronosSetting().getChronosProject();
+
+        //add it to project
+        project.addTask( task );
+
+        //update project
+        getServices().getProjectService().update( project );
     }
 
     public String getDialogTitle()
     {
         return "Add Task";
     }
+
+
 }

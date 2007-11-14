@@ -14,15 +14,17 @@ package org.qi4j.chronos.ui.task;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
-import javax.swing.JLabel;
-import javax.swing.JScrollPane;
+import javax.swing.JComboBox;
 import javax.swing.JTextField;
 import org.qi4j.chronos.model.Task;
+import org.qi4j.chronos.model.TaskStatus;
+import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.ui.common.AddEditDialog;
 import org.qi4j.chronos.ui.common.text.JMaxLengthTextArea;
 import org.qi4j.chronos.ui.common.text.JMaxLengthTextField;
 import org.qi4j.chronos.ui.util.UiUtil;
+import org.qi4j.chronos.util.DateUtil;
 
 public abstract class TaskAddEditDialog extends AddEditDialog
 {
@@ -30,26 +32,27 @@ public abstract class TaskAddEditDialog extends AddEditDialog
     private JTextField userField;
     private JTextField createdDateField;
 
+    private JComboBox taskStatusComboBox;
+
     private JMaxLengthTextArea descTextArea;
-    private JScrollPane descScrollPanel;
 
     public TaskAddEditDialog()
     {
-
+        validate();
     }
 
     protected void initComponents()
     {
         titleField = new JMaxLengthTextField( Task.TITLE_LEN );
-        userField = new JTextField();
+        userField = new JTextField( getTaskOwner().getFullname() );
         createdDateField = new JTextField( "--" );
-
         createdDateField.setEditable( false );
+
+        taskStatusComboBox = new JComboBox( TaskStatus.values() );
+
         userField.setEditable( false );
 
         descTextArea = new JMaxLengthTextArea( Task.DESCRIPTION_LEN );
-
-        descScrollPanel = UiUtil.createScrollPanel( descTextArea );
     }
 
     protected String getLayoutColSpec()
@@ -59,59 +62,42 @@ public abstract class TaskAddEditDialog extends AddEditDialog
 
     protected String getLayoutRowSpec()
     {
-        return "p, 3dlu, p, 3dlu, 80dlu";
+        return "p, 3dlu, p, 3dlu, p, 3dlu, 80dlu";
     }
 
     public void initLayout( PanelBuilder builder, CellConstraints cc )
     {
-        builder.add( new JLabel( "User" ), cc.xy( 1, 1 ) );
+        builder.addLabel( "User", cc.xy( 1, 1 ) );
         builder.add( userField, cc.xy( 3, 1 ) );
 
-        builder.add( new JLabel( "Created Date" ), cc.xy( 5, 1 ) );
+        builder.addLabel( "Created Date", cc.xy( 5, 1 ) );
         builder.add( createdDateField, cc.xy( 7, 1 ) );
 
-        builder.add( new JLabel( "Title" ), cc.xy( 1, 3 ) );
-        builder.add( titleField, cc.xyw( 3, 3, 5 ) );
+        builder.addLabel( "Status", cc.xy( 1, 3 ) );
+        builder.add( taskStatusComboBox, cc.xy( 3, 3 ) );
 
-        builder.add( new JLabel( "Description" ), cc.xy( 1, 5, "right,top" ) );
-        builder.add( descScrollPanel, cc.xyw( 3, 5, 5, "fill, fill" ) );
+        builder.addLabel( "Title", cc.xy( 1, 5 ) );
+        builder.add( titleField, cc.xyw( 3, 5, 5 ) );
+
+        builder.addLabel( "Description", cc.xy( 1, 7, "right,top" ) );
+        builder.add( UiUtil.createScrollPanel( descTextArea ), cc.xyw( 3, 7, 5, "fill, fill" ) );
     }
 
     protected void assignFieldValueToTask( TaskEntityComposite task )
     {
+        task.setUser( getTaskOwner() );
         task.setTitle( titleField.getText() );
         task.setDescription( descTextArea.getText() );
+        task.setTaskStatus( (TaskStatus) taskStatusComboBox.getSelectedItem() );
     }
 
     protected void assignTaskToFieldValue( TaskEntityComposite task )
     {
         titleField.setText( task.getTitle() );
         descTextArea.setText( task.getDescription() );
+        createdDateField.setText( DateUtil.formatDateTime( task.getCreatedDate() ) );
+        taskStatusComboBox.setSelectedItem( task.getTaskStatus() );
     }
 
-    public final void handleOkClicked()
-    {
-        //TODO bp. this is weak, use careListener to enable/disable okButton
-        //and diasplay a warning msg.
-        boolean isRejected = false;
-
-        if( titleField.getText() == null || titleField.getText().length() == 0 )
-        {
-            isRejected = true;
-        }
-
-        if( descTextArea.getText() == null || descTextArea.getText().length() == 0 )
-        {
-            isRejected = true;
-        }
-
-        if( isRejected )
-        {
-            return;
-        }
-
-        onSubmitting();
-    }
-
-    public abstract void onSubmitting();
+    public abstract User getTaskOwner();
 }

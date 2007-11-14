@@ -10,13 +10,31 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service;
+package org.qi4j.chronos.service.mocks;
 
+import java.util.List;
+import org.qi4j.annotation.scope.ThisCompositeAs;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.service.ProjectAssigneeService;
 
-public interface ProjectAssigneeService extends ProjectBasedService<ProjectAssigneeEntityComposite>
+public abstract class MockProjectAssigneeMiscService implements ProjectAssigneeService
 {
-    ProjectAssigneeEntityComposite getProjectAssignee( ProjectEntityComposite project, StaffEntityComposite staff );
+    @ThisCompositeAs private ProjectAssigneeService service;
+
+    public ProjectAssigneeEntityComposite getProjectAssignee( ProjectEntityComposite project, StaffEntityComposite staff )
+    {
+        List<ProjectAssigneeEntityComposite> list = service.findAll( project );
+
+        for( ProjectAssigneeEntityComposite projectAssignee : list )
+        {
+            if( projectAssignee.getStaff().getIdentity().equals( staff.getIdentity() ) )
+            {
+                return projectAssignee;
+            }
+        }
+
+        return null;
+    }
 }

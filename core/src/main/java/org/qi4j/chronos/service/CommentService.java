@@ -26,8 +26,6 @@ public interface CommentService
 
     int countAll( HasComments hasComments );
 
-    CommentComposite get( HasComments hasComments, Date createdDate );
-
     void update( HasComments hasComments, CommentComposite oldComment, CommentComposite newCommnent );
 
     CommentComposite get( HasComments hasComments, Date createdDate, String userId );

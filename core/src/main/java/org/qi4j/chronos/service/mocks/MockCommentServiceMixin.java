@@ -49,21 +49,6 @@ public class MockCommentServiceMixin implements CommentService
         return findAll( hasComments ).size();
     }
 
-    public CommentComposite get( HasComments hasComments, Date createdDate )
-    {
-        List<CommentComposite> list = findAll( hasComments );
-
-        for( CommentComposite comment : list )
-        {
-            if( comment.getCreatedDate().equals( createdDate ) )
-            {
-                return comment;
-            }
-        }
-
-        return null;
-    }
-
     public void update( HasComments hasComments, CommentComposite oldComment, CommentComposite newComment )
     {
         CommentComposite toBeDeleted = null;
