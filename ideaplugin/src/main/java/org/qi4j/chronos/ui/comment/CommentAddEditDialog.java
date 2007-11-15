@@ -14,18 +14,19 @@ package org.qi4j.chronos.ui.comment;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
-import javax.swing.JTextField;
 import org.qi4j.chronos.model.Comment;
+import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.chronos.ui.common.AddEditDialog;
+import org.qi4j.chronos.ui.common.ReadOnlyTextField;
 import org.qi4j.chronos.ui.common.text.JMaxLengthTextArea;
 import org.qi4j.chronos.ui.util.UiUtil;
 import org.qi4j.chronos.util.DateUtil;
 
 public abstract class CommentAddEditDialog extends AddEditDialog
 {
-    private JTextField createdDateField;
-    private JTextField userField;
+    private ReadOnlyTextField createdDateField;
+    private ReadOnlyTextField userField;
 
     private JMaxLengthTextArea commentTextArea;
 
@@ -35,9 +36,9 @@ public abstract class CommentAddEditDialog extends AddEditDialog
 
     protected void initComponents()
     {
-        createdDateField = new JTextField( "--" );
+        createdDateField = new ReadOnlyTextField( "--" );
 
-        userField = new JTextField();
+        userField = new ReadOnlyTextField( getCommentOwner().getFullname() );
 
         commentTextArea = new JMaxLengthTextArea( Comment.COMMENT_LEN );
     }
@@ -67,6 +68,7 @@ public abstract class CommentAddEditDialog extends AddEditDialog
     public void assignFieldValueToComment( CommentComposite comment )
     {
         comment.setText( commentTextArea.getText() );
+        comment.setUser( getCommentOwner() );
     }
 
     protected void assignCommentToFieldValue( CommentComposite comment )
@@ -75,4 +77,6 @@ public abstract class CommentAddEditDialog extends AddEditDialog
         userField.setText( comment.getUser().getFullname() );
         commentTextArea.setText( comment.getText() );
     }
+
+    public abstract User getCommentOwner();
 }

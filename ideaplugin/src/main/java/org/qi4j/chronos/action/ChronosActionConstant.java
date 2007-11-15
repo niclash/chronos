@@ -22,12 +22,13 @@ public final class ChronosActionConstant
     public final static String TASK_DELETE_ACTION = "ChronosTaskDeleteAction";
     public final static String TASK_ONGOING_GROUP = "ChronosTaskOngoingGroup";
     public final static String TASK_OPENED_GROUP = "ChronosTaskOpenedGroup";
+    public final static String TASK_NEW_COMMENT_ACTION = "ChronosTaskNewCommentAction";
 
-    public final static String WORK_STOP_ACTION = "ChronosWorkStopAction";
-    public final static String WORK_CANCEL_ACTION = "ChronosWorkCancelAction";
-    public final static String WORK_START_ACTION = "ChronosWorkStartAction";
+    public final static String ONGOING_WORKENTRY_STOP_ACTION = "ChronosOngoingWorkEntryStopAction";
+    public final static String ONGOING_WORKENTRY_CANCEL_ACTION = "ChronosOngoingWorkEntryCancelAction";
+    public final static String ONGOING_WORKENTRY_NEW_ACTION = "ChronosOngoingWorkEntryNewAction";
 
     public final static String SETTING_GROUP = "ChronosSettingGroup";
 
-    public final static String COMMENT_NEW_ACTION = "ChronosCommentNewAction";
+
 }

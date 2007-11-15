@@ -10,15 +10,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.action.comment;
+package org.qi4j.chronos.ui.common;
 
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import org.qi4j.chronos.action.AbstractAction;
+import javax.swing.table.DefaultTableModel;
 
-public class CommentNewAction extends AbstractAction
+public class ChronosTableModel
+    extends DefaultTableModel
 {
-    public void actionPerformed( AnActionEvent e )
+    public ChronosTableModel( String[] aColumnNames, Object aData[][] )
     {
-        //TODO
+        super( aData, aColumnNames );
+    }
+
+    public boolean isCellEditable( int row, int col )
+    {
+        return false;
     }
 }
+

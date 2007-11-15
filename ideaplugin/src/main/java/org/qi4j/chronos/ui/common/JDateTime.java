@@ -34,8 +34,14 @@ public class JDateTime extends AbstractPanel
 
     public JDateTime()
     {
-        renderComponent();
+        init();
+    }
 
+    public JDateTime( Date date )
+    {
+        init();
+
+        setDate( date );
     }
 
     protected String getLayoutColSpec()

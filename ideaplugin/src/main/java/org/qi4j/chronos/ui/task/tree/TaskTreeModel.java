@@ -21,8 +21,12 @@ public class TaskTreeModel extends DefaultTreeModel
     public TaskTreeModel( Project project, TaskService taskService )
     {
         super( new TaskRootTreeNode( project, taskService ) );
-
         //TODO init listener to get Task status changed/New Task/DeleteTask/modified Task event here
+    }
+
+    public void updateModel( Project project, TaskService taskService )
+    {
+        setRoot( new TaskRootTreeNode( project, taskService ) );
     }
 
 }

@@ -54,7 +54,7 @@ public class ChronosSettingPanel extends AbstractPanel
     {
         this.chronosSetting = chronosSetting;
 
-        renderComponent();
+        init();
     }
 
     protected void initComponents()

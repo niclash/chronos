@@ -18,6 +18,8 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import java.awt.Color;
 import org.qi4j.chronos.ui.common.AbstractPanel;
+import org.qi4j.chronos.ui.task.tree.TaskTree;
+import org.qi4j.chronos.ui.task.tree.TaskTreeNode;
 import org.qi4j.chronos.ui.task.tree.TaskTreePanel;
 
 public class TaskToolCenterPanel extends AbstractPanel
@@ -33,7 +35,7 @@ public class TaskToolCenterPanel extends AbstractPanel
         this.project = project;
         this.actionManager = actionManager;
 
-        renderComponent();
+        init();
     }
 
     public void initComponents()
@@ -43,6 +45,21 @@ public class TaskToolCenterPanel extends AbstractPanel
 
         this.setOpaque( true );
         this.setBackground( Color.white );
+    }
+
+    public TaskTree getTaskTree()
+    {
+        return taskTreePanel.getTaskTree();
+    }
+
+    public TaskTreeNode getSelectedTaskTreeNode()
+    {
+        return taskTreePanel.getSelectedTaskTreeNode();
+    }
+
+    public void updateTaskTree()
+    {
+        taskTreePanel.updateTaskTree();
     }
 
     public String getLayoutColSpec()

@@ -15,12 +15,12 @@ package org.qi4j.chronos.ui.task;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import javax.swing.JComboBox;
-import javax.swing.JTextField;
 import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.model.TaskStatus;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.ui.common.AddEditDialog;
+import org.qi4j.chronos.ui.common.ReadOnlyTextField;
 import org.qi4j.chronos.ui.common.text.JMaxLengthTextArea;
 import org.qi4j.chronos.ui.common.text.JMaxLengthTextField;
 import org.qi4j.chronos.ui.util.UiUtil;
@@ -29,8 +29,8 @@ import org.qi4j.chronos.util.DateUtil;
 public abstract class TaskAddEditDialog extends AddEditDialog
 {
     private JMaxLengthTextField titleField;
-    private JTextField userField;
-    private JTextField createdDateField;
+    private ReadOnlyTextField userField;
+    private ReadOnlyTextField createdDateField;
 
     private JComboBox taskStatusComboBox;
 
@@ -44,13 +44,10 @@ public abstract class TaskAddEditDialog extends AddEditDialog
     protected void initComponents()
     {
         titleField = new JMaxLengthTextField( Task.TITLE_LEN );
-        userField = new JTextField( getTaskOwner().getFullname() );
-        createdDateField = new JTextField( "--" );
-        createdDateField.setEditable( false );
+        userField = new ReadOnlyTextField( getTaskOwner().getFullname() );
+        createdDateField = new ReadOnlyTextField( "--" );
 
         taskStatusComboBox = new JComboBox( TaskStatus.values() );
-
-        userField.setEditable( false );
 
         descTextArea = new JMaxLengthTextArea( Task.DESCRIPTION_LEN );
     }

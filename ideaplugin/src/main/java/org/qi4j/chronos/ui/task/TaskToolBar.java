@@ -31,7 +31,7 @@ public class TaskToolBar extends AbstractPanel
     {
         this.actionManager = actionManager;
 
-        renderComponent();
+        init();
     }
 
     protected void initComponents()

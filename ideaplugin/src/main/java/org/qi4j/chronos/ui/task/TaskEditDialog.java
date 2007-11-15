@@ -39,6 +39,8 @@ public abstract class TaskEditDialog extends TaskAddEditDialog
         //set values
         assignFieldValueToTask( task );
 
+        //TODO bp. Disallow changing of taskStatus from opened to WontFix/closed
+        //TODO if the task has ongoingWorkEntry
         //update task
         getServices().getTaskService().update( task );
     }

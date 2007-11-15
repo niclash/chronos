@@ -14,25 +14,32 @@ package org.qi4j.chronos.action.task;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import org.qi4j.chronos.action.TaskTreeNodeBaseAction;
+import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.ui.comment.CommentAddDialog;
 import org.qi4j.chronos.ui.task.tree.TaskTreeNode;
 import org.qi4j.chronos.ui.util.UiUtil;
 
-public class TaskDeleteAction extends TaskTreeNodeBaseAction
+public class TaskNewCommentAction extends TaskTreeNodeBaseAction
 {
-    public void execute( TaskTreeNode taskTreeNode, AnActionEvent e )
+    public void execute( final TaskTreeNode taskTreeNode, AnActionEvent e )
     {
-        if( !UiUtil.showConfirmationDialog( "Confirmation", "Are you sure want to delete this task? " +
-                                                            "\nWarning : All comments/WorkEntries belong to this task will be deleted." ) )
+        CommentAddDialog addDialog = new CommentAddDialog()
         {
-            return;
-        }
+            public void addingComment( CommentComposite comment )
+            {
+                TaskEntityComposite task = taskTreeNode.getTask();
 
-        TaskEntityComposite task = taskTreeNode.getTask();
+                //add comment to task
+                task.addComment( comment );
 
-        //delete task
-        getServices( e ).getTaskService().delete( task );
+                UiUtil.showMsgDialog( "Comment added", "New comment is added successfully." );
 
-        UiUtil.showMsgDialog( "Success", "Task is deleted successfully." );
+                //update task
+                getServices().getTaskService().update( task );
+            }
+        };
+
+        addDialog.show();
     }
 }

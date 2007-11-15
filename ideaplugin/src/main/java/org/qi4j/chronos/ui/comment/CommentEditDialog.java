@@ -12,6 +12,7 @@
  */
 package org.qi4j.chronos.ui.comment;
 
+import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.associations.HasComments;
 import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.chronos.service.CommentService;
@@ -50,6 +51,11 @@ public abstract class CommentEditDialog extends CommentAddEditDialog
     public String getDialogTitle()
     {
         return "Edit Comment";
+    }
+
+    public User getCommentOwner()
+    {
+        return getComment().getUser();
     }
 
     public abstract CommentComposite getComment();

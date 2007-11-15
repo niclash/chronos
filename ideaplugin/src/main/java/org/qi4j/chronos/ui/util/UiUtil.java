@@ -15,7 +15,12 @@ package org.qi4j.chronos.ui.util;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import javax.swing.JComponent;
+import javax.swing.JLabel;
+import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
+import javax.swing.JTree;
+import javax.swing.table.TableColumn;
 import javax.swing.text.JTextComponent;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
@@ -48,5 +53,43 @@ public final class UiUtil
                 component.selectAll();
             }
         } );
+    }
+
+    public static void expandAll( JTree tree )
+    {
+        for( int i = 0; i < tree.getRowCount(); i++ )
+        {
+            tree.expandRow( i );
+        }
+    }
+
+    public static void showMsgDialog( String title, String msg )
+    {
+        JOptionPane.showMessageDialog( null, msg, title, JOptionPane.INFORMATION_MESSAGE );
+    }
+
+    public static boolean showConfirmationDialog( String title, String question )
+    {
+        int result = JOptionPane.showOptionDialog( null, new JLabel( "<html><body>" + question.replaceAll( "\n", "<br>" ) + "</body></html>" ), title,
+                                                   JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE,
+                                                   null, null, null );
+
+        return result == JOptionPane.YES_OPTION;
+    }
+
+    public static void initTableWidth( JTable table, int[] colWiths )
+    {
+        if( table.getColumnModel().getColumnCount() != colWiths.length )
+        {
+            throw new IllegalArgumentException( "Number of Column widths doesn't matched!" );
+        }
+
+        table.setAutoResizeMode( JTable.AUTO_RESIZE_OFF );
+
+        for( int i = 0; i < colWiths.length; i++ )
+        {
+            TableColumn col = table.getColumnModel().getColumn( i );
+            col.setPreferredWidth( colWiths[ i ] );
+        }
     }
 }

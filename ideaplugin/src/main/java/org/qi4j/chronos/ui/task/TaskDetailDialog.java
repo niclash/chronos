@@ -14,35 +14,59 @@ package org.qi4j.chronos.ui.task;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
-import javax.swing.JTable;
 import javax.swing.JTextArea;
-import javax.swing.JTextField;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.ui.comment.CommentListPanel;
 import org.qi4j.chronos.ui.common.AbstractDialog;
+import org.qi4j.chronos.ui.common.ChronosTabbedPanel;
+import org.qi4j.chronos.ui.common.ReadOnlyTextField;
+import org.qi4j.chronos.ui.util.UiUtil;
+import org.qi4j.chronos.ui.workentry.WorkEntryListPanel;
+import org.qi4j.chronos.util.DateUtil;
 
-public class TaskDetailDialog extends AbstractDialog
+public abstract class TaskDetailDialog extends AbstractDialog
 {
-    private JTextField titleField;
-    private JTextField userField;
-    private JTextField createdDateField;
-    private JTextField taskStatusField;
+    private ReadOnlyTextField titleField;
+    private ReadOnlyTextField userField;
+    private ReadOnlyTextField createdDateField;
+    private ReadOnlyTextField taskStatusField;
     private JTextArea descTextArea;
 
-    private JTable commentTable;
-    private JTable workEntryTable;
+    private ChronosTabbedPanel tabbedPanel;
 
     public TaskDetailDialog()
     {
         super( false );
+
+        initData();
+    }
+
+    private void initData()
+    {
+        TaskEntityComposite task = getTask();
+
+        titleField.setText( task.getTitle() );
+        userField.setText( task.getUser().getFullname() );
+        createdDateField.setText( DateUtil.formatDateTime( task.getCreatedDate() ) );
+        taskStatusField.setText( task.getTaskStatus().toString() );
+        descTextArea.setText( task.getDescription() );
+
+        //TODO bp. comments & workEntry
     }
 
     protected void initComponents()
     {
-        titleField = new JTextField();
-        userField = new JTextField();
-        createdDateField = new JTextField();
-        taskStatusField = new JTextField();
+        titleField = new ReadOnlyTextField();
+        userField = new ReadOnlyTextField();
+        createdDateField = new ReadOnlyTextField();
+        taskStatusField = new ReadOnlyTextField();
 
         descTextArea = new JTextArea();
+
+        tabbedPanel = new ChronosTabbedPanel();
+
+        tabbedPanel.addTab( "Comments", new CommentListPanel() );
+        tabbedPanel.add( "WorkEntries", new WorkEntryListPanel() );
     }
 
     protected String getLayoutColSpec()
@@ -52,16 +76,33 @@ public class TaskDetailDialog extends AbstractDialog
 
     protected String getLayoutRowSpec()
     {
-        return "p, 3dlu, p, 3dlu, p, 3dlu, 80dlu";
+        return "p, 3dlu, p, 3dlu, p, 3dlu, 80dlu, 3dlu, 150dlu";
     }
 
     protected void initLayout( PanelBuilder builder, CellConstraints cc )
     {
+        builder.addLabel( "User", cc.xy( 1, 1 ) );
+        builder.add( userField, cc.xy( 3, 1 ) );
 
+        builder.addLabel( "Created Date", cc.xy( 5, 1 ) );
+        builder.add( createdDateField, cc.xy( 7, 1 ) );
+
+        builder.addLabel( "Status", cc.xy( 1, 3 ) );
+        builder.add( taskStatusField, cc.xy( 3, 3 ) );
+
+        builder.addLabel( "Title", cc.xy( 1, 5 ) );
+        builder.add( titleField, cc.xyw( 3, 5, 5 ) );
+
+        builder.addLabel( "Description", cc.xy( 1, 7, "right,top" ) );
+        builder.add( UiUtil.createScrollPanel( descTextArea ), cc.xyw( 3, 7, 5, "fill, fill" ) );
+
+        builder.add( tabbedPanel, cc.xyw( 1, 9, 7, "fill,fill" ) );
     }
 
     protected String getDialogTitle()
     {
         return "Task Detail";
     }
+
+    public abstract TaskEntityComposite getTask();
 }

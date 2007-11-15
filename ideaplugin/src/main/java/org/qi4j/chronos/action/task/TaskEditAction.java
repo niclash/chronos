@@ -13,12 +13,22 @@
 package org.qi4j.chronos.action.task;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import org.qi4j.chronos.action.AbstractAction;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.ui.task.TaskEditDialog;
+import org.qi4j.chronos.ui.task.tree.TaskTreeNode;
+import org.qi4j.chronos.action.TaskTreeNodeBaseAction;
 
-public class TaskEditAction extends AbstractAction
+public class TaskEditAction extends TaskTreeNodeBaseAction
 {
-    public void actionPerformed( AnActionEvent e )
+    public void execute( final TaskTreeNode taskTreeNode, AnActionEvent e )
     {
-        //TODO
+        new TaskEditDialog()
+        {
+            public TaskEntityComposite getTask()
+            {
+                return taskTreeNode.getTask();
+            }
+
+        }.show();
     }
 }

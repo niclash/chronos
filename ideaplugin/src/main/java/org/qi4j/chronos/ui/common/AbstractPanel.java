@@ -23,7 +23,7 @@ public abstract class AbstractPanel extends JPanel
     {
     }
 
-    protected final void renderComponent()
+    protected final void init()
     {
         initComponents();
 

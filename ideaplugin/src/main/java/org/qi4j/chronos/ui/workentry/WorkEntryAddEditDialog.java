@@ -10,23 +10,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.workentry;
+package org.qi4j.chronos.ui.workentry;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
+import java.util.Date;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
-import org.qi4j.chronos.model.ProjectAssignee;
-import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
+import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.ui.common.AddEditDialog;
 import org.qi4j.chronos.ui.common.JDateTime;
+import org.qi4j.chronos.ui.common.ReadOnlyTextField;
 import org.qi4j.chronos.ui.util.UiUtil;
+import org.qi4j.chronos.util.ChronosUtil;
 
 public abstract class WorkEntryAddEditDialog extends AddEditDialog
 {
-    private JTextField createdDateField;
-    private JTextField userField;
+    private ReadOnlyTextField createdDateField;
+    private ReadOnlyTextField userField;
 
     private JTextField titleField;
     private JTextArea descTextArea;
@@ -34,19 +36,26 @@ public abstract class WorkEntryAddEditDialog extends AddEditDialog
     private JDateTime startDateTime;
     private JDateTime endDatetime;
 
+    public WorkEntryAddEditDialog()
+    {
+
+    }
+
     protected void initComponents()
     {
         titleField = new JTextField();
-        createdDateField = new JTextField( "--" );
-        createdDateField.setEditable( false );
+        createdDateField = new ReadOnlyTextField( "--" );
 
-        userField = new JTextField( getProjectAssignee().getStaff().getFullname() );
+        userField = new ReadOnlyTextField( getProjectAssignee().getStaff().getFullname() );
 
         descTextArea = new JTextArea();
         UiUtil.createScrollPanel( descTextArea );
 
         startDateTime = new JDateTime();
         endDatetime = new JDateTime();
+
+        startDateTime.setDate( getStartedDate() );
+        endDatetime.setDate( ChronosUtil.getCurrentDate() );
     }
 
     protected String getLayoutColSpec()
@@ -88,7 +97,7 @@ public abstract class WorkEntryAddEditDialog extends AddEditDialog
         workEntry.setEndTime( endDatetime.getDate() );
         workEntry.setStartTime( startDateTime.getDate() );
         workEntry.setTitle( titleField.getText() );
-        workEntry.setProjectAssignee( getProjectAssignee());
+        workEntry.setProjectAssignee( getProjectAssignee() );
     }
 
     protected void assignWorkEntryToFieldValue( WorkEntryEntityComposite workEntry )
@@ -97,6 +106,12 @@ public abstract class WorkEntryAddEditDialog extends AddEditDialog
         endDatetime.setDate( workEntry.getEndTime() );
         startDateTime.setDate( workEntry.getStartTime() );
         titleField.setText( workEntry.getTitle() );
+    }
+
+    public Date getStartedDate()
+    {
+        //override this if startedDate should be get it from somewhere else.
+        return ChronosUtil.getCurrentDate();
     }
 
     public abstract ProjectAssigneeEntityComposite getProjectAssignee();

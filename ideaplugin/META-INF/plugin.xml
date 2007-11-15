@@ -15,21 +15,20 @@
     </component>
   </project-components>
   <actions>
-    <group id="ChronosTaskToolBarGroup">
-      <action id="ChronosTaskNewAction" class="org.qi4j.chronos.action.task.TaskNewAction" text="New Task"
-              description="New Task"/>
-      <action id="ChronosTaskViewAllAction" class="org.qi4j.chronos.action.task.TaskViewAllAction"
-              text="View All Tasks"
-              description="View all tasks."/>
-    </group>
+    <!-- Setting action-->
+    <action id="ChronosSettingAction" class="org.qi4j.chronos.action.ChronosSettingAction"
+            text="Chronos Setting"
+            description="Chronos Setting"/>
 
-    <group id="ChronosSettingGroup">
-      <action id="ChronosSettingAction" class="org.qi4j.chronos.action.ChronosSettingAction"
-              text="Chronos Setting"
-              description="Chronos Setting"/>
-    </group>
+    <!-- Task actions -->
+    <action id="ChronosTaskNewAction" class="org.qi4j.chronos.action.task.TaskNewAction" text="New Task"
+            description="New Task"/>
+    <action id="ChronosTaskViewAllAction" class="org.qi4j.chronos.action.task.TaskViewAllAction"
+            text="View All Tasks"
+            description="View all tasks."/>
 
-    <action id="ChronosCommentNewAction" class="org.qi4j.chronos.action.comment.CommentNewAction" text="New Comment"
+    <action id="ChronosTaskNewCommentAction" class="org.qi4j.chronos.action.task.TaskNewCommentAction"
+            text="New Comment"
             description="New Comment"/>
 
     <action id="ChronosTaskEditAction" class="org.qi4j.chronos.action.task.TaskEditAction" text="Edit Task"
@@ -41,27 +40,49 @@
     <action id="ChronosTaskDeleteAction" class="org.qi4j.chronos.action.task.TaskDeleteAction" text="Delete Task"
             description="Delete Task"/>
 
-    <group id="ChronosTaskOngoingGroup">
-      <action id="ChronosWorkStopAction" class="org.qi4j.chronos.action.task.WorkStopAction" text="Stop Work"
-              description="Stop Work"/>
+    <!-- OngoingWorkEntry Actions -->
+    <action id="ChronosOngoingWorkEntryStopAction"
+            class="org.qi4j.chronos.action.ongoingworkentry.OngoingWorkEntryStopAction"
+            text="Stop Work"
+            description="Stop Work"/>
+    <action id="ChronosOngoingWorkEntryCancelAction"
+            class="org.qi4j.chronos.action.ongoingworkentry.OngoingWorkEntryCancelAction"
+            text="Cancel Work"
+            description="Cancel Work"/>
+    <action id="ChronosOngoingWorkEntryNewAction"
+            class="org.qi4j.chronos.action.ongoingworkentry.OngoingWorkEntryNewAction"
+            text="Start Work"
+            description="Start Work"/>
 
-      <action id="ChronosWorkCancelAction" class="org.qi4j.chronos.action.task.WorkCancelAction" text="Cancel Work"
-              description="Cancel Work"/>
+    <!-- Action Groups -->
+    <group id="ChronosTaskToolBarGroup">
+      <reference id="ChronosTaskNewAction"/>
+      <reference id="ChronosTaskViewAllAction"/>
+    </group>
+
+    <group id="ChronosSettingGroup">
+      <reference id="ChronosSettingAction"/>
+    </group>
+
+    <group id="ChronosTaskOngoingGroup">
+      <reference id="ChronosOngoingWorkEntryStopAction"/>
+      <reference id="ChronosOngoingWorkEntryCancelAction"/>
       <separator/>
-      <reference id="ChronosCommentNewAction"/>
+      <reference id="ChronosTaskNewCommentAction"/>
       <separator/>
       <reference id="ChronosTaskEditAction"/>
+      <separator/>
       <reference id="ChronosTaskViewDetailAction"/>
     </group>
 
     <group id="ChronosTaskOpenedGroup">
-      <action id="ChronosWorkStartAction" class="org.qi4j.chronos.action.task.WorkStartAction" text="Start Work"
-              description="Start Work"/>
+      <reference id="ChronosOngoingWorkEntryNewAction"/>
       <separator/>
-      <reference id="ChronosCommentNewAction"/>
+      <reference id="ChronosTaskNewCommentAction"/>
       <separator/>
       <reference id="ChronosTaskEditAction"/>
       <reference id="ChronosTaskDeleteAction"/>
+      <separator/>
       <reference id="ChronosTaskViewDetailAction"/>
     </group>
   </actions>

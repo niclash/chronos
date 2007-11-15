@@ -10,15 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.action.task;
+package org.qi4j.chronos.ui.common;
 
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import org.qi4j.chronos.action.AbstractAction;
+import javax.swing.JTabbedPane;
 
-public class WorkStartAction extends AbstractAction
+public class ChronosTabbedPanel extends JTabbedPane
 {
-    public void actionPerformed( AnActionEvent e )
-    {
-
-    }
+    
 }

@@ -13,8 +13,29 @@
 package org.qi4j.chronos.action;
 
 import com.intellij.openapi.actionSystem.AnAction;
+import com.intellij.openapi.actionSystem.AnActionEvent;
+import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
+import org.qi4j.chronos.service.Services;
+import org.qi4j.chronos.ui.task.TaskToolWindow;
+import org.qi4j.chronos.util.ChronosUtil;
 
 public abstract class AbstractAction extends AnAction
 {
+    //convenient method
+    public Services getServices( AnActionEvent e )
+    {
+        return ChronosUtil.getChronosSetting( e ).getServices();
+    }
 
+    //convenient method
+    public ProjectAssigneeEntityComposite getProjectAssignee( AnActionEvent e )
+    {
+        return ChronosUtil.getChronosSetting( e ).getProjectAssignee();
+    }
+
+    //convenient method
+    public TaskToolWindow getTaskToolWindow( AnActionEvent e )
+    {
+        return ChronosUtil.getTaskToolWindow( e );
+    }
 }

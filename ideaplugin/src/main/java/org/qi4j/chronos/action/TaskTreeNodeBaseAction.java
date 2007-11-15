@@ -10,26 +10,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.action.task;
+package org.qi4j.chronos.action;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import org.qi4j.chronos.action.TaskTreeNodeBaseAction;
-import org.qi4j.chronos.model.composites.TaskEntityComposite;
-import org.qi4j.chronos.ui.task.TaskDetailDialog;
+import org.qi4j.chronos.action.AbstractAction;
+import org.qi4j.chronos.ui.task.TaskToolWindow;
 import org.qi4j.chronos.ui.task.tree.TaskTreeNode;
+import org.qi4j.chronos.util.ChronosUtil;
 
-public class TaskViewDetailAction extends TaskTreeNodeBaseAction
+public abstract class TaskTreeNodeBaseAction<T extends TaskTreeNode> extends AbstractAction
 {
-    public void execute( final TaskTreeNode taskTreeNode, AnActionEvent e )
+    public final void actionPerformed( AnActionEvent e )
     {
-        TaskDetailDialog taskDetailDialog = new TaskDetailDialog()
-        {
-            public TaskEntityComposite getTask()
-            {
-                return taskTreeNode.getTask();
-            }
-        };
+        TaskToolWindow taskToolWindow = ChronosUtil.getTaskToolWindow( e );
 
-        taskDetailDialog.show();
+        T taskTreeNode = (T) taskToolWindow.getTaskToolCenterPanel().getSelectedTaskTreeNode();
+
+        execute( taskTreeNode, e );
     }
+
+    public abstract void execute( T taskTreeNode, AnActionEvent e );
 }

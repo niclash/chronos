@@ -10,15 +10,23 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.action.task;
+package org.qi4j.chronos.ui.common;
 
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import org.qi4j.chronos.action.AbstractAction;
+import javax.swing.JTextField;
 
-public class WorkStopAction extends AbstractAction
+public class ReadOnlyTextField extends JTextField
 {
-    public void actionPerformed( AnActionEvent e )
+    public ReadOnlyTextField()
     {
+    }
 
+    public ReadOnlyTextField( String text )
+    {
+        super( text );
+    }
+
+    public final boolean isEditable()
+    {
+        return false;
     }
 }

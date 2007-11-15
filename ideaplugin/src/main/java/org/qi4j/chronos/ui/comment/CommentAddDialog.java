@@ -12,6 +12,7 @@
  */
 package org.qi4j.chronos.ui.comment;
 
+import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.chronos.util.ChronosUtil;
 
@@ -26,12 +27,14 @@ public abstract class CommentAddDialog extends CommentAddEditDialog
         return "Add";
     }
 
+    public User getCommentOwner()
+    {
+        return getChronosSetting().getStaff();
+    }
+
     public void handleOkClicked()
     {
         CommentComposite comment = getChronosSetting().newInstance( CommentComposite.class );
-
-        //set the owner
-        comment.setUser( getChronosSetting().getStaff() );
 
         //set created date
         comment.setCreatedDate( ChronosUtil.getCurrentDate() );
@@ -43,10 +46,10 @@ public abstract class CommentAddDialog extends CommentAddEditDialog
         addingComment( comment );
     }
 
-    public abstract void addingComment( CommentComposite comment );
-
     public String getDialogTitle()
     {
         return "Add Comment";
     }
+
+    public abstract void addingComment( CommentComposite comment );
 }

@@ -62,6 +62,4 @@ public class TaskAddDialog extends TaskAddEditDialog
     {
         return "Add Task";
     }
-
-
 }

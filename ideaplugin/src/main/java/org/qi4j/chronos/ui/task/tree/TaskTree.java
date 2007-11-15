@@ -61,12 +61,12 @@ public class TaskTree extends AbstractTree
 
         if( taskTreeNode instanceof TaskOpenedTreeNode )
         {
-            action = (AbstractAction) actionManager.getAction( ChronosActionConstant.WORK_START_ACTION );
+            action = (AbstractAction) actionManager.getAction( ChronosActionConstant.ONGOING_WORKENTRY_NEW_ACTION );
 
         }
         else if( taskTreeNode instanceof TaskOngoingTreeNode )
         {
-            action = (AbstractAction) actionManager.getAction( ChronosActionConstant.WORK_STOP_ACTION );
+            action = (AbstractAction) actionManager.getAction( ChronosActionConstant.ONGOING_WORKENTRY_STOP_ACTION );
         }
 
         if( action != null )

@@ -130,7 +130,7 @@ public class ChronosSetting implements ProjectComponent, Configurable, JDOMExter
 
     public void disposeComponent()
     {
-
+        //TODO bp. release qi4j session
     }
 
     @Nls public String getDisplayName()

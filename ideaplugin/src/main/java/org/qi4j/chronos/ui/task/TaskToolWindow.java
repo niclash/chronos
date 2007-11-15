@@ -24,6 +24,8 @@ public class TaskToolWindow extends AbstractToolWindow
     private static final String TOOL_WINDOW_ID = "Chronos Task";
     private static final String COMPONENT_NAME = "ChronosTaskToolWindow";
 
+    private TaskToolCenterPanel taskToolCenterPanel;
+
     protected TaskToolWindow( ToolWindowManager toolWindowManager, ActionManager actionManager, Project project )
     {
         super( toolWindowManager, actionManager, project );
@@ -41,7 +43,12 @@ public class TaskToolWindow extends AbstractToolWindow
 
     protected JPanel createToolWindowComponent()
     {
-        return new TaskToolCenterPanel( getActionManager(), getProject() );
+        if( taskToolCenterPanel == null )
+        {
+            taskToolCenterPanel = new TaskToolCenterPanel( getActionManager(), getProject() );
+        }
+
+        return taskToolCenterPanel;
     }
 
     protected ToolWindowAnchor getAnchor()
@@ -52,6 +59,11 @@ public class TaskToolWindow extends AbstractToolWindow
     public String getComponentName()
     {
         return COMPONENT_NAME;
+    }
+
+    public TaskToolCenterPanel getTaskToolCenterPanel()
+    {
+        return taskToolCenterPanel;
     }
 
     public void disposeComponent()

@@ -19,6 +19,7 @@ import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.project.Project;
 import java.util.Date;
 import org.qi4j.chronos.ui.setting.ChronosSetting;
+import org.qi4j.chronos.ui.task.TaskToolWindow;
 
 public final class ChronosUtil
 {
@@ -40,6 +41,16 @@ public final class ChronosUtil
     public static Project getProject( DataContext dataContext )
     {
         return ( (Project) dataContext.getData( DataConstants.PROJECT ) );
+    }
+
+    public static TaskToolWindow getTaskToolWindow( AnActionEvent e )
+    {
+        return getTaskToolWindow( getProject( e ) );
+    }
+
+    public static TaskToolWindow getTaskToolWindow( Project project )
+    {
+        return project.getComponent( TaskToolWindow.class );
     }
 
     public static ChronosSetting getChronosSetting()
