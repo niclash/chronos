@@ -12,24 +12,13 @@
  */
 package org.qi4j.chronos.ui.common;
 
-import javax.swing.table.DefaultTableModel;
+import java.util.List;
 
-public class ChronosTableModel
-    extends DefaultTableModel
+public interface ChronosDataProvider<T>
 {
-    public ChronosTableModel( String[] aColumnNames )
-    {
-        super( null, aColumnNames );
-    }
+    List<T> getData( int first, int count );
 
-    public ChronosTableModel( String[] aColumnNames, Object aData[][] )
-    {
-        super( aData, aColumnNames );
-    }
+    Object[] populateData( T t );
 
-    public boolean isCellEditable( int row, int col )
-    {
-        return false;
-    }
+    int getSize();
 }
-

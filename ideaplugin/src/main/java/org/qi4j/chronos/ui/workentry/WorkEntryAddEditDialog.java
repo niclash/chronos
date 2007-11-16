@@ -78,14 +78,14 @@ public abstract class WorkEntryAddEditDialog extends AddEditDialog
         builder.addLabel( "Created Date", cc.xy( 5, 1 ) );
         builder.add( createdDateField, cc.xy( 7, 1 ) );
 
-        builder.addLabel( "Title", cc.xy( 1, 3 ) );
-        builder.add( titleField, cc.xyw( 3, 3, 5 ) );
+        builder.addLabel( "Start Time", cc.xy( 1, 3 ) );
+        builder.add( startDateTime, cc.xyw( 3, 3, 5 ) );
 
-        builder.addLabel( "Start Time", cc.xy( 1, 5 ) );
-        builder.add( startDateTime, cc.xyw( 3, 5, 5 ) );
+        builder.addLabel( "End time", cc.xy( 1, 5 ) );
+        builder.add( endDatetime, cc.xyw( 3, 5, 5 ) );
 
-        builder.addLabel( "End time", cc.xy( 1, 7 ) );
-        builder.add( endDatetime, cc.xyw( 3, 7, 5 ) );
+        builder.addLabel( "Title", cc.xy( 1, 7 ) );
+        builder.add( titleField, cc.xyw( 3, 7, 5 ) );
 
         builder.addLabel( "Description", cc.xy( 1, 9, "right,top" ) );
         builder.add( UiUtil.createScrollPanel( descTextArea ), cc.xyw( 3, 9, 5, "fill, fill" ) );

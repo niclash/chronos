@@ -12,6 +12,7 @@
  */
 package org.qi4j.chronos.util;
 
+import java.text.DecimalFormat;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 
@@ -20,6 +21,15 @@ public class DateUtil
     public static final String DATE_PATTERN = "dd MMM yyyy";
 
     public static final String DATE_TIME_PATTERN = "dd MMM yyyy HH:mm:ss";
+
+
+    private static DecimalFormat decimalFormat;
+
+    static
+    {
+        decimalFormat = new DecimalFormat();
+        decimalFormat.setMinimumIntegerDigits( 2 );
+    }
 
     public static String format( String pattern, Date date )
     {
@@ -36,4 +46,29 @@ public class DateUtil
         return new SimpleDateFormat( DATE_TIME_PATTERN ).format( date );
     }
 
+    public static String getTimeDifferent( Date startDate, Date endDate )
+    {
+        long diffMillis = endDate.getTime() - startDate.getTime();
+
+        return getTimeDifferent( diffMillis );
+    }
+
+    public static String getTimeDifferent( long diffMillis )
+    {
+        long diffSecs = diffMillis / ( 1000 );
+        long diffMins = diffMillis / ( 60 * 1000 );
+        long diffHours = diffMillis / ( 60 * 60 * 1000 );
+
+        if( diffSecs >= 60 || diffSecs <= -60 )
+        {
+            diffSecs = diffSecs % 60;
+        }
+
+        if( diffMins >= 60 || diffMillis <= -60 )
+        {
+            diffMins = diffMins % 60;
+        }
+
+        return decimalFormat.format( diffHours ) + ":" + decimalFormat.format( diffMins ) + ":" + decimalFormat.format( diffSecs );
+    }
 }

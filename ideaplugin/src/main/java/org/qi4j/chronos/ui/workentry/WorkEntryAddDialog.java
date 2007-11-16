@@ -16,6 +16,7 @@ import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.service.WorkEntryService;
+import org.qi4j.chronos.util.ChronosUtil;
 
 public abstract class WorkEntryAddDialog extends WorkEntryAddEditDialog
 {
@@ -34,6 +35,8 @@ public abstract class WorkEntryAddDialog extends WorkEntryAddEditDialog
         WorkEntryService workEntryService = getServices().getWorkEntryService();
 
         WorkEntryEntityComposite workEntry = workEntryService.newInstance( WorkEntryEntityComposite.class );
+
+        workEntry.setCreatedDate( ChronosUtil.getCurrentDate() );
 
         //set values
         assignFieldValueToWorkEntry( workEntry );

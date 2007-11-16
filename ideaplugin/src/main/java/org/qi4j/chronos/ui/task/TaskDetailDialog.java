@@ -15,6 +15,7 @@ package org.qi4j.chronos.ui.task;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import javax.swing.JTextArea;
+import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.ui.comment.CommentListPanel;
 import org.qi4j.chronos.ui.common.AbstractDialog;
@@ -34,6 +35,9 @@ public abstract class TaskDetailDialog extends AbstractDialog
 
     private ChronosTabbedPanel tabbedPanel;
 
+    private CommentListPanel commentListPanel;
+    private WorkEntryListPanel workEntryListPanel;
+
     public TaskDetailDialog()
     {
         super( false );
@@ -51,7 +55,8 @@ public abstract class TaskDetailDialog extends AbstractDialog
         taskStatusField.setText( task.getTaskStatus().toString() );
         descTextArea.setText( task.getDescription() );
 
-        //TODO bp. comments & workEntry
+        commentListPanel.initData( getServices().getCommentService().findAll( task ) );
+        workEntryListPanel.initData( getServices().getWorkEntryService().findAll( task ) );
     }
 
     protected void initComponents()
@@ -65,8 +70,32 @@ public abstract class TaskDetailDialog extends AbstractDialog
 
         tabbedPanel = new ChronosTabbedPanel();
 
-        tabbedPanel.addTab( "Comments", new CommentListPanel() );
-        tabbedPanel.add( "WorkEntries", new WorkEntryListPanel() );
+        commentListPanel = new CommentListPanel()
+        {
+            public void addingComment( CommentComposite comment )
+            {
+                TaskDetailDialog.this.addingComment( comment );
+            }
+        };
+
+        workEntryListPanel = new WorkEntryListPanel();
+
+        tabbedPanel.addTab( "Comments", commentListPanel );
+        tabbedPanel.addTab( "WorkEntries", workEntryListPanel );
+    }
+
+    private void addingComment( CommentComposite comment )
+    {
+        //TODO bp. Duplicate code found in TaskNewCommentAction
+        TaskEntityComposite task = getTask();
+
+        //add comment to task
+        task.addComment( comment );
+
+        UiUtil.showMsgDialog( "Comment added", "New comment is added successfully." );
+
+        //update task
+        getServices().getTaskService().update( task );
     }
 
     protected String getLayoutColSpec()

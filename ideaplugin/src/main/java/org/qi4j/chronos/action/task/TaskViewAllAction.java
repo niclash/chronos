@@ -16,6 +16,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.util.IconLoader;
 import javax.swing.Icon;
 import org.qi4j.chronos.action.AbstractAction;
+import org.qi4j.chronos.ui.task.TaskViewAllDialog;
 
 public class TaskViewAllAction extends AbstractAction
 {
@@ -24,7 +25,7 @@ public class TaskViewAllAction extends AbstractAction
 
     public void actionPerformed( AnActionEvent e )
     {
-
+        new TaskViewAllDialog().show();
     }
 
     public void update( AnActionEvent e )

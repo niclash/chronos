@@ -14,19 +14,50 @@ package org.qi4j.chronos.ui.workentry;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
-import javax.swing.JButton;
-import javax.swing.JTable;
+import java.awt.event.MouseAdapter;
+import java.awt.event.MouseEvent;
+import java.util.List;
+import javax.swing.ListSelectionModel;
+import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.ui.common.AbstractPanel;
+import org.qi4j.chronos.ui.common.ChronosTable;
+import org.qi4j.chronos.ui.common.ChronosTableModel;
 import org.qi4j.chronos.ui.util.UiUtil;
+import org.qi4j.chronos.util.DateUtil;
 
 public class WorkEntryListPanel extends AbstractPanel
 {
-    private JButton newWorkEntryButton;
-    private JTable workEntryTable;
+    private final static String[] COL_NAMES = { "Created Date", "Started Date", "End Date", "Duration", "By", "Title" };
+    private final static int[] COL_WITDHS = { 150, 150, 150, 100, 80, 130 };
+
+    private ChronosTable workEntryTable;
+
+    private List<WorkEntryEntityComposite> workEntries;
 
     public WorkEntryListPanel()
     {
         init();
+    }
+
+    public void initData( List<WorkEntryEntityComposite> workEntries )
+    {
+        this.workEntries = workEntries;
+
+        for( WorkEntryEntityComposite workEntry : workEntries )
+        {
+            insertWorkEntry( workEntry );
+        }
+    }
+
+    private void insertWorkEntry( WorkEntryEntityComposite workEntry )
+    {
+        workEntryTable.insertToLastRow(
+            DateUtil.formatDateTime( workEntry.getCreatedDate() ),
+            DateUtil.formatDateTime( workEntry.getStartTime() ),
+            DateUtil.formatDateTime( workEntry.getEndTime() ),
+            DateUtil.getTimeDifferent( workEntry.getStartTime(), workEntry.getEndTime() ),
+            workEntry.getProjectAssignee().getStaff().getFullname(),
+            workEntry.getTitle() );
     }
 
     protected String getLayoutColSpec()
@@ -41,13 +72,50 @@ public class WorkEntryListPanel extends AbstractPanel
 
     protected void initLayout( PanelBuilder builder, CellConstraints cc )
     {
-        builder.add( newWorkEntryButton, cc.xy( 3, 1, "right, center" ) );
-        builder.add( UiUtil.createScrollPanel( workEntryTable ), cc.xyw( 1, 3, 3, "fill, fill" ) );
+        builder.add( UiUtil.createScrollPanel( workEntryTable ), cc.xy( 1, 3, "fill, fill" ) );
     }
 
     protected void initComponents()
     {
-        newWorkEntryButton = new JButton( "New WorkEntry" );
-        workEntryTable = new JTable();
+        workEntryTable = UiUtil.createTable( new ChronosTableModel( COL_NAMES ), COL_WITDHS );
+
+        workEntryTable.getSelectionModel().setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+
+        initListeners();
+    }
+
+    private void initListeners()
+    {
+        workEntryTable.addMouseListener( new MouseAdapter()
+        {
+            public void mouseClicked( MouseEvent e )
+            {
+                //only interested left double click
+                if( e.getClickCount() == 2 && e.getButton() == MouseEvent.BUTTON1 )
+                {
+                    handleRowSelected();
+                }
+            }
+        } );
+    }
+
+    private void handleRowSelected()
+    {
+        int row = workEntryTable.getSelectedRow();
+
+        if( row != -1 )
+        {
+            final WorkEntryEntityComposite workEntry = workEntries.get( row );
+
+            WorkEntryDetailDialog detailDialog = new WorkEntryDetailDialog()
+            {
+                public WorkEntryEntityComposite getWorkEntry()
+                {
+                    return workEntry;
+                }
+            };
+
+            detailDialog.show();
+        }
     }
 }

@@ -12,6 +12,8 @@
  */
 package org.qi4j.chronos.ui.util;
 
+import java.awt.Color;
+import java.awt.Component;
 import java.awt.event.FocusAdapter;
 import java.awt.event.FocusEvent;
 import javax.swing.JComponent;
@@ -20,13 +22,18 @@ import javax.swing.JOptionPane;
 import javax.swing.JScrollPane;
 import javax.swing.JTable;
 import javax.swing.JTree;
+import javax.swing.table.TableCellRenderer;
 import javax.swing.table.TableColumn;
 import javax.swing.text.JTextComponent;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreePath;
+import org.qi4j.chronos.ui.common.ChronosTable;
+import org.qi4j.chronos.ui.common.ChronosTableModel;
 
 public final class UiUtil
 {
+    private final static Color TITLE_BG_COLOR2 = new Color( 214, 223, 247 );
+
     public static JScrollPane createScrollPanel( JComponent component )
     {
         return new JScrollPane( component, JScrollPane.VERTICAL_SCROLLBAR_ALWAYS, JScrollPane.HORIZONTAL_SCROLLBAR_AS_NEEDED );
@@ -91,5 +98,44 @@ public final class UiUtil
             TableColumn col = table.getColumnModel().getColumn( i );
             col.setPreferredWidth( colWiths[ i ] );
         }
+    }
+
+    public static ChronosTable createTable( ChronosTableModel tableModel, int[] columnWidths )
+    {
+        ChronosTable table = new ChronosTable( tableModel )
+        {
+            public Component prepareRenderer( TableCellRenderer renderer, int rowIndex, int vColIndex )
+            {
+                try
+                {
+                    Component component = super.prepareRenderer( renderer, rowIndex, vColIndex );
+
+                    if( !isCellSelected( rowIndex, vColIndex ) )
+                    {
+                        if( rowIndex % 2 == 0 )
+                        {
+                            component.setBackground( getBackground() );
+                        }
+                        else
+                        {
+                            component.setBackground( TITLE_BG_COLOR2 );
+                        }
+                    }
+
+                    return component;
+                }
+                catch( Exception e )
+                {
+                    //unlikely happen
+                    return null;
+                }
+            }
+        };
+
+        table.setGridColor( table.getBackground() );
+
+        initTableWidth( table, columnWidths );
+
+        return table;
     }
 }

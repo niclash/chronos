@@ -30,7 +30,12 @@ public class ChronosTable extends JTable
         getTableHeader().setReorderingAllowed( false );
     }
 
-    public void insertRow( int rowNo, Object[] data )
+    public void insertToLastRow( Object... data )
+    {
+        insertRow( getRowCount(), data );
+    }
+
+    public void insertRow( int rowNo, Object... data )
     {
         getChronosTableModel().insertRow( rowNo, data );
     }
@@ -44,5 +49,4 @@ public class ChronosTable extends JTable
     {
         return ( (ChronosTableModel) getModel() );
     }
-
 }

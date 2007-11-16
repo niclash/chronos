@@ -12,7 +12,6 @@
  */
 package org.qi4j.chronos.ui.common;
 
-import com.intellij.openapi.project.Project;
 import com.intellij.openapi.ui.DialogWrapper;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -20,6 +19,7 @@ import com.jgoodies.forms.layout.FormLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import org.jetbrains.annotations.Nullable;
+import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.ui.setting.ChronosSetting;
 import org.qi4j.chronos.util.ChronosUtil;
 
@@ -55,6 +55,16 @@ public abstract class AbstractDialog extends DialogWrapper
         CellConstraints cc = new CellConstraints();
 
         initLayout( builder, cc );
+    }
+
+    protected Services getServices()
+    {
+        return getChronosSetting().getServices();
+    }
+
+    protected ChronosSetting getChronosSetting()
+    {
+        return ChronosUtil.getChronosSetting();
     }
 
     protected abstract void initComponents();

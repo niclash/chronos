@@ -12,24 +12,22 @@
  */
 package org.qi4j.chronos.ui.common;
 
-import javax.swing.table.DefaultTableModel;
+import javax.swing.JTextArea;
 
-public class ChronosTableModel
-    extends DefaultTableModel
+public class ReadOnlyTextArea extends JTextArea
 {
-    public ChronosTableModel( String[] aColumnNames )
+    public ReadOnlyTextArea()
     {
-        super( null, aColumnNames );
+
     }
 
-    public ChronosTableModel( String[] aColumnNames, Object aData[][] )
+    public ReadOnlyTextArea( String text )
     {
-        super( aData, aColumnNames );
+        super( text );
     }
 
-    public boolean isCellEditable( int row, int col )
+    public boolean isEditable()
     {
         return false;
     }
 }
-
