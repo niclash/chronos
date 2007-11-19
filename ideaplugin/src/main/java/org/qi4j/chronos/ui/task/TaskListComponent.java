@@ -10,27 +10,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.action.task;
+package org.qi4j.chronos.ui.task;
 
-import com.intellij.openapi.actionSystem.AnActionEvent;
+import java.awt.Container;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
-import org.qi4j.chronos.ui.task.TaskEditDialog;
-import org.qi4j.chronos.ui.task.TaskListComponent;
 
-public class TaskEditAction extends TaskBaseAction
+public interface TaskListComponent
 {
-    public void execute( final TaskListComponent taskList, AnActionEvent e )
-    {
-        new TaskEditDialog()
-        {
-            public TaskEntityComposite getTask()
-            {
-                return taskList.getSelectedTask();
-            }
+    public TaskEntityComposite getSelectedTask();
 
-        }.show();
+    public TaskEntityComposite[] getSelectedTasks();
 
-        //refresh tree
-        taskList.refreshList();
-    }
+    public void refreshList();
+
+    public Container getComponent();
 }

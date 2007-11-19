@@ -13,19 +13,26 @@
 package org.qi4j.chronos.action.ongoingworkentry;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import org.qi4j.chronos.action.TaskTreeNodeBaseAction;
+import org.qi4j.chronos.action.task.TaskBaseAction;
 import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.OngoingWorkEntryService;
-import org.qi4j.chronos.ui.task.tree.TaskTreeNode;
+import org.qi4j.chronos.ui.task.TaskListComponent;
 import org.qi4j.chronos.ui.util.UiUtil;
 import org.qi4j.chronos.util.ChronosUtil;
 import org.qi4j.chronos.util.DateUtil;
 
-public class OngoingWorkEntryNewAction extends TaskTreeNodeBaseAction
+public class OngoingWorkEntryNewAction extends TaskBaseAction
 {
-    public void execute( TaskTreeNode taskTreeNode, AnActionEvent e )
+    public void execute( final TaskListComponent taskList, AnActionEvent e )
     {
+        if( !UiUtil.showConfirmationDialog( "Confirmation", "Are you sure want to start work?" ) )
+        {
+            return;
+        }
+
+        TaskEntityComposite task = taskList.getSelectedTask();
+
         OngoingWorkEntryService service = getServices( e ).getOngoingWorkEntryService();
 
         OngoingWorkEntryEntityComposite ongoingWorkEntry = service.newInstance( OngoingWorkEntryEntityComposite.class );
@@ -33,8 +40,6 @@ public class OngoingWorkEntryNewAction extends TaskTreeNodeBaseAction
         //set created date and projectassignee
         ongoingWorkEntry.setCreatedDate( ChronosUtil.getCurrentDate() );
         ongoingWorkEntry.setProjectAssignee( getProjectAssignee( e ) );
-
-        TaskEntityComposite task = taskTreeNode.getTask();
 
         //add it to task
         task.addOngoingWorkEntry( ongoingWorkEntry );

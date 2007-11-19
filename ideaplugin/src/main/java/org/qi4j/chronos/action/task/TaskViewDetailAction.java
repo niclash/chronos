@@ -13,20 +13,19 @@
 package org.qi4j.chronos.action.task;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import org.qi4j.chronos.action.TaskTreeNodeBaseAction;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.ui.task.TaskDetailDialog;
-import org.qi4j.chronos.ui.task.tree.TaskTreeNode;
+import org.qi4j.chronos.ui.task.TaskListComponent;
 
-public class TaskViewDetailAction extends TaskTreeNodeBaseAction
+public class TaskViewDetailAction extends TaskBaseAction
 {
-    public void execute( final TaskTreeNode taskTreeNode, AnActionEvent e )
+    public void execute( final TaskListComponent taskList, AnActionEvent e )
     {
         TaskDetailDialog taskDetailDialog = new TaskDetailDialog()
         {
             public TaskEntityComposite getTask()
             {
-                return taskTreeNode.getTask();
+                return taskList.getSelectedTask();
             }
         };
 

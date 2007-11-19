@@ -38,7 +38,7 @@ public abstract class CommentAddEditDialog extends AddEditDialog
     {
         createdDateField = new ReadOnlyTextField( "--" );
 
-        userField = new ReadOnlyTextField( getCommentOwner().getFullname() );
+        userField = new ReadOnlyTextField( getCreatedBy().getFullname() );
 
         commentTextArea = new JMaxLengthTextArea( Comment.COMMENT_LEN );
     }
@@ -55,7 +55,7 @@ public abstract class CommentAddEditDialog extends AddEditDialog
 
     protected void initLayout( PanelBuilder builder, CellConstraints cc )
     {
-        builder.addLabel( "User", cc.xy( 1, 1 ) );
+        builder.addLabel( "Added By", cc.xy( 1, 1 ) );
         builder.add( userField, cc.xy( 3, 1 ) );
 
         builder.addLabel( "Created Date", cc.xy( 5, 1 ) );
@@ -68,7 +68,7 @@ public abstract class CommentAddEditDialog extends AddEditDialog
     public void assignFieldValueToComment( CommentComposite comment )
     {
         comment.setText( commentTextArea.getText() );
-        comment.setUser( getCommentOwner() );
+        comment.setUser( getCreatedBy() );
     }
 
     protected void assignCommentToFieldValue( CommentComposite comment )
@@ -78,5 +78,5 @@ public abstract class CommentAddEditDialog extends AddEditDialog
         commentTextArea.setText( comment.getText() );
     }
 
-    public abstract User getCommentOwner();
+    public abstract User getCreatedBy();
 }

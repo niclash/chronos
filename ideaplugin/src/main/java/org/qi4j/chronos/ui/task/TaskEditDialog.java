@@ -22,7 +22,7 @@ public abstract class TaskEditDialog extends TaskAddEditDialog
         assignTaskToFieldValue( getTask() );
     }
 
-    public User getTaskOwner()
+    public User getCreatedBy()
     {
         return getTask().getUser();
     }

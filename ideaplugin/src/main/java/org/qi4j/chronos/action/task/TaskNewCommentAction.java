@@ -13,30 +13,19 @@
 package org.qi4j.chronos.action.task;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import org.qi4j.chronos.action.TaskTreeNodeBaseAction;
-import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
-import org.qi4j.chronos.ui.comment.CommentAddDialog;
-import org.qi4j.chronos.ui.task.tree.TaskTreeNode;
-import org.qi4j.chronos.ui.util.UiUtil;
+import org.qi4j.chronos.ui.task.TaskCommentAddDialog;
+import org.qi4j.chronos.ui.task.TaskListComponent;
 
-public class TaskNewCommentAction extends TaskTreeNodeBaseAction
+public class TaskNewCommentAction extends TaskBaseAction
 {
-    public void execute( final TaskTreeNode taskTreeNode, AnActionEvent e )
+    public void execute( final TaskListComponent taskList, AnActionEvent e )
     {
-        CommentAddDialog addDialog = new CommentAddDialog()
+        TaskCommentAddDialog addDialog = new TaskCommentAddDialog()
         {
-            public void addingComment( CommentComposite comment )
+            public TaskEntityComposite getTask()
             {
-                TaskEntityComposite task = taskTreeNode.getTask();
-
-                //add comment to task
-                task.addComment( comment );
-
-                UiUtil.showMsgDialog( "Comment added", "New comment is added successfully." );
-
-                //update task
-                getServices().getTaskService().update( task );
+                return taskList.getSelectedTask();
             }
         };
 

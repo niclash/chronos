@@ -15,12 +15,15 @@ package org.qi4j.chronos.ui.task;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import javax.swing.JTextArea;
-import org.qi4j.chronos.model.composites.CommentComposite;
+import org.qi4j.chronos.model.TaskStatus;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.service.Services;
+import org.qi4j.chronos.ui.comment.CommentAddDialog;
 import org.qi4j.chronos.ui.comment.CommentListPanel;
 import org.qi4j.chronos.ui.common.AbstractDialog;
 import org.qi4j.chronos.ui.common.ChronosTabbedPanel;
 import org.qi4j.chronos.ui.common.ReadOnlyTextField;
+import org.qi4j.chronos.ui.ongoingworkentry.OngoingWorkEntryListPanel;
 import org.qi4j.chronos.ui.util.UiUtil;
 import org.qi4j.chronos.ui.workentry.WorkEntryListPanel;
 import org.qi4j.chronos.util.DateUtil;
@@ -37,6 +40,7 @@ public abstract class TaskDetailDialog extends AbstractDialog
 
     private CommentListPanel commentListPanel;
     private WorkEntryListPanel workEntryListPanel;
+    private OngoingWorkEntryListPanel ongoingWorkEntryListPanel;
 
     public TaskDetailDialog()
     {
@@ -55,8 +59,22 @@ public abstract class TaskDetailDialog extends AbstractDialog
         taskStatusField.setText( task.getTaskStatus().toString() );
         descTextArea.setText( task.getDescription() );
 
-        commentListPanel.initData( getServices().getCommentService().findAll( task ) );
-        workEntryListPanel.initData( getServices().getWorkEntryService().findAll( task ) );
+        Services services = getServices();
+
+        commentListPanel.initData( services.getCommentService().findAll( task ) );
+        workEntryListPanel.initData( services.getWorkEntryService().findAll( task ) );
+
+        if( isOpenStatus() )
+        {
+            ongoingWorkEntryListPanel.initData( services.getOngoingWorkEntryService().findAll( task ) );
+        }
+    }
+
+    private boolean isOpenStatus()
+    {
+        TaskEntityComposite task = getTask();
+
+        return task.getTaskStatus() == TaskStatus.OPEN;
     }
 
     protected void initComponents()
@@ -72,9 +90,15 @@ public abstract class TaskDetailDialog extends AbstractDialog
 
         commentListPanel = new CommentListPanel()
         {
-            public void addingComment( CommentComposite comment )
+            public CommentAddDialog newCommentAddDialog()
             {
-                TaskDetailDialog.this.addingComment( comment );
+                return new TaskCommentAddDialog()
+                {
+                    public TaskEntityComposite getTask()
+                    {
+                        return TaskDetailDialog.this.getTask();
+                    }
+                };
             }
         };
 
@@ -82,20 +106,12 @@ public abstract class TaskDetailDialog extends AbstractDialog
 
         tabbedPanel.addTab( "Comments", commentListPanel );
         tabbedPanel.addTab( "WorkEntries", workEntryListPanel );
-    }
 
-    private void addingComment( CommentComposite comment )
-    {
-        //TODO bp. Duplicate code found in TaskNewCommentAction
-        TaskEntityComposite task = getTask();
-
-        //add comment to task
-        task.addComment( comment );
-
-        UiUtil.showMsgDialog( "Comment added", "New comment is added successfully." );
-
-        //update task
-        getServices().getTaskService().update( task );
+        if( isOpenStatus() )
+        {
+            ongoingWorkEntryListPanel = new OngoingWorkEntryListPanel();
+            tabbedPanel.addTab( "Ongoing WorkEntries", ongoingWorkEntryListPanel );
+        }
     }
 
     protected String getLayoutColSpec()
@@ -110,7 +126,7 @@ public abstract class TaskDetailDialog extends AbstractDialog
 
     protected void initLayout( PanelBuilder builder, CellConstraints cc )
     {
-        builder.addLabel( "User", cc.xy( 1, 1 ) );
+        builder.addLabel( "Created By", cc.xy( 1, 1 ) );
         builder.add( userField, cc.xy( 3, 1 ) );
 
         builder.addLabel( "Created Date", cc.xy( 5, 1 ) );

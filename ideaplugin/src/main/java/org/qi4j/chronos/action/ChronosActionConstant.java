@@ -15,13 +15,15 @@ package org.qi4j.chronos.action;
 public final class ChronosActionConstant
 {
     public final static String TASK_TOOLBAR_GROUP = "ChronosTaskToolBarGroup";
+    public final static String TASK_ONGOING_GROUP = "ChronosTaskOngoingGroup";
+    public final static String TASK_OPENED_GROUP = "ChronosTaskOpenedGroup";
+    public final static String TASK_LIST_GROUP = "ChronosTaskListGroup";
+
     public final static String TASK_NEW_ACTION = "ChronosTaskNewAction";
     public final static String TASK_VIEW_ALL_ACTION = "ChronosTaskViewAllAction";
     public final static String TASK_EDIT_ACTION = "ChronosTaskEditAction";
     public final static String TASK_VIEW_DETAIL_ACTION = "ChronosTaskViewDetailAction";
     public final static String TASK_DELETE_ACTION = "ChronosTaskDeleteAction";
-    public final static String TASK_ONGOING_GROUP = "ChronosTaskOngoingGroup";
-    public final static String TASK_OPENED_GROUP = "ChronosTaskOpenedGroup";
     public final static String TASK_NEW_COMMENT_ACTION = "ChronosTaskNewCommentAction";
 
     public final static String ONGOING_WORKENTRY_STOP_ACTION = "ChronosOngoingWorkEntryStopAction";
@@ -29,6 +31,4 @@ public final class ChronosActionConstant
     public final static String ONGOING_WORKENTRY_NEW_ACTION = "ChronosOngoingWorkEntryNewAction";
 
     public final static String SETTING_GROUP = "ChronosSettingGroup";
-
-
 }

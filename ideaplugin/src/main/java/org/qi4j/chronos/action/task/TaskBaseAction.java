@@ -10,24 +10,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.action;
+package org.qi4j.chronos.action.task;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.DataConstants;
 import org.qi4j.chronos.action.AbstractAction;
-import org.qi4j.chronos.ui.task.TaskToolWindow;
-import org.qi4j.chronos.ui.task.tree.TaskTreeNode;
-import org.qi4j.chronos.util.ChronosUtil;
+import org.qi4j.chronos.ui.task.TaskListComponent;
 
-public abstract class TaskTreeNodeBaseAction<T extends TaskTreeNode> extends AbstractAction
+public abstract class TaskBaseAction extends AbstractAction
 {
     public final void actionPerformed( AnActionEvent e )
     {
-        TaskToolWindow taskToolWindow = ChronosUtil.getTaskToolWindow( e );
+        Object obj = e.getDataContext().getData( DataConstants.CONTEXT_COMPONENT );
 
-        T taskTreeNode = (T) taskToolWindow.getTaskToolCenterPanel().getSelectedTaskTreeNode();
+        if( !( obj instanceof TaskListComponent ) )
+        {
+            throw new IllegalArgumentException( "Context component must implements TakSelectable" );
+        }
 
-        execute( taskTreeNode, e );
+        TaskListComponent taskList = (TaskListComponent) obj;
+
+        execute( taskList, e );
     }
 
-    public abstract void execute( T taskTreeNode, AnActionEvent e );
+    public abstract void execute( TaskListComponent taskList, AnActionEvent e );
 }

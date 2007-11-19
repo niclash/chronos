@@ -85,5 +85,12 @@
       <separator/>
       <reference id="ChronosTaskViewDetailAction"/>
     </group>
+
+    <group id="ChronosTaskListGroup">
+      <reference id="ChronosTaskEditAction"/>
+      <reference id="ChronosTaskDeleteAction"/>
+      <separator/>
+      <reference id="ChronosTaskViewDetailAction"/>
+    </group>
   </actions>
 </idea-plugin>

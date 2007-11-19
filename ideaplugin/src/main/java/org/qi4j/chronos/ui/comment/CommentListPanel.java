@@ -28,7 +28,7 @@ import org.qi4j.chronos.util.DateUtil;
 public abstract class CommentListPanel extends AbstractPanel
 {
     private final static String[] COL_NAMES = { "Created Date", "Comment", "Created by" };
-    private final static int[] COL_WIDTHS = { 140, 300, 100 };
+    private final static int[] COL_WIDTHS = { 150, 300, 100 };
 
     private JButton newCommentButton;
 
@@ -94,18 +94,11 @@ public abstract class CommentListPanel extends AbstractPanel
 
     private void newCommentClicked()
     {
-        CommentAddDialog addDialog = new CommentAddDialog()
-        {
-            public void addingComment( CommentComposite comment )
-            {
-                CommentListPanel.this.addingComment( comment );
-
-                CommentListPanel.this.insertComment( comment );
-            }
-        };
+        CommentAddDialog addDialog = newCommentAddDialog();
 
         addDialog.show();
     }
 
-    public abstract void addingComment( CommentComposite comment );
+    public abstract CommentAddDialog newCommentAddDialog();
+
 }

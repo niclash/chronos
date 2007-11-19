@@ -22,7 +22,6 @@ import com.jgoodies.forms.layout.CellConstraints;
 import java.awt.Component;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
-import javax.swing.SwingUtilities;
 import javax.swing.tree.TreePath;
 import org.qi4j.chronos.action.ChronosActionConstant;
 import org.qi4j.chronos.service.TaskService;
@@ -49,7 +48,7 @@ public class TaskTreePanel extends AbstractPanel
 
     protected void initComponents()
     {
-        taskTree = new TaskTree();
+        taskTree = new TaskTree( project );
 
         taskTree.setCellRenderer( new TaskTreeCellRenderer() );
         taskTree.setModel( new TaskTreeModel( project, getTaskService() ) );
@@ -62,18 +61,7 @@ public class TaskTreePanel extends AbstractPanel
 
     public void updateTaskTree()
     {
-        SwingUtilities.invokeLater( new Runnable()
-        {
-            public void run()
-            {
-                TaskTreeModel taskTreeModel = (TaskTreeModel) taskTree.getModel();
-
-                taskTreeModel.updateModel( project, getTaskService() );
-
-                //expand all treenodes
-                UiUtil.expandAll( taskTree );
-            }
-        } );
+        taskTree.refreshList();
     }
 
     private void initListeners()
@@ -132,19 +120,5 @@ public class TaskTreePanel extends AbstractPanel
     public TaskTree getTaskTree()
     {
         return taskTree;
-    }
-
-    public TaskTreeNode getSelectedTaskTreeNode()
-    {
-        TreePath treePath = taskTree.getSelectionPath();
-
-        Object obj = treePath.getLastPathComponent();
-
-        if( obj instanceof TaskTreeNode )
-        {
-            return (TaskTreeNode) obj;
-        }
-
-        return null;
     }
 }

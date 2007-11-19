@@ -40,7 +40,7 @@ public class ChronosPageableTable<T> extends AbstractPanel
     private int itemPerPage;
 
     private int totalPages;
-    private int currPage = 1;
+    private int currPage;
 
     private String[] colNames;
     private int[] colWidths;
@@ -61,16 +61,20 @@ public class ChronosPageableTable<T> extends AbstractPanel
         this.dataProvider = dataProvider;
         this.colNames = colNames;
         this.colWidths = colWidths;
-        this.totalItems = dataProvider.getSize();
         this.itemPerPage = itemPerpage;
 
         init();
 
-        initData();
+        resetData();
     }
 
-    private void initData()
+    public void resetData()
     {
+        currPage = 1;
+        dataList = null;
+
+        this.totalItems = dataProvider.getSize();
+
         if( totalItems != 0 )
         {
             //calculate total pages
@@ -146,7 +150,7 @@ public class ChronosPageableTable<T> extends AbstractPanel
 
         resultInfoLabel = new JLabel();
 
-        table = UiUtil.createTable( new ChronosTableModel( colNames ), colWidths );
+        table = createTable( colNames, colWidths );
 
         initListeners();
     }
@@ -174,17 +178,39 @@ public class ChronosPageableTable<T> extends AbstractPanel
 
     private void handleTableDoubleClick()
     {
+        T t = getSelectedItem();
+
+        if( t != null )
+        {
+            rowOnDoubleClick( t );
+        }
+    }
+
+    public T getSelectedItem()
+    {
         int row = table.getSelectedRow();
 
         if( row != -1 )
         {
-            rowOnDoubleClick( dataList.get( row ) );
+            return dataList.get( row );
         }
+
+        return null;
     }
 
     protected void rowOnDoubleClick( T t )
     {
         //override this if you need this event
+    }
+
+    protected ChronosTable getTable()
+    {
+        return table;
+    }
+
+    protected ChronosTable createTable( String[] colNames, int[] colWidths )
+    {
+        return UiUtil.createTable( new ChronosTableModel( colNames ), colWidths );
     }
 
     private ActionListener newNavigationActionListener( final int pageNum )

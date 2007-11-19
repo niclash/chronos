@@ -12,6 +12,7 @@
  */
 package org.qi4j.chronos.action.task;
 
+import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.util.IconLoader;
 import javax.swing.Icon;
@@ -23,9 +24,17 @@ public class TaskViewAllAction extends AbstractAction
     //TODO fix icon
     private final static Icon ICON = IconLoader.getIcon( "/general/smallConfigurableVcs.png" );
 
-    public void actionPerformed( AnActionEvent e )
+    public void actionPerformed( final AnActionEvent e )
     {
-        new TaskViewAllDialog().show();
+        TaskViewAllDialog allDialog = new TaskViewAllDialog()
+        {
+            public ActionManager getActionManager()
+            {
+                return e.getActionManager();
+            }
+        };
+
+        allDialog.show();
     }
 
     public void update( AnActionEvent e )

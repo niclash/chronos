@@ -27,7 +27,7 @@ public abstract class CommentAddDialog extends CommentAddEditDialog
         return "Add";
     }
 
-    public User getCommentOwner()
+    public User getCreatedBy()
     {
         return getChronosSetting().getStaff();
     }

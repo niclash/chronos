@@ -14,20 +14,20 @@ package org.qi4j.chronos.action.ongoingworkentry;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import java.util.Date;
-import org.qi4j.chronos.action.TaskTreeNodeBaseAction;
+import org.qi4j.chronos.action.task.TaskBaseAction;
 import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.service.OngoingWorkEntryService;
-import org.qi4j.chronos.ui.task.tree.TaskTreeNode;
+import org.qi4j.chronos.ui.task.TaskListComponent;
 import org.qi4j.chronos.ui.util.UiUtil;
 import org.qi4j.chronos.ui.workentry.WorkEntryAddDialog;
 
-public class OngoingWorkEntryStopAction extends TaskTreeNodeBaseAction
+public class OngoingWorkEntryStopAction extends TaskBaseAction
 {
-    public void execute( TaskTreeNode taskTreeNode, final AnActionEvent e )
+    public void execute( final TaskListComponent taskList, final AnActionEvent e )
     {
-        final TaskEntityComposite task = taskTreeNode.getTask();
+        final TaskEntityComposite task = taskList.getSelectedTask();
 
         OngoingWorkEntryService service = getServices( e ).getOngoingWorkEntryService();
 
@@ -46,10 +46,10 @@ public class OngoingWorkEntryStopAction extends TaskTreeNodeBaseAction
                 //update task
                 getServices().getTaskService().update( task );
 
-                UiUtil.showMsgDialog( "Work stopped.", "New WorkEntry is added successfully." );
+                UiUtil.showMsgDialog( "Work stopped.", "New workentry is added successfully." );
 
                 //update tasktree
-                getTaskToolWindow( e ).getTaskToolCenterPanel().updateTaskTree();
+                taskList.refreshList();
             }
 
             public Date getStartedDate()

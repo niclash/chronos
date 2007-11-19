@@ -24,7 +24,7 @@ public class TaskAddDialog extends TaskAddEditDialog
     {
     }
 
-    public User getTaskOwner()
+    public User getCreatedBy()
     {
         return getChronosSetting().getStaff();
     }

@@ -72,7 +72,7 @@ public abstract class WorkEntryAddEditDialog extends AddEditDialog
 
     protected void initLayout( PanelBuilder builder, CellConstraints cc )
     {
-        builder.addLabel( "User", cc.xy( 1, 1 ) );
+        builder.addLabel( "Added By", cc.xy( 1, 1 ) );
         builder.add( userField, cc.xy( 3, 1 ) );
 
         builder.addLabel( "Created Date", cc.xy( 5, 1 ) );

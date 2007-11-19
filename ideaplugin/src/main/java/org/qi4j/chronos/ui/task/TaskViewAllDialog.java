@@ -12,9 +12,17 @@
  */
 package org.qi4j.chronos.ui.task;
 
+import com.intellij.openapi.actionSystem.ActionGroup;
+import com.intellij.openapi.actionSystem.ActionManager;
+import com.intellij.openapi.actionSystem.ActionPopupMenu;
+import com.intellij.ui.PopupHandler;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
+import java.awt.Component;
+import java.awt.Container;
 import java.util.List;
+import javax.swing.ListSelectionModel;
+import org.qi4j.chronos.action.ChronosActionConstant;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
@@ -22,9 +30,12 @@ import org.qi4j.chronos.service.TaskService;
 import org.qi4j.chronos.ui.common.AbstractDialog;
 import org.qi4j.chronos.ui.common.ChronosDataProvider;
 import org.qi4j.chronos.ui.common.ChronosPageableTable;
+import org.qi4j.chronos.ui.common.ChronosTable;
+import org.qi4j.chronos.ui.common.ChronosTableModel;
+import org.qi4j.chronos.ui.util.UiUtil;
 import org.qi4j.chronos.util.DateUtil;
 
-public class TaskViewAllDialog extends AbstractDialog
+public abstract class TaskViewAllDialog extends AbstractDialog
 {
     private final static String[] COL_NAMES = { "Created Date", "Task Status", "Created By", "Title" };
     private final static int[] COL_WITDHS = { 150, 150, 150, 300 };
@@ -38,30 +49,71 @@ public class TaskViewAllDialog extends AbstractDialog
 
     protected void initComponents()
     {
-        ChronosDataProvider dataProvider = createDataProvider();
-
-        table = new ChronosPageableTable<TaskEntityComposite>( dataProvider, COL_NAMES, COL_WITDHS, 3 )
+        table = new ChronosPageableTable<TaskEntityComposite>( createDataProvider(), COL_NAMES, COL_WITDHS )
         {
-            protected void rowOnDoubleClick( TaskEntityComposite o )
+            protected ChronosTable createTable( String[] colNames, int[] colWidths )
             {
-                handleTaskSelected( o );
+                TaskTable taskTable = new TaskTable( new ChronosTableModel( colNames ) );
+
+                UiUtil.initTableWidth( taskTable, colWidths );
+
+                taskTable.setSelectionMode( ListSelectionModel.SINGLE_SELECTION );
+
+                return taskTable;
             }
         };
     }
 
-    private void handleTaskSelected( final TaskEntityComposite task )
+    private class TaskTable extends ChronosTable implements TaskListComponent
     {
-        TaskEditDialog editDialog = new TaskEditDialog()
+        public TaskTable( ChronosTableModel model )
         {
-            public TaskEntityComposite getTask()
+            super( model );
+
+            initListeners();
+        }
+
+        private void initListeners()
+        {
+            PopupHandler popupHandler = new PopupHandler()
             {
-                return task;
-            }
-        };
+                public void invokePopup( Component comp, int x, int y )
+                {
+                    ActionManager actionManager = getActionManager();
 
-        editDialog.show();
+                    ActionGroup group = (ActionGroup) actionManager.getAction( ChronosActionConstant.TASK_LIST_GROUP );
+                    ActionPopupMenu popupMenu = actionManager.createActionPopupMenu( "POPUP", group );
 
-        //TODO bp. update the row to refresh the changes
+                    if( popupMenu != null )
+                    {
+                        popupMenu.getComponent().show( comp, x, y );
+                    }
+                }
+            };
+
+            this.addMouseListener( popupHandler );
+        }
+
+        public TaskEntityComposite getSelectedTask()
+        {
+            return table.getSelectedItem();
+        }
+
+        public TaskEntityComposite[] getSelectedTasks()
+        {
+            //bp. no multiple selection at this moment
+            return new TaskEntityComposite[]{ getSelectedTask() };
+        }
+
+        public void refreshList()
+        {
+            table.resetData();
+        }
+
+        public Container getComponent()
+        {
+            return this;
+        }
     }
 
     private TaskService getTaskService()
@@ -85,14 +137,12 @@ public class TaskViewAllDialog extends AbstractDialog
 
             public Object[] populateData( TaskEntityComposite task )
             {
-                Object[] objs = new Object[]{
+                return new Object[]{
                     DateUtil.formatDateTime( task.getCreatedDate() ),
                     task.getTaskStatus().toString(),
                     task.getUser().getFullname(),
                     task.getTitle()
                 };
-
-                return objs;
             }
 
             public int getSize()
@@ -121,4 +171,6 @@ public class TaskViewAllDialog extends AbstractDialog
     {
         return "View all tasks";
     }
+
+    public abstract ActionManager getActionManager();
 }

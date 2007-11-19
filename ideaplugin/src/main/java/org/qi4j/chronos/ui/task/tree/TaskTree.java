@@ -17,16 +17,27 @@ import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.ActionPlaces;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.Presentation;
+import com.intellij.openapi.project.Project;
+import java.awt.Container;
 import java.awt.event.MouseEvent;
+import javax.swing.SwingUtilities;
 import javax.swing.tree.TreePath;
-import org.qi4j.chronos.action.AbstractAction;
 import org.qi4j.chronos.action.ChronosActionConstant;
+import org.qi4j.chronos.action.task.TaskBaseAction;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.service.TaskService;
 import org.qi4j.chronos.ui.common.AbstractTree;
+import org.qi4j.chronos.ui.task.TaskListComponent;
+import org.qi4j.chronos.ui.util.UiUtil;
+import org.qi4j.chronos.util.ChronosUtil;
 
-public class TaskTree extends AbstractTree
+public class TaskTree extends AbstractTree implements TaskListComponent
 {
-    public TaskTree()
+    private Project project;
+
+    public TaskTree( Project project )
     {
+        this.project = project;
     }
 
     public String getToolTipText( MouseEvent mouseEvent )
@@ -49,47 +60,79 @@ public class TaskTree extends AbstractTree
         {
             mouseEvent.consume();
 
-            startOrStopTask( (TaskTreeNode) userObject );
+            startOrStopTask( (TaskTreeNode) userObject, mouseEvent );
         }
     }
 
-    private void startOrStopTask( TaskTreeNode taskTreeNode )
+    private void startOrStopTask( TaskTreeNode taskTreeNode, MouseEvent mouseEvent )
     {
-        AbstractAction action = null;
+        TaskBaseAction action = null;
 
         ActionManager actionManager = ActionManager.getInstance();
 
         if( taskTreeNode instanceof TaskOpenedTreeNode )
         {
-            action = (AbstractAction) actionManager.getAction( ChronosActionConstant.ONGOING_WORKENTRY_NEW_ACTION );
+            action = (TaskBaseAction) actionManager.getAction( ChronosActionConstant.ONGOING_WORKENTRY_NEW_ACTION );
 
         }
         else if( taskTreeNode instanceof TaskOngoingTreeNode )
         {
-            action = (AbstractAction) actionManager.getAction( ChronosActionConstant.ONGOING_WORKENTRY_STOP_ACTION );
+            action = (TaskBaseAction) actionManager.getAction( ChronosActionConstant.ONGOING_WORKENTRY_STOP_ACTION );
         }
 
         if( action != null )
         {
-            action.actionPerformed( new AnActionEvent( null, DataManager.getInstance().getDataContext( this ),
-                                                       ActionPlaces.UNKNOWN, new Presentation(),
-                                                       ActionManager.getInstance(), 0 ) );
+            action.actionPerformed( new AnActionEvent(
+                mouseEvent, DataManager.getInstance().getDataContext( this ),
+                ActionPlaces.UNKNOWN, new Presentation(),
+                ActionManager.getInstance(), 0 ) );
         }
     }
 
-    protected void onClick( TreePath path, Object pathComponent, MouseEvent mouseEvent )
+
+    public TaskEntityComposite getSelectedTask()
     {
-        super.onClick( path, pathComponent, mouseEvent );
+        TreePath treePath = this.getSelectionPath();
 
-        if( mouseEvent.isShiftDown() || mouseEvent.isControlDown() || mouseEvent.isAltDown() )
+        Object obj = treePath.getLastPathComponent();
+
+        if( obj instanceof TaskTreeNode )
         {
-            return;
+            return ( (TaskTreeNode) obj ).getTask();
         }
 
-        if( pathComponent instanceof TaskTreeNode )
+        return null;
+    }
+
+    public TaskEntityComposite[] getSelectedTasks()
+    {
+        //bp. no support for multiple selection at this moment
+        return new TaskEntityComposite[]{ getSelectedTask() };
+    }
+
+    public void refreshList()
+    {
+        SwingUtilities.invokeLater( new Runnable()
         {
-            System.err.println( "Handle OnClick" );
-            //TODO bp
-        }
+            public void run()
+            {
+                TaskTreeModel taskTreeModel = (TaskTreeModel) TaskTree.this.getModel();
+
+                taskTreeModel.updateModel( project, getTaskService() );
+
+                //expand all treenodes
+                UiUtil.expandAll( TaskTree.this );
+            }
+        } );
+    }
+
+    public Container getComponent()
+    {
+        return this;
+    }
+
+    private TaskService getTaskService()
+    {
+        return ChronosUtil.getChronosSetting( project ).getServices().getTaskService();
     }
 }

@@ -13,26 +13,26 @@
 package org.qi4j.chronos.action.ongoingworkentry;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import org.qi4j.chronos.action.TaskTreeNodeBaseAction;
+import org.qi4j.chronos.action.task.TaskBaseAction;
 import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.OngoingWorkEntryService;
 import org.qi4j.chronos.service.Services;
-import org.qi4j.chronos.ui.task.tree.TaskTreeNode;
+import org.qi4j.chronos.ui.task.TaskListComponent;
 import org.qi4j.chronos.ui.util.UiUtil;
 
-public class OngoingWorkEntryCancelAction extends TaskTreeNodeBaseAction
+public class OngoingWorkEntryCancelAction extends TaskBaseAction
 {
-    public void execute( TaskTreeNode taskTreeNode, AnActionEvent e )
+    public void execute( final TaskListComponent taskList, AnActionEvent e )
     {
         if( !UiUtil.showConfirmationDialog( "Confirmation", "Are you sure want to cancel the workentry?" ) )
         {
             return;
         }
 
-        Services services = getServices( e );
+        TaskEntityComposite task = taskList.getSelectedTask();
 
-        final TaskEntityComposite task = taskTreeNode.getTask();
+        Services services = getServices( e );
 
         OngoingWorkEntryService service = getServices( e ).getOngoingWorkEntryService();
 
@@ -43,11 +43,11 @@ public class OngoingWorkEntryCancelAction extends TaskTreeNodeBaseAction
         task.removeOngoingWorkEntry( ongoingWorkEntry );
 
         //update task
-        services.getTaskService().update( task );
+        services.getTaskService().update( taskList.getSelectedTask() );
 
         UiUtil.showMsgDialog( "Work cancelled!", "Work is cancelled." );
 
         //update taskTree
-        getTaskToolWindow( e ).getTaskToolCenterPanel().updateTaskTree();
+        taskList.refreshList();
     }
 }

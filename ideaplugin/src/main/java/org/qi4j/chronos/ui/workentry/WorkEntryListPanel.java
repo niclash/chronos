@@ -27,7 +27,7 @@ import org.qi4j.chronos.util.DateUtil;
 
 public class WorkEntryListPanel extends AbstractPanel
 {
-    private final static String[] COL_NAMES = { "Created Date", "Started Date", "End Date", "Duration", "By", "Title" };
+    private final static String[] COL_NAMES = { "Created Date", "Started Date", "End Date", "Duration", "Added By", "Title" };
     private final static int[] COL_WITDHS = { 150, 150, 150, 100, 80, 130 };
 
     private ChronosTable workEntryTable;
@@ -62,17 +62,17 @@ public class WorkEntryListPanel extends AbstractPanel
 
     protected String getLayoutColSpec()
     {
-        return "1dlu:grow, 3dlu, p";
+        return "1dlu:grow";
     }
 
     protected String getLayoutRowSpec()
     {
-        return "p, 3dlu, 1dlu:grow";
+        return "1dlu:grow";
     }
 
     protected void initLayout( PanelBuilder builder, CellConstraints cc )
     {
-        builder.add( UiUtil.createScrollPanel( workEntryTable ), cc.xy( 1, 3, "fill, fill" ) );
+        builder.add( UiUtil.createScrollPanel( workEntryTable ), cc.xy( 1, 1, "fill, fill" ) );
     }
 
     protected void initComponents()

@@ -10,27 +10,27 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.action.task;
+package org.qi4j.chronos.ui.task;
 
-import com.intellij.openapi.actionSystem.AnActionEvent;
+import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
-import org.qi4j.chronos.ui.task.TaskEditDialog;
-import org.qi4j.chronos.ui.task.TaskListComponent;
+import org.qi4j.chronos.ui.comment.CommentAddDialog;
+import org.qi4j.chronos.ui.util.UiUtil;
 
-public class TaskEditAction extends TaskBaseAction
+public abstract class TaskCommentAddDialog extends CommentAddDialog
 {
-    public void execute( final TaskListComponent taskList, AnActionEvent e )
+    public void addingComment( CommentComposite comment )
     {
-        new TaskEditDialog()
-        {
-            public TaskEntityComposite getTask()
-            {
-                return taskList.getSelectedTask();
-            }
+        TaskEntityComposite task = getTask();
 
-        }.show();
+        //add comment to task
+        task.addComment( comment );
 
-        //refresh tree
-        taskList.refreshList();
+        UiUtil.showMsgDialog( "Comment added", "New comment is added successfully." );
+
+        //update task
+        getServices().getTaskService().update( task );
     }
+
+    public abstract TaskEntityComposite getTask();
 }

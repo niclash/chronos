@@ -53,7 +53,7 @@ public abstract class CommentEditDialog extends CommentAddEditDialog
         return "Edit Comment";
     }
 
-    public User getCommentOwner()
+    public User getCreatedBy()
     {
         return getComment().getUser();
     }

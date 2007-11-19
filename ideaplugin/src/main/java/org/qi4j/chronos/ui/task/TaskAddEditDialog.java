@@ -44,7 +44,7 @@ public abstract class TaskAddEditDialog extends AddEditDialog
     protected void initComponents()
     {
         titleField = new JMaxLengthTextField( Task.TITLE_LEN );
-        userField = new ReadOnlyTextField( getTaskOwner().getFullname() );
+        userField = new ReadOnlyTextField( getCreatedBy().getFullname() );
         createdDateField = new ReadOnlyTextField( "--" );
 
         taskStatusComboBox = new JComboBox( TaskStatus.values() );
@@ -64,7 +64,7 @@ public abstract class TaskAddEditDialog extends AddEditDialog
 
     public void initLayout( PanelBuilder builder, CellConstraints cc )
     {
-        builder.addLabel( "User", cc.xy( 1, 1 ) );
+        builder.addLabel( "Created by", cc.xy( 1, 1 ) );
         builder.add( userField, cc.xy( 3, 1 ) );
 
         builder.addLabel( "Created Date", cc.xy( 5, 1 ) );
@@ -82,7 +82,7 @@ public abstract class TaskAddEditDialog extends AddEditDialog
 
     protected void assignFieldValueToTask( TaskEntityComposite task )
     {
-        task.setUser( getTaskOwner() );
+        task.setUser( getCreatedBy() );
         task.setTitle( titleField.getText() );
         task.setDescription( descTextArea.getText() );
         task.setTaskStatus( (TaskStatus) taskStatusComboBox.getSelectedItem() );
@@ -96,5 +96,5 @@ public abstract class TaskAddEditDialog extends AddEditDialog
         taskStatusComboBox.setSelectedItem( task.getTaskStatus() );
     }
 
-    public abstract User getTaskOwner();
+    public abstract User getCreatedBy();
 }

@@ -14,8 +14,8 @@ package org.qi4j.chronos.ui.workentry;
 
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
-import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.chronos.ui.comment.CommentAddDialog;
 import org.qi4j.chronos.ui.comment.CommentListPanel;
 import org.qi4j.chronos.ui.common.AbstractDialog;
 import org.qi4j.chronos.ui.common.ChronosTabbedPanel;
@@ -79,26 +79,19 @@ public abstract class WorkEntryDetailDialog extends AbstractDialog
 
         commentListPanel = new CommentListPanel()
         {
-            public void addingComment( CommentComposite comment )
+            public CommentAddDialog newCommentAddDialog()
             {
-                WorkEntryDetailDialog.this.addingComment( comment );
+                return new WorkEntryCommentAddDialog()
+                {
+                    public WorkEntryEntityComposite getWorkEntry()
+                    {
+                        return WorkEntryDetailDialog.this.getWorkEntry();
+                    }
+                };
             }
         };
 
         tabbedPanel.addTab( "Comments", commentListPanel );
-    }
-
-    private void addingComment( CommentComposite comment )
-    {
-        WorkEntryEntityComposite workEntry = getWorkEntry();
-
-        //add comment to workEntry
-        workEntry.addComment( comment );
-
-        UiUtil.showMsgDialog( "Comment added", "New comment is added successfully." );
-
-        //update task
-        getServices().getWorkEntryService().update( workEntry );
     }
 
     protected String getLayoutColSpec()
@@ -116,7 +109,7 @@ public abstract class WorkEntryDetailDialog extends AbstractDialog
 
     protected void initLayout( PanelBuilder builder, CellConstraints cc )
     {
-        builder.addLabel( "User", cc.xy( 1, 1 ) );
+        builder.addLabel( "Added By", cc.xy( 1, 1 ) );
         builder.add( userField, cc.xy( 3, 1 ) );
 
         builder.addLabel( "Created Date", cc.xy( 5, 1 ) );
