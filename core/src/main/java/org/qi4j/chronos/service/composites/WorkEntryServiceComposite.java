@@ -15,10 +15,9 @@ package org.qi4j.chronos.service.composites;
 import org.qi4j.Composite;
 import org.qi4j.annotation.Mixins;
 import org.qi4j.chronos.service.WorkEntryService;
-import org.qi4j.chronos.service.mocks.MockWorkEntryMiscServiceMixin;
 import org.qi4j.chronos.service.mocks.MockWorkEntryServiceMixin;
 
-@Mixins( { MockWorkEntryServiceMixin.class, MockWorkEntryMiscServiceMixin.class } )
+@Mixins( { MockWorkEntryServiceMixin.class } )
 public interface WorkEntryServiceComposite extends WorkEntryService, Composite
 {
 }

@@ -12,10 +12,10 @@
  */
 package org.qi4j.chronos.ui.workentry;
 
-import java.util.List;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.qi4j.chronos.model.associations.HasWorkEntries;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
-import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.ui.common.NewLinkPanel;
 import org.qi4j.chronos.ui.common.tab.NewLinkTab;
@@ -43,30 +43,33 @@ public abstract class WorkEntryTab extends NewLinkTab
         {
             return new WorkEntryTable( id )
             {
-                public List<WorkEntryEntityComposite> dataList( int first, int count )
+                public HasWorkEntries getHasWorkEntries()
                 {
-                    return WorkEntryTab.this.dataList( first, count );
-                }
-
-                public int getSize()
-                {
-                    return WorkEntryTab.this.getSize();
+                    return WorkEntryTab.this.getHasWorkEntries();
                 }
             };
+        }
+
+        protected void authorizingLink( Link link )
+        {
+            if( getProjectAssignee() == null )
+            {
+                link.setVisible( false );
+            }
         }
 
         public void newLinkOnClick()
         {
             WorkEntryAddPage addPage = new WorkEntryAddPage( this.getPage() )
             {
-                public TaskEntityComposite getTask()
-                {
-                    return WorkEntryTab.this.getTask();
-                }
-
                 public ProjectAssigneeEntityComposite getProjectAssignee()
                 {
                     return WorkEntryTab.this.getProjectAssignee();
+                }
+
+                public void addingWorkEntry( WorkEntryEntityComposite workentry )
+                {
+                    WorkEntryTab.this.addingWorkEntry( workentry );
                 }
             };
 
@@ -79,11 +82,9 @@ public abstract class WorkEntryTab extends NewLinkTab
         }
     }
 
-    public abstract TaskEntityComposite getTask();
+    public abstract void addingWorkEntry( WorkEntryEntityComposite workEntry );
 
     public abstract ProjectAssigneeEntityComposite getProjectAssignee();
 
-    public abstract List<WorkEntryEntityComposite> dataList( int first, int count );
-
-    public abstract int getSize();
+    public abstract HasWorkEntries getHasWorkEntries();
 }

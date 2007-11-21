@@ -15,7 +15,6 @@ package org.qi4j.chronos.ui.workentry;
 import java.util.Date;
 import org.apache.wicket.Page;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
-import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -39,13 +38,9 @@ public abstract class WorkEntryAddPage extends WorkEntryAddEditPage
 
             assignFieldValueToWorkEntry( workEntry );
 
-            TaskEntityComposite task = getTask();
-
             workEntry.setProjectAssignee( getProjectAssignee() );
 
-            task.addWorkEntry( workEntry );
-
-            getServices().getTaskService().update( task );
+            addingWorkEntry( workEntry );
 
             logInfoMsg( "Work Entry is added successfully." );
 
@@ -69,8 +64,7 @@ public abstract class WorkEntryAddPage extends WorkEntryAddEditPage
         return "New Work Entry";
     }
 
-    public abstract TaskEntityComposite getTask();
-
     public abstract ProjectAssigneeEntityComposite getProjectAssignee();
 
+    public abstract void addingWorkEntry( WorkEntryEntityComposite workentry );
 }

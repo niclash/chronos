@@ -13,21 +13,22 @@
 package org.qi4j.chronos.service;
 
 import java.util.List;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.associations.HasWorkEntries;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 
-public interface WorkEntryService extends TaskBasedService<WorkEntryEntityComposite>
+public interface WorkEntryService
 {
-    List<WorkEntryEntityComposite> findAll( ProjectEntityComposite project );
+    List<WorkEntryEntityComposite> findAll( HasWorkEntries hasWorkEntries );
 
-    List<WorkEntryEntityComposite> findAll( ProjectEntityComposite project, FindFilter findFilter );
+    List<WorkEntryEntityComposite> findAll( HasWorkEntries hasWorkEntries, FindFilter findFilter );
 
-    int countAll( ProjectEntityComposite project );
+    int countAll( HasWorkEntries hasWorkEntries );
 
-    public List<WorkEntryEntityComposite> getRecentWorkEntryList( AccountEntityComposite account );
+    WorkEntryEntityComposite newInstance( Class<? extends WorkEntryEntityComposite> clazz );
 
-    List<WorkEntryEntityComposite> getRecentWorkEntryList( AccountEntityComposite account, FindFilter findFilter );
+    void update( WorkEntryEntityComposite workEntry );
 
-    int countAll( AccountEntityComposite account );
+    void delete( HasWorkEntries hasWorkEntries, List<WorkEntryEntityComposite> workEntries );
+
+    WorkEntryEntityComposite get( HasWorkEntries hasWorkEntries, String id );
 }

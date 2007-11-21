@@ -149,7 +149,7 @@ public class MockServicesMixin implements Services
 
         taskService = newParentBasedService( TaskServiceComposite.class, "projectService", projectService );
 
-        workEntryService = newParentBasedService( WorkEntryServiceComposite.class, "taskService", taskService );
+        workEntryService = newService( WorkEntryServiceComposite.class );
 
         commentService = newService( CommentServiceComposite.class );
 
@@ -168,7 +168,6 @@ public class MockServicesMixin implements Services
 
         return (T) compositeBuilder.newInstance();
     }
-
 
     private UserService initUserService( StaffService staffService, AdminService adminService, ContactPersonService contactPersonService, CustomerService customerService )
     {

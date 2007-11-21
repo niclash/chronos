@@ -24,17 +24,22 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.ProjectStatus;
+import org.qi4j.chronos.model.associations.HasContactPersons;
+import org.qi4j.chronos.model.associations.HasWorkEntries;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
+import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.service.WorkEntryService;
-import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.SimpleTextField;
-import org.qi4j.chronos.ui.contactperson.ContactPersonTab2;
+import org.qi4j.chronos.ui.contactperson.ContactPersonTable;
 import org.qi4j.chronos.ui.legalcondition.LegalConditionTab;
 import org.qi4j.chronos.ui.pricerate.PriceRateTab;
 import org.qi4j.chronos.ui.projectassignee.ProjectAssigneeTab;
 import org.qi4j.chronos.ui.task.TaskTab;
+import org.qi4j.chronos.ui.workentry.WorkEntryTab;
 import org.qi4j.chronos.util.DateUtil;
 
 public abstract class ProjectDetailPage extends LeftMenuNavPage
@@ -73,6 +78,8 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
         private WebMarkupContainer actualTimeContainer;
 
         private TabbedPanel tabbedPanel;
+
+        private ContactPersonTable contactPersonTable;
 
         public ProjectDetailForm( String id )
         {
@@ -118,13 +125,30 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
 
             List<AbstractTab> tabs = new ArrayList<AbstractTab>();
 
-            tabs.add( createContactPersonTab() );
+//            tabs.add( createContactPersonTab() );
             tabs.add( createPriceRateTab() );
             tabs.add( createProjectAssigneeTab() );
             tabs.add( createTaskTab() );
+            tabs.add( createWorkEntryTab() );
             tabs.add( createLegalConditionTab() );
 
             tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
+
+            contactPersonTable = new ContactPersonTable( "contactPersonTable" )
+            {
+                public HasContactPersons getHasContactPersons()
+                {
+                    return getProject();
+                }
+
+                public CustomerEntityComposite getCustomer()
+                {
+                    return getProject().getCustomer();
+                }
+            };
+
+            contactPersonTable.setActionBarVisible( false );
+            contactPersonTable.setNavigatorVisible( false );
 
             add( projectNameField );
             add( formalReferenceField );
@@ -139,11 +163,61 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
 
             add( tabbedPanel );
 
+            add( contactPersonTable );
+
             if( project.getProjectStatus() != ProjectStatus.CLOSED )
             {
                 actualTimeContainer.setVisible( false );
             }
         }
+    }
+
+    private WorkEntryTab createWorkEntryTab()
+    {
+        return new WorkEntryTab( "WorkEntries" )
+        {
+            public void addingWorkEntry( WorkEntryEntityComposite workEntry )
+            {
+                ProjectDetailPage.this.addingWorkEntry( workEntry );
+            }
+
+            public ProjectAssigneeEntityComposite getProjectAssignee()
+            {
+                return ProjectDetailPage.this.getProjectAssignee();
+            }
+
+            public HasWorkEntries getHasWorkEntries()
+            {
+                return getProject();
+            }
+        };
+    }
+
+    private void addingWorkEntry( WorkEntryEntityComposite workEntry )
+    {
+        ProjectEntityComposite project = getProject();
+
+        //add workEntry to project
+        project.addWorkEntry( workEntry );
+
+        //update project
+        getServices().getProjectService().update( project );
+    }
+
+    private ProjectAssigneeEntityComposite getProjectAssignee()
+    {
+        //TODO bp. This may return null if current user is Customer or ACCOUNT_ADMIN.
+        //TODO got better way to handle this?
+        if( getChronosSession().isStaff() )
+        {
+            StaffEntityComposite staff = (StaffEntityComposite) getChronosSession().getUser();
+
+            ProjectAssigneeEntityComposite projectAssignee = getServices().getProjectAssigneeService().getProjectAssignee( getProject(), staff );
+
+            return projectAssignee;
+        }
+
+        return null;
     }
 
     private LegalConditionTab createLegalConditionTab()
@@ -188,22 +262,6 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
                 return ProjectDetailPage.this.getProject().getPriceRateSchedule();
             }
         };
-    }
-
-    private ContactPersonTab2 createContactPersonTab()
-    {
-        return new ContactPersonTab2( "Contact Person" )
-        {
-            public ProjectEntityComposite getProject()
-            {
-                return ProjectDetailPage.this.getProject();
-            }
-        };
-    }
-
-    private WorkEntryService getWorkEntryService()
-    {
-        return ChronosWebApp.getServices().getWorkEntryService();
     }
 
     public abstract ProjectEntityComposite getProject();

@@ -12,19 +12,81 @@
  */
 package org.qi4j.chronos.service.mocks;
 
+import java.util.ArrayList;
 import java.util.Iterator;
-import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import java.util.List;
+import java.util.UUID;
+import org.qi4j.CompositeBuilder;
+import org.qi4j.CompositeBuilderFactory;
+import static org.qi4j.PropertyValue.property;
+import org.qi4j.annotation.scope.Structure;
+import org.qi4j.chronos.model.associations.HasWorkEntries;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.chronos.service.FindFilter;
+import org.qi4j.chronos.service.WorkEntryService;
+import org.qi4j.entity.Identity;
 
-public class MockWorkEntryServiceMixin extends MockTaskBasedServiceMixin<WorkEntryEntityComposite>
+public class MockWorkEntryServiceMixin implements WorkEntryService
 {
-    protected Iterator<WorkEntryEntityComposite> getItems( TaskEntityComposite task )
+    @Structure CompositeBuilderFactory factory;
+
+    public WorkEntryEntityComposite newInstance( Class<? extends WorkEntryEntityComposite> clazz )
     {
-        return task.workEntryIterator();
+        CompositeBuilder compositeBuilder = factory.newCompositeBuilder( clazz );
+
+        String uid = UUID.randomUUID().toString();
+
+        compositeBuilder.properties( Identity.class, property( "identity", uid ) );
+
+        return (WorkEntryEntityComposite) compositeBuilder.newInstance();
     }
 
-    protected void removeItem( TaskEntityComposite task, WorkEntryEntityComposite workEntry )
+    public List<WorkEntryEntityComposite> findAll( HasWorkEntries hasWorkEntries )
     {
-        task.removeWorkEntry( workEntry );
+        List<WorkEntryEntityComposite> list = new ArrayList<WorkEntryEntityComposite>();
+
+        for( Iterator<WorkEntryEntityComposite> iter = hasWorkEntries.workEntryIterator(); iter.hasNext(); )
+        {
+            list.add( iter.next() );
+        }
+
+        return list;
+    }
+
+    public List<WorkEntryEntityComposite> findAll( HasWorkEntries hasWorkEntries, FindFilter findFilter )
+    {
+        return findAll( hasWorkEntries ).subList( findFilter.getFirst(), findFilter.getFirst() + findFilter.getCount() );
+    }
+
+    public int countAll( HasWorkEntries hasWorkEntries )
+    {
+        return findAll( hasWorkEntries ).size();
+    }
+
+    public void update( WorkEntryEntityComposite workEntry )
+    {
+        //nothing
+    }
+
+    public WorkEntryEntityComposite get( HasWorkEntries hasWorkEntries, String id )
+    {
+        for( Iterator<WorkEntryEntityComposite> iter = hasWorkEntries.workEntryIterator(); iter.hasNext(); )
+        {
+            WorkEntryEntityComposite workEntry = iter.next();
+
+            if( workEntry.getIdentity().equals( id ) )
+            {
+                return workEntry;
+            }
+        }
+        return null;
+    }
+
+    public void delete( HasWorkEntries hasWorkEntries, List<WorkEntryEntityComposite> workEntries )
+    {
+        for( WorkEntryEntityComposite workEntry : workEntries )
+        {
+            hasWorkEntries.removeWorkEntry( workEntry );
+        }
     }
 }

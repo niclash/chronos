@@ -12,6 +12,7 @@
  */
 package org.qi4j.chronos.ui.workentry;
 
+import org.qi4j.chronos.model.associations.HasWorkEntries;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.service.WorkEntryService;
 import org.qi4j.chronos.ui.ChronosWebApp;
@@ -26,12 +27,14 @@ public abstract class WorkEntryDataProvider extends AbstractSortableDataProvider
 
     public final WorkEntryEntityComposite load( String id )
     {
-        return getWorkEntryService().get( id );
+        return getWorkEntryService().get( getHasWorkEntries(), id );
     }
 
     private WorkEntryService getWorkEntryService()
     {
         return ChronosWebApp.getServices().getWorkEntryService();
     }
+
+    public abstract HasWorkEntries getHasWorkEntries();
 
 }

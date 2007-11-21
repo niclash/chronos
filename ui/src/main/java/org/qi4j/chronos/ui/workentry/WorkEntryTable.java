@@ -16,7 +16,9 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
+import org.qi4j.chronos.model.associations.HasWorkEntries;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.WorkEntryService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.base.BasePage;
@@ -43,7 +45,7 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntryEntityComposit
         {
             public void performAction( List<WorkEntryEntityComposite> workEntries )
             {
-                getWorkEntryService().delete( workEntries );
+                getWorkEntryService().delete( getHasWorkEntries(), workEntries );
 
                 info( "Selected work entries are deleted." );
             }
@@ -58,12 +60,17 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntryEntityComposit
             {
                 public List<WorkEntryEntityComposite> dataList( int first, int count )
                 {
-                    return WorkEntryTable.this.dataList( first, count );
+                    return getWorkEntryService().findAll( getHasWorkEntries(), new FindFilter( first, first + count ) );
                 }
 
                 public int getSize()
                 {
-                    return WorkEntryTable.this.getSize();
+                    return getWorkEntryService().countAll( getHasWorkEntries() );
+                }
+
+                public HasWorkEntries getHasWorkEntries()
+                {
+                    return WorkEntryTable.this.getHasWorkEntries();
                 }
             };
         }
@@ -88,7 +95,7 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntryEntityComposit
                 {
                     public WorkEntryEntityComposite getWorkEntry()
                     {
-                        return getWorkEntryService().get( workEntryId );
+                        return getWorkEntryService().get( getHasWorkEntries(), workEntryId );
                     }
                 };
 
@@ -108,7 +115,7 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntryEntityComposit
                 {
                     public WorkEntryEntityComposite getWorkEntry()
                     {
-                        return getWorkEntryService().get( workEntryId );
+                        return getWorkEntryService().get( getHasWorkEntries(), workEntryId );
                     }
                 };
 
@@ -122,7 +129,5 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntryEntityComposit
         return Arrays.asList( "Title", "Created Date", "From Time", "To Time", "" );
     }
 
-    public abstract List<WorkEntryEntityComposite> dataList( int first, int count );
-
-    public abstract int getSize();
+    public abstract HasWorkEntries getHasWorkEntries();
 }

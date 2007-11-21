@@ -17,6 +17,7 @@ import org.apache.wicket.Session;
 import org.apache.wicket.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authorization.strategies.role.Roles;
+import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.service.UserService;
@@ -102,6 +103,11 @@ public class ChronosSession extends AuthenticatedWebSession
     public String getAccountId()
     {
         return accountId;
+    }
+
+    public boolean isStaff()
+    {
+        return getUser() instanceof Staff;
     }
 
     public AccountEntityComposite getAccount()

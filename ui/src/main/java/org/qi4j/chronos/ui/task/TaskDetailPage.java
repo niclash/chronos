@@ -22,12 +22,18 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.associations.HasComments;
+import org.qi4j.chronos.model.associations.HasWorkEntries;
 import org.qi4j.chronos.model.composites.CommentComposite;
+import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.ui.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.comment.CommentTab;
 import org.qi4j.chronos.ui.common.SimpleTextArea;
 import org.qi4j.chronos.ui.common.SimpleTextField;
+import org.qi4j.chronos.ui.workentry.WorkEntryTab;
 import org.qi4j.chronos.util.DateUtil;
 
 public abstract class TaskDetailPage extends LeftMenuNavPage
@@ -85,6 +91,7 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
             List<AbstractTab> tabs = new ArrayList<AbstractTab>();
 
             tabs.add( createCommenTab() );
+            tabs.add( createWorkEntryTab() );
 
             tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
 
@@ -94,6 +101,27 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
             add( descriptionTextArea );
             add( submitButton );
             add( tabbedPanel );
+        }
+
+        private WorkEntryTab createWorkEntryTab()
+        {
+            return new WorkEntryTab( "WorkEntries" )
+            {
+                public void addingWorkEntry( WorkEntryEntityComposite workEntry )
+                {
+                    TaskDetailPage.this.addingWorkEntry( workEntry );
+                }
+
+                public ProjectAssigneeEntityComposite getProjectAssignee()
+                {
+                    return TaskDetailPage.this.getProjectAssignee();
+                }
+
+                public HasWorkEntries getHasWorkEntries()
+                {
+                    return getTask();
+                }
+            };
         }
 
         private CommentTab createCommenTab()
@@ -107,19 +135,50 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
 
                 public void addComment( CommentComposite comment )
                 {
-                    TaskDetailPage.this.addComment( comment );
+                    TaskDetailPage.this.addingComment( comment );
                 }
             };
         }
     }
 
-    private void addComment( CommentComposite comment )
+    private void addingComment( CommentComposite comment )
     {
         TaskEntityComposite task = getTask();
 
         task.addComment( comment );
 
         getServices().getTaskService().update( task );
+    }
+
+    private void addingWorkEntry( WorkEntryEntityComposite workEntry )
+    {
+        TaskEntityComposite task = getTask();
+
+        //add workEntry to task
+        task.addWorkEntry( workEntry );
+
+        //update task
+        getServices().getTaskService().update( task );
+    }
+
+    private ProjectAssigneeEntityComposite getProjectAssignee()
+    {
+        //TODO bp. This may return null if current user is Customer or ACCOUNT_ADMIN.
+        //TODO got better way to handle this?
+        if( getChronosSession().isStaff() )
+        {
+            ProjectEntityComposite project = getServices().getTaskService().getParent( getTask() );
+
+            StaffEntityComposite staff = (StaffEntityComposite) getChronosSession().getUser();
+
+            ProjectAssigneeEntityComposite projectAssignee = getServices().getProjectAssigneeService().getProjectAssignee( project, staff );
+
+            return projectAssignee;
+        }
+        else
+        {
+            return null;
+        }
     }
 
     public abstract TaskEntityComposite getTask();
