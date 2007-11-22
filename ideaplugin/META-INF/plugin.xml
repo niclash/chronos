@@ -5,15 +5,16 @@
   <version>1.0</version>
   <vendor>ops4j</vendor>
   <idea-version since-build="3000"/>
+
   <project-components>
-    <!--  Note: ChronosSetting must be placed on top, because it handles the initializateion of qi4j runtime-->
     <component>
       <implementation-class>org.qi4j.chronos.ui.setting.ChronosSetting</implementation-class>
     </component>
     <component>
-      <implementation-class>org.qi4j.chronos.ui.task.TaskToolWindow</implementation-class>
+      <implementation-class>org.qi4j.chronos.ui.ChronosToolWindow</implementation-class>
     </component>
   </project-components>
+
   <actions>
     <!-- Setting action-->
     <action id="ChronosSettingAction" class="org.qi4j.chronos.action.ChronosSettingAction"
@@ -54,6 +55,20 @@
             text="Start Work"
             description="Start Work"/>
 
+    <!-- WorkEntry Actions -->
+    <action id="ChronosWorkEntryEditAction"
+            class="org.qi4j.chronos.action.workentry.WorkEntryEditAction"
+            text="Edit"
+            description="Edit"/>
+    <action id="ChronosWorkEntryNewCommentAction"
+            class="org.qi4j.chronos.action.workentry.WorkEntryNewCommentAction"
+            text="New Comment"
+            description="New Comment"/>
+    <action id="ChronosWorkEntryViewDetailAction"
+            class="org.qi4j.chronos.action.workentry.WorkEntryViewDetailAction"
+            text="View Detail"
+            description="View Detail"/>
+
     <!-- Action Groups -->
     <group id="ChronosTaskToolBarGroup">
       <reference id="ChronosTaskNewAction"/>
@@ -91,6 +106,14 @@
       <reference id="ChronosTaskDeleteAction"/>
       <separator/>
       <reference id="ChronosTaskViewDetailAction"/>
+    </group>
+
+    <group id="ChronosWorkEntryListGroup">
+      <reference id="ChronosWorkEntryNewCommentAction"/>
+      <separator/>
+      <reference id="ChronosWorkEntryEditAction"/>
+      <separator/>
+      <reference id="ChronosWorkEntryViewDetailAction"/>
     </group>
   </actions>
 </idea-plugin>

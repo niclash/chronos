@@ -14,6 +14,8 @@ package org.qi4j.chronos.service;
 
 import java.util.List;
 import org.qi4j.chronos.model.associations.HasWorkEntries;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 
 public interface WorkEntryService
@@ -31,4 +33,10 @@ public interface WorkEntryService
     void delete( HasWorkEntries hasWorkEntries, List<WorkEntryEntityComposite> workEntries );
 
     WorkEntryEntityComposite get( HasWorkEntries hasWorkEntries, String id );
+
+    List<WorkEntryEntityComposite> findAll( ProjectEntityComposite project, StaffEntityComposite staff );
+
+    List<WorkEntryEntityComposite> findAll( ProjectEntityComposite project, StaffEntityComposite staff, FindFilter findFilter );
+
+    int countAll( ProjectEntityComposite project, StaffEntityComposite staff );
 }

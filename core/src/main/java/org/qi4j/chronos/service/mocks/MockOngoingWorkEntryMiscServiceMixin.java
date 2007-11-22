@@ -12,8 +12,10 @@
  */
 package org.qi4j.chronos.service.mocks;
 
+import java.util.Iterator;
 import java.util.List;
 import org.qi4j.annotation.scope.ThisCompositeAs;
+import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
@@ -30,6 +32,25 @@ public abstract class MockOngoingWorkEntryMiscServiceMixin implements OngoingWor
         for( OngoingWorkEntryEntityComposite workEntry : list )
         {
             if( workEntry.getProjectAssignee().getStaff().getIdentity().equals( staff.getIdentity() ) )
+            {
+                return workEntry;
+            }
+        }
+
+        return null;
+    }
+
+    public OngoingWorkEntryEntityComposite getOngoingWorkEntry( Project project, StaffEntityComposite staff )
+    {
+        Iterator<TaskEntityComposite> taskIter = project.taskIteraotr();
+
+        while( taskIter.hasNext() )
+        {
+            TaskEntityComposite task = taskIter.next();
+
+            OngoingWorkEntryEntityComposite workEntry = getOngoingWorkEntry( task, staff );
+
+            if( workEntry != null )
             {
                 return workEntry;
             }

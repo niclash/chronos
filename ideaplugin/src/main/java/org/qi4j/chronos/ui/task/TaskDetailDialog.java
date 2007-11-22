@@ -18,7 +18,6 @@ import javax.swing.JTextArea;
 import org.qi4j.chronos.model.TaskStatus;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.Services;
-import org.qi4j.chronos.ui.comment.CommentAddDialog;
 import org.qi4j.chronos.ui.comment.CommentListPanel;
 import org.qi4j.chronos.ui.common.AbstractDialog;
 import org.qi4j.chronos.ui.common.ChronosTabbedPanel;
@@ -88,19 +87,7 @@ public abstract class TaskDetailDialog extends AbstractDialog
 
         tabbedPanel = new ChronosTabbedPanel();
 
-        commentListPanel = new CommentListPanel()
-        {
-            public CommentAddDialog newCommentAddDialog()
-            {
-                return new TaskCommentAddDialog()
-                {
-                    public TaskEntityComposite getTask()
-                    {
-                        return TaskDetailDialog.this.getTask();
-                    }
-                };
-            }
-        };
+        commentListPanel = new CommentListPanel();
 
         workEntryListPanel = new WorkEntryListPanel();
 

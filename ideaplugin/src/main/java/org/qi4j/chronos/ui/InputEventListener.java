@@ -10,16 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service;
+package org.qi4j.chronos.ui;
 
-import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
-import org.qi4j.chronos.model.composites.TaskEntityComposite;
-import org.qi4j.chronos.model.Project;
+import java.awt.event.InputEvent;
 
-public interface OngoingWorkEntryService extends TaskBasedService<OngoingWorkEntryEntityComposite>
+public interface InputEventListener
 {
-    OngoingWorkEntryEntityComposite getOngoingWorkEntry( TaskEntityComposite task, StaffEntityComposite staff );
-
-    OngoingWorkEntryEntityComposite getOngoingWorkEntry( Project project, StaffEntityComposite staff );
+    void newInputEvent( InputEvent event );
 }

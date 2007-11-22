@@ -15,7 +15,6 @@ package org.qi4j.chronos.ui.workentry;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
-import org.qi4j.chronos.ui.comment.CommentAddDialog;
 import org.qi4j.chronos.ui.comment.CommentListPanel;
 import org.qi4j.chronos.ui.common.AbstractDialog;
 import org.qi4j.chronos.ui.common.ChronosTabbedPanel;
@@ -77,19 +76,7 @@ public abstract class WorkEntryDetailDialog extends AbstractDialog
 
         tabbedPanel = new ChronosTabbedPanel();
 
-        commentListPanel = new CommentListPanel()
-        {
-            public CommentAddDialog newCommentAddDialog()
-            {
-                return new WorkEntryCommentAddDialog()
-                {
-                    public WorkEntryEntityComposite getWorkEntry()
-                    {
-                        return WorkEntryDetailDialog.this.getWorkEntry();
-                    }
-                };
-            }
-        };
+        commentListPanel = new CommentListPanel();
 
         tabbedPanel.addTab( "Comments", commentListPanel );
     }

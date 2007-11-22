@@ -10,34 +10,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.action.task;
+package org.qi4j.chronos.action.workentry;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataConstants;
 import org.qi4j.chronos.action.AbstractAction;
-import org.qi4j.chronos.service.TaskService;
-import org.qi4j.chronos.ui.task.TaskListComponent;
+import org.qi4j.chronos.service.WorkEntryService;
+import org.qi4j.chronos.ui.workentry.WorkEntryListComponent;
 
-public abstract class TaskBaseAction extends AbstractAction
+public abstract class WorkEntryBasedAction extends AbstractAction
 {
     public final void actionPerformed( AnActionEvent e )
     {
         Object obj = e.getDataContext().getData( DataConstants.CONTEXT_COMPONENT );
 
-        if( !( obj instanceof TaskListComponent ) )
+        if( !( obj instanceof WorkEntryListComponent ) )
         {
-            throw new IllegalArgumentException( "Context component must implements interface TaskListComponent" );
+            throw new IllegalArgumentException( "Context component must implements interface  WorkEntryListComponent" );
         }
 
-        TaskListComponent taskList = (TaskListComponent) obj;
+        WorkEntryListComponent workEntryListComponent = (WorkEntryListComponent) obj;
 
-        execute( taskList, e );
+        execute( workEntryListComponent, e );
     }
 
-    public TaskService getTaskService( AnActionEvent e )
+    protected WorkEntryService getWorkEntryService( AnActionEvent e )
     {
-        return getServices( e ).getTaskService();
+        return getServices( e ).getWorkEntryService();
     }
 
-    public abstract void execute( TaskListComponent taskList, AnActionEvent e );
+    public abstract void execute( WorkEntryListComponent workEntryListComponent, AnActionEvent e );
 }

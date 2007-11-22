@@ -29,7 +29,7 @@ import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.TaskService;
 import org.qi4j.chronos.ui.common.AbstractDialog;
 import org.qi4j.chronos.ui.common.ChronosDataProvider;
-import org.qi4j.chronos.ui.common.ChronosPageableTable;
+import org.qi4j.chronos.ui.common.ChronosPageableWrapper;
 import org.qi4j.chronos.ui.common.ChronosTable;
 import org.qi4j.chronos.ui.common.ChronosTableModel;
 import org.qi4j.chronos.ui.util.UiUtil;
@@ -40,7 +40,7 @@ public abstract class TaskViewAllDialog extends AbstractDialog
     private final static String[] COL_NAMES = { "Created Date", "Task Status", "Created By", "Title" };
     private final static int[] COL_WITDHS = { 150, 150, 150, 300 };
 
-    private ChronosPageableTable<TaskEntityComposite> table;
+    private ChronosPageableWrapper<TaskEntityComposite> pageableWrapper;
 
     public TaskViewAllDialog()
     {
@@ -49,7 +49,7 @@ public abstract class TaskViewAllDialog extends AbstractDialog
 
     protected void initComponents()
     {
-        table = new ChronosPageableTable<TaskEntityComposite>( createDataProvider(), COL_NAMES, COL_WITDHS )
+        pageableWrapper = new ChronosPageableWrapper<TaskEntityComposite>( createDataProvider(), COL_NAMES, COL_WITDHS )
         {
             protected ChronosTable createTable( String[] colNames, int[] colWidths )
             {
@@ -96,7 +96,7 @@ public abstract class TaskViewAllDialog extends AbstractDialog
 
         public TaskEntityComposite getSelectedTask()
         {
-            return table.getSelectedItem();
+            return pageableWrapper.getSelectedItem();
         }
 
         public TaskEntityComposite[] getSelectedTasks()
@@ -107,7 +107,7 @@ public abstract class TaskViewAllDialog extends AbstractDialog
 
         public void refreshList()
         {
-            table.resetData();
+            pageableWrapper.resetData();
         }
 
         public Container getComponent()
@@ -164,7 +164,7 @@ public abstract class TaskViewAllDialog extends AbstractDialog
 
     protected void initLayout( PanelBuilder builder, CellConstraints cc )
     {
-        builder.add( table, cc.xy( 1, 1, "fill,fill" ) );
+        builder.add( pageableWrapper, cc.xy( 1, 1, "fill,fill" ) );
     }
 
     protected String getDialogTitle()

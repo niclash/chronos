@@ -63,6 +63,7 @@ public class ChronosSetting implements ProjectComponent, Configurable, JDOMExter
 
     public void projectOpened()
     {
+
     }
 
     public void projectClosed()

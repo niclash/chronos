@@ -27,7 +27,7 @@ public class TaskDeleteAction extends TaskBaseAction
         }
 
         //delete task
-        getServices( e ).getTaskService().delete( taskList.getSelectedTask() );
+        getTaskService( e ).delete( taskList.getSelectedTask() );
 
         UiUtil.showMsgDialog( "Success", "Task is deleted successfully." );
 

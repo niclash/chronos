@@ -27,8 +27,8 @@ import org.qi4j.chronos.util.DateUtil;
 
 public class WorkEntryListPanel extends AbstractPanel
 {
-    private final static String[] COL_NAMES = { "Created Date", "Started Date", "End Date", "Duration", "Added By", "Title" };
-    private final static int[] COL_WITDHS = { 150, 150, 150, 100, 80, 130 };
+    private final static String[] COL_NAMES = { "Started Date", "End Date", "Duration", "Added By", "Title" };
+    private final static int[] COL_WITDHS = { 150, 150, 100, 80, 300 };
 
     private ChronosTable workEntryTable;
 
@@ -52,7 +52,6 @@ public class WorkEntryListPanel extends AbstractPanel
     private void insertWorkEntry( WorkEntryEntityComposite workEntry )
     {
         workEntryTable.insertToLastRow(
-            DateUtil.formatDateTime( workEntry.getCreatedDate() ),
             DateUtil.formatDateTime( workEntry.getStartTime() ),
             DateUtil.formatDateTime( workEntry.getEndTime() ),
             DateUtil.getTimeDifferent( workEntry.getStartTime(), workEntry.getEndTime() ),

@@ -21,6 +21,9 @@ import org.qi4j.CompositeBuilderFactory;
 import static org.qi4j.PropertyValue.property;
 import org.qi4j.annotation.scope.Structure;
 import org.qi4j.chronos.model.associations.HasWorkEntries;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.WorkEntryService;
@@ -88,5 +91,46 @@ public class MockWorkEntryServiceMixin implements WorkEntryService
         {
             hasWorkEntries.removeWorkEntry( workEntry );
         }
+    }
+
+    public List<WorkEntryEntityComposite> findAll( ProjectEntityComposite project, StaffEntityComposite staff )
+    {
+        List<WorkEntryEntityComposite> resultList = new ArrayList<WorkEntryEntityComposite>();
+
+        Iterator<WorkEntryEntityComposite> iter = project.workEntryIterator();
+
+        addWorkEntryList( iter, resultList, staff );
+
+        Iterator<TaskEntityComposite> taskIter = project.taskIteraotr();
+
+        while( taskIter.hasNext() )
+        {
+            addWorkEntryList( taskIter.next().workEntryIterator(), resultList, staff );
+        }
+
+        return resultList;
+    }
+
+    public List<WorkEntryEntityComposite> findAll( ProjectEntityComposite project, StaffEntityComposite staff, FindFilter findFilter )
+    {
+        return findAll( project, staff ).subList( findFilter.getFirst(), findFilter.getFirst() + findFilter.getCount() );
+    }
+
+    private void addWorkEntryList( Iterator<WorkEntryEntityComposite> iter, List<WorkEntryEntityComposite> resultList, StaffEntityComposite staff )
+    {
+        while( iter.hasNext() )
+        {
+            WorkEntryEntityComposite workEntry = iter.next();
+
+            if( workEntry.getProjectAssignee().getStaff().getIdentity().equals( staff.getIdentity() ) )
+            {
+                resultList.add( workEntry );
+            }
+        }
+    }
+
+    public int countAll( ProjectEntityComposite project, StaffEntityComposite staff )
+    {
+        return findAll( project, staff ).size();
     }
 }

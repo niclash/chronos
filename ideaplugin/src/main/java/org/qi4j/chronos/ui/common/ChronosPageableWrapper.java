@@ -23,7 +23,7 @@ import javax.swing.JButton;
 import javax.swing.JLabel;
 import org.qi4j.chronos.ui.util.UiUtil;
 
-public class ChronosPageableTable<T> extends AbstractPanel
+public class ChronosPageableWrapper<T> extends AbstractPanel
 {
     private final static int DEFAULT_ITEM_PER_PAGE = 50;
 
@@ -51,12 +51,12 @@ public class ChronosPageableTable<T> extends AbstractPanel
 
     private List<T> dataList;
 
-    public ChronosPageableTable( ChronosDataProvider<T> dataProvider, String[] colNames, int[] colWidths )
+    public ChronosPageableWrapper( ChronosDataProvider<T> dataProvider, String[] colNames, int[] colWidths )
     {
         this( dataProvider, colNames, colWidths, DEFAULT_ITEM_PER_PAGE );
     }
 
-    public ChronosPageableTable( ChronosDataProvider<T> dataProvider, String[] colNames, int[] colWidths, int itemPerpage )
+    public ChronosPageableWrapper( ChronosDataProvider<T> dataProvider, String[] colNames, int[] colWidths, int itemPerpage )
     {
         this.dataProvider = dataProvider;
         this.colNames = colNames;

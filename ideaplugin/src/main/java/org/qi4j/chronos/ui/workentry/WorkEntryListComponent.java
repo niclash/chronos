@@ -10,16 +10,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service;
+package org.qi4j.chronos.ui.workentry;
 
-import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
-import org.qi4j.chronos.model.composites.TaskEntityComposite;
-import org.qi4j.chronos.model.Project;
+import java.awt.Container;
+import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 
-public interface OngoingWorkEntryService extends TaskBasedService<OngoingWorkEntryEntityComposite>
+public interface WorkEntryListComponent
 {
-    OngoingWorkEntryEntityComposite getOngoingWorkEntry( TaskEntityComposite task, StaffEntityComposite staff );
+    public WorkEntryEntityComposite getSelectedWorkEntry();
 
-    OngoingWorkEntryEntityComposite getOngoingWorkEntry( Project project, StaffEntityComposite staff );
+    public WorkEntryEntityComposite[] getSelectedWorkEntries();
+
+    public void refreshList();
+
+    public Container getComponent();
 }

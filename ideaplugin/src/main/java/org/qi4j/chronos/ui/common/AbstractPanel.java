@@ -12,13 +12,24 @@
  */
 package org.qi4j.chronos.ui.common;
 
+import com.intellij.openapi.project.Project;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import javax.swing.JPanel;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.service.Services;
+import org.qi4j.chronos.ui.setting.ChronosSetting;
+import org.qi4j.chronos.util.ChronosUtil;
 
 public abstract class AbstractPanel extends JPanel
 {
+    private ChronosSetting chronosSetting;
+    private ProjectEntityComposite chronosProject;
+    private StaffEntityComposite staff;
+    private Services services;
+
     public AbstractPanel()
     {
     }
@@ -38,6 +49,46 @@ public abstract class AbstractPanel extends JPanel
         CellConstraints cc = new CellConstraints();
 
         initLayout( builder, cc );
+    }
+
+    protected ChronosSetting getChronosSetting( Project project )
+    {
+        if( chronosSetting == null )
+        {
+            chronosSetting = ChronosUtil.getChronosSetting( project );
+        }
+
+        return chronosSetting;
+    }
+
+    protected ProjectEntityComposite getChronosProject( Project project )
+    {
+        if( chronosProject == null )
+        {
+            chronosProject = getChronosSetting( project ).getChronosProject();
+        }
+
+        return chronosProject;
+    }
+
+    protected StaffEntityComposite getStaff( Project project )
+    {
+        if( staff == null )
+        {
+            staff = getChronosSetting( project ).getStaff();
+        }
+
+        return staff;
+    }
+
+    protected Services getServices( Project project )
+    {
+        if( services == null )
+        {
+            services = getChronosSetting( project ).getServices();
+        }
+
+        return services;
     }
 
     protected abstract String getLayoutColSpec();
