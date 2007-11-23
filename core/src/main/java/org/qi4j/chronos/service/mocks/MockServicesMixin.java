@@ -404,7 +404,7 @@ public class MockServicesMixin implements Services
         account.setReference( "Jayway Malaysia Sdn Bhd" );
         account.setEnabled( true );
 
-        account.setAddress( newAddress( "Abc Road", "Way Center", "111", "KL", "Wilayah", "Malaysia" ) );
+        account.setAddress( newAddress( "AbcMixin Road", "Way Center", "111", "KL", "Wilayah", "Malaysia" ) );
 
         accountService.save( account );
 
