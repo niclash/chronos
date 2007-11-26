@@ -20,7 +20,10 @@ import com.intellij.openapi.wm.ToolWindowManager;
 import javax.swing.JPanel;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
+import org.qi4j.chronos.activity.ActivityManager;
 import org.qi4j.chronos.ui.common.AbstractToolWindow;
+import org.qi4j.chronos.multicaster.IdleEventMulticaster;
+import org.qi4j.chronos.multicaster.InputEventMulticaster;
 
 public class ChronosToolWindow extends AbstractToolWindow
 {
@@ -45,6 +48,17 @@ public class ChronosToolWindow extends AbstractToolWindow
         {
             chronosToolMainPanel = new ChronosToolMainPanel( getProject(), getActionManager() );
         }
+
+        InputEventMulticaster inputEventBroadcaster = new InputEventMulticaster();
+
+        IdleEventMulticaster idleEventBroadcaster = new IdleEventMulticaster( inputEventBroadcaster );
+
+        inputEventBroadcaster.start();
+        idleEventBroadcaster.start();
+
+        ActivityManager manager = new ActivityManager( getProject() );
+
+        manager.start();
 
         return chronosToolMainPanel;
     }

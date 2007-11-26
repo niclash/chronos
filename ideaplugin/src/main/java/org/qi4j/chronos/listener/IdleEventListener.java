@@ -10,9 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui;
+package org.qi4j.chronos.listener;
 
-public class IdleEvent
+import java.util.EventListener;
+
+public interface IdleEventListener extends EventListener
 {
-
+    void onIdle( IdleEvent event );
 }

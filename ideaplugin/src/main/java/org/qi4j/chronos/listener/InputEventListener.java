@@ -10,11 +10,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui;
+package org.qi4j.chronos.listener;
 
-public interface IdleBroadcaster
+import java.awt.event.InputEvent;
+import java.util.EventListener;
+
+public interface InputEventListener extends EventListener
 {
-    void addIdleListener( IdleListener idleListener );
-
-    void removeIdleListener( IdleListener idleListener );
+    void newInputEvent( InputEvent event );
 }

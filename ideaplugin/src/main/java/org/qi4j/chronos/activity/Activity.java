@@ -10,9 +10,34 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui;
+package org.qi4j.chronos.activity;
 
-public interface IdleListener
+import java.util.Date;
+
+public class Activity
 {
-    void onIdle( IdleEvent event );
+    private Date time;
+    private String comment;
+
+    public Activity( String comment )
+    {
+        this( new Date(), comment );
+    }
+
+    public Activity( Date time, String comment )
+    {
+        this.time = time;
+        this.comment = comment;
+    }
+
+    public Date getTime()
+    {
+        return time;
+    }
+
+    public String getComment()
+    {
+        return comment;
+    }
 }
+

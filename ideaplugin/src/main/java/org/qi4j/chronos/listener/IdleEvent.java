@@ -10,11 +10,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui;
+package org.qi4j.chronos.listener;
 
-import java.awt.event.InputEvent;
+import java.util.Date;
 
-public interface InputEventListener
+public class IdleEvent
 {
-    void newInputEvent( InputEvent event );
+    private Date fromDate;
+    private Date toDate;
+
+    public IdleEvent( Date fromDate, Date toDate )
+    {
+        this.fromDate = fromDate;
+        this.toDate = toDate;
+    }
+
+    public Date getFromDate()
+    {
+        return fromDate;
+    }
+
+    public Date getToDate()
+    {
+        return toDate;
+    }
 }

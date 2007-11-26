@@ -10,15 +10,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui;
+package org.qi4j.chronos.activity;
 
-public interface InputEventBroadcaster
+import com.intellij.openapi.project.Project;
+
+public abstract class AbstractAcitivityTracker
 {
-    void start();
+    private ActivityManager manager;
 
-    void stop();
+    public AbstractAcitivityTracker( ActivityManager manager )
+    {
+        this.manager = manager;
+    }
 
-    void addInputEventListener( InputEventListener inputEventListener );
+    protected void newActivity( Activity activity )
+    {
+        manager.newUserActivity( activity );
+    }
 
-    void removeInputEventListener( InputEventListener inputEventListener );
+    protected Project getProject()
+    {
+        return manager.getProject();
+    }
+
+    public abstract void start();
+
+    public abstract void stop();
 }

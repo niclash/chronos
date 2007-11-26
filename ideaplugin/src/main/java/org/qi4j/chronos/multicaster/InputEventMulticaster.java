@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui;
+package org.qi4j.chronos.multicaster;
 
 import java.awt.AWTEvent;
 import java.awt.Toolkit;
@@ -18,14 +18,16 @@ import java.awt.event.AWTEventListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import java.util.ArrayList;
-import java.util.List;
+import org.qi4j.chronos.listener.InputEventListener;
+import org.qi4j.chronos.util.listener.EventCallback;
 
-public class InputEventBroadcasterImpl implements InputEventBroadcaster, AWTEventListener
+public class InputEventMulticaster extends AbstractEventMulticaster<InputEventListener> implements AWTEventListener
 {
-    private List<InputEventListener> listeners = new ArrayList<InputEventListener>();
-
     private final long EVENT_MASK = AWTEvent.KEY_EVENT_MASK | AWTEvent.MOUSE_EVENT_MASK;
+
+    public InputEventMulticaster()
+    {
+    }
 
     public void start()
     {
@@ -37,26 +39,10 @@ public class InputEventBroadcasterImpl implements InputEventBroadcaster, AWTEven
         Toolkit.getDefaultToolkit().removeAWTEventListener( this );
     }
 
-    public synchronized void addInputEventListener( InputEventListener inputEventListener )
-    {
-        if( !listeners.contains( inputEventListener ) )
-        {
-            listeners.add( inputEventListener );
-        }
-    }
-
-    public synchronized void removeInputEventListener( InputEventListener inputEventListener )
-    {
-        listeners.remove( inputEventListener );
-    }
-
-    private synchronized InputEventListener[] getListeners()
-    {
-        return listeners.toArray( new InputEventListener[listeners.size()] );
-    }
-
     public void eventDispatched( AWTEvent event )
     {
+        InputEvent inputEvent = null;
+
         if( event instanceof MouseEvent )
         {
             MouseEvent mouseEvent = (MouseEvent) event;
@@ -64,7 +50,7 @@ public class InputEventBroadcasterImpl implements InputEventBroadcaster, AWTEven
             if( ( mouseEvent.getModifiersEx() & MouseEvent.BUTTON1_DOWN_MASK ) != 0
                 && mouseEvent.getClickCount() == 1 )
             {
-                fireEvent( mouseEvent );
+                inputEvent = mouseEvent;
             }
         }
         else if( event instanceof KeyEvent )
@@ -73,18 +59,22 @@ public class InputEventBroadcasterImpl implements InputEventBroadcaster, AWTEven
 
             if( keyEvent.getID() == KeyEvent.KEY_PRESSED )
             {
-                fireEvent( keyEvent );
+                inputEvent = keyEvent;
             }
         }
-    }
 
-    private void fireEvent( InputEvent event )
-    {
-        InputEventListener[] listeners = getListeners();
-
-        for( InputEventListener listener : listeners )
+        if( inputEvent != null )
         {
-            listener.newInputEvent( event );
+            final InputEvent tempInputEvent = inputEvent;
+
+            listenerHandler.fireEvent( new EventCallback<InputEventListener>()
+            {
+                public void callback( InputEventListener listener )
+                {
+                    listener.newInputEvent( tempInputEvent );
+                }
+            } );
         }
     }
 }
+
