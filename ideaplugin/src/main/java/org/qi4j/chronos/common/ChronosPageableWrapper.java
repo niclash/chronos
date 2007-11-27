@@ -21,6 +21,7 @@ import java.awt.event.MouseEvent;
 import java.util.List;
 import javax.swing.JButton;
 import javax.swing.JLabel;
+import javax.swing.SwingUtilities;
 import org.qi4j.chronos.util.UiUtil;
 
 public class ChronosPageableWrapper<T> extends AbstractPanel
@@ -89,7 +90,13 @@ public class ChronosPageableWrapper<T> extends AbstractPanel
 
         if( totalItems != 0 )
         {
-            updateNavigatorButtons();
+            SwingUtilities.invokeLater( new Runnable()
+            {
+                public void run()
+                {
+                    updateNavigatorButtons();
+                }
+            } );
         }
     }
 

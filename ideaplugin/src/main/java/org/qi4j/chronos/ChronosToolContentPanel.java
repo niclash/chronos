@@ -20,14 +20,14 @@ import java.awt.event.ActionListener;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JComboBox;
+import org.qi4j.chronos.common.AbstractPanel;
+import org.qi4j.chronos.common.text.ReadOnlyTextField;
 import org.qi4j.chronos.model.TaskStatus;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.TaskService;
-import org.qi4j.chronos.common.AbstractPanel;
-import org.qi4j.chronos.common.text.ReadOnlyTextField;
-import org.qi4j.chronos.workentry.WorkEntryTablePanel;
 import org.qi4j.chronos.util.ChronosUtil;
+import org.qi4j.chronos.workentry.WorkEntryTablePanel;
 
 public class ChronosToolContentPanel extends AbstractPanel
 {
@@ -47,6 +47,11 @@ public class ChronosToolContentPanel extends AbstractPanel
         init();
 
         initData();
+    }
+
+    public void resetData()
+    {
+        workEntryTablePanel.resetData();
     }
 
     private void initData()

@@ -12,9 +12,15 @@
  */
 package org.qi4j.chronos.activity;
 
+import com.intellij.openapi.module.Module;
+import com.intellij.openapi.vfs.VfsUtil;
+import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileAdapter;
 import com.intellij.openapi.vfs.VirtualFileEvent;
 import com.intellij.openapi.vfs.VirtualFileManager;
+import com.intellij.psi.PsiFile;
+import com.intellij.psi.PsiJavaFile;
+import com.intellij.psi.PsiManager;
 
 public class VirtualFileActivityTracker extends AbstractAcitivityTracker
 {
@@ -44,22 +50,67 @@ public class VirtualFileActivityTracker extends AbstractAcitivityTracker
         }
     }
 
-    //TODO VirutalFileAdapter is an application level listener, need filter here.
     private class MyVirtualFileAdapter extends VirtualFileAdapter
     {
         public void contentsChanged( VirtualFileEvent event )
         {
-            newActivity( new Activity( "[Edited] File =" + event.getFileName() ) );
+            handleVirtualFileEvent( event, EventType.Edited );
         }
 
         public void fileCreated( VirtualFileEvent event )
         {
-            newActivity( new Activity( "[Created] File =" + event.getFileName() ) );
+            handleVirtualFileEvent( event, EventType.Added );
         }
 
         public void fileDeleted( VirtualFileEvent event )
         {
-            newActivity( new Activity( "[Deleted] File =" + event.getFileName() ) );
+            handleVirtualFileEvent( event, EventType.Deleted );
         }
+    }
+
+    private void handleVirtualFileEvent( VirtualFileEvent event, EventType eventType )
+    {
+        final VirtualFile virtualFile = event.getFile();
+
+        if( !isAcceptedFileExtension( virtualFile ) )
+        {
+            return;
+        }
+
+        Module module = VfsUtil.getModuleForFile( getProject(), event.getFile() );
+
+        //since virtualFileListener is an application level listener, it is not surpsied
+        //that the given event is not belong this project.
+        if( module != null )
+        {
+            String fileName = virtualFile.getName();
+
+            PsiFile psiFile = PsiManager.getInstance( getProject() ).findFile( event.getFile() );
+
+            if( psiFile instanceof PsiJavaFile )
+            {
+                PsiJavaFile javaFile = (PsiJavaFile) psiFile;
+
+                fileName = javaFile.getPackageName() + "." + fileName;
+            }
+
+
+            newActivity( new Activity( "[" + eventType.toString() + "]" + fileName ) );
+        }
+    }
+
+    private enum EventType
+    {
+        Edited, Added, Deleted
+    }
+
+    private boolean isAcceptedFileExtension( VirtualFile virtualFile )
+    {
+        if( virtualFile.getExtension().equals( "iws" ) )
+        {
+            return false;
+        }
+
+        return true;
     }
 }

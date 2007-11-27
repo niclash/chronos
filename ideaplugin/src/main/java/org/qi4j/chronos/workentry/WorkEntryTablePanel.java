@@ -24,16 +24,16 @@ import java.awt.Container;
 import java.util.List;
 import javax.swing.ListSelectionModel;
 import org.qi4j.chronos.action.ChronosActionConstant;
-import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
-import org.qi4j.chronos.service.FindFilter;
-import org.qi4j.chronos.service.WorkEntryService;
 import org.qi4j.chronos.common.AbstractPanel;
 import org.qi4j.chronos.common.ChronosDataProvider;
 import org.qi4j.chronos.common.ChronosPageableWrapper;
 import org.qi4j.chronos.common.ChronosTable;
 import org.qi4j.chronos.common.ChronosTableModel;
-import org.qi4j.chronos.util.UiUtil;
+import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.chronos.service.FindFilter;
+import org.qi4j.chronos.service.WorkEntryService;
 import org.qi4j.chronos.util.DateUtil;
+import org.qi4j.chronos.util.UiUtil;
 
 public class WorkEntryTablePanel extends AbstractPanel
 {
@@ -49,6 +49,11 @@ public class WorkEntryTablePanel extends AbstractPanel
         this.project = project;
 
         init();
+    }
+
+    public void resetData()
+    {
+        pageableWrapper.resetData();
     }
 
     protected String getLayoutColSpec()

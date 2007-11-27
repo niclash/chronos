@@ -17,8 +17,10 @@ import com.intellij.openapi.project.Project;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import org.qi4j.chronos.common.AbstractPanel;
+import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.chronos.workentry.WorkEntryProducerListener;
 
-public class ChronosToolMainPanel extends AbstractPanel
+public class ChronosToolMainPanel extends AbstractPanel implements WorkEntryProducerListener
 {
     private Project project;
     private ActionManager actionManager;
@@ -55,5 +57,10 @@ public class ChronosToolMainPanel extends AbstractPanel
     {
         chronosToolBar = new ChronosToolBar( actionManager );
         chronosToolCententPanel = new ChronosToolContentPanel( project );
+    }
+
+    public void addedWorkEntry( WorkEntryEntityComposite workEntry )
+    {
+        chronosToolCententPanel.resetData();
     }
 }

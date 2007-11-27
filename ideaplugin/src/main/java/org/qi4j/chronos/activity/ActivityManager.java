@@ -65,6 +65,8 @@ public class ActivityManager
         synchronized( activityLists )
         {
             activityLists.add( activity );
+
+            System.err.println( "New Activity " + activity.getComment() );
         }
     }
 

@@ -21,9 +21,9 @@ import javax.swing.JPanel;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.qi4j.chronos.activity.ActivityManager;
+import org.qi4j.chronos.common.AbstractToolWindow;
 import org.qi4j.chronos.multicaster.IdleEventMulticaster;
 import org.qi4j.chronos.multicaster.InputEventMulticaster;
-import org.qi4j.chronos.common.AbstractToolWindow;
 import org.qi4j.chronos.workentry.WorkEntryProducer;
 
 public class ChronosToolWindow extends AbstractToolWindow
@@ -32,6 +32,8 @@ public class ChronosToolWindow extends AbstractToolWindow
     private static final String COMPONENT_NAME = "ChronosToolWindow";
 
     private ChronosToolMainPanel chronosToolMainPanel;
+
+    private WorkEntryProducer workEntryProducer;
 
     protected ChronosToolWindow( ToolWindowManager toolWindowManager, ActionManager actionManager, Project project )
     {
@@ -48,21 +50,9 @@ public class ChronosToolWindow extends AbstractToolWindow
         if( chronosToolMainPanel == null )
         {
             chronosToolMainPanel = new ChronosToolMainPanel( getProject(), getActionManager() );
+
+            workEntryProducer.addWorkEntryProducerListener( chronosToolMainPanel );
         }
-
-        InputEventMulticaster inputEventBroadcaster = new InputEventMulticaster();
-
-        IdleEventMulticaster idleEventBroadcaster = new IdleEventMulticaster( inputEventBroadcaster );
-
-        inputEventBroadcaster.start();
-        idleEventBroadcaster.start();
-
-        ActivityManager manager = new ActivityManager( getProject() );
-
-        WorkEntryProducer workEntryProducer = new WorkEntryProducer( getProject(), manager,
-                                                                     idleEventBroadcaster, inputEventBroadcaster );
-
-        manager.start();
 
         return chronosToolMainPanel;
     }
@@ -79,6 +69,16 @@ public class ChronosToolWindow extends AbstractToolWindow
 
     public void initComponent()
     {
-        //nothing here
+        InputEventMulticaster inputEventBroadcaster = new InputEventMulticaster();
+
+        IdleEventMulticaster idleEventBroadcaster = new IdleEventMulticaster( inputEventBroadcaster );
+
+        ActivityManager manager = new ActivityManager( getProject() );
+
+        workEntryProducer = new WorkEntryProducer( getProject(), manager,
+                                                   idleEventBroadcaster, inputEventBroadcaster );
+        inputEventBroadcaster.start();
+        idleEventBroadcaster.start();
+        manager.start();
     }
 }

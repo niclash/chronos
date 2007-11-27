@@ -17,11 +17,11 @@ import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.project.ProjectManagerAdapter;
 import java.awt.event.InputEvent;
 import java.util.Date;
-import org.qi4j.chronos.activity.Activity;
-import org.qi4j.chronos.activity.ActivityManager;
 import org.qi4j.chronos.IdleEvent;
 import org.qi4j.chronos.IdleEventListener;
 import org.qi4j.chronos.InputEventListener;
+import org.qi4j.chronos.activity.Activity;
+import org.qi4j.chronos.activity.ActivityManager;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
@@ -31,7 +31,8 @@ import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.service.WorkEntryService;
 import org.qi4j.chronos.setting.ChronosSetting;
 import org.qi4j.chronos.util.ChronosUtil;
-import org.qi4j.chronos.util.DateUtil;
+import org.qi4j.chronos.util.listener.EventCallback;
+import org.qi4j.chronos.util.listener.ListenerHandler;
 
 public class WorkEntryProducer
 {
@@ -48,6 +49,8 @@ public class WorkEntryProducer
 
     private Project project;
 
+    private ListenerHandler<WorkEntryProducerListener> listenerHandler;
+
     public WorkEntryProducer( Project project, ActivityManager activityManager, IdleEventMulticaster idleEventMulticaster, InputEventMulticaster inputEventMulticaster )
     {
         this.project = project;
@@ -55,6 +58,8 @@ public class WorkEntryProducer
         this.activityManager = activityManager;
         this.idleEventMulticaster = idleEventMulticaster;
         this.inputEventMulticaster = inputEventMulticaster;
+
+        listenerHandler = new ListenerHandler<WorkEntryProducerListener>();
 
         init();
     }
@@ -89,6 +94,16 @@ public class WorkEntryProducer
                 handleProjectClosed();
             }
         } );
+    }
+
+    public void addWorkEntryProducerListener( WorkEntryProducerListener listener )
+    {
+        listenerHandler.addListener( listener );
+    }
+
+    public void removeWorkEntryProducerListener( WorkEntryProducerListener listener )
+    {
+        listenerHandler.removeListener( listener );
     }
 
     private void handleProjectOpened()
@@ -154,12 +169,12 @@ public class WorkEntryProducer
 
         WorkEntryService workEntryService = services.getWorkEntryService();
 
-        WorkEntryEntityComposite workEntry = workEntryService.newInstance( WorkEntryEntityComposite.class );
+        final WorkEntryEntityComposite workEntry = workEntryService.newInstance( WorkEntryEntityComposite.class );
 
         workEntry.setCreatedDate( endDate );
         workEntry.setStartTime( startedDate );
         workEntry.setEndTime( endDate );
-        workEntry.setTitle( "[" + DateUtil.formatDateTime( endDate ) + "] Auto generated workEntry" );
+        workEntry.setTitle( "Auto generated" );
         workEntry.setDescription( getWorkEntryDescription() );
         workEntry.setProjectAssignee( chronosSetting.getProjectAssignee() );
 
@@ -181,6 +196,14 @@ public class WorkEntryProducer
         }
 
         System.err.println( "New WorkEntry Created  " + endDate );
+
+        listenerHandler.fireEvent( new EventCallback<WorkEntryProducerListener>()
+        {
+            public void callback( WorkEntryProducerListener listener )
+            {
+                listener.addedWorkEntry( workEntry );
+            }
+        } );
     }
 
     private String getWorkEntryDescription()
