@@ -16,7 +16,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataConstants;
 import org.qi4j.chronos.action.AbstractAction;
 import org.qi4j.chronos.service.TaskService;
-import org.qi4j.chronos.ui.task.TaskListComponent;
+import org.qi4j.chronos.task.TaskListComponent;
 
 public abstract class TaskBaseAction extends AbstractAction
 {

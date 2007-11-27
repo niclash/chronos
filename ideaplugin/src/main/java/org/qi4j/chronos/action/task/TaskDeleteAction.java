@@ -13,8 +13,8 @@
 package org.qi4j.chronos.action.task;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import org.qi4j.chronos.ui.task.TaskListComponent;
-import org.qi4j.chronos.ui.util.UiUtil;
+import org.qi4j.chronos.task.TaskListComponent;
+import org.qi4j.chronos.util.UiUtil;
 
 public class TaskDeleteAction extends TaskBaseAction
 {

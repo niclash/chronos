@@ -18,7 +18,7 @@ import java.awt.event.AWTEventListener;
 import java.awt.event.InputEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
-import org.qi4j.chronos.listener.InputEventListener;
+import org.qi4j.chronos.InputEventListener;
 import org.qi4j.chronos.util.listener.EventCallback;
 
 public class InputEventMulticaster extends AbstractEventMulticaster<InputEventListener> implements AWTEventListener

@@ -14,8 +14,8 @@ package org.qi4j.chronos.action.task;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
-import org.qi4j.chronos.ui.task.TaskDetailDialog;
-import org.qi4j.chronos.ui.task.TaskListComponent;
+import org.qi4j.chronos.task.TaskDetailDialog;
+import org.qi4j.chronos.task.TaskListComponent;
 
 public class TaskViewDetailAction extends TaskBaseAction
 {

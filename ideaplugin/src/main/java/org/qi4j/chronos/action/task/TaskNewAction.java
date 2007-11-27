@@ -16,7 +16,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.util.IconLoader;
 import javax.swing.Icon;
 import org.qi4j.chronos.action.AbstractAction;
-import org.qi4j.chronos.ui.task.TaskAddDialog;
+import org.qi4j.chronos.task.TaskAddDialog;
 
 public class TaskNewAction extends AbstractAction
 {

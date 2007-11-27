@@ -14,9 +14,9 @@ package org.qi4j.chronos.multicaster;
 
 import java.awt.event.InputEvent;
 import java.util.Date;
-import org.qi4j.chronos.listener.IdleEvent;
-import org.qi4j.chronos.listener.IdleEventListener;
-import org.qi4j.chronos.listener.InputEventListener;
+import org.qi4j.chronos.IdleEvent;
+import org.qi4j.chronos.IdleEventListener;
+import org.qi4j.chronos.InputEventListener;
 import org.qi4j.chronos.util.listener.EventCallback;
 
 public class IdleEventMulticaster extends AbstractEventMulticaster<IdleEventListener>

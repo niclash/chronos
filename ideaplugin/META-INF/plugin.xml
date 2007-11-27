@@ -8,10 +8,10 @@
 
   <project-components>
     <component>
-      <implementation-class>org.qi4j.chronos.ui.setting.ChronosSetting</implementation-class>
+      <implementation-class>org.qi4j.chronos.setting.ChronosSetting</implementation-class>
     </component>
     <component>
-      <implementation-class>org.qi4j.chronos.ui.ChronosToolWindow</implementation-class>
+      <implementation-class>org.qi4j.chronos.ChronosToolWindow</implementation-class>
     </component>
   </project-components>
 

@@ -14,8 +14,8 @@ package org.qi4j.chronos.action.workentry;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
-import org.qi4j.chronos.ui.workentry.WorkEntryCommentAddDialog;
-import org.qi4j.chronos.ui.workentry.WorkEntryListComponent;
+import org.qi4j.chronos.workentry.WorkEntryCommentAddDialog;
+import org.qi4j.chronos.workentry.WorkEntryListComponent;
 
 public class WorkEntryNewCommentAction extends WorkEntryBasedAction
 {

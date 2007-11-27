@@ -17,8 +17,8 @@ import org.qi4j.chronos.action.task.TaskBaseAction;
 import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.OngoingWorkEntryService;
-import org.qi4j.chronos.ui.task.TaskListComponent;
-import org.qi4j.chronos.ui.util.UiUtil;
+import org.qi4j.chronos.task.TaskListComponent;
+import org.qi4j.chronos.util.UiUtil;
 import org.qi4j.chronos.util.ChronosUtil;
 import org.qi4j.chronos.util.DateUtil;
 

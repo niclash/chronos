@@ -18,8 +18,8 @@ import com.intellij.openapi.actionSystem.DataConstants;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.project.Project;
 import java.util.Date;
-import org.qi4j.chronos.ui.setting.ChronosSetting;
-import org.qi4j.chronos.ui.task.TaskToolWindow;
+import org.qi4j.chronos.setting.ChronosSetting;
+import org.qi4j.chronos.task.TaskToolWindow;
 
 public final class ChronosUtil
 {

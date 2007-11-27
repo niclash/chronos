@@ -16,7 +16,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataConstants;
 import org.qi4j.chronos.action.AbstractAction;
 import org.qi4j.chronos.service.WorkEntryService;
-import org.qi4j.chronos.ui.workentry.WorkEntryListComponent;
+import org.qi4j.chronos.workentry.WorkEntryListComponent;
 
 public abstract class WorkEntryBasedAction extends AbstractAction
 {

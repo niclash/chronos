@@ -15,7 +15,7 @@ package org.qi4j.chronos.action;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.util.IconLoader;
 import javax.swing.Icon;
-import org.qi4j.chronos.ui.setting.ChronosSettingDialog;
+import org.qi4j.chronos.setting.ChronosSettingDialog;
 
 public class ChronosSettingAction extends AbstractAction
 {
