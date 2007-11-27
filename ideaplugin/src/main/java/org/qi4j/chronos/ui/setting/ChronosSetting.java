@@ -34,6 +34,7 @@ import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.service.composites.ServicesComposite;
 import org.qi4j.runtime.Energy4Java;
@@ -56,6 +57,8 @@ public class ChronosSetting implements ProjectComponent, Configurable, JDOMExter
     private StaffEntityComposite staff;
     private ProjectEntityComposite chronosProject;
 
+    private TaskEntityComposite associatedTask;
+
     public ChronosSetting()
     {
         chronosConfig = new ChronosConfig();
@@ -69,6 +72,16 @@ public class ChronosSetting implements ProjectComponent, Configurable, JDOMExter
     public void projectClosed()
     {
 
+    }
+
+    public void setAssociatedTask( TaskEntityComposite task )
+    {
+        this.associatedTask = task;
+    }
+
+    public TaskEntityComposite getAssociatedTask()
+    {
+        return associatedTask;
     }
 
     public String getComponentName()

@@ -68,9 +68,9 @@ public class IdleEventMulticaster extends AbstractEventMulticaster<IdleEventList
 
                     long diff = now.getTime() - lastReadTime.getTime();
 
-                    long mininuteDiff = diff / ( 60 * 1000 );
+                    long minuteDiff = diff / ( 60 * 1000 );
 
-                    if( mininuteDiff >= IDLE_TIME )
+                    if( minuteDiff >= IDLE_TIME )
                     {
                         fireIdleEvent( lastReadTime, now );
 

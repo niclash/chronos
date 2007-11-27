@@ -22,9 +22,7 @@ import java.util.List;
 import javax.swing.JComboBox;
 import org.qi4j.chronos.model.TaskStatus;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
-import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.service.TaskService;
 import org.qi4j.chronos.ui.common.AbstractPanel;
 import org.qi4j.chronos.ui.common.ReadOnlyTextField;
@@ -84,16 +82,6 @@ public class ChronosToolContentPanel extends AbstractPanel
     private ProjectEntityComposite getChronosProject()
     {
         return ChronosUtil.getChronosSetting( project ).getChronosProject();
-    }
-
-    private Services getServices()
-    {
-        return ChronosUtil.getChronosSetting( project ).getServices();
-    }
-
-    private StaffEntityComposite getStaff()
-    {
-        return ChronosUtil.getChronosSetting( project ).getStaff();
     }
 
     protected void initComponents()

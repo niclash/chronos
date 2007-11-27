@@ -60,7 +60,7 @@ public class ActivityManager
         }
     }
 
-    public void newUserActivity( Activity activity )
+    public void newActivity( Activity activity )
     {
         synchronized( activityLists )
         {
@@ -68,7 +68,7 @@ public class ActivityManager
         }
     }
 
-    public Activity[] getUserActivityList()
+    public Activity[] getActivities()
     {
         synchronized( activityLists )
         {
@@ -76,7 +76,7 @@ public class ActivityManager
         }
     }
 
-    public void removeAllUserActivity()
+    public void removeAllActivities()
     {
         synchronized( activityLists )
         {

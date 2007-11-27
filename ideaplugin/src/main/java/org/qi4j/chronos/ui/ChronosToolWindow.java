@@ -21,9 +21,10 @@ import javax.swing.JPanel;
 import org.jetbrains.annotations.NonNls;
 import org.jetbrains.annotations.NotNull;
 import org.qi4j.chronos.activity.ActivityManager;
-import org.qi4j.chronos.ui.common.AbstractToolWindow;
 import org.qi4j.chronos.multicaster.IdleEventMulticaster;
 import org.qi4j.chronos.multicaster.InputEventMulticaster;
+import org.qi4j.chronos.ui.common.AbstractToolWindow;
+import org.qi4j.chronos.ui.workentry.WorkEntryProducer;
 
 public class ChronosToolWindow extends AbstractToolWindow
 {
@@ -57,6 +58,9 @@ public class ChronosToolWindow extends AbstractToolWindow
         idleEventBroadcaster.start();
 
         ActivityManager manager = new ActivityManager( getProject() );
+
+        WorkEntryProducer workEntryProducer = new WorkEntryProducer( getProject(), manager,
+                                                                     idleEventBroadcaster, inputEventBroadcaster );
 
         manager.start();
 

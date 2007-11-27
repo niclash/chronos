@@ -25,7 +25,7 @@ public abstract class AbstractAcitivityTracker
 
     protected void newActivity( Activity activity )
     {
-        manager.newUserActivity( activity );
+        manager.newActivity( activity );
     }
 
     protected Project getProject()
