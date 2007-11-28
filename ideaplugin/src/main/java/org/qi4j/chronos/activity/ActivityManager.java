@@ -35,8 +35,9 @@ public class ActivityManager
 
     private void initActivityTracker()
     {
-        acitivityTrackers.add( new SvnCheckinActivityTracker( this ) );
-        acitivityTrackers.add( new VirtualFileActivityTracker( this ) );
+        acitivityTrackers.add( new CheckinActivityTracker( this ) );
+        acitivityTrackers.add( new VirtualFileActivityTracker( this, project ) );
+        acitivityTrackers.add( new TodoItemActivityTracker( this, project ) );
     }
 
     public Project getProject()

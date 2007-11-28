@@ -18,11 +18,11 @@ import com.intellij.openapi.vcs.checkin.CheckinHandler;
 import com.intellij.openapi.vcs.checkin.CheckinHandlerFactory;
 import org.jetbrains.annotations.NotNull;
 
-public class SvnCheckinActivityTracker extends AbstractAcitivityTracker
+public class CheckinActivityTracker extends AbstractAcitivityTracker
 {
     private CheckinHandlerFactory checkinHandlerFactory;
 
-    public SvnCheckinActivityTracker( ActivityManager manager )
+    public CheckinActivityTracker( ActivityManager manager )
     {
         super( manager );
     }
@@ -56,7 +56,7 @@ public class SvnCheckinActivityTracker extends AbstractAcitivityTracker
             {
                 public void checkinSuccessful()
                 {
-                    newActivity( new Activity( panel.getCommitMessage() ) );
+                    newActivity( new Activity( "[Checkin] - " + panel.getCommitMessage() ) );
                 }
             };
         }

@@ -13,7 +13,8 @@
 package org.qi4j.chronos.activity;
 
 import com.intellij.openapi.module.Module;
-import com.intellij.openapi.vfs.VfsUtil;
+import com.intellij.openapi.module.ModuleUtil;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.openapi.vfs.VirtualFileAdapter;
 import com.intellij.openapi.vfs.VirtualFileEvent;
@@ -26,9 +27,13 @@ public class VirtualFileActivityTracker extends AbstractAcitivityTracker
 {
     private VirtualFileAdapter virtualFileAdapter;
 
-    public VirtualFileActivityTracker( ActivityManager activityManager )
+    private Project project;
+
+    public VirtualFileActivityTracker( ActivityManager activityManager, Project project )
     {
         super( activityManager );
+
+        this.project = project;
     }
 
     public void start()
@@ -52,11 +57,6 @@ public class VirtualFileActivityTracker extends AbstractAcitivityTracker
 
     private class MyVirtualFileAdapter extends VirtualFileAdapter
     {
-        public void contentsChanged( VirtualFileEvent event )
-        {
-            handleVirtualFileEvent( event, EventType.Edited );
-        }
-
         public void fileCreated( VirtualFileEvent event )
         {
             handleVirtualFileEvent( event, EventType.Added );
@@ -77,7 +77,7 @@ public class VirtualFileActivityTracker extends AbstractAcitivityTracker
             return;
         }
 
-        Module module = VfsUtil.getModuleForFile( getProject(), event.getFile() );
+        Module module = ModuleUtil.findModuleForFile( virtualFile, getProject() );
 
         //since virtualFileListener is an application level listener, it is not surpsied
         //that the given event is not belong this project.
@@ -91,11 +91,19 @@ public class VirtualFileActivityTracker extends AbstractAcitivityTracker
             {
                 PsiJavaFile javaFile = (PsiJavaFile) psiFile;
 
-                fileName = javaFile.getPackageName() + "." + fileName;
+                String packageName = javaFile.getPackageName();
+
+                if( packageName != null && packageName.length() != 0 )
+                {
+                    fileName = packageName + "." + fileName;
+                }
             }
 
-
             newActivity( new Activity( "[" + eventType.toString() + "]" + fileName ) );
+        }
+        else
+        {
+            System.err.println( "Miss Event " + event.getFileName() + " event " + eventType );
         }
     }
 

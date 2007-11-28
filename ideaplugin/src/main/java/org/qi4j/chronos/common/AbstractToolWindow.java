@@ -61,6 +61,8 @@ public abstract class AbstractToolWindow implements ProjectComponent
 
         //TODO fix icon
         toolWindow.setIcon( IconLoader.getIcon( "/general/toolWindowPalette.png" ) );
+
+        handleProjectOpened();
     }
 
     public final void projectClosed()
