@@ -12,25 +12,41 @@
  */
 package org.qi4j.chronos.activity;
 
-import com.intellij.openapi.project.Project;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public abstract class AbstractAcitivityTracker
 {
-    private ActivityManager manager;
+    private final List<Activity> activityLists;
 
-    public AbstractAcitivityTracker( ActivityManager manager )
+    public AbstractAcitivityTracker()
     {
-        this.manager = manager;
+        activityLists = Collections.synchronizedList( new ArrayList<Activity>() );
     }
 
-    protected void newActivity( Activity activity )
+    protected void addActivity( List<Activity> activities )
     {
-        manager.newActivity( activity );
+        activityLists.addAll( activities );
     }
 
-    protected Project getProject()
+    protected void addActivity( Activity activity )
     {
-        return manager.getProject();
+        activityLists.add( activity );
+    }
+
+    public List<Activity> getActivities()
+    {
+        List<Activity> temps = new ArrayList<Activity>();
+
+        temps.addAll( activityLists );
+
+        return temps;
+    }
+
+    public void removeAllActivities()
+    {
+        activityLists.clear();
     }
 
     public abstract void start();

@@ -12,6 +12,7 @@
  */
 package org.qi4j.chronos.activity;
 
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.vcs.CheckinProjectPanel;
 import com.intellij.openapi.vcs.ProjectLevelVcsManager;
 import com.intellij.openapi.vcs.checkin.CheckinHandler;
@@ -22,9 +23,11 @@ public class CheckinActivityTracker extends AbstractAcitivityTracker
 {
     private CheckinHandlerFactory checkinHandlerFactory;
 
-    public CheckinActivityTracker( ActivityManager manager )
+    private Project project;
+
+    public CheckinActivityTracker( Project project )
     {
-        super( manager );
+        this.project = project;
     }
 
     public void start()
@@ -33,7 +36,7 @@ public class CheckinActivityTracker extends AbstractAcitivityTracker
         {
             checkinHandlerFactory = new MyCheckinHandlerFactory();
 
-            ProjectLevelVcsManager.getInstance( getProject() ).registerCheckinHandlerFactory( checkinHandlerFactory );
+            ProjectLevelVcsManager.getInstance( project ).registerCheckinHandlerFactory( checkinHandlerFactory );
         }
     }
 
@@ -41,7 +44,7 @@ public class CheckinActivityTracker extends AbstractAcitivityTracker
     {
         if( checkinHandlerFactory != null )
         {
-            ProjectLevelVcsManager.getInstance( getProject() ).unregisterCheckinHandlerFactory( checkinHandlerFactory );
+            ProjectLevelVcsManager.getInstance( project ).unregisterCheckinHandlerFactory( checkinHandlerFactory );
 
             checkinHandlerFactory = null;
         }
@@ -56,7 +59,7 @@ public class CheckinActivityTracker extends AbstractAcitivityTracker
             {
                 public void checkinSuccessful()
                 {
-                    newActivity( new Activity( "[Checkin] - " + panel.getCommitMessage() ) );
+                    addActivity( new Activity( "[Checkin] - " + panel.getCommitMessage() ) );
                 }
             };
         }

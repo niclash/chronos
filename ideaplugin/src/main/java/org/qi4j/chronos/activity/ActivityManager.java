@@ -13,12 +13,13 @@
 package org.qi4j.chronos.activity;
 
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.application.Application;
+import com.intellij.openapi.application.ApplicationManager;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ActivityManager
 {
-    private final List<Activity> activityLists;
     private final List<AbstractAcitivityTracker> acitivityTrackers;
 
     private Project project;
@@ -27,7 +28,6 @@ public class ActivityManager
     {
         this.project = project;
 
-        activityLists = new ArrayList<Activity>();
         acitivityTrackers = new ArrayList<AbstractAcitivityTracker>();
 
         initActivityTracker();
@@ -35,9 +35,9 @@ public class ActivityManager
 
     private void initActivityTracker()
     {
-        acitivityTrackers.add( new CheckinActivityTracker( this ) );
-        acitivityTrackers.add( new VirtualFileActivityTracker( this, project ) );
-        acitivityTrackers.add( new TodoItemActivityTracker( this, project ) );
+        acitivityTrackers.add( new CheckinActivityTracker( project ) );
+        acitivityTrackers.add( new VirtualFileActivityTracker( project ) );
+        acitivityTrackers.add( new TodoItemActivityTracker( project ) );
     }
 
     public Project getProject()
@@ -61,29 +61,23 @@ public class ActivityManager
         }
     }
 
-    public void newActivity( Activity activity )
-    {
-        synchronized( activityLists )
-        {
-            activityLists.add( activity );
-
-            System.err.println( "New Activity " + activity.getComment() );
-        }
-    }
-
     public Activity[] getActivities()
     {
-        synchronized( activityLists )
+        List<Activity> activities = new ArrayList<Activity>();
+
+        for( AbstractAcitivityTracker tracker : acitivityTrackers )
         {
-            return activityLists.toArray( new Activity[activityLists.size()] );
+            activities.addAll( tracker.getActivities() );
         }
+
+        return activities.toArray( new Activity[activities.size()] );
     }
 
     public void removeAllActivities()
     {
-        synchronized( activityLists )
+        for( AbstractAcitivityTracker tracker : acitivityTrackers )
         {
-            activityLists.clear();
+            tracker.removeAllActivities();
         }
     }
 }

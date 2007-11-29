@@ -29,10 +29,8 @@ public class VirtualFileActivityTracker extends AbstractAcitivityTracker
 
     private Project project;
 
-    public VirtualFileActivityTracker( ActivityManager activityManager, Project project )
+    public VirtualFileActivityTracker( Project project )
     {
-        super( activityManager );
-
         this.project = project;
     }
 
@@ -77,7 +75,7 @@ public class VirtualFileActivityTracker extends AbstractAcitivityTracker
             return;
         }
 
-        Module module = ModuleUtil.findModuleForFile( virtualFile, getProject() );
+        Module module = ModuleUtil.findModuleForFile( virtualFile, project );
 
         //since virtualFileListener is an application level listener, it is not surpsied
         //that the given event is not belong this project.
@@ -85,7 +83,7 @@ public class VirtualFileActivityTracker extends AbstractAcitivityTracker
         {
             String fileName = virtualFile.getName();
 
-            PsiFile psiFile = PsiManager.getInstance( getProject() ).findFile( event.getFile() );
+            PsiFile psiFile = PsiManager.getInstance( project ).findFile( event.getFile() );
 
             if( psiFile instanceof PsiJavaFile )
             {
@@ -99,7 +97,7 @@ public class VirtualFileActivityTracker extends AbstractAcitivityTracker
                 }
             }
 
-            newActivity( new Activity( "[" + eventType.toString() + "]" + fileName ) );
+            addActivity( new Activity( "[" + eventType.toString() + "]" + fileName ) );
         }
         else
         {

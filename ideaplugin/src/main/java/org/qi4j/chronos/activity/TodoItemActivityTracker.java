@@ -12,10 +12,12 @@
  */
 package org.qi4j.chronos.activity;
 
+import com.intellij.openapi.application.ApplicationManager;
 import com.intellij.openapi.fileEditor.FileEditorManager;
 import com.intellij.openapi.fileEditor.FileEditorManagerAdapter;
 import com.intellij.openapi.fileEditor.FileEditorManagerListener;
 import com.intellij.openapi.project.Project;
+import com.intellij.openapi.util.Computable;
 import com.intellij.openapi.util.TextRange;
 import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiFile;
@@ -37,10 +39,8 @@ public class TodoItemActivityTracker extends AbstractAcitivityTracker
 
     private FileEditorManagerListener fileEditorManagerListener;
 
-    public TodoItemActivityTracker( ActivityManager manager, Project project )
+    public TodoItemActivityTracker( Project project )
     {
-        super( manager );
-
         this.project = project;
 
         this.todoItemMap = Collections.synchronizedMap( new HashMap<VirtualFile, TodoItem[]>() );
@@ -65,8 +65,7 @@ public class TodoItemActivityTracker extends AbstractAcitivityTracker
 
             fileEditorManagerListener = null;
 
-            todoItemMap.clear();
-            virtualFileTextMap.clear();
+            clearCache();
         }
     }
 
@@ -104,6 +103,102 @@ public class TodoItemActivityTracker extends AbstractAcitivityTracker
         }
     }
 
+    public void removeAllActivities()
+    {
+        super.removeAllActivities();
+
+        clearCache();
+    }
+
+    public List<Activity> getActivities()
+    {
+        if( todoItemMap.size() == 0 )
+        {
+            return super.getActivities();
+        }
+        else
+        {
+            final VirtualFile[] virtualFiles = FileEditorManager.getInstance( project ).getOpenFiles();
+
+            List<Activity> activities = new ArrayList<Activity>();
+
+            activities.addAll( super.getActivities() );
+
+            activities.addAll( ApplicationManager.getApplication().runReadAction( new Computable<List<Activity>>()
+            {
+                public List<Activity> compute()
+                {
+                    return getActivities( virtualFiles );
+                }
+            } ) );
+
+            return activities;
+        }
+    }
+
+    private void clearCache()
+    {
+        todoItemMap.clear();
+        virtualFileTextMap.clear();
+    }
+
+    private Activity getActivity( TodoItem todoItem, String type, String text, VirtualFile file )
+    {
+        TextRange textRange = todoItem.getTextRange();
+        String todoMsg = text.substring( textRange.getStartOffset() + 4, textRange.getEndOffset() );
+
+        String msg = "[" + type + "][" + file.getName() + "]" + todoMsg;
+
+        System.err.println( msg );
+
+        return new Activity( msg );
+    }
+
+    private List<Activity> getActivities( VirtualFile[] files )
+    {
+        List<Activity> activities = new ArrayList<Activity>();
+
+        for( VirtualFile file : files )
+        {
+            activities.addAll( getActivities( file ) );
+        }
+
+        return activities;
+    }
+
+    private List<Activity> getActivities( VirtualFile file )
+    {
+        List<Activity> activities = new ArrayList<Activity>();
+
+        PsiFile psiFile = getPsiFile( file );
+
+        if( psiFile != null && todoItemMap.containsKey( file ) )
+        {
+            TodoItem[] oldTodoItems = todoItemMap.get( file );
+            TodoItem[] currTodoItems = getTodoItems( psiFile );
+
+            List<TodoItem> newTodoItemList = new ArrayList<TodoItem>();
+            List<TodoItem> deletedTodoItemList = new ArrayList<TodoItem>();
+
+            addUnmatchedTodoItem( oldTodoItems, currTodoItems, deletedTodoItemList );
+            addUnmatchedTodoItem( currTodoItems, oldTodoItems, newTodoItemList );
+
+            for( TodoItem todoItem : newTodoItemList )
+            {
+                activities.add( getActivity( todoItem, "TODO Added", psiFile.getText(), file ) );
+            }
+
+            for( TodoItem todoItem : deletedTodoItemList )
+            {
+                String oldText = virtualFileTextMap.get( file );
+
+                activities.add( getActivity( todoItem, "TODO Deleted", oldText, file ) );
+            }
+        }
+
+        return activities;
+    }
+
     private class MyFileEditorManagerAdapter extends FileEditorManagerAdapter
     {
         public void fileOpened( FileEditorManager source, VirtualFile file )
@@ -121,46 +216,11 @@ public class TodoItemActivityTracker extends AbstractAcitivityTracker
 
         public void fileClosed( FileEditorManager source, VirtualFile file )
         {
-            PsiFile psiFile = getPsiFile( file );
+            List<Activity> activities = getActivities( file );
 
-            if( psiFile != null && todoItemMap.containsKey( file ) )
-            {
-                TodoItem[] oldTodoItems = todoItemMap.get( file );
-                TodoItem[] currTodoItems = getTodoItems( psiFile );
+            addActivity( activities );
 
-                List<TodoItem> newTodoItemList = new ArrayList<TodoItem>();
-                List<TodoItem> deletedTodoItemList = new ArrayList<TodoItem>();
-
-                addUnmatchedTodoItem( oldTodoItems, currTodoItems, deletedTodoItemList );
-                addUnmatchedTodoItem( currTodoItems, oldTodoItems, newTodoItemList );
-
-                for( TodoItem todoItem : newTodoItemList )
-                {
-                    addNewTodoItemActivity( todoItem, "TODO Added", psiFile.getText() );
-                }
-
-                for( TodoItem todoItem : deletedTodoItemList )
-                {
-                    String oldText = virtualFileTextMap.get( file );
-
-                    addNewTodoItemActivity( todoItem, "TODO Deleted", oldText );
-                }
-
-                //update totoItemMap
-                todoItemMap.remove( file );
-                virtualFileTextMap.remove( file );
-            }
-        }
-
-        private void addNewTodoItemActivity( TodoItem todoItem, String type, String text )
-        {
-            TextRange textRange = todoItem.getTextRange();
-            String todoMsg = text.substring( textRange.getStartOffset() + 4, textRange.getEndOffset() );
-
-            String msg = "[" + type + "]" + todoMsg;
-
-            System.err.println( msg );
-            newActivity( new Activity( msg ) );
+            clearCache();
         }
     }
 }
