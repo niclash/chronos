@@ -28,7 +28,8 @@ public class JettyLauncher
         server.setConnectors( new Connector[]{ connector } );
 
         WebAppContext web = new WebAppContext();
-        web.setContextPath( "/" );
+
+        web.setContextPath( "/chronos" );
 
         web.setWar( "src/webapp/" );
         server.addHandler( web );

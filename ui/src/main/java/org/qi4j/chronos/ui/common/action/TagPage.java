@@ -10,14 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.base;
+package org.qi4j.chronos.ui.common.action;
 
 import org.apache.wicket.markup.html.WebPage;
 
-public abstract class BasePage extends WebPage
+public class TagPage extends WebPage
 {
-    public BasePage()
-    {
-
-    }
 }

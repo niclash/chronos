@@ -161,7 +161,7 @@ div.tabpanel div.tab-row ul {
     height: 20px;
     margin: 0;
     padding-left: 10px;
-    background: url( /tabs/tab_bottom.gif ) repeat-x bottom;
+    background: url( tabs/tab_bottom.gif ) repeat-x bottom;
 }
 
 div.tabpanel div.tab-row li {

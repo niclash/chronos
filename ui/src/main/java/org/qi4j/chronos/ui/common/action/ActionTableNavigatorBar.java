@@ -15,7 +15,6 @@ package org.qi4j.chronos.ui.common.action;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.Page;
-import org.apache.wicket.ResourceReference;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.ajax.form.AjaxFormComponentUpdatingBehavior;
 import org.apache.wicket.markup.ComponentTag;
@@ -145,16 +144,16 @@ public class ActionTableNavigatorBar extends Panel
 
     private void addImage( final Link link, final String imageName )
     {
-        link.add( new Image( "image", new ResourceReference( ActionTableNavigatorBar.this.getClass(), imageName + ".gif" ) )
+        link.add( new Image( "image" )
         {
             @Override
             protected void onComponentTag( ComponentTag tag )
             {
+                super.onComponentTag( tag );
+
                 String imageUrl = link.isEnabled() ? imageName + ".gif" : imageName + "_off.gif";
 
-                setImageResourceReference( new ResourceReference( ActionTableNavigatorBar.this.getClass(), imageUrl ) );
-
-                super.onComponentTag( tag );
+                tag.put( "src", "images/" + imageUrl );
             }
         } );
     }
