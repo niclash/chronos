@@ -18,13 +18,15 @@ import org.apache.wicket.markup.html.WebPage;
 import org.qi4j.Composite;
 import org.qi4j.CompositeBuilder;
 import org.qi4j.CompositeBuilderFactory;
+import org.qi4j.bootstrap.AssemblyException;
+import org.qi4j.bootstrap.ModuleAssembly;
+import org.qi4j.bootstrap.SingletonAssembly;
 import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.service.composites.ServicesComposite;
 import org.qi4j.chronos.ui.admin.AdminHomePage;
 import org.qi4j.chronos.ui.contactperson.ContactPersonHomePage;
 import org.qi4j.chronos.ui.login.LoginPage;
 import org.qi4j.chronos.ui.staff.StaffHomePage;
-import org.qi4j.runtime.Energy4Java;
 
 public class ChronosWebApp extends AuthenticatedWebApplication
 {
@@ -34,7 +36,14 @@ public class ChronosWebApp extends AuthenticatedWebApplication
 
     static
     {
-        factory = new Energy4Java().newCompositeBuilderFactory();
+        SingletonAssembly assembly = new SingletonAssembly()
+        {
+            public void configure( ModuleAssembly module ) throws AssemblyException
+            {
+                module.addComposite( ServicesComposite.class );
+            }
+        };
+        factory = assembly.getCompositeBuilderFactory();
 
         CompositeBuilder<ServicesComposite> serviceBuilder = factory.newCompositeBuilder( ServicesComposite.class );
 

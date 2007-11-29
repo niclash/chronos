@@ -25,7 +25,7 @@ public abstract class AbstractMockServiceTest extends AbstractQi4jTest
     {
         super.setUp();
 
-        CompositeBuilder<ServicesComposite> serviceBuilder = factory.newCompositeBuilder( ServicesComposite.class );
+        CompositeBuilder<ServicesComposite> serviceBuilder = compositeBuilderFactory.newCompositeBuilder( ServicesComposite.class );
 
         services = serviceBuilder.newInstance();
     }

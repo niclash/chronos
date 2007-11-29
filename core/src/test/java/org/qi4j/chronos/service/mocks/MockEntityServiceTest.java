@@ -21,7 +21,7 @@ public class MockEntityServiceTest extends AbstractQi4jTest
 
     protected void setUp() throws Exception
     {
-        CompositeBuilder<SampleServiceComposite> compositeBuilder = factory.newCompositeBuilder( SampleServiceComposite.class );
+        CompositeBuilder<SampleServiceComposite> compositeBuilder = compositeBuilderFactory.newCompositeBuilder( SampleServiceComposite.class );
 
         sampleService = compositeBuilder.newInstance();
     }
