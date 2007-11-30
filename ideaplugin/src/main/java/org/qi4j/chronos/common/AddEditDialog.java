@@ -13,9 +13,6 @@
 package org.qi4j.chronos.common;
 
 import javax.swing.JOptionPane;
-import org.qi4j.chronos.service.Services;
-import org.qi4j.chronos.setting.ChronosSetting;
-import org.qi4j.chronos.util.ChronosUtil;
 import org.qi4j.library.framework.validation.ValidationException;
 
 public abstract class AddEditDialog extends AbstractDialog
@@ -43,16 +40,6 @@ public abstract class AddEditDialog extends AbstractDialog
         {
             JOptionPane.showMessageDialog( null, err.getMessage(), "Error", JOptionPane.ERROR_MESSAGE );
         }
-    }
-
-    protected Services getServices()
-    {
-        return getChronosSetting().getServices();
-    }
-
-    protected ChronosSetting getChronosSetting()
-    {
-        return ChronosUtil.getChronosSetting();
     }
 
     public abstract String getOkButtonText();

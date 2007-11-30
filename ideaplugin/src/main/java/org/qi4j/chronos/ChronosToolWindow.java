@@ -44,6 +44,11 @@ public class ChronosToolWindow extends AbstractToolWindow
         super( toolWindowManager, actionManager, project );
     }
 
+    public static ChronosToolWindow getInstance( Project project )
+    {
+        return project.getComponent( ChronosToolWindow.class );
+    }
+
     protected String getToolWindowId()
     {
         return TOOL_WINDOW_ID;

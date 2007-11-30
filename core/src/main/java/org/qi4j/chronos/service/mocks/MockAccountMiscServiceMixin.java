@@ -60,4 +60,19 @@ public abstract class MockAccountMiscServiceMixin implements AccountService
             accountService.update( account );
         }
     }
+
+    public AccountEntityComposite findAccountByName( String accountName )
+    {
+        List<AccountEntityComposite> accounts = accountService.findAll();
+
+        for( AccountEntityComposite account : accounts )
+        {
+            if( account.getName().equals( accountName ) )
+            {
+                return account;
+            }
+        }
+
+        return null;
+    }
 }

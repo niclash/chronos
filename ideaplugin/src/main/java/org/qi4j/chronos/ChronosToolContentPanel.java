@@ -26,7 +26,6 @@ import org.qi4j.chronos.model.TaskStatus;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.TaskService;
-import org.qi4j.chronos.util.ChronosUtil;
 import org.qi4j.chronos.workentry.WorkEntryTablePanel;
 
 public class ChronosToolContentPanel extends AbstractPanel
@@ -86,7 +85,7 @@ public class ChronosToolContentPanel extends AbstractPanel
 
     private ProjectEntityComposite getChronosProject()
     {
-        return ChronosUtil.getChronosSetting( project ).getChronosProject();
+        return getChronosApp( project ).getChronosProject();
     }
 
     protected void initComponents()
@@ -123,7 +122,7 @@ public class ChronosToolContentPanel extends AbstractPanel
         //add none option
         list.add( NONE );
 
-        TaskService taskService = ChronosUtil.getChronosSetting( project ).getServices().getTaskService();
+        TaskService taskService = getChronosApp( project ).getServices().getTaskService();
 
         List<TaskEntityComposite> tasks = taskService.findTask( getChronosProject(), TaskStatus.OPEN );
 

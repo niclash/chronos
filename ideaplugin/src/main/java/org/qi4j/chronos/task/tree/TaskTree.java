@@ -22,14 +22,14 @@ import java.awt.Container;
 import java.awt.event.MouseEvent;
 import javax.swing.SwingUtilities;
 import javax.swing.tree.TreePath;
+import org.qi4j.chronos.ChronosProjectComponent;
 import org.qi4j.chronos.action.ChronosActionConstant;
 import org.qi4j.chronos.action.task.TaskBaseAction;
+import org.qi4j.chronos.common.AbstractTree;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.TaskService;
-import org.qi4j.chronos.common.AbstractTree;
 import org.qi4j.chronos.task.TaskListComponent;
 import org.qi4j.chronos.util.UiUtil;
-import org.qi4j.chronos.util.ChronosUtil;
 
 public class TaskTree extends AbstractTree implements TaskListComponent
 {
@@ -133,6 +133,6 @@ public class TaskTree extends AbstractTree implements TaskListComponent
 
     private TaskService getTaskService()
     {
-        return ChronosUtil.getChronosSetting( project ).getServices().getTaskService();
+        return ChronosProjectComponent.getInstance( project ).getChronosApp().getServices().getTaskService();
     }
 }

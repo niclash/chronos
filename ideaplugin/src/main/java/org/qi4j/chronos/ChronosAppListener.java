@@ -10,17 +10,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service;
+package org.qi4j.chronos;
 
-import java.util.Collection;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import java.util.EventListener;
 
-public interface AccountService extends EntityService<AccountEntityComposite>
+public interface ChronosAppListener extends EventListener
 {
-    AccountEntityComposite getAccount( StaffEntityComposite staff );
+    void chronosAppStarted();
 
-    void enableAccount( boolean enabled, Collection<AccountEntityComposite> accounts );
-
-    AccountEntityComposite findAccountByName( String accountName );
+    void chronosAppClosed();
 }

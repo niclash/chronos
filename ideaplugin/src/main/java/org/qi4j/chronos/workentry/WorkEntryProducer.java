@@ -17,6 +17,8 @@ import com.intellij.openapi.project.ProjectManager;
 import com.intellij.openapi.project.ProjectManagerAdapter;
 import java.awt.event.InputEvent;
 import java.util.Date;
+import org.qi4j.chronos.ChronosApp;
+import org.qi4j.chronos.ChronosProjectComponent;
 import org.qi4j.chronos.IdleEvent;
 import org.qi4j.chronos.IdleEventListener;
 import org.qi4j.chronos.InputEventListener;
@@ -29,8 +31,6 @@ import org.qi4j.chronos.multicaster.IdleEventMulticaster;
 import org.qi4j.chronos.multicaster.InputEventMulticaster;
 import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.service.WorkEntryService;
-import org.qi4j.chronos.setting.ChronosSetting;
-import org.qi4j.chronos.util.ChronosUtil;
 import org.qi4j.chronos.util.listener.EventCallback;
 import org.qi4j.chronos.util.listener.ListenerHandler;
 
@@ -163,9 +163,9 @@ public class WorkEntryProducer
 
     private void addNewWorkEntry( Date startedDate, Date endDate )
     {
-        ChronosSetting chronosSetting = ChronosUtil.getChronosSetting( project );
+        ChronosApp chronosApp = ChronosProjectComponent.getInstance( project ).getChronosApp();
 
-        Services services = chronosSetting.getServices();
+        Services services = chronosApp.getServices();
 
         WorkEntryService workEntryService = services.getWorkEntryService();
 
@@ -176,9 +176,9 @@ public class WorkEntryProducer
         workEntry.setEndTime( endDate );
         workEntry.setTitle( "Auto generated" );
         workEntry.setDescription( getWorkEntryDescription() );
-        workEntry.setProjectAssignee( chronosSetting.getProjectAssignee() );
+        workEntry.setProjectAssignee( chronosApp.getProjectAssignee() );
 
-        TaskEntityComposite associatedTask = chronosSetting.getAssociatedTask();
+        TaskEntityComposite associatedTask = chronosApp.getAssociatedTask();
 
         if( associatedTask != null )
         {
@@ -188,7 +188,7 @@ public class WorkEntryProducer
         }
         else
         {
-            ProjectEntityComposite chronosProject = chronosSetting.getChronosProject();
+            ProjectEntityComposite chronosProject = chronosApp.getChronosProject();
 
             chronosProject.addWorkEntry( workEntry );
 

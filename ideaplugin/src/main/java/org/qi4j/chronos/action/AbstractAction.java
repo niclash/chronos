@@ -14,28 +14,27 @@ package org.qi4j.chronos.action;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import org.qi4j.chronos.ChronosApp;
+import org.qi4j.chronos.ChronosProjectComponent;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.service.Services;
-import org.qi4j.chronos.task.TaskToolWindow;
-import org.qi4j.chronos.util.ChronosUtil;
 
 public abstract class AbstractAction extends AnAction
 {
     //convenient method
     public Services getServices( AnActionEvent e )
     {
-        return ChronosUtil.getChronosSetting( e ).getServices();
+        return getChronosApp( e ).getServices();
     }
 
     //convenient method
     public ProjectAssigneeEntityComposite getProjectAssignee( AnActionEvent e )
     {
-        return ChronosUtil.getChronosSetting( e ).getProjectAssignee();
+        return getChronosApp( e ).getProjectAssignee();
     }
 
-    //convenient method
-    public TaskToolWindow getTaskToolWindow( AnActionEvent e )
+    public ChronosApp getChronosApp( AnActionEvent e )
     {
-        return ChronosUtil.getTaskToolWindow( e );
+        return ChronosProjectComponent.getInstance( e.getDataContext() ).getChronosApp();
     }
 }

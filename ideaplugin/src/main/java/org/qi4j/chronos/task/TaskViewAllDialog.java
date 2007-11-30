@@ -23,17 +23,17 @@ import java.awt.Container;
 import java.util.List;
 import javax.swing.ListSelectionModel;
 import org.qi4j.chronos.action.ChronosActionConstant;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.model.composites.TaskEntityComposite;
-import org.qi4j.chronos.service.FindFilter;
-import org.qi4j.chronos.service.TaskService;
 import org.qi4j.chronos.common.AbstractDialog;
 import org.qi4j.chronos.common.ChronosDataProvider;
 import org.qi4j.chronos.common.ChronosPageableWrapper;
 import org.qi4j.chronos.common.ChronosTable;
 import org.qi4j.chronos.common.ChronosTableModel;
-import org.qi4j.chronos.util.UiUtil;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.service.FindFilter;
+import org.qi4j.chronos.service.TaskService;
 import org.qi4j.chronos.util.DateUtil;
+import org.qi4j.chronos.util.UiUtil;
 
 public abstract class TaskViewAllDialog extends AbstractDialog
 {
@@ -123,7 +123,7 @@ public abstract class TaskViewAllDialog extends AbstractDialog
 
     private ProjectEntityComposite getProject()
     {
-        return getChronosSetting().getChronosProject();
+        return getChronosApp().getChronosProject();
     }
 
     private ChronosDataProvider<TaskEntityComposite> createDataProvider()

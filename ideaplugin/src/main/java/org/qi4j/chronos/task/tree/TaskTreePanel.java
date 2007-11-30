@@ -23,11 +23,11 @@ import java.awt.Component;
 import javax.swing.JScrollPane;
 import javax.swing.ListSelectionModel;
 import javax.swing.tree.TreePath;
+import org.qi4j.chronos.ChronosProjectComponent;
 import org.qi4j.chronos.action.ChronosActionConstant;
-import org.qi4j.chronos.service.TaskService;
 import org.qi4j.chronos.common.AbstractPanel;
+import org.qi4j.chronos.service.TaskService;
 import org.qi4j.chronos.util.UiUtil;
-import org.qi4j.chronos.util.ChronosUtil;
 
 public class TaskTreePanel extends AbstractPanel
 {
@@ -99,7 +99,7 @@ public class TaskTreePanel extends AbstractPanel
 
     private TaskService getTaskService()
     {
-        return ChronosUtil.getChronosSetting( project ).getServices().getTaskService();
+        return ChronosProjectComponent.getInstance( project ).getChronosApp().getServices().getTaskService();
     }
 
     protected String getLayoutColSpec()

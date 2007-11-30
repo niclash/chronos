@@ -52,12 +52,12 @@ public abstract class WorkEntryAddDialog extends WorkEntryAddEditDialog
 
     public User getWorkEntryOwner()
     {
-        return getChronosSetting().getStaff();
+        return getChronosApp().getStaff();
     }
 
     public ProjectAssigneeEntityComposite getProjectAssignee()
     {
-        return getChronosSetting().getProjectAssignee();
+        return getChronosApp().getProjectAssignee();
     }
 
     public abstract void addingWorkEntry( WorkEntryEntityComposite workEntry );

@@ -26,9 +26,6 @@ public class TaskNewAction extends AbstractAction
     {
         //show taskAddDialog
         new TaskAddDialog().show();
-
-        //update TaskTree
-        getTaskToolWindow( e ).getTaskToolCenterPanel().updateTaskTree();
     }
 
     public void update( AnActionEvent e )

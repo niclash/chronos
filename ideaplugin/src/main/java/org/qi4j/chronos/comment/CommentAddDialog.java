@@ -29,12 +29,12 @@ public abstract class CommentAddDialog extends CommentAddEditDialog
 
     public User getCreatedBy()
     {
-        return getChronosSetting().getStaff();
+        return getChronosApp().getStaff();
     }
 
     public void handleOkClicked()
     {
-        CommentComposite comment = getChronosSetting().newInstance( CommentComposite.class );
+        CommentComposite comment = getChronosApp().newInstance( CommentComposite.class );
 
         //set created date
         comment.setCreatedDate( ChronosUtil.getCurrentDate() );

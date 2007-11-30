@@ -12,26 +12,50 @@
  */
 package org.qi4j.chronos.util;
 
-import com.intellij.ide.DataManager;
 import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataConstants;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.project.Project;
+import java.io.File;
 import java.util.Date;
-import org.qi4j.chronos.setting.ChronosSetting;
-import org.qi4j.chronos.task.TaskToolWindow;
 
 public final class ChronosUtil
 {
-    public static ChronosSetting getChronosSetting( Project project )
+    public final static String CHRONOS_DIR_NAME = ".chronos";
+
+    public static String getUserHomeDir()
     {
-        return project.getComponent( ChronosSetting.class );
+        return System.getProperties().getProperty( "user.home" );
     }
 
-    public static ChronosSetting getChronosSetting( AnActionEvent e )
+    public static File getChronosDir()
     {
-        return getChronosSetting( getProject( e ) );
+        String chronosHome = getUserHomeDir() + File.separator + CHRONOS_DIR_NAME;
+
+        File file = new File( chronosHome );
+
+        if( !file.exists() || !file.isDirectory() )
+        {
+            file.mkdir();
+        }
+
+        return file;
     }
+
+//    public static ChronosSetting getChronosSetting( Project project )
+//    {
+//        return project.getComponent( ChronosSetting.class );
+//    }
+//
+//    public static ChronosSetting getChronosSetting( AnActionEvent e )
+//    {
+//        return getChronosSetting( getProject( e ) );
+//    }
+//
+//    public static ChronosSetting getChronosSetting()
+//    {
+//        return getChronosSetting( getProject( DataManager.getInstance().getDataContext() ) );
+//    }
 
     public static Project getProject( AnActionEvent e )
     {
@@ -41,21 +65,6 @@ public final class ChronosUtil
     public static Project getProject( DataContext dataContext )
     {
         return ( (Project) dataContext.getData( DataConstants.PROJECT ) );
-    }
-
-    public static TaskToolWindow getTaskToolWindow( AnActionEvent e )
-    {
-        return getTaskToolWindow( getProject( e ) );
-    }
-
-    public static TaskToolWindow getTaskToolWindow( Project project )
-    {
-        return project.getComponent( TaskToolWindow.class );
-    }
-
-    public static ChronosSetting getChronosSetting()
-    {
-        return getChronosSetting( getProject( DataManager.getInstance().getDataContext() ) );
     }
 
     public static Date getCurrentDate()

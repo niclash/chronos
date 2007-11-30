@@ -17,15 +17,15 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import com.jgoodies.forms.layout.FormLayout;
 import javax.swing.JPanel;
+import org.qi4j.chronos.ChronosApp;
+import org.qi4j.chronos.ChronosProjectComponent;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.service.Services;
-import org.qi4j.chronos.setting.ChronosSetting;
-import org.qi4j.chronos.util.ChronosUtil;
 
 public abstract class AbstractPanel extends JPanel
 {
-    private ChronosSetting chronosSetting;
+    private ChronosApp chronosApp;
     private ProjectEntityComposite chronosProject;
     private StaffEntityComposite staff;
     private Services services;
@@ -51,21 +51,21 @@ public abstract class AbstractPanel extends JPanel
         initLayout( builder, cc );
     }
 
-    protected ChronosSetting getChronosSetting( Project project )
+    protected ChronosApp getChronosApp( Project project )
     {
-        if( chronosSetting == null )
+        if( chronosApp == null )
         {
-            chronosSetting = ChronosUtil.getChronosSetting( project );
+            chronosApp = ChronosProjectComponent.getInstance( project ).getChronosApp();
         }
 
-        return chronosSetting;
+        return chronosApp;
     }
 
     protected ProjectEntityComposite getChronosProject( Project project )
     {
         if( chronosProject == null )
         {
-            chronosProject = getChronosSetting( project ).getChronosProject();
+            chronosProject = getChronosApp( project ).getChronosProject();
         }
 
         return chronosProject;
@@ -75,7 +75,7 @@ public abstract class AbstractPanel extends JPanel
     {
         if( staff == null )
         {
-            staff = getChronosSetting( project ).getStaff();
+            staff = getChronosApp( project ).getStaff();
         }
 
         return staff;
@@ -85,7 +85,7 @@ public abstract class AbstractPanel extends JPanel
     {
         if( services == null )
         {
-            services = getChronosSetting( project ).getServices();
+            services = getChronosApp( project ).getServices();
         }
 
         return services;

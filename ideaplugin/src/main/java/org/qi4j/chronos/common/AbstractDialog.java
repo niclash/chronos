@@ -19,9 +19,9 @@ import com.jgoodies.forms.layout.FormLayout;
 import javax.swing.JComponent;
 import javax.swing.JPanel;
 import org.jetbrains.annotations.Nullable;
+import org.qi4j.chronos.ChronosApp;
+import org.qi4j.chronos.ChronosProjectComponent;
 import org.qi4j.chronos.service.Services;
-import org.qi4j.chronos.setting.ChronosSetting;
-import org.qi4j.chronos.util.ChronosUtil;
 
 public abstract class AbstractDialog extends DialogWrapper
 {
@@ -59,12 +59,12 @@ public abstract class AbstractDialog extends DialogWrapper
 
     protected Services getServices()
     {
-        return getChronosSetting().getServices();
+        return getChronosApp().getServices();
     }
 
-    protected ChronosSetting getChronosSetting()
+    protected ChronosApp getChronosApp()
     {
-        return ChronosUtil.getChronosSetting();
+        return ChronosProjectComponent.getInstance().getChronosApp();
     }
 
     protected abstract void initComponents();

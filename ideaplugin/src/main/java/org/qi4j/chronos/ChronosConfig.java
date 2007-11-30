@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.config;
+package org.qi4j.chronos;
 
 import com.intellij.openapi.util.InvalidDataException;
 import com.intellij.openapi.util.JDOMExternalizable;
@@ -22,38 +22,29 @@ public class ChronosConfig implements JDOMExternalizable
 {
     private final static String QI4J_SESSION_IP = "qi4j_session_ip";
     private final static String QI4J_SESSION_PORT = "qi4j_session_port";
-    private final static String LOGINID = "loginId";
     private final static String ACCOUNT_NAME = "accountName";
     private final static String PROJECT_NAME = "projectName";
-    private final static String IS_PROMPT_UP_LOGIN_DIALOG = "isPromptUpLoginOnStartup";
 
     private String qi4jSessionIp;
     private int qi4jSessionPort;
-    private String loginId;
+
     private String accountName;
     private String projectName;
-
-    private boolean isPromptUpLoginOnStartup;
 
     public void readExternal( Element element ) throws InvalidDataException
     {
         qi4jSessionIp = AttributeUtil.getStringAttribute( element, QI4J_SESSION_IP );
         qi4jSessionPort = AttributeUtil.getIntAttribute( element, QI4J_SESSION_PORT, 55000 );
-        loginId = AttributeUtil.getStringAttribute( element, LOGINID );
         accountName = AttributeUtil.getStringAttribute( element, ACCOUNT_NAME );
         projectName = AttributeUtil.getStringAttribute( element, PROJECT_NAME );
-
-        isPromptUpLoginOnStartup = AttributeUtil.getBooleanAttribute( element, IS_PROMPT_UP_LOGIN_DIALOG, true );
     }
 
     public void writeExternal( Element element ) throws WriteExternalException
     {
         AttributeUtil.setAttribute( element, QI4J_SESSION_IP, qi4jSessionIp );
         AttributeUtil.setAttribute( element, QI4J_SESSION_PORT, qi4jSessionPort );
-        AttributeUtil.setAttribute( element, LOGINID, loginId );
         AttributeUtil.setAttribute( element, ACCOUNT_NAME, accountName );
         AttributeUtil.setAttribute( element, PROJECT_NAME, projectName );
-        AttributeUtil.setAttribute( element, IS_PROMPT_UP_LOGIN_DIALOG, isPromptUpLoginOnStartup );
     }
 
     public String getQi4jSessionIp()
@@ -76,16 +67,6 @@ public class ChronosConfig implements JDOMExternalizable
         this.qi4jSessionPort = qi4jSessionPort;
     }
 
-    public String getLoginId()
-    {
-        return loginId;
-    }
-
-    public void setLoginId( String loginId )
-    {
-        this.loginId = loginId;
-    }
-
     public String getAccountName()
     {
         return accountName;
@@ -104,15 +85,5 @@ public class ChronosConfig implements JDOMExternalizable
     public void setProjectName( String projectName )
     {
         this.projectName = projectName;
-    }
-
-    public boolean isPromptUpLoginOnStartup()
-    {
-        return isPromptUpLoginOnStartup;
-    }
-
-    public void setPromptLoginDialogOnStartup( boolean promptLoginDialogOnStartup )
-    {
-        isPromptUpLoginOnStartup = promptLoginDialogOnStartup;
     }
 }

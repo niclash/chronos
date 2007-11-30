@@ -26,7 +26,7 @@ public class TaskAddDialog extends TaskAddEditDialog
 
     public User getCreatedBy()
     {
-        return getChronosSetting().getStaff();
+        return getChronosApp().getStaff();
     }
 
     public String getOkButtonText()
@@ -41,7 +41,7 @@ public class TaskAddDialog extends TaskAddEditDialog
         TaskEntityComposite task = taskService.newInstance( TaskEntityComposite.class );
 
         //set the owner of this task
-        task.setUser( getChronosSetting().getStaff() );
+        task.setUser( getChronosApp().getStaff() );
 
         //set created date
         task.setCreatedDate( ChronosUtil.getCurrentDate() );
@@ -49,7 +49,7 @@ public class TaskAddDialog extends TaskAddEditDialog
         //set values
         assignFieldValueToTask( task );
 
-        ProjectEntityComposite project = getChronosSetting().getChronosProject();
+        ProjectEntityComposite project = getChronosApp().getChronosProject();
 
         //add it to project
         project.addTask( task );

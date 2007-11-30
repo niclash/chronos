@@ -18,9 +18,9 @@ import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.OngoingWorkEntryService;
 import org.qi4j.chronos.task.TaskListComponent;
-import org.qi4j.chronos.util.UiUtil;
 import org.qi4j.chronos.util.ChronosUtil;
 import org.qi4j.chronos.util.DateUtil;
+import org.qi4j.chronos.util.UiUtil;
 
 public class OngoingWorkEntryNewAction extends TaskBaseAction
 {
@@ -49,8 +49,5 @@ public class OngoingWorkEntryNewAction extends TaskBaseAction
 
         UiUtil.showMsgDialog( "Work Started.", "Work is started. Started Date is " +
                                                DateUtil.formatDateTime( ongoingWorkEntry.getCreatedDate() ) );
-
-        //update taskTree
-        getTaskToolWindow( e ).getTaskToolCenterPanel().updateTaskTree();
     }
 }

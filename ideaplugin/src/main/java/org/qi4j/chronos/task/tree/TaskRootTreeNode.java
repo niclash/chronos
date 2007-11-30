@@ -14,14 +14,14 @@ package org.qi4j.chronos.task.tree;
 
 import com.intellij.openapi.project.Project;
 import java.util.List;
+import org.qi4j.chronos.ChronosApp;
+import org.qi4j.chronos.ChronosProjectComponent;
+import org.qi4j.chronos.common.AbstractTreeNode;
 import org.qi4j.chronos.model.TaskStatus;
 import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.OngoingWorkEntryService;
 import org.qi4j.chronos.service.TaskService;
-import org.qi4j.chronos.common.AbstractTreeNode;
-import org.qi4j.chronos.setting.ChronosSetting;
-import org.qi4j.chronos.util.ChronosUtil;
 
 public class TaskRootTreeNode extends AbstractTreeNode
 {
@@ -40,7 +40,7 @@ public class TaskRootTreeNode extends AbstractTreeNode
 
     private void loadTaskTreeNode( TaskService taskService )
     {
-        List<TaskEntityComposite> tasks = taskService.findTask( getChronosSetting().getChronosProject(), TaskStatus.OPEN );
+        List<TaskEntityComposite> tasks = taskService.findTask( getChronosApp().getChronosProject(), TaskStatus.OPEN );
 
         for( TaskEntityComposite task : tasks )
         {
@@ -48,9 +48,9 @@ public class TaskRootTreeNode extends AbstractTreeNode
         }
     }
 
-    private ChronosSetting getChronosSetting()
+    private ChronosApp getChronosApp()
     {
-        return ChronosUtil.getChronosSetting( project );
+        return ChronosProjectComponent.getInstance( project ).getChronosApp();
     }
 
     private void initGroupTreeNodes()
@@ -70,9 +70,9 @@ public class TaskRootTreeNode extends AbstractTreeNode
         }
         else
         {
-            OngoingWorkEntryService ongoingWorkEntryService = getChronosSetting().getServices().getOngoingWorkEntryService();
+            OngoingWorkEntryService ongoingWorkEntryService = getChronosApp().getServices().getOngoingWorkEntryService();
 
-            OngoingWorkEntryEntityComposite ongoingWorkEntry = ongoingWorkEntryService.getOngoingWorkEntry( task, getChronosSetting().getStaff() );
+            OngoingWorkEntryEntityComposite ongoingWorkEntry = ongoingWorkEntryService.getOngoingWorkEntry( task, getChronosApp().getStaff() );
 
             if( ongoingWorkEntry != null )
             {
