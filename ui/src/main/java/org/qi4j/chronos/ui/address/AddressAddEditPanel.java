@@ -12,7 +12,7 @@
  */
 package org.qi4j.chronos.ui.address;
 
-import org.qi4j.chronos.ui.base.AddEditBasePanel;
+import org.qi4j.chronos.ui.wicket.base.AddEditBasePanel;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.library.general.model.Address;
 

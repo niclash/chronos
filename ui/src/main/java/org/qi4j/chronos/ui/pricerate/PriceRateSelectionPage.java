@@ -24,7 +24,7 @@ import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.ui.base.LeftMenuNavPage;
+import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )

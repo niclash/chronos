@@ -26,9 +26,7 @@ import org.qi4j.entity.Identity;
 public class ChronosSession extends AuthenticatedWebSession
 {
     private String userId = null;
-
     private String accountId = null;
-
     private SystemRoleResolver roleResolver;
 
     public ChronosSession( AuthenticatedWebApplication authenticatedWebApplication, Request request )

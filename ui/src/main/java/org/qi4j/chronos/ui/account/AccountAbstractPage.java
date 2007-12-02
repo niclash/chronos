@@ -18,7 +18,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Account;
-import org.qi4j.chronos.ui.base.LeftMenuNavPage;
+import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 
 public abstract class AccountAbstractPage extends LeftMenuNavPage

@@ -10,16 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.base;
+package org.qi4j.chronos.ui.wicket.base;
 
-import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.markup.html.WebPage;
 
-public abstract class AddEditBasePanel extends Panel
+public abstract class BasePage extends WebPage
 {
-    public AddEditBasePanel( String id )
+    public BasePage()
     {
-        super( id );
-    }
 
-    public abstract boolean checkIsNotValidated();
+    }
 }

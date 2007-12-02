@@ -12,7 +12,7 @@
  */
 package org.qi4j.chronos.ui.common;
 
-import org.qi4j.chronos.ui.base.BasePage;
+import org.qi4j.chronos.ui.wicket.base.BasePage;
 
 public interface CallbackablePage
 {

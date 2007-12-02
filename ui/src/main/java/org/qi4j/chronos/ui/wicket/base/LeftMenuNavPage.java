@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.base;
+package org.qi4j.chronos.ui.wicket.base;
 
 import java.util.Arrays;
 import org.apache.wicket.markup.html.list.ListItem;

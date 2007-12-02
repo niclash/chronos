@@ -21,7 +21,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.SystemRoleComposite;
-import org.qi4j.chronos.ui.base.AddEditBasePage;
+import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 import org.qi4j.chronos.ui.common.NumberTextField;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;

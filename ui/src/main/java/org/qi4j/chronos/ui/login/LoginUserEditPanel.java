@@ -18,8 +18,8 @@ import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.ui.base.BasePage;
-import org.qi4j.chronos.ui.base.ChangePasswordPage;
+import org.qi4j.chronos.ui.wicket.base.BasePage;
+import org.qi4j.chronos.ui.wicket.base.ChangePasswordPage;
 
 public abstract class LoginUserEditPanel extends LoginUserAbstractPanel
 {

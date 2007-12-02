@@ -22,7 +22,7 @@ import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.composites.LegalConditionComposite;
 import org.qi4j.chronos.service.LegalConditionService;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.base.LeftMenuNavPage;
+import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.common.SimpleTextArea;
 

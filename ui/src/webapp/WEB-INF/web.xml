@@ -16,6 +16,13 @@
       <param-name>applicationClassName</param-name>
       <param-value>org.qi4j.chronos.ui.ChronosWebApp</param-value>
     </init-param>
+
+    <!--
+    <init-param>
+      <param-name>applicationFactoryClassName</param-name>
+      <param-value>org.qi4j.chronos.ui.wicket.bootstrap.ChronosWebAppFactory</param-value>
+    </init-param>
+    -->
   </filter>
 
   <filter-mapping>

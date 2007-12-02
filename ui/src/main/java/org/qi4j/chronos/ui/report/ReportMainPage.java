@@ -14,7 +14,7 @@ package org.qi4j.chronos.ui.report;
 
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.ui.base.LeftMenuNavPage;
+import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public class ReportMainPage extends LeftMenuNavPage

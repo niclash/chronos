@@ -20,12 +20,14 @@ import org.qi4j.library.general.model.HasName;
 public interface SystemRole extends HasName, HasSystemRoleType, HasSystemRoles
 {
     /* Hidden System Role*/
-    public final static String SYSTEM_ADMIN = "System Admin";
+    String SYSTEM_ADMIN = "System Admin";
 
     /* Hidden System Role*/
-    public final static String CONTACT_PERSON = "Contact Person";
+    String CONTACT_PERSON = "Contact Person";
 
-    public final static String ACCOUNT_ADMIN = "Admin";
+    String STAFF = "Staff";
 
-    public final static String ACCOUNT_DEVELOPER = "Developer";
+    String ACCOUNT_ADMIN = "Admin";
+
+    String ACCOUNT_DEVELOPER = "Developer";
 }
