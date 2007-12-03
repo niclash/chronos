@@ -61,7 +61,18 @@ public class ChronosToolWindow extends AbstractToolWindow
 
             chronosToolMainPanel = new ChronosToolMainPanel( getProject(), getActionManager() );
 
+            inputEventBroadcaster = new InputEventMulticaster();
+            idleEventBroadcaster = new IdleEventMulticaster( inputEventBroadcaster );
+
+            manager = new ActivityManager( getProject() );
+
+            workEntryProducer = new WorkEntryProducer( getProject(), manager,
+                                                       idleEventBroadcaster, inputEventBroadcaster );
             workEntryProducer.addWorkEntryProducerListener( chronosToolMainPanel );
+
+            inputEventBroadcaster.start();
+            idleEventBroadcaster.start();
+            manager.start();
         }
 
         return chronosToolMainPanel;
@@ -75,21 +86,6 @@ public class ChronosToolWindow extends AbstractToolWindow
     @NonNls @NotNull public String getComponentName()
     {
         return COMPONENT_NAME;
-    }
-
-    public void initComponent()
-    {
-
-        inputEventBroadcaster = new InputEventMulticaster();
-        idleEventBroadcaster = new IdleEventMulticaster( inputEventBroadcaster );
-
-        manager = new ActivityManager( getProject() );
-
-        workEntryProducer = new WorkEntryProducer( getProject(), manager,
-                                                   idleEventBroadcaster, inputEventBroadcaster );
-        inputEventBroadcaster.start();
-        idleEventBroadcaster.start();
-        manager.start();
     }
 
     public void disposeComponent()

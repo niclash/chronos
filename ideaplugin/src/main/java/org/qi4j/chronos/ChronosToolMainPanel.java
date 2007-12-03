@@ -25,7 +25,6 @@ public class ChronosToolMainPanel extends AbstractPanel implements WorkEntryProd
     private Project project;
     private ActionManager actionManager;
 
-    private ChronosToolBar chronosToolBar;
     private ChronosToolContentPanel chronosToolCententPanel;
 
     public ChronosToolMainPanel( Project project, ActionManager actionManager )
@@ -43,19 +42,16 @@ public class ChronosToolMainPanel extends AbstractPanel implements WorkEntryProd
 
     public String getLayoutRowSpec()
     {
-        return "18dlu,p, 1dlu:grow";
+        return "1dlu:grow";
     }
 
     protected void initLayout( PanelBuilder builder, CellConstraints cc )
     {
-        builder.add( chronosToolBar, cc.xy( 1, 1, "fill, fill" ) );
-        builder.addSeparator( "", cc.xy( 1, 2 ) );
-        builder.add( chronosToolCententPanel, cc.xy( 1, 3, "fill, fill" ) );
+        builder.add( chronosToolCententPanel, cc.xy( 1, 1, "fill, fill" ) );
     }
 
     protected void initComponents()
     {
-        chronosToolBar = new ChronosToolBar( actionManager );
         chronosToolCententPanel = new ChronosToolContentPanel( project );
     }
 

@@ -13,6 +13,7 @@
 package org.qi4j.chronos;
 
 import com.intellij.ide.DataManager;
+import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.DataConstants;
 import com.intellij.openapi.actionSystem.DataContext;
 import com.intellij.openapi.components.ProjectComponent;
@@ -23,35 +24,49 @@ import com.intellij.openapi.util.IconLoader;
 import com.intellij.openapi.util.InvalidDataException;
 import com.intellij.openapi.util.JDOMExternalizable;
 import com.intellij.openapi.util.WriteExternalException;
-import com.jgoodies.forms.builder.PanelBuilder;
-import com.jgoodies.forms.layout.CellConstraints;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
+import com.intellij.openapi.wm.ToolWindowManager;
 import java.io.IOException;
 import javax.imageio.ImageIO;
 import javax.swing.Icon;
 import javax.swing.ImageIcon;
-import javax.swing.JButton;
 import javax.swing.JComponent;
+import javax.swing.SwingUtilities;
 import org.jdom.Element;
 import org.jetbrains.annotations.Nls;
-import org.qi4j.chronos.common.AbstractPanel;
-import org.qi4j.chronos.setting.ChronosServerSettingDialog;
+import org.qi4j.CompositeBuilder;
+import org.qi4j.CompositeBuilderFactory;
+import org.qi4j.chronos.service.Services;
+import org.qi4j.chronos.service.composites.ServicesComposite;
+import org.qi4j.runtime.Energy4Java;
 
 public class ChronosProjectComponent implements ProjectComponent, Configurable, JDOMExternalizable
 {
     //TODO fix icon
     private static final Icon ICON = IconLoader.getIcon( "/org/qi4j/chronos/ui/setting/icon.png" );
 
-    public final static String DISPLAY_NAME = "Chronos Setting";
+    public final static String DISPLAY_NAME = "Chronos";
     public final static String COMPONENT_NAME = "ChronosSetting";
 
     private ChronosConfig chronosConfig;
 
     private ChronosApp chronosApp;
 
-    public ChronosProjectComponent()
+    private ToolWindowManager toolWindowManager;
+
+    private CompositeBuilderFactory factory;
+
+    private Services services;
+    private Project project;
+    private ActionManager actionManager;
+
+    private ChronosToolWindow toolWindow;
+
+    public ChronosProjectComponent( ToolWindowManager toolWindowManager, ActionManager actionManager, Project project )
     {
+        this.toolWindowManager = toolWindowManager;
+        this.project = project;
+        this.actionManager = actionManager;
+
         chronosConfig = new ChronosConfig();
     }
 
@@ -74,18 +89,71 @@ public class ChronosProjectComponent implements ProjectComponent, Configurable, 
 
     public ChronosApp getChronosApp()
     {
-        return getChronosApp();
+        return chronosApp;
     }
 
     public void projectOpened()
     {
-        chronosApp = new ChronosApp( chronosConfig );
+        chronosApp = new ChronosApp( chronosConfig, factory, services );
+
+        chronosApp.addChronosAppListener( new ChronosAppListener()
+        {
+            public void chronosAppStarted()
+            {
+                registerChronosToolWindow();
+            }
+
+            public void chronosAppClosed()
+            {
+                unregisterChronosToolWindow( false );
+            }
+        } );
 
         chronosApp.start();
     }
 
+    private void registerChronosToolWindow()
+    {
+        SwingUtilities.invokeLater( new Runnable()
+        {
+            public void run()
+            {
+                toolWindow = new ChronosToolWindow( toolWindowManager, actionManager, project );
+
+                toolWindow.register();
+            }
+        } );
+    }
+
+    private void unregisterChronosToolWindow( boolean awtEventThread )
+    {
+        if( toolWindow != null )
+        {
+            if( awtEventThread )
+            {
+                toolWindow.unregister();
+
+                toolWindow = null;
+            }
+            else
+            {
+                SwingUtilities.invokeLater( new Runnable()
+                {
+                    public void run()
+                    {
+                        toolWindow.unregister();
+
+                        toolWindow = null;
+                    }
+                } );
+            }
+        }
+    }
+
     public void projectClosed()
     {
+        unregisterChronosToolWindow( true );
+
         chronosApp.stop();
     }
 
@@ -94,10 +162,19 @@ public class ChronosProjectComponent implements ProjectComponent, Configurable, 
         return COMPONENT_NAME;
     }
 
-
     public void initComponent()
     {
-        //nothing
+        /*
+          TODO
+          if these codes were placed in projectOpened method, it will throw an
+          ExceptionInInitializerError by Ehancer class in cglib. Fix it.
+         */
+        factory = new Energy4Java().newCompositeBuilderFactory();
+        CompositeBuilder<ServicesComposite> serviceBuilder = factory.newCompositeBuilder( ServicesComposite.class );
+
+        services = serviceBuilder.newInstance();
+
+        services.initServices();
     }
 
     public void disposeComponent()
@@ -127,7 +204,7 @@ public class ChronosProjectComponent implements ProjectComponent, Configurable, 
 
     public JComponent createComponent()
     {
-        return new ChronosProjectPanel();
+        return new ChronosProjectPanel( chronosApp );
     }
 
     public boolean isModified()
@@ -148,79 +225,6 @@ public class ChronosProjectComponent implements ProjectComponent, Configurable, 
     public void disposeUIResources()
     {
         //nothing
-    }
-
-    private class ChronosProjectPanel extends AbstractPanel
-    {
-        private JButton chronosServerSettingButton;
-        private JButton userLoginSettingButton;
-
-        public ChronosProjectPanel()
-        {
-            init();
-        }
-
-        protected String getLayoutColSpec()
-        {
-            return "100dlu,1dlu:grow";
-        }
-
-        protected String getLayoutRowSpec()
-        {
-            return "p, 3dlu, p";
-        }
-
-        protected void initLayout( PanelBuilder builder, CellConstraints cc )
-        {
-            builder.setDefaultDialogBorder();
-
-            builder.add( chronosServerSettingButton, cc.xy( 1, 1 ) );
-            builder.add( userLoginSettingButton, cc.xy( 1, 3 ) );
-        }
-
-        protected void initComponents()
-        {
-            chronosServerSettingButton = new JButton( "Chronos Server Setting" );
-            userLoginSettingButton = new JButton( "User Login Setting" );
-
-            addListeners();
-        }
-
-        private void addListeners()
-        {
-            chronosServerSettingButton.addMouseListener( new MouseAdapter()
-            {
-                public void mouseClicked( MouseEvent e )
-                {
-                    handleChronosServerSettingClicked();
-                }
-            } );
-
-            userLoginSettingButton.addMouseListener( new MouseAdapter()
-            {
-                public void mouseClicked( MouseEvent e )
-                {
-                    handleUserLoginSettingClicked();
-                }
-            } );
-        }
-
-        private void handleChronosServerSettingClicked()
-        {
-            ChronosServerSettingDialog dialog = new ChronosServerSettingDialog();
-
-            dialog.show();
-
-            if( dialog.isOK() )
-            {
-                //TODO bp. 
-            }
-        }
-
-        private void handleUserLoginSettingClicked()
-        {
-            //TODO bp.
-        }
     }
 
     public void readExternal( Element element ) throws InvalidDataException

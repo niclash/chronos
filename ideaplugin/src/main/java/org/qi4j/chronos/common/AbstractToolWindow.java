@@ -13,7 +13,6 @@
 package org.qi4j.chronos.common;
 
 import com.intellij.openapi.actionSystem.ActionManager;
-import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.IconLoader;
 import com.intellij.openapi.wm.ToolWindow;
@@ -25,7 +24,7 @@ import java.util.concurrent.TimeUnit;
 import javax.swing.JPanel;
 import javax.swing.SwingUtilities;
 
-public abstract class AbstractToolWindow implements ProjectComponent
+public abstract class AbstractToolWindow
 {
     private final ToolWindowManager toolWindowManager;
     private final ActionManager actionManager;
@@ -53,7 +52,7 @@ public abstract class AbstractToolWindow implements ProjectComponent
         return toolWindowManager;
     }
 
-    public final void projectOpened()
+    public final void register()
     {
         JPanel panel = createToolWindowComponent();
 
@@ -63,7 +62,7 @@ public abstract class AbstractToolWindow implements ProjectComponent
         toolWindow.setIcon( IconLoader.getIcon( "/general/toolWindowPalette.png" ) );
     }
 
-    public final void projectClosed()
+    public final void unregister()
     {
         if( toolWindowManager != null )
         {
@@ -72,6 +71,8 @@ public abstract class AbstractToolWindow implements ProjectComponent
                 toolWindowManager.unregisterToolWindow( getToolWindowId() );
             }
         }
+
+        disposeComponent();
     }
 
     public final void expandToolWindow()

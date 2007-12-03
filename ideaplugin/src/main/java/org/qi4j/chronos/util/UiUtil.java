@@ -70,6 +70,11 @@ public final class UiUtil
         }
     }
 
+    public static void showErrorMsgDialog( String title, String msg )
+    {
+        JOptionPane.showMessageDialog( null, msg, title, JOptionPane.ERROR_MESSAGE );
+    }
+
     public static void showMsgDialog( String title, String msg )
     {
         JOptionPane.showMessageDialog( null, msg, title, JOptionPane.INFORMATION_MESSAGE );

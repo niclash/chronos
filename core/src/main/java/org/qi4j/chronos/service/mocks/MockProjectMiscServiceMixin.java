@@ -208,7 +208,7 @@ public abstract class MockProjectMiscServiceMixin implements ProjectService
 
     public ProjectEntityComposite getProjectByName( AccountEntityComposite account, String projectName )
     {
-        List<ProjectEntityComposite> projects = findAll( account );
+        List<ProjectEntityComposite> projects = projectService.findAll( account );
 
         for( ProjectEntityComposite project : projects )
         {

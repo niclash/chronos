@@ -10,8 +10,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.setting;
+package org.qi4j.chronos;
 
+import com.intellij.openapi.util.text.StringUtil;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import javax.swing.JLabel;
@@ -19,6 +20,7 @@ import org.qi4j.chronos.common.AbstractDialog;
 import org.qi4j.chronos.common.text.JMaxLengthTextField;
 import org.qi4j.chronos.common.text.JNonFloatingPointTextField;
 import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.util.UiUtil;
 
 public class ChronosServerSettingDialog extends AbstractDialog
 {
@@ -46,7 +48,7 @@ public class ChronosServerSettingDialog extends AbstractDialog
         builder.add( new JLabel( "IP Address" ), cc.xy( 1, 1 ) );
         builder.add( ipField, cc.xy( 3, 1 ) );
 
-        builder.add( new JLabel( "Port No." ), cc.xy( 1, 3 ) );
+        builder.add( new JLabel( "Port Number" ), cc.xy( 1, 3 ) );
         builder.add( portField, cc.xy( 3, 3 ) );
 
         builder.add( new JLabel( "Account" ), cc.xy( 1, 5 ) );
@@ -65,19 +67,9 @@ public class ChronosServerSettingDialog extends AbstractDialog
         accountNameField = new JMaxLengthTextField( Account.NAME_LEN );
     }
 
-    public void setIp( String ip )
-    {
-        ipField.setText( ip );
-    }
-
     public String getIp()
     {
         return ipField.getText();
-    }
-
-    public void setPort( int port )
-    {
-        portField.setIntValue( port );
     }
 
     public int getPort()
@@ -90,14 +82,40 @@ public class ChronosServerSettingDialog extends AbstractDialog
         return accountNameField.getText();
     }
 
-    public void setAccoutName( String accountName )
+    public void setIp( String ip )
+    {
+        ipField.setText( ip );
+    }
+
+    public void setPort( int port )
+    {
+        portField.setIntValue( port );
+    }
+
+    public void setAccountName( String accountName )
     {
         accountNameField.setText( accountName );
     }
 
     protected final void doOKAction()
     {
+        StringBuilder builder = new StringBuilder();
 
+        if( StringUtil.isEmptyOrSpaces( ipField.getText() ) )
+        {
+            builder.append( "IP field is required." );
+        }
+
+        if( StringUtil.isEmptyOrSpaces( accountNameField.getText() ) )
+        {
+            builder.append( "Account name field is required." );
+        }
+
+        if( builder.length() != 0 )
+        {
+            UiUtil.showErrorMsgDialog( "Required Fields", builder.toString() );
+            return;
+        }
 
         close( OK_EXIT_CODE );
     }

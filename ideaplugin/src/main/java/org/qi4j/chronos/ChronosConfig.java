@@ -20,51 +20,51 @@ import org.qi4j.chronos.util.AttributeUtil;
 
 public class ChronosConfig implements JDOMExternalizable
 {
-    private final static String QI4J_SESSION_IP = "qi4j_session_ip";
-    private final static String QI4J_SESSION_PORT = "qi4j_session_port";
+    private final static String IP = "ip";
+    private final static String PORT = "port";
     private final static String ACCOUNT_NAME = "accountName";
     private final static String PROJECT_NAME = "projectName";
 
-    private String qi4jSessionIp;
-    private int qi4jSessionPort;
+    private String ip;
+    private int port;
 
     private String accountName;
     private String projectName;
 
     public void readExternal( Element element ) throws InvalidDataException
     {
-        qi4jSessionIp = AttributeUtil.getStringAttribute( element, QI4J_SESSION_IP );
-        qi4jSessionPort = AttributeUtil.getIntAttribute( element, QI4J_SESSION_PORT, 55000 );
+        ip = AttributeUtil.getStringAttribute( element, IP );
+        port = AttributeUtil.getIntAttribute( element, PORT, 55000 );
         accountName = AttributeUtil.getStringAttribute( element, ACCOUNT_NAME );
         projectName = AttributeUtil.getStringAttribute( element, PROJECT_NAME );
     }
 
     public void writeExternal( Element element ) throws WriteExternalException
     {
-        AttributeUtil.setAttribute( element, QI4J_SESSION_IP, qi4jSessionIp );
-        AttributeUtil.setAttribute( element, QI4J_SESSION_PORT, qi4jSessionPort );
+        AttributeUtil.setAttribute( element, IP, ip );
+        AttributeUtil.setAttribute( element, PORT, port );
         AttributeUtil.setAttribute( element, ACCOUNT_NAME, accountName );
         AttributeUtil.setAttribute( element, PROJECT_NAME, projectName );
     }
 
-    public String getQi4jSessionIp()
+    public String getIp()
     {
-        return qi4jSessionIp;
+        return ip;
     }
 
-    public void setQi4jSessionIp( String qi4jSessionIp )
+    public void setIp( String ip )
     {
-        this.qi4jSessionIp = qi4jSessionIp;
+        this.ip = ip;
     }
 
-    public int getQi4jSessionPort()
+    public int getPort()
     {
-        return qi4jSessionPort;
+        return port;
     }
 
-    public void setQi4jSessionPort( int qi4jSessionPort )
+    public void setPort( int port )
     {
-        this.qi4jSessionPort = qi4jSessionPort;
+        this.port = port;
     }
 
     public String getAccountName()

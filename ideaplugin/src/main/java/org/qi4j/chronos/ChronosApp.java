@@ -23,8 +23,9 @@ import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.Services;
-import org.qi4j.chronos.service.composites.ServicesComposite;
-import org.qi4j.runtime.Energy4Java;
+import org.qi4j.chronos.util.UiUtil;
+import org.qi4j.chronos.util.listener.EventCallback;
+import org.qi4j.chronos.util.listener.ListenerHandler;
 
 public class ChronosApp
 {
@@ -36,17 +37,49 @@ public class ChronosApp
 
     private ChronosConfig chronosConfig;
 
+    private UserConfig userConfig;
+
     private ProjectAssigneeEntityComposite projectAssignee;
 
     private TaskEntityComposite associatedTask;
 
-    public ChronosApp( ChronosConfig chronosConfig )
+    private boolean connected = false;
+
+    private ListenerHandler<ChronosAppListener> listenerHandler;
+
+    public ChronosApp( ChronosConfig chronosConfig, CompositeBuilderFactory factory, Services services )
     {
+        this.services = services;
+        this.factory = factory;
         this.chronosConfig = chronosConfig;
+
+        userConfig = new UserConfig();
+        
+        listenerHandler = new ListenerHandler<ChronosAppListener>();
+    }
+
+    public void addChronosAppListener( ChronosAppListener listener )
+    {
+        listenerHandler.addListener( listener );
+    }
+
+    public void removeChronosAppListener( ChronosAppListener listener )
+    {
+        listenerHandler.removeListener( listener );
     }
 
     public void start()
     {
+        resetOrConnectToChronosServer();
+    }
+
+    public void resetOrConnectToChronosServer()
+    {
+        if( connected )
+        {
+            disconnectChronosServer();
+        }
+
         //attempt to establish a connection to chronos server
         boolean isConnected = connectToChronosServer();
 
@@ -58,18 +91,35 @@ public class ChronosApp
         //attempt to login to Chronos server
         boolean isLogined = loginToChronosServer();
 
-        if( !isLogined )
+        if( isLogined )
         {
-            return;
-        }
+            connected = true;
 
-        //TODO fire connected event
+            listenerHandler.fireEvent( new EventCallback<ChronosAppListener>()
+            {
+                public void callback( ChronosAppListener chronosAppListener )
+                {
+                    chronosAppListener.chronosAppStarted();
+                }
+            } );
+        }
+    }
+
+    private void disconnectChronosServer()
+    {
+        connected = false;
+
+        listenerHandler.fireEvent( new EventCallback<ChronosAppListener>()
+        {
+            public void callback( ChronosAppListener chronosAppListener )
+            {
+                chronosAppListener.chronosAppClosed();
+            }
+        } );
     }
 
     private boolean loginToChronosServer()
     {
-        UserConfig userConfig = new UserConfig();
-
         userConfig.readUserConfig();
 
         boolean isLoginIdEmptyOrSpaces = StringUtil.isEmptyOrSpaces( userConfig.getLoginId() );
@@ -87,11 +137,9 @@ public class ChronosApp
         {
             if( isPromptUpSettingScreen )
             {
-                //TODO pop up screen here with userConfig
-                //TODO check if user clicked cancel button,  return false;
-                boolean isCancelled = false;
+                boolean isOk = showUserPassSettingDialog();
 
-                if( isCancelled )
+                if( !isOk )
                 {
                     return false;
                 }
@@ -101,8 +149,8 @@ public class ChronosApp
 
             if( user == null || !( user instanceof StaffEntityComposite ) )
             {
-                //TODO prompt error dialog, invalid loginId or password
-                //weird, pop up setting screen again
+                UiUtil.showErrorMsgDialog( "Login failed", "Invalid password or loginId" );
+                isPromptUpSettingScreen = true;
                 continue;
             }
 
@@ -112,7 +160,8 @@ public class ChronosApp
 
             if( chronosProject == null )
             {
-                //TODO prompt error dialog, invalid projectName
+                UiUtil.showErrorMsgDialog( "Failed", "Coudn't associate this IDEA project with Chronos Project. " );
+                isPromptUpSettingScreen = true;
                 continue;
             }
 
@@ -120,9 +169,14 @@ public class ChronosApp
 
             if( projectAssignee == null )
             {
-                //TODO prompt error dialog, this project is not assigned.
+                isPromptUpSettingScreen = true;
+                UiUtil.showErrorMsgDialog( "Unassigned Project", "You haven't assigned to this project. Please check with administrator." );
                 continue;
             }
+
+            userConfig.writeUserConfig();
+
+            isPromptUpSettingScreen = false;
 
             return true;
         }
@@ -131,7 +185,7 @@ public class ChronosApp
     private boolean connectToChronosServer()
     {
         boolean isAccountEmptyOrSpaces = StringUtil.isEmptyOrSpaces( chronosConfig.getAccountName() );
-        boolean isServerIpEmptyorSpaces = StringUtil.isEmptyOrSpaces( chronosConfig.getQi4jSessionIp() );
+        boolean isServerIpEmptyorSpaces = StringUtil.isEmptyOrSpaces( chronosConfig.getIp() );
 
         //assuming this project doesn't need to associate Chronos project
         if( isAccountEmptyOrSpaces && isServerIpEmptyorSpaces )
@@ -151,12 +205,9 @@ public class ChronosApp
         {
             if( isPromptUpSettingScreen )
             {
-                //TODO pop up dialog here
-                //TODO check if user clicked cancel button return false;
+                boolean isOk = showChronosServerSettingDialog();
 
-                boolean isCancelled = false;
-
-                if( isCancelled )
+                if( !isOk )
                 {
                     return false;
                 }
@@ -164,38 +215,73 @@ public class ChronosApp
 
             try
             {
-                //TODO bp. fix it when Qi4j session or storage is ready
-                factory = new Energy4Java().newCompositeBuilderFactory();
-
-                CompositeBuilder<ServicesComposite> serviceBuilder = newCompositeBuilder( ServicesComposite.class );
-
-                services = serviceBuilder.newInstance();
-
-                services.initServices();
-
+                //TODO bp. connect ChronosServer here
                 String accountName = chronosConfig.getAccountName();
 
                 account = services.getAccountService().findAccountByName( accountName );
 
                 if( account == null )
                 {
-                    //TODO prompup setting dialog and
-
-                    //TODO  if user clicked cancel button, return false and disconnect the connection
+                    isPromptUpSettingScreen = true;
+                    UiUtil.showErrorMsgDialog( "Connection Failed", "Invalid account name." );
+                    continue;
                 }
 
                 return true;
             }
             catch( Exception err )
             {
+                err.printStackTrace();
                 isPromptUpSettingScreen = true;
             }
         }
     }
 
+    public boolean showChronosServerSettingDialog()
+    {
+        ChronosServerSettingDialog dialog = new ChronosServerSettingDialog();
+
+        dialog.setIp( chronosConfig.getIp() );
+        dialog.setAccountName( chronosConfig.getAccountName() );
+        dialog.setPort( chronosConfig.getPort() );
+
+        dialog.show();
+
+        if( dialog.isOK() )
+        {
+            chronosConfig.setAccountName( dialog.getAccountName() );
+            chronosConfig.setIp( dialog.getIp() );
+            chronosConfig.setPort( dialog.getPort() );
+        }
+
+        return dialog.isOK();
+    }
+
+    public boolean showUserPassSettingDialog()
+    {
+        UserPassSettingDialog dialog = new UserPassSettingDialog();
+
+        dialog.setLoginId( userConfig.getLoginId() );
+        dialog.setPassword( userConfig.getPassword() );
+        dialog.setProjectName( chronosConfig.getProjectName() );
+
+        dialog.show();
+
+        if( dialog.isOK() )
+        {
+            userConfig.setLoginId( dialog.getLoginId() );
+            userConfig.setPassword( dialog.getPassword() );
+            chronosConfig.setProjectName( dialog.getProjectName() );
+
+            userConfig.writeUserConfig();
+        }
+
+        return dialog.isOK();
+    }
+
     public void stop()
     {
-
+        disconnectChronosServer();
     }
 
     public <T extends Composite> CompositeBuilder<T> newCompositeBuilder( Class<T> compositeType )
