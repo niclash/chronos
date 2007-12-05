@@ -12,10 +12,10 @@
  */
 package org.qi4j.chronos.service.composites;
 
-import org.qi4j.Composite;
 import org.qi4j.annotation.Mixins;
 import org.qi4j.chronos.service.CommentService;
 import org.qi4j.chronos.service.mocks.MockCommentServiceMixin;
+import org.qi4j.composite.Composite;
 
 @Mixins( MockCommentServiceMixin.class )
 public interface CommentServiceComposite extends CommentService, Composite

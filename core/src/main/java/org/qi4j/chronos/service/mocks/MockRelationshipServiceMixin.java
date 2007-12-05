@@ -15,12 +15,12 @@ package org.qi4j.chronos.service.mocks;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.qi4j.CompositeBuilderFactory;
 import org.qi4j.annotation.scope.Structure;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.model.composites.RelationshipComposite;
 import org.qi4j.chronos.service.RelationshipService;
+import org.qi4j.composite.CompositeBuilderFactory;
 
 public class MockRelationshipServiceMixin implements RelationshipService
 {

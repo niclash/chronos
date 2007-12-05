@@ -4,14 +4,14 @@ import java.util.List;
 import org.apache.wicket.protocol.http.IWebApplicationFactory;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.protocol.http.WicketFilter;
-import org.qi4j.ObjectBuilder;
-import org.qi4j.ObjectBuilderFactory;
 import org.qi4j.bootstrap.ApplicationAssembly;
 import org.qi4j.bootstrap.ApplicationAssemblyFactory;
 import org.qi4j.bootstrap.ApplicationFactory;
 import static org.qi4j.chronos.ui.wicket.Constants.LAYER_NAME_WICKET;
 import static org.qi4j.chronos.ui.wicket.WicketLayerAssemblyInitializer.addWicketLayerAssembly;
 import static org.qi4j.chronos.ui.wicket.bootstrap.Constants.MODULE_NAME_WICKET_BOOTSTRAP;
+import org.qi4j.composite.ObjectBuilder;
+import org.qi4j.composite.ObjectBuilderFactory;
 import org.qi4j.runtime.Energy4Java;
 import org.qi4j.runtime.Qi4jRuntime;
 import org.qi4j.runtime.structure.ApplicationContext;
@@ -55,7 +55,7 @@ public final class ChronosWebAppFactory
 
         ObjectBuilderFactory builderFactory = bootstrapModule.getObjectBuilderFactory();
         ObjectBuilder<ChronosWebApp> builder = builderFactory.newObjectBuilder( ChronosWebApp.class );
-        return builder.newInstance();           
+        return builder.newInstance();
     }
 
     private ModuleInstance getBootstrapModule( LayerInstance wicketLayer )

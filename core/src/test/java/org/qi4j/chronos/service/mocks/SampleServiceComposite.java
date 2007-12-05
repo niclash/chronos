@@ -12,7 +12,7 @@
  */
 package org.qi4j.chronos.service.mocks;
 
-import org.qi4j.Composite;
+import org.qi4j.composite.Composite;
 
 public interface SampleServiceComposite extends SampleService, Composite
 {

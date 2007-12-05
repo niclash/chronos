@@ -12,10 +12,10 @@
  */
 package org.qi4j.chronos.service.composites;
 
-import org.qi4j.Composite;
 import org.qi4j.annotation.Mixins;
 import org.qi4j.chronos.service.UserService;
 import org.qi4j.chronos.service.mocks.MockUserServiceMixin;
+import org.qi4j.composite.Composite;
 
 @Mixins( MockUserServiceMixin.class )
 public interface UserServiceComposite extends UserService, Composite

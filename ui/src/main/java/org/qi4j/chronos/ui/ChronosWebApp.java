@@ -15,9 +15,6 @@ package org.qi4j.chronos.ui;
 import org.apache.wicket.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.markup.html.WebPage;
-import org.qi4j.Composite;
-import org.qi4j.CompositeBuilder;
-import org.qi4j.CompositeBuilderFactory;
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.bootstrap.SingletonAssembly;
@@ -27,6 +24,9 @@ import org.qi4j.chronos.ui.admin.AdminHomePage;
 import org.qi4j.chronos.ui.contactperson.ContactPersonHomePage;
 import org.qi4j.chronos.ui.login.LoginPage;
 import org.qi4j.chronos.ui.staff.StaffHomePage;
+import org.qi4j.composite.Composite;
+import org.qi4j.composite.CompositeBuilder;
+import org.qi4j.composite.CompositeBuilderFactory;
 
 public class ChronosWebApp extends AuthenticatedWebApplication
 {

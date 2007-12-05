@@ -12,11 +12,11 @@
  */
 package org.qi4j.chronos.service.composites;
 
-import org.qi4j.Composite;
 import org.qi4j.annotation.Mixins;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.service.mocks.MockProjectMiscServiceMixin;
 import org.qi4j.chronos.service.mocks.MockProjectServiceMixin;
+import org.qi4j.composite.Composite;
 
 @Mixins( { MockProjectServiceMixin.class, MockProjectMiscServiceMixin.class } )
 public interface ProjectServiceComposite extends ProjectService, Composite

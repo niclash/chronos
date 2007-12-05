@@ -16,9 +16,6 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
-import org.qi4j.CompositeBuilder;
-import org.qi4j.CompositeBuilderFactory;
-import static org.qi4j.PropertyValue.property;
 import org.qi4j.annotation.scope.Structure;
 import org.qi4j.chronos.model.associations.HasWorkEntries;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
@@ -27,6 +24,9 @@ import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.WorkEntryService;
+import org.qi4j.composite.CompositeBuilder;
+import org.qi4j.composite.CompositeBuilderFactory;
+import static org.qi4j.composite.PropertyValue.property;
 import org.qi4j.entity.Identity;
 
 public class MockWorkEntryServiceMixin implements WorkEntryService

@@ -15,13 +15,13 @@ package org.qi4j.chronos.service.mocks;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
-import org.qi4j.CompositeBuilderFactory;
 import org.qi4j.annotation.scope.Structure;
 import org.qi4j.chronos.model.PriceRateType;
 import org.qi4j.chronos.model.associations.HasPriceRates;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.PriceRateService;
+import org.qi4j.composite.CompositeBuilderFactory;
 
 public class MockPriceRateServiceMixin implements PriceRateService
 {

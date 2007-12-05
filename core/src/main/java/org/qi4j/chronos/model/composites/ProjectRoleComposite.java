@@ -12,8 +12,8 @@
  */
 package org.qi4j.chronos.model.composites;
 
-import org.qi4j.Composite;
 import org.qi4j.chronos.model.ProjectRole;
+import org.qi4j.composite.Composite;
 
 public interface ProjectRoleComposite extends ProjectRole, Composite
 {

@@ -12,8 +12,8 @@
  */
 package org.qi4j.chronos.model.composites;
 
-import org.qi4j.Composite;
 import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.composite.Composite;
 
 public interface SystemRoleComposite extends SystemRole, Composite
 {

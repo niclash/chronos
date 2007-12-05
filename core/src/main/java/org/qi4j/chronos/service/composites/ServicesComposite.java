@@ -12,10 +12,10 @@
  */
 package org.qi4j.chronos.service.composites;
 
-import org.qi4j.Composite;
 import org.qi4j.annotation.Mixins;
 import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.service.mocks.MockServicesMixin;
+import org.qi4j.composite.Composite;
 
 //TODO bp. use mock services for now.
 @Mixins( MockServicesMixin.class )

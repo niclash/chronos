@@ -128,6 +128,7 @@
     </orderEntry>
     <orderEntry type="module" module-name="library-framework" />
     <orderEntry type="module" module-name="core-bootstrap" />
+    <orderEntry type="module" module-name="core-spi" />
     <orderEntryProperties />
   </component>
   <component name="copyright">

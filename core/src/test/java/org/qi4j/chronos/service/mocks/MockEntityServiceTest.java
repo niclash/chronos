@@ -12,7 +12,7 @@
  */
 package org.qi4j.chronos.service.mocks;
 
-import org.qi4j.CompositeBuilder;
+import org.qi4j.composite.CompositeBuilder;
 import org.qi4j.test.AbstractQi4jTest;
 
 public class MockEntityServiceTest extends AbstractQi4jTest

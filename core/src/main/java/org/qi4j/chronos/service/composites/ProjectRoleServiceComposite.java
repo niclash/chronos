@@ -12,10 +12,10 @@
  */
 package org.qi4j.chronos.service.composites;
 
-import org.qi4j.Composite;
 import org.qi4j.annotation.Mixins;
 import org.qi4j.chronos.service.ProjectRoleService;
 import org.qi4j.chronos.service.mocks.MockProjectRoleServiceMixin;
+import org.qi4j.composite.Composite;
 
 @Mixins( MockProjectRoleServiceMixin.class )
 public interface ProjectRoleServiceComposite extends ProjectRoleService, Composite
