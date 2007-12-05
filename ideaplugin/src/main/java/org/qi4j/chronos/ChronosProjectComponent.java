@@ -16,8 +16,8 @@ import com.intellij.ide.DataManager;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.Anchor;
 import com.intellij.openapi.actionSystem.Constraints;
-import com.intellij.openapi.actionSystem.DataConstants;
 import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.options.Configurable;
@@ -82,7 +82,7 @@ public class ChronosProjectComponent implements ProjectComponent, Configurable, 
 
     public static ChronosProjectComponent getInstance( DataContext dataContext )
     {
-        Project project = (Project) dataContext.getData( DataConstants.PROJECT );
+        Project project = DataKeys.PROJECT.getData( dataContext );
 
         return getInstance( project );
     }
@@ -127,7 +127,7 @@ public class ChronosProjectComponent implements ProjectComponent, Configurable, 
 
                 toolWindow.register();
 
-                taskAssociationAction = new TaskAssociationAction(project);
+                taskAssociationAction = new TaskAssociationAction( project );
 
                 DefaultActionGroup actionGroup = (DefaultActionGroup) ActionManager.getInstance().getAction( "MainToolBar" );
 

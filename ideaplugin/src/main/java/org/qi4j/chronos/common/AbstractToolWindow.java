@@ -18,6 +18,8 @@ import com.intellij.openapi.util.IconLoader;
 import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowAnchor;
 import com.intellij.openapi.wm.ToolWindowManager;
+import com.intellij.peer.PeerFactory;
+import com.intellij.ui.content.Content;
 import java.awt.EventQueue;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
@@ -56,7 +58,13 @@ public abstract class AbstractToolWindow
     {
         JPanel panel = createToolWindowComponent();
 
-        ToolWindow toolWindow = toolWindowManager.registerToolWindow( getToolWindowId(), panel, getAnchor() );
+        PeerFactory peerFactory = PeerFactory.getInstance();
+
+        Content content = peerFactory.getContentFactory().createContent( panel, "", false );
+
+        ToolWindow toolWindow = toolWindowManager.registerToolWindow( getToolWindowId(), true, getAnchor() );
+
+        toolWindow.getContentManager().addContent( content );
 
         //TODO fix icon
         toolWindow.setIcon( IconLoader.getIcon( "/general/toolWindowPalette.png" ) );
