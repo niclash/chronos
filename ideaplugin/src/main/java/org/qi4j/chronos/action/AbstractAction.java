@@ -14,6 +14,7 @@ package org.qi4j.chronos.action;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.ActionManager;
 import org.qi4j.chronos.ChronosApp;
 import org.qi4j.chronos.ChronosProjectComponent;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;

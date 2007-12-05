@@ -10,12 +10,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.workentry;
+package org.qi4j.chronos;
 
 import java.util.EventListener;
-import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
 
-public interface WorkEntryProducerListener extends EventListener
+public interface TaskAssociationListener extends EventListener
 {
-    void workEntryAdded( WorkEntryEntityComposite workEntry );
+    void taskAssocciated( TaskEntityComposite task );
 }

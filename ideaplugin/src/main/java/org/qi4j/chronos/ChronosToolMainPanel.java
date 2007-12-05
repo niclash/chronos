@@ -55,7 +55,7 @@ public class ChronosToolMainPanel extends AbstractPanel implements WorkEntryProd
         chronosToolCententPanel = new ChronosToolContentPanel( project );
     }
 
-    public void addedWorkEntry( WorkEntryEntityComposite workEntry )
+    public void workEntryAdded( WorkEntryEntityComposite workEntry )
     {
         chronosToolCententPanel.resetData();
     }

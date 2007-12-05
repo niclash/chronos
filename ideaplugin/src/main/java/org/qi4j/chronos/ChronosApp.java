@@ -12,6 +12,7 @@
  */
 package org.qi4j.chronos;
 
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.text.StringUtil;
 import org.qi4j.Composite;
 import org.qi4j.CompositeBuilder;
@@ -36,7 +37,6 @@ public class ChronosApp
     private AccountEntityComposite account;
 
     private ChronosConfig chronosConfig;
-
     private UserConfig userConfig;
 
     private ProjectAssigneeEntityComposite projectAssignee;
@@ -45,27 +45,42 @@ public class ChronosApp
 
     private boolean connected = false;
 
-    private ListenerHandler<ChronosAppListener> listenerHandler;
+    private ListenerHandler<ChronosAppListener> chronosAppHandler;
+    private ListenerHandler<TaskAssociationListener> taskAssociationHandler;
 
-    public ChronosApp( ChronosConfig chronosConfig, CompositeBuilderFactory factory, Services services )
+    private Project project;
+
+    public ChronosApp( Project project, ChronosConfig chronosConfig, CompositeBuilderFactory factory, Services services )
     {
+        this.project = project;
         this.services = services;
         this.factory = factory;
         this.chronosConfig = chronosConfig;
 
         userConfig = new UserConfig();
-        
-        listenerHandler = new ListenerHandler<ChronosAppListener>();
+
+        chronosAppHandler = new ListenerHandler<ChronosAppListener>();
+        taskAssociationHandler = new ListenerHandler<TaskAssociationListener>();
+    }
+
+    public void addTaskAssociationListener( TaskAssociationListener listener )
+    {
+        taskAssociationHandler.addListener( listener );
+    }
+
+    public void removeTaskAssociationListener( TaskAssociationListener listener )
+    {
+        taskAssociationHandler.removeListener( listener );
     }
 
     public void addChronosAppListener( ChronosAppListener listener )
     {
-        listenerHandler.addListener( listener );
+        chronosAppHandler.addListener( listener );
     }
 
     public void removeChronosAppListener( ChronosAppListener listener )
     {
-        listenerHandler.removeListener( listener );
+        chronosAppHandler.removeListener( listener );
     }
 
     public void start()
@@ -95,7 +110,7 @@ public class ChronosApp
         {
             connected = true;
 
-            listenerHandler.fireEvent( new EventCallback<ChronosAppListener>()
+            chronosAppHandler.fireEvent( new EventCallback<ChronosAppListener>()
             {
                 public void callback( ChronosAppListener chronosAppListener )
                 {
@@ -109,7 +124,7 @@ public class ChronosApp
     {
         connected = false;
 
-        listenerHandler.fireEvent( new EventCallback<ChronosAppListener>()
+        chronosAppHandler.fireEvent( new EventCallback<ChronosAppListener>()
         {
             public void callback( ChronosAppListener chronosAppListener )
             {
@@ -124,11 +139,12 @@ public class ChronosApp
 
         boolean isLoginIdEmptyOrSpaces = StringUtil.isEmptyOrSpaces( userConfig.getLoginId() );
         boolean isPasswordEmptyOrSpaces = StringUtil.isEmptyOrSpaces( userConfig.getPassword() );
-        boolean isProjectEmptyOrSpaces = StringUtil.isEmptyOrSpaces( chronosConfig.getProjectName() );
 
         boolean isPromptUpSettingScreen = false;
 
-        if( isLoginIdEmptyOrSpaces || isPasswordEmptyOrSpaces || isProjectEmptyOrSpaces )
+        String projectName = project.getName();
+
+        if( isLoginIdEmptyOrSpaces || isPasswordEmptyOrSpaces )
         {
             isPromptUpSettingScreen = true;
         }
@@ -156,13 +172,13 @@ public class ChronosApp
 
             StaffEntityComposite staff = (StaffEntityComposite) user;
 
-            chronosProject = services.getProjectService().getProjectByName( account, chronosConfig.getProjectName() );
+            chronosProject = services.getProjectService().getProjectByName( account, projectName );
 
             if( chronosProject == null )
             {
-                UiUtil.showErrorMsgDialog( "Failed", "Coudn't associate this IDEA project with Chronos Project. " );
-                isPromptUpSettingScreen = true;
-                continue;
+                UiUtil.showErrorMsgDialog( "Failed", "Failed to associate this IDEA project[" + projectName + "] with Chronos Project. \n" +
+                                                     "Please check with administrator." );
+                return false;
             }
 
             projectAssignee = services.getProjectAssigneeService().getProjectAssignee( chronosProject, staff );
@@ -263,7 +279,6 @@ public class ChronosApp
 
         dialog.setLoginId( userConfig.getLoginId() );
         dialog.setPassword( userConfig.getPassword() );
-        dialog.setProjectName( chronosConfig.getProjectName() );
 
         dialog.show();
 
@@ -271,7 +286,6 @@ public class ChronosApp
         {
             userConfig.setLoginId( dialog.getLoginId() );
             userConfig.setPassword( dialog.getPassword() );
-            chronosConfig.setProjectName( dialog.getProjectName() );
 
             userConfig.writeUserConfig();
         }
@@ -318,4 +332,18 @@ public class ChronosApp
     {
         return associatedTask;
     }
+
+    public void setAssociatedTask( TaskEntityComposite task )
+    {
+        this.associatedTask = task;
+
+        taskAssociationHandler.fireEvent( new EventCallback<TaskAssociationListener>()
+        {
+            public void callback( TaskAssociationListener listener )
+            {
+                listener.taskAssocciated( associatedTask );
+            }
+        } );
+    }
+
 }

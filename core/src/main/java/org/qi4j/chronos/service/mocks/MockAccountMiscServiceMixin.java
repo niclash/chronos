@@ -67,7 +67,7 @@ public abstract class MockAccountMiscServiceMixin implements AccountService
 
         for( AccountEntityComposite account : accounts )
         {
-            if( account.getName().equals( accountName ) )
+            if( account.getName().equalsIgnoreCase( accountName ) )
             {
                 return account;
             }

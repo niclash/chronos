@@ -23,20 +23,17 @@ public class ChronosConfig implements JDOMExternalizable
     private final static String IP = "ip";
     private final static String PORT = "port";
     private final static String ACCOUNT_NAME = "accountName";
-    private final static String PROJECT_NAME = "projectName";
 
     private String ip;
     private int port;
 
     private String accountName;
-    private String projectName;
 
     public void readExternal( Element element ) throws InvalidDataException
     {
         ip = AttributeUtil.getStringAttribute( element, IP );
         port = AttributeUtil.getIntAttribute( element, PORT, 55000 );
         accountName = AttributeUtil.getStringAttribute( element, ACCOUNT_NAME );
-        projectName = AttributeUtil.getStringAttribute( element, PROJECT_NAME );
     }
 
     public void writeExternal( Element element ) throws WriteExternalException
@@ -44,7 +41,6 @@ public class ChronosConfig implements JDOMExternalizable
         AttributeUtil.setAttribute( element, IP, ip );
         AttributeUtil.setAttribute( element, PORT, port );
         AttributeUtil.setAttribute( element, ACCOUNT_NAME, accountName );
-        AttributeUtil.setAttribute( element, PROJECT_NAME, projectName );
     }
 
     public String getIp()
@@ -75,15 +71,5 @@ public class ChronosConfig implements JDOMExternalizable
     public void setAccountName( String accountName )
     {
         this.accountName = accountName;
-    }
-
-    public String getProjectName()
-    {
-        return projectName;
-    }
-
-    public void setProjectName( String projectName )
-    {
-        this.projectName = projectName;
     }
 }

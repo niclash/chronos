@@ -24,7 +24,6 @@ import org.qi4j.chronos.IdleEventListener;
 import org.qi4j.chronos.InputEventListener;
 import org.qi4j.chronos.activity.Activity;
 import org.qi4j.chronos.activity.ActivityManager;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.multicaster.IdleEventMulticaster;
@@ -178,30 +177,22 @@ public class WorkEntryProducer
         workEntry.setDescription( getWorkEntryDescription() );
         workEntry.setProjectAssignee( chronosApp.getProjectAssignee() );
 
+        //get associated task
         TaskEntityComposite associatedTask = chronosApp.getAssociatedTask();
 
-        if( associatedTask != null )
-        {
-            associatedTask.addWorkEntry( workEntry );
+        //add new workEntry to associated task
+        associatedTask.addWorkEntry( workEntry );
 
-            services.getTaskService().update( associatedTask );
-        }
-        else
-        {
-            ProjectEntityComposite chronosProject = chronosApp.getChronosProject();
-
-            chronosProject.addWorkEntry( workEntry );
-
-            services.getProjectService().update( chronosProject );
-        }
+        services.getTaskService().update( associatedTask );
 
         System.err.println( "New WorkEntry Created  " + endDate );
 
+        //fire workEntry added event
         listenerHandler.fireEvent( new EventCallback<WorkEntryProducerListener>()
         {
             public void callback( WorkEntryProducerListener listener )
             {
-                listener.addedWorkEntry( workEntry );
+                listener.workEntryAdded( workEntry );
             }
         } );
     }

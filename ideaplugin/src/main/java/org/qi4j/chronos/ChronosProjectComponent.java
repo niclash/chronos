@@ -14,8 +14,11 @@ package org.qi4j.chronos;
 
 import com.intellij.ide.DataManager;
 import com.intellij.openapi.actionSystem.ActionManager;
+import com.intellij.openapi.actionSystem.Anchor;
+import com.intellij.openapi.actionSystem.Constraints;
 import com.intellij.openapi.actionSystem.DataConstants;
 import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.options.Configurable;
 import com.intellij.openapi.options.ConfigurationException;
@@ -35,6 +38,7 @@ import org.jdom.Element;
 import org.jetbrains.annotations.Nls;
 import org.qi4j.CompositeBuilder;
 import org.qi4j.CompositeBuilderFactory;
+import org.qi4j.chronos.action.task.TaskAssociationAction;
 import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.service.composites.ServicesComposite;
 import org.qi4j.runtime.Energy4Java;
@@ -60,6 +64,7 @@ public class ChronosProjectComponent implements ProjectComponent, Configurable, 
     private ActionManager actionManager;
 
     private ChronosToolWindow toolWindow;
+    private TaskAssociationAction taskAssociationAction;
 
     public ChronosProjectComponent( ToolWindowManager toolWindowManager, ActionManager actionManager, Project project )
     {
@@ -94,25 +99,25 @@ public class ChronosProjectComponent implements ProjectComponent, Configurable, 
 
     public void projectOpened()
     {
-        chronosApp = new ChronosApp( chronosConfig, factory, services );
+        chronosApp = new ChronosApp( project, chronosConfig, factory, services );
 
         chronosApp.addChronosAppListener( new ChronosAppListener()
         {
             public void chronosAppStarted()
             {
-                registerChronosToolWindow();
+                registerChronosComponents();
             }
 
             public void chronosAppClosed()
             {
-                unregisterChronosToolWindow( false );
+                unregisterChronosComponents( false );
             }
         } );
 
         chronosApp.start();
     }
 
-    private void registerChronosToolWindow()
+    private void registerChronosComponents()
     {
         SwingUtilities.invokeLater( new Runnable()
         {
@@ -121,19 +126,23 @@ public class ChronosProjectComponent implements ProjectComponent, Configurable, 
                 toolWindow = new ChronosToolWindow( toolWindowManager, actionManager, project );
 
                 toolWindow.register();
+
+                taskAssociationAction = new TaskAssociationAction(project);
+
+                DefaultActionGroup actionGroup = (DefaultActionGroup) ActionManager.getInstance().getAction( "MainToolBar" );
+
+                actionGroup.add( taskAssociationAction, new Constraints( Anchor.LAST, "after" ) );
             }
         } );
     }
 
-    private void unregisterChronosToolWindow( boolean awtEventThread )
+    private void unregisterChronosComponents( boolean awtEventThread )
     {
         if( toolWindow != null )
         {
             if( awtEventThread )
             {
-                toolWindow.unregister();
-
-                toolWindow = null;
+                unregisterChronosComponents_0();
             }
             else
             {
@@ -141,18 +150,32 @@ public class ChronosProjectComponent implements ProjectComponent, Configurable, 
                 {
                     public void run()
                     {
-                        toolWindow.unregister();
-
-                        toolWindow = null;
+                        unregisterChronosComponents_0();
                     }
                 } );
             }
         }
     }
 
+    private void unregisterChronosComponents_0()
+    {
+        toolWindow.unregister();
+
+        toolWindow = null;
+
+        if( taskAssociationAction != null )
+        {
+            DefaultActionGroup actionGroup = (DefaultActionGroup) ActionManager.getInstance().getAction( "MainToolBar" );
+
+            actionGroup.remove( taskAssociationAction );
+
+            taskAssociationAction = null;
+        }
+    }
+
     public void projectClosed()
     {
-        unregisterChronosToolWindow( true );
+        unregisterChronosComponents( true );
 
         chronosApp.stop();
     }

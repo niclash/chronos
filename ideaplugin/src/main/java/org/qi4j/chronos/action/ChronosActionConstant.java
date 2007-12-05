@@ -27,6 +27,7 @@ public final class ChronosActionConstant
     public final static String TASK_VIEW_DETAIL_ACTION = "ChronosTaskViewDetailAction";
     public final static String TASK_DELETE_ACTION = "ChronosTaskDeleteAction";
     public final static String TASK_NEW_COMMENT_ACTION = "ChronosTaskNewCommentAction";
+    public final static String TASK_ASSOCIATION_ACTION = "ChronosTaskAssociationAction";
 
     public final static String ONGOING_WORKENTRY_STOP_ACTION = "ChronosOngoingWorkEntryStopAction";
     public final static String ONGOING_WORKENTRY_CANCEL_ACTION = "ChronosOngoingWorkEntryCancelAction";

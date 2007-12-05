@@ -212,7 +212,7 @@ public abstract class MockProjectMiscServiceMixin implements ProjectService
 
         for( ProjectEntityComposite project : projects )
         {
-            if( project.getName().equals( projectName ) )
+            if( project.getName().equalsIgnoreCase( projectName ) )
             {
                 return project;
             }

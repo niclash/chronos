@@ -19,7 +19,6 @@ import javax.swing.JLabel;
 import org.qi4j.chronos.common.AbstractDialog;
 import org.qi4j.chronos.common.text.JMaxLengthPasswordField;
 import org.qi4j.chronos.common.text.JMaxLengthTextField;
-import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.util.UiUtil;
 
@@ -27,7 +26,6 @@ public class UserPassSettingDialog extends AbstractDialog
 {
     private JMaxLengthTextField loginIdField;
     private JMaxLengthPasswordField passwordField;
-    private JMaxLengthTextField projectNameField;
 
     public UserPassSettingDialog()
     {
@@ -41,7 +39,7 @@ public class UserPassSettingDialog extends AbstractDialog
 
     protected String getLayoutRowSpec()
     {
-        return "p, 3dlu, p,3dlu,p";
+        return "p, 3dlu, p";
     }
 
     protected void initLayout( PanelBuilder builder, CellConstraints cc )
@@ -51,9 +49,6 @@ public class UserPassSettingDialog extends AbstractDialog
 
         builder.add( new JLabel( "Password" ), cc.xy( 1, 3 ) );
         builder.add( passwordField, cc.xy( 3, 3 ) );
-
-        builder.add( new JLabel( "Project Name" ), cc.xy( 1, 5 ) );
-        builder.add( projectNameField, cc.xy( 3, 5 ) );
     }
 
     protected String getDialogTitle()
@@ -65,7 +60,6 @@ public class UserPassSettingDialog extends AbstractDialog
     {
         loginIdField = new JMaxLengthTextField( 15 );
         passwordField = new JMaxLengthPasswordField( Login.PASSWORD_LEN );
-        projectNameField = new JMaxLengthTextField( Account.NAME_LEN );
     }
 
     public void setLoginId( String loginId )
@@ -78,11 +72,6 @@ public class UserPassSettingDialog extends AbstractDialog
         passwordField.setText( password );
     }
 
-    public void setProjectName( String projectName )
-    {
-        projectNameField.setText( projectName );
-    }
-
     public String getLoginId()
     {
         return loginIdField.getText();
@@ -91,11 +80,6 @@ public class UserPassSettingDialog extends AbstractDialog
     public String getPassword()
     {
         return new String( passwordField.getPassword() );
-    }
-
-    public String getProjectName()
-    {
-        return projectNameField.getText();
     }
 
     protected final void doOKAction()
@@ -111,12 +95,6 @@ public class UserPassSettingDialog extends AbstractDialog
         if( passwordField.getPassword().length == 0 )
         {
             errMessages.append( "Password is required." );
-            errMessages.append( "\n" );
-        }
-
-        if( StringUtil.isEmptyOrSpaces( projectNameField.getText() ) )
-        {
-            errMessages.append( "Project name is required." );
             errMessages.append( "\n" );
         }
 
