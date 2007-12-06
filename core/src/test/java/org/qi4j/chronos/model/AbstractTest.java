@@ -6,7 +6,7 @@ import org.qi4j.entity.IdentityGenerator;
 import org.qi4j.extension.persistence.quick.MapPersistenceProvider;
 import org.qi4j.extension.persistence.quick.SerializablePersistence;
 import org.qi4j.runtime.UuidIdentityGenerator;
-import org.qi4j.runtime.persistence.EntitySessionImpl;
+import org.qi4j.runtime.entity.EntitySessionImpl;
 import org.qi4j.spi.serialization.SerializablePersistenceSpi;
 import org.qi4j.test.AbstractQi4jTest;
 
