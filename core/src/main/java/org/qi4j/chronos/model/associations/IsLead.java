@@ -12,8 +12,8 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.annotation.Mixins;
 import org.qi4j.chronos.model.mixins.IsLeadMixin;
+import org.qi4j.composite.Mixins;
 
 @Mixins( IsLeadMixin.class )
 public interface IsLead

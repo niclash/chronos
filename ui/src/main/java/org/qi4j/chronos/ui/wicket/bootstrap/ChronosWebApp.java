@@ -21,11 +21,11 @@ import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.settings.IApplicationSettings;
 import org.apache.wicket.settings.ISessionSettings;
-import org.qi4j.annotation.scope.Structure;
 import org.qi4j.chronos.ui.wicket.authentication.LoginPage;
 import static org.qi4j.composite.NullArgumentException.validateNotNull;
 import org.qi4j.composite.ObjectBuilder;
 import org.qi4j.composite.ObjectBuilderFactory;
+import org.qi4j.composite.Structure;
 
 /**
  * @author Lan Boon Ping

@@ -13,9 +13,9 @@
 package org.qi4j.chronos.model.associations;
 
 import java.util.Iterator;
-import org.qi4j.annotation.Mixins;
 import org.qi4j.chronos.model.composites.ProjectRoleComposite;
 import org.qi4j.chronos.model.mixins.HasProjectRolesMixin;
+import org.qi4j.composite.Mixins;
 
 @Mixins( HasProjectRolesMixin.class )
 public interface HasProjectRoles

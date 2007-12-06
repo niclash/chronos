@@ -12,9 +12,9 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.annotation.Mixins;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.mixins.HasStaffMixin;
+import org.qi4j.composite.Mixins;
 
 @Mixins( HasStaffMixin.class )
 public interface HasStaff

@@ -13,8 +13,8 @@
  */
 package org.qi4j.chronos.model;
 
-import org.qi4j.annotation.Mixins;
 import org.qi4j.chronos.model.mixins.TitleMixin;
+import org.qi4j.composite.Mixins;
 
 @Mixins( TitleMixin.class )
 public interface Title

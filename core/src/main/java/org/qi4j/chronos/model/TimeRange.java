@@ -15,8 +15,8 @@ package org.qi4j.chronos.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import org.qi4j.annotation.Mixins;
 import org.qi4j.chronos.model.mixins.TimeRangeMixin;
+import org.qi4j.composite.Mixins;
 
 /**
  * Generic interface for TimeRange

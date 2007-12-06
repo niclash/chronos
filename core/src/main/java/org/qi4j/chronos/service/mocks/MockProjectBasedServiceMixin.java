@@ -13,9 +13,9 @@
 package org.qi4j.chronos.service.mocks;
 
 import java.util.List;
-import org.qi4j.annotation.scope.PropertyField;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.service.ProjectService;
+import org.qi4j.composite.PropertyField;
 import org.qi4j.entity.Identity;
 
 public abstract class MockProjectBasedServiceMixin<ITEM extends Identity> extends MockParentBasedServiceMixin<ITEM, ProjectEntityComposite>

@@ -12,10 +12,10 @@
  */
 package org.qi4j.chronos.service.composites;
 
-import org.qi4j.annotation.Mixins;
 import org.qi4j.chronos.service.LegalConditionService;
 import org.qi4j.chronos.service.mocks.MockLegalConditionServiceMixin;
 import org.qi4j.composite.Composite;
+import org.qi4j.composite.Mixins;
 
 @Mixins( MockLegalConditionServiceMixin.class )
 public interface LegalConditionServiceComposite extends LegalConditionService, Composite

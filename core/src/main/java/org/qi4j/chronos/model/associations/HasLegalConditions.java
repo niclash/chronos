@@ -15,9 +15,9 @@ package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
 import java.util.Iterator;
-import org.qi4j.annotation.Mixins;
 import org.qi4j.chronos.model.composites.LegalConditionComposite;
 import org.qi4j.chronos.model.mixins.HasLegalConditionsMixin;
+import org.qi4j.composite.Mixins;
 
 @Mixins( HasLegalConditionsMixin.class )
 public interface HasLegalConditions extends Serializable

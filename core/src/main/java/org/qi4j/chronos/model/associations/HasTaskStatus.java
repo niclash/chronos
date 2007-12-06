@@ -12,8 +12,8 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.annotation.Mixins;
 import org.qi4j.chronos.model.TaskStatus;
+import org.qi4j.composite.Mixins;
 import org.qi4j.library.framework.properties.PropertiesMixin;
 
 @Mixins( PropertiesMixin.class )

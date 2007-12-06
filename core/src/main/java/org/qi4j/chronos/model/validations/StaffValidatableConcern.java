@@ -12,8 +12,8 @@
  */
 package org.qi4j.chronos.model.validations;
 
-import org.qi4j.annotation.scope.ThisCompositeAs;
 import org.qi4j.chronos.model.Staff;
+import org.qi4j.composite.ThisCompositeAs;
 import org.qi4j.library.framework.validation.AbstractValidatableConcern;
 import org.qi4j.library.framework.validation.Validator;
 

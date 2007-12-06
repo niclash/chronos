@@ -13,8 +13,8 @@
  */
 package org.qi4j.chronos.model;
 
-import org.qi4j.annotation.Mixins;
 import org.qi4j.chronos.model.mixins.RelationshipMixin;
+import org.qi4j.composite.Mixins;
 
 /**
  * Generic interface to specify a relationship

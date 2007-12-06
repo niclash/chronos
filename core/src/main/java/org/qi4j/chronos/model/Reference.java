@@ -14,8 +14,8 @@
 package org.qi4j.chronos.model;
 
 import java.io.Serializable;
-import org.qi4j.annotation.Mixins;
 import org.qi4j.chronos.model.mixins.ReferenceMixin;
+import org.qi4j.composite.Mixins;
 
 @Mixins( ReferenceMixin.class )
 public interface Reference extends Serializable

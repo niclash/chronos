@@ -17,12 +17,12 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
-import org.qi4j.annotation.scope.Structure;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.ParentBasedService;
 import org.qi4j.composite.CompositeBuilder;
 import org.qi4j.composite.CompositeBuilderFactory;
 import static org.qi4j.composite.PropertyValue.property;
+import org.qi4j.composite.Structure;
 import org.qi4j.entity.EntityComposite;
 import org.qi4j.entity.Identity;
 

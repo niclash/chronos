@@ -13,9 +13,9 @@
 package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
-import org.qi4j.annotation.Mixins;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.mixins.HasPrimaryContactPersonMixin;
+import org.qi4j.composite.Mixins;
 
 /**
  * Describe association with the primary contact person of a {@link org.qi4j.chronos.model.Project}.

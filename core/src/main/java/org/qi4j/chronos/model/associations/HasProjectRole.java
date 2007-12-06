@@ -12,10 +12,10 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.annotation.Mixins;
 import org.qi4j.chronos.model.ProjectRole;
 import org.qi4j.chronos.model.composites.ProjectRoleComposite;
 import org.qi4j.chronos.model.mixins.HasProjectRoleMixin;
+import org.qi4j.composite.Mixins;
 
 /**
  * Generic interface describing association with {@link ProjectRole}

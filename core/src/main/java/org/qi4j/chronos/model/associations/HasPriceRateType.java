@@ -13,9 +13,9 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.annotation.Mixins;
 import org.qi4j.chronos.model.PriceRateType;
 import org.qi4j.chronos.model.mixins.HasPriceRateTypeMixin;
+import org.qi4j.composite.Mixins;
 
 @Mixins( HasPriceRateTypeMixin.class )
 public interface HasPriceRateType

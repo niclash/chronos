@@ -13,9 +13,9 @@
 package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
-import org.qi4j.annotation.Mixins;
 import org.qi4j.chronos.model.composites.RelationshipComposite;
 import org.qi4j.chronos.model.mixins.HasRelationshipMixin;
+import org.qi4j.composite.Mixins;
 
 /**
  * Generic interface to describe association with relationship.

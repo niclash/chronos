@@ -13,10 +13,10 @@
  */
 package org.qi4j.chronos.model.composites;
 
-import org.qi4j.annotation.Concerns;
-import org.qi4j.annotation.Mixins;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.validations.AccountValidatableConcern;
+import org.qi4j.composite.Concerns;
+import org.qi4j.composite.Mixins;
 import org.qi4j.entity.EntityComposite;
 import org.qi4j.library.framework.validation.Validatable;
 import org.qi4j.library.framework.validation.ValidatableMixin;

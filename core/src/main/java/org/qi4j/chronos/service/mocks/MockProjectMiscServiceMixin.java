@@ -18,7 +18,6 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
-import org.qi4j.annotation.scope.ThisCompositeAs;
 import org.qi4j.chronos.model.ProjectStatus;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
@@ -28,6 +27,7 @@ import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.ProjectService;
+import org.qi4j.composite.ThisCompositeAs;
 
 public abstract class MockProjectMiscServiceMixin implements ProjectService
 {

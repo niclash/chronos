@@ -14,11 +14,11 @@ package org.qi4j.chronos.service.mocks;
 
 import java.util.Collection;
 import java.util.List;
-import org.qi4j.annotation.scope.ThisCompositeAs;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.StaffService;
+import org.qi4j.composite.ThisCompositeAs;
 
 public abstract class MockStaffMiscServiceMixin implements StaffService
 {

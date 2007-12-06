@@ -13,9 +13,9 @@
 package org.qi4j.chronos.service.mocks;
 
 import java.util.List;
-import org.qi4j.annotation.scope.PropertyField;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.TaskService;
+import org.qi4j.composite.PropertyField;
 import org.qi4j.entity.Identity;
 
 public abstract class MockTaskBasedServiceMixin<ITEM extends Identity> extends MockParentBasedServiceMixin<ITEM, TaskEntityComposite>

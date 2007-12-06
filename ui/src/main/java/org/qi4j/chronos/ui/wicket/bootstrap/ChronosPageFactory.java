@@ -3,10 +3,10 @@ package org.qi4j.chronos.ui.wicket.bootstrap;
 import org.apache.wicket.IPageFactory;
 import org.apache.wicket.Page;
 import org.apache.wicket.PageParameters;
-import org.qi4j.annotation.scope.Structure;
 import static org.qi4j.composite.NullArgumentException.validateNotNull;
 import org.qi4j.composite.ObjectBuilder;
 import org.qi4j.composite.ObjectBuilderFactory;
+import org.qi4j.composite.Structure;
 
 /**
  * @author edward.yakop@gmail.com
