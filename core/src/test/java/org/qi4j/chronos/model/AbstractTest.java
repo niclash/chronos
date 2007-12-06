@@ -1,6 +1,6 @@
 package org.qi4j.chronos.model;
 
-import org.qi4j.CompositeBuilderFactory;
+import org.qi4j.composite.CompositeBuilderFactory;
 import org.qi4j.entity.EntitySession;
 import org.qi4j.entity.IdentityGenerator;
 import org.qi4j.extension.persistence.quick.MapPersistenceProvider;
@@ -21,7 +21,7 @@ public abstract class AbstractTest extends AbstractQi4jTest
 
         IdentityGenerator identityGenerator = new UuidIdentityGenerator();
         SerializablePersistenceSpi subsystem = new MapPersistenceProvider();
-        SerializablePersistence storage = new SerializablePersistence( subsystem, builderFactory );
+        SerializablePersistence storage = new SerializablePersistence( subsystem, spi );
         session = new EntitySessionImpl( storage, builderFactory, identityGenerator );
     }
 }
