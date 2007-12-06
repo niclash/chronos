@@ -17,7 +17,7 @@ import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.service.ProjectAssigneeService;
-import org.qi4j.composite.ThisCompositeAs;
+import org.qi4j.composite.scope.ThisCompositeAs;
 
 public abstract class MockProjectAssigneeMiscService implements ProjectAssigneeService
 {

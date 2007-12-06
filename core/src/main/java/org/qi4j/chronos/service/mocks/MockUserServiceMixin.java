@@ -28,7 +28,7 @@ import org.qi4j.chronos.service.ContactPersonService;
 import org.qi4j.chronos.service.CustomerService;
 import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.service.UserService;
-import org.qi4j.composite.PropertyField;
+import org.qi4j.composite.scope.PropertyField;
 
 public class MockUserServiceMixin implements UserService
 {

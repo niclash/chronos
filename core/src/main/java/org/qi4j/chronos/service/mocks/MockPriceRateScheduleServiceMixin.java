@@ -21,7 +21,7 @@ import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.PriceRateScheduleService;
 import org.qi4j.composite.CompositeBuilderFactory;
-import org.qi4j.composite.Structure;
+import org.qi4j.composite.scope.Structure;
 
 public class MockPriceRateScheduleServiceMixin implements PriceRateScheduleService
 {

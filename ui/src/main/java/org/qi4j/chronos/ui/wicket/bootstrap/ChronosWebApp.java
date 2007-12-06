@@ -25,7 +25,7 @@ import org.qi4j.chronos.ui.wicket.authentication.LoginPage;
 import static org.qi4j.composite.NullArgumentException.validateNotNull;
 import org.qi4j.composite.ObjectBuilder;
 import org.qi4j.composite.ObjectBuilderFactory;
-import org.qi4j.composite.Structure;
+import org.qi4j.composite.scope.Structure;
 
 /**
  * @author Lan Boon Ping

@@ -89,7 +89,7 @@ import org.qi4j.composite.Composite;
 import org.qi4j.composite.CompositeBuilder;
 import org.qi4j.composite.CompositeBuilderFactory;
 import org.qi4j.composite.PropertyValue;
-import org.qi4j.composite.Structure;
+import org.qi4j.composite.scope.Structure;
 import org.qi4j.library.general.model.GenderType;
 import org.qi4j.library.general.model.composites.CityComposite;
 import org.qi4j.library.general.model.composites.CountryComposite;

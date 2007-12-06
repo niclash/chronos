@@ -20,7 +20,7 @@ import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.model.composites.RelationshipComposite;
 import org.qi4j.chronos.service.RelationshipService;
 import org.qi4j.composite.CompositeBuilderFactory;
-import org.qi4j.composite.Structure;
+import org.qi4j.composite.scope.Structure;
 
 public class MockRelationshipServiceMixin implements RelationshipService
 {
