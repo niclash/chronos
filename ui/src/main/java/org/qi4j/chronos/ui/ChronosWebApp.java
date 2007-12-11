@@ -40,7 +40,7 @@ public class ChronosWebApp extends AuthenticatedWebApplication
         {
             public void configure( ModuleAssembly module ) throws AssemblyException
             {
-                module.addComposite( ServicesComposite.class );
+                module.addComposites( ServicesComposite.class );
             }
         };
         factory = assembly.getCompositeBuilderFactory();

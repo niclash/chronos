@@ -31,6 +31,6 @@ public final class WicketAuthenticationModuleInitializer
 
         ModuleAssembly moduleAssembly = aLayerAssembly.newModuleAssembly();
         moduleAssembly.setName( MODULE_NAME_WICKET_AUTHENTICATION );
-        moduleAssembly.addComposite( RoleHelperComposite.class, true );
+        moduleAssembly.addComposites( true );
     }
 }
