@@ -22,6 +22,6 @@ public abstract class AbstractTest extends AbstractQi4jTest
         IdentityGenerator identityGenerator = new UuidIdentityGenerator();
         SerializablePersistenceSpi subsystem = new MapPersistenceProvider();
         SerializablePersistence storage = new SerializablePersistence( subsystem, spi );
-        session = new EntitySessionImpl( storage, builderFactory, identityGenerator );
+        session = new EntitySessionImpl( builderFactory, identityGenerator, storage );
     }
 }
