@@ -17,26 +17,10 @@
     <orderEntry type="module" module-name="library-framework" />
     <orderEntry type="module" module-name="library-general" />
     <orderEntry type="module" module-name="z_app-chronos-core" />
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$MODULE_DIR$/lib/microba-0.4.4.1.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library>
-        <CLASSES>
-          <root url="jar://$M2_REPO$/jgoodies/forms/1.0.5/forms-1.0.5.jar!/" />
-        </CLASSES>
-        <JAVADOC />
-        <SOURCES />
-      </library>
-    </orderEntry>
     <orderEntry type="module" module-name="core-spi" />
     <orderEntry type="module" module-name="core-bootstrap" />
+    <orderEntry type="library" name="microba-0.4.4.1" level="project" />
+    <orderEntry type="library" name="forms-1.0.5" level="project" />
     <orderEntryProperties />
   </component>
   <component name="copyright">
