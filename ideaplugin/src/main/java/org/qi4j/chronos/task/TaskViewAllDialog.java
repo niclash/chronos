@@ -15,6 +15,7 @@ package org.qi4j.chronos.task;
 import com.intellij.openapi.actionSystem.ActionGroup;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.ActionPopupMenu;
+import com.intellij.openapi.project.Project;
 import com.intellij.ui.PopupHandler;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -42,9 +43,9 @@ public abstract class TaskViewAllDialog extends AbstractDialog
 
     private ChronosPageableWrapper<TaskEntityComposite> pageableWrapper;
 
-    public TaskViewAllDialog()
+    public TaskViewAllDialog( Project project )
     {
-        super( true );
+        super( project, true );
     }
 
     protected void initComponents()
@@ -121,7 +122,7 @@ public abstract class TaskViewAllDialog extends AbstractDialog
         return getServices().getTaskService();
     }
 
-    private ProjectEntityComposite getProject()
+    private ProjectEntityComposite getChronosProject()
     {
         return getChronosApp().getChronosProject();
     }
@@ -132,7 +133,7 @@ public abstract class TaskViewAllDialog extends AbstractDialog
         {
             public List<TaskEntityComposite> getData( int first, int count )
             {
-                return getTaskService().findAll( getProject(), new FindFilter( first, count ) );
+                return getTaskService().findAll( getChronosProject(), new FindFilter( first, count ) );
             }
 
             public Object[] populateData( TaskEntityComposite task )
@@ -147,7 +148,7 @@ public abstract class TaskViewAllDialog extends AbstractDialog
 
             public int getSize()
             {
-                return getTaskService().countAll( getProject() );
+                return getTaskService().countAll( getChronosProject() );
             }
         };
     }

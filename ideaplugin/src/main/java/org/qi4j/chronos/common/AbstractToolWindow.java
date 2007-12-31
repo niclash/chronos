@@ -14,8 +14,6 @@ package org.qi4j.chronos.common;
 
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.util.IconLoader;
-import com.intellij.openapi.wm.ToolWindow;
 import com.intellij.openapi.wm.ToolWindowAnchor;
 import com.intellij.openapi.wm.ToolWindowManager;
 import com.intellij.peer.PeerFactory;
@@ -62,12 +60,12 @@ public abstract class AbstractToolWindow
 
         Content content = peerFactory.getContentFactory().createContent( panel, "", false );
 
-        ToolWindow toolWindow = toolWindowManager.registerToolWindow( getToolWindowId(), true, getAnchor() );
-
-        toolWindow.getContentManager().addContent( content );
-
-        //TODO fix icon
-        toolWindow.setIcon( IconLoader.getIcon( "/general/toolWindowPalette.png" ) );
+// TODO: FIX FOR IDEA6
+//        ToolWindow toolWindow = toolWindowManager.registerToolWindow( getToolWindowId(), true, getAnchor() );
+//        toolWindow.getContentManager().addContent( content );
+//
+//        //TODO fix icon
+//        toolWindow.setIcon( IconLoader.getIcon( "/general/toolWindowPalette.png" ) );
     }
 
     public final void unregister()

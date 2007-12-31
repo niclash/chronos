@@ -12,18 +12,19 @@
  */
 package org.qi4j.chronos.workentry;
 
+import com.intellij.openapi.project.Project;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.util.List;
 import javax.swing.ListSelectionModel;
-import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.common.AbstractPanel;
 import org.qi4j.chronos.common.ChronosTable;
 import org.qi4j.chronos.common.ChronosTableModel;
-import org.qi4j.chronos.util.UiUtil;
+import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.util.DateUtil;
+import org.qi4j.chronos.util.UiUtil;
 
 public class WorkEntryListPanel extends AbstractPanel
 {
@@ -33,9 +34,11 @@ public class WorkEntryListPanel extends AbstractPanel
     private ChronosTable workEntryTable;
 
     private List<WorkEntryEntityComposite> workEntries;
+    private final Project project;
 
-    public WorkEntryListPanel()
+    public WorkEntryListPanel( Project project )
     {
+        this.project = project;
         init();
     }
 
@@ -106,7 +109,7 @@ public class WorkEntryListPanel extends AbstractPanel
         {
             final WorkEntryEntityComposite workEntry = workEntries.get( row );
 
-            WorkEntryDetailDialog detailDialog = new WorkEntryDetailDialog()
+            WorkEntryDetailDialog detailDialog = new WorkEntryDetailDialog( project )
             {
                 public WorkEntryEntityComposite getWorkEntry()
                 {

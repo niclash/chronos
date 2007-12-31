@@ -13,6 +13,8 @@
 package org.qi4j.chronos.action.workentry;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.DataConstants;
+import com.intellij.openapi.project.Project;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.workentry.WorkEntryEditDialog;
 import org.qi4j.chronos.workentry.WorkEntryListComponent;
@@ -21,7 +23,9 @@ public class WorkEntryEditAction extends WorkEntryBasedAction
 {
     public void execute( final WorkEntryListComponent workEntryListComponent, AnActionEvent e )
     {
-        WorkEntryEditDialog editDialog = new WorkEntryEditDialog()
+        Project project = (Project) e.getDataContext().getData( DataConstants.PROJECT );
+
+        WorkEntryEditDialog editDialog = new WorkEntryEditDialog( project )
         {
             public WorkEntryEntityComposite getWorkEntry()
             {

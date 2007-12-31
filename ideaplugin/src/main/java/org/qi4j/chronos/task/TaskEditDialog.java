@@ -12,13 +12,15 @@
  */
 package org.qi4j.chronos.task;
 
+import com.intellij.openapi.project.Project;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 
 public abstract class TaskEditDialog extends TaskAddEditDialog
 {
-    public TaskEditDialog()
+    public TaskEditDialog( Project project )
     {
+        super( project );
         assignTaskToFieldValue( getTask() );
     }
 

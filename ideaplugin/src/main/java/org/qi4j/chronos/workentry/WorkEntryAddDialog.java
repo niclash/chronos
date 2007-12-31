@@ -12,6 +12,7 @@
  */
 package org.qi4j.chronos.workentry;
 
+import com.intellij.openapi.project.Project;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
@@ -20,9 +21,9 @@ import org.qi4j.chronos.util.ChronosUtil;
 
 public abstract class WorkEntryAddDialog extends WorkEntryAddEditDialog
 {
-    public WorkEntryAddDialog()
+    public WorkEntryAddDialog( Project project )
     {
-
+        super( project );
     }
 
     protected String getDialogTitle()

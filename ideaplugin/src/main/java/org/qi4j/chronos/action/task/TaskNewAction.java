@@ -13,6 +13,8 @@
 package org.qi4j.chronos.action.task;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.DataConstants;
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.IconLoader;
 import javax.swing.Icon;
 import org.qi4j.chronos.action.AbstractAction;
@@ -24,8 +26,10 @@ public class TaskNewAction extends AbstractAction
 
     public void actionPerformed( AnActionEvent e )
     {
+        Project project = (Project) e.getDataContext().getData( DataConstants.PROJECT );
+
         //show taskAddDialog
-        new TaskAddDialog().show();
+        new TaskAddDialog( project ).show();
     }
 
     public void update( AnActionEvent e )

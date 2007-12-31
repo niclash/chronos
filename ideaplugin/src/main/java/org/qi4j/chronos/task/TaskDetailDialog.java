@@ -12,20 +12,21 @@
  */
 package org.qi4j.chronos.task;
 
+import com.intellij.openapi.project.Project;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import javax.swing.JTextArea;
-import org.qi4j.chronos.model.TaskStatus;
-import org.qi4j.chronos.model.composites.TaskEntityComposite;
-import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.comment.CommentListPanel;
 import org.qi4j.chronos.common.AbstractDialog;
 import org.qi4j.chronos.common.ChronosTabbedPanel;
 import org.qi4j.chronos.common.text.ReadOnlyTextField;
+import org.qi4j.chronos.model.TaskStatus;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.ongoingworkentry.OngoingWorkEntryListPanel;
+import org.qi4j.chronos.service.Services;
+import org.qi4j.chronos.util.DateUtil;
 import org.qi4j.chronos.util.UiUtil;
 import org.qi4j.chronos.workentry.WorkEntryListPanel;
-import org.qi4j.chronos.util.DateUtil;
 
 public abstract class TaskDetailDialog extends AbstractDialog
 {
@@ -40,11 +41,12 @@ public abstract class TaskDetailDialog extends AbstractDialog
     private CommentListPanel commentListPanel;
     private WorkEntryListPanel workEntryListPanel;
     private OngoingWorkEntryListPanel ongoingWorkEntryListPanel;
+    private final Project project;
 
-    public TaskDetailDialog()
+    public TaskDetailDialog( Project project )
     {
-        super( false );
-
+        super( project, false );
+        this.project = project;
         initData();
     }
 
@@ -89,7 +91,7 @@ public abstract class TaskDetailDialog extends AbstractDialog
 
         commentListPanel = new CommentListPanel();
 
-        workEntryListPanel = new WorkEntryListPanel();
+        workEntryListPanel = new WorkEntryListPanel( getProject() );
 
         tabbedPanel.addTab( "Comments", commentListPanel );
         tabbedPanel.addTab( "WorkEntries", workEntryListPanel );

@@ -12,8 +12,8 @@
  */
 package org.qi4j.chronos.task.tree;
 
-import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.common.AbstractTreeNode;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
 
 public class TaskTreeNode extends AbstractTreeNode
 {

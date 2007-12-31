@@ -12,6 +12,7 @@
  */
 package org.qi4j.chronos;
 
+import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.text.StringUtil;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
@@ -28,9 +29,9 @@ public class ChronosServerSettingDialog extends AbstractDialog
     private JNonFloatingPointTextField portField;
     private JMaxLengthTextField accountNameField;
 
-    public ChronosServerSettingDialog()
+    public ChronosServerSettingDialog( Project project )
     {
-        super( false );
+        super( project, false );
     }
 
     protected String getLayoutColSpec()

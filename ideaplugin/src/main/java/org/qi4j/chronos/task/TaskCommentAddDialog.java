@@ -12,13 +12,19 @@
  */
 package org.qi4j.chronos.task;
 
+import com.intellij.openapi.project.Project;
+import org.qi4j.chronos.comment.CommentAddDialog;
 import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
-import org.qi4j.chronos.comment.CommentAddDialog;
 import org.qi4j.chronos.util.UiUtil;
 
 public abstract class TaskCommentAddDialog extends CommentAddDialog
 {
+    public TaskCommentAddDialog( Project project )
+    {
+        super( project );
+    }
+
     public void addingComment( CommentComposite comment )
     {
         TaskEntityComposite task = getTask();

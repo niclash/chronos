@@ -16,5 +16,5 @@ import javax.swing.JTable;
 
 public class AbstractTable extends JTable
 {
-    
+
 }

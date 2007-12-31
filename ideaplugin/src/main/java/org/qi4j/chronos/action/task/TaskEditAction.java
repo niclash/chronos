@@ -13,6 +13,8 @@
 package org.qi4j.chronos.action.task;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.DataConstants;
+import com.intellij.openapi.project.Project;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.task.TaskEditDialog;
 import org.qi4j.chronos.task.TaskListComponent;
@@ -21,7 +23,9 @@ public class TaskEditAction extends TaskBaseAction
 {
     public void execute( final TaskListComponent taskList, AnActionEvent e )
     {
-        new TaskEditDialog()
+        Project project = (Project) e.getDataContext().getData( DataConstants.PROJECT );
+
+        new TaskEditDialog( project )
         {
             public TaskEntityComposite getTask()
             {

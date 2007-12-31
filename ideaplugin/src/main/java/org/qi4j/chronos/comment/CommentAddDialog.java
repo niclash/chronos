@@ -12,14 +12,16 @@
  */
 package org.qi4j.chronos.comment;
 
+import com.intellij.openapi.project.Project;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.chronos.util.ChronosUtil;
 
 public abstract class CommentAddDialog extends CommentAddEditDialog
 {
-    public CommentAddDialog()
+    public CommentAddDialog( Project project )
     {
+        super( project );
     }
 
     public String getOkButtonText()

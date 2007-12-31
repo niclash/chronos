@@ -12,13 +12,15 @@
  */
 package org.qi4j.chronos.workentry;
 
+import com.intellij.openapi.project.Project;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 
 public abstract class WorkEntryEditDialog extends WorkEntryAddEditDialog
 {
-    public WorkEntryEditDialog()
+    public WorkEntryEditDialog( Project project )
     {
+        super( project );
         assignWorkEntryToFieldValue( getWorkEntry() );
     }
 

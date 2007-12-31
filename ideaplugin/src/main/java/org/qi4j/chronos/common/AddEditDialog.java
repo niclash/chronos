@@ -12,15 +12,15 @@
  */
 package org.qi4j.chronos.common;
 
+import com.intellij.openapi.project.Project;
 import javax.swing.JOptionPane;
 import org.qi4j.library.framework.validation.ValidationException;
 
 public abstract class AddEditDialog extends AbstractDialog
 {
-    public AddEditDialog()
+    public AddEditDialog( Project project )
     {
-        super( false );
-
+        super( project, false );
         setOKButtonText( getOkButtonText() );
     }
 

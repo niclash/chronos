@@ -12,13 +12,19 @@
  */
 package org.qi4j.chronos.workentry;
 
+import com.intellij.openapi.project.Project;
+import org.qi4j.chronos.comment.CommentAddDialog;
 import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
-import org.qi4j.chronos.comment.CommentAddDialog;
 import org.qi4j.chronos.util.UiUtil;
 
 public abstract class WorkEntryCommentAddDialog extends CommentAddDialog
 {
+    public WorkEntryCommentAddDialog( Project project )
+    {
+        super( project );
+    }
+
     public void addingComment( CommentComposite comment )
     {
         WorkEntryEntityComposite workEntry = getWorkEntry();

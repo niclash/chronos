@@ -30,7 +30,8 @@ import org.qi4j.chronos.model.TaskStatus;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.TaskService;
 
-public class TaskAssociationAction extends AnAction implements CustomComponentAction
+public class TaskAssociationAction extends AnAction
+    implements CustomComponentAction
 {
     private Project project;
 
@@ -93,11 +94,11 @@ public class TaskAssociationAction extends AnAction implements CustomComponentAc
 
             List<TaskEntityComposite> tasks = taskService.findTask( getChronosProject( project ), TaskStatus.OPEN );
 
-            List<TaskDelgator> list = new ArrayList<TaskDelgator>();
+            List<TaskDelegator> list = new ArrayList<TaskDelegator>();
 
             for( TaskEntityComposite task : tasks )
             {
-                list.add( new TaskDelgator( task ) );
+                list.add( new TaskDelegator( task ) );
             }
 
             return list.toArray();
@@ -116,22 +117,22 @@ public class TaskAssociationAction extends AnAction implements CustomComponentAc
 
         private void handleItemStateChanged()
         {
-            TaskDelgator delgator = (TaskDelgator) taskComboBox.getSelectedItem();
+            TaskDelegator delegator = (TaskDelegator) taskComboBox.getSelectedItem();
 
-            TaskEntityComposite task = getServices( project ).getTaskService().get( delgator.getId() );
+            TaskEntityComposite task = getServices( project ).getTaskService().get( delegator.getId() );
 
             getChronosApp( project ).setAssociatedTask( task );
         }
     }
 
-    private class TaskDelgator
+    private class TaskDelegator
     {
         private String title;
         private String id;
 
-        public TaskDelgator( TaskEntityComposite task )
+        public TaskDelegator( TaskEntityComposite task )
         {
-            this.id = task.getIdentity();
+            this.id = task.identity().get();
             this.title = task.getTitle();
         }
 
@@ -156,7 +157,7 @@ public class TaskAssociationAction extends AnAction implements CustomComponentAc
                 return false;
             }
 
-            TaskDelgator that = (TaskDelgator) o;
+            TaskDelegator that = (TaskDelegator) o;
 
             if( id != null ? !id.equals( that.id ) : that.id != null )
             {

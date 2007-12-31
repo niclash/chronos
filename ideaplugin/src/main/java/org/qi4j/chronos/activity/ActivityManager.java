@@ -13,8 +13,6 @@
 package org.qi4j.chronos.activity;
 
 import com.intellij.openapi.project.Project;
-import com.intellij.openapi.application.Application;
-import com.intellij.openapi.application.ApplicationManager;
 import java.util.ArrayList;
 import java.util.List;
 

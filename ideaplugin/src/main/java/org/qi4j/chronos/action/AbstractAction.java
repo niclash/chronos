@@ -14,7 +14,9 @@ package org.qi4j.chronos.action;
 
 import com.intellij.openapi.actionSystem.AnAction;
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.ActionManager;
+import com.intellij.openapi.actionSystem.DataConstants;
+import com.intellij.openapi.actionSystem.DataContext;
+import com.intellij.openapi.project.Project;
 import org.qi4j.chronos.ChronosApp;
 import org.qi4j.chronos.ChronosProjectComponent;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
@@ -36,6 +38,8 @@ public abstract class AbstractAction extends AnAction
 
     public ChronosApp getChronosApp( AnActionEvent e )
     {
-        return ChronosProjectComponent.getInstance( e.getDataContext() ).getChronosApp();
+        DataContext dataContext = e.getDataContext();
+        Project project = (Project) dataContext.getData( DataConstants.PROJECT );
+        return ChronosProjectComponent.getInstance( project ).getChronosApp();
     }
 }

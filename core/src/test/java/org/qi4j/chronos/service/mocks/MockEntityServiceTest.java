@@ -14,6 +14,8 @@ package org.qi4j.chronos.service.mocks;
 
 import org.qi4j.composite.CompositeBuilder;
 import org.qi4j.test.AbstractQi4jTest;
+import org.qi4j.bootstrap.ModuleAssembly;
+import org.qi4j.bootstrap.AssemblyException;
 
 public class MockEntityServiceTest extends AbstractQi4jTest
 {
@@ -53,4 +55,7 @@ public class MockEntityServiceTest extends AbstractQi4jTest
         assertEquals( sampleService.countAll(), 1 );
     }
 
+    public void configure( ModuleAssembly module ) throws AssemblyException
+    {
+    }
 }

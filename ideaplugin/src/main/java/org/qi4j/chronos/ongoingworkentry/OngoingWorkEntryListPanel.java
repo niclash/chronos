@@ -15,12 +15,12 @@ package org.qi4j.chronos.ongoingworkentry;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import java.util.List;
-import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
 import org.qi4j.chronos.common.AbstractPanel;
 import org.qi4j.chronos.common.ChronosTable;
 import org.qi4j.chronos.common.ChronosTableModel;
-import org.qi4j.chronos.util.UiUtil;
+import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
 import org.qi4j.chronos.util.DateUtil;
+import org.qi4j.chronos.util.UiUtil;
 
 public class OngoingWorkEntryListPanel extends AbstractPanel
 {

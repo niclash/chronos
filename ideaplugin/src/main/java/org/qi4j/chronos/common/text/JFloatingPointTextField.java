@@ -13,7 +13,6 @@
 package org.qi4j.chronos.common.text;
 
 import com.intellij.openapi.util.text.StringUtil;
-import org.qi4j.chronos.common.text.AbstractTextField;
 
 public class JFloatingPointTextField extends AbstractTextField
 {

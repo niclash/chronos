@@ -12,6 +12,7 @@
  */
 package org.qi4j.chronos.task;
 
+import com.intellij.openapi.project.Project;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
@@ -20,8 +21,9 @@ import org.qi4j.chronos.util.ChronosUtil;
 
 public class TaskAddDialog extends TaskAddEditDialog
 {
-    public TaskAddDialog()
+    public TaskAddDialog( Project project )
     {
+        super( project );
     }
 
     public User getCreatedBy()

@@ -12,10 +12,6 @@
  */
 package org.qi4j.chronos.util;
 
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.actionSystem.DataKeys;
-import com.intellij.openapi.project.Project;
 import java.io.File;
 import java.util.Date;
 
@@ -40,16 +36,6 @@ public final class ChronosUtil
         }
 
         return file;
-    }
-
-    public static Project getProject( AnActionEvent e )
-    {
-        return DataKeys.PROJECT.getData( e.getDataContext() );
-    }
-
-    public static Project getProject( DataContext dataContext )
-    {
-        return DataKeys.PROJECT.getData( dataContext );
     }
 
     public static Date getCurrentDate()

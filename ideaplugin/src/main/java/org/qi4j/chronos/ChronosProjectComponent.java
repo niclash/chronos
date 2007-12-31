@@ -12,12 +12,9 @@
  */
 package org.qi4j.chronos;
 
-import com.intellij.ide.DataManager;
 import com.intellij.openapi.actionSystem.ActionManager;
 import com.intellij.openapi.actionSystem.Anchor;
 import com.intellij.openapi.actionSystem.Constraints;
-import com.intellij.openapi.actionSystem.DataContext;
-import com.intellij.openapi.actionSystem.DataKeys;
 import com.intellij.openapi.actionSystem.DefaultActionGroup;
 import com.intellij.openapi.components.ProjectComponent;
 import com.intellij.openapi.options.Configurable;
@@ -36,14 +33,25 @@ import javax.swing.JComponent;
 import javax.swing.SwingUtilities;
 import org.jdom.Element;
 import org.jetbrains.annotations.Nls;
-import org.qi4j.CompositeBuilder;
-import org.qi4j.CompositeBuilderFactory;
+import org.qi4j.bootstrap.ApplicationAssemblyFactory;
+import org.qi4j.bootstrap.ApplicationFactory;
+import org.qi4j.bootstrap.AssemblyException;
+import org.qi4j.bootstrap.ModuleAssembly;
+import org.qi4j.bootstrap.SingletonAssembly;
 import org.qi4j.chronos.action.task.TaskAssociationAction;
 import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.service.composites.ServicesComposite;
+import org.qi4j.composite.CompositeBuilder;
+import org.qi4j.composite.CompositeBuilderFactory;
 import org.qi4j.runtime.Energy4Java;
+import org.qi4j.runtime.Qi4jRuntime;
+import org.qi4j.runtime.structure.ApplicationInstance;
+import org.qi4j.runtime.structure.LayerInstance;
+import org.qi4j.runtime.structure.ModuleContext;
+import org.qi4j.runtime.structure.ModuleInstance;
 
-public class ChronosProjectComponent implements ProjectComponent, Configurable, JDOMExternalizable
+public class ChronosProjectComponent
+    implements ProjectComponent, Configurable, JDOMExternalizable
 {
     //TODO fix icon
     private static final Icon ICON = IconLoader.getIcon( "/org/qi4j/chronos/ui/setting/icon.png" );
@@ -80,18 +88,18 @@ public class ChronosProjectComponent implements ProjectComponent, Configurable, 
         return project.getComponent( ChronosProjectComponent.class );
     }
 
-    public static ChronosProjectComponent getInstance( DataContext dataContext )
-    {
-        Project project = DataKeys.PROJECT.getData( dataContext );
+//    public static ChronosProjectComponent getInstance( DataContext dataContext )
+//    {
+//        Project project = DataKeys.PROJECT.getData( dataContext );
+//        return getInstance( project );
+//    }
+//
+//    public static ChronosProjectComponent getInstance()
+//    {
+//        return getInstance( DataManager.getInstance().getDataContext() );
+//    }
 
-        return getInstance( project );
-    }
-
-    public static ChronosProjectComponent getInstance()
-    {
-        return getInstance( DataManager.getInstance().getDataContext() );
-    }
-
+    //
     public ChronosApp getChronosApp()
     {
         return chronosApp;
@@ -99,8 +107,8 @@ public class ChronosProjectComponent implements ProjectComponent, Configurable, 
 
     public void projectOpened()
     {
-        chronosApp = new ChronosApp( project, chronosConfig, factory, services );
 
+        chronosApp = new ChronosApp( project, chronosConfig, factory, services );
         chronosApp.addChronosAppListener( new ChronosAppListener()
         {
             public void chronosAppStarted()
@@ -190,14 +198,26 @@ public class ChronosProjectComponent implements ProjectComponent, Configurable, 
         /*
           TODO
           if these codes were placed in projectOpened method, it will throw an
-          ExceptionInInitializerError by Ehancer class in cglib. Fix it.
+          ExceptionInInitializerError by Enhancer class in cglib. Fix it.
          */
-        factory = new Energy4Java().newCompositeBuilderFactory();
-        CompositeBuilder<ServicesComposite> serviceBuilder = factory.newCompositeBuilder( ServicesComposite.class );
+//        factory = new Energy4Java().newCompositeBuilderFactory();
 
-        services = serviceBuilder.newInstance();
+        try
+        {
+            ApplicationInstance application = newApplication();
+            LayerInstance layerInstance = application.getLayerInstances().get( 0 );
+            ModuleInstance moduleInstance = layerInstance.getModuleInstances().get( 0 );
+            ModuleContext moduleContext = moduleInstance.getModuleContext();
+            factory = moduleContext.getCompositeBuilderFactory();
+            CompositeBuilder<ServicesComposite> serviceBuilder = factory.newCompositeBuilder( ServicesComposite.class );
+            services = serviceBuilder.newInstance();
+            services.initServices();
+        }
+        catch( AssemblyException e )
+        {
+            e.printStackTrace();  //TODO: Auto-generated, need attention.
+        }
 
-        services.initServices();
     }
 
     public void disposeComponent()
@@ -258,5 +278,22 @@ public class ChronosProjectComponent implements ProjectComponent, Configurable, 
     public void writeExternal( Element element ) throws WriteExternalException
     {
         chronosConfig.writeExternal( element );
+    }
+
+    protected ApplicationInstance newApplication()
+        throws AssemblyException
+    {
+        Qi4jRuntime qi4j = new Energy4Java();
+        SingletonAssembly assembly = new SingletonAssembly()
+        {
+            public void configure( ModuleAssembly module ) throws AssemblyException
+            {
+                module.addComposites(
+                    // TODO: Add all the Composites used.
+                );
+            }
+        };
+        ApplicationFactory applicationFactory = new ApplicationFactory( qi4j, new ApplicationAssemblyFactory() );
+        return applicationFactory.newApplication( assembly ).newApplicationInstance( "Chronos" );
     }
 }

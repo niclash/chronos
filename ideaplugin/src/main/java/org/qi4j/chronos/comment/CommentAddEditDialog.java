@@ -12,16 +12,17 @@
  */
 package org.qi4j.chronos.comment;
 
+import com.intellij.openapi.project.Project;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
+import org.qi4j.chronos.common.AddEditDialog;
+import org.qi4j.chronos.common.text.JMaxLengthTextArea;
+import org.qi4j.chronos.common.text.ReadOnlyTextField;
 import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.CommentComposite;
-import org.qi4j.chronos.common.AddEditDialog;
-import org.qi4j.chronos.common.text.ReadOnlyTextField;
-import org.qi4j.chronos.common.text.JMaxLengthTextArea;
-import org.qi4j.chronos.util.UiUtil;
 import org.qi4j.chronos.util.DateUtil;
+import org.qi4j.chronos.util.UiUtil;
 
 public abstract class CommentAddEditDialog extends AddEditDialog
 {
@@ -30,8 +31,9 @@ public abstract class CommentAddEditDialog extends AddEditDialog
 
     private JMaxLengthTextArea commentTextArea;
 
-    public CommentAddEditDialog()
+    public CommentAddEditDialog( Project project )
     {
+        super( project );
     }
 
     protected void initComponents()

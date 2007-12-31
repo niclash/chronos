@@ -12,19 +12,20 @@
  */
 package org.qi4j.chronos.task;
 
+import com.intellij.openapi.project.Project;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import javax.swing.JComboBox;
+import org.qi4j.chronos.common.AddEditDialog;
+import org.qi4j.chronos.common.text.JMaxLengthTextArea;
+import org.qi4j.chronos.common.text.JMaxLengthTextField;
+import org.qi4j.chronos.common.text.ReadOnlyTextField;
 import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.model.TaskStatus;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
-import org.qi4j.chronos.common.AddEditDialog;
-import org.qi4j.chronos.common.text.ReadOnlyTextField;
-import org.qi4j.chronos.common.text.JMaxLengthTextArea;
-import org.qi4j.chronos.common.text.JMaxLengthTextField;
-import org.qi4j.chronos.util.UiUtil;
 import org.qi4j.chronos.util.DateUtil;
+import org.qi4j.chronos.util.UiUtil;
 
 public abstract class TaskAddEditDialog extends AddEditDialog
 {
@@ -36,8 +37,9 @@ public abstract class TaskAddEditDialog extends AddEditDialog
 
     private JMaxLengthTextArea descTextArea;
 
-    public TaskAddEditDialog()
+    public TaskAddEditDialog( Project project )
     {
+        super( project );
         validate();
     }
 

@@ -12,8 +12,6 @@
  */
 package org.qi4j.chronos.common.text;
 
-import org.qi4j.chronos.common.text.AbstractTextField;
-
 public class JMaxLengthTextField extends AbstractTextField
 {
     public JMaxLengthTextField()

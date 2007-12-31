@@ -13,6 +13,8 @@
 package org.qi4j.chronos.action.task;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.DataConstants;
+import com.intellij.openapi.project.Project;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.task.TaskCommentAddDialog;
 import org.qi4j.chronos.task.TaskListComponent;
@@ -21,7 +23,8 @@ public class TaskNewCommentAction extends TaskBaseAction
 {
     public void execute( final TaskListComponent taskList, AnActionEvent e )
     {
-        TaskCommentAddDialog addDialog = new TaskCommentAddDialog()
+        Project project = (Project) e.getDataContext().getData( DataConstants.PROJECT );
+        TaskCommentAddDialog addDialog = new TaskCommentAddDialog( project )
         {
             public TaskEntityComposite getTask()
             {

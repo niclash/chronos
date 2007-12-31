@@ -13,6 +13,8 @@
 package org.qi4j.chronos.action.ongoingworkentry;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import com.intellij.openapi.actionSystem.DataConstants;
+import com.intellij.openapi.project.Project;
 import java.util.Date;
 import org.qi4j.chronos.action.task.TaskBaseAction;
 import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
@@ -28,12 +30,11 @@ public class OngoingWorkEntryStopAction extends TaskBaseAction
     public void execute( final TaskListComponent taskList, final AnActionEvent e )
     {
         final TaskEntityComposite task = taskList.getSelectedTask();
-
         OngoingWorkEntryService service = getServices( e ).getOngoingWorkEntryService();
-
         final OngoingWorkEntryEntityComposite ongoingWorkEntry = service.getOngoingWorkEntry( task, getProjectAssignee( e ).getStaff() );
 
-        WorkEntryAddDialog addDialog = new WorkEntryAddDialog()
+        Project project = (Project) e.getDataContext().getData( DataConstants.PROJECT );
+        WorkEntryAddDialog addDialog = new WorkEntryAddDialog( project )
         {
             public void addingWorkEntry( WorkEntryEntityComposite workEntry )
             {

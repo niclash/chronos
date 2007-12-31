@@ -14,9 +14,11 @@
 
   <actions>
     <!-- Setting action-->
+<!--
     <action id="ChronosSettingAction" class="org.qi4j.chronos.action.ChronosSettingAction"
             text="Chronos Setting"
             description="Chronos Setting"/>
+-->
 
     <!-- Task actions -->
     <action id="ChronosTaskNewAction" class="org.qi4j.chronos.action.task.TaskNewAction" text="New Task"

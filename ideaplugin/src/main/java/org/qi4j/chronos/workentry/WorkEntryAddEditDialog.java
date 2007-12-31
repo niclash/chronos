@@ -12,18 +12,19 @@
  */
 package org.qi4j.chronos.workentry;
 
+import com.intellij.openapi.project.Project;
 import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import java.util.Date;
 import javax.swing.JTextArea;
 import javax.swing.JTextField;
+import org.qi4j.chronos.common.AddEditDialog;
+import org.qi4j.chronos.common.JDateTime;
+import org.qi4j.chronos.common.text.ReadOnlyTextField;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
-import org.qi4j.chronos.common.AddEditDialog;
-import org.qi4j.chronos.common.text.ReadOnlyTextField;
-import org.qi4j.chronos.common.JDateTime;
-import org.qi4j.chronos.util.UiUtil;
 import org.qi4j.chronos.util.ChronosUtil;
+import org.qi4j.chronos.util.UiUtil;
 
 public abstract class WorkEntryAddEditDialog extends AddEditDialog
 {
@@ -36,9 +37,9 @@ public abstract class WorkEntryAddEditDialog extends AddEditDialog
     private JDateTime startDateTime;
     private JDateTime endDatetime;
 
-    public WorkEntryAddEditDialog()
+    public WorkEntryAddEditDialog( Project project )
     {
-
+        super( project );
     }
 
     protected void initComponents()

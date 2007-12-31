@@ -14,9 +14,6 @@ package org.qi4j.chronos;
 
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.text.StringUtil;
-import org.qi4j.Composite;
-import org.qi4j.CompositeBuilder;
-import org.qi4j.CompositeBuilderFactory;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
@@ -27,6 +24,9 @@ import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.util.UiUtil;
 import org.qi4j.chronos.util.listener.EventCallback;
 import org.qi4j.chronos.util.listener.ListenerHandler;
+import org.qi4j.composite.Composite;
+import org.qi4j.composite.CompositeBuilder;
+import org.qi4j.composite.CompositeBuilderFactory;
 
 public class ChronosApp
 {
@@ -255,7 +255,7 @@ public class ChronosApp
 
     public boolean showChronosServerSettingDialog()
     {
-        ChronosServerSettingDialog dialog = new ChronosServerSettingDialog();
+        ChronosServerSettingDialog dialog = new ChronosServerSettingDialog( project );
 
         dialog.setIp( chronosConfig.getIp() );
         dialog.setAccountName( chronosConfig.getAccountName() );
@@ -275,7 +275,7 @@ public class ChronosApp
 
     public boolean showUserPassSettingDialog()
     {
-        UserPassSettingDialog dialog = new UserPassSettingDialog();
+        UserPassSettingDialog dialog = new UserPassSettingDialog( project );
 
         dialog.setLoginId( userConfig.getLoginId() );
         dialog.setPassword( userConfig.getPassword() );
