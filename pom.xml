@@ -17,6 +17,7 @@
   <modules>
     <module>core</module>
     <module>ui</module>
+    <module>ideaplugin</module>
   </modules>
 </project>
 
