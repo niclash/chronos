@@ -41,7 +41,7 @@ public class MockEntityServiceTest extends AbstractQi4jTest
 
         sampleService.save( sample );
 
-        assertNotNull( sampleService.get( sample.getIdentity() ) );
+        assertNotNull( sampleService.get( sample.identity().get() ) );
     }
 
     public void testDelete()

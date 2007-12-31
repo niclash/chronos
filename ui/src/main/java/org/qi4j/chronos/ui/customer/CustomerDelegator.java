@@ -23,7 +23,7 @@ public class CustomerDelegator implements Serializable
     public CustomerDelegator( CustomerEntityComposite customer )
     {
         name = customer.getName();
-        id = customer.getIdentity();
+        id = customer.identity().get();
     }
 
     public String getId()

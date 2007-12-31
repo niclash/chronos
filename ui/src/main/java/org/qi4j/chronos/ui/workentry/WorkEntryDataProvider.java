@@ -22,7 +22,7 @@ public abstract class WorkEntryDataProvider extends AbstractSortableDataProvider
 {
     public String getId( WorkEntryEntityComposite t )
     {
-        return t.getIdentity();
+        return t.identity().get();
     }
 
     public final WorkEntryEntityComposite load( String id )

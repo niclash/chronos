@@ -24,7 +24,7 @@ public abstract class ContactPersonDataProvider<T extends HasContactPersons> ext
 {
     public String getId( ContactPersonEntityComposite contactPersonEntityComposite )
     {
-        return contactPersonEntityComposite.getIdentity();
+        return contactPersonEntityComposite.identity().get();
     }
 
     public ContactPersonEntityComposite load( String id )

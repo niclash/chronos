@@ -55,7 +55,7 @@ public abstract class MockProjectMiscServiceMixin implements ProjectService
 
                 while( projectAssigneeIter.hasNext() )
                 {
-                    if( projectAssigneeIter.next().getStaff().getIdentity().equals( staff.getIdentity() ) )
+                    if( projectAssigneeIter.next().getStaff().equals( staff ) )
                     {
                         resultList.add( project );
 
@@ -107,7 +107,7 @@ public abstract class MockProjectMiscServiceMixin implements ProjectService
 
     private boolean isSameContactPerson( ContactPersonEntityComposite contactPerson1, ContactPersonEntityComposite contactPerson2 )
     {
-        return contactPerson1.getIdentity().equals( contactPerson2.getIdentity() );
+        return contactPerson1.equals( contactPerson2 );
     }
 
     public int countAll( ContactPersonEntityComposite contactPerson )
@@ -169,7 +169,7 @@ public abstract class MockProjectMiscServiceMixin implements ProjectService
 
             while( taskIter.hasNext() )
             {
-                if( taskIter.next().getIdentity().equals( task.getIdentity() ) )
+                if( taskIter.next().equals( task ) )
                 {
                     return project;
                 }

@@ -100,7 +100,7 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
 
     public void populateItems( Item item, ContactPersonEntityComposite obj )
     {
-        final String contactPersonId = obj.getIdentity();
+        final String contactPersonId = obj.identity().get();
 
         item.add( createDetailLink( "firstName", obj.getFirstName(), contactPersonId ) );
 

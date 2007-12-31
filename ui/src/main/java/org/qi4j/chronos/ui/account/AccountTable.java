@@ -101,7 +101,7 @@ public abstract class AccountTable extends ActionTable<AccountEntityComposite, S
 
     public void populateItems( Item item, AccountEntityComposite obj )
     {
-        final String accountId = obj.getIdentity();
+        final String accountId = obj.identity().get();
 
         item.add( createDetailPage( "name", obj.getName(), accountId ) );
         item.add( createDetailPage( "formalReference", obj.getReference(), accountId ) );

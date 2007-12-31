@@ -21,7 +21,7 @@ public abstract class StaffDataProvider extends AbstractSortableDataProvider<Sta
 {
     public String getId( StaffEntityComposite staffEntityComposite )
     {
-        return staffEntityComposite.getIdentity();
+        return staffEntityComposite.identity().get();
     }
 
     private StaffService getStaffService()

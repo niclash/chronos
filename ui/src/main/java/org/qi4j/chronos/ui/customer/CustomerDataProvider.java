@@ -23,7 +23,7 @@ public abstract class CustomerDataProvider extends AbstractSortableDataProvider<
 {
     public String getId( CustomerEntityComposite customer )
     {
-        return customer.getIdentity();
+        return customer.identity().get();
     }
 
     public CustomerEntityComposite load( String id )

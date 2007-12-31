@@ -23,7 +23,7 @@ public class ContactPersonDelegator implements Serializable
     public ContactPersonDelegator( ContactPersonEntityComposite contactPerson )
     {
         this.fullname = contactPerson.getFullname();
-        this.id = contactPerson.getIdentity();
+        this.id = contactPerson.identity().get();
     }
 
     public String getId()

@@ -19,13 +19,13 @@ import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleCheckBox;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleAction;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
+import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.library.general.model.Money;
 
 public abstract class StaffTable extends ActionTable<StaffEntityComposite, String>
@@ -100,7 +100,7 @@ public abstract class StaffTable extends ActionTable<StaffEntityComposite, Strin
 
     public void populateItems( Item item, StaffEntityComposite obj )
     {
-        final String staffId = obj.getIdentity();
+        final String staffId = obj.identity().get();
 
         item.add( createDetailLink( "firstName", obj.getFirstName(), staffId ) );
         item.add( createDetailLink( "lastName", obj.getLastName(), staffId ) );

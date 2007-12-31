@@ -40,7 +40,7 @@ public abstract class MockParentBasedServiceMixin<ITEM extends Identity, PARENT 
 
         for( ITEM item : items )
         {
-            if( item.getIdentity().equals( id ) )
+            if( item.identity().get().equals( id ) )
             {
                 return item;
             }
@@ -69,7 +69,7 @@ public abstract class MockParentBasedServiceMixin<ITEM extends Identity, PARENT 
         {
             if( parentFilter != null )
             {
-                if( parentFilter.getIdentity().equals( parent.getIdentity() ) )
+                if( parentFilter.equals( parent ) )
                 {
                     addItem( parent, items );
                 }
@@ -151,7 +151,7 @@ public abstract class MockParentBasedServiceMixin<ITEM extends Identity, PARENT 
             {
                 ITEM temp = itemIter.next();
 
-                if( temp.getIdentity().equals( t.getIdentity() ) )
+                if( temp.equals( t ) )
                 {
                     return parent;
                 }

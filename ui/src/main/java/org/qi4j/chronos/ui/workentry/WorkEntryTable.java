@@ -21,11 +21,11 @@ import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.WorkEntryService;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
+import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.chronos.util.DateUtil;
 
 public abstract class WorkEntryTable extends ActionTable<WorkEntryEntityComposite, String>
@@ -85,7 +85,7 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntryEntityComposit
 
     public void populateItems( Item item, WorkEntryEntityComposite obj )
     {
-        final String workEntryId = obj.getIdentity();
+        final String workEntryId = obj.identity().get();
 
         item.add( new SimpleLink( "title", obj.getTitle() )
         {

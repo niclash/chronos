@@ -31,7 +31,7 @@ public abstract class MockOngoingWorkEntryMiscServiceMixin implements OngoingWor
 
         for( OngoingWorkEntryEntityComposite workEntry : list )
         {
-            if( workEntry.getProjectAssignee().getStaff().getIdentity().equals( staff.getIdentity() ) )
+            if( workEntry.getProjectAssignee().getStaff().equals( staff ) )
             {
                 return workEntry;
             }

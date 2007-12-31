@@ -67,7 +67,7 @@ public abstract class MockTaskMiscServiceMixin implements TaskService
 
             while( workEntryIter.hasNext() )
             {
-                if( workEntryIter.next().getProjectAssignee().getStaff().getIdentity().equals( staff.getIdentity() ) )
+                if( workEntryIter.next().getProjectAssignee().getStaff().equals( staff ) )
                 {
                     resultSet.add( task );
                 }

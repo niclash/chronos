@@ -27,11 +27,11 @@ import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.service.ProjectAssigneeService;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
+import org.qi4j.chronos.ui.wicket.base.BasePage;
 
 public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssigneeEntityComposite, String>
 {
@@ -43,7 +43,7 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssigneeEn
 
         addActions();
     }
-    
+
     private void addActions()
     {
         addAction( new SimpleDeleteAction<ProjectAssigneeEntityComposite>( "Delete" )
@@ -80,7 +80,7 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssigneeEn
 
     public void populateItems( Item item, ProjectAssigneeEntityComposite obj )
     {
-        final String projectAssigneeId = obj.getIdentity();
+        final String projectAssigneeId = obj.identity().get();
 
         item.add( new Label( "firstName", obj.getStaff().getFirstName() ) );
         item.add( new Label( "lastName", obj.getStaff().getLastName() ) );

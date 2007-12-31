@@ -67,7 +67,7 @@ public abstract class CommentTable extends ActionTable<CommentComposite, Comment
 
     public void populateItems( Item item, CommentComposite obj )
     {
-        String userId = ( (Identity) obj.getUser() ).getIdentity();
+        String userId = ( (Identity) obj.getUser() ).identity().get();
 
         item.add( createDetailLink( "user", obj.getUser().getFullname(), userId, obj.getCreatedDate() ) );
         item.add( createDetailLink( "createdDate", DateUtil.formatDateTime( obj.getCreatedDate() ), userId, obj.getCreatedDate() ) );

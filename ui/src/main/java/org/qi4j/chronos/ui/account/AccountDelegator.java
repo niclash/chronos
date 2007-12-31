@@ -23,7 +23,7 @@ public class AccountDelegator implements Serializable
     public AccountDelegator( AccountEntityComposite account )
     {
         this.name = account.getName();
-        this.id = account.getIdentity();
+        this.id = account.identity().get();
     }
 
     public AccountDelegator( String name, String id )

@@ -93,7 +93,7 @@ public final class ChronosSession extends AuthenticatedWebSession
                 return false;
             }
 
-            userId = ( (Identity) user ).getIdentity();
+            userId = ( (Identity) user ).identity().get();
 
             roleResolver = new SystemRoleResolver( user );
 

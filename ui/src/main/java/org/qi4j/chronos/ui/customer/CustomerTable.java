@@ -68,7 +68,7 @@ public abstract class CustomerTable extends ActionTable<CustomerEntityComposite,
 
     public void populateItems( Item item, CustomerEntityComposite obj )
     {
-        final String customerId = obj.getIdentity();
+        final String customerId = obj.identity().get();
 
         item.add( createDetailLink( "name", obj.getName(), customerId ) );
         item.add( createDetailLink( "formalReference", obj.getReference(), customerId ) );

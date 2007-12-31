@@ -48,7 +48,7 @@ public class MockEntityServiceMixin
     {
         validate( obj );
 
-        dataMap.put( obj.getIdentity(), obj );
+        dataMap.put( obj.identity().get(), obj );
     }
 
     private void validate( Identity obj )
@@ -100,7 +100,7 @@ public class MockEntityServiceMixin
 
     public void delete( Identity obj )
     {
-        delete( obj.getIdentity() );
+        delete( obj.identity().get() );
     }
 
     public void delete( Collection<Identity> objs )

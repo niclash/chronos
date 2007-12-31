@@ -24,12 +24,12 @@ import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleAction;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
+import org.qi4j.chronos.ui.wicket.base.BasePage;
 
 public abstract class ProjectTable extends ActionTable<ProjectEntityComposite, String>
 {
@@ -113,7 +113,7 @@ public abstract class ProjectTable extends ActionTable<ProjectEntityComposite, S
 
     public void populateItems( Item item, ProjectEntityComposite obj )
     {
-        final String projectId = obj.getIdentity();
+        final String projectId = obj.identity().get();
 
         item.add( createDetailLink( "name", obj.getName(), projectId ) );
         item.add( createDetailLink( "formalReference", obj.getReference(), projectId ) );

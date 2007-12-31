@@ -41,7 +41,7 @@ public abstract class MockAccountMiscServiceMixin implements AccountService
             {
                 StaffEntityComposite staff = staffIterator.next();
 
-                if( staff.getIdentity().equals( target.getIdentity() ) )
+                if( staff.equals( target ) )
                 {
                     return account;
                 }

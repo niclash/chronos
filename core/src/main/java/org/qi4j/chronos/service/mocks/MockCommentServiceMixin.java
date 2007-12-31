@@ -77,7 +77,7 @@ public class MockCommentServiceMixin implements CommentService
         {
             CommentComposite comment = iterator.next();
 
-            String tempId = ( (Identity) comment.getUser() ).getIdentity();
+            String tempId = ( (Identity) comment.getUser() ).identity().get();
             if( comment.getCreatedDate().equals( createdDate ) && tempId.equals( userId ) )
             {
                 return comment;

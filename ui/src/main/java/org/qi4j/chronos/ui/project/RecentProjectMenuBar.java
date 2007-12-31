@@ -18,10 +18,10 @@ import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.chronos.ui.common.menu.MenuBar;
 import org.qi4j.chronos.ui.common.menu.MenuItem;
 import org.qi4j.chronos.ui.common.menu.MenuLink;
+import org.qi4j.chronos.ui.wicket.base.BasePage;
 
 public abstract class RecentProjectMenuBar extends MenuBar
 {
@@ -50,7 +50,7 @@ public abstract class RecentProjectMenuBar extends MenuBar
         int index = 0;
         for( ProjectEntityComposite project : recentProjectList )
         {
-            final String projectId = project.getIdentity();
+            final String projectId = project.identity().get();
 
             menuItems[ index ] = new MenuLink( project.getName() )
             {

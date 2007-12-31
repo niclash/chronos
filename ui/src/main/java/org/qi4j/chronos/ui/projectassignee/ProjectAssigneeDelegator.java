@@ -22,7 +22,7 @@ public class ProjectAssigneeDelegator implements Serializable
 
     public ProjectAssigneeDelegator( ProjectAssigneeEntityComposite projectAssignee )
     {
-        this.id = projectAssignee.getIdentity();
+        this.id = projectAssignee.identity().get();
 
         this.fullName = projectAssignee.getStaff().getFullname();
     }

@@ -21,7 +21,7 @@ public abstract class SimpleDataProvider<ITEM extends Identity> extends Abstract
 {
     public String getId( ITEM t )
     {
-        return t.getIdentity();
+        return t.identity().get();
     }
 
     public ITEM load( String id )

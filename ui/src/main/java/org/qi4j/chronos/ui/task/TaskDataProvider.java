@@ -20,7 +20,7 @@ public abstract class TaskDataProvider extends AbstractSortableDataProvider<Task
 {
     public String getId( TaskEntityComposite t )
     {
-        return t.getIdentity();
+        return t.identity().get();
     }
 
     public TaskEntityComposite load( String s )

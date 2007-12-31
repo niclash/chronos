@@ -77,7 +77,7 @@ public class MockWorkEntryServiceMixin implements WorkEntryService
         {
             WorkEntryEntityComposite workEntry = iter.next();
 
-            if( workEntry.getIdentity().equals( id ) )
+            if( workEntry.identity().get().equals( id ) )
             {
                 return workEntry;
             }
@@ -122,7 +122,7 @@ public class MockWorkEntryServiceMixin implements WorkEntryService
         {
             WorkEntryEntityComposite workEntry = iter.next();
 
-            if( workEntry.getProjectAssignee().getStaff().getIdentity().equals( staff.getIdentity() ) )
+            if( workEntry.getProjectAssignee().getStaff().equals( staff ) )
             {
                 resultList.add( workEntry );
             }

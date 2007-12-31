@@ -26,7 +26,7 @@ public class CommentDelegator implements Serializable
     public CommentDelegator( CommentComposite comment )
     {
         createdDate = comment.getCreatedDate();
-        userId = ( (Identity) comment.getUser() ).getIdentity();
+        userId = ( (Identity) comment.getUser() ).identity().get();
     }
 
     public String getUserId()

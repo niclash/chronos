@@ -26,7 +26,7 @@ public abstract class ProjectDataProvider extends AbstractSortableDataProvider<P
     public String getId( ProjectEntityComposite projectEntityComposite )
     {
 
-        return projectEntityComposite.getIdentity();
+        return projectEntityComposite.identity().get();
     }
 
     public ProjectEntityComposite load( String id )

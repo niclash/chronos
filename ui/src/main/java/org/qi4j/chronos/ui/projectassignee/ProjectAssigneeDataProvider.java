@@ -29,7 +29,7 @@ public abstract class ProjectAssigneeDataProvider extends AbstractSortableDataPr
 
     public String getId( ProjectAssigneeEntityComposite t )
     {
-        return t.getIdentity();
+        return t.identity().get();
     }
 
     public ProjectAssigneeEntityComposite load( String s )

@@ -24,7 +24,7 @@ public class CommentId implements Serializable
 
     public CommentId( CommentComposite comment )
     {
-        this.userId = ( (Identity) comment.getUser() ).getIdentity();
+        this.userId = ( (Identity) comment.getUser() ).identity().get();
         createdDate = comment.getCreatedDate();
     }
 
