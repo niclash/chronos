@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module relativePaths="true" type="JAVA_MODULE" version="4">
+<module version="4" relativePaths="true" type="JAVA_MODULE">
+  <component name="ModuleRootManager" />
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
     <exclude-output />
@@ -22,7 +23,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$M2_REPO$/org/mortbay/jetty/jetty/6.1.1/jetty-6.1.1.jar!/" />
+          <root url="jar:///var/lib/maven-repo/repository/org/mortbay/jetty/jetty/6.1.1/jetty-6.1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -31,7 +32,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$M2_REPO$/org/mortbay/jetty/jetty-util/6.1.1/jetty-util-6.1.1.jar!/" />
+          <root url="jar:///var/lib/maven-repo/repository/org/mortbay/jetty/jetty-util/6.1.1/jetty-util-6.1.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -40,40 +41,40 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-auth-roles/1.3.0-beta2/wicket-auth-roles-1.3.0-beta2.jar!/" />
+          <root url="jar:///var/lib/maven-repo/repository/org/apache/wicket/wicket-auth-roles/1.3.0-beta2/wicket-auth-roles-1.3.0-beta2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-auth-roles/1.3.0-beta2/wicket-auth-roles-1.3.0-beta2-sources.jar!/" />
+          <root url="jar:///var/lib/maven-repo/repository/org/apache/wicket/wicket-auth-roles/1.3.0-beta2/wicket-auth-roles-1.3.0-beta2-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$M2_REPO$/org/apache/wicket/wicket/1.3.0-beta2/wicket-1.3.0-beta2.jar!/" />
+          <root url="jar:///var/lib/maven-repo/repository/org/apache/wicket/wicket/1.3.0-beta2/wicket-1.3.0-beta2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$M2_REPO$/org/apache/wicket/wicket/1.3.0-beta2/wicket-1.3.0-beta2-sources.jar!/" />
+          <root url="jar:///var/lib/maven-repo/repository/org/apache/wicket/wicket/1.3.0-beta2/wicket-1.3.0-beta2-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-extensions/1.3.0-beta2/wicket-extensions-1.3.0-beta2.jar!/" />
+          <root url="jar:///var/lib/maven-repo/repository/org/apache/wicket/wicket-extensions/1.3.0-beta2/wicket-extensions-1.3.0-beta2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-extensions/1.3.0-beta2/wicket-extensions-1.3.0-beta2-sources.jar!/" />
+          <root url="jar:///var/lib/maven-repo/repository/org/apache/wicket/wicket-extensions/1.3.0-beta2/wicket-extensions-1.3.0-beta2-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$M2_REPO$/org/slf4j/slf4j-log4j12/1.4.0/slf4j-log4j12-1.4.0.jar!/" />
+          <root url="jar:///var/lib/maven-repo/repository/org/slf4j/slf4j-log4j12/1.4.0/slf4j-log4j12-1.4.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -82,7 +83,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$M2_REPO$/org/slf4j/slf4j-api/1.4.0/slf4j-api-1.4.0.jar!/" />
+          <root url="jar:///var/lib/maven-repo/repository/org/slf4j/slf4j-api/1.4.0/slf4j-api-1.4.0.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -91,7 +92,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$M2_REPO$/log4j/log4j/1.2.14/log4j-1.2.14.jar!/" />
+          <root url="jar:///var/lib/maven-repo/repository/log4j/log4j/1.2.14/log4j-1.2.14.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -100,18 +101,18 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-datetime/1.3.0-beta2/wicket-datetime-1.3.0-beta2.jar!/" />
+          <root url="jar:///var/lib/maven-repo/repository/org/apache/wicket/wicket-datetime/1.3.0-beta2/wicket-datetime-1.3.0-beta2.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES>
-          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-datetime/1.3.0-beta2/wicket-datetime-1.3.0-beta2-sources.jar!/" />
+          <root url="jar:///var/lib/maven-repo/repository/org/apache/wicket/wicket-datetime/1.3.0-beta2/wicket-datetime-1.3.0-beta2-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$M2_REPO$/joda-time/joda-time/1.4/joda-time-1.4.jar!/" />
+          <root url="jar:///var/lib/maven-repo/repository/joda-time/joda-time/1.4/joda-time-1.4.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
@@ -120,7 +121,7 @@
     <orderEntry type="module-library">
       <library>
         <CLASSES>
-          <root url="jar://$M2_REPO$/junit/junit/4.1/junit-4.1.jar!/" />
+          <root url="jar:///var/lib/maven-repo/repository/junit/junit/4.1/junit-4.1.jar!/" />
         </CLASSES>
         <JAVADOC />
         <SOURCES />
