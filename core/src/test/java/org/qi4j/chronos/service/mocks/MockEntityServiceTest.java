@@ -21,19 +21,18 @@ public class MockEntityServiceTest extends AbstractQi4jTest
 {
     private SampleService sampleService;
 
-    protected void setUp() throws Exception
+    protected void setUp()
+        throws Exception
     {
+        super.setUp();
         CompositeBuilder<SampleServiceComposite> compositeBuilder = compositeBuilderFactory.newCompositeBuilder( SampleServiceComposite.class );
-
         sampleService = compositeBuilder.newInstance();
     }
 
     public void testSave()
     {
         SampleEntityComposite account = sampleService.newInstance( SampleEntityComposite.class );
-
         sampleService.save( account );
-
         assertEquals( sampleService.countAll(), 1 );
     }
 
@@ -57,5 +56,6 @@ public class MockEntityServiceTest extends AbstractQi4jTest
 
     public void configure( ModuleAssembly module ) throws AssemblyException
     {
+        module.addComposites( SampleEntityComposite.class );
     }
 }

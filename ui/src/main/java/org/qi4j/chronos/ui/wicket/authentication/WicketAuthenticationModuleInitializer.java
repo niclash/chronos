@@ -4,6 +4,7 @@ import org.qi4j.bootstrap.LayerAssembly;
 import org.qi4j.bootstrap.ModuleAssembly;
 import static org.qi4j.chronos.ui.wicket.authentication.Constants.MODULE_NAME_WICKET_AUTHENTICATION;
 import static org.qi4j.composite.NullArgumentException.validateNotNull;
+import org.qi4j.spi.structure.Visibility;
 
 /**
  * {@code WicketAuthenticationModuleInitializer} initialize wicket authentication module.
@@ -31,6 +32,6 @@ public final class WicketAuthenticationModuleInitializer
 
         ModuleAssembly moduleAssembly = aLayerAssembly.newModuleAssembly();
         moduleAssembly.setName( MODULE_NAME_WICKET_AUTHENTICATION );
-        moduleAssembly.addComposites( RoleHelperComposite.class ).makeModulePublic();
+        moduleAssembly.addComposites( RoleHelperComposite.class ).publicIn( Visibility.module );
     }
 }
