@@ -6,7 +6,7 @@ import org.qi4j.entity.IdentityGenerator;
 import org.qi4j.extension.persistence.quick.MapPersistenceProvider;
 import org.qi4j.extension.persistence.quick.SerializablePersistence;
 import org.qi4j.runtime.composite.UuidIdentityGenerator;
-import org.qi4j.runtime.entity.EntitySessionImpl;
+import org.qi4j.runtime.entity.EntitySessionInstance;
 import org.qi4j.spi.serialization.SerializablePersistenceSpi;
 import org.qi4j.test.AbstractQi4jTest;
 
@@ -22,6 +22,6 @@ public abstract class AbstractTest extends AbstractQi4jTest
         IdentityGenerator identityGenerator = new UuidIdentityGenerator();
         SerializablePersistenceSpi subsystem = new MapPersistenceProvider();
         SerializablePersistence storage = new SerializablePersistence( subsystem, spi );
-        session = new EntitySessionImpl( builderFactory, identityGenerator, storage );
+        session = new EntitySessionInstance( builderFactory, identityGenerator, storage );
     }
 }

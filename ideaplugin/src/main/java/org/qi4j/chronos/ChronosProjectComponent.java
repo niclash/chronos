@@ -100,6 +100,7 @@ public class ChronosProjectComponent
 //    }
 
     //
+
     public ChronosApp getChronosApp()
     {
         return chronosApp;
@@ -208,7 +209,7 @@ public class ChronosProjectComponent
             LayerInstance layerInstance = application.getLayerInstances().get( 0 );
             ModuleInstance moduleInstance = layerInstance.getModuleInstances().get( 0 );
             ModuleContext moduleContext = moduleInstance.getModuleContext();
-            factory = moduleContext.getCompositeBuilderFactory();
+            factory = moduleInstance.getCompositeBuilderFactory();
             CompositeBuilder<ServicesComposite> serviceBuilder = factory.newCompositeBuilder( ServicesComposite.class );
             services = serviceBuilder.newInstance();
             services.initServices();
