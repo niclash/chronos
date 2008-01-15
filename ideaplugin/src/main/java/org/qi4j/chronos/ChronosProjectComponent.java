@@ -208,7 +208,6 @@ public class ChronosProjectComponent
             ApplicationInstance application = newApplication();
             LayerInstance layerInstance = application.getLayerInstances().get( 0 );
             ModuleInstance moduleInstance = layerInstance.getModuleInstances().get( 0 );
-            ModuleContext moduleContext = moduleInstance.getModuleContext();
             factory = moduleInstance.getCompositeBuilderFactory();
             CompositeBuilder<ServicesComposite> serviceBuilder = factory.newCompositeBuilder( ServicesComposite.class );
             services = serviceBuilder.newInstance();
