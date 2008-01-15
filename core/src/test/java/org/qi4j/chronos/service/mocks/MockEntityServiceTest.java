@@ -57,5 +57,6 @@ public class MockEntityServiceTest extends AbstractQi4jTest
     public void configure( ModuleAssembly module ) throws AssemblyException
     {
         module.addComposites( SampleEntityComposite.class );
+        module.addComposites( SampleServiceComposite.class );
     }
 }
