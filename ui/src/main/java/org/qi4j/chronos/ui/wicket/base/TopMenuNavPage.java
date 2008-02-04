@@ -32,7 +32,7 @@ public abstract class TopMenuNavPage extends BasePage
     {
         add( new Label( "accountName", getAccountName() ) );
 
-        add( new Label( "loginId", getUser().getLogin().getName() ) );
+        add( new Label( "loginId", getUser().login().get().name().get() ) );
 
         add( new Link( "changePasswordLink" )
         {
@@ -60,7 +60,7 @@ public abstract class TopMenuNavPage extends BasePage
 
         AccountEntityComposite account = chronosSession.getAccount();
 
-        return account == null ? null : account.getName();
+        return account == null ? null : account.name().get();
     }
 
     private void handleChangePassword()

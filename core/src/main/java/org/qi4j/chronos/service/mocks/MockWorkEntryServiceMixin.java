@@ -28,6 +28,7 @@ import org.qi4j.composite.CompositeBuilderFactory;
 import static org.qi4j.composite.PropertyValue.property;
 import org.qi4j.composite.scope.Structure;
 import org.qi4j.entity.Identity;
+import org.qi4j.association.SetAssociation;
 
 public class MockWorkEntryServiceMixin implements WorkEntryService
 {
@@ -46,14 +47,8 @@ public class MockWorkEntryServiceMixin implements WorkEntryService
 
     public List<WorkEntryEntityComposite> findAll( HasWorkEntries hasWorkEntries )
     {
-        List<WorkEntryEntityComposite> list = new ArrayList<WorkEntryEntityComposite>();
-
-        for( Iterator<WorkEntryEntityComposite> iter = hasWorkEntries.workEntryIterator(); iter.hasNext(); )
-        {
-            list.add( iter.next() );
-        }
-
-        return list;
+        SetAssociation<WorkEntryEntityComposite> workEntries = hasWorkEntries.workEntries();
+        return new ArrayList<WorkEntryEntityComposite>( workEntries );
     }
 
     public List<WorkEntryEntityComposite> findAll( HasWorkEntries hasWorkEntries, FindFilter findFilter )
@@ -73,10 +68,9 @@ public class MockWorkEntryServiceMixin implements WorkEntryService
 
     public WorkEntryEntityComposite get( HasWorkEntries hasWorkEntries, String id )
     {
-        for( Iterator<WorkEntryEntityComposite> iter = hasWorkEntries.workEntryIterator(); iter.hasNext(); )
+        SetAssociation<WorkEntryEntityComposite> workEntries = hasWorkEntries.workEntries();
+        for( WorkEntryEntityComposite workEntry : workEntries )
         {
-            WorkEntryEntityComposite workEntry = iter.next();
-
             if( workEntry.identity().get().equals( id ) )
             {
                 return workEntry;
@@ -87,25 +81,20 @@ public class MockWorkEntryServiceMixin implements WorkEntryService
 
     public void delete( HasWorkEntries hasWorkEntries, List<WorkEntryEntityComposite> workEntries )
     {
-        for( WorkEntryEntityComposite workEntry : workEntries )
-        {
-            hasWorkEntries.removeWorkEntry( workEntry );
-        }
+        hasWorkEntries.workEntries().removeAll( workEntries );
     }
 
     public List<WorkEntryEntityComposite> findAll( ProjectEntityComposite project, StaffEntityComposite staff )
     {
         List<WorkEntryEntityComposite> resultList = new ArrayList<WorkEntryEntityComposite>();
 
-        Iterator<WorkEntryEntityComposite> iter = project.workEntryIterator();
-
+        Iterator<WorkEntryEntityComposite> iter = project.workEntries().iterator();
         addWorkEntryList( iter, resultList, staff );
 
-        Iterator<TaskEntityComposite> taskIter = project.taskIteraotr();
-
-        while( taskIter.hasNext() )
+        SetAssociation<TaskEntityComposite> projectTasks = project.tasks();
+        for( TaskEntityComposite task : projectTasks )
         {
-            addWorkEntryList( taskIter.next().workEntryIterator(), resultList, staff );
+            addWorkEntryList( task.workEntries().iterator(), resultList, staff );
         }
 
         return resultList;
@@ -122,7 +111,7 @@ public class MockWorkEntryServiceMixin implements WorkEntryService
         {
             WorkEntryEntityComposite workEntry = iter.next();
 
-            if( workEntry.getProjectAssignee().getStaff().equals( staff ) )
+            if( workEntry.projectAssignee().get().staff().get().equals( staff ) )
             {
                 resultList.add( workEntry );
             }

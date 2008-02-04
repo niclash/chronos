@@ -25,6 +25,8 @@ import org.qi4j.entity.Identity;
 
 public class ChronosSession extends AuthenticatedWebSession
 {
+    private static final long serialVersionUID = 1L;
+
     private String userId = null;
     private String accountId = null;
     private SystemRoleResolver roleResolver;
@@ -57,9 +59,9 @@ public class ChronosSession extends AuthenticatedWebSession
         {
             account = ChronosWebApp.getServices().getAccountService().get( accountId );
 
-            if( !account.getEnabled() )
+            if( !account.isEnabled().get() )
             {
-                this.error( "Account[" + account.getName() + "] is disabled." );
+                this.error( "Account[" + account.name().get() + "] is disabled." );
                 return false;
             }
         }
@@ -77,7 +79,7 @@ public class ChronosSession extends AuthenticatedWebSession
 
         if( user != null )
         {
-            if( !user.getLogin().getEnabled() )
+            if( !user.login().get().isEnabled().get() )
             {
                 this.error( "User login is disabled." );
                 return false;

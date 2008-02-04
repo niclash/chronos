@@ -33,9 +33,9 @@ public abstract class CommentEditDialog extends CommentAddEditDialog
         CommentService commentService = getServices().getCommentService();
 
         //TODO bp, different from web app? because getComment always return same instance?
-        String ownerId = comment.getUser().identity().get();
+        String ownerId = comment.user().get().identity().get();
 
-        CommentComposite oldComment = commentService.get( getHasComments(), comment.getCreatedDate(), ownerId );
+        CommentComposite oldComment = commentService.get( getHasComments(), comment.createdDate().get(), ownerId );
 
         //set values
         assignFieldValueToComment( comment );
@@ -56,7 +56,7 @@ public abstract class CommentEditDialog extends CommentAddEditDialog
 
     public User getCreatedBy()
     {
-        return getComment().getUser();
+        return getComment().user().get();
     }
 
     public abstract CommentComposite getComment();

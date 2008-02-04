@@ -14,13 +14,26 @@
 package org.qi4j.chronos.model;
 
 import java.io.Serializable;
-import org.qi4j.chronos.model.mixins.ReferenceMixin;
 import org.qi4j.composite.Mixins;
+import org.qi4j.composite.scope.PropertyField;
+import org.qi4j.property.Property;
 
-@Mixins( ReferenceMixin.class )
-public interface Reference extends Serializable
+@Mixins( Reference.ReferenceMixin.class )
+public interface Reference
 {
-    String getReference();
+    Property<String> reference();
 
-    void setReference( String reference );
+    final class ReferenceMixin
+        implements Reference, Serializable
+    {
+        private static final long serialVersionUID = 1L;
+
+        @PropertyField
+        private Property<String> reference;
+
+        public final Property<String> reference()
+        {
+            return reference;
+        }
+    }
 }

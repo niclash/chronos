@@ -13,17 +13,27 @@
 package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
-import java.util.Iterator;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.mixins.HasAccountsMixin;
+import org.qi4j.association.SetAssociation;
+import org.qi4j.chronos.model.Account;
+import org.qi4j.composite.scope.PropertyField;
 import org.qi4j.composite.Mixins;
 
-@Mixins( { HasAccountsMixin.class } )
-public interface HasAccounts extends Serializable
+@Mixins( HasAccounts.HasAccountsMixin.class )
+public interface HasAccounts
 {
-    void addAccount( AccountEntityComposite account );
+    SetAssociation<Account> accounts();
 
-    void removeAccount( AccountEntityComposite account );
+    final class HasAccountsMixin
+        implements HasAccounts, Serializable
+    {
+        private static final long serialVersionUID = 1L;
 
-    Iterator<AccountEntityComposite> accountIterator();
+        @PropertyField
+        private SetAssociation<Account> accounts;
+
+        public final SetAssociation<Account> accounts()
+        {
+            return accounts;
+        }
+    }
 }

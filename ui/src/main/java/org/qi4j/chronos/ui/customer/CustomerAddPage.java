@@ -12,6 +12,7 @@
  */
 package org.qi4j.chronos.ui.customer;
 
+import org.apache.wicket.Page;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.AddressComposite;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
@@ -23,7 +24,6 @@ import org.qi4j.library.general.model.composites.CountryComposite;
 import org.qi4j.library.general.model.composites.StateComposite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.wicket.Page;
 
 public class CustomerAddPage extends CustomerAddEditPage
 {
@@ -47,12 +47,12 @@ public class CustomerAddPage extends CustomerAddEditPage
             StateComposite state = ChronosWebApp.newInstance( StateComposite.class );
             CountryComposite country = ChronosWebApp.newInstance( CountryComposite.class );
 
-            address.setCity( city );
+            address.city().set( city );
 
-            city.setState( state );
-            city.setCountry( country );
+            city.state().set( state );
+            city.country().set( country );
 
-            customer.setAddress( address );
+            customer.address().set( address );
 
             assignFieldValueToCustomer( customer );
 
@@ -60,7 +60,7 @@ public class CustomerAddPage extends CustomerAddEditPage
 
             AccountEntityComposite account = getAccount();
 
-            account.addCustomer( customer );
+            account.customers().add( customer );
 
             accountService.update( account );
 

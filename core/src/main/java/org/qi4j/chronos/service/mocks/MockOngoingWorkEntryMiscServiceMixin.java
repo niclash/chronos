@@ -12,10 +12,11 @@
  */
 package org.qi4j.chronos.service.mocks;
 
-import java.util.Iterator;
 import java.util.List;
+import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.OngoingWorkEntryService;
@@ -31,7 +32,8 @@ public abstract class MockOngoingWorkEntryMiscServiceMixin implements OngoingWor
 
         for( OngoingWorkEntryEntityComposite workEntry : list )
         {
-            if( workEntry.getProjectAssignee().getStaff().equals( staff ) )
+            ProjectAssigneeEntityComposite projectAssignee = workEntry.projectAssignee().get();
+            if( projectAssignee.staff().get().equals( staff ) )
             {
                 return workEntry;
             }
@@ -42,11 +44,10 @@ public abstract class MockOngoingWorkEntryMiscServiceMixin implements OngoingWor
 
     public OngoingWorkEntryEntityComposite getOngoingWorkEntry( Project project, StaffEntityComposite staff )
     {
-        Iterator<TaskEntityComposite> taskIter = project.taskIteraotr();
-
-        while( taskIter.hasNext() )
+        SetAssociation<TaskEntityComposite> projectTasks = project.tasks();
+        for( TaskEntityComposite taskEntityComposite : projectTasks )
         {
-            TaskEntityComposite task = taskIter.next();
+            TaskEntityComposite task = taskEntityComposite;
 
             OngoingWorkEntryEntityComposite workEntry = getOngoingWorkEntry( task, staff );
 

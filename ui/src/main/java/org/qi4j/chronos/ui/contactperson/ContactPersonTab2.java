@@ -13,6 +13,7 @@
 package org.qi4j.chronos.ui.contactperson;
 
 import org.apache.wicket.markup.html.panel.Panel;
+import org.qi4j.association.Association;
 import org.qi4j.chronos.model.associations.HasContactPersons;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
@@ -42,7 +43,8 @@ public abstract class ContactPersonTab2 extends BaseTab
 
                     public CustomerEntityComposite getCustomer()
                     {
-                        return getProject().getCustomer();
+                        Association<CustomerEntityComposite> projectCustomer = getProject().customer();
+                        return projectCustomer.get();
                     }
                 };
 

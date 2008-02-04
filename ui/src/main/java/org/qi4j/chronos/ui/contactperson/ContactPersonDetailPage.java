@@ -71,7 +71,7 @@ public abstract class ContactPersonDetailPage extends LeftMenuNavPage
         {
             ContactPersonEntityComposite contactPerson = getContactPerson();
 
-            relationshipField = new SimpleTextField( "relationshipField", contactPerson.getRelationship().getRelationship() );
+            relationshipField = new SimpleTextField( "relationshipField", contactPerson.relationship().get().relationship().get() );
 
             userDetailPanel = new UserDetailPanel( "userDetailPanel" )
             {

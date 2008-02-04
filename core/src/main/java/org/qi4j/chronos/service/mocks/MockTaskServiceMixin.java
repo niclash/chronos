@@ -20,11 +20,11 @@ public class MockTaskServiceMixin extends MockProjectBasedServiceMixin<TaskEntit
 {
     protected Iterator<TaskEntityComposite> getItems( ProjectEntityComposite projectEntityComposite )
     {
-        return projectEntityComposite.taskIteraotr();
+        return projectEntityComposite.tasks().iterator();
     }
 
     protected void removeItem( ProjectEntityComposite project, TaskEntityComposite task )
     {
-        project.removeTask( task );
+        project.tasks().remove( task );
     }
 }

@@ -12,17 +12,28 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import java.util.Iterator;
+import java.io.Serializable;
+import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
-import org.qi4j.chronos.model.mixins.HasCustomersMixin;
 import org.qi4j.composite.Mixins;
+import org.qi4j.composite.scope.PropertyField;
 
-@Mixins( HasCustomersMixin.class )
+@Mixins( HasCustomers.HasCustomersMixin.class )
 public interface HasCustomers
 {
-    void addCustomer( CustomerEntityComposite customer );
+    SetAssociation<CustomerEntityComposite> customers();
 
-    void removeCustomer( CustomerEntityComposite customer );
+    final class HasCustomersMixin
+        implements HasCustomers, Serializable
+    {
+        private static final long serialVersionUID = 1L;
 
-    Iterator<CustomerEntityComposite> customerIterator();
+        @PropertyField
+        private SetAssociation<CustomerEntityComposite> customers;
+
+        public final SetAssociation<CustomerEntityComposite> customers()
+        {
+            return customers;
+        }
+    }
 }

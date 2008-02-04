@@ -34,11 +34,11 @@ public abstract class WorkEntryAddPage extends WorkEntryAddEditPage
 
         try
         {
-            workEntry.setCreatedDate( new Date() );
+            workEntry.createdDate().set( new Date() );
 
             assignFieldValueToWorkEntry( workEntry );
 
-            workEntry.setProjectAssignee( getProjectAssignee() );
+            workEntry.projectAssignee().set( getProjectAssignee() );
 
             addingWorkEntry( workEntry );
 

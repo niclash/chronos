@@ -15,18 +15,36 @@ package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
 import org.qi4j.chronos.model.TimeRange;
-import org.qi4j.chronos.model.mixins.HasProjectTimeRangeMixin;
 import org.qi4j.composite.Mixins;
+import org.qi4j.composite.scope.PropertyField;
+import org.qi4j.property.Property;
 
-@Mixins( HasProjectTimeRangeMixin.class )
+@Mixins( HasProjectTimeRange.HasProjectTimeRangeMixin.class )
 public interface HasProjectTimeRange extends Serializable
 {
-    TimeRange getEstimateTime();
+    Property<TimeRange> estimateTime();
 
-    TimeRange getActualTime();
+    Property<TimeRange> actualTime();
 
-    void setEstimateTime( TimeRange estimateTime );
+    final class HasProjectTimeRangeMixin
+        implements HasProjectTimeRange, Serializable
+    {
+        private static final long serialVersionUID = 1L;
 
-    void setActualTime( TimeRange actualTime );
+        @PropertyField
+        private Property<TimeRange> actualTime;
 
+        @PropertyField
+        private Property<TimeRange> estimateTime;
+
+        public final Property<TimeRange> actualTime()
+        {
+            return actualTime;
+        }
+
+        public final Property<TimeRange> estimateTime()
+        {
+            return estimateTime;
+        }
+    }
 }

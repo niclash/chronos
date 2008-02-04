@@ -20,6 +20,7 @@ import org.qi4j.chronos.model.composites.LegalConditionComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.ui.common.NewLinkPanel;
 import org.qi4j.chronos.ui.common.tab.NewLinkTab;
+import org.qi4j.association.SetAssociation;
 
 public abstract class LegalConditionTab extends NewLinkTab
 {
@@ -63,8 +64,8 @@ public abstract class LegalConditionTab extends NewLinkTab
                 public void addLegalCondition( LegalConditionComposite legalCondition )
                 {
                     ProjectEntityComposite project = getProject();
-
-                    project.addLegalCondition( legalCondition );
+                    SetAssociation<LegalConditionComposite> legalConditions = project.legalConditions();
+                    legalConditions.add( legalCondition );
 
                     getServices().getProjectService().update( project );
                 }

@@ -20,11 +20,11 @@ public class MockOngoingWorkEntryServiceMixin extends MockTaskBasedServiceMixin<
 {
     protected Iterator<OngoingWorkEntryEntityComposite> getItems( TaskEntityComposite taskEntityComposite )
     {
-        return taskEntityComposite.ongoingWorkEntryIterator();
+        return taskEntityComposite.onGoingWorkEntries().iterator();
     }
 
     protected void removeItem( TaskEntityComposite taskEntityComposite, OngoingWorkEntryEntityComposite ongoingWorkEntryEntityComposite )
     {
-        taskEntityComposite.removeOngoingWorkEntry( ongoingWorkEntryEntityComposite );
+        taskEntityComposite.onGoingWorkEntries().remove( ongoingWorkEntryEntityComposite );
     }
 }

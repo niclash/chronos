@@ -75,9 +75,9 @@ public class LoginUserAddPanel extends LoginUserAbstractPanel
 
     public void assignFieldValueToLogin( Login login )
     {
-        login.setName( loginIdField.getText() );
-        login.setPassword( passwordField.getText() );
-        login.setEnabled( true );
+        login.name().set( loginIdField.getText() );
+        login.password().set( passwordField.getText() );
+        login.isEnabled().set( true );
     }
 
     public void assignLoginToFieldValue( Login login )

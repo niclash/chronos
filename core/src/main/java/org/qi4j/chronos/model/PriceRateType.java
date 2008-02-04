@@ -18,5 +18,5 @@ package org.qi4j.chronos.model;
 
 public enum PriceRateType
 {
-    hourly, daily, monthly, yearly 
+    HOURLY, DAILY, MONTHLY, YEARLY
 }

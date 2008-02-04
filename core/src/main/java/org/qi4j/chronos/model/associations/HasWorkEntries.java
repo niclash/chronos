@@ -13,17 +13,28 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import java.util.Iterator;
+import java.io.Serializable;
+import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
-import org.qi4j.chronos.model.mixins.HasWorkEntriesMixin;
 import org.qi4j.composite.Mixins;
+import org.qi4j.composite.scope.PropertyField;
 
-@Mixins( HasWorkEntriesMixin.class )
+@Mixins( HasWorkEntries.HasWorkEntriesMixin.class )
 public interface HasWorkEntries
 {
-    void addWorkEntry( WorkEntryEntityComposite workEntry );
+    SetAssociation<WorkEntryEntityComposite> workEntries();
 
-    void removeWorkEntry( WorkEntryEntityComposite workEntry );
+    final class HasWorkEntriesMixin
+        implements HasWorkEntries, Serializable
+    {
+        private static final long serialVersionUID = 1L;
 
-    Iterator<WorkEntryEntityComposite> workEntryIterator();
+        @PropertyField
+        private SetAssociation<WorkEntryEntityComposite> workEntries;
+
+        public SetAssociation<WorkEntryEntityComposite> workEntries()
+        {
+            return workEntries;
+        }
+    }
 }

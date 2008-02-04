@@ -54,17 +54,17 @@ public abstract class TaskAddEditPage extends AddEditBasePage
 
     protected void assignFieldValueToTaskMaster( TaskEntityComposite task )
     {
-        task.setDescription( descriptionTextArea.getText() );
-        task.setTitle( titleField.getText() );
-        task.setUser( getTaskOwner() );
-        task.setTaskStatus( taskStatusChoice.getChoice() );
+        task.description().set( descriptionTextArea.getText() );
+        task.title().set( titleField.getText() );
+        task.user().set( getTaskOwner() );
+        task.taskStatus().set( taskStatusChoice.getChoice() );
     }
 
     protected void assignTaskMasterToFieldValie( TaskEntityComposite task )
     {
-        descriptionTextArea.setText( task.getDescription() );
-        titleField.setText( task.getTitle() );
-        taskStatusChoice.setChoice( task.getTaskStatus() );
+        descriptionTextArea.setText( task.description().get() );
+        titleField.setText( task.title().get() );
+        taskStatusChoice.setChoice( task.taskStatus().get() );
     }
 
     public void handleSubmit()

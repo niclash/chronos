@@ -115,10 +115,10 @@ public abstract class ProjectTable extends ActionTable<ProjectEntityComposite, S
     {
         final String projectId = obj.identity().get();
 
-        item.add( createDetailLink( "name", obj.getName(), projectId ) );
-        item.add( createDetailLink( "formalReference", obj.getReference(), projectId ) );
+        item.add( createDetailLink( "name", obj.name().get(), projectId ) );
+        item.add( createDetailLink( "formalReference", obj.reference().get(), projectId ) );
 
-        item.add( new Label( "status", obj.getProjectStatus().toString() ) );
+        item.add( new Label( "status", obj.projectStatus().get().toString() ) );
 
         SimpleLink editLink = createEditLink( projectId );
 

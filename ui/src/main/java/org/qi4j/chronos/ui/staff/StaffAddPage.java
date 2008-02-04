@@ -61,11 +61,11 @@ public class StaffAddPage extends StaffAddEditPage
 
         MoneyComposite money = ChronosWebApp.newInstance( MoneyComposite.class );
 
-        staff.setSalary( money );
+        staff.salary().set( money );
 
         LoginComposite login = ChronosWebApp.newInstance( LoginComposite.class );
 
-        staff.setLogin( login );
+        staff.login().set( login );
 
         assignFieldValueToStaff( staff );
 
@@ -73,7 +73,7 @@ public class StaffAddPage extends StaffAddEditPage
         {
             AccountEntityComposite account = getAccount();
 
-            account.addStaff( staff );
+            account.staffs().add( staff );
 
             AccountService accountService = getServices().getAccountService();
 

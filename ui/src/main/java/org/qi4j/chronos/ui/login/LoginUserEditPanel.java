@@ -18,35 +18,22 @@ import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.chronos.ui.wicket.base.ChangePasswordPage;
 
 public abstract class LoginUserEditPanel extends LoginUserAbstractPanel
 {
+    private static final long serialVersionUID = 1L;
+
     private Label loginIdLabel;
     private SubmitLink changePasswordLink;
-
     private CheckBox loginEnabledCheckBox;
 
     public LoginUserEditPanel( String id )
     {
         super( id );
 
-        initComponents();
-    }
-
-    private void initComponents()
-    {
         loginIdLabel = new Label( "loginId", "" );
-
-        changePasswordLink = new SubmitLink( "changePasswordLink" )
-        {
-            public void onSubmit()
-            {
-                handleChangePassword();
-            }
-        };
-
+        changePasswordLink = newChangePasswordLink();
         loginEnabledCheckBox = new CheckBox( "loginEnabled", new Model( "false" ) );
 
         add( loginIdLabel );
@@ -54,20 +41,30 @@ public abstract class LoginUserEditPanel extends LoginUserAbstractPanel
         add( loginEnabledCheckBox );
     }
 
-    public abstract User getUser();
-
-    private void handleChangePassword()
+    private SubmitLink newChangePasswordLink()
     {
-        ChangePasswordPage changePasswordPage = new ChangePasswordPage( (BasePage) this.getPage() )
+        return new SubmitLink( "changePasswordLink" )
         {
-            public User getUser()
+            private static final long serialVersionUID = 1L;
+
+            public void onSubmit()
             {
-                return LoginUserEditPanel.this.getUser();
+                ChangePasswordPage changePasswordPage = new ChangePasswordPage( LoginUserEditPanel.this.getPage() )
+                {
+                    private static final long serialVersionUID = 1L;
+
+                    public User getUser()
+                    {
+                        return LoginUserEditPanel.this.getUser();
+                    }
+                };
+
+                LoginUserEditPanel.this.setResponsePage( changePasswordPage );
             }
         };
-
-        setResponsePage( changePasswordPage );
     }
+
+    public abstract User getUser();
 
     public boolean checkIsNotValidated()
     {
@@ -76,12 +73,12 @@ public abstract class LoginUserEditPanel extends LoginUserAbstractPanel
 
     public void assignLoginToFieldValue( Login login )
     {
-        loginIdLabel.setModel( new Model( login.getName() ) );
-        loginEnabledCheckBox.setModel( new Model( login.getEnabled() ) );
+        loginIdLabel.setModel( new Model( login.name().get() ) );
+        loginEnabledCheckBox.setModel( new Model( login.isEnabled().get() ) );
     }
 
     public void assignFieldValueToLogin( Login login )
     {
-        login.setEnabled( Boolean.parseBoolean( loginEnabledCheckBox.getModelObjectAsString() ) );
+        login.isEnabled().set( Boolean.parseBoolean( loginEnabledCheckBox.getModelObjectAsString() ) );
     }
 }

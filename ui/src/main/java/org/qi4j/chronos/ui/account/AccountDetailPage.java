@@ -19,8 +19,8 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.ui.address.AddressDetailPanel;
-import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.SimpleTextField;
+import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 
 public class AccountDetailPage extends LeftMenuNavPage
 {
@@ -57,10 +57,10 @@ public class AccountDetailPage extends LeftMenuNavPage
 
             AccountEntityComposite account = getAccount();
 
-            nameField = new SimpleTextField( "nameField", account.getName(), true );
-            referenceField = new SimpleTextField( "referenceField", account.getReference(), true );
+            nameField = new SimpleTextField( "nameField", account.name().get(), true );
+            referenceField = new SimpleTextField( "referenceField", account.reference().get(), true );
 
-            addressDetailPanel = new AddressDetailPanel( "addressDetailPanel", account.getAddress() );
+            addressDetailPanel = new AddressDetailPanel( "addressDetailPanel", account.address().get() );
 
             goButton = new Button( "submitButton", new Model( "Return" ) )
             {

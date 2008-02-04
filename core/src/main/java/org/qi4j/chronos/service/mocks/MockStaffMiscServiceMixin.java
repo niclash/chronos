@@ -16,9 +16,11 @@ import java.util.Collection;
 import java.util.List;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.StaffService;
 import org.qi4j.composite.scope.ThisCompositeAs;
+import org.qi4j.property.Property;
 
 public abstract class MockStaffMiscServiceMixin implements StaffService
 {
@@ -33,7 +35,9 @@ public abstract class MockStaffMiscServiceMixin implements StaffService
     {
         for( StaffEntityComposite staff : staffs )
         {
-            staff.getLogin().setEnabled( enabled );
+            Login staffLogin = staff.login().get();
+            Property<Boolean> staffLoginEnabledProperty = staffLogin.isEnabled();
+            staffLoginEnabledProperty.set( enabled );
 
             staffService.update( staff );
         }

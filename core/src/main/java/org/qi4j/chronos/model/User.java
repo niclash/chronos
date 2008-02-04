@@ -34,5 +34,4 @@ public interface User extends Person, HasLogin, HasContacts, HasSystemRoles
 {
     public final static int FIRST_NAME_LEN = 80;
     public final static int LAST_NAME_LEN = 80;
-
 }

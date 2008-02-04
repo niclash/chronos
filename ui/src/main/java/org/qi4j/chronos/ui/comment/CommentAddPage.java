@@ -38,7 +38,7 @@ public abstract class CommentAddPage extends CommentAddEditPage
         {
             assignFieldValueToComment( comment );
 
-            comment.setCreatedDate( new Date() );
+            comment.createdDate().set( new Date() );
 
             addComment( comment );
 

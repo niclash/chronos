@@ -24,6 +24,8 @@ import org.slf4j.LoggerFactory;
 
 public abstract class ProjectAssigneeAddPage extends ProjectAssigneeAddEditPage
 {
+    private static final long serialVersionUID = 1L;
+
     private final static Logger LOGGER = LoggerFactory.getLogger( ProjectAssigneeAddPage.class );
 
     public ProjectAssigneeAddPage( Page basePage )
@@ -43,7 +45,7 @@ public abstract class ProjectAssigneeAddPage extends ProjectAssigneeAddEditPage
 
             ProjectEntityComposite project = getProject();
 
-            project.addProjectAssignee( projectAssignee );
+            project.projectAssignees().add( projectAssignee );
 
             ChronosWebApp.getServices().getProjectService().update( project );
 
@@ -60,7 +62,7 @@ public abstract class ProjectAssigneeAddPage extends ProjectAssigneeAddEditPage
 
     public List<PriceRateComposite> getAvailablePriceRates()
     {
-        return ChronosWebApp.getServices().getPriceRateService().findAll( getProject().getPriceRateSchedule() );
+        return ChronosWebApp.getServices().getPriceRateService().findAll( getProject().priceRateSchedule().get() );
     }
 
     public String getSubmitButtonValue()

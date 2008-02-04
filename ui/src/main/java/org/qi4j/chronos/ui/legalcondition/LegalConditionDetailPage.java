@@ -58,8 +58,8 @@ public abstract class LegalConditionDetailPage extends LeftMenuNavPage
         {
             LegalConditionComposite legalCondition = getLegalCondition();
 
-            nameField = new SimpleTextField( "nameField", legalCondition.getName(), true );
-            descField = new SimpleTextArea( "descTextArea", legalCondition.getDescription(), true );
+            nameField = new SimpleTextField( "nameField", legalCondition.name().get(), true );
+            descField = new SimpleTextArea( "descTextArea", legalCondition.description().get(), true );
 
             submitButton = new Button( "submitButton", new Model( "Return" ) );
 

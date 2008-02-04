@@ -13,17 +13,28 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import java.util.Iterator;
+import java.io.Serializable;
+import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.model.mixins.HasProjectsMixin;
 import org.qi4j.composite.Mixins;
+import org.qi4j.composite.scope.PropertyField;
 
-@Mixins( HasProjectsMixin.class )
+@Mixins( HasProjects.HasProjectsMixin.class )
 public interface HasProjects
 {
-    void addProject( ProjectEntityComposite project );
+    SetAssociation<ProjectEntityComposite> projects();
 
-    void removeProject( ProjectEntityComposite project );
+    final class HasProjectsMixin
+        implements HasProjects, Serializable
+    {
+        private static final long serialVersionUID = 1L;
 
-    Iterator<ProjectEntityComposite> projectIterator();
+        @PropertyField
+        private SetAssociation<ProjectEntityComposite> projects;
+
+        public final SetAssociation<ProjectEntityComposite> projects()
+        {
+            return projects;
+        }
+    }
 }

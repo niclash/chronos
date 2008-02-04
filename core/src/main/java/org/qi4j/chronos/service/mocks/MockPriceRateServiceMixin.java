@@ -56,11 +56,9 @@ public class MockPriceRateServiceMixin implements PriceRateService
 
     private void loopPriceRate( HasPriceRates hasPriceRates, LoopCallBack<PriceRateComposite> loopCallBack )
     {
-        Iterator<PriceRateComposite> iter = hasPriceRates.priceRateIterator();
-
-        while( iter.hasNext() )
+        for( PriceRateComposite priceRateComposite : hasPriceRates.priceRates() )
         {
-            boolean next = loopCallBack.callBack( iter.next() );
+            boolean next = loopCallBack.callBack( priceRateComposite );
 
             if( !next )
             {
@@ -78,9 +76,9 @@ public class MockPriceRateServiceMixin implements PriceRateService
         {
             public boolean callBack( PriceRateComposite priceRate )
             {
-                if( priceRate.getProjectRole().getName().equals( projectRoleName )
-                    && priceRate.getPriceRateType().equals( priceRateType )
-                    && priceRate.getAmount().equals( amount ) )
+                if( priceRate.projectRole().get().name().get().equals( projectRoleName )
+                    && priceRate.priceRateType().get().equals( priceRateType )
+                    && priceRate.amount().get().equals( amount ) )
                 {
                     returnValue[ 0 ] = CloneUtil.clonePriceRate( factory, priceRate );
 

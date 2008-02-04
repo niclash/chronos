@@ -42,8 +42,8 @@ public class ProjectAddPage extends ProjectAddEditPage
 
         ProjectEntityComposite project = projectService.newInstance( ProjectEntityComposite.class );
 
-        project.setActualTime( ChronosWebApp.newInstance( TimeRangeComposite.class ) );
-        project.setEstimateTime( ChronosWebApp.newInstance( TimeRangeComposite.class ) );
+        project.actualTime().set( ChronosWebApp.newInstance( TimeRangeComposite.class ) );
+        project.estimateTime().set( ChronosWebApp.newInstance( TimeRangeComposite.class ) );
 
         try
         {
@@ -51,7 +51,7 @@ public class ProjectAddPage extends ProjectAddEditPage
 
             AccountEntityComposite account = getAccount();
 
-            account.addProject( project );
+            account.projects().add( project );
 
             ChronosWebApp.getServices().getAccountService().update( account );
 

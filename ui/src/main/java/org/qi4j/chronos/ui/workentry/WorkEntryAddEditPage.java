@@ -15,10 +15,10 @@ package org.qi4j.chronos.ui.workentry;
 import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.form.Form;
 import org.qi4j.chronos.model.WorkEntry;
-import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 import org.qi4j.chronos.ui.common.MaxLengthTextArea;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.common.SimpleDateTimeField;
+import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 
 public abstract class WorkEntryAddEditPage extends AddEditBasePage
 {
@@ -71,18 +71,18 @@ public abstract class WorkEntryAddEditPage extends AddEditBasePage
 
     protected void assignFieldValueToWorkEntry( WorkEntry workEntry )
     {
-        workEntry.setTitle( titleField.getText() );
-        workEntry.setDescription( descriptionTextArea.getText() );
-        workEntry.setStartTime( fromDateTimeField.getDate() );
-        workEntry.setEndTime( toDateTimeField.getDate() );
+        workEntry.title().set( titleField.getText() );
+        workEntry.description().set( descriptionTextArea.getText() );
+        workEntry.startTime().set( fromDateTimeField.getDate() );
+        workEntry.endTime().set( toDateTimeField.getDate() );
     }
 
     protected void assignWorkEntryToFieldValue( WorkEntry workEntry )
     {
-        titleField.setText( workEntry.getTitle() );
-        descriptionTextArea.setText( workEntry.getDescription() );
-        fromDateTimeField.setDate( workEntry.getStartTime() );
-        toDateTimeField.setDate( workEntry.getEndTime() );
+        titleField.setText( workEntry.title().get() );
+        descriptionTextArea.setText( workEntry.description().get() );
+        fromDateTimeField.setDate( workEntry.startTime().get() );
+        toDateTimeField.setDate( workEntry.endTime().get() );
     }
 
     public abstract void onSubmitting();

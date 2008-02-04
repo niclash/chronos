@@ -142,10 +142,10 @@ public abstract class PriceRateOptionPanel extends Panel
 
         StringBuilder builder = new StringBuilder();
 
-        builder.append( priceRate.getProjectRole().getName() ).append( " - " )
-            .append( priceRate.getPriceRateType().toString() )
+        builder.append( priceRate.projectRole().get().name().get() ).append( " - " )
+            .append( priceRate.priceRateType().get().toString() )
             .append( " - " )
-            .append( String.valueOf( priceRate.getAmount() ) );
+            .append( String.valueOf( priceRate.amount().get() ) );
 
         priceRateDetailLabel.setModelObject( builder.toString() );
 

@@ -128,7 +128,7 @@ public abstract class PriceRateScheduleOptionPanel extends Panel
     {
         this.priceRateSchedule = priceRateSchedule;
 
-        priceRateScheduleNameLabel.setModelObject( priceRateSchedule.getName() );
+        priceRateScheduleNameLabel.setModelObject( priceRateSchedule.name().get() );
 
         priceRateScheduleNameLabel.setVisible( true );
         customizePriceRateScheduleLink.setVisible( true );

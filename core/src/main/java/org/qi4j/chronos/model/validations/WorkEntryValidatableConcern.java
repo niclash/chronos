@@ -24,8 +24,8 @@ public class WorkEntryValidatableConcern extends AbstractValidatableConcern
 
     protected void isValid( Validator validator )
     {
-        ValidatorUtil.isEmptyOrInvalidLength( workEntry.getTitle(), "Title", WorkEntry.TITLE_LEN, validator );
-        ValidatorUtil.isEmptyOrInvalidLength( workEntry.getDescription(), "Description", WorkEntry.DESCRIPTION_LEN, validator );
+        ValidatorUtil.isEmptyOrInvalidLength( workEntry.title().get(), "Title", WorkEntry.TITLE_LEN, validator );
+        ValidatorUtil.isEmptyOrInvalidLength( workEntry.description().get(), "Description", WorkEntry.DESCRIPTION_LEN, validator );
     }
 
     protected String getResourceBundle()

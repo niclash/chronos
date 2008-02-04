@@ -12,17 +12,28 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import java.util.Iterator;
+import java.io.Serializable;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
-import org.qi4j.chronos.model.mixins.HasTasksMixin;
 import org.qi4j.composite.Mixins;
+import org.qi4j.composite.scope.PropertyField;
+import org.qi4j.association.SetAssociation;
 
-@Mixins( HasTasksMixin.class )
+@Mixins( HasTasks.HasTasksMixin.class )
 public interface HasTasks
 {
-    void addTask( TaskEntityComposite taskMaster );
+    SetAssociation<TaskEntityComposite> tasks();
 
-    void removeTask( TaskEntityComposite taskMaster );
+    final class HasTasksMixin
+        implements HasTasks, Serializable
+    {
+        private static final long serialVersionUID = 1L;
 
-    Iterator<TaskEntityComposite> taskIteraotr();
+        @PropertyField
+        private SetAssociation<TaskEntityComposite> tasks;
+
+        public final SetAssociation<TaskEntityComposite> tasks()
+        {
+            return tasks;
+        }
+    }
 }

@@ -69,15 +69,15 @@ public abstract class CommentAddEditDialog extends AddEditDialog
 
     public void assignFieldValueToComment( CommentComposite comment )
     {
-        comment.setText( commentTextArea.getText() );
-        comment.setUser( getCreatedBy() );
+        comment.text().set( commentTextArea.getText() );
+        comment.user().set( getCreatedBy() );
     }
 
     protected void assignCommentToFieldValue( CommentComposite comment )
     {
-        createdDateField.setText( DateUtil.formatDateTime( comment.getCreatedDate() ) );
-        userField.setText( comment.getUser().getFullname() );
-        commentTextArea.setText( comment.getText() );
+        createdDateField.setText( DateUtil.formatDateTime( comment.createdDate().get() ) );
+        userField.setText( comment.user().get().getFullname() );
+        commentTextArea.setText( comment.text().get() );
     }
 
     public abstract User getCreatedBy();

@@ -54,11 +54,11 @@ public abstract class TaskDetailDialog extends AbstractDialog
     {
         TaskEntityComposite task = getTask();
 
-        titleField.setText( task.getTitle() );
-        userField.setText( task.getUser().getFullname() );
-        createdDateField.setText( DateUtil.formatDateTime( task.getCreatedDate() ) );
-        taskStatusField.setText( task.getTaskStatus().toString() );
-        descTextArea.setText( task.getDescription() );
+        titleField.setText( task.title().get() );
+        userField.setText( task.user().get().getFullname() );
+        createdDateField.setText( DateUtil.formatDateTime( task.createdDate().get() ) );
+        taskStatusField.setText( task.taskStatus().get().toString() );
+        descTextArea.setText( task.description().get() );
 
         Services services = getServices();
 
@@ -75,7 +75,7 @@ public abstract class TaskDetailDialog extends AbstractDialog
     {
         TaskEntityComposite task = getTask();
 
-        return task.getTaskStatus() == TaskStatus.OPEN;
+        return task.taskStatus().get().equals( TaskStatus.OPEN );
     }
 
     protected void initComponents()

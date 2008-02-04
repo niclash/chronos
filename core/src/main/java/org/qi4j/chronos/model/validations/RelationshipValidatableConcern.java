@@ -24,7 +24,7 @@ public class RelationshipValidatableConcern extends AbstractValidatableConcern
 
     protected void isValid( Validator validator )
     {
-        ValidatorUtil.isEmptyOrInvalidLength( relationship.getRelationship(), "Relationship", Relationship.RELATIONSHIP_LEN, validator );
+        ValidatorUtil.isEmptyOrInvalidLength( relationship.relationship().get(), "Relationship", Relationship.RELATIONSHIP_LEN, validator );
     }
 
     protected String getResourceBundle()

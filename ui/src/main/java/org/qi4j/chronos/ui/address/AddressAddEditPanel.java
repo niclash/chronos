@@ -15,6 +15,7 @@ package org.qi4j.chronos.ui.address;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePanel;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.library.general.model.Address;
+import org.qi4j.library.general.model.City;
 
 public class AddressAddEditPanel extends AddEditBasePanel
 {
@@ -53,26 +54,27 @@ public class AddressAddEditPanel extends AddEditBasePanel
 
     public void assignFieldValueToAddress( Address address )
     {
-        address.setFirstLine( address1Field.getText() );
-        address.setSecondLine( address2Field.getText() );
+        address.firstLine().set( address1Field.getText() );
+        address.firstLine().set( address2Field.getText() );
 
-        address.setZipCode( zipcodeField.getText() );
-        address.getCity().setName( cityField.getText() );
-
-        address.getCity().getState().setName( stateField.getText() );
-        address.getCity().getCountry().setName( countryField.getText() );
+        address.zipCode().set( zipcodeField.getText() );
+        City addressCity = address.city().get();
+        addressCity.name().set( cityField.getText() );
+        addressCity.state().get().name().set( stateField.getText() );
+        addressCity.country().get().name().set( countryField.getText() );
     }
 
     public void assignAddressToFieldValue( Address address )
     {
-        address1Field.setText( address.getFirstLine() );
-        address2Field.setText( address.getSecondLine() );
+        address1Field.setText( address.firstLine().get() );
+        address2Field.setText( address.secondLine().get() );
 
-        zipcodeField.setText( address.getZipCode() );
-        cityField.setText( address.getCity().getName() );
+        zipcodeField.setText( address.zipCode().get() );
+        City addressCity = address.city().get();
+        cityField.setText( addressCity.name().get() );
 
-        stateField.setText( address.getCity().getState().getName() );
-        countryField.setText( address.getCity().getCountry().getName() );
+        stateField.setText( addressCity.state().get().name().get() );
+        countryField.setText( addressCity.country().get().name().get() );
     }
 
     public MaxLengthTextField getAddress1Field()

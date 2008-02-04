@@ -14,13 +14,15 @@ package org.qi4j.chronos.service.mocks;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
+import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.associations.HasContactPersons;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.service.ContactPersonService;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.composite.scope.ThisCompositeAs;
+import org.qi4j.property.Property;
 
 public abstract class MockContactPersonMiscServiceMixin implements ContactPersonService
 {
@@ -28,16 +30,8 @@ public abstract class MockContactPersonMiscServiceMixin implements ContactPerson
 
     public List<ContactPersonEntityComposite> findAll( HasContactPersons hasContactPersons )
     {
-        Iterator<ContactPersonEntityComposite> iter = hasContactPersons.contactPersonIterator();
-
-        List<ContactPersonEntityComposite> resultList = new ArrayList<ContactPersonEntityComposite>();
-
-        while( iter.hasNext() )
-        {
-            resultList.add( iter.next() );
-        }
-
-        return resultList;
+        SetAssociation<ContactPersonEntityComposite> contacts = hasContactPersons.contactPersons();
+        return new ArrayList<ContactPersonEntityComposite>( contacts );
     }
 
     public List<ContactPersonEntityComposite> findAll( HasContactPersons hasContactPersons, FindFilter findFilter )
@@ -54,7 +48,9 @@ public abstract class MockContactPersonMiscServiceMixin implements ContactPerson
     {
         for( ContactPersonEntityComposite contactPerson : contactPersons )
         {
-            contactPerson.getLogin().setEnabled( enabled );
+            Login contactsLogin = contactPerson.login().get();
+            Property<Boolean> loginEnabledProperty = contactsLogin.isEnabled();
+            loginEnabledProperty.set( enabled );
 
             contactPersonService.update( contactPerson );
         }

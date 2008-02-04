@@ -13,20 +13,30 @@
 package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
-import java.util.Iterator;
+import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.model.mixins.HasUsersMixin;
 import org.qi4j.composite.Mixins;
+import org.qi4j.composite.scope.PropertyField;
 
 /**
  * Describe association with {@link User}
  */
-@Mixins( { HasUsersMixin.class } )
-public interface HasUsers extends Serializable
+@Mixins( HasUsers.HasUsersMixin.class )
+public interface HasUsers
 {
-    void addUser( User user );
+    SetAssociation<User> users();
 
-    void removeUser( User user );
+    final class HasUsersMixin
+        implements HasUsers, Serializable
+    {
+        private static final long serialVersionUID = 1L;
 
-    Iterator<User> userIterator();
+        @PropertyField
+        private SetAssociation<User> users;
+
+        public final SetAssociation<User> users()
+        {
+            return users;
+        }
+    }
 }

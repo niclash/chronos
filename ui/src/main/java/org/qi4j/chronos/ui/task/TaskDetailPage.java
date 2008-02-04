@@ -29,10 +29,10 @@ import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
-import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.comment.CommentTab;
 import org.qi4j.chronos.ui.common.SimpleTextArea;
 import org.qi4j.chronos.ui.common.SimpleTextField;
+import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.workentry.WorkEntryTab;
 import org.qi4j.chronos.util.DateUtil;
 
@@ -75,10 +75,10 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
         {
             TaskEntityComposite taskMaster = getTask();
 
-            userField = new SimpleTextField( "userField", taskMaster.getUser().getFullname() );
-            titleField = new SimpleTextField( "titleField", taskMaster.getTitle() );
-            createDateField = new SimpleTextField( "createDateField", DateUtil.formatDateTime( taskMaster.getCreatedDate() ) );
-            descriptionTextArea = new SimpleTextArea( "descriptionTextArea", taskMaster.getDescription() );
+            userField = new SimpleTextField( "userField", taskMaster.user().get().getFullname() );
+            titleField = new SimpleTextField( "titleField", taskMaster.title().get() );
+            createDateField = new SimpleTextField( "createDateField", DateUtil.formatDateTime( taskMaster.createdDate().get() ) );
+            descriptionTextArea = new SimpleTextArea( "descriptionTextArea", taskMaster.description().get() );
 
             submitButton = new Button( "submitButton", new Model( "Return" ) )
             {
@@ -145,7 +145,7 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
     {
         TaskEntityComposite task = getTask();
 
-        task.addComment( comment );
+        task.comments().add( comment );
 
         getServices().getTaskService().update( task );
     }
@@ -155,7 +155,7 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
         TaskEntityComposite task = getTask();
 
         //add workEntry to task
-        task.addWorkEntry( workEntry );
+        task.workEntries().add( workEntry );
 
         //update task
         getServices().getTaskService().update( task );

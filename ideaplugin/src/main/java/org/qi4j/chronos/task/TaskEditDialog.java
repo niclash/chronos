@@ -26,7 +26,7 @@ public abstract class TaskEditDialog extends TaskAddEditDialog
 
     public User getCreatedBy()
     {
-        return getTask().getUser();
+        return getTask().user().get();
     }
 
     public String getOkButtonText()

@@ -26,7 +26,7 @@ public abstract class WorkEntryEditDialog extends WorkEntryAddEditDialog
 
     public ProjectAssigneeEntityComposite getProjectAssignee()
     {
-        return getWorkEntry().getProjectAssignee();
+        return getWorkEntry().projectAssignee().get();
     }
 
     public String getOkButtonText()

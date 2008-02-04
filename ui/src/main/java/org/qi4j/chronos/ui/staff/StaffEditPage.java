@@ -22,6 +22,7 @@ import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.login.LoginUserEditPanel;
+import org.qi4j.association.SetAssociation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,7 +48,7 @@ public abstract class StaffEditPage extends StaffAddEditPage
 
     public Iterator<SystemRoleComposite> getInitSelectedRoleList()
     {
-        return getStaff().systemRoleIterator();
+        return getStaff().systemRoles().iterator();
     }
 
     public StaffService getStaffService()
@@ -87,7 +88,8 @@ public abstract class StaffEditPage extends StaffAddEditPage
 
         //TODO bp. system role is valueObject, let delete all assigned system role
         //TODO before assigning to new system roles. Seeking for correct solution.
-        staff.removeAllSystemRole();
+        SetAssociation<SystemRoleComposite> systemRoles = staff.systemRoles();
+        systemRoles.clear();
 
         assignFieldValueToStaff( staff );
 

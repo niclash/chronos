@@ -170,18 +170,18 @@ public class WorkEntryProducer
 
         final WorkEntryEntityComposite workEntry = workEntryService.newInstance( WorkEntryEntityComposite.class );
 
-        workEntry.setCreatedDate( endDate );
-        workEntry.setStartTime( startedDate );
-        workEntry.setEndTime( endDate );
-        workEntry.setTitle( "Auto generated" );
-        workEntry.setDescription( getWorkEntryDescription() );
-        workEntry.setProjectAssignee( chronosApp.getProjectAssignee() );
+        workEntry.createdDate().set( endDate );
+        workEntry.startTime().set( startedDate );
+        workEntry.endTime().set( endDate );
+        workEntry.title().set( "Auto generated" );
+        workEntry.description().set( getWorkEntryDescription() );
+        workEntry.projectAssignee().set( chronosApp.getProjectAssignee() );
 
         //get associated task
         TaskEntityComposite associatedTask = chronosApp.getAssociatedTask();
 
         //add new workEntry to associated task
-        associatedTask.addWorkEntry( workEntry );
+        associatedTask.workEntries().add( workEntry );
 
         services.getTaskService().update( associatedTask );
 

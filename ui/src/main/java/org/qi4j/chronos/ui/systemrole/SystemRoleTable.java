@@ -41,7 +41,7 @@ public class SystemRoleTable extends ActionTable<SystemRoleComposite, String>
 
     public void populateItems( Item item, SystemRoleComposite obj )
     {
-        item.add( new Label( "systemRoleName", obj.getName() ) );
+        item.add( new Label( "systemRoleName", obj.name().get() ) );
     }
 
     public List<String> getTableHeaderList()

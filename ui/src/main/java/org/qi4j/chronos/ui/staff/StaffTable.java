@@ -102,16 +102,16 @@ public abstract class StaffTable extends ActionTable<StaffEntityComposite, Strin
     {
         final String staffId = obj.identity().get();
 
-        item.add( createDetailLink( "firstName", obj.getFirstName(), staffId ) );
-        item.add( createDetailLink( "lastName", obj.getLastName(), staffId ) );
+        item.add( createDetailLink( "firstName", obj.firstName().get(), staffId ) );
+        item.add( createDetailLink( "lastName", obj.lastName().get(), staffId ) );
 
-        Money salary = obj.getSalary();
+        Money salary = obj.salary().get();
 
-        item.add( new Label( "salary", salary.getCurrency().getSymbol() + salary.getAmount() ) );
+        item.add( new Label( "salary", salary.currency().get().getSymbol() + salary.amount().get() ) );
 
-        item.add( new Label( "loginId", obj.getLogin().getName() ) );
+        item.add( new Label( "loginId", obj.login().get().name().get() ) );
 
-        item.add( new SimpleCheckBox( "loginEnabled", obj.getLogin().getEnabled(), true ) );
+        item.add( new SimpleCheckBox( "loginEnabled", obj.login().get().isEnabled().get(), true ) );
 
         item.add( new SimpleLink( "editLink", "Edit" )
         {

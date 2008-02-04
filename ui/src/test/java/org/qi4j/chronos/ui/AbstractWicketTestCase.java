@@ -10,22 +10,25 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.model.mixins;
+package org.qi4j.chronos.ui;
 
-import org.qi4j.chronos.model.associations.HasProjectAssignee;
-import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
+import org.apache.wicket.util.tester.WicketTester;
+import org.qi4j.test.AbstractQi4jTest;
 
-public class HasProjectAssigneeMixin implements HasProjectAssignee
+public abstract class AbstractWicketTestCase extends AbstractQi4jTest
 {
-    private ProjectAssigneeEntityComposite projectAssignee;
+    protected WicketTester wicketApplication;
 
-    public void setProjectAssignee( ProjectAssigneeEntityComposite projectAssignee )
+    protected void tearDown() throws Exception
     {
-        this.projectAssignee = projectAssignee;
+        wicketApplication.destroy();
+        wicketApplication = null;
     }
 
-    public ProjectAssigneeEntityComposite getProjectAssignee()
+    protected void setUp() throws Exception
     {
-        return projectAssignee;
+        super.setUp();
+
+        wicketApplication = new WicketTester();
     }
 }

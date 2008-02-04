@@ -13,6 +13,7 @@
 package org.qi4j.chronos.ui.contact;
 
 import org.apache.wicket.Page;
+import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.composites.ContactComposite;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.service.ContactPersonService;
@@ -49,7 +50,8 @@ public abstract class ContactAddPage extends ContactAddEditPage
 
             ContactPersonEntityComposite contactPerson = getContactPerson();
 
-            contactPerson.addContact( contact );
+            SetAssociation<ContactComposite> contacts = contactPerson.contacts();
+            contacts.add( contact );
 
             ContactPersonService service = ChronosWebApp.getServices().getContactPersonService();
 

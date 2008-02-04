@@ -25,6 +25,7 @@ import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.service.ProjectAssigneeService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
@@ -82,9 +83,10 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssigneeEn
     {
         final String projectAssigneeId = obj.identity().get();
 
-        item.add( new Label( "firstName", obj.getStaff().getFirstName() ) );
-        item.add( new Label( "lastName", obj.getStaff().getLastName() ) );
-        CheckBox isLeadCheckBox = new CheckBox( "isLead", new Model( obj.isLead() ) );
+        StaffEntityComposite staff = obj.staff().get();
+        item.add( new Label( "firstName", staff.firstName().get() ) );
+        item.add( new Label( "lastName", staff.lastName().get() ) );
+        CheckBox isLeadCheckBox = new CheckBox( "isLead", new Model( obj.isLead().get() ) );
 
         isLeadCheckBox.setEnabled( false );
 
@@ -115,7 +117,7 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssigneeEn
 
                     public PriceRateScheduleComposite getPriceRateSchedule()
                     {
-                        return getProject().getPriceRateSchedule();
+                        return getProject().priceRateSchedule().get();
                     }
 
                     public ProjectEntityComposite getProject()

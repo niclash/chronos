@@ -60,9 +60,9 @@ public abstract class PriceRateScheduleDetailPage extends LeftMenuNavPage
             PriceRateSchedule priceRateSchedule = getPriceRateSchedule();
 
             priceRateListView = new PriceRateListView( "priceRateListView", ListUtil.getPriceRateDelegator( priceRateSchedule ) );
-            currencyField = new SimpleTextField( "currencyField", priceRateSchedule.getCurrency().getCurrencyCode() );
+            currencyField = new SimpleTextField( "currencyField", priceRateSchedule.currency().get().getCurrencyCode() );
 
-            nameField = new SimpleTextField( "nameField", priceRateSchedule.getName(), true );
+            nameField = new SimpleTextField( "nameField", priceRateSchedule.name().get(), true );
 
             submitButton = new Button( "submitButton", new Model( "Return" ) )
             {

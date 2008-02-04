@@ -12,10 +12,10 @@
  */
 package org.qi4j.chronos.ui.util;
 
+import junit.framework.TestCase;
 import org.qi4j.chronos.ui.MockPage;
-import org.qi4j.chronos.ui.WicketTestCase;
 
-public class ValidatorUtilTest extends WicketTestCase
+public class ValidatorUtilTest extends TestCase
 {
     public void testIsEmpty_true()
     {

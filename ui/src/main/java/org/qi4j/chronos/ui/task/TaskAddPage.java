@@ -39,13 +39,13 @@ public abstract class TaskAddPage extends TaskAddEditPage
         {
             TaskEntityComposite taskMaster = taskService.newInstance( TaskEntityComposite.class );
 
-            taskMaster.setCreatedDate( new Date() );
+            taskMaster.createdDate().set( new Date() );
 
             assignFieldValueToTaskMaster( taskMaster );
 
             ProjectEntityComposite project = getProject();
 
-            project.addTask( taskMaster );
+            project.tasks().add( taskMaster );
 
             getServices().getProjectService().update( project );
 

@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
+import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.associations.HasLegalConditions;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.LegalConditionComposite;
@@ -58,11 +59,10 @@ public class MockLegalConditionServiceMixin implements LegalConditionService
 
     private void loopLegalCondition( HasLegalConditions hasLegalConditions, LoopCallBack<LegalConditionComposite> loopCallBack )
     {
-        Iterator<LegalConditionComposite> iter = hasLegalConditions.legalConditionIterator();
-
-        while( iter.hasNext() )
+        SetAssociation<LegalConditionComposite> legalConditions = hasLegalConditions.legalConditions();
+        for( LegalConditionComposite legalConditionComposite : legalConditions )
         {
-            boolean next = loopCallBack.callBack( iter.next() );
+            boolean next = loopCallBack.callBack( legalConditionComposite );
 
             if( !next )
             {
@@ -79,7 +79,7 @@ public class MockLegalConditionServiceMixin implements LegalConditionService
         {
             public boolean callBack( LegalConditionComposite legalCondition )
             {
-                if( legalCondition.getName().equals( name ) )
+                if( legalCondition.name().get().equals( name ) )
                 {
                     returnValue[ 0 ] = CloneUtil.cloneLegalCondition( factory, legalCondition );
                     return false;
@@ -96,11 +96,10 @@ public class MockLegalConditionServiceMixin implements LegalConditionService
     {
         List<LegalConditionComposite> list = new ArrayList<LegalConditionComposite>();
 
-        Iterator<ProjectEntityComposite> projectIter = account.projectIterator();
-
-        while( projectIter.hasNext() )
+        SetAssociation<ProjectEntityComposite> accountProjects = account.projects();
+        for( ProjectEntityComposite accountProject : accountProjects )
         {
-            list.addAll( findAll( projectIter.next() ) );
+            list.addAll( findAll( accountProject ) );
         }
 
         return list;
@@ -113,24 +112,22 @@ public class MockLegalConditionServiceMixin implements LegalConditionService
 
     public void deleteLegalCondition( HasLegalConditions hasLegalConditions, Collection<LegalConditionComposite> legalConditions )
     {
+        SetAssociation<LegalConditionComposite> targetLegalConditions = hasLegalConditions.legalConditions();
         for( LegalConditionComposite legalCondition : legalConditions )
         {
             LegalConditionComposite toBeDeleted = null;
 
-            Iterator<LegalConditionComposite> legalConditionIter = hasLegalConditions.legalConditionIterator();
-
-            while( legalConditionIter.hasNext() )
+            for( LegalConditionComposite targetLegalCondition : targetLegalConditions )
             {
-                LegalConditionComposite tempLegalCondition = legalConditionIter.next();
 
-                if( tempLegalCondition.getName().equals( legalCondition.getName() ) )
+                if( targetLegalCondition.name().get().equals( legalCondition.name().get() ) )
                 {
-                    toBeDeleted = tempLegalCondition;
+                    toBeDeleted = targetLegalCondition;
                     break;
                 }
             }
 
-            hasLegalConditions.removeLegalCondition( toBeDeleted );
+            targetLegalConditions.remove( toBeDeleted );
         }
     }
 
@@ -138,19 +135,18 @@ public class MockLegalConditionServiceMixin implements LegalConditionService
     {
         LegalConditionComposite toBeDeleted = null;
 
-        Iterator<LegalConditionComposite> legalConditionIter = hasLegalConditions.legalConditionIterator();
-
-        while( legalConditionIter.hasNext() )
+        SetAssociation<LegalConditionComposite> legalConditions = hasLegalConditions.legalConditions();
+        String oldLegalConditionName = oldLegalCondition.name().get();
+        for( LegalConditionComposite legalCondition : legalConditions )
         {
-            LegalConditionComposite temp = legalConditionIter.next();
-
-            if( temp.getName().equals( oldLegalCondition.getName() ) )
+            if( legalCondition.name().get().equals( oldLegalConditionName ) )
             {
-                toBeDeleted = temp;
+                toBeDeleted = legalCondition;
+                break;
             }
         }
 
-        hasLegalConditions.removeLegalCondition( toBeDeleted );
-        hasLegalConditions.addLegalCondition( newLegalCondition );
+        legalConditions.remove( toBeDeleted );
+        legalConditions.add( newLegalCondition );
     }
 }

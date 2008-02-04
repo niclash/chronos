@@ -64,7 +64,8 @@ public class TaskRootTreeNode extends AbstractTreeNode
 
     public void addTaskTreeNode( TaskEntityComposite task )
     {
-        if( task.getTaskStatus() != TaskStatus.OPEN )
+        TaskStatus taskStatus = task.taskStatus().get();
+        if( !taskStatus.equals( TaskStatus.OPEN ) )
         {
             System.err.println( "Task with Closed or Won't Fix status should not shown up here." );
         }

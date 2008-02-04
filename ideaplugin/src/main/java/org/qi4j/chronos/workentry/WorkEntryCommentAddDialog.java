@@ -30,7 +30,7 @@ public abstract class WorkEntryCommentAddDialog extends CommentAddDialog
         WorkEntryEntityComposite workEntry = getWorkEntry();
 
         //add comment to workEntry
-        workEntry.addComment( comment );
+        workEntry.comments().add( comment );
 
         UiUtil.showMsgDialog( "Comment added", "New comment is added successfully." );
 

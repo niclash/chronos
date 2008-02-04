@@ -52,7 +52,7 @@ public abstract class RecentProjectMenuBar extends MenuBar
         {
             final String projectId = project.identity().get();
 
-            menuItems[ index ] = new MenuLink( project.getName() )
+            menuItems[ index ] = new MenuLink( project.name().get() )
             {
                 protected void handleClicked()
                 {

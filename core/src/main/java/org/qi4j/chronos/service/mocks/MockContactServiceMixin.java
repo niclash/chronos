@@ -14,8 +14,8 @@ package org.qi4j.chronos.service.mocks;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
+import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.associations.HasContacts;
 import org.qi4j.chronos.model.composites.ContactComposite;
 import org.qi4j.chronos.service.ContactService;
@@ -51,11 +51,11 @@ public class MockContactServiceMixin implements ContactService
 
     private void loopContacts( HasContacts hasContacts, LoopCallBack<ContactComposite> loopCallBack )
     {
-        Iterator<ContactComposite> iter = hasContacts.contactIterator();
+        SetAssociation<ContactComposite> contacts = hasContacts.contacts();
 
-        while( iter.hasNext() )
+        for( ContactComposite contact : contacts )
         {
-            boolean next = loopCallBack.callBack( iter.next() );
+            boolean next = loopCallBack.callBack( contact );
 
             if( !next )
             {
@@ -77,7 +77,7 @@ public class MockContactServiceMixin implements ContactService
         {
             public boolean callBack( ContactComposite contact )
             {
-                if( contact.getContactValue().equals( contactValue ) )
+                if( contact.contactValue().get().equals( contactValue ) )
                 {
                     returnValue[ 0 ] = CloneUtil.cloneContact( factory, contact );
                     return false;
@@ -92,45 +92,43 @@ public class MockContactServiceMixin implements ContactService
 
     public void update( HasContacts hasContacts, ContactComposite oldContact, ContactComposite newContact )
     {
-        Iterator<ContactComposite> contactIter = hasContacts.contactIterator();
+        SetAssociation<ContactComposite> contacts = hasContacts.contacts();
 
         ContactComposite toBeDeleted = null;
 
-        while( contactIter.hasNext() )
+        for( ContactComposite contact : contacts )
         {
-            ContactComposite temp = contactIter.next();
-
-            if( temp.getContactType().equals( oldContact.getContactType() ) && temp.getContactValue().equals( oldContact.getContactValue() ) )
+            if( contact.contactType().get().equals( oldContact.contactType().get() ) &&
+                contact.contactValue().get().equals( oldContact.contactValue().get() ) )
             {
-                toBeDeleted = temp;
+                toBeDeleted = contact;
+                break;
             }
         }
 
-        hasContacts.removeContact( toBeDeleted );
-        hasContacts.addContact( newContact );
+        contacts.remove( toBeDeleted );
+        contacts.add( newContact );
     }
 
     public void deleteContact( HasContacts hasContacts, Collection<ContactComposite> contacts )
     {
+        SetAssociation<ContactComposite> target = hasContacts.contacts();
         for( ContactComposite contact : contacts )
         {
             ContactComposite toBeDeleted = null;
 
-            Iterator<ContactComposite> contactIter = hasContacts.contactIterator();
-
-            while( contactIter.hasNext() )
+            for( ContactComposite temp : target )
             {
-                ContactComposite tempContact = contactIter.next();
 
-                if( tempContact.getContactValue().equals( contact.getContactValue() ) &&
-                    tempContact.getContactType().equals( contact.getContactType() ) )
+                if( temp.contactValue().get().equals( contact.contactValue().get() ) &&
+                    temp.contactType().get().equals( contact.contactType().get() ) )
                 {
-                    toBeDeleted = tempContact;
+                    toBeDeleted = temp;
                     break;
                 }
             }
 
-            hasContacts.removeContact( toBeDeleted );
+            target.remove( toBeDeleted );
         }
     }
 }

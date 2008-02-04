@@ -73,7 +73,7 @@ public abstract class ProjectEditPage extends ProjectAddEditPage
 
     public Iterator<ContactPersonEntityComposite> getInitSelectedContactPersonList()
     {
-        return getProject().contactPersonIterator();
+        return getProject().contactPersons().iterator();
     }
 
     public List<PriceRateScheduleComposite> getAvailablePriceRateScheduleChoice()
@@ -82,7 +82,7 @@ public abstract class ProjectEditPage extends ProjectAddEditPage
 
         List<PriceRateScheduleComposite> list = ChronosWebApp.getServices().getPriceRateScheduleService().findAll( customer );
 
-        list.add( getProject().getPriceRateSchedule() );
+        list.add( getProject().priceRateSchedule().get() );
 
         return list;
     }

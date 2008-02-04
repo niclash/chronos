@@ -103,23 +103,23 @@ public abstract class PriceRateAddEditPage extends AddEditBasePage
 
     protected void assignFieldValueToPriceRate( PriceRateComposite priceRate )
     {
-        priceRate.setAmount( amountField.getLongValue() );
-        priceRate.setPriceRateType( priceRateTypeChoice.getChoice() );
-        priceRate.setProjectRole( getSelectedProjectRole() );
+        priceRate.amount().set( amountField.getLongValue() );
+        priceRate.priceRateType().set( priceRateTypeChoice.getChoice() );
+        priceRate.projectRole().set( getSelectedProjectRole() );
     }
 
     protected void assignPriceRateToFieldValue( PriceRateComposite priceRate )
     {
-        amountField.setLongValue( priceRate.getAmount() );
-        priceRateTypeChoice.setChoice( priceRate.getPriceRateType() );
-        projectRoleChoice.setChoice( new ProjectRoleDelegator( priceRate.getProjectRole() ) );
+        amountField.setLongValue( priceRate.amount().get() );
+        priceRateTypeChoice.setChoice( priceRate.priceRateType().get() );
+        projectRoleChoice.setChoice( new ProjectRoleDelegator( priceRate.projectRole().get() ) );
     }
 
     private ProjectRoleComposite getSelectedProjectRole()
     {
         ProjectRoleComposite projectRole = ChronosWebApp.newInstance( ProjectRoleComposite.class );
 
-        projectRole.setName( projectRoleChoice.getChoice().getName() );
+        projectRole.name().set( projectRoleChoice.getChoice().getName() );
 
         return projectRole;
     }

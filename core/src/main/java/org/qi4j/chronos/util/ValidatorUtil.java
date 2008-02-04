@@ -20,12 +20,8 @@ public final class ValidatorUtil
     public static boolean isEmptyOrInvalidLength( final String text, final String fieldName, final int maxLength,
                                                   final Validator validator )
     {
-        if( isEmpty( text, fieldName, validator ) )
-        {
-            return true;
-        }
+        return isEmpty( text, fieldName, validator ) || isInvalidLength( text, fieldName, maxLength, validator );
 
-        return isInvalidLength( text, fieldName, maxLength, validator );
     }
 
     public static boolean isEmpty( final String text, final String fieldName, final Validator validator )

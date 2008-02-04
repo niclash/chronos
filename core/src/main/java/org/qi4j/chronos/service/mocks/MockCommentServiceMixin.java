@@ -17,11 +17,12 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
+import org.qi4j.association.ManyAssociation;
 import org.qi4j.chronos.model.associations.HasComments;
 import org.qi4j.chronos.model.composites.CommentComposite;
+import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.service.CommentService;
 import org.qi4j.chronos.service.FindFilter;
-import org.qi4j.entity.Identity;
 
 public class MockCommentServiceMixin implements CommentService
 {
@@ -32,7 +33,7 @@ public class MockCommentServiceMixin implements CommentService
 
     public List<CommentComposite> findAll( HasComments hasComments )
     {
-        Iterator<CommentComposite> iter = hasComments.commentIterator();
+        Iterator<CommentComposite> iter = hasComments.comments().iterator();
 
         List<CommentComposite> returnList = new ArrayList<CommentComposite>();
 
@@ -52,35 +53,32 @@ public class MockCommentServiceMixin implements CommentService
     public void update( HasComments hasComments, CommentComposite oldComment, CommentComposite newComment )
     {
         CommentComposite toBeDeleted = null;
-        Iterator<CommentComposite> commentIter = hasComments.commentIterator();
+        ManyAssociation<CommentComposite> commentsAssociation = hasComments.comments();
 
-        while( commentIter.hasNext() )
+        for( CommentComposite comment : commentsAssociation )
         {
-            CommentComposite temp = commentIter.next();
 
-            if( temp.getText().equals( oldComment.getText() ) &&
-                temp.getUser().getLogin().getName().equals( oldComment.getUser().getLogin().getName() ) )
+            if( comment.text().get().equals( oldComment.text().get() ) &&
+                comment.user().get().login().get().name().get().equals( oldComment.user().get().login().get().name().get() ) )
             {
-                toBeDeleted = temp;
+                toBeDeleted = comment;
             }
         }
 
-        hasComments.removeComment( toBeDeleted );
-        hasComments.addComment( newComment );
+        commentsAssociation.remove( toBeDeleted );
+        commentsAssociation.add( newComment );
     }
 
     public CommentComposite get( HasComments hasComments, Date createdDate, String userId )
     {
-        Iterator<CommentComposite> iterator = hasComments.commentIterator();
 
-        while( iterator.hasNext() )
+        for( CommentComposite commentComposite : hasComments.comments() )
         {
-            CommentComposite comment = iterator.next();
 
-            String tempId = ( (Identity) comment.getUser() ).identity().get();
-            if( comment.getCreatedDate().equals( createdDate ) && tempId.equals( userId ) )
+            String tempId = commentComposite.user().get().identity().get();
+            if( commentComposite.createdDate().get().equals( createdDate ) && tempId.equals( userId ) )
             {
-                return comment;
+                return commentComposite;
             }
         }
 
@@ -92,22 +90,22 @@ public class MockCommentServiceMixin implements CommentService
         for( CommentComposite comment : comments )
         {
             CommentComposite toBeDeleted = null;
-            Iterator<CommentComposite> commentIter = hasComments.commentIterator();
 
-            while( commentIter.hasNext() )
+            for( CommentComposite commentComposite : hasComments.comments() )
             {
-                CommentComposite temp = commentIter.next();
 
-                if( temp.getCreatedDate().equals( comment.getCreatedDate() ) && temp.getUser().getLogin().getName().equals( comment.getUser().getLogin().getName() ) )
+                Login commentsUserLogin = commentComposite.user().get().login().get();
+                if( commentComposite.createdDate().get().equals( comment.createdDate().get() ) &&
+                    commentsUserLogin.name().get().equals( comment.user().get().login().get().name().get() ) )
                 {
-                    toBeDeleted = temp;
+                    toBeDeleted = commentComposite;
                     break;
                 }
             }
 
             if( toBeDeleted != null )
             {
-                hasComments.removeComment( toBeDeleted );
+                hasComments.comments().remove( toBeDeleted );
             }
         }
     }

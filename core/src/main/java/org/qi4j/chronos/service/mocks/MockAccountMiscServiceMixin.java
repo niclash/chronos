@@ -13,12 +13,12 @@
 package org.qi4j.chronos.service.mocks;
 
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.composite.scope.ThisCompositeAs;
+import org.qi4j.association.SetAssociation;
 
 public abstract class MockAccountMiscServiceMixin implements AccountService
 {
@@ -35,12 +35,9 @@ public abstract class MockAccountMiscServiceMixin implements AccountService
 
         for( AccountEntityComposite account : accountList )
         {
-            Iterator<StaffEntityComposite> staffIterator = account.staffIterator();
-
-            while( staffIterator.hasNext() )
+            SetAssociation<StaffEntityComposite> accountStaffs = account.staffs();
+            for( StaffEntityComposite staff : accountStaffs )
             {
-                StaffEntityComposite staff = staffIterator.next();
-
                 if( staff.equals( target ) )
                 {
                     return account;
@@ -55,7 +52,7 @@ public abstract class MockAccountMiscServiceMixin implements AccountService
     {
         for( AccountEntityComposite account : accounts )
         {
-            account.setEnabled( enabled );
+            account.isEnabled().set( enabled );
 
             accountService.update( account );
         }
@@ -67,7 +64,7 @@ public abstract class MockAccountMiscServiceMixin implements AccountService
 
         for( AccountEntityComposite account : accounts )
         {
-            if( account.getName().equalsIgnoreCase( accountName ) )
+            if( account.name().get().equalsIgnoreCase( accountName ) )
             {
                 return account;
             }

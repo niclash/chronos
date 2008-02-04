@@ -47,12 +47,12 @@ public abstract class ProjectRoleAddEditPage extends AddEditBasePage
 
     protected void assignFieldValueToProjectRole( ProjectRoleComposite projectRole )
     {
-        projectRole.setName( nameField.getText() );
+        projectRole.name().set( nameField.getText() );
     }
 
     protected void assignProjectRoleToFieldValue( ProjectRoleComposite projectRole )
     {
-        nameField.setText( projectRole.getName() );
+        nameField.setText( projectRole.name().get() );
     }
 
     public final void handleSubmit()

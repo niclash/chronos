@@ -14,8 +14,8 @@ package org.qi4j.chronos.service.mocks;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
+import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectRoleComposite;
 import org.qi4j.chronos.service.FindFilter;
@@ -34,16 +34,14 @@ public class MockProjectRoleServiceMixin implements ProjectRoleService
 
     public List<ProjectRoleComposite> findAll( AccountEntityComposite account )
     {
-        List<ProjectRoleComposite> projectRoles = new ArrayList<ProjectRoleComposite>();
-
-        Iterator<ProjectRoleComposite> projectRoleIter = account.projectRoleIterator();
-
-        while( projectRoleIter.hasNext() )
+        List<ProjectRoleComposite> copyProjectRoles = new ArrayList<ProjectRoleComposite>();
+        SetAssociation<ProjectRoleComposite> projectRoles = account.projectRoles();
+        for( ProjectRoleComposite projectRoleComposite : projectRoles )
         {
-            projectRoles.add( CloneUtil.cloneProjectRole( factory, projectRoleIter.next() ) );
+            copyProjectRoles.add( CloneUtil.cloneProjectRole( factory, projectRoleComposite ) );
         }
 
-        return projectRoles;
+        return copyProjectRoles;
     }
 
     public int countAll( AccountEntityComposite account )
@@ -69,7 +67,7 @@ public class MockProjectRoleServiceMixin implements ProjectRoleService
 
         for( ProjectRoleComposite projectRole : projectRoles )
         {
-            if( projectRole.getName().equals( projectRoleName ) )
+            if( projectRole.name().get().equals( projectRoleName ) )
             {
                 return projectRole;
             }
@@ -80,33 +78,32 @@ public class MockProjectRoleServiceMixin implements ProjectRoleService
 
     public void updateProjectRole( AccountEntityComposite account, ProjectRoleComposite oldProjectRole, ProjectRoleComposite updatedProjectRole )
     {
-        ProjectRoleComposite originalOld = get_0( account, oldProjectRole.getName() );
+        ProjectRoleComposite originalOld = get_0( account, oldProjectRole.name().get() );
 
-        account.removeProjectRole( originalOld );
-
-        account.addProjectRole( updatedProjectRole );
+        SetAssociation<ProjectRoleComposite> projectRoles = account.projectRoles();
+        projectRoles.remove( originalOld );
+        projectRoles.add( updatedProjectRole );
     }
 
     public void deleteProjectRole( AccountEntityComposite account, Collection<ProjectRoleComposite> projectRoles )
     {
+        SetAssociation<ProjectRoleComposite> accountProjectRoles = account.projectRoles();
         for( ProjectRoleComposite projectRole : projectRoles )
         {
             ProjectRoleComposite toBeDeleted = null;
-            Iterator<ProjectRoleComposite> projectRoleIter = account.projectRoleIterator();
-
-            while( projectRoleIter.hasNext() )
+            for( ProjectRoleComposite accountProjectRole : accountProjectRoles )
             {
-                ProjectRoleComposite temp = projectRoleIter.next();
 
-                if( temp.getName().equals( projectRole.getName() ) )
+                if( accountProjectRole.name().get().equals( projectRole.name().get() ) )
                 {
-                    toBeDeleted = temp;
+                    toBeDeleted = accountProjectRole;
+                    break;
                 }
             }
 
             if( toBeDeleted != null )
             {
-                account.removeProjectRole( toBeDeleted );
+                accountProjectRoles.remove( toBeDeleted );
             }
         }
     }

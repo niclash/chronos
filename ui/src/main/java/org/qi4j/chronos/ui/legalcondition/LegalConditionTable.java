@@ -81,9 +81,9 @@ public abstract class LegalConditionTable extends ActionTable<LegalConditionComp
 
     public void populateItems( Item item, LegalConditionComposite obj )
     {
-        final String legalConditionName = obj.getName();
+        final String legalConditionName = obj.name().get();
 
-        item.add( new SimpleLink( "name", obj.getName() )
+        item.add( new SimpleLink( "name", obj.name().get() )
         {
             public void linkClicked()
             {

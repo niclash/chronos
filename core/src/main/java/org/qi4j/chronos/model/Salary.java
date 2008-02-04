@@ -14,17 +14,30 @@
 package org.qi4j.chronos.model;
 
 import java.io.Serializable;
-import org.qi4j.chronos.model.mixins.SalaryMixin;
 import org.qi4j.composite.Mixins;
+import org.qi4j.composite.scope.PropertyField;
 import org.qi4j.library.general.model.Money;
+import org.qi4j.property.Property;
 
 /**
  * Generic interface for Salary.
  */
-@Mixins( SalaryMixin.class )
-public interface Salary extends Serializable
+@Mixins( Salary.SalaryMixin.class )
+public interface Salary
 {
-    Money getSalary();
+    Property<Money> salary();
 
-    void setSalary( Money salary );
+    final class SalaryMixin
+        implements Salary, Serializable
+    {
+        private static final long serialVersionUID = 1L;
+
+        @PropertyField
+        private Property<Money> salary;
+
+        public final Property<Money> salary()
+        {
+            return salary;
+        }
+    }
 }

@@ -24,7 +24,7 @@ public abstract class ProjectRoleDataProvider extends AbstractSortableDataProvid
 {
     public String getId( ProjectRoleComposite projectRoleEntityComposite )
     {
-        return projectRoleEntityComposite.getName();
+        return projectRoleEntityComposite.name().get();
     }
 
     public ProjectRoleComposite load( String id )

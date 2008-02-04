@@ -12,13 +12,27 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.chronos.model.mixins.HasTextMixin;
+import java.io.Serializable;
 import org.qi4j.composite.Mixins;
+import org.qi4j.composite.scope.PropertyField;
+import org.qi4j.property.Property;
 
-@Mixins( HasTextMixin.class )
+@Mixins( HasText.HasTextMixin.class )
 public interface HasText
 {
-    void setText( String text );
+    Property<String> text();
 
-    String getText();
+    final class HasTextMixin
+        implements HasText, Serializable
+    {
+        private static final long serialVersionUID = 1L;
+
+        @PropertyField
+        private Property<String> text;
+
+        public final Property<String> text()
+        {
+            return text;
+        }
+    }
 }

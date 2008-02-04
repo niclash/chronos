@@ -86,7 +86,7 @@ public abstract class PriceRateScheduleSelectionPage extends LeftMenuNavPage
 
             List<PriceRateDelegator> delegators = ListUtil.getPriceRateDelegator( priceRateSchedule );
 
-            currencyField = new SimpleTextField( "currencyField", priceRateSchedule.getCurrency().getCurrencyCode() );
+            currencyField = new SimpleTextField( "currencyField", priceRateSchedule.currency().get().getCurrencyCode() );
 
             priceRateListView = new PriceRateListView( "priceRateListView", delegators );
 
@@ -146,7 +146,7 @@ public abstract class PriceRateScheduleSelectionPage extends LeftMenuNavPage
 
         for( PriceRateScheduleComposite priceRateSchedule : list )
         {
-            nameList.add( priceRateSchedule.getName() );
+            nameList.add( priceRateSchedule.name().get() );
         }
 
         return nameList;

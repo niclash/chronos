@@ -14,8 +14,8 @@ package org.qi4j.chronos.ui.util;
 
 import java.util.ArrayList;
 import java.util.Currency;
-import java.util.Iterator;
 import java.util.List;
+import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.PriceRateType;
 import org.qi4j.chronos.model.ProjectStatus;
 import org.qi4j.chronos.model.TaskStatus;
@@ -38,12 +38,12 @@ public final class ListUtil
 {
     public static List<String> getPriceRateScheduleNameList( HasPriceRateSchedules hasPriceRateSchedules )
     {
-        Iterator<PriceRateScheduleComposite> iter = hasPriceRateSchedules.priceRateScheduleIterator();
         List<String> nameList = new ArrayList<String>();
 
-        while( iter.hasNext() )
+        SetAssociation<PriceRateScheduleComposite> priceRateSchedules = hasPriceRateSchedules.priceRateSchedules();
+        for( PriceRateScheduleComposite priceRateScheduleComposite : priceRateSchedules )
         {
-            nameList.add( iter.next().getName() );
+            nameList.add( priceRateScheduleComposite.name().get() );
         }
 
         return nameList;
@@ -52,12 +52,12 @@ public final class ListUtil
 
     public static List<StaffDelegator> getStaffDelegator( HasStaffs hasStaffs )
     {
-        Iterator<StaffEntityComposite> staffIterator = hasStaffs.staffIterator();
         List<StaffDelegator> staffDelegatorList = new ArrayList<StaffDelegator>();
 
-        while( staffIterator.hasNext() )
+        SetAssociation<StaffEntityComposite> staffs = hasStaffs.staffs();
+        for( StaffEntityComposite staffEntityComposite : staffs )
         {
-            staffDelegatorList.add( new StaffDelegator( staffIterator.next() ) );
+            staffDelegatorList.add( new StaffDelegator( staffEntityComposite ) );
         }
 
         return staffDelegatorList;
@@ -66,13 +66,11 @@ public final class ListUtil
 
     public static List<PriceRateDelegator> getPriceRateDelegator( HasPriceRates hasPriceRates )
     {
-        Iterator<PriceRateComposite> priceRateIterator = hasPriceRates.priceRateIterator();
-
         List<PriceRateDelegator> priceRateList = new ArrayList<PriceRateDelegator>();
-
-        while( priceRateIterator.hasNext() )
+        SetAssociation<PriceRateComposite> priceRates = hasPriceRates.priceRates();
+        for( PriceRateComposite priceRateComposite : priceRates )
         {
-            priceRateList.add( new PriceRateDelegator( priceRateIterator.next() ) );
+            priceRateList.add( new PriceRateDelegator( priceRateComposite ) );
         }
 
         return priceRateList;

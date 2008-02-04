@@ -13,6 +13,7 @@
 package org.qi4j.chronos.service.mocks;
 
 import java.util.Iterator;
+import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 
@@ -25,11 +26,12 @@ public class MockContactPersonServiceMixin extends MockCustomerBasedServiceMixin
 
     protected Iterator<ContactPersonEntityComposite> getItems( CustomerEntityComposite customerEntityComposite )
     {
-        return customerEntityComposite.contactPersonIterator();
+        return customerEntityComposite.contactPersons().iterator();
     }
 
     protected void removeItem( CustomerEntityComposite customer, ContactPersonEntityComposite contactPerson )
     {
-        customer.removeContactPerson( contactPerson );
+        SetAssociation<ContactPersonEntityComposite> customerContacts = customer.contactPersons();
+        customerContacts.remove( contactPerson );
     }
 }

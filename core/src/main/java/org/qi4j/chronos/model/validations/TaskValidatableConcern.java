@@ -24,8 +24,8 @@ public class TaskValidatableConcern extends AbstractValidatableConcern
 
     protected void isValid( Validator validator )
     {
-        ValidatorUtil.isEmptyOrInvalidLength( task.getTitle(), "Title", Task.TITLE_LEN, validator );
-        ValidatorUtil.isEmptyOrInvalidLength( task.getDescription(), "Description", Task.DESCRIPTION_LEN, validator );
+        ValidatorUtil.isEmptyOrInvalidLength( task.title().get(), "Title", Task.TITLE_LEN, validator );
+        ValidatorUtil.isEmptyOrInvalidLength( task.description().get(), "Description", Task.DESCRIPTION_LEN, validator );
     }
 
     protected String getResourceBundle()

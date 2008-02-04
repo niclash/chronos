@@ -14,11 +14,12 @@ package org.qi4j.chronos.service.mocks;
 
 import java.util.ArrayList;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.TaskStatus;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
@@ -35,11 +36,10 @@ public abstract class MockTaskMiscServiceMixin implements TaskService
     {
         List<TaskEntityComposite> resultList = new ArrayList<TaskEntityComposite>();
 
-        Iterator<ProjectEntityComposite> projectIterator = account.projectIterator();
-
-        while( projectIterator.hasNext() )
+        SetAssociation<ProjectEntityComposite> accountProjects = account.projects();
+        for( ProjectEntityComposite accountProject : accountProjects )
         {
-            resultList.addAll( taskService.findAll( projectIterator.next() ) );
+            resultList.addAll( taskService.findAll( accountProject ) );
         }
 
         return resultList;
@@ -60,21 +60,21 @@ public abstract class MockTaskMiscServiceMixin implements TaskService
         Set<TaskEntityComposite> resultSet = new HashSet<TaskEntityComposite>();
 
         List<TaskEntityComposite> allTasks = taskService.findAll();
-
         for( TaskEntityComposite task : allTasks )
         {
-            Iterator<WorkEntryEntityComposite> workEntryIter = task.workEntryIterator();
-
-            while( workEntryIter.hasNext() )
+            SetAssociation<WorkEntryEntityComposite> taskWorkEntries = task.workEntries();
+            for( WorkEntryEntityComposite workEntryEntityComposite : taskWorkEntries )
             {
-                if( workEntryIter.next().getProjectAssignee().getStaff().equals( staff ) )
+                ProjectAssigneeEntityComposite projectAssignee = workEntryEntityComposite.projectAssignee().get();
+                StaffEntityComposite projectAssigneeStaff = projectAssignee.staff().get();
+                if( projectAssigneeStaff.equals( staff ) )
                 {
                     resultSet.add( task );
                 }
             }
         }
 
-        return new ArrayList( resultSet );
+        return new ArrayList<TaskEntityComposite>( resultSet );
     }
 
     public List<TaskEntityComposite> getRecentTasks( StaffEntityComposite staff, FindFilter findFilter )
@@ -95,7 +95,7 @@ public abstract class MockTaskMiscServiceMixin implements TaskService
 
         for( TaskEntityComposite task : list )
         {
-            if( task.getTaskStatus() == taskStatus )
+            if( task.taskStatus().get() == taskStatus )
             {
                 resultList.add( task );
             }

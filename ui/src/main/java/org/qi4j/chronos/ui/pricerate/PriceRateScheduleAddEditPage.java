@@ -24,6 +24,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.PriceRateType;
 import org.qi4j.chronos.model.SystemRole;
@@ -31,12 +32,12 @@ import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.model.composites.ProjectRoleComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.common.NumberTextField;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.projectrole.ProjectRoleDelegator;
 import org.qi4j.chronos.ui.util.ListUtil;
+import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 import org.qi4j.chronos.util.CurrencyUtil;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
@@ -141,9 +142,9 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
                     amountFieldList.add( amountField );
 
                     //init value
-                    projectRoleChoice.setChoice( new ProjectRoleDelegator( priceRate.getProjectRole() ) );
-                    priceRateTypeChoice.setChoice( priceRate.getPriceRateType() );
-                    amountField.setLongValue( priceRate.getAmount() );
+                    projectRoleChoice.setChoice( new ProjectRoleDelegator( priceRate.projectRole().get() ) );
+                    priceRateTypeChoice.setChoice( priceRate.priceRateType().get() );
+                    amountField.setLongValue( priceRate.amount().get() );
                 }
                 else
                 {
@@ -191,10 +192,10 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
 
     private void resetPriceRateSchedule( PriceRateScheduleComposite priceRateSchedule )
     {
-        nameField.setText( "[Customize] " + priceRateSchedule.getName() );
-        currencyChoice.setChoice( priceRateSchedule.getCurrency() );
+        nameField.setText( "[Customize] " + priceRateSchedule.name().get() );
+        currencyChoice.setChoice( priceRateSchedule.currency().get() );
 
-        priceRateList = buildPriceRateList( priceRateSchedule.priceRateIterator() );
+        priceRateList = buildPriceRateList( priceRateSchedule.priceRates().iterator() );
 
         projectRoleChoiceList.clear();
         priceRateTypeChoiceList.clear();
@@ -214,12 +215,12 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
     {
         PriceRateComposite priceRate = ChronosWebApp.newInstance( PriceRateComposite.class );
 
-        priceRate.setPriceRateType( PriceRateType.hourly );
+        priceRate.priceRateType().set( PriceRateType.HOURLY );
 
         List<ProjectRoleComposite> projectRolelists = ChronosWebApp.getServices().getProjectRoleService().findAll( getAccount() );
 
-        priceRate.setProjectRole( projectRolelists.get( 0 ) );
-        priceRate.setAmount( 0L );
+        priceRate.projectRole().set( projectRolelists.get( 0 ) );
+        priceRate.amount().set( 0L );
 
         priceRateList.add( priceRate );
     }
@@ -326,9 +327,9 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
         {
             ProjectRoleComposite projectRole = getProjectRole( projectRoleChoiceList.get( index ).getChoice() );
 
-            priceRate.setProjectRole( projectRole );
-            priceRate.setPriceRateType( priceRateTypeChoiceList.get( index ).getChoice() );
-            priceRate.setAmount( amountFieldList.get( index ).getLongValue() );
+            priceRate.projectRole().set( projectRole );
+            priceRate.priceRateType().set( priceRateTypeChoiceList.get( index ).getChoice() );
+            priceRate.amount().set( amountFieldList.get( index ).getLongValue() );
 
             index++;
         }
@@ -338,28 +339,25 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
     {
         ProjectRoleComposite projectRole = ChronosWebApp.newInstance( ProjectRoleComposite.class );
 
-        projectRole.setName( projectRoleDelegator.getName() );
+        projectRole.name().set( projectRoleDelegator.getName() );
 
         return projectRole;
     }
 
     protected void assignFieldValueToPriceRateSchedule( PriceRateSchedule priceRateSchedule )
     {
-        priceRateSchedule.setName( nameField.getText() );
-        priceRateSchedule.setCurrency( currencyChoice.getChoice() );
+        priceRateSchedule.name().set( nameField.getText() );
+        priceRateSchedule.currency().set( currencyChoice.getChoice() );
 
-        priceRateSchedule.removeAllPriceRate();
-
-        for( PriceRateComposite priceRate : priceRateList )
-        {
-            priceRateSchedule.addPriceRate( priceRate );
-        }
+        SetAssociation<PriceRateComposite> priceRates = priceRateSchedule.priceRates();
+        priceRates.clear();
+        priceRates.addAll( priceRateList );
     }
 
     protected void assignPriceRateScheduleToFieldValue( PriceRateSchedule priceRateSchedule )
     {
-        nameField.setText( priceRateSchedule.getName() );
-        currencyChoice.setChoice( priceRateSchedule.getCurrency() );
+        nameField.setText( priceRateSchedule.name().get() );
+        currencyChoice.setChoice( priceRateSchedule.currency().get() );
         //skip initializing priceRate as it is done in getInitPriceRateInit
     }
 

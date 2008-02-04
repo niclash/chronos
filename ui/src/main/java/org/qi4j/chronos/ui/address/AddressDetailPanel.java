@@ -15,6 +15,7 @@ package org.qi4j.chronos.ui.address;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.qi4j.chronos.ui.common.SimpleTextField;
 import org.qi4j.library.general.model.Address;
+import org.qi4j.library.general.model.City;
 
 public class AddressDetailPanel extends Panel
 {
@@ -35,12 +36,13 @@ public class AddressDetailPanel extends Panel
 
     private void initComponents( Address address )
     {
-        address1Field = new SimpleTextField( "address1Field", address.getFirstLine(), true );
-        address2Field = new SimpleTextField( "address2Field", address.getSecondLine(), true );
-        zipcodeField = new SimpleTextField( "zipcodeField", address.getZipCode(), true );
-        countryField = new SimpleTextField( "countryField", address.getCity().getCountry().getName(), true );
-        cityField = new SimpleTextField( "cityField", address.getCity().getName(), true );
-        stateField = new SimpleTextField( "stateField", address.getCity().getState().getName(), true );
+        address1Field = new SimpleTextField( "address1Field", address.firstLine().get(), true );
+        address2Field = new SimpleTextField( "address2Field", address.secondLine().get(), true );
+        zipcodeField = new SimpleTextField( "zipcodeField", address.zipCode().get(), true );
+        City addressCity = address.city().get();
+        countryField = new SimpleTextField( "countryField", addressCity.country().get().name().get(), true );
+        cityField = new SimpleTextField( "cityField", addressCity.name().get(), true );
+        stateField = new SimpleTextField( "stateField", addressCity.state().get().name().get(), true );
 
         add( address1Field );
         add( address2Field );

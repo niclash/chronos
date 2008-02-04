@@ -26,6 +26,7 @@ import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
+import org.qi4j.association.SetAssociation;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public abstract class PriceRateSelectionPage extends LeftMenuNavPage
@@ -101,11 +102,10 @@ public abstract class PriceRateSelectionPage extends LeftMenuNavPage
         {
             List<PriceRateDelegator> delegators = new ArrayList<PriceRateDelegator>();
 
-            Iterator<PriceRateComposite> iter = getPriceRateSchedule().priceRateIterator();
-
-            while( iter.hasNext() )
+            SetAssociation<PriceRateComposite> priceRates = getPriceRateSchedule().priceRates();
+            for( PriceRateComposite priceRateComposite : priceRates )
             {
-                delegators.add( new PriceRateDelegator( iter.next() ) );
+                delegators.add( new PriceRateDelegator( priceRateComposite ) );
             }
 
             return delegators;

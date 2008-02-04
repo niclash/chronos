@@ -38,7 +38,7 @@ public class ProjectRoleAddPage extends ProjectRoleAddEditPage
 
             AccountEntityComposite account = getAccount();
 
-            account.addProjectRole( projectRole );
+            account.projectRoles().add( projectRole );
 
             ChronosWebApp.getServices().getAccountService().update( account );
 

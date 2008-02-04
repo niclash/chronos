@@ -73,9 +73,9 @@ public abstract class ProjectRoleTable extends ActionTable<ProjectRoleComposite,
 
     public void populateItems( Item item, ProjectRoleComposite obj )
     {
-        String projectRoleName = obj.getName();
+        String projectRoleName = obj.name().get();
 
-        item.add( new Label( "roleName", obj.getName() ) );
+        item.add( new Label( "roleName", obj.name().get() ) );
 
         SimpleLink editLink = createEditLink( projectRoleName );
 

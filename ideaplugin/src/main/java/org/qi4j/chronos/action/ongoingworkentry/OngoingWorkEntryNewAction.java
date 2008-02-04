@@ -13,6 +13,7 @@
 package org.qi4j.chronos.action.ongoingworkentry;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
+import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.action.task.TaskBaseAction;
 import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
@@ -38,16 +39,17 @@ public class OngoingWorkEntryNewAction extends TaskBaseAction
         OngoingWorkEntryEntityComposite ongoingWorkEntry = service.newInstance( OngoingWorkEntryEntityComposite.class );
 
         //set created date and projectassignee
-        ongoingWorkEntry.setCreatedDate( ChronosUtil.getCurrentDate() );
-        ongoingWorkEntry.setProjectAssignee( getProjectAssignee( e ) );
+        ongoingWorkEntry.createdDate().set( ChronosUtil.getCurrentDate() );
+        ongoingWorkEntry.projectAssignee().set( getProjectAssignee( e ) );
 
         //add it to task
-        task.addOngoingWorkEntry( ongoingWorkEntry );
+        SetAssociation<OngoingWorkEntryEntityComposite> onGoingWorkEntries = task.onGoingWorkEntries();
+        onGoingWorkEntries.add( ongoingWorkEntry );
 
         //update task
         getServices( e ).getTaskService().update( task );
 
         UiUtil.showMsgDialog( "Work Started.", "Work is started. Started Date is " +
-                                               DateUtil.formatDateTime( ongoingWorkEntry.getCreatedDate() ) );
+                                               DateUtil.formatDateTime( ongoingWorkEntry.createdDate().get() ) );
     }
 }

@@ -104,8 +104,8 @@ public abstract class LegalConditionSelectionPage extends LeftMenuNavPage
         {
             LegalConditionComposite legalCondition = ChronosWebApp.newInstance( LegalConditionComposite.class );
 
-            legalCondition.setName( legalConditionChoice.getChoice().getName() );
-            legalCondition.setDescription( legalConditionChoice.getChoice().getDesc() );
+            legalCondition.name().set( legalConditionChoice.getChoice().getName() );
+            legalCondition.description().set( legalConditionChoice.getChoice().getDesc() );
 
             selectedLegalCondition( legalCondition );
 

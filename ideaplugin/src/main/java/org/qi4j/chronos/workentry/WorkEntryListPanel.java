@@ -55,11 +55,11 @@ public class WorkEntryListPanel extends AbstractPanel
     private void insertWorkEntry( WorkEntryEntityComposite workEntry )
     {
         workEntryTable.insertToLastRow(
-            DateUtil.formatDateTime( workEntry.getStartTime() ),
-            DateUtil.formatDateTime( workEntry.getEndTime() ),
-            DateUtil.getTimeDifferent( workEntry.getStartTime(), workEntry.getEndTime() ),
-            workEntry.getProjectAssignee().getStaff().getFullname(),
-            workEntry.getTitle() );
+            DateUtil.formatDateTime( workEntry.startTime().get() ),
+            DateUtil.formatDateTime( workEntry.endTime().get() ),
+            DateUtil.getTimeDifferent( workEntry.startTime().get(), workEntry.endTime().get() ),
+            workEntry.projectAssignee().get().staff().get().getFullname(),
+            workEntry.title().get() );
     }
 
     protected String getLayoutColSpec()

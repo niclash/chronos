@@ -139,10 +139,10 @@ public abstract class TaskViewAllDialog extends AbstractDialog
             public Object[] populateData( TaskEntityComposite task )
             {
                 return new Object[]{
-                    DateUtil.formatDateTime( task.getCreatedDate() ),
-                    task.getTaskStatus().toString(),
-                    task.getUser().getFullname(),
-                    task.getTitle()
+                    DateUtil.formatDateTime( task.createdDate().get() ),
+                    task.taskStatus().get().toString(),
+                    task.user().get().getFullname(),
+                    task.title().get()
                 };
             }
 

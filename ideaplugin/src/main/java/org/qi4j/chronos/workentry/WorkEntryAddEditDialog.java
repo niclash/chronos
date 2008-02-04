@@ -47,7 +47,7 @@ public abstract class WorkEntryAddEditDialog extends AddEditDialog
         titleField = new JTextField();
         createdDateField = new ReadOnlyTextField( "--" );
 
-        userField = new ReadOnlyTextField( getProjectAssignee().getStaff().getFullname() );
+        userField = new ReadOnlyTextField( getProjectAssignee().staff().get().getFullname() );
 
         descTextArea = new JTextArea();
         UiUtil.createScrollPanel( descTextArea );
@@ -94,19 +94,19 @@ public abstract class WorkEntryAddEditDialog extends AddEditDialog
 
     protected void assignFieldValueToWorkEntry( WorkEntryEntityComposite workEntry )
     {
-        workEntry.setDescription( descTextArea.getText() );
-        workEntry.setEndTime( endDatetime.getDate() );
-        workEntry.setStartTime( startDateTime.getDate() );
-        workEntry.setTitle( titleField.getText() );
-        workEntry.setProjectAssignee( getProjectAssignee() );
+        workEntry.description().set( descTextArea.getText() );
+        workEntry.endTime().set( endDatetime.getDate() );
+        workEntry.startTime().set( startDateTime.getDate() );
+        workEntry.title().set( titleField.getText() );
+        workEntry.projectAssignee().set( getProjectAssignee() );
     }
 
     protected void assignWorkEntryToFieldValue( WorkEntryEntityComposite workEntry )
     {
-        descTextArea.setText( workEntry.getDescription() );
-        endDatetime.setDate( workEntry.getEndTime() );
-        startDateTime.setDate( workEntry.getStartTime() );
-        titleField.setText( workEntry.getTitle() );
+        descTextArea.setText( workEntry.description().get() );
+        endDatetime.setDate( workEntry.endTime().get() );
+        startDateTime.setDate( workEntry.startTime().get() );
+        titleField.setText( workEntry.title().get() );
     }
 
     public Date getStartedDate()

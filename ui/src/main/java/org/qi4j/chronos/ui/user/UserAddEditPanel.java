@@ -138,8 +138,8 @@ public abstract class UserAddEditPanel extends AddEditBasePanel
 
             SystemRoleComposite systemRole = ChronosWebApp.newInstance( SystemRoleComposite.class );
 
-            systemRole.setSystemRoleType( delegator.getSystemRoleType() );
-            systemRole.setName( delegator.getSystemRoleName() );
+            systemRole.systemRoleType().set( delegator.getSystemRoleType() );
+            systemRole.name().set( delegator.getSystemRoleName() );
 
             SystemRoleList.add( systemRole );
         }
@@ -169,33 +169,29 @@ public abstract class UserAddEditPanel extends AddEditBasePanel
 
     public void assignFieldValueToUser( User user )
     {
-        user.setFirstName( firstNameField.getText() );
-        user.setLastName( lastNameField.getText() );
+        user.firstName().set( firstNameField.getText() );
+        user.lastName().set( lastNameField.getText() );
 
         GenderType genderType = GenderType.getGenderType( genderChoice.getChoiceAsString() );
-        user.setGender( genderType );
+        user.gender().set( genderType );
 
         if( !isHideRolePalette )
         {
             List<SystemRoleComposite> roleLists = getSelectedRoleList();
-
-            for( SystemRoleComposite role : roleLists )
-            {
-                user.addSystemRole( role );
-            }
+            user.systemRoles().addAll( roleLists );
         }
 
-        loginUserPanel.assignFieldValueToLogin( user.getLogin() );
+        loginUserPanel.assignFieldValueToLogin( user.login().get() );
     }
 
     public void assignUserToFieldValue( User user )
     {
-        firstNameField.setText( user.getFirstName() );
-        lastNameField.setText( user.getLastName() );
+        firstNameField.setText( user.firstName().get() );
+        lastNameField.setText( user.lastName().get() );
 
-        genderChoice.setChoice( user.getGender().toString() );
+        genderChoice.setChoice( user.gender().get().toString() );
 
-        loginUserPanel.assignLoginToFieldValue( user.getLogin() );
+        loginUserPanel.assignLoginToFieldValue( user.login().get() );
 
         //skip the rolePalette, as it is already done in getInitSelectedRoleList();
     }

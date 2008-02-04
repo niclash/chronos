@@ -24,8 +24,11 @@ import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.model.Model;
+import org.qi4j.association.Association;
+import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.ProjectStatus;
+import org.qi4j.chronos.model.TimeRange;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
@@ -34,7 +37,6 @@ import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.service.ContactPersonService;
 import org.qi4j.chronos.service.CustomerService;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.common.SimpleDateField;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
@@ -42,6 +44,7 @@ import org.qi4j.chronos.ui.contactperson.ContactPersonDelegator;
 import org.qi4j.chronos.ui.customer.CustomerDelegator;
 import org.qi4j.chronos.ui.pricerate.PriceRateScheduleOptionPanel;
 import org.qi4j.chronos.ui.util.ValidatorUtil;
+import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 
 public abstract class ProjectAddEditPage extends AddEditBasePage
 {
@@ -279,80 +282,85 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
 
     protected void assignFieldValuesToProject( ProjectEntityComposite project )
     {
-        project.setName( projectNameField.getText() );
-        project.setReference( formalReferenceField.getText() );
+        project.name().set( projectNameField.getText() );
+        project.reference().set( formalReferenceField.getText() );
 
-        project.setProjectStatus( statusChoice.getChoice() );
+        project.projectStatus().set( statusChoice.getChoice() );
 
         CustomerEntityComposite customer = getCustomerService().get( customerChoice.getChoice().getId() );
 
-        project.setCustomer( customer );
+        project.customer().set( customer );
 
-        project.setPrimaryContactPerson( null );
+        project.primaryContactPerson().set( null );
 
         ContactPersonEntityComposite primaryContactPerson = getPrimaryContactPerson();
 
         if( primaryContactPerson != null )
         {
-            project.setPrimaryContactPerson( primaryContactPerson );
+            project.primaryContactPerson().set( primaryContactPerson );
         }
 
-        project.removeAllContactPerson();
+        SetAssociation<ContactPersonEntityComposite> projectContacts = project.contactPersons();
+        projectContacts.clear();
 
         List<ContactPersonEntityComposite> selectedContacts = getSelectedContactPersons();
+        projectContacts.addAll( selectedContacts );
 
-        for( ContactPersonEntityComposite contactPerson : selectedContacts )
+        TimeRange projectEstimateTime = project.estimateTime().get();
+        projectEstimateTime.startTime().set( estimateStartDate.getDate() );
+        projectEstimateTime.endTime().set( estimateEndDate.getDate() );
+
+        TimeRange projectActualTime = project.actualTime().get();
+        projectActualTime.startTime().set( null );
+        projectActualTime.endTime().set( null );
+
+        if( project.projectStatus().get() == ProjectStatus.CLOSED )
         {
-            project.addContactPerson( contactPerson );
+            projectActualTime.startTime().set( actualStartDate.getDate() );
+            projectActualTime.endTime().set( actualEndDate.getDate() );
         }
 
-        project.getEstimateTime().setStartTime( estimateStartDate.getDate() );
-        project.getEstimateTime().setEndTime( estimateEndDate.getDate() );
-
-        project.getActualTime().setStartTime( null );
-        project.getActualTime().setEndTime( null );
-
-        if( project.getProjectStatus() == ProjectStatus.CLOSED )
-        {
-            project.getActualTime().setStartTime( actualStartDate.getDate() );
-            project.getActualTime().setEndTime( actualEndDate.getDate() );
-        }
-
-        project.setPriceRateSchedule( priceRateScheduleOptionPanel.getPriceRateSchedule() );
+        Association<PriceRateScheduleComposite> projectPriceRateSchedule = project.priceRateSchedule();
+        projectPriceRateSchedule.set( priceRateScheduleOptionPanel.getPriceRateSchedule() );
     }
 
     protected void assignProjectToFieldValues( Project project )
     {
-        projectNameField.setText( project.getName() );
+        projectNameField.setText( project.name().get() );
 
-        formalReferenceField.setText( project.getReference() );
+        formalReferenceField.setText( project.reference().get() );
 
-        statusChoice.setChoice( project.getProjectStatus() );
+        ProjectStatus projectStatus = project.projectStatus().get();
+        statusChoice.setChoice( projectStatus );
 
-        if( project.getProjectStatus() == ProjectStatus.CLOSED )
+        if( projectStatus == ProjectStatus.CLOSED )
         {
             actualDateContainer.setVisible( true );
         }
 
-        customerChoice.setChoice( new CustomerDelegator( project.getCustomer() ) );
+        CustomerEntityComposite projectCustomer = project.customer().get();
+        customerChoice.setChoice( new CustomerDelegator( projectCustomer ) );
 
         primaryContactChoice.setNewChoices( getAvailableContactPersonChoices() );
 
-        if( project.getPrimaryContactPerson() != null )
+        ContactPersonEntityComposite primaryContactPerson = project.primaryContactPerson().get();
+        if( primaryContactPerson != null )
         {
-            primaryContactChoice.setChoice( new ContactPersonDelegator( project.getPrimaryContactPerson() ) );
+            primaryContactChoice.setChoice( new ContactPersonDelegator( primaryContactPerson ) );
         }
 
-        estimateStartDate.setDate( project.getEstimateTime().getStartTime() );
-        estimateEndDate.setDate( project.getEstimateTime().getEndTime() );
+        TimeRange projectEstimateTime = project.estimateTime().get();
+        estimateStartDate.setDate( projectEstimateTime.startTime().get() );
+        estimateEndDate.setDate( projectEstimateTime.startTime().get() );
 
-        actualStartDate.setDate( project.getActualTime().getStartTime() );
-        actualEndDate.setDate( project.getActualTime().getEndTime() );
+        TimeRange projectActualTime = project.actualTime().get();
+        actualStartDate.setDate( projectActualTime.startTime().get() );
+        actualEndDate.setDate( projectActualTime.endTime().get() );
 
         //re-initilizae contact and priceRateSchedule values to reflect the selected projectOwner.
         newOrReInitContactPalette();
 
-        priceRateScheduleOptionPanel.setPriceRateSchedule( project.getPriceRateSchedule() );
+        priceRateScheduleOptionPanel.setPriceRateSchedule( project.priceRateSchedule().get() );
 
         //TODO bp. move this to other place?
         customerChoice.setEnabled( false );

@@ -26,10 +26,10 @@ import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.service.CustomerService;
 import org.qi4j.chronos.ui.address.AddressDetailPanel;
-import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.SimpleTextField;
 import org.qi4j.chronos.ui.contactperson.ContactPersonTab;
 import org.qi4j.chronos.ui.pricerate.PriceRateScheduleTab;
+import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 
 public abstract class CustomerDetailPage extends LeftMenuNavPage
 {
@@ -67,10 +67,10 @@ public abstract class CustomerDetailPage extends LeftMenuNavPage
 
             CustomerEntityComposite customer = getCustomer();
 
-            nameField = new SimpleTextField( "nameField", customer.getName(), true );
-            referenceField = new SimpleTextField( "referenceField", customer.getReference(), true );
+            nameField = new SimpleTextField( "nameField", customer.name().get(), true );
+            referenceField = new SimpleTextField( "referenceField", customer.reference().get(), true );
 
-            addressDetailPanel = new AddressDetailPanel( "addressDetailPanel", customer.getAddress() );
+            addressDetailPanel = new AddressDetailPanel( "addressDetailPanel", customer.address().get() );
 
             List<AbstractTab> tabs = new ArrayList<AbstractTab>();
 
@@ -121,7 +121,7 @@ public abstract class CustomerDetailPage extends LeftMenuNavPage
         {
             CustomerEntityComposite customer = getCustomer();
 
-            customer.addPriceRateSchedule( priceRateSchedule );
+            customer.priceRateSchedules().add( priceRateSchedule );
 
             CustomerService service = getServices().getCustomerService();
 

@@ -13,19 +13,27 @@
 package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
-import java.util.Iterator;
+import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.composites.SystemRoleComposite;
-import org.qi4j.chronos.model.mixins.HasSystemRolesMixin;
 import org.qi4j.composite.Mixins;
+import org.qi4j.composite.scope.PropertyField;
 
-@Mixins( HasSystemRolesMixin.class )
-public interface HasSystemRoles extends Serializable
+@Mixins( HasSystemRoles.HasSystemRolesMixin.class )
+public interface HasSystemRoles
 {
-    void removeAllSystemRole();
+    SetAssociation<SystemRoleComposite> systemRoles();
 
-    void addSystemRole( SystemRoleComposite systemRole );
+    final class HasSystemRolesMixin
+        implements HasSystemRoles, Serializable
+    {
+        private static final long serialVersionUID = 1L;
 
-    void removeSystemRole( SystemRoleComposite systemRole );
+        @PropertyField
+        private SetAssociation<SystemRoleComposite> systemRoles;
 
-    Iterator<SystemRoleComposite> systemRoleIterator();
+        public final SetAssociation<SystemRoleComposite> systemRoles()
+        {
+            return systemRoles;
+        }
+    }
 }

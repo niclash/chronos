@@ -48,19 +48,19 @@ public abstract class ContactPersonAddPage extends ContactPersonAddEditPage
 
         LoginComposite login = ChronosWebApp.newInstance( LoginComposite.class );
 
-        contactPerson.setLogin( login );
+        contactPerson.login().set( login );
 
         assignFieldValueToContactPerson( contactPerson );
 
         SystemRoleComposite contactPersonSystemRole = getServices().getSystemRoleService().getSystemRoleByName( SystemRole.CONTACT_PERSON );
 
-        contactPerson.addSystemRole( contactPersonSystemRole );
+        contactPerson.systemRoles().add( contactPersonSystemRole );
 
         try
         {
             CustomerEntityComposite customer = getCustomer();
 
-            customer.addContactPerson( contactPerson );
+            customer.contactPersons().add( contactPerson );
 
             CustomerService customerService = getServices().getCustomerService();
 

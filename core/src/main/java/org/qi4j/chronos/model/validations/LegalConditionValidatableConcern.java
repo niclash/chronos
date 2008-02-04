@@ -13,7 +13,7 @@
 package org.qi4j.chronos.model.validations;
 
 import org.qi4j.chronos.model.LegalCondition;
-import org.qi4j.chronos.util.ValidatorUtil;
+import static org.qi4j.chronos.util.ValidatorUtil.isEmptyOrInvalidLength;
 import org.qi4j.composite.scope.ThisCompositeAs;
 import org.qi4j.library.framework.validation.AbstractValidatableConcern;
 import org.qi4j.library.framework.validation.Validator;
@@ -24,8 +24,8 @@ public class LegalConditionValidatableConcern extends AbstractValidatableConcern
 
     protected void isValid( Validator validator )
     {
-        ValidatorUtil.isEmptyOrInvalidLength( legalCondition.getName(), "Name", LegalCondition.NAME_LEN, validator );
-        ValidatorUtil.isEmptyOrInvalidLength( legalCondition.getDescription(), "Description", LegalCondition.DESC_LEN, validator );
+        isEmptyOrInvalidLength( legalCondition.name().get(), "Name", LegalCondition.NAME_LEN, validator );
+        isEmptyOrInvalidLength( legalCondition.description().get(), "Description", LegalCondition.DESC_LEN, validator );
     }
 
     protected String getResourceBundle()

@@ -29,6 +29,7 @@ import org.qi4j.chronos.service.CustomerService;
 import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.service.UserService;
 import org.qi4j.composite.scope.PropertyField;
+import org.qi4j.association.SetAssociation;
 
 public class MockUserServiceMixin implements UserService
 {
@@ -71,9 +72,9 @@ public class MockUserServiceMixin implements UserService
     {
         for( User user : users )
         {
-            Login login = user.getLogin();
+            Login login = user.login().get();
 
-            if( login.getName().equals( loginId ) && login.getPassword().equals( password ) )
+            if( login.name().get().equals( loginId ) && login.password().get().equals( password ) )
             {
                 return user;
             }
@@ -120,14 +121,12 @@ public class MockUserServiceMixin implements UserService
 
     public boolean hasThisSystemRole( User user, String systemRoleName )
     {
-        Iterator<SystemRoleComposite> roleIterator = user.systemRoleIterator();
+        SetAssociation<SystemRoleComposite> userSystemRoles = user.systemRoles();
 
-        while( roleIterator.hasNext() )
+        //TODO bp. loop system role group
+        for( SystemRoleComposite systemRole : userSystemRoles )
         {
-            //TODO bp. loop system role group
-            SystemRoleComposite systemRole = roleIterator.next();
-
-            if( systemRole.getName().equals( systemRoleName ) )
+            if( systemRole.name().get().equals( systemRoleName ) )
             {
                 return true;
             }

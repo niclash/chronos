@@ -19,6 +19,5 @@ import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
 
 public interface Customer extends NameWithReference, HasAddress, HasContactPersons, HasPriceRateSchedules
 {
-
 }
 

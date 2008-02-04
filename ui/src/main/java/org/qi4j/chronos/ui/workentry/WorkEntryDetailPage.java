@@ -25,10 +25,10 @@ import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.associations.HasComments;
 import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
-import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.comment.CommentTab;
 import org.qi4j.chronos.ui.common.SimpleTextArea;
 import org.qi4j.chronos.ui.common.SimpleTextField;
+import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.util.DateUtil;
 
 public abstract class WorkEntryDetailPage extends LeftMenuNavPage
@@ -75,13 +75,13 @@ public abstract class WorkEntryDetailPage extends LeftMenuNavPage
         {
             WorkEntryEntityComposite workEntry = getWorkEntry();
 
-            titleTextField = new SimpleTextField( "titleField", workEntry.getTitle() );
-            descriptionTextArea = new SimpleTextArea( "descriptionTextArea", workEntry.getDescription() );
+            titleTextField = new SimpleTextField( "titleField", workEntry.title().get() );
+            descriptionTextArea = new SimpleTextArea( "descriptionTextArea", workEntry.description().get() );
 
-            createdDateField = new SimpleTextField( "createDateField", DateUtil.formatDateTime( workEntry.getCreatedDate() ) );
+            createdDateField = new SimpleTextField( "createDateField", DateUtil.formatDateTime( workEntry.createdDate().get() ) );
 
-            startTimeFieid = new SimpleTextField( "startTimeField", DateUtil.formatDateTime( workEntry.getStartTime() ) );
-            endTimeField = new SimpleTextField( "endTimeField", DateUtil.formatDateTime( workEntry.getEndTime() ) );
+            startTimeFieid = new SimpleTextField( "startTimeField", DateUtil.formatDateTime( workEntry.startTime().get() ) );
+            endTimeField = new SimpleTextField( "endTimeField", DateUtil.formatDateTime( workEntry.endTime().get() ) );
 
             durationField = new SimpleTextField( "durationField", "00:08:33" );//TODO fix me
 
@@ -138,7 +138,7 @@ public abstract class WorkEntryDetailPage extends LeftMenuNavPage
     {
         WorkEntryEntityComposite workEntry = getWorkEntry();
 
-        workEntry.addComment( comment );
+        workEntry.comments().add( comment );
 
         getServices().getWorkEntryService().update( workEntry );
     }

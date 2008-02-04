@@ -74,7 +74,7 @@ public abstract class ChangePasswordPage extends LeftMenuNavPage
             newPasswordField = new MaxLengthPasswordField( "newPassword", "New Password", Login.PASSWORD_LEN );
             confirmPasswordField = new MaxLengthPasswordField( "confirmPassword", "Confirm Password", Login.PASSWORD_LEN );
 
-            loginIdLabel = new Label( "loginId", user.getLogin().getName() );
+            loginIdLabel = new Label( "loginId", user.login().get().name().get() );
 
             submitButton = new Button( "submitButton", new Model( "Change Password" ) );
             cancelButton = new Button( "cancelButton", new Model( "Cancel" ) );
@@ -143,7 +143,8 @@ public abstract class ChangePasswordPage extends LeftMenuNavPage
             UserService userService = getUserService();
             User user = getUser();
 
-            if( oldPassword != null && !user.getLogin().getPassword().equals( oldPassword ) )
+            Login userLogin = user.login().get();
+            if( oldPassword != null && !userLogin.password().get().equals( oldPassword ) )
             {
                 error( "Invalid old password!" );
                 isRejected = true;
@@ -154,7 +155,7 @@ public abstract class ChangePasswordPage extends LeftMenuNavPage
                 return;
             }
 
-            user.getLogin().setPassword( password );
+            userLogin.password().set( password );
 
             try
             {

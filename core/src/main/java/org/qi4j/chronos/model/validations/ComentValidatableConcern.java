@@ -13,7 +13,7 @@
 package org.qi4j.chronos.model.validations;
 
 import org.qi4j.chronos.model.Comment;
-import org.qi4j.chronos.util.ValidatorUtil;
+import static org.qi4j.chronos.util.ValidatorUtil.isEmptyOrInvalidLength;
 import org.qi4j.composite.scope.ThisCompositeAs;
 import org.qi4j.library.framework.validation.AbstractValidatableConcern;
 import org.qi4j.library.framework.validation.Validator;
@@ -24,7 +24,7 @@ public class ComentValidatableConcern extends AbstractValidatableConcern
 
     protected void isValid( Validator validator )
     {
-        ValidatorUtil.isEmptyOrInvalidLength( comment.getText(), "Comment", Comment.COMMENT_LEN, validator );
+        isEmptyOrInvalidLength( comment.text().get(), "Comment", Comment.COMMENT_LEN, validator );
     }
 
     protected String getResourceBundle()

@@ -70,9 +70,9 @@ public abstract class ProjectAssigneeEditPage extends ProjectAssigneeAddEditPage
     public List<PriceRateComposite> getAvailablePriceRates()
     {
         List<PriceRateComposite> priceRateList = ChronosWebApp.getServices().getPriceRateService().
-            findAll( getProject().getPriceRateSchedule() );
+            findAll( getProject().priceRateSchedule().get() );
 
-        priceRateList.add( getProjectAssignee().getPriceRate() );
+        priceRateList.add( getProjectAssignee().priceRate().get() );
 
         return priceRateList;
     }

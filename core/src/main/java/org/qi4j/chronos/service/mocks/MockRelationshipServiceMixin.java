@@ -13,8 +13,8 @@
 package org.qi4j.chronos.service.mocks;
 
 import java.util.ArrayList;
-import java.util.Iterator;
 import java.util.List;
+import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.model.composites.RelationshipComposite;
@@ -50,13 +50,11 @@ public class MockRelationshipServiceMixin implements RelationshipService
 
     private void loopRelationship( CustomerEntityComposite customer, LoopCallBack<RelationshipComposite> loopCallBack )
     {
-        Iterator<ContactPersonEntityComposite> contactPersonIterator = customer.contactPersonIterator();
 
-        while( contactPersonIterator.hasNext() )
+        SetAssociation<ContactPersonEntityComposite> contacts = customer.contactPersons();
+        for( ContactPersonEntityComposite contact : contacts )
         {
-            ContactPersonEntityComposite contactPerson = contactPersonIterator.next();
-
-            RelationshipComposite relationship = contactPerson.getRelationship();
+            RelationshipComposite relationship = contact.relationship().get();
 
             if( !loopCallBack.callBack( relationship ) )
             {
@@ -73,7 +71,7 @@ public class MockRelationshipServiceMixin implements RelationshipService
         {
             public boolean callBack( RelationshipComposite relationshipComposite )
             {
-                if( relationshipComposite.getRelationship().equals( relationship ) )
+                if( relationshipComposite.relationship().get().equals( relationship ) )
                 {
                     returnValue[ 0 ] = CloneUtil.cloneRelationship( factory, relationshipComposite );
 

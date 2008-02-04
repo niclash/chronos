@@ -12,8 +12,11 @@
  */
 package org.qi4j.chronos.model.validations;
 
+import org.qi4j.association.Association;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.ProjectStatus;
+import org.qi4j.chronos.model.TimeRange;
+import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.util.ValidatorUtil;
 import org.qi4j.composite.scope.ThisCompositeAs;
 import org.qi4j.library.framework.validation.AbstractValidatableConcern;
@@ -25,21 +28,25 @@ public class ProjectValidatableConcern extends AbstractValidatableConcern
 
     protected void isValid( Validator validator )
     {
-        ValidatorUtil.isEmptyOrInvalidLength( project.getName(), "Name", Project.NAME_LEN, validator );
-        ValidatorUtil.isEmptyOrInvalidLength( project.getReference(), "Reference", Project.REFERENCE_LEN, validator );
+        ValidatorUtil.isEmptyOrInvalidLength( project.name().get(), "Name", Project.NAME_LEN, validator );
+        ValidatorUtil.isEmptyOrInvalidLength( project.reference().get(), "Reference", Project.REFERENCE_LEN, validator );
 
-        if( project.getPriceRateSchedule() == null )
+        Association<PriceRateScheduleComposite> projectPriceRateSchedule = project.priceRateSchedule();
+        if( projectPriceRateSchedule.get() == null )
         {
             validator.error( true, "Please create a new price Rate Schedule." );
         }
 
 
-        ValidatorUtil.isAfter( project.getEstimateTime().getStartTime(), project.getEstimateTime().getEndTime(),
+        TimeRange projectEstimateTime = project.estimateTime().get();
+        ValidatorUtil.isAfter( projectEstimateTime.startTime().get(), projectEstimateTime.endTime().get(),
                                "Start Date(Est.)", "End Date(Est.)", validator );
 
-        if( project.getProjectStatus() == ProjectStatus.CLOSED )
+        ProjectStatus projectStatus = project.projectStatus().get();
+        if( projectStatus == ProjectStatus.CLOSED )
         {
-            ValidatorUtil.isAfter( project.getActualTime().getStartTime(), project.getActualTime().getEndTime(),
+            TimeRange projectActualTime = project.actualTime().get();
+            ValidatorUtil.isAfter( projectActualTime.startTime().get(), projectActualTime.endTime().get(),
                                    "Start Date(Act.)", "End Date(Act.)", validator );
         }
     }

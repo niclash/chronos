@@ -37,7 +37,7 @@ public abstract class WorkEntryAddDialog extends WorkEntryAddEditDialog
 
         WorkEntryEntityComposite workEntry = workEntryService.newInstance( WorkEntryEntityComposite.class );
 
-        workEntry.setCreatedDate( ChronosUtil.getCurrentDate() );
+        workEntry.createdDate().set( ChronosUtil.getCurrentDate() );
 
         //set values
         assignFieldValueToWorkEntry( workEntry );

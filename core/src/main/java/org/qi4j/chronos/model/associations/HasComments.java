@@ -14,17 +14,27 @@
 package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
-import java.util.Iterator;
+import org.qi4j.association.ManyAssociation;
 import org.qi4j.chronos.model.composites.CommentComposite;
-import org.qi4j.chronos.model.mixins.HasCommentsMixin;
 import org.qi4j.composite.Mixins;
+import org.qi4j.composite.scope.PropertyField;
 
-@Mixins( { HasCommentsMixin.class } )
-public interface HasComments extends Serializable
+@Mixins( HasComments.HasCommentsMixin.class )
+public interface HasComments
 {
-    void addComment( CommentComposite comment );
+    ManyAssociation<CommentComposite> comments();
 
-    void removeComment( CommentComposite comment );
+    final class HasCommentsMixin
+        implements HasComments, Serializable
+    {
+        private static final long serialVersionUID = 1L;
 
-    Iterator<CommentComposite> commentIterator();
+        @PropertyField
+        private ManyAssociation<CommentComposite> comments;
+
+        public final ManyAssociation<CommentComposite> comments()
+        {
+            return comments;
+        }
+    }
 }

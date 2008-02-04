@@ -29,7 +29,7 @@ public class TaskTreeNode extends AbstractTreeNode
 
     public String toString()
     {
-        return getTask().getTitle();
+        return getTask().title().get();
     }
 }
 

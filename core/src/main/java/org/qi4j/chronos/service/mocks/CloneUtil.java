@@ -20,6 +20,7 @@ import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.model.composites.ProjectRoleComposite;
 import org.qi4j.chronos.model.composites.RelationshipComposite;
 import org.qi4j.composite.CompositeBuilderFactory;
+import org.qi4j.association.SetAssociation;
 
 public final class CloneUtil
 {
@@ -27,9 +28,9 @@ public final class CloneUtil
     {
         PriceRateComposite cloned = factory.newCompositeBuilder( PriceRateComposite.class ).newInstance();
 
-        cloned.setAmount( priceRate.getAmount() );
-        cloned.setPriceRateType( priceRate.getPriceRateType() );
-        cloned.setProjectRole( priceRate.getProjectRole() );
+        cloned.amount().set( priceRate.amount().get() );
+        cloned.priceRateType().set( priceRate.priceRateType().get() );
+        cloned.projectRole().set( priceRate.projectRole().get() );
 
         return cloned;
     }
@@ -38,8 +39,8 @@ public final class CloneUtil
     {
         LegalConditionComposite cloned = factory.newCompositeBuilder( LegalConditionComposite.class ).newInstance();
 
-        cloned.setName( legalCondition.getName() );
-        cloned.setDescription( legalCondition.getDescription() );
+        cloned.name().set( legalCondition.name().get() );
+        cloned.description().set( legalCondition.description().get() );
 
         return cloned;
     }
@@ -48,14 +49,14 @@ public final class CloneUtil
     {
         PriceRateScheduleComposite cloned = factory.newCompositeBuilder( PriceRateScheduleComposite.class ).newInstance();
 
-        cloned.setName( priceRateSchedule.getName() );
-        cloned.setCurrency( priceRateSchedule.getCurrency() );
+        cloned.name().set( priceRateSchedule.name().get() );
+        cloned.currency().set( priceRateSchedule.currency().get() );
 
-        Iterator<PriceRateComposite> priceRateIter = priceRateSchedule.priceRateIterator();
 
-        while( priceRateIter.hasNext() )
+        SetAssociation<PriceRateComposite> clonedPriceRates = cloned.priceRates();
+        for( PriceRateComposite priceRateComposite : priceRateSchedule.priceRates() )
         {
-            cloned.addPriceRate( clonePriceRate( factory, priceRateIter.next() ) );
+            clonedPriceRates.add( clonePriceRate( factory, priceRateComposite ) );
         }
 
         return cloned;
@@ -65,7 +66,7 @@ public final class CloneUtil
     {
         RelationshipComposite clonedRelationshipComposite = factory.newCompositeBuilder( RelationshipComposite.class ).newInstance();
 
-        clonedRelationshipComposite.setRelationship( relationship.getRelationship() );
+        clonedRelationshipComposite.relationship().set( relationship.relationship().get() );
 
         return clonedRelationshipComposite;
     }
@@ -74,8 +75,8 @@ public final class CloneUtil
     {
         ContactComposite cloned = factory.newCompositeBuilder( ContactComposite.class ).newInstance();
 
-        cloned.setContactType( contact.getContactType() );
-        cloned.setContactValue( contact.getContactValue() );
+        cloned.contactType().set( contact.contactType().get() );
+        cloned.contactValue().set( contact.contactValue().get() );
 
         return cloned;
     }
@@ -84,7 +85,7 @@ public final class CloneUtil
     {
         ProjectRoleComposite cloned = factory.newCompositeBuilder( ProjectRoleComposite.class ).newInstance();
 
-        cloned.setName( projectRole.getName() );
+        cloned.name().set( projectRole.name().get() );
 
         return cloned;
     }

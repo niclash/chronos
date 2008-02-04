@@ -25,12 +25,12 @@ public abstract class LegalConditionDataProvider extends AbstractSortableDataPro
 {
     public String getId( LegalCondition legalCondition )
     {
-        return legalCondition.getName();
+        return legalCondition.name().get();
     }
 
     public String getId( LegalConditionComposite t )
     {
-        return t.getName();
+        return t.name().get();
     }
 
     public LegalConditionComposite load( String id )

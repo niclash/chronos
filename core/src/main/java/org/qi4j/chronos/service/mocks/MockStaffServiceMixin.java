@@ -25,11 +25,11 @@ public class MockStaffServiceMixin extends MockAccountBasedServiceMixin<StaffEnt
 
     protected Iterator<StaffEntityComposite> getItems( AccountEntityComposite accountEntityComposite )
     {
-        return accountEntityComposite.staffIterator();
+        return accountEntityComposite.staffs().iterator();
     }
 
     protected void removeItem( AccountEntityComposite account, StaffEntityComposite staff )
     {
-        account.removeStaff( staff );
+        account.staffs().remove( staff );
     }
 }

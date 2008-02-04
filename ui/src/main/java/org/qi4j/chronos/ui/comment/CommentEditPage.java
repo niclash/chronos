@@ -78,7 +78,7 @@ public abstract class CommentEditPage extends CommentAddEditPage
 
     public User getCommentOwner()
     {
-        return getComment().getUser();
+        return getComment().user().get();
     }
 
     public abstract HasComments getHasComments();

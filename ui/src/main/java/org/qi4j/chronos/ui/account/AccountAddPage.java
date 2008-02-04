@@ -42,12 +42,12 @@ public class AccountAddPage extends AccountAddEditPage
             StateComposite state = ChronosWebApp.newInstance( StateComposite.class );
             CountryComposite country = ChronosWebApp.newInstance( CountryComposite.class );
 
-            address.setCity( city );
+            address.city().set( city );
 
-            city.setState( state );
-            city.setCountry( country );
+            city.state().set( state );
+            city.country().set( country );
 
-            account.setAddress( address );
+            account.address().set( address );
 
             //assign data to customer
             assignFieldValueToAccount( account );

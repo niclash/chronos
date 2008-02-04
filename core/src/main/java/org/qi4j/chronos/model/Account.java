@@ -23,5 +23,4 @@ import org.qi4j.library.general.model.Enabled;
 public interface Account extends NameWithReference, HasAddress, HasStaffs, HasProjectRoles, Enabled,
                                  HasCustomers, HasProjects, HasPriceRateSchedules
 {
-
 }

@@ -22,19 +22,30 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.settings.IApplicationSettings;
 import org.apache.wicket.settings.ISessionSettings;
 import org.qi4j.chronos.ui.wicket.authentication.LoginPage;
+import static org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession.PARAMETER_AUTHENTICATED_WEB_APPLICATION;
+import static org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession.PARAMETER_REQUEST;
 import static org.qi4j.composite.NullArgumentException.validateNotNull;
 import org.qi4j.composite.ObjectBuilder;
 import org.qi4j.composite.ObjectBuilderFactory;
+import static org.qi4j.composite.PropertyValue.property;
 import org.qi4j.composite.scope.Structure;
 
 /**
  * @author Lan Boon Ping
  * @author edward.yakop@gmail.com
+ * @since 0.1.0
  */
 final class ChronosWebApp extends AuthenticatedWebApplication
 {
-    private ObjectBuilderFactory objectBuilderFactory;
+    @Structure private ObjectBuilderFactory objectBuilderFactory;
 
+    /**
+     * Construct a new instance of {@code ChronosWebApp}.
+     *
+     * @param anObjectBuilderFactory The object builder factory.
+     * @throws IllegalArgumentException Thrown if the specified {@code anObjectBuilderFactory} is {@code null}.
+     * @since 0.1.0
+     */
     public ChronosWebApp( @Structure ObjectBuilderFactory anObjectBuilderFactory )
         throws IllegalArgumentException
     {
@@ -45,7 +56,7 @@ final class ChronosWebApp extends AuthenticatedWebApplication
     }
 
     @Override
-    protected void init()
+    protected final void init()
     {
         super.init();
 
@@ -65,11 +76,22 @@ final class ChronosWebApp extends AuthenticatedWebApplication
         return ChronosSession.class;
     }
 
+    /**
+     * Instantiate chronos session.
+     *
+     * @param request  The request.
+     * @param response The response.
+     * @return A new instance of chronos session.
+     * @since 0.1.0
+     */
     @Override
     public final Session newSession( Request request, Response response )
     {
-        // TODO: Ideally what we want to do is to pass the request and reponse as parameter value
-        return super.newSession( request, response );
+        ObjectBuilder<ChronosSession> builder = objectBuilderFactory.newObjectBuilder( ChronosSession.class );
+        builder.properties(
+            property( PARAMETER_AUTHENTICATED_WEB_APPLICATION, this ),
+            property( PARAMETER_REQUEST, request ) );
+        return builder.newInstance();
     }
 
     protected Class<? extends WebPage> getSignInPageClass()

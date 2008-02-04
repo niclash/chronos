@@ -15,6 +15,7 @@ package org.qi4j.chronos.ui.staff;
 import java.util.Collections;
 import java.util.Currency;
 import java.util.Iterator;
+import java.util.List;
 import org.apache.wicket.Page;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.form.Form;
@@ -27,12 +28,14 @@ import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.user.UserAddEditPanel;
 import org.qi4j.chronos.ui.util.ListUtil;
+import org.qi4j.library.general.model.Money;
+import org.qi4j.property.Property;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public abstract class StaffAddEditPage extends AddEditBasePage
 {
     private NumberTextField salaryAmountField;
-    private SimpleDropDownChoice salaryCurrencyField;
+    private SimpleDropDownChoice<String> salaryCurrencyField;
 
     private UserAddEditPanel userAddEditPanel;
 
@@ -57,7 +60,7 @@ public abstract class StaffAddEditPage extends AddEditBasePage
         };
 
         salaryAmountField = new NumberTextField( "salaryAmountField", "Salary" );
-        salaryCurrencyField = new SimpleDropDownChoice( "salaryCurrencyChoice", ListUtil.getCurrencyList(), true );
+        salaryCurrencyField = new SimpleDropDownChoice<String>( "salaryCurrencyChoice", ListUtil.getCurrencyList(), true );
 
         form.add( salaryCurrencyField );
         form.add( salaryAmountField );
@@ -72,21 +75,24 @@ public abstract class StaffAddEditPage extends AddEditBasePage
 
         Currency currency = Currency.getInstance( salaryCurrencyField.getChoiceAsString() );
 
-        staff.getSalary().setAmount( salaryAmountField.getLongValue() );
-        staff.getSalary().setCurrency( currency );
+        Property<Money> staffSalary = staff.salary();
+        staffSalary.get().amount().set( salaryAmountField.getLongValue() );
+        staffSalary.get().currency().set( currency );
     }
 
     protected void assignStaffToFieldValue( Staff staff )
     {
         userAddEditPanel.assignUserToFieldValue( staff );
 
-        salaryAmountField.setLongValue( staff.getSalary().getAmount() );
-        salaryCurrencyField.setChoice( staff.getSalary().getCurrency().getCurrencyCode() );
+        Money staffSalary = staff.salary().get();
+        salaryAmountField.setLongValue( staffSalary.amount().get() );
+        salaryCurrencyField.setChoice( staffSalary.currency().get().getCurrencyCode() );
     }
 
     public Iterator<SystemRoleComposite> getInitSelectedRoleList()
     {
-        return Collections.EMPTY_LIST.iterator();
+        List<SystemRoleComposite> systemRoles = Collections.emptyList();
+        return systemRoles.iterator();
     }
 
     public final void handleSubmit()

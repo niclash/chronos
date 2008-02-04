@@ -9,5 +9,4 @@ import org.qi4j.chronos.model.associations.IsLead;
  */
 public interface ProjectAssignee extends HasPriceRate, HasStaff, IsLead
 {
-
 }

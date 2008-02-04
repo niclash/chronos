@@ -14,19 +14,27 @@
 package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
-import java.util.Iterator;
+import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
-import org.qi4j.chronos.model.mixins.HasContactPersonsMixin;
 import org.qi4j.composite.Mixins;
+import org.qi4j.composite.scope.PropertyField;
 
-@Mixins( { HasContactPersonsMixin.class } )
-public interface HasContactPersons extends Serializable
+@Mixins( HasContactPersons.HasContactPersonsMixin.class )
+public interface HasContactPersons
 {
-    Iterator<ContactPersonEntityComposite> contactPersonIterator();
+    SetAssociation<ContactPersonEntityComposite> contactPersons();
 
-    void addContactPerson( ContactPersonEntityComposite contactPerson );
+    final class HasContactPersonsMixin
+        implements HasContactPersons, Serializable
+    {
+        private static final long serialVersionUID = 1L;
 
-    void removeContactPerson( ContactPersonEntityComposite contactPerson );
+        @PropertyField
+        private SetAssociation<ContactPersonEntityComposite> contacts;
 
-    void removeAllContactPerson();
+        public final SetAssociation<ContactPersonEntityComposite> contactPersons()
+        {
+            return contacts;
+        }
+    }
 }

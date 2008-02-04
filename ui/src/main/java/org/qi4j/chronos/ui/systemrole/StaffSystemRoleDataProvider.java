@@ -27,7 +27,7 @@ public class StaffSystemRoleDataProvider extends AbstractSortableDataProvider<Sy
 
     public String getId( SystemRoleComposite systemRole )
     {
-        return systemRole.getName();
+        return systemRole.name().get();
     }
 
     public SystemRoleComposite load( String id )

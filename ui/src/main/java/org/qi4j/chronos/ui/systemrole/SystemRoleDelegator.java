@@ -26,8 +26,8 @@ public class SystemRoleDelegator implements Serializable
 
     public SystemRoleDelegator( SystemRoleComposite systemRole )
     {
-        this.systemRoleName = systemRole.getName();
-        this.systemRoleType = systemRole.getSystemRoleType();
+        this.systemRoleName = systemRole.name().get();
+        this.systemRoleType = systemRole.systemRoleType().get();
     }
 
     public String getSystemRoleName()

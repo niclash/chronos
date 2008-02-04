@@ -12,17 +12,28 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import java.util.Iterator;
+import java.io.Serializable;
+import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
-import org.qi4j.chronos.model.mixins.HasStaffsMixin;
 import org.qi4j.composite.Mixins;
+import org.qi4j.composite.scope.PropertyField;
 
-@Mixins( HasStaffsMixin.class )
+@Mixins( HasStaffs.HasStaffsMixin.class )
 public interface HasStaffs
 {
-    void addStaff( StaffEntityComposite staff );
+    SetAssociation<StaffEntityComposite> staffs();
 
-    void removeStaff( StaffEntityComposite staff );
+    final class HasStaffsMixin
+        implements HasStaffs, Serializable
+    {
+        private static final long serialVersionUID = 1L;
 
-    Iterator<StaffEntityComposite> staffIterator();
+        @PropertyField
+        private SetAssociation<StaffEntityComposite> staffs;
+
+        public final SetAssociation<StaffEntityComposite> staffs()
+        {
+            return staffs;
+        }
+    }
 }

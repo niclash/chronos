@@ -12,17 +12,28 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import java.util.Iterator;
+import java.io.Serializable;
+import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.composites.ProjectRoleComposite;
-import org.qi4j.chronos.model.mixins.HasProjectRolesMixin;
 import org.qi4j.composite.Mixins;
+import org.qi4j.composite.scope.PropertyField;
 
-@Mixins( HasProjectRolesMixin.class )
+@Mixins( HasProjectRoles.HasProjectRolesMixin.class )
 public interface HasProjectRoles
 {
-    void addProjectRole( ProjectRoleComposite projectRole );
+    SetAssociation<ProjectRoleComposite> projectRoles();
 
-    void removeProjectRole( ProjectRoleComposite projectRole );
+    final class HasProjectRolesMixin
+        implements HasProjectRoles, Serializable
+    {
+        private static final long serialVersionUID = 1L;
 
-    Iterator<ProjectRoleComposite> projectRoleIterator();
+        @PropertyField
+        private SetAssociation<ProjectRoleComposite> projectRoles;
+
+        public final SetAssociation<ProjectRoleComposite> projectRoles()
+        {
+            return projectRoles;
+        }
+    }
 }

@@ -55,7 +55,7 @@ public abstract class ProjectRoleDetailPage extends LeftMenuNavPage
         {
             ProjectRoleComposite projectRole = getProjectRole();
 
-            roleNameField = new SimpleTextField( "roleName", projectRole.getName(), false );
+            roleNameField = new SimpleTextField( "roleName", projectRole.name().get(), false );
 
             returnButton = new Button( "submitButton", new Model( "Return" ) );
 

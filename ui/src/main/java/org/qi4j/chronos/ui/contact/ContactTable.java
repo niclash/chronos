@@ -66,10 +66,10 @@ public abstract class ContactTable extends ActionTable<ContactComposite, String>
 
     public void populateItems( Item item, ContactComposite obj )
     {
-        final String contactValue = obj.getContactValue();
+        final String contactValue = obj.contactValue().get();
 
-        item.add( new Label( "contact", obj.getContactValue() ) );
-        item.add( new Label( "contactType", obj.getContactType() ) );
+        item.add( new Label( "contact", obj.contactValue().get() ) );
+        item.add( new Label( "contactType", obj.contactType().get() ) );
 
         SimpleLink simpleLink = createEditLink( contactValue );
 

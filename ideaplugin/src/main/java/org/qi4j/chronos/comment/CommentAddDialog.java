@@ -39,7 +39,7 @@ public abstract class CommentAddDialog extends CommentAddEditDialog
         CommentComposite comment = getChronosApp().newInstance( CommentComposite.class );
 
         //set created date
-        comment.setCreatedDate( ChronosUtil.getCurrentDate() );
+        comment.createdDate().set( ChronosUtil.getCurrentDate() );
 
         //set values
         assignFieldValueToComment( comment );

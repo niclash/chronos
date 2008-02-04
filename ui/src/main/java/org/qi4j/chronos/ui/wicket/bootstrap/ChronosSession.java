@@ -20,10 +20,12 @@ import org.apache.wicket.authorization.strategies.role.Roles;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.service.UserService;
+import org.qi4j.chronos.service.AccountService;
+import org.qi4j.chronos.service.authentication.AuthenticationService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.SystemRoleResolver;
-import org.qi4j.entity.Identity;
+import org.qi4j.composite.scope.PropertyParameter;
+import org.qi4j.composite.scope.Service;
 
 /**
  * TODO: Refactor this
@@ -35,13 +37,27 @@ public final class ChronosSession extends AuthenticatedWebSession
 {
     private static final long serialVersionUID = 1L;
 
-    private String userId = null;
-    private String accountId = null;
-    private SystemRoleResolver roleResolver;
+    static final String PARAMETER_AUTHENTICATED_WEB_APPLICATION = "authenticatedWebApplication";
+    static final String PARAMETER_REQUEST = "request";
 
-    public ChronosSession( AuthenticatedWebApplication authenticatedWebApplication, Request request )
+    @Service
+    private AuthenticationService authenticationService;
+
+    @Service
+    private AccountService accountService;
+
+
+    private SystemRoleResolver roleResolver;
+    private String userId;
+    private String accountId;
+
+    public ChronosSession(
+        @PropertyParameter( PARAMETER_AUTHENTICATED_WEB_APPLICATION )AuthenticatedWebApplication app,
+        @PropertyParameter( PARAMETER_REQUEST )Request request )
     {
-        super( authenticatedWebApplication, request );
+        super( app, request );
+
+        userId = null;
     }
 
     public static ChronosSession get()
@@ -49,58 +65,14 @@ public final class ChronosSession extends AuthenticatedWebSession
         return (ChronosSession) Session.get();
     }
 
-    public void setAccountId( String accountId )
+    public final boolean authenticate( String aUserName, String aPassword )
     {
-        this.accountId = accountId;
-    }
-
-    private UserService getUserService()
-    {
-        return ChronosWebApp.getServices().getUserService();
-    }
-
-    public boolean authenticate( String username, String password )
-    {
-        AccountEntityComposite account = null;
-
-        if( accountId != null )
+        if( aUserName == null )
         {
-            account = ChronosWebApp.getServices().getAccountService().get( accountId );
-
-            if( !account.getEnabled() )
-            {
-                this.error( "Account[" + account.getName() + "] is disabled." );
-                return false;
-            }
+            return false;
         }
+        return authenticationService.authenticate( aUserName, aPassword );
 
-        User user;
-
-        if( account != null )
-        {
-            user = getUserService().getUser( account, username, password );
-        }
-        else
-        {
-            user = getUserService().getUser( username, password );
-        }
-
-        if( user != null )
-        {
-            if( !user.getLogin().getEnabled() )
-            {
-                this.error( "User login is disabled." );
-                return false;
-            }
-
-            userId = ( (Identity) user ).identity().get();
-
-            roleResolver = new SystemRoleResolver( user );
-
-            return true;
-        }
-
-        return false;
     }
 
     public User getUser()

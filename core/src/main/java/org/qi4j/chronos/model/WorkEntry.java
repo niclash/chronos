@@ -23,5 +23,4 @@ public interface WorkEntry extends Title, Description, TimeRange, HasComments, H
     public final static int TITLE_LEN = 120;
 
     public final static int DESCRIPTION_LEN = 1000;
-
 }

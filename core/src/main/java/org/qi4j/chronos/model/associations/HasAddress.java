@@ -14,14 +14,27 @@
 package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
-import org.qi4j.chronos.model.mixins.HasAddressMixin;
 import org.qi4j.composite.Mixins;
+import org.qi4j.composite.scope.PropertyField;
 import org.qi4j.library.general.model.Address;
+import org.qi4j.property.Property;
 
-@Mixins( { HasAddressMixin.class } )
-public interface HasAddress extends Serializable
+@Mixins( HasAddress.HasAddressMixin.class )
+public interface HasAddress
 {
-    Address getAddress();
+    Property<Address> address();
 
-    void setAddress( Address address );
+    final class HasAddressMixin
+        implements HasAddress, Serializable
+    {
+        private static final long serialVersionUID = 1L;
+
+        @PropertyField
+        private Property<Address> address;
+
+        public final Property<Address> address()
+        {
+            return address;
+        }
+    }
 }

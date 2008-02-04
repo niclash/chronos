@@ -67,7 +67,7 @@ public abstract class TaskEditPage extends TaskAddEditPage
 
     public User getTaskOwner()
     {
-        return getTask().getUser();
+        return getTask().user().get();
     }
 
     public abstract TaskEntityComposite getTask();

@@ -44,7 +44,7 @@ public class AccountEditPage extends AccountAddEditPage
         AccountService accountService = ChronosWebApp.getServices().getAccountService();
         AccountEntityComposite account = getAccount();
 
-        account.setEnabled( true );
+        account.isEnabled().set( true );
 
         try
         {

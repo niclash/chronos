@@ -34,7 +34,7 @@ public abstract class ContactDataProvider<T extends HasContacts> extends Abstrac
 
     public String getId( ContactComposite t )
     {
-        return t.getContactValue();
+        return t.contactValue().get();
     }
 
     public ContactComposite load( String s )

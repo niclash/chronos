@@ -13,21 +13,21 @@
 package org.qi4j.chronos.ui.pricerate;
 
 import java.util.Arrays;
-import java.util.Iterator;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
+import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.service.PriceRateScheduleService;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
+import org.qi4j.chronos.ui.wicket.base.BasePage;
 
 public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> extends ActionTable<PriceRateScheduleComposite, String>
 {
@@ -76,9 +76,9 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
 
     public void populateItems( Item item, PriceRateScheduleComposite obj )
     {
-        final String priceRateScheduleName = obj.getName();
+        final String priceRateScheduleName = obj.name().get();
 
-        item.add( new SimpleLink( "name", obj.getName() )
+        item.add( new SimpleLink( "name", obj.name().get() )
         {
             public void linkClicked()
             {
@@ -94,7 +94,7 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
             }
         } );
 
-        item.add( new Label( "currencyLabel", obj.getCurrency().getCurrencyCode() ) );
+        item.add( new Label( "currencyLabel", obj.currency().get().getCurrencyCode() ) );
 
         item.add( new SimpleLink( "editLink", "Edit" )
         {
@@ -122,26 +122,18 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
     {
         //TODO bp. Since i got no idea how qi4j updates ValueObject, for now, lets have a workaround solution.
         T t = getHasPriceRateSchedules();
-
-        Iterator<PriceRateScheduleComposite> iter = t.priceRateScheduleIterator();
-
-        while( iter.hasNext() )
+        SetAssociation<PriceRateScheduleComposite> priceRateSchedules = t.priceRateSchedules();
+        for( PriceRateScheduleComposite priceRateSchedule : priceRateSchedules )
         {
-            PriceRateScheduleComposite priceRateSchedule = iter.next();
 
-            if( priceRateSchedule.getName().equals( originalName ) )
+            if( priceRateSchedule.name().get().equals( originalName ) )
             {
-                priceRateSchedule.setName( updated.getName() );
-                priceRateSchedule.setCurrency( updated.getCurrency() );
+                priceRateSchedule.name().set( updated.name().get() );
+                priceRateSchedule.currency().set( updated.currency().get() );
 
-                priceRateSchedule.removeAllPriceRate();
-
-                Iterator<PriceRateComposite> iterator = updated.priceRateIterator();
-
-                while( iterator.hasNext() )
-                {
-                    priceRateSchedule.addPriceRate( iterator.next() );
-                }
+                SetAssociation<PriceRateComposite> priceRates = priceRateSchedule.priceRates();
+                priceRates.clear();
+                priceRates.addAll( updated.priceRates() );
             }
         }
     }

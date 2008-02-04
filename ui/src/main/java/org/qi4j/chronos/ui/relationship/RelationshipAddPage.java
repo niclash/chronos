@@ -45,7 +45,7 @@ public abstract class RelationshipAddPage extends RelationshipAddEditPage
 
         RelationshipComposite newRelationship = ChronosWebApp.newInstance( RelationshipComposite.class );
 
-        newRelationship.setRelationship( relationship );
+        newRelationship.relationship().set( relationship );
 
         newRelationship( newRelationship );
 

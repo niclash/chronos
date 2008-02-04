@@ -19,8 +19,8 @@ import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.ui.address.AddressAddEditPanel;
-import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
+import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public abstract class CustomerAddEditPage extends AddEditBasePage
@@ -49,17 +49,17 @@ public abstract class CustomerAddEditPage extends AddEditBasePage
 
     protected void assignFieldValueToCustomer( CustomerEntityComposite customer )
     {
-        customer.setName( nameField.getText() );
-        customer.setReference( referenceField.getText() );
+        customer.name().set( nameField.getText() );
+        customer.reference().set( referenceField.getText() );
 
-        addressAddEditPanel.assignFieldValueToAddress( customer.getAddress() );
+        addressAddEditPanel.assignFieldValueToAddress( customer.address().get() );
     }
 
     protected void assignCustomerToFieldValue( CustomerEntityComposite customer )
     {
-        nameField.setText( customer.getName() );
-        referenceField.setText( customer.getReference() );
-        addressAddEditPanel.assignAddressToFieldValue( customer.getAddress() );
+        nameField.setText( customer.name().get() );
+        referenceField.setText( customer.reference().get() );
+        addressAddEditPanel.assignAddressToFieldValue( customer.address().get() );
     }
 
     public final void handleSubmit()

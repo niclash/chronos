@@ -87,7 +87,7 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntryEntityComposit
     {
         final String workEntryId = obj.identity().get();
 
-        item.add( new SimpleLink( "title", obj.getTitle() )
+        item.add( new SimpleLink( "title", obj.title().get() )
         {
             public void linkClicked()
             {
@@ -103,9 +103,9 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntryEntityComposit
             }
         } );
 
-        item.add( new Label( "createdDate", DateUtil.formatDateTime( obj.getCreatedDate() ) ) );
-        item.add( new Label( "fromTime", DateUtil.formatDateTime( obj.getStartTime() ) ) );
-        item.add( new Label( "toTime", DateUtil.formatDateTime( obj.getEndTime() ) ) );
+        item.add( new Label( "createdDate", DateUtil.formatDateTime( obj.createdDate().get() ) ) );
+        item.add( new Label( "fromTime", DateUtil.formatDateTime( obj.startTime().get() ) ) );
+        item.add( new Label( "toTime", DateUtil.formatDateTime( obj.endTime().get() ) ) );
 
         item.add( new SimpleLink( "editLink", "Edit" )
         {

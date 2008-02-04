@@ -23,8 +23,8 @@ public class LegalConditionDelegator implements Serializable
 
     public LegalConditionDelegator( LegalConditionComposite legalCondition )
     {
-        name = legalCondition.getName();
-        desc = legalCondition.getDescription();
+        name = legalCondition.name().get();
+        desc = legalCondition.description().get();
     }
 
     public String getName()

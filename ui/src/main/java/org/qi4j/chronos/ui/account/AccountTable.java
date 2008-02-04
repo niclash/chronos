@@ -103,10 +103,10 @@ public abstract class AccountTable extends ActionTable<AccountEntityComposite, S
     {
         final String accountId = obj.identity().get();
 
-        item.add( createDetailPage( "name", obj.getName(), accountId ) );
-        item.add( createDetailPage( "formalReference", obj.getReference(), accountId ) );
+        item.add( createDetailPage( "name", obj.name().get(), accountId ) );
+        item.add( createDetailPage( "formalReference", obj.reference().get(), accountId ) );
 
-        item.add( new SimpleCheckBox( "enabled", obj.getEnabled(), true ) );
+        item.add( new SimpleCheckBox( "enabled", obj.isEnabled().get(), true ) );
 
         int totalProject = getProjectService().countAll( getAccount() );
         int totalActive = getProjectService().countAll( getAccount(), ProjectStatus.ACTIVE );

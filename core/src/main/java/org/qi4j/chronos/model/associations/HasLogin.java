@@ -13,17 +13,30 @@
 package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
+import org.qi4j.association.Association;
 import org.qi4j.chronos.model.Login;
-import org.qi4j.chronos.model.mixins.HasLoginMixin;
 import org.qi4j.composite.Mixins;
+import org.qi4j.composite.scope.PropertyField;
 
 /**
  * Describe association with {@link org.qi4j.chronos.model.composites.LoginComposite}
  */
-@Mixins( { HasLoginMixin.class } )
-public interface HasLogin extends Serializable
+@Mixins( HasLogin.HasLoginMixin.class )
+public interface HasLogin
 {
-    void setLogin( Login login );
+    Association<Login> login();
 
-    Login getLogin();
+    final class HasLoginMixin
+        implements HasLogin, Serializable
+    {
+        private static final long serialVersionUID = 1L;
+
+        @PropertyField
+        private Association<Login> login;
+
+        public final Association<Login> login()
+        {
+            return login;
+        }
+    }
 }

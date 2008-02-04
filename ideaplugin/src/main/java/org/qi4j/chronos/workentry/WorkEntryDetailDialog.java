@@ -49,13 +49,13 @@ public abstract class WorkEntryDetailDialog extends AbstractDialog
     private void initData()
     {
         WorkEntryEntityComposite workEntry = getWorkEntry();
-        createdDateField.setText( DateUtil.formatDateTime( workEntry.getCreatedDate() ) );
-        userField.setText( workEntry.getProjectAssignee().getStaff().getFullname() );
-        titleField.setText( workEntry.getTitle() );
-        descTextArea.setText( workEntry.getDescription() );
-        startDateTime.setText( DateUtil.formatDateTime( workEntry.getStartTime() ) );
-        endDatetime.setText( DateUtil.formatDateTime( workEntry.getEndTime() ) );
-        durationField.setText( DateUtil.getTimeDifferent( workEntry.getStartTime(), workEntry.getEndTime() ) );
+        createdDateField.setText( DateUtil.formatDateTime( workEntry.createdDate().get() ) );
+        userField.setText( workEntry.projectAssignee().get().staff().get().getFullname() );
+        titleField.setText( workEntry.title().get() );
+        descTextArea.setText( workEntry.description().get() );
+        startDateTime.setText( DateUtil.formatDateTime( workEntry.startTime().get() ) );
+        endDatetime.setText( DateUtil.formatDateTime( workEntry.endTime().get() ) );
+        durationField.setText( DateUtil.getTimeDifferent( workEntry.startTime().get(), workEntry.endTime().get() ) );
         commentListPanel.initData( getServices().getCommentService().findAll( workEntry ) );
     }
 

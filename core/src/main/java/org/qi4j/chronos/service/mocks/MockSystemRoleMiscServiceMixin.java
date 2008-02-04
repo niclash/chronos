@@ -49,7 +49,7 @@ public class MockSystemRoleMiscServiceMixin implements SystemRoleService
 
         for( SystemRoleComposite systemRole : list )
         {
-            if( systemRole.getSystemRoleType() == SystemRoleType.STAFF )
+            if( systemRole.systemRoleType().get().equals( SystemRoleType.STAFF ) )
             {
                 staffSystemRoleList.add( systemRole );
             }
@@ -67,7 +67,7 @@ public class MockSystemRoleMiscServiceMixin implements SystemRoleService
     {
         for( SystemRoleComposite systemRole : list )
         {
-            if( systemRole.getName().equals( name ) )
+            if( systemRole.name().get().equals( name ) )
             {
                 return systemRole;
             }

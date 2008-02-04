@@ -21,5 +21,4 @@ public interface LegalCondition extends HasName, Description
     public final static int NAME_LEN = 120;
 
     public final static int DESC_LEN = 2000;
-
 }

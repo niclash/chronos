@@ -13,7 +13,7 @@
 package org.qi4j.chronos.model.validations;
 
 import org.qi4j.chronos.model.PriceRateSchedule;
-import org.qi4j.chronos.util.ValidatorUtil;
+import static org.qi4j.chronos.util.ValidatorUtil.isEmptyOrInvalidLength;
 import org.qi4j.composite.scope.ThisCompositeAs;
 import org.qi4j.library.framework.validation.AbstractValidatableConcern;
 import org.qi4j.library.framework.validation.Validator;
@@ -24,7 +24,7 @@ public class PriceRateScheduleValidatableConcern extends AbstractValidatableConc
 
     protected void isValid( Validator validator )
     {
-        ValidatorUtil.isEmptyOrInvalidLength( priceRateSchedule.getName(), "Name", PriceRateSchedule.NAME_LEN, validator );
+        isEmptyOrInvalidLength( priceRateSchedule.name().get(), "Name", PriceRateSchedule.NAME_LEN, validator );
     }
 
     protected String getResourceBundle()

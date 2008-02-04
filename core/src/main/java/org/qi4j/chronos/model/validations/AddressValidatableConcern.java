@@ -25,9 +25,9 @@ public class AddressValidatableConcern extends AbstractValidatableConcern
     protected void isValid( Validator validator )
     {
         //TODO  bp.
-        ValidatorUtil.isEmptyOrInvalidLength( address.getFirstLine(), "Address 1", Address.ADDRESS1_LEN, validator );
-        ValidatorUtil.isInvalidLength( address.getSecondLine(), "Address 2", Address.ADDRESS2_LEN, validator );
-        ValidatorUtil.isEmptyOrInvalidLength( address.getCity().getCountry().getName(), "Country", Address.COUNTRY_NAME_LEN, validator );
+        ValidatorUtil.isEmptyOrInvalidLength( address.firstLine().get(), "Address 1", Address.ADDRESS1_LEN, validator );
+        ValidatorUtil.isInvalidLength( address.secondLine().get(), "Address 2", Address.ADDRESS2_LEN, validator );
+        ValidatorUtil.isEmptyOrInvalidLength( address.city().get().country().get().name().get(), "Country", Address.COUNTRY_NAME_LEN, validator );
     }
 
     protected String getResourceBundle()

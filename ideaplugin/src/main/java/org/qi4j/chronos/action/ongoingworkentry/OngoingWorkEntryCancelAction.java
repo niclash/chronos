@@ -37,10 +37,10 @@ public class OngoingWorkEntryCancelAction extends TaskBaseAction
         OngoingWorkEntryService service = getServices( e ).getOngoingWorkEntryService();
 
         //get the ongoingWorkEntry
-        final OngoingWorkEntryEntityComposite ongoingWorkEntry = service.getOngoingWorkEntry( task, getProjectAssignee( e ).getStaff() );
+        final OngoingWorkEntryEntityComposite ongoingWorkEntry = service.getOngoingWorkEntry( task, getProjectAssignee( e ).staff().get() );
 
         //remove it from task
-        task.removeOngoingWorkEntry( ongoingWorkEntry );
+        task.onGoingWorkEntries().remove( ongoingWorkEntry );
 
         //update task
         services.getTaskService().update( taskList.getSelectedTask() );

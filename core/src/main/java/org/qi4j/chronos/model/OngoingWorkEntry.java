@@ -17,5 +17,4 @@ import org.qi4j.chronos.model.associations.HasProjectAssignee;
 
 public interface OngoingWorkEntry extends HasCreatedDate, HasProjectAssignee
 {
-
 }

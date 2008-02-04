@@ -42,13 +42,13 @@ public abstract class CommentAddEditPage extends AddEditBasePage
 
     protected void assignFieldValueToComment( CommentComposite comment )
     {
-        comment.setText( commentTextArea.getText() );
-        comment.setUser( getCommentOwner() );
+        comment.text().set( commentTextArea.getText() );
+        comment.user().set( getCommentOwner() );
     }
 
     protected void assignCommentToFieldValue( CommentComposite comment )
     {
-        commentTextArea.setText( comment.getText() );
+        commentTextArea.setText( comment.text().get() );
     }
 
     public void handleSubmit()

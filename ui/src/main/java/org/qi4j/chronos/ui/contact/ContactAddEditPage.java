@@ -62,14 +62,14 @@ public abstract class ContactAddEditPage extends AddEditBasePage
 
     public void assignFieldValueToContact( ContactComposite contact )
     {
-        contact.setContactValue( valueField.getText() );
-        contact.setContactType( contactTypeField.getText() );
+        contact.contactValue().set( valueField.getText() );
+        contact.contactType().set( contactTypeField.getText() );
     }
 
     public void assignContactToFieldValue( ContactComposite contact )
     {
-        valueField.setText( contact.getContactValue() );
-        contactTypeField.setText( contact.getContactType() );
+        valueField.setText( contact.contactValue().get() );
+        contactTypeField.setText( contact.contactType().get() );
     }
 
     public abstract void onSubmitting();

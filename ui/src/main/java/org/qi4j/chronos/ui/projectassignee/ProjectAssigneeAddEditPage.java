@@ -25,11 +25,11 @@ import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.pricerate.PriceRateOptionPanel;
 import org.qi4j.chronos.ui.staff.StaffDelegator;
 import org.qi4j.chronos.ui.util.ListUtil;
+import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public abstract class ProjectAssigneeAddEditPage extends AddEditBasePage
@@ -59,7 +59,7 @@ public abstract class ProjectAssigneeAddEditPage extends AddEditBasePage
 
             public PriceRateScheduleComposite getPriceRateSchedule()
             {
-                return getProject().getPriceRateSchedule();
+                return getProject().priceRateSchedule().get();
             }
         };
 
@@ -70,17 +70,17 @@ public abstract class ProjectAssigneeAddEditPage extends AddEditBasePage
 
     protected void assignFieldValueToProjectAssignee( ProjectAssigneeEntityComposite projectAssignee )
     {
-        projectAssignee.setPriceRate( priceRateOptionPanel.getPriceRate() );
-        projectAssignee.setStaff( getSelectedStaff() );
+        projectAssignee.priceRate().set( priceRateOptionPanel.getPriceRate() );
+        projectAssignee.staff().set( getSelectedStaff() );
 
-        projectAssignee.setLead( Boolean.parseBoolean( isLeadCheckBox.getModelObjectAsString() ) );
+        projectAssignee.isLead().set( Boolean.parseBoolean( isLeadCheckBox.getModelObjectAsString() ) );
     }
 
     protected void assignProjectAssigneeToFieldValue( ProjectAssigneeEntityComposite projectAssignee )
     {
-        priceRateOptionPanel.setPriceRate( projectAssignee.getPriceRate() );
-        staffChoice.setChoice( new StaffDelegator( projectAssignee.getStaff() ) );
-        isLeadCheckBox.setModel( new Model( projectAssignee.isLead() ) );
+        priceRateOptionPanel.setPriceRate( projectAssignee.priceRate().get() );
+        staffChoice.setChoice( new StaffDelegator( projectAssignee.staff().get() ) );
+        isLeadCheckBox.setModel( new Model( projectAssignee.isLead().get() ) );
 
         staffChoice.setEnabled( false );
     }

@@ -15,20 +15,39 @@ package org.qi4j.chronos.model;
 
 import java.io.Serializable;
 import java.util.Date;
-import org.qi4j.chronos.model.mixins.TimeRangeMixin;
 import org.qi4j.composite.Mixins;
+import org.qi4j.composite.scope.PropertyField;
+import org.qi4j.property.Property;
 
 /**
  * Generic interface for TimeRange
  */
-@Mixins( TimeRangeMixin.class )
-public interface TimeRange extends Serializable
+@Mixins( TimeRange.TimeRangeMixin.class )
+public interface TimeRange
 {
-    Date getStartTime();
+    Property<Date> startTime();
 
-    void setStartTime( Date startTime );
+    Property<Date> endTime();
 
-    Date getEndTime();
+    final class TimeRangeMixin
+        implements TimeRange, Serializable
+    {
+        private static final long serialVersionUID = 1L;
 
-    void setEndTime( Date endTime );
+        @PropertyField
+        private Property<Date> startTime;
+
+        @PropertyField
+        private Property<Date> endTime;
+
+        public final Property<Date> startTime()
+        {
+            return startTime;
+        }
+
+        public final Property<Date> endTime()
+        {
+            return endTime;
+        }
+    }
 }

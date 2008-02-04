@@ -24,7 +24,7 @@ public class ProjectRoleValidatableConcern extends AbstractValidatableConcern
 
     protected void isValid( Validator validator )
     {
-        ValidatorUtil.isEmptyOrInvalidLength( projectRole.getName(), "Project Role", ProjectRole.NAME_LEN, validator );
+        ValidatorUtil.isEmptyOrInvalidLength( projectRole.name().get(), "Project Role", ProjectRole.NAME_LEN, validator );
     }
 
     protected String getResourceBundle()

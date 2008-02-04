@@ -22,7 +22,7 @@ public class ProjectRoleDelegator implements Serializable
 
     public ProjectRoleDelegator( ProjectRoleComposite name )
     {
-        this.name = name.getName();
+        this.name = name.name().get();
     }
 
     public String getName()

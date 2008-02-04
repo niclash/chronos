@@ -83,10 +83,10 @@ public abstract class RelationshipOptionPanel extends Panel
     private void addNewRelationship( RelationshipComposite relationshipComposite )
     {
         addedRelationshipList.add( relationshipComposite );
-        relationshipList.add( relationshipComposite.getRelationship() );
+        relationshipList.add( relationshipComposite.relationship().get() );
 
         //set newly added relationship as default value
-        relationshipChoice.setChoice( relationshipComposite.getRelationship() );
+        relationshipChoice.setChoice( relationshipComposite.relationship().get() );
 
         relationshipChoice.setVisible( true );
     }
@@ -103,7 +103,7 @@ public abstract class RelationshipOptionPanel extends Panel
 
         for( RelationshipComposite relationship : list )
         {
-            relationshipSet.add( relationship.getRelationship() );
+            relationshipSet.add( relationship.relationship().get() );
         }
 
         relationshipList = new ArrayList<String>();
@@ -124,7 +124,7 @@ public abstract class RelationshipOptionPanel extends Panel
 
     public void setSelectedRelationship( RelationshipComposite relationship )
     {
-        relationshipChoice.setChoice( relationship.getRelationship() );
+        relationshipChoice.setChoice( relationship.relationship().get() );
     }
 
     public RelationshipComposite getSelectedRelationship()
@@ -133,7 +133,7 @@ public abstract class RelationshipOptionPanel extends Panel
 
         for( RelationshipComposite relationship : addedRelationshipList )
         {
-            if( choice.equals( relationship.getRelationship() ) )
+            if( choice.equals( relationship.relationship().get() ) )
             {
                 return relationship;
             }

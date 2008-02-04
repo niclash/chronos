@@ -133,7 +133,7 @@ public class TaskAssociationAction extends AnAction
         public TaskDelegator( TaskEntityComposite task )
         {
             this.id = task.identity().get();
-            this.title = task.getTitle();
+            this.title = task.title().get();
         }
 
         public String getId()

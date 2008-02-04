@@ -24,7 +24,7 @@ public abstract class PriceRateScheduleDataProvider<T extends HasPriceRateSchedu
 {
     public String getId( PriceRateScheduleComposite priceRateSchedule )
     {
-        return priceRateSchedule.getName();
+        return priceRateSchedule.name().get();
     }
 
     public PriceRateScheduleComposite load( String id )

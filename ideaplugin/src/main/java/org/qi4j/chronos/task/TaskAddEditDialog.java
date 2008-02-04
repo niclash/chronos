@@ -84,18 +84,18 @@ public abstract class TaskAddEditDialog extends AddEditDialog
 
     protected void assignFieldValueToTask( TaskEntityComposite task )
     {
-        task.setUser( getCreatedBy() );
-        task.setTitle( titleField.getText() );
-        task.setDescription( descTextArea.getText() );
-        task.setTaskStatus( (TaskStatus) taskStatusComboBox.getSelectedItem() );
+        task.user().set( getCreatedBy() );
+        task.title().set( titleField.getText() );
+        task.description().set( descTextArea.getText() );
+        task.taskStatus().set( (TaskStatus) taskStatusComboBox.getSelectedItem() );
     }
 
     protected void assignTaskToFieldValue( TaskEntityComposite task )
     {
-        titleField.setText( task.getTitle() );
-        descTextArea.setText( task.getDescription() );
-        createdDateField.setText( DateUtil.formatDateTime( task.getCreatedDate() ) );
-        taskStatusComboBox.setSelectedItem( task.getTaskStatus() );
+        titleField.setText( task.title().get() );
+        descTextArea.setText( task.description().get() );
+        createdDateField.setText( DateUtil.formatDateTime( task.createdDate().get() ) );
+        taskStatusComboBox.setSelectedItem( task.taskStatus().get() );
     }
 
     public abstract User getCreatedBy();

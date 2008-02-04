@@ -38,16 +38,16 @@ public abstract class UserDetailPanel extends Panel
     {
         User user = getUser();
 
-        firstNameField = new SimpleTextField( "firstNameField", user.getFirstName() );
-        lastNameField = new SimpleTextField( "lastNameField", user.getLastName() );
+        firstNameField = new SimpleTextField( "firstNameField", user.firstName().get() );
+        lastNameField = new SimpleTextField( "lastNameField", user.lastName().get() );
 
-        genderField = new SimpleTextField( "genderField", user.getGender().toString() );
+        genderField = new SimpleTextField( "genderField", user.gender().get().toString() );
 
         loginUserDetailPanel = new LoginUserDetailPanel( "loginUserDetailPanel" )
         {
             public Login getLogin()
             {
-                return UserDetailPanel.this.getUser().getLogin();
+                return UserDetailPanel.this.getUser().login().get();
             }
         };
 

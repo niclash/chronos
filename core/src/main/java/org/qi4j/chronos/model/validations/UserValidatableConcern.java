@@ -25,16 +25,17 @@ public class UserValidatableConcern extends AbstractValidatableConcern
 
     protected void isValid( Validator validator )
     {
-        ValidatorUtil.isEmptyOrInvalidLength( user.getFirstName(), "First name", User.FIRST_NAME_LEN, validator );
-        ValidatorUtil.isEmptyOrInvalidLength( user.getLastName(), "Last name", User.LAST_NAME_LEN, validator );
+        ValidatorUtil.isEmptyOrInvalidLength( user.firstName().get(), "First name", User.FIRST_NAME_LEN, validator );
+        ValidatorUtil.isEmptyOrInvalidLength( user.lastName().get(), "Last name", User.LAST_NAME_LEN, validator );
 
-        if( !user.systemRoleIterator().hasNext() )
+        if( !user.systemRoles().isEmpty() )
         {
             validator.error( true, "Please add at least one system role!" );
         }
 
-        ValidatorUtil.isEmptyOrInvalidLength( user.getLogin().getName(), "LoginId", Login.LOGIN_ID_LEN, validator );
-        ValidatorUtil.isEmptyOrInvalidLength( user.getLogin().getPassword(), "Password", Login.PASSWORD_LEN, validator );
+        Login userLogin = user.login().get();
+        ValidatorUtil.isEmptyOrInvalidLength( userLogin.name().get(), "LoginId", Login.LOGIN_ID_LEN, validator );
+        ValidatorUtil.isEmptyOrInvalidLength( userLogin.password().get(), "Password", Login.PASSWORD_LEN, validator );
     }
 
     protected String getResourceBundle()

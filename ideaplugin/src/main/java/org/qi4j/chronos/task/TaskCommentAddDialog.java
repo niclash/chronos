@@ -30,7 +30,7 @@ public abstract class TaskCommentAddDialog extends CommentAddDialog
         TaskEntityComposite task = getTask();
 
         //add comment to task
-        task.addComment( comment );
+        task.comments().add( comment );
 
         UiUtil.showMsgDialog( "Comment added", "New comment is added successfully." );
 

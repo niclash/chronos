@@ -18,6 +18,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.ProjectStatus;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
@@ -51,11 +52,10 @@ public abstract class MockProjectMiscServiceMixin implements ProjectService
         {
             public boolean callBack( ProjectEntityComposite project )
             {
-                Iterator<ProjectAssigneeEntityComposite> projectAssigneeIter = project.projectAssigneeIterator();
-
-                while( projectAssigneeIter.hasNext() )
+                SetAssociation<ProjectAssigneeEntityComposite> projectAssignees = project.projectAssignees();
+                for( ProjectAssigneeEntityComposite projectAssigneeEntityComposite : projectAssignees )
                 {
-                    if( projectAssigneeIter.next().getStaff().equals( staff ) )
+                    if( projectAssigneeEntityComposite.staff().get().equals( staff ) )
                     {
                         resultList.add( project );
 
@@ -79,19 +79,19 @@ public abstract class MockProjectMiscServiceMixin implements ProjectService
         {
             public boolean callBack( ProjectEntityComposite project )
             {
-                if( project.getPrimaryContactPerson() != null )
+                ContactPersonEntityComposite primaryContactPerson = project.primaryContactPerson().get();
+                if( primaryContactPerson != null )
                 {
-                    if( isSameContactPerson( project.getPrimaryContactPerson(), contactPerson ) )
+                    if( isSameContactPerson( primaryContactPerson, contactPerson ) )
                     {
                         resultList.add( project );
                     }
                 }
 
-                Iterator<ContactPersonEntityComposite> contactPersonIter = project.contactPersonIterator();
-
-                while( contactPersonIter.hasNext() )
+                SetAssociation<ContactPersonEntityComposite> contacts = project.contactPersons();
+                for( ContactPersonEntityComposite contact : contacts )
                 {
-                    if( isSameContactPerson( contactPersonIter.next(), contactPerson ) )
+                    if( isSameContactPerson( contact, contactPerson ) )
                     {
                         resultList.add( project );
                     }
@@ -165,11 +165,10 @@ public abstract class MockProjectMiscServiceMixin implements ProjectService
 
         for( ProjectEntityComposite project : projects )
         {
-            Iterator<TaskEntityComposite> taskIter = project.taskIteraotr();
-
-            while( taskIter.hasNext() )
+            SetAssociation<TaskEntityComposite> projectTasks = project.tasks();
+            for( TaskEntityComposite taskEntityComposite : projectTasks )
             {
-                if( taskIter.next().equals( task ) )
+                if( taskEntityComposite.equals( task ) )
                 {
                     return project;
                 }
@@ -183,7 +182,7 @@ public abstract class MockProjectMiscServiceMixin implements ProjectService
     {
         for( ProjectEntityComposite project : projects )
         {
-            project.setProjectStatus( projectStatus );
+            project.projectStatus().set( projectStatus );
 
             projectService.update( project );
         }
@@ -197,7 +196,7 @@ public abstract class MockProjectMiscServiceMixin implements ProjectService
 
         for( ProjectEntityComposite project : projects )
         {
-            if( project.getProjectStatus() == projectStatus )
+            if( project.projectStatus().get() == projectStatus )
             {
                 total++;
             }
@@ -212,7 +211,7 @@ public abstract class MockProjectMiscServiceMixin implements ProjectService
 
         for( ProjectEntityComposite project : projects )
         {
-            if( project.getName().equalsIgnoreCase( projectName ) )
+            if( project.name().get().equalsIgnoreCase( projectName ) )
             {
                 return project;
             }

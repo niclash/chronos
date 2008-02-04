@@ -13,17 +13,31 @@
  */
 package org.qi4j.chronos.model.associations;
 
+import java.io.Serializable;
 import org.qi4j.chronos.model.ProjectStatus;
-import org.qi4j.chronos.model.mixins.HasProjectStatusMixin;
 import org.qi4j.composite.Mixins;
+import org.qi4j.composite.scope.PropertyField;
+import org.qi4j.property.Property;
 
 /**
  * Describe association with {@link org.qi4j.chronos.model.ProjectStatus}
  */
-@Mixins( HasProjectStatusMixin.class )
+@Mixins( HasProjectStatus.HasProjectStatusMixin.class )
 public interface HasProjectStatus
 {
-    void setProjectStatus( ProjectStatus projectStatus );
+    Property<ProjectStatus> projectStatus();
 
-    ProjectStatus getProjectStatus();
+    final class HasProjectStatusMixin
+        implements HasProjectStatus, Serializable
+    {
+        private static final long serialVersionUID = 1L;
+
+        @PropertyField
+        private Property<ProjectStatus> projectStatus;
+
+        public final Property<ProjectStatus> projectStatus()
+        {
+            return projectStatus;
+        }
+    }
 }

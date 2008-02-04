@@ -12,14 +12,28 @@
  */
 package org.qi4j.chronos.model.associations;
 
+import java.io.Serializable;
 import org.qi4j.chronos.model.SystemRoleType;
-import org.qi4j.chronos.model.mixins.HasSystemRoleTypeMixin;
 import org.qi4j.composite.Mixins;
+import org.qi4j.composite.scope.PropertyField;
+import org.qi4j.property.Property;
 
-@Mixins( HasSystemRoleTypeMixin.class )
+@Mixins( HasSystemRoleType.HasSystemRoleTypeMixin.class )
 public interface HasSystemRoleType
 {
-    void setSystemRoleType( SystemRoleType systemRoleType );
+    Property<SystemRoleType> systemRoleType();
 
-    SystemRoleType getSystemRoleType();
+    final class HasSystemRoleTypeMixin
+        implements HasSystemRoleType, Serializable
+    {
+        private static final long serialVersionUID = 1L;
+
+        @PropertyField
+        private Property<SystemRoleType> systemRoleType;
+
+        public final Property<SystemRoleType> systemRoleType()
+        {
+            return systemRoleType;
+        }
+    }
 }

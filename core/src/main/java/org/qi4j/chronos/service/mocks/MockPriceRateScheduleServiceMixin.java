@@ -14,8 +14,8 @@ package org.qi4j.chronos.service.mocks;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
+import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.service.FindFilter;
@@ -51,12 +51,11 @@ public class MockPriceRateScheduleServiceMixin implements PriceRateScheduleServi
 
     private void loopPriceRateSchedule( HasPriceRateSchedules hasPriceRateSchedules, LoopCallBack<PriceRateScheduleComposite> loopCallBack )
     {
-        Iterator<PriceRateScheduleComposite> iter = hasPriceRateSchedules.priceRateScheduleIterator();
 
-        while( iter.hasNext() )
+        SetAssociation<PriceRateScheduleComposite> priceRateSchedules = hasPriceRateSchedules.priceRateSchedules();
+        for( PriceRateScheduleComposite priceRateScheduleComposite : priceRateSchedules )
         {
-            boolean next = loopCallBack.callBack( iter.next() );
-
+            boolean next = loopCallBack.callBack( priceRateScheduleComposite );
             if( !next )
             {
                 break;
@@ -77,7 +76,7 @@ public class MockPriceRateScheduleServiceMixin implements PriceRateScheduleServi
         {
             public boolean callBack( PriceRateScheduleComposite priceRateSchedule )
             {
-                if( priceRateSchedule.getName().equals( priceRateName ) )
+                if( priceRateSchedule.name().get().equals( priceRateName ) )
                 {
                     returnValue[ 0 ] = CloneUtil.clonePriceRateSchedule( factory, priceRateSchedule );
                     return false;
@@ -96,20 +95,18 @@ public class MockPriceRateScheduleServiceMixin implements PriceRateScheduleServi
         {
             PriceRateScheduleComposite toBeDeleted = null;
 
-            Iterator<PriceRateScheduleComposite> iter = hasPriceRateSchedules.priceRateScheduleIterator();
+            SetAssociation<PriceRateScheduleComposite> targetPriceRateSchedules = hasPriceRateSchedules.priceRateSchedules();
 
-            while( iter.hasNext() )
+            for( PriceRateScheduleComposite targetPriceRateSchedule : targetPriceRateSchedules )
             {
-                PriceRateScheduleComposite temp = iter.next();
-
-                if( temp.getName().equals( priceRateSchedule.getName() ) )
+                if( targetPriceRateSchedule.name().get().equals( priceRateSchedule.name().get() ) )
                 {
-                    toBeDeleted = temp;
+                    toBeDeleted = targetPriceRateSchedule;
                     break;
                 }
             }
 
-            hasPriceRateSchedules.removePriceRateSchedule( toBeDeleted );
+            targetPriceRateSchedules.remove( toBeDeleted );
         }
     }
 }

@@ -13,19 +13,28 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import java.util.Iterator;
+import java.io.Serializable;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
-import org.qi4j.chronos.model.mixins.HasPriceRatesMixin;
 import org.qi4j.composite.Mixins;
+import org.qi4j.composite.scope.PropertyField;
+import org.qi4j.association.SetAssociation;
 
-@Mixins( HasPriceRatesMixin.class )
+@Mixins( HasPriceRates.HasPriceRatesMixin.class )
 public interface HasPriceRates
 {
-    void addPriceRate( PriceRateComposite priceRate );
+    SetAssociation<PriceRateComposite> priceRates();
 
-    void removePriceRate( PriceRateComposite priceRate );
+    final class HasPriceRatesMixin
+        implements HasPriceRates, Serializable
+    {
+        private static final long serialVersionUID = 1L;
 
-    Iterator<PriceRateComposite> priceRateIterator();
+        @PropertyField
+        private SetAssociation<PriceRateComposite> priceRates;
 
-    void removeAllPriceRate();
+        public SetAssociation<PriceRateComposite> priceRates()
+        {
+            return priceRates;
+        }
+    }
 }

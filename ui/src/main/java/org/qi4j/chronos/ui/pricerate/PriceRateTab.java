@@ -43,8 +43,8 @@ public abstract class PriceRateTab extends BaseTab
             PriceRateScheduleComposite priceRateSchedule = getPriceRateSchedule();
             priceRateListView = new PriceRateListView( "priceRateListView", ListUtil.getPriceRateDelegator( priceRateSchedule ) );
 
-            priceRateScheduleNameField = new Label( "priceRateScheduleNameLabel", priceRateSchedule.getName() );
-            priceRateScheduleCurrencyField = new Label( "priceRateScheduleCurrencyField", priceRateSchedule.getCurrency().getCurrencyCode() );
+            priceRateScheduleNameField = new Label( "priceRateScheduleNameLabel", priceRateSchedule.name().get() );
+            priceRateScheduleCurrencyField = new Label( "priceRateScheduleCurrencyField", priceRateSchedule.currency().get().getCurrencyCode() );
 
             add( priceRateListView );
             add( priceRateScheduleNameField );

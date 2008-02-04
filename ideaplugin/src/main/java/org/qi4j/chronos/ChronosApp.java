@@ -315,7 +315,7 @@ public class ChronosApp
 
     public StaffEntityComposite getStaff()
     {
-        return projectAssignee.getStaff();
+        return projectAssignee.staff().get();
     }
 
     public ProjectAssigneeEntityComposite getProjectAssignee()

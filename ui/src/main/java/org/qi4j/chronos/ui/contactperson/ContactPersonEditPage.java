@@ -46,7 +46,7 @@ public abstract class ContactPersonEditPage extends ContactPersonAddEditPage
 
     public Iterator<SystemRoleComposite> getInitSelectedRoleList()
     {
-        return getContactPerson().systemRoleIterator();
+        return getContactPerson().systemRoles().iterator();
     }
 
     public void onSubmitting()

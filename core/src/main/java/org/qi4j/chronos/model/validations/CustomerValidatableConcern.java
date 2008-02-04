@@ -13,7 +13,7 @@
 package org.qi4j.chronos.model.validations;
 
 import org.qi4j.chronos.model.Customer;
-import org.qi4j.chronos.util.ValidatorUtil;
+import static org.qi4j.chronos.util.ValidatorUtil.isEmptyOrInvalidLength;
 import org.qi4j.composite.scope.ThisCompositeAs;
 import org.qi4j.library.framework.validation.AbstractValidatableConcern;
 import org.qi4j.library.framework.validation.Validator;
@@ -26,11 +26,12 @@ public class CustomerValidatableConcern extends AbstractValidatableConcern
 
     protected void isValid( Validator validator )
     {
-        ValidatorUtil.isEmptyOrInvalidLength( customer.getName(), "Name", Customer.NAME_LEN, validator );
-        ValidatorUtil.isEmptyOrInvalidLength( customer.getReference(), "Reference", Customer.REFERENCE_LEN, validator );
+        isEmptyOrInvalidLength( customer.name().get(), "Name", Customer.NAME_LEN, validator );
+        isEmptyOrInvalidLength( customer.reference().get(), "Reference", Customer.REFERENCE_LEN, validator );
 
-        ValidatorUtil.isEmptyOrInvalidLength( customer.getAddress().getFirstLine(), "Address 1", Address.ADDRESS1_LEN, validator );
-        ValidatorUtil.isEmptyOrInvalidLength( customer.getAddress().getCity().getCountry().getName(), "Country", Address.COUNTRY_NAME_LEN, validator );
+        Address customerAddress = customer.address().get();
+        isEmptyOrInvalidLength( customerAddress.firstLine().get(), "Address 1", Address.ADDRESS1_LEN, validator );
+        isEmptyOrInvalidLength( customerAddress.city().get().country().get().name().get(), "Country", Address.COUNTRY_NAME_LEN, validator );
     }
 
     protected String getResourceBundle()

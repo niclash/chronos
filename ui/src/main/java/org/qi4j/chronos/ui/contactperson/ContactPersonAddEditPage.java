@@ -23,17 +23,18 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
+import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.ContactComposite;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.model.composites.SystemRoleComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.relationship.RelationshipOptionPanel;
 import org.qi4j.chronos.ui.user.UserAddEditPanel;
+import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 import org.qi4j.library.general.model.Contact;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
@@ -92,8 +93,8 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
                     contactTypeFieldList.add( contactTypeField );
 
                     //init value
-                    contactValueField.setText( contact.getContactValue() );
-                    contactTypeField.setText( contact.getContactType() );
+                    contactValueField.setText( contact.contactValue().get() );
+                    contactTypeField.setText( contact.contactType().get() );
                 }
                 else
                 {
@@ -180,24 +181,22 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
     {
         userAddEditPanel.assignUserToFieldValue( contactPerson );
 
-        relationshipOptionPanel.setSelectedRelationship( contactPerson.getRelationship() );
+        relationshipOptionPanel.setSelectedRelationship( contactPerson.relationship().get() );
     }
 
     protected void assignFieldValueToContactPerson( ContactPerson contactPerson )
     {
         userAddEditPanel.assignFieldValueToUser( contactPerson );
 
-        contactPerson.setRelationship( relationshipOptionPanel.getSelectedRelationship() );
-
-        for( ContactComposite contact : contactList )
-        {
-            contactPerson.addContact( contact );
-        }
+        contactPerson.relationship().set( relationshipOptionPanel.getSelectedRelationship() );
+        SetAssociation<ContactComposite> contacts = contactPerson.contacts();
+        contacts.addAll( contactList );
     }
 
     public Iterator<SystemRoleComposite> getInitSelectedRoleList()
     {
-        return Collections.EMPTY_LIST.iterator();
+        List<SystemRoleComposite> emptyList = Collections.emptyList();
+        return emptyList.iterator();
     }
 
     public void handleSubmit()
@@ -238,8 +237,8 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
             MaxLengthTextField contactValueField = contactValueFieldList.get( index );
             MaxLengthTextField contactTypeField = contactTypeFieldList.get( index );
 
-            contact.setContactValue( contactValueField.getText() );
-            contact.setContactType( contactTypeField.getText() );
+            contact.contactValue().set( contactValueField.getText() );
+            contact.contactType().set( contactTypeField.getText() );
 
             index++;
         }

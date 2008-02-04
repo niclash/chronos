@@ -68,7 +68,7 @@ public class PriceRateScheduleListPage extends LeftMenuNavPage
 
     private void handleAddPriceRateSchedule( PriceRateScheduleComposite schedule )
     {
-        getAccount().addPriceRateSchedule( schedule );
+        getAccount().priceRateSchedules().add( schedule );
 
         getAccountService().update( getAccount() );
     }

@@ -34,8 +34,8 @@ public abstract class LoginUserDetailPanel extends Panel
     {
         Login login = getLogin();
 
-        loginIdField = new SimpleTextField( "loginIdField", login.getName() );
-        isEnabledCheckBox = new CheckBox( "isEnabledCheckBox", new Model( login.getEnabled() ) );
+        loginIdField = new SimpleTextField( "loginIdField", login.name().get() );
+        isEnabledCheckBox = new CheckBox( "isEnabledCheckBox", new Model( login.isEnabled().get() ) );
 
         add( loginIdField );
         add( isEnabledCheckBox );

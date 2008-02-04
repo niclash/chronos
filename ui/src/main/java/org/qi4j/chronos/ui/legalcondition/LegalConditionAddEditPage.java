@@ -86,14 +86,14 @@ public abstract class LegalConditionAddEditPage extends AddEditBasePage
 
     protected void assignFieldValueToLegalCondition( LegalConditionComposite legalCondition )
     {
-        legalCondition.setName( nameField.getText() );
-        legalCondition.setDescription( descField.getText() );
+        legalCondition.name().set( nameField.getText() );
+        legalCondition.description().set( descField.getText() );
     }
 
     protected void assignLegalConditionToFieldValue( LegalConditionComposite legalCondition )
     {
-        nameField.setText( legalCondition.getName() );
-        descField.setText( legalCondition.getDescription() );
+        nameField.setText( legalCondition.name().get() );
+        descField.setText( legalCondition.description().get() );
     }
 
     public void handleSubmit()

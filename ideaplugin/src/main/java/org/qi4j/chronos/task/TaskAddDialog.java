@@ -43,10 +43,10 @@ public class TaskAddDialog extends TaskAddEditDialog
         TaskEntityComposite task = taskService.newInstance( TaskEntityComposite.class );
 
         //set the owner of this task
-        task.setUser( getChronosApp().getStaff() );
+        task.user().set( getChronosApp().getStaff() );
 
         //set created date
-        task.setCreatedDate( ChronosUtil.getCurrentDate() );
+        task.createdDate().set( ChronosUtil.getCurrentDate() );
 
         //set values
         assignFieldValueToTask( task );
@@ -54,7 +54,7 @@ public class TaskAddDialog extends TaskAddEditDialog
         ProjectEntityComposite project = getChronosApp().getChronosProject();
 
         //add it to project
-        project.addTask( task );
+        project.tasks().add( task );
 
         //update project
         getServices().getProjectService().update( project );

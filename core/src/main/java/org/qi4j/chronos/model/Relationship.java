@@ -13,19 +13,32 @@
  */
 package org.qi4j.chronos.model;
 
-import org.qi4j.chronos.model.mixins.RelationshipMixin;
+import java.io.Serializable;
 import org.qi4j.composite.Mixins;
+import org.qi4j.composite.scope.PropertyField;
+import org.qi4j.property.Property;
 
 /**
  * Generic interface to specify a relationship
  */
-@Mixins( RelationshipMixin.class )
+@Mixins( Relationship.RelationshipMixin.class )
 public interface Relationship
 {
     public final static int RELATIONSHIP_LEN = 120;
 
-    void setRelationship( String aRelationship );
+    Property<String> relationship();
 
-    String getRelationship();
+    final class RelationshipMixin
+        implements Relationship, Serializable
+    {
+        private static final long serialVersionUID = 1L;
 
+        @PropertyField
+        private Property<String> relationship;
+
+        public final Property<String> relationship()
+        {
+            return relationship;
+        }
+    }
 }

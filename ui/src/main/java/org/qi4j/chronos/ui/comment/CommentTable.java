@@ -18,6 +18,7 @@ import java.util.List;
 import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.associations.HasComments;
 import org.qi4j.chronos.model.composites.CommentComposite;
+import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.service.CommentService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
@@ -25,7 +26,6 @@ import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.util.DateUtil;
-import org.qi4j.entity.Identity;
 
 public abstract class CommentTable extends ActionTable<CommentComposite, CommentId>
 {
@@ -67,12 +67,14 @@ public abstract class CommentTable extends ActionTable<CommentComposite, Comment
 
     public void populateItems( Item item, CommentComposite obj )
     {
-        String userId = ( (Identity) obj.getUser() ).identity().get();
+        User user = obj.user().get();
+        String userId = user.identity().get();
 
-        item.add( createDetailLink( "user", obj.getUser().getFullname(), userId, obj.getCreatedDate() ) );
-        item.add( createDetailLink( "createdDate", DateUtil.formatDateTime( obj.getCreatedDate() ), userId, obj.getCreatedDate() ) );
+        Date createdDate = obj.createdDate().get();
+        item.add( createDetailLink( "user", user.getFullname(), userId, createdDate ) );
+        item.add( createDetailLink( "createdDate", DateUtil.formatDateTime( createdDate ), userId, obj.createdDate().get() ) );
         //TODO bp.  truncate comment
-        item.add( createDetailLink( "comment", obj.getText(), userId, obj.getCreatedDate() ) );
+        item.add( createDetailLink( "comment", obj.text().get(), userId, createdDate ) );
     }
 
     private SimpleLink createDetailLink( String id, String text, final String userId, final Date createdDate )

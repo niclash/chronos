@@ -12,10 +12,10 @@
  */
 package org.qi4j.chronos.service;
 
+import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
-import org.qi4j.chronos.model.Project;
 
 public interface OngoingWorkEntryService extends TaskBasedService<OngoingWorkEntryEntityComposite>
 {

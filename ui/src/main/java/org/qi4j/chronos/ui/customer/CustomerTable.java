@@ -70,8 +70,8 @@ public abstract class CustomerTable extends ActionTable<CustomerEntityComposite,
     {
         final String customerId = obj.identity().get();
 
-        item.add( createDetailLink( "name", obj.getName(), customerId ) );
-        item.add( createDetailLink( "formalReference", obj.getReference(), customerId ) );
+        item.add( createDetailLink( "name", obj.name().get(), customerId ) );
+        item.add( createDetailLink( "formalReference", obj.reference().get(), customerId ) );
         item.add( new SimpleLink( "editLink", "Edit" )
         {
             public void linkClicked()

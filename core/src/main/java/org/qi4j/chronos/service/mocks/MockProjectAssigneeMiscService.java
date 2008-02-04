@@ -29,7 +29,7 @@ public abstract class MockProjectAssigneeMiscService implements ProjectAssigneeS
 
         for( ProjectAssigneeEntityComposite projectAssignee : list )
         {
-            if( projectAssignee.getStaff().equals( staff ) )
+            if( projectAssignee.staff().get().equals( staff ) )
             {
                 return projectAssignee;
             }

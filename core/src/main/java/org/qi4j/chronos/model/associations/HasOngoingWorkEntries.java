@@ -12,17 +12,28 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import java.util.Iterator;
+import java.io.Serializable;
+import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
-import org.qi4j.chronos.model.mixins.HasOngoingWorkEntriesMixin;
 import org.qi4j.composite.Mixins;
+import org.qi4j.composite.scope.PropertyField;
 
-@Mixins( HasOngoingWorkEntriesMixin.class )
+@Mixins( HasOngoingWorkEntries.HasOngoingWorkEntriesMixin.class )
 public interface HasOngoingWorkEntries
 {
-    void addOngoingWorkEntry( OngoingWorkEntryEntityComposite workEntry );
+    SetAssociation<OngoingWorkEntryEntityComposite> onGoingWorkEntries();
 
-    void removeOngoingWorkEntry( OngoingWorkEntryEntityComposite workEntry );
+    final class HasOngoingWorkEntriesMixin
+        implements HasOngoingWorkEntries, Serializable
+    {
+        private static final long serialVersionUID = 1L;
 
-    Iterator<OngoingWorkEntryEntityComposite> ongoingWorkEntryIterator();
+        @PropertyField
+        private SetAssociation<OngoingWorkEntryEntityComposite> onGoingWorkEntries;
+
+        public final SetAssociation<OngoingWorkEntryEntityComposite> onGoingWorkEntries()
+        {
+            return onGoingWorkEntries;
+        }
+    }
 }

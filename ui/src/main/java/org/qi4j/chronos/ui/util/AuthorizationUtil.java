@@ -50,7 +50,7 @@ public class AuthorizationUtil
     {
         Set<String> roles = new HashSet<String>();
 
-        getSystemRole( user.systemRoleIterator(), roles );
+        getSystemRole( user.systemRoles().iterator(), roles );
 
         return roles.toArray( new String[roles.size()] );
     }
@@ -61,10 +61,10 @@ public class AuthorizationUtil
         {
             SystemRoleComposite next = iterator.next();
 
-            if( !roles.contains( next.getName() ) )
+            if( !roles.contains( next.name().get() ) )
             {
-                roles.add( next.getName() );
-                getSystemRole( next.systemRoleIterator(), roles );
+                roles.add( next.name().get() );
+                getSystemRole( next.systemRoles().iterator(), roles );
             }
         }
     }

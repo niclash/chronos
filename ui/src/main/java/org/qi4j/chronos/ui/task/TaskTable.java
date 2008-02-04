@@ -80,7 +80,7 @@ public abstract class TaskTable extends ActionTable<TaskEntityComposite, String>
     {
         final String id = obj.identity().get();
 
-        item.add( new SimpleLink( "title", obj.getTitle() )
+        item.add( new SimpleLink( "title", obj.title().get() )
         {
             public void linkClicked()
             {
@@ -88,9 +88,9 @@ public abstract class TaskTable extends ActionTable<TaskEntityComposite, String>
             }
         } );
 
-        item.add( new Label( "createdDateLabel", DateUtil.formatDateTime( obj.getCreatedDate() ) ) );
+        item.add( new Label( "createdDateLabel", DateUtil.formatDateTime( obj.createdDate().get() ) ) );
 
-        item.add( new Label( "createdByLabel", obj.getUser().getFullname() ) );
+        item.add( new Label( "createdByLabel", obj.user().get().getFullname() ) );
 
         SimpleLink editLink = new SimpleLink( "editLink", "Edit" )
         {

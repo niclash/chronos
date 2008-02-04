@@ -31,7 +31,7 @@ public class OngoingWorkEntryStopAction extends TaskBaseAction
     {
         final TaskEntityComposite task = taskList.getSelectedTask();
         OngoingWorkEntryService service = getServices( e ).getOngoingWorkEntryService();
-        final OngoingWorkEntryEntityComposite ongoingWorkEntry = service.getOngoingWorkEntry( task, getProjectAssignee( e ).getStaff() );
+        final OngoingWorkEntryEntityComposite ongoingWorkEntry = service.getOngoingWorkEntry( task, getProjectAssignee( e ).staff().get() );
 
         Project project = (Project) e.getDataContext().getData( DataConstants.PROJECT );
         WorkEntryAddDialog addDialog = new WorkEntryAddDialog( project )
@@ -39,10 +39,10 @@ public class OngoingWorkEntryStopAction extends TaskBaseAction
             public void addingWorkEntry( WorkEntryEntityComposite workEntry )
             {
                 //add workentry to task
-                task.addWorkEntry( workEntry );
+                task.workEntries().add( workEntry );
 
                 //remove the ongoingWorkEntry
-                task.removeOngoingWorkEntry( ongoingWorkEntry );
+                task.onGoingWorkEntries().remove( ongoingWorkEntry );
 
                 //update task
                 getServices().getTaskService().update( task );
@@ -55,7 +55,7 @@ public class OngoingWorkEntryStopAction extends TaskBaseAction
 
             public Date getStartedDate()
             {
-                return ongoingWorkEntry.getCreatedDate();
+                return ongoingWorkEntry.createdDate().get();
             }
         };
 

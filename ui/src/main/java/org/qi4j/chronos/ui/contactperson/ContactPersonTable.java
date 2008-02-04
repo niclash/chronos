@@ -102,13 +102,13 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
     {
         final String contactPersonId = obj.identity().get();
 
-        item.add( createDetailLink( "firstName", obj.getFirstName(), contactPersonId ) );
+        item.add( createDetailLink( "firstName", obj.firstName().get(), contactPersonId ) );
 
-        item.add( createDetailLink( "lastName", obj.getLastName(), contactPersonId ) );
+        item.add( createDetailLink( "lastName", obj.lastName().get(), contactPersonId ) );
 
-        item.add( new Label( "loginId", obj.getLogin().getName() ) );
+        item.add( new Label( "loginId", obj.login().get().name().get() ) );
 
-        CheckBox loginEnabled = new CheckBox( "loginEnabled", new Model( obj.getLogin().getEnabled() ) );
+        CheckBox loginEnabled = new CheckBox( "loginEnabled", new Model( obj.login().get().isEnabled().get() ) );
 
         loginEnabled.setEnabled( false );
 
