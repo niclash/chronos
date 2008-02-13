@@ -35,6 +35,7 @@
     <orderEntry type="library" name="slf4j-log4j12-1.4.2" level="project" />
     <orderEntry type="library" name="log4j-1.2.6" level="project" />
     <orderEntry type="library" name="junit-4.1" level="project" />
+    <orderEntry type="module" module-name="core-testsupport" />
     <orderEntryProperties />
   </component>
   <component name="copyright">

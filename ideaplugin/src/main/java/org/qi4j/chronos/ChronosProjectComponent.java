@@ -47,7 +47,6 @@ import org.qi4j.runtime.Energy4Java;
 import org.qi4j.runtime.Qi4jRuntime;
 import org.qi4j.runtime.structure.ApplicationInstance;
 import org.qi4j.runtime.structure.LayerInstance;
-import org.qi4j.runtime.structure.ModuleContext;
 import org.qi4j.runtime.structure.ModuleInstance;
 
 public class ChronosProjectComponent
@@ -206,6 +205,7 @@ public class ChronosProjectComponent
         try
         {
             ApplicationInstance application = newApplication();
+            application.activate();
             LayerInstance layerInstance = application.getLayerInstances().get( 0 );
             ModuleInstance moduleInstance = layerInstance.getModuleInstances().get( 0 );
             factory = moduleInstance.getCompositeBuilderFactory();
@@ -213,7 +213,7 @@ public class ChronosProjectComponent
             services = serviceBuilder.newInstance();
             services.initServices();
         }
-        catch( AssemblyException e )
+        catch( Exception e )
         {
             e.printStackTrace();  //TODO: Auto-generated, need attention.
         }

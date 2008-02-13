@@ -41,6 +41,14 @@ public final class ChronosWebAppFactory
     public final WebApplication createApplication( WicketFilter aFilter )
     {
         ApplicationInstance instance = newChronosApplication();
+        try
+        {
+            instance.activate();
+        }
+        catch( Exception e )
+        {
+            throw new IllegalStateException( "Could not activate application", e );
+        }
         LayerInstance wicketLayer = getWicketLayerInstance( instance );
         if( wicketLayer == null )
         {
