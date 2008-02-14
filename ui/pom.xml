@@ -63,6 +63,12 @@
       <version>${qi4j.version}</version>
     </dependency>
     <dependency>
+      <groupId>org.qi4j.core</groupId>
+      <artifactId>qi4j-testsupport</artifactId>
+      <version>${qi4j.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
       <groupId>org.qi4j.library</groupId>
       <artifactId>qi4j-lib-general</artifactId>
       <version>${qi4j.version}</version>
