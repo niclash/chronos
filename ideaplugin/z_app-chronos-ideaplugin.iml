@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<module relativePaths="true" type="PLUGIN_MODULE" version="4">
+<module version="4" relativePaths="true" type="PLUGIN_MODULE">
   <component name="DevKit.ModuleBuildProperties" url="file://$MODULE_DIR$/META-INF/plugin.xml" />
+  <component name="ModuleRootManager" />
   <component name="NewModuleRootManager" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
     <exclude-output />
@@ -26,7 +27,7 @@
     <Base>
       <setting name="state" value="1" />
     </Base>
-    <LanguageOptions name="$TEMPLATE$">
+    <LanguageOptions name="$MODULE_DIR$/../../../../..">
       <option name="templateOptions">
         <value>
           <option name="block" value="true" />
