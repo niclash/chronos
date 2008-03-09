@@ -17,7 +17,7 @@ import java.io.Serializable;
 import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.composites.ContactComposite;
 import org.qi4j.composite.Mixins;
-import org.qi4j.composite.scope.PropertyField;
+import org.qi4j.composite.scope.AssociationField;
 
 /**
  * Generic interface to describe association with {@link org.qi4j.chronos.model.composites.ContactComposite}
@@ -32,7 +32,8 @@ public interface HasContacts
     {
         private static final long serialVersionUID = 1L;
 
-        @PropertyField private SetAssociation<ContactComposite> contacts;
+        @AssociationField
+        private SetAssociation<ContactComposite> contacts;
 
         public final SetAssociation<ContactComposite> contacts()
         {

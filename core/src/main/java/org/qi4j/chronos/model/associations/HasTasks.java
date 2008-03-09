@@ -13,10 +13,10 @@
 package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
+import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.composite.Mixins;
-import org.qi4j.composite.scope.PropertyField;
-import org.qi4j.association.SetAssociation;
+import org.qi4j.composite.scope.AssociationField;
 
 @Mixins( HasTasks.HasTasksMixin.class )
 public interface HasTasks
@@ -28,7 +28,7 @@ public interface HasTasks
     {
         private static final long serialVersionUID = 1L;
 
-        @PropertyField
+        @AssociationField
         private SetAssociation<TaskEntityComposite> tasks;
 
         public final SetAssociation<TaskEntityComposite> tasks()

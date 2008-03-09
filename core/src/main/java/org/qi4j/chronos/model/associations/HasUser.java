@@ -16,7 +16,7 @@ import java.io.Serializable;
 import org.qi4j.association.Association;
 import org.qi4j.chronos.model.User;
 import org.qi4j.composite.Mixins;
-import org.qi4j.composite.scope.PropertyField;
+import org.qi4j.composite.scope.AssociationField;
 
 @Mixins( HasUser.HasUserMixin.class )
 public interface HasUser
@@ -28,7 +28,7 @@ public interface HasUser
     {
         private static final long serialVersionUID = 1L;
 
-        @PropertyField
+        @AssociationField
         private Association<User> user;
 
         public final Association<User> user()

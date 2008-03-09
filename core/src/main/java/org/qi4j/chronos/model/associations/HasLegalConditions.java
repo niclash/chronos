@@ -17,7 +17,7 @@ import java.io.Serializable;
 import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.composites.LegalConditionComposite;
 import org.qi4j.composite.Mixins;
-import org.qi4j.composite.scope.PropertyField;
+import org.qi4j.composite.scope.AssociationField;
 
 @Mixins( HasLegalConditions.HasLegalConditionsMixin.class )
 public interface HasLegalConditions extends Serializable
@@ -30,7 +30,7 @@ public interface HasLegalConditions extends Serializable
     {
         private static final long serialVersionUID = 1L;
 
-        @PropertyField
+        @AssociationField
         private SetAssociation<LegalConditionComposite> legalConditions;
 
         public SetAssociation<LegalConditionComposite> legalConditions()

@@ -16,7 +16,7 @@ import java.io.Serializable;
 import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.composites.SystemRoleComposite;
 import org.qi4j.composite.Mixins;
-import org.qi4j.composite.scope.PropertyField;
+import org.qi4j.composite.scope.AssociationField;
 
 @Mixins( HasSystemRoles.HasSystemRolesMixin.class )
 public interface HasSystemRoles
@@ -28,7 +28,7 @@ public interface HasSystemRoles
     {
         private static final long serialVersionUID = 1L;
 
-        @PropertyField
+        @AssociationField
         private SetAssociation<SystemRoleComposite> systemRoles;
 
         public final SetAssociation<SystemRoleComposite> systemRoles()

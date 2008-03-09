@@ -16,7 +16,7 @@ import java.io.Serializable;
 import org.qi4j.association.Association;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.composite.Mixins;
-import org.qi4j.composite.scope.PropertyField;
+import org.qi4j.composite.scope.AssociationField;
 
 @Mixins( HasProjectAssignee.HasProjectAssigneeMixin.class )
 public interface HasProjectAssignee
@@ -28,7 +28,7 @@ public interface HasProjectAssignee
     {
         private static final long serialVersionUID = 1L;
 
-        @PropertyField
+        @AssociationField
         private Association<ProjectAssigneeEntityComposite> projectAssignee;
 
         public final Association<ProjectAssigneeEntityComposite> projectAssignee()

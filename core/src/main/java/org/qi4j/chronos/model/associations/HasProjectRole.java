@@ -16,7 +16,7 @@ import org.qi4j.association.Association;
 import org.qi4j.chronos.model.ProjectRole;
 import org.qi4j.chronos.model.composites.ProjectRoleComposite;
 import org.qi4j.composite.Mixins;
-import org.qi4j.composite.scope.PropertyField;
+import org.qi4j.composite.scope.AssociationField;
 
 /**
  * Generic interface describing association with {@link ProjectRole}
@@ -29,7 +29,7 @@ public interface HasProjectRole
     final class HasProjectRoleMixin
         implements HasProjectRole
     {
-        @PropertyField
+        @AssociationField
         private Association<ProjectRoleComposite> projectRole;
 
         public final Association<ProjectRoleComposite> projectRole()

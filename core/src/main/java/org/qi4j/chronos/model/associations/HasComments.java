@@ -17,7 +17,7 @@ import java.io.Serializable;
 import org.qi4j.association.ManyAssociation;
 import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.composite.Mixins;
-import org.qi4j.composite.scope.PropertyField;
+import org.qi4j.composite.scope.AssociationField;
 
 @Mixins( HasComments.HasCommentsMixin.class )
 public interface HasComments
@@ -29,7 +29,7 @@ public interface HasComments
     {
         private static final long serialVersionUID = 1L;
 
-        @PropertyField
+        @AssociationField
         private ManyAssociation<CommentComposite> comments;
 
         public final ManyAssociation<CommentComposite> comments()

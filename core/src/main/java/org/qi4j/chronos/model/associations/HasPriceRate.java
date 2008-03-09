@@ -16,7 +16,7 @@ import java.io.Serializable;
 import org.qi4j.association.Association;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.composite.Mixins;
-import org.qi4j.composite.scope.PropertyField;
+import org.qi4j.composite.scope.AssociationField;
 
 @Mixins( HasPriceRate.HasPriceRateMixin.class )
 public interface HasPriceRate
@@ -28,7 +28,7 @@ public interface HasPriceRate
     {
         private static final long serialVersionUID = 1L;
 
-        @PropertyField
+        @AssociationField
         private Association<PriceRateComposite> priceRate;
 
         public final Association<PriceRateComposite> priceRate()

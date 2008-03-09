@@ -12,11 +12,11 @@
  */
 package org.qi4j.chronos.model.associations;
 
+import java.io.Serializable;
+import org.qi4j.association.Association;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.composite.Mixins;
-import org.qi4j.composite.scope.PropertyField;
-import org.qi4j.association.Association;
-import java.io.Serializable;
+import org.qi4j.composite.scope.AssociationField;
 
 @Mixins( HasPriceRateSchedule.HasPriceRateScheduleMixin.class )
 public interface HasPriceRateSchedule
@@ -28,7 +28,7 @@ public interface HasPriceRateSchedule
     {
         private static final long serialVersionUID = 1L;
 
-        @PropertyField
+        @AssociationField
         private Association<PriceRateScheduleComposite> priceRateSchedule;
 
         public final Association<PriceRateScheduleComposite> priceRateSchedule()

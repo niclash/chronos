@@ -16,7 +16,7 @@ import java.io.Serializable;
 import org.qi4j.association.Association;
 import org.qi4j.chronos.model.Login;
 import org.qi4j.composite.Mixins;
-import org.qi4j.composite.scope.PropertyField;
+import org.qi4j.composite.scope.AssociationField;
 
 /**
  * Describe association with {@link org.qi4j.chronos.model.composites.LoginComposite}
@@ -31,7 +31,7 @@ public interface HasLogin
     {
         private static final long serialVersionUID = 1L;
 
-        @PropertyField
+        @AssociationField
         private Association<Login> login;
 
         public final Association<Login> login()

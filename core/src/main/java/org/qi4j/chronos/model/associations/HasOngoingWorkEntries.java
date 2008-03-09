@@ -16,7 +16,7 @@ import java.io.Serializable;
 import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
 import org.qi4j.composite.Mixins;
-import org.qi4j.composite.scope.PropertyField;
+import org.qi4j.composite.scope.AssociationField;
 
 @Mixins( HasOngoingWorkEntries.HasOngoingWorkEntriesMixin.class )
 public interface HasOngoingWorkEntries
@@ -28,7 +28,7 @@ public interface HasOngoingWorkEntries
     {
         private static final long serialVersionUID = 1L;
 
-        @PropertyField
+        @AssociationField
         private SetAssociation<OngoingWorkEntryEntityComposite> onGoingWorkEntries;
 
         public final SetAssociation<OngoingWorkEntryEntityComposite> onGoingWorkEntries()

@@ -16,7 +16,7 @@ import java.io.Serializable;
 import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.composite.Mixins;
-import org.qi4j.composite.scope.PropertyField;
+import org.qi4j.composite.scope.AssociationField;
 
 @Mixins( HasCustomers.HasCustomersMixin.class )
 public interface HasCustomers
@@ -28,7 +28,7 @@ public interface HasCustomers
     {
         private static final long serialVersionUID = 1L;
 
-        @PropertyField
+        @AssociationField
         private SetAssociation<CustomerEntityComposite> customers;
 
         public final SetAssociation<CustomerEntityComposite> customers()

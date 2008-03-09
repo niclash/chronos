@@ -16,7 +16,7 @@ import java.io.Serializable;
 import org.qi4j.association.Association;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.composite.Mixins;
-import org.qi4j.composite.scope.PropertyField;
+import org.qi4j.composite.scope.AssociationField;
 
 /**
  * Describe association with the primary contact person of a {@link org.qi4j.chronos.model.Project}.
@@ -31,7 +31,7 @@ public interface HasPrimaryContactPerson extends Serializable
     {
         private static final long serialVersionUID = 1L;
 
-        @PropertyField
+        @AssociationField
         private Association<ContactPersonEntityComposite> primaryContactPerson;
 
         public final Association<ContactPersonEntityComposite> primaryContactPerson()

@@ -16,7 +16,7 @@ import java.io.Serializable;
 import org.qi4j.association.Association;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.composite.Mixins;
-import org.qi4j.composite.scope.PropertyField;
+import org.qi4j.composite.scope.AssociationField;
 
 @Mixins( HasStaff.HasStaffMixin.class )
 public interface HasStaff
@@ -28,7 +28,7 @@ public interface HasStaff
     {
         private static final long serialVersionUID = 1L;
 
-        @PropertyField
+        @AssociationField
         private Association<StaffEntityComposite> staff;
 
         public final Association<StaffEntityComposite> staff()
