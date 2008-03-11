@@ -22,12 +22,9 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.settings.IApplicationSettings;
 import org.apache.wicket.settings.ISessionSettings;
 import org.qi4j.chronos.ui.wicket.authentication.LoginPage;
-import static org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession.PARAMETER_AUTHENTICATED_WEB_APPLICATION;
-import static org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession.PARAMETER_REQUEST;
 import static org.qi4j.composite.NullArgumentException.validateNotNull;
 import org.qi4j.composite.ObjectBuilder;
 import org.qi4j.composite.ObjectBuilderFactory;
-import static org.qi4j.composite.PropertyValue.property;
 import org.qi4j.composite.scope.Structure;
 
 /**
@@ -88,9 +85,8 @@ final class ChronosWebApp extends AuthenticatedWebApplication
     public final Session newSession( Request request, Response response )
     {
         ObjectBuilder<ChronosSession> builder = objectBuilderFactory.newObjectBuilder( ChronosSession.class );
-        builder.properties(
-            property( PARAMETER_AUTHENTICATED_WEB_APPLICATION, this ),
-            property( PARAMETER_REQUEST, request ) );
+        builder.uses( this );
+        builder.uses( request );
         return builder.newInstance();
     }
 

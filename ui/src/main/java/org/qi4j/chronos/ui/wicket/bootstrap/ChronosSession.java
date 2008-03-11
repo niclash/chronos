@@ -24,8 +24,8 @@ import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.service.authentication.AuthenticationService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.SystemRoleResolver;
-import org.qi4j.composite.scope.PropertyParameter;
 import org.qi4j.composite.scope.Service;
+import org.qi4j.composite.scope.Uses;
 
 /**
  * TODO: Refactor this
@@ -36,9 +36,6 @@ import org.qi4j.composite.scope.Service;
 public final class ChronosSession extends AuthenticatedWebSession
 {
     private static final long serialVersionUID = 1L;
-
-    static final String PARAMETER_AUTHENTICATED_WEB_APPLICATION = "authenticatedWebApplication";
-    static final String PARAMETER_REQUEST = "request";
 
     @Service
     private AuthenticationService authenticationService;
@@ -52,8 +49,8 @@ public final class ChronosSession extends AuthenticatedWebSession
     private String accountId;
 
     public ChronosSession(
-        @PropertyParameter( PARAMETER_AUTHENTICATED_WEB_APPLICATION )AuthenticatedWebApplication app,
-        @PropertyParameter( PARAMETER_REQUEST )Request request )
+        @Uses AuthenticatedWebApplication app,
+        @Uses Request request )
     {
         super( app, request );
 
