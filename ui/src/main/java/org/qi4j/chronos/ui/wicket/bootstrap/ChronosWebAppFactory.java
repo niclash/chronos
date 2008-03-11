@@ -61,7 +61,7 @@ public final class ChronosWebAppFactory
             throw new IllegalStateException( "Module [" + MODULE_NAME_WICKET_BOOTSTRAP + "] is not found." );
         }
 
-        ObjectBuilderFactory builderFactory = bootstrapModule.getObjectBuilderFactory();
+        ObjectBuilderFactory builderFactory = bootstrapModule.getStructureContext().getObjectBuilderFactory();
         ObjectBuilder<ChronosWebApp> builder = builderFactory.newObjectBuilder( ChronosWebApp.class );
         return builder.newInstance();
     }
