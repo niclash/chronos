@@ -85,8 +85,8 @@ final class ChronosWebApp extends AuthenticatedWebApplication
     public final Session newSession( Request request, Response response )
     {
         ObjectBuilder<ChronosSession> builder = objectBuilderFactory.newObjectBuilder( ChronosSession.class );
-        builder.uses( this );
-        builder.uses( request );
+        builder.use( this );
+        builder.use( request );
         return builder.newInstance();
     }
 
