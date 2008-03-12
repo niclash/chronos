@@ -1,6 +1,7 @@
 package org.qi4j.chronos.ui.wicket;
 
 import org.qi4j.bootstrap.ApplicationAssembly;
+import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.LayerAssembly;
 import static org.qi4j.chronos.ui.wicket.Constants.LAYER_NAME_WICKET;
 import static org.qi4j.chronos.ui.wicket.authentication.WicketAuthenticationModuleInitializer.addWicketAuthenticationModule;
@@ -27,7 +28,8 @@ public final class WicketLayerAssemblyInitializer
      * @since 0.1.0
      */
     public static void addWicketLayerAssembly( ApplicationAssembly anApplicationAssembly )
-        throws IllegalArgumentException
+        throws IllegalArgumentException, AssemblyException
+
     {
         validateNotNull( "anApplicationAssembly", anApplicationAssembly );
 
