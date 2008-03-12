@@ -15,9 +15,9 @@ package org.qi4j.chronos.ui;
 import org.apache.wicket.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.markup.html.WebPage;
-import org.qi4j.bootstrap.AssemblyException;
+import org.qi4j.bootstrap.AssemblerException;
 import org.qi4j.bootstrap.ModuleAssembly;
-import org.qi4j.bootstrap.SingletonAssembly;
+import org.qi4j.bootstrap.SingletonAssembler;
 import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.service.composites.ServicesComposite;
 import org.qi4j.chronos.ui.admin.AdminHomePage;
@@ -36,9 +36,9 @@ public class ChronosWebApp extends AuthenticatedWebApplication
 
     static
     {
-        SingletonAssembly assembly = new SingletonAssembly()
+        SingletonAssembler assembly = new SingletonAssembler()
         {
-            public void configure( ModuleAssembly module ) throws AssemblyException
+            public void assemble( ModuleAssembly module ) throws AssemblerException
             {
                 module.addComposites( ServicesComposite.class );
             }

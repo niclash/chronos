@@ -12,7 +12,7 @@
  */
 package org.qi4j.chronos.service.mocks;
 
-import org.qi4j.bootstrap.AssemblyException;
+import org.qi4j.bootstrap.AssemblerException;
 import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.test.AbstractQi4jTest;
 
@@ -55,7 +55,7 @@ public class MockEntityServiceTest extends AbstractQi4jTest
 */
     }
 
-    public void configure( ModuleAssembly module ) throws AssemblyException
+    public void assemble( ModuleAssembly module ) throws AssemblerException
     {
         module.addComposites( SampleEntityComposite.class );
         module.addComposites( SampleServiceComposite.class );
