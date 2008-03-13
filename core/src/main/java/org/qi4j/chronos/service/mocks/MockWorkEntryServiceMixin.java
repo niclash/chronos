@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 import java.util.UUID;
+import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.associations.HasWorkEntries;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
@@ -25,10 +26,8 @@ import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.WorkEntryService;
 import org.qi4j.composite.CompositeBuilder;
 import org.qi4j.composite.CompositeBuilderFactory;
-import static org.qi4j.composite.PropertyValue.property;
 import org.qi4j.composite.scope.Structure;
 import org.qi4j.entity.Identity;
-import org.qi4j.association.SetAssociation;
 
 public class MockWorkEntryServiceMixin implements WorkEntryService
 {
@@ -36,11 +35,11 @@ public class MockWorkEntryServiceMixin implements WorkEntryService
 
     public WorkEntryEntityComposite newInstance( Class<? extends WorkEntryEntityComposite> clazz )
     {
-        CompositeBuilder compositeBuilder = factory.newCompositeBuilder( clazz );
+        CompositeBuilder<? extends WorkEntryEntityComposite> compositeBuilder = factory.newCompositeBuilder( clazz );
 
         String uid = UUID.randomUUID().toString();
 
-        compositeBuilder.properties( Identity.class, property( "identity", uid ) );
+        compositeBuilder.propertiesFor( Identity.class ).identity().set( uid );
 
         return (WorkEntryEntityComposite) compositeBuilder.newInstance();
     }

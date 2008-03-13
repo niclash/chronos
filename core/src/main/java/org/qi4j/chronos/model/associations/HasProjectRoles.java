@@ -12,28 +12,10 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import java.io.Serializable;
 import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.composites.ProjectRoleComposite;
-import org.qi4j.composite.Mixins;
-import org.qi4j.composite.scope.AssociationField;
 
-@Mixins( HasProjectRoles.HasProjectRolesMixin.class )
 public interface HasProjectRoles
 {
     SetAssociation<ProjectRoleComposite> projectRoles();
-
-    final class HasProjectRolesMixin
-        implements HasProjectRoles, Serializable
-    {
-        private static final long serialVersionUID = 1L;
-
-        @AssociationField
-        private SetAssociation<ProjectRoleComposite> projectRoles;
-
-        public final SetAssociation<ProjectRoleComposite> projectRoles()
-        {
-            return projectRoles;
-        }
-    }
 }

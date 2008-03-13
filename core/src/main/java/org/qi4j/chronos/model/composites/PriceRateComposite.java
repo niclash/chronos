@@ -13,8 +13,8 @@
 package org.qi4j.chronos.model.composites;
 
 import org.qi4j.chronos.model.PriceRate;
-import org.qi4j.composite.Composite;
+import org.qi4j.entity.EntityComposite;
 
-public interface PriceRateComposite extends PriceRate, Composite
+public interface PriceRateComposite extends PriceRate, EntityComposite
 {
 }

@@ -13,28 +13,10 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import java.io.Serializable;
 import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
-import org.qi4j.composite.Mixins;
-import org.qi4j.composite.scope.AssociationField;
 
-@Mixins( HasProjectAssignees.HasProjectAssigneesMixin.class )
-public interface HasProjectAssignees extends Serializable
+public interface HasProjectAssignees
 {
     SetAssociation<ProjectAssigneeEntityComposite> projectAssignees();
-
-    final class HasProjectAssigneesMixin
-        implements HasProjectAssignees, Serializable
-    {
-        private static final long serialVersionUID = 1L;
-
-        @AssociationField
-        private SetAssociation<ProjectAssigneeEntityComposite> projectAssignees;
-
-        public SetAssociation<ProjectAssigneeEntityComposite> projectAssignees()
-        {
-            return projectAssignees;
-        }
-    }
 }

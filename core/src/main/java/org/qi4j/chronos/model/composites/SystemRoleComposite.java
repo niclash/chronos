@@ -13,9 +13,9 @@
 package org.qi4j.chronos.model.composites;
 
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.composite.Composite;
+import org.qi4j.entity.EntityComposite;
 
-public interface SystemRoleComposite extends SystemRole, Composite
+public interface SystemRoleComposite extends SystemRole, EntityComposite
 {
 
 }

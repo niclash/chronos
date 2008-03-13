@@ -14,8 +14,8 @@
 package org.qi4j.chronos.model.composites;
 
 import org.qi4j.chronos.model.PriceRateSchedule;
-import org.qi4j.composite.Composite;
+import org.qi4j.entity.EntityComposite;
 
-public interface PriceRateScheduleComposite extends PriceRateSchedule, Composite
+public interface PriceRateScheduleComposite extends PriceRateSchedule, EntityComposite
 {
 }

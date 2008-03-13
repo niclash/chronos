@@ -54,7 +54,6 @@ import org.qi4j.chronos.service.ContactService;
 import org.qi4j.chronos.service.CustomerService;
 import org.qi4j.chronos.service.LegalConditionService;
 import org.qi4j.chronos.service.OngoingWorkEntryService;
-import org.qi4j.chronos.service.ParentBasedService;
 import org.qi4j.chronos.service.PriceRateScheduleService;
 import org.qi4j.chronos.service.PriceRateService;
 import org.qi4j.chronos.service.ProjectAssigneeService;
@@ -90,10 +89,9 @@ import org.qi4j.chronos.util.CurrencyUtil;
 import org.qi4j.composite.Composite;
 import org.qi4j.composite.CompositeBuilder;
 import org.qi4j.composite.CompositeBuilderFactory;
-import org.qi4j.composite.PropertyValue;
 import org.qi4j.composite.scope.Structure;
-import org.qi4j.library.general.model.GenderType;
 import org.qi4j.library.general.model.City;
+import org.qi4j.library.general.model.GenderType;
 import org.qi4j.library.general.model.composites.CityComposite;
 import org.qi4j.library.general.model.composites.CountryComposite;
 import org.qi4j.library.general.model.composites.StateComposite;
@@ -128,15 +126,15 @@ public class MockServicesMixin implements Services
     {
         accountService = newService( AccountServiceComposite.class );
 
-        projectService = newParentBasedService( ProjectServiceComposite.class, ACCOUNT_SERVICE, accountService );
+        projectService = newParentBasedService( ProjectServiceComposite.class, accountService );
 
         projectRoleService = newService( ProjectRoleServiceComposite.class );
         adminService = newService( AdminServiceComposite.class );
-        staffService = newParentBasedService( StaffServiceComposite.class, ACCOUNT_SERVICE, accountService );
+        staffService = newParentBasedService( StaffServiceComposite.class, accountService );
 
         systemRoleService = newService( SystemRoleServiceComposite.class );
-        customerService = newParentBasedService( CustomerServiceComposite.class, ACCOUNT_SERVICE, accountService );
-        contactPersonService = newParentBasedService( ContactPersonServiceComposite.class, "customerService", customerService );
+        customerService = newParentBasedService( CustomerServiceComposite.class, accountService );
+        contactPersonService = newParentBasedService( ContactPersonServiceComposite.class, customerService );
 
         userService = initUserService( staffService, adminService, contactPersonService, customerService );
 
@@ -150,7 +148,7 @@ public class MockServicesMixin implements Services
 
         priceRateService = newService( PriceRateServiceComposite.class );
 
-        taskService = newParentBasedService( TaskServiceComposite.class, "projectService", projectService );
+        taskService = newParentBasedService( TaskServiceComposite.class, projectService );
 
         workEntryService = newService( WorkEntryServiceComposite.class );
 
@@ -158,16 +156,16 @@ public class MockServicesMixin implements Services
 
         legalConditionService = newService( LegalConditionServiceComposite.class );
 
-        ongoingWorkEntryService = newParentBasedService( OngoingWorkEntryServiceComposite.class, "taskService", taskService );
+        ongoingWorkEntryService = newParentBasedService( OngoingWorkEntryServiceComposite.class, taskService );
 
         initDummyData();
     }
 
-    private <T extends Composite> T newParentBasedService( Class<T> clazz, String propertyName, Object propertyValue )
+    private <T extends Composite> T newParentBasedService( Class<T> clazz, Object propertyValue )
     {
         CompositeBuilder<? extends Composite> compositeBuilder = factory.newCompositeBuilder( clazz );
 
-        compositeBuilder.properties( ParentBasedService.class, PropertyValue.property( propertyName, propertyValue ) );
+        compositeBuilder.use( propertyValue );
 
         return (T) compositeBuilder.newInstance();
     }
@@ -176,11 +174,7 @@ public class MockServicesMixin implements Services
     {
         CompositeBuilder<UserServiceComposite> compositeBuilder = factory.newCompositeBuilder( UserServiceComposite.class );
 
-        compositeBuilder.properties( UserService.class,
-                                     PropertyValue.property( "staffService", staffService ),
-                                     PropertyValue.property( "adminService", adminService ),
-                                     PropertyValue.property( "contactPersonService", contactPersonService ),
-                                     PropertyValue.property( "customerService", customerService ) );
+        compositeBuilder.use( staffService, adminService, contactPersonService, customerService );
 
         return compositeBuilder.newInstance();
     }
@@ -222,7 +216,7 @@ public class MockServicesMixin implements Services
     {
         CompositeBuilder<ProjectAssigneeServiceComposite> compositeBuilder = factory.newCompositeBuilder( ProjectAssigneeServiceComposite.class );
 
-        compositeBuilder.properties( ParentBasedService.class, PropertyValue.property( propertyName, propertyValue ) );
+        // TODO Fix this. What is it trying to do ?? compositeBuilder.properties( ParentBasedService.class, PropertyValue.property( propertyName, propertyValue ) );
 
         return compositeBuilder.newInstance();
     }

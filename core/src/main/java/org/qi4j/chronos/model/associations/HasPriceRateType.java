@@ -14,27 +14,9 @@
 package org.qi4j.chronos.model.associations;
 
 import org.qi4j.chronos.model.PriceRateType;
-import org.qi4j.composite.Mixins;
-import org.qi4j.composite.scope.PropertyField;
 import org.qi4j.property.Property;
-import java.io.Serializable;
 
-@Mixins( HasPriceRateType.HasPriceRateTypeMixin.class )
 public interface HasPriceRateType
 {
     Property<PriceRateType> priceRateType();
-
-    final class HasPriceRateTypeMixin
-        implements HasPriceRateType, Serializable
-    {
-        private static final long serialVersionUID = 1L;
-
-        @PropertyField
-        private Property<PriceRateType> priceRateType;
-
-        public Property<PriceRateType> priceRateType()
-        {
-            return priceRateType;
-        }
-    }
 }
