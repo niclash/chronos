@@ -35,7 +35,7 @@ import org.jdom.Element;
 import org.jetbrains.annotations.Nls;
 import org.qi4j.bootstrap.ApplicationAssemblyFactory;
 import org.qi4j.bootstrap.ApplicationFactory;
-import org.qi4j.bootstrap.AssemblerException;
+import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.bootstrap.SingletonAssembler;
 import org.qi4j.chronos.action.task.TaskAssociationAction;
@@ -281,12 +281,12 @@ public class ChronosProjectComponent
     }
 
     protected ApplicationInstance newApplication()
-        throws AssemblerException
+        throws AssemblyException
     {
         Qi4jRuntime qi4j = new Energy4Java();
         SingletonAssembler assembly = new SingletonAssembler()
         {
-            public void assemble( ModuleAssembly module ) throws AssemblerException
+            public void assemble( ModuleAssembly module ) throws AssemblyException
             {
                 module.addComposites(
                     // TODO: Add all the Composites used.

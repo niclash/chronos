@@ -1,6 +1,6 @@
 package org.qi4j.chronos.ui.wicket.authentication;
 
-import org.qi4j.bootstrap.AssemblerException;
+import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.LayerAssembly;
 import org.qi4j.bootstrap.ModuleAssembly;
 import static org.qi4j.chronos.ui.wicket.authentication.Constants.MODULE_NAME_WICKET_AUTHENTICATION;
@@ -27,7 +27,7 @@ public final class WicketAuthenticationModuleInitializer
      * @since 0.1.0
      */
     public static void addWicketAuthenticationModule( LayerAssembly aLayerAssembly )
-        throws IllegalArgumentException, AssemblerException
+        throws IllegalArgumentException, AssemblyException
 
     {
         validateNotNull( "aModuleAssembly", aLayerAssembly );
