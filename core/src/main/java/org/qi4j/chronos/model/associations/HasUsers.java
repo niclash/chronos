@@ -13,10 +13,10 @@
 package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
-import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.User;
 import org.qi4j.composite.Mixins;
 import org.qi4j.composite.scope.AssociationField;
+import org.qi4j.entity.association.SetAssociation;
 
 /**
  * Describe association with {@link User}

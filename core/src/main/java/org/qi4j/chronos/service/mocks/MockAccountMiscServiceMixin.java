@@ -18,7 +18,7 @@ import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.composite.scope.ThisCompositeAs;
-import org.qi4j.association.SetAssociation;
+import org.qi4j.entity.association.SetAssociation;
 
 public abstract class MockAccountMiscServiceMixin implements AccountService
 {

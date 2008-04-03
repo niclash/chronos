@@ -22,7 +22,7 @@ import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.login.LoginUserEditPanel;
-import org.qi4j.association.SetAssociation;
+import org.qi4j.entity.association.SetAssociation;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

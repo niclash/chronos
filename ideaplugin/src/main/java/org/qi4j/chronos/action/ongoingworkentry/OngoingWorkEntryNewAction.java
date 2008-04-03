@@ -13,7 +13,6 @@
 package org.qi4j.chronos.action.ongoingworkentry;
 
 import com.intellij.openapi.actionSystem.AnActionEvent;
-import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.action.task.TaskBaseAction;
 import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
@@ -22,6 +21,7 @@ import org.qi4j.chronos.task.TaskListComponent;
 import org.qi4j.chronos.util.ChronosUtil;
 import org.qi4j.chronos.util.DateUtil;
 import org.qi4j.chronos.util.UiUtil;
+import org.qi4j.entity.association.SetAssociation;
 
 public class OngoingWorkEntryNewAction extends TaskBaseAction
 {

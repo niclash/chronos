@@ -14,10 +14,10 @@
 package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
-import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.composites.ContactComposite;
 import org.qi4j.composite.Mixins;
 import org.qi4j.composite.scope.AssociationField;
+import org.qi4j.entity.association.SetAssociation;
 
 /**
  * Generic interface to describe association with {@link org.qi4j.chronos.model.composites.ContactComposite}

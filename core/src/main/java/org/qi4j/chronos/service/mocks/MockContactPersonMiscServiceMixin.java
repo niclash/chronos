@@ -15,13 +15,13 @@ package org.qi4j.chronos.service.mocks;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import org.qi4j.association.SetAssociation;
+import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.model.associations.HasContactPersons;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
-import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.service.ContactPersonService;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.composite.scope.ThisCompositeAs;
+import org.qi4j.entity.association.SetAssociation;
 import org.qi4j.property.Property;
 
 public abstract class MockContactPersonMiscServiceMixin implements ContactPersonService

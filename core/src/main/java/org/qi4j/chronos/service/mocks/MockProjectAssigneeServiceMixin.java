@@ -15,7 +15,7 @@ package org.qi4j.chronos.service.mocks;
 import java.util.Iterator;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.association.SetAssociation;
+import org.qi4j.entity.association.SetAssociation;
 
 public class MockProjectAssigneeServiceMixin extends MockProjectBasedServiceMixin<ProjectAssigneeEntityComposite>
 {

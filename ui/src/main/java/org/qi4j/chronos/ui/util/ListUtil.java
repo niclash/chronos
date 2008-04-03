@@ -15,7 +15,6 @@ package org.qi4j.chronos.ui.util;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
-import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.PriceRateType;
 import org.qi4j.chronos.model.ProjectStatus;
 import org.qi4j.chronos.model.TaskStatus;
@@ -32,6 +31,7 @@ import org.qi4j.chronos.ui.pricerate.PriceRateDelegator;
 import org.qi4j.chronos.ui.projectrole.ProjectRoleDelegator;
 import org.qi4j.chronos.ui.staff.StaffDelegator;
 import org.qi4j.chronos.util.CurrencyUtil;
+import org.qi4j.entity.association.SetAssociation;
 import org.qi4j.library.general.model.GenderType;
 
 public final class ListUtil

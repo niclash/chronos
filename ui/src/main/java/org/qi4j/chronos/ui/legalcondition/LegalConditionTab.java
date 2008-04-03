@@ -20,7 +20,7 @@ import org.qi4j.chronos.model.composites.LegalConditionComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.ui.common.NewLinkPanel;
 import org.qi4j.chronos.ui.common.tab.NewLinkTab;
-import org.qi4j.association.SetAssociation;
+import org.qi4j.entity.association.SetAssociation;
 
 public abstract class LegalConditionTab extends NewLinkTab
 {

@@ -24,8 +24,6 @@ import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.model.Model;
-import org.qi4j.association.Association;
-import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.ProjectStatus;
 import org.qi4j.chronos.model.TimeRange;
@@ -45,6 +43,8 @@ import org.qi4j.chronos.ui.customer.CustomerDelegator;
 import org.qi4j.chronos.ui.pricerate.PriceRateScheduleOptionPanel;
 import org.qi4j.chronos.ui.util.ValidatorUtil;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
+import org.qi4j.entity.association.Association;
+import org.qi4j.entity.association.SetAssociation;
 
 public abstract class ProjectAddEditPage extends AddEditBasePage
 {

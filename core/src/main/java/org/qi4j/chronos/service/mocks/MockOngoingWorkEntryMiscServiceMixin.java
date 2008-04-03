@@ -13,7 +13,6 @@
 package org.qi4j.chronos.service.mocks;
 
 import java.util.List;
-import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
@@ -21,6 +20,7 @@ import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.OngoingWorkEntryService;
 import org.qi4j.composite.scope.ThisCompositeAs;
+import org.qi4j.entity.association.SetAssociation;
 
 public abstract class MockOngoingWorkEntryMiscServiceMixin implements OngoingWorkEntryService
 {

@@ -12,8 +12,8 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.composites.ProjectRoleComposite;
+import org.qi4j.entity.association.SetAssociation;
 
 public interface HasProjectRoles
 {

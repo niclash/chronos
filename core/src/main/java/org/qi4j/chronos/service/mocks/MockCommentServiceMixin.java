@@ -17,12 +17,12 @@ import java.util.Collection;
 import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
-import org.qi4j.association.ManyAssociation;
+import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.model.associations.HasComments;
 import org.qi4j.chronos.model.composites.CommentComposite;
-import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.service.CommentService;
 import org.qi4j.chronos.service.FindFilter;
+import org.qi4j.entity.association.ManyAssociation;
 
 public class MockCommentServiceMixin implements CommentService
 {

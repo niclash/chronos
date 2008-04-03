@@ -14,10 +14,10 @@
 package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
-import org.qi4j.association.ManyAssociation;
 import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.composite.Mixins;
 import org.qi4j.composite.scope.AssociationField;
+import org.qi4j.entity.association.ManyAssociation;
 
 @Mixins( HasComments.HasCommentsMixin.class )
 public interface HasComments

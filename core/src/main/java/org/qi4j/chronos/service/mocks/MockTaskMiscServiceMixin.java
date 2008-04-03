@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import org.qi4j.association.SetAssociation;
 import org.qi4j.chronos.model.TaskStatus;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
@@ -27,6 +26,7 @@ import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.TaskService;
 import org.qi4j.composite.scope.ThisCompositeAs;
+import org.qi4j.entity.association.SetAssociation;
 
 public abstract class MockTaskMiscServiceMixin implements TaskService
 {
