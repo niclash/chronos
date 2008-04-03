@@ -39,7 +39,7 @@ public class MockWorkEntryServiceMixin implements WorkEntryService
 
         String uid = UUID.randomUUID().toString();
 
-        compositeBuilder.propertiesFor( Identity.class ).identity().set( uid );
+        compositeBuilder.stateFor( Identity.class ).identity().set( uid );
 
         return (WorkEntryEntityComposite) compositeBuilder.newInstance();
     }

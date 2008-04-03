@@ -108,7 +108,7 @@ public abstract class MockParentBasedServiceMixin<ITEM extends Identity, PARENT 
 
         String uid = UUID.randomUUID().toString();
 
-        compositeBuilder.propertiesFor( Identity.class ).identity().set( uid );
+        compositeBuilder.stateFor( Identity.class ).identity().set( uid );
 
         return (ITEM) compositeBuilder.newInstance();
     }

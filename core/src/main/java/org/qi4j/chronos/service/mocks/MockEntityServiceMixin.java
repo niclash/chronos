@@ -88,7 +88,7 @@ public class MockEntityServiceMixin
         CompositeBuilder<Composite> compositeBuilder = factory.newCompositeBuilder( clazz );
         String uid = UUID.randomUUID().toString();
 
-        compositeBuilder.propertiesFor( Identity.class ).identity().set( uid );
+        compositeBuilder.stateFor( Identity.class ).identity().set( uid );
 
         return (Identity) compositeBuilder.newInstance();
     }
