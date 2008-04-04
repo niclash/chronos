@@ -1,22 +1,17 @@
 package org.qi4j.chronos.ui.wicket.authentication.concerns;
 
 import org.apache.wicket.authorization.strategies.role.Roles;
-import static org.qi4j.chronos.model.SystemRole.ACCOUNT_ADMIN;
-import static org.qi4j.chronos.model.SystemRole.ACCOUNT_DEVELOPER;
-import static org.qi4j.chronos.model.SystemRole.CONTACT_PERSON;
-import static org.qi4j.chronos.model.SystemRole.STAFF;
+import static org.qi4j.chronos.model.SystemRole.*;
 import org.qi4j.chronos.ui.wicket.authentication.RoleHelperComposite;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
-import org.qi4j.composite.scope.ConcernFor;
+import org.qi4j.composite.ConcernOf;
 
 /**
  * @author edward.yakop@gmail.com
  */
-public abstract class RoleHelperChornosSessionConcern
+public abstract class RoleHelperChornosSessionConcern extends ConcernOf<RoleHelperComposite>
     implements RoleHelperComposite
 {
-    @ConcernFor RoleHelperComposite ignored;
-
     public final boolean isAdmin()
     {
         Roles roles = getCurrentUserRoles();
