@@ -34,6 +34,7 @@
     <orderEntry type="library" name="log4j-1.2.6" level="project" />
     <orderEntry type="module" module-name="core-testsupport" />
     <orderEntry type="library" name="junit" level="project" />
+    <orderEntry type="module" module-name="extension-persistence-memory" />
     <orderEntryProperties />
   </component>
 </module>

@@ -20,13 +20,62 @@ import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.bootstrap.SingletonAssembler;
 import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.service.composites.ServicesComposite;
+import org.qi4j.chronos.service.composites.AccountServiceComposite;
+import org.qi4j.chronos.service.composites.CommentServiceComposite;
+import org.qi4j.chronos.service.composites.ContactPersonServiceComposite;
+import org.qi4j.chronos.service.composites.AdminServiceComposite;
+import org.qi4j.chronos.service.composites.ContactServiceComposite;
+import org.qi4j.chronos.service.composites.CustomerServiceComposite;
+import org.qi4j.chronos.service.composites.LegalConditionServiceComposite;
+import org.qi4j.chronos.service.composites.OngoingWorkEntryServiceComposite;
+import org.qi4j.chronos.service.composites.PriceRateScheduleServiceComposite;
+import org.qi4j.chronos.service.composites.PriceRateServiceComposite;
+import org.qi4j.chronos.service.composites.ProjectAssigneeServiceComposite;
+import org.qi4j.chronos.service.composites.ProjectRoleServiceComposite;
+import org.qi4j.chronos.service.composites.ProjectServiceComposite;
+import org.qi4j.chronos.service.composites.RelationshipServiceComposite;
+import org.qi4j.chronos.service.composites.StaffServiceComposite;
+import org.qi4j.chronos.service.composites.SystemRoleServiceComposite;
+import org.qi4j.chronos.service.composites.TaskServiceComposite;
+import org.qi4j.chronos.service.composites.WorkEntryServiceComposite;
+import org.qi4j.chronos.service.composites.UserServiceComposite;
 import org.qi4j.chronos.ui.admin.AdminHomePage;
 import org.qi4j.chronos.ui.contactperson.ContactPersonHomePage;
 import org.qi4j.chronos.ui.login.LoginPage;
 import org.qi4j.chronos.ui.staff.StaffHomePage;
+import org.qi4j.chronos.model.composites.AddressComposite;
+import org.qi4j.chronos.model.composites.ContactComposite;
+import org.qi4j.chronos.model.composites.ContactTypeComposite;
+import org.qi4j.chronos.model.composites.LegalConditionComposite;
+import org.qi4j.chronos.model.composites.SystemRoleComposite;
+import org.qi4j.chronos.model.composites.PriceRateComposite;
+import org.qi4j.chronos.model.composites.CommentComposite;
+import org.qi4j.chronos.model.composites.MoneyComposite;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.composites.AdminEntityComposite;
+import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
+import org.qi4j.chronos.model.composites.LoginComposite;
+import org.qi4j.chronos.model.composites.NameWithReferenceComposite;
+import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
+import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
+import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectRoleComposite;
+import org.qi4j.chronos.model.composites.RelationshipComposite;
+import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.composites.SystemEntityComposite;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.model.composites.TimeRangeComposite;
+import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.composite.Composite;
 import org.qi4j.composite.CompositeBuilder;
 import org.qi4j.composite.CompositeBuilderFactory;
+import org.qi4j.entity.memory.MemoryEntityStoreComposite;
+import org.qi4j.spi.entity.UuidIdentityGeneratorComposite;
+import org.qi4j.library.general.model.composites.CityComposite;
+import org.qi4j.library.general.model.composites.StateComposite;
+import org.qi4j.library.general.model.composites.CountryComposite;
 
 public class ChronosWebApp extends AuthenticatedWebApplication
 {
@@ -40,7 +89,60 @@ public class ChronosWebApp extends AuthenticatedWebApplication
         {
             public void assemble( ModuleAssembly module ) throws AssemblyException
             {
-                module.addComposites( ServicesComposite.class );
+                module.addComposites(
+                    CityComposite.class,
+                    StateComposite.class,
+                    CountryComposite.class,
+                    AddressComposite.class,
+                    ContactComposite.class,
+                    ContactTypeComposite.class,
+                    LegalConditionComposite.class,
+                    SystemRoleComposite.class,
+                    PriceRateComposite.class,
+                    MoneyComposite.class,
+                    CommentComposite.class,
+                    AccountEntityComposite.class,
+                    AdminEntityComposite.class,
+                    ContactPersonEntityComposite.class,
+                    CustomerEntityComposite.class,
+                    LoginComposite.class,
+                    NameWithReferenceComposite.class,
+                    OngoingWorkEntryEntityComposite.class,
+                    PriceRateScheduleComposite.class,
+                    ProjectAssigneeEntityComposite.class,
+                    ProjectEntityComposite.class,
+                    ProjectRoleComposite.class,
+                    RelationshipComposite.class,
+                    StaffEntityComposite.class,
+                    SystemEntityComposite.class,
+                    TaskEntityComposite.class,
+                    TimeRangeComposite.class,
+                    WorkEntryEntityComposite.class,
+                    CommentServiceComposite.class,
+                    ContactPersonServiceComposite.class,
+                    AccountServiceComposite.class,
+                    AdminServiceComposite.class,
+                    ContactServiceComposite.class,
+                    CustomerServiceComposite.class,
+                    LegalConditionServiceComposite.class,
+                    OngoingWorkEntryServiceComposite.class,
+                    PriceRateScheduleServiceComposite.class,
+                    PriceRateServiceComposite.class,
+                    ProjectAssigneeServiceComposite.class,
+                    ProjectRoleServiceComposite.class,
+                    ProjectServiceComposite.class,
+                    RelationshipServiceComposite.class,
+                    StaffServiceComposite.class,
+                    SystemRoleServiceComposite.class,
+                    TaskServiceComposite.class,
+                    UserServiceComposite.class,
+                    WorkEntryServiceComposite.class
+                );
+                module.addServices(
+                    ServicesComposite.class,
+                    MemoryEntityStoreComposite.class,
+                    UuidIdentityGeneratorComposite.class
+                );
             }
         };
         factory = assembly.getCompositeBuilderFactory();

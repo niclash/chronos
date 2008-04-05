@@ -30,7 +30,8 @@ import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 
 public class LoginPage extends BasePage
 {
-    private PasswordTextField password;
+    //TODO fix Password field
+    private TextField password;
 
     private TextField username;
 
@@ -57,7 +58,7 @@ public class LoginPage extends BasePage
 
     private class LoginForm extends Form
     {
-        private final static String SYSTEM_ACCOUNT = "[ Sytem ]";
+        private final static String SYSTEM_ACCOUNT = "[ System ]";
 
         private final ValueMap properties = new ValueMap();
 
@@ -79,7 +80,7 @@ public class LoginPage extends BasePage
             accountDropDownChoice = new SimpleDropDownChoice<AccountDelegator>( "accountDropDownChoice", accountList, true );
 
             username = new TextField( "username", new PropertyModel( properties, "username" ) );
-            password = new PasswordTextField( "password", new PropertyModel( properties, "password" ) );
+            password = new TextField( "password", new PropertyModel( properties, "password" ) );
 
             username.setPersistent( true );
             password.setPersistent( true );
