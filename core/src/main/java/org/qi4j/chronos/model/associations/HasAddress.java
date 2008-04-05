@@ -13,28 +13,10 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import java.io.Serializable;
-import org.qi4j.composite.Mixins;
-import org.qi4j.composite.scope.PropertyField;
 import org.qi4j.library.general.model.Address;
 import org.qi4j.property.Property;
 
-@Mixins( HasAddress.HasAddressMixin.class )
 public interface HasAddress
 {
     Property<Address> address();
-
-    final class HasAddressMixin
-        implements HasAddress, Serializable
-    {
-        private static final long serialVersionUID = 1L;
-
-        @PropertyField
-        private Property<Address> address;
-
-        public final Property<Address> address()
-        {
-            return address;
-        }
-    }
 }

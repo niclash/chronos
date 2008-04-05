@@ -22,6 +22,7 @@ import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.composite.CompositeBuilderFactory;
 import org.qi4j.composite.scope.Structure;
 import org.qi4j.entity.association.SetAssociation;
+import org.qi4j.library.general.model.Contact;
 
 public class MockContactServiceMixin implements ContactService
 {

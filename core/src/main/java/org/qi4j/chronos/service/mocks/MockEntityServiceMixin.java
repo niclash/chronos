@@ -25,6 +25,8 @@ import org.qi4j.composite.CompositeBuilder;
 import org.qi4j.composite.CompositeBuilderFactory;
 import org.qi4j.composite.scope.Structure;
 import org.qi4j.entity.Identity;
+import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.entity.UnitOfWork;
 import org.qi4j.library.framework.validation.Validatable;
 
 public class MockEntityServiceMixin
@@ -33,6 +35,7 @@ public class MockEntityServiceMixin
     private Map<String, Identity> dataMap;
 
     @Structure private CompositeBuilderFactory factory;
+    @Structure private UnitOfWorkFactory uowFactory;
 
     public MockEntityServiceMixin()
     {
@@ -85,10 +88,8 @@ public class MockEntityServiceMixin
 
     public Identity newInstance( Class clazz )
     {
-        CompositeBuilder<Composite> compositeBuilder = factory.newCompositeBuilder( clazz );
-        String uid = UUID.randomUUID().toString();
-
-        compositeBuilder.stateFor( Identity.class ).identity().set( uid );
+        UnitOfWork uow = uowFactory.currentUnitOfWork() == null ? uowFactory.newUnitOfWork() : uowFactory.currentUnitOfWork();
+        CompositeBuilder<Composite> compositeBuilder = uow.newEntityBuilder( clazz );
 
         return (Identity) compositeBuilder.newInstance();
     }

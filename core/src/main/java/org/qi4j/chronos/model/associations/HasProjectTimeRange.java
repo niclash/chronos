@@ -13,38 +13,12 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import java.io.Serializable;
 import org.qi4j.chronos.model.TimeRange;
-import org.qi4j.composite.Mixins;
-import org.qi4j.composite.scope.PropertyField;
 import org.qi4j.property.Property;
 
-@Mixins( HasProjectTimeRange.HasProjectTimeRangeMixin.class )
-public interface HasProjectTimeRange extends Serializable
+public interface HasProjectTimeRange
 {
     Property<TimeRange> estimateTime();
 
     Property<TimeRange> actualTime();
-
-    final class HasProjectTimeRangeMixin
-        implements HasProjectTimeRange, Serializable
-    {
-        private static final long serialVersionUID = 1L;
-
-        @PropertyField
-        private Property<TimeRange> actualTime;
-
-        @PropertyField
-        private Property<TimeRange> estimateTime;
-
-        public final Property<TimeRange> actualTime()
-        {
-            return actualTime;
-        }
-
-        public final Property<TimeRange> estimateTime()
-        {
-            return estimateTime;
-        }
-    }
 }

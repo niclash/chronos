@@ -24,10 +24,13 @@ import org.qi4j.composite.CompositeBuilderFactory;
 import org.qi4j.composite.scope.Structure;
 import org.qi4j.entity.EntityComposite;
 import org.qi4j.entity.Identity;
+import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.entity.UnitOfWork;
 
 public abstract class MockParentBasedServiceMixin<ITEM extends Identity, PARENT extends EntityComposite> implements ParentBasedService<ITEM, PARENT>
 {
     @Structure private CompositeBuilderFactory factory;
+    @Structure private UnitOfWorkFactory uowFactory;
 
     public MockParentBasedServiceMixin()
     {
@@ -104,11 +107,8 @@ public abstract class MockParentBasedServiceMixin<ITEM extends Identity, PARENT 
 
     public final ITEM newInstance( Class<? extends EntityComposite> clazz )
     {
-        CompositeBuilder<? extends EntityComposite> compositeBuilder = factory.newCompositeBuilder( clazz );
-
-        String uid = UUID.randomUUID().toString();
-
-        compositeBuilder.stateFor( Identity.class ).identity().set( uid );
+        UnitOfWork uow = uowFactory.currentUnitOfWork() == null ? uowFactory.newUnitOfWork() : uowFactory.currentUnitOfWork();
+        CompositeBuilder<? extends EntityComposite> compositeBuilder = uow.newEntityBuilder( clazz );
 
         return (ITEM) compositeBuilder.newInstance();
     }

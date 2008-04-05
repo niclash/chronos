@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import org.qi4j.chronos.model.SystemRoleType;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.SystemRoleComposite;
 import org.qi4j.chronos.service.SystemRoleService;
 

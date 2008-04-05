@@ -12,6 +12,7 @@
  */
 package org.qi4j.chronos.model.associations;
 
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.SystemRoleComposite;
 import org.qi4j.entity.association.SetAssociation;
 

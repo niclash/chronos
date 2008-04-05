@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.AdminEntityComposite;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;

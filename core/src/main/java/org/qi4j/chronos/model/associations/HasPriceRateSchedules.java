@@ -19,5 +19,4 @@ import org.qi4j.entity.association.SetAssociation;
 public interface HasPriceRateSchedules
 {
     SetAssociation<PriceRateScheduleComposite> priceRateSchedules();
-
 }

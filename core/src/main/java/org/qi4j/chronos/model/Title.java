@@ -13,27 +13,9 @@
  */
 package org.qi4j.chronos.model;
 
-import java.io.Serializable;
-import org.qi4j.composite.Mixins;
-import org.qi4j.composite.scope.PropertyField;
 import org.qi4j.property.Property;
 
-@Mixins( Title.TitleMixin.class )
 public interface Title
 {
     Property<String> title();
-
-    final class TitleMixin
-        implements Title, Serializable
-    {
-        private static final long serialVersionUID = 1L;
-
-        @PropertyField
-        private Property<String> title;
-
-        public final Property<String> title()
-        {
-            return title;
-        }
-    }
 }

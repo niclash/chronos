@@ -12,31 +12,13 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import java.io.Serializable;
 import org.qi4j.chronos.model.composites.RelationshipComposite;
-import org.qi4j.composite.Mixins;
-import org.qi4j.composite.scope.PropertyField;
 import org.qi4j.property.Property;
 
 /**
  * Generic interface to describe association with relationship.
  */
-@Mixins( HasRelationship.HasRelationshipMixin.class )
-public interface HasRelationship extends Serializable
+public interface HasRelationship
 {
     Property<RelationshipComposite> relationship();
-
-    final class HasRelationshipMixin
-        implements HasRelationship, Serializable
-    {
-        private static final long serialVersionUID = 1L;
-
-        @PropertyField
-        private Property<RelationshipComposite> relationship;
-
-        public final Property<RelationshipComposite> relationship()
-        {
-            return relationship;
-        }
-    }
 }

@@ -13,31 +13,14 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import java.io.Serializable;
 import org.qi4j.chronos.model.composites.ContactComposite;
-import org.qi4j.composite.Mixins;
-import org.qi4j.composite.scope.AssociationField;
 import org.qi4j.entity.association.SetAssociation;
+import org.qi4j.library.general.model.Contact;
 
 /**
  * Generic interface to describe association with {@link org.qi4j.chronos.model.composites.ContactComposite}
  */
-@Mixins( HasContacts.HasContactsMixin.class )
 public interface HasContacts
 {
     SetAssociation<ContactComposite> contacts();
-
-    final class HasContactsMixin
-        implements HasContacts, Serializable
-    {
-        private static final long serialVersionUID = 1L;
-
-        @AssociationField
-        private SetAssociation<ContactComposite> contacts;
-
-        public final SetAssociation<ContactComposite> contacts()
-        {
-            return contacts;
-        }
-    }
 }

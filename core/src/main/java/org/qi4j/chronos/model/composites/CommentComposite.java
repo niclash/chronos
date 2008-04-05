@@ -14,9 +14,9 @@
 package org.qi4j.chronos.model.composites;
 
 import org.qi4j.chronos.model.Comment;
-import org.qi4j.composite.Composite;
+import org.qi4j.entity.EntityComposite;
 
-public interface CommentComposite extends Comment, Composite
+public interface CommentComposite extends Comment, EntityComposite
 {
 
 }

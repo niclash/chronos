@@ -12,28 +12,10 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import java.io.Serializable;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
-import org.qi4j.composite.Mixins;
-import org.qi4j.composite.scope.AssociationField;
 import org.qi4j.entity.association.Association;
 
-@Mixins( HasPriceRate.HasPriceRateMixin.class )
 public interface HasPriceRate
 {
     Association<PriceRateComposite> priceRate();
-
-    final class HasPriceRateMixin
-        implements HasPriceRate, Serializable
-    {
-        private static final long serialVersionUID = 1L;
-
-        @AssociationField
-        private Association<PriceRateComposite> priceRate;
-
-        public final Association<PriceRateComposite> priceRate()
-        {
-            return priceRate;
-        }
-    }
 }

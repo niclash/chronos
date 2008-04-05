@@ -20,9 +20,23 @@ import org.qi4j.chronos.model.composites.ProjectRoleComposite;
 import org.qi4j.chronos.model.composites.RelationshipComposite;
 import org.qi4j.composite.CompositeBuilderFactory;
 import org.qi4j.entity.association.SetAssociation;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.library.general.model.Contact;
 
 public final class CloneUtil
 {
+    public static PriceRateComposite clonePriceRate( UnitOfWorkFactory factory, PriceRateComposite priceRate )
+    {
+        PriceRateComposite cloned = factory.currentUnitOfWork().newEntityBuilder( PriceRateComposite.class ).newInstance();
+
+        cloned.amount().set( priceRate.amount().get() );
+        cloned.priceRateType().set( priceRate.priceRateType().get() );
+        cloned.projectRole().set( priceRate.projectRole().get() );
+
+        return cloned;
+    }
+
     public static PriceRateComposite clonePriceRate( CompositeBuilderFactory factory, PriceRateComposite priceRate )
     {
         PriceRateComposite cloned = factory.newCompositeBuilder( PriceRateComposite.class ).newInstance();
@@ -44,6 +58,23 @@ public final class CloneUtil
         return cloned;
     }
 
+    public static PriceRateScheduleComposite clonePriceRateSchedule( UnitOfWorkFactory factory, PriceRateScheduleComposite priceRateSchedule )
+    {
+        PriceRateScheduleComposite cloned = factory.currentUnitOfWork().newEntityBuilder( PriceRateScheduleComposite.class ).newInstance();
+
+        cloned.name().set( priceRateSchedule.name().get() );
+        cloned.currency().set( priceRateSchedule.currency().get() );
+
+        SetAssociation<PriceRateComposite> clonedPriceRates = cloned.priceRates();
+
+        for( PriceRateComposite priceRateComposite : priceRateSchedule.priceRates() )
+        {
+            clonedPriceRates.add( clonePriceRate( factory, priceRateComposite ) );
+        }
+
+        return cloned;
+    }
+
     public static PriceRateScheduleComposite clonePriceRateSchedule( CompositeBuilderFactory factory, PriceRateScheduleComposite priceRateSchedule )
     {
         PriceRateScheduleComposite cloned = factory.newCompositeBuilder( PriceRateScheduleComposite.class ).newInstance();
@@ -51,11 +82,11 @@ public final class CloneUtil
         cloned.name().set( priceRateSchedule.name().get() );
         cloned.currency().set( priceRateSchedule.currency().get() );
 
-
-        SetAssociation<PriceRateComposite> clonedPriceRates = cloned.priceRates();
+//        SetAssociation<PriceRateComposite> clonedPriceRates = cloned.priceRates();
         for( PriceRateComposite priceRateComposite : priceRateSchedule.priceRates() )
         {
-            clonedPriceRates.add( clonePriceRate( factory, priceRateComposite ) );
+//            clonedPriceRates.add( clonePriceRate( factory, priceRateComposite ) );
+            cloned.priceRates().add( clonePriceRate( factory, priceRateComposite ) );
         }
 
         return cloned;

@@ -16,9 +16,10 @@ import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.service.mocks.MockServicesMixin;
 import org.qi4j.composite.Composite;
 import org.qi4j.composite.Mixins;
+import org.qi4j.service.ServiceComposite;
 
 //TODO bp. use mock services for now.
 @Mixins( MockServicesMixin.class )
-public interface ServicesComposite extends Services, Composite
+public interface ServicesComposite extends Services, ServiceComposite
 {
 }

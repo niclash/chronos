@@ -12,28 +12,10 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import java.io.Serializable;
 import org.qi4j.chronos.model.Account;
-import org.qi4j.composite.Mixins;
-import org.qi4j.composite.scope.AssociationField;
 import org.qi4j.entity.association.SetAssociation;
 
-@Mixins( HasAccounts.HasAccountsMixin.class )
 public interface HasAccounts
 {
     SetAssociation<Account> accounts();
-
-    final class HasAccountsMixin
-        implements HasAccounts, Serializable
-    {
-        private static final long serialVersionUID = 1L;
-
-        @AssociationField
-        private SetAssociation<Account> accounts;
-
-        public final SetAssociation<Account> accounts()
-        {
-            return accounts;
-        }
-    }
 }

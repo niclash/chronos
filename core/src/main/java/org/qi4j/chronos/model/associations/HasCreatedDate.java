@@ -13,27 +13,9 @@
 package org.qi4j.chronos.model.associations;
 
 import java.util.Date;
-import java.io.Serializable;
-import org.qi4j.composite.Mixins;
-import org.qi4j.composite.scope.PropertyField;
 import org.qi4j.property.Property;
 
-@Mixins( HasCreatedDate.HasCreatedDateMixin.class )
 public interface HasCreatedDate
 {
     Property<Date> createdDate();
-
-    final class HasCreatedDateMixin
-        implements HasCreatedDate, Serializable
-    {
-        private static final long serialVersionUID = 1L;
-
-        @PropertyField
-        private Property<Date> createdDate;
-
-        public final Property<Date> createdDate()
-        {
-            return createdDate;
-        }
-    }
 }

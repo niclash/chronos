@@ -16,6 +16,7 @@ import java.util.Collection;
 import java.util.List;
 import org.qi4j.chronos.model.associations.HasContacts;
 import org.qi4j.chronos.model.composites.ContactComposite;
+import org.qi4j.library.general.model.Contact;
 
 public interface ContactService
 {

@@ -12,28 +12,10 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import java.io.Serializable;
 import org.qi4j.chronos.model.TaskStatus;
-import org.qi4j.composite.Mixins;
-import org.qi4j.composite.scope.PropertyField;
 import org.qi4j.property.Property;
 
-@Mixins( HasTaskStatus.HasTaskStatusMixin.class )
 public interface HasTaskStatus
 {
     Property<TaskStatus> taskStatus();
-
-    final class HasTaskStatusMixin
-        implements HasTaskStatus, Serializable
-    {
-        private static final long serialVersionUID = 1L;
-
-        @PropertyField
-        private Property<TaskStatus> taskStatus;
-
-        public final Property<TaskStatus> taskStatus()
-        {
-            return taskStatus;
-        }
-    }
 }

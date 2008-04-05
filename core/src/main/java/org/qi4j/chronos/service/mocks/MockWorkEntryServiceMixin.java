@@ -27,19 +27,17 @@ import org.qi4j.composite.CompositeBuilder;
 import org.qi4j.composite.CompositeBuilderFactory;
 import org.qi4j.composite.scope.Structure;
 import org.qi4j.entity.Identity;
+import org.qi4j.entity.UnitOfWorkFactory;
 import org.qi4j.entity.association.SetAssociation;
 
 public class MockWorkEntryServiceMixin implements WorkEntryService
 {
     @Structure CompositeBuilderFactory factory;
+    @Structure UnitOfWorkFactory uowFactory;
 
     public WorkEntryEntityComposite newInstance( Class<? extends WorkEntryEntityComposite> clazz )
     {
-        CompositeBuilder<? extends WorkEntryEntityComposite> compositeBuilder = factory.newCompositeBuilder( clazz );
-
-        String uid = UUID.randomUUID().toString();
-
-        compositeBuilder.stateFor( Identity.class ).identity().set( uid );
+        CompositeBuilder<? extends WorkEntryEntityComposite> compositeBuilder = uowFactory.currentUnitOfWork().newEntityBuilder( clazz );
 
         return (WorkEntryEntityComposite) compositeBuilder.newInstance();
     }

@@ -15,12 +15,12 @@ package org.qi4j.chronos.service.mocks;
 import java.util.List;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.service.ProjectAssigneeService;
-import org.qi4j.composite.scope.PropertyField;
+import org.qi4j.composite.scope.Uses;
 import org.qi4j.entity.Identity;
 
 public abstract class MockProjectAssigneeBasedServiceMixin<ITEM extends Identity> extends MockParentBasedServiceMixin<ITEM, ProjectAssigneeEntityComposite>
 {
-    @PropertyField private ProjectAssigneeService projectAssigneeService;
+    @Uses private ProjectAssigneeService projectAssigneeService;
 
     public MockProjectAssigneeBasedServiceMixin()
     {

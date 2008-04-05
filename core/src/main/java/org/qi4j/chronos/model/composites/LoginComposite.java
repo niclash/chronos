@@ -15,6 +15,7 @@ package org.qi4j.chronos.model.composites;
 
 import org.qi4j.chronos.model.Login;
 import org.qi4j.composite.Composite;
+import org.qi4j.entity.EntityComposite;
 //import org.qi4j.chronos.model.modifiers.RequiredFieldsValidationModifier;
 
 
@@ -22,6 +23,6 @@ import org.qi4j.composite.Composite;
  * Validatable login composite.
  * <p/>
  */
-public interface LoginComposite extends Login, Composite
+public interface LoginComposite extends Login, EntityComposite
 {
 }
