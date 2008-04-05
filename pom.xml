@@ -17,7 +17,7 @@
   <modules>
     <module>core</module>
     <module>ui</module>
-    <module>ideaplugin</module>
+    <!--<module>ideaplugin</module>  Problem to get versions right, since this require 1.6 on Windows+Linux-->
   </modules>
 </project>
 
