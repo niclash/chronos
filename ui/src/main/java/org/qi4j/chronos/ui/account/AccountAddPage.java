@@ -49,6 +49,8 @@ public class AccountAddPage extends AccountAddEditPage
 
             account.address().set( address );
 
+            account.isEnabled().set( true );
+
             //assign data to customer
             assignFieldValueToAccount( account );
 

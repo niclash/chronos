@@ -30,10 +30,6 @@ import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 
 public class LoginPage extends BasePage
 {
-    //TODO fix Password field
-    private TextField password;
-
-    private TextField username;
 
     public LoginPage()
     {
@@ -46,16 +42,6 @@ public class LoginPage extends BasePage
         add( new LoginForm( "loginForm" ) );
     }
 
-    public String getUsername()
-    {
-        return username.getModelObjectAsString();
-    }
-
-    public String getPassword()
-    {
-        return password.getModelObjectAsString();
-    }
-
     private class LoginForm extends Form
     {
         private final static String SYSTEM_ACCOUNT = "[ System ]";
@@ -64,11 +50,26 @@ public class LoginPage extends BasePage
 
         private SimpleDropDownChoice<AccountDelegator> accountDropDownChoice;
 
+        private PasswordTextField password;
+
+        private TextField username;
+
+
         public LoginForm( String id )
         {
             super( id );
 
             initComponents();
+        }
+
+        public String getUsername()
+        {
+            return username.getModelObjectAsString();
+        }
+
+        public String getPassword()
+        {
+            return password.getModelObjectAsString();
         }
 
         private void initComponents()
@@ -80,7 +81,13 @@ public class LoginPage extends BasePage
             accountDropDownChoice = new SimpleDropDownChoice<AccountDelegator>( "accountDropDownChoice", accountList, true );
 
             username = new TextField( "username", new PropertyModel( properties, "username" ) );
-            password = new TextField( "password", new PropertyModel( properties, "password" ) );
+            password = new PasswordTextField( "password", new PropertyModel( properties, "password" ) )
+            {
+                protected boolean supportsPersistence()
+                {
+                    return true;
+                }
+            };
 
             username.setPersistent( true );
             password.setPersistent( true );

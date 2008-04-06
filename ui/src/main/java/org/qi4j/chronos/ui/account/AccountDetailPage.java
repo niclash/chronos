@@ -21,6 +21,7 @@ import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.ui.address.AddressDetailPanel;
 import org.qi4j.chronos.ui.common.SimpleTextField;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
+import org.qi4j.chronos.ui.ChronosWebApp;
 
 public class AccountDetailPage extends LeftMenuNavPage
 {
@@ -36,6 +37,11 @@ public class AccountDetailPage extends LeftMenuNavPage
         initComponents();
     }
 
+    @Override
+    protected AccountEntityComposite getAccount()
+    {
+        return ChronosWebApp.getServices().getAccountService().get( accountId );
+    }
 
     private void initComponents()
     {
