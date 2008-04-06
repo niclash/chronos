@@ -22,10 +22,12 @@ import org.qi4j.chronos.service.PriceRateScheduleService;
 import org.qi4j.composite.CompositeBuilderFactory;
 import org.qi4j.composite.scope.Structure;
 import org.qi4j.entity.association.SetAssociation;
+import org.qi4j.entity.UnitOfWorkFactory;
 
 public class MockPriceRateScheduleServiceMixin implements PriceRateScheduleService
 {
-    @Structure private CompositeBuilderFactory factory;
+//    @Structure private CompositeBuilderFactory factory;
+    @Structure private UnitOfWorkFactory factory;
 
     public List<PriceRateScheduleComposite> findAll( HasPriceRateSchedules hasPriceRateSchedules, FindFilter findFilter )
     {

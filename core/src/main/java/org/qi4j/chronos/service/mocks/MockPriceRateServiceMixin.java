@@ -22,10 +22,12 @@ import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.PriceRateService;
 import org.qi4j.composite.CompositeBuilderFactory;
 import org.qi4j.composite.scope.Structure;
+import org.qi4j.entity.UnitOfWorkFactory;
 
 public class MockPriceRateServiceMixin implements PriceRateService
 {
-    @Structure private CompositeBuilderFactory factory;
+//    @Structure private CompositeBuilderFactory factory;
+    @Structure private UnitOfWorkFactory factory;
 
     public List<PriceRateComposite> findAll( HasPriceRates hasPriceRates, FindFilter findFilter )
     {

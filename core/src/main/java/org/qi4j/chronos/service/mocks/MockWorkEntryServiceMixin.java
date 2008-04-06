@@ -28,6 +28,7 @@ import org.qi4j.composite.CompositeBuilderFactory;
 import org.qi4j.composite.scope.Structure;
 import org.qi4j.entity.Identity;
 import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.association.SetAssociation;
 
 public class MockWorkEntryServiceMixin implements WorkEntryService
@@ -37,6 +38,10 @@ public class MockWorkEntryServiceMixin implements WorkEntryService
 
     public WorkEntryEntityComposite newInstance( Class<? extends WorkEntryEntityComposite> clazz )
     {
+        if( uowFactory.currentUnitOfWork() == null )
+        {
+            uowFactory.newUnitOfWork();
+        }
         CompositeBuilder<? extends WorkEntryEntityComposite> compositeBuilder = uowFactory.currentUnitOfWork().newEntityBuilder( clazz );
 
         return (WorkEntryEntityComposite) compositeBuilder.newInstance();

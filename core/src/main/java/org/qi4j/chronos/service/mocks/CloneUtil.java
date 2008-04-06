@@ -28,6 +28,10 @@ public final class CloneUtil
 {
     public static PriceRateComposite clonePriceRate( UnitOfWorkFactory factory, PriceRateComposite priceRate )
     {
+        if( factory.currentUnitOfWork() == null )
+        {
+            factory.newUnitOfWork();
+        }
         PriceRateComposite cloned = factory.currentUnitOfWork().newEntityBuilder( PriceRateComposite.class ).newInstance();
 
         cloned.amount().set( priceRate.amount().get() );
@@ -60,6 +64,10 @@ public final class CloneUtil
 
     public static PriceRateScheduleComposite clonePriceRateSchedule( UnitOfWorkFactory factory, PriceRateScheduleComposite priceRateSchedule )
     {
+        if( factory.currentUnitOfWork() == null )
+        {
+            factory.newUnitOfWork();
+        }
         PriceRateScheduleComposite cloned = factory.currentUnitOfWork().newEntityBuilder( PriceRateScheduleComposite.class ).newInstance();
 
         cloned.name().set( priceRateSchedule.name().get() );
