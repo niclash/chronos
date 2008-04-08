@@ -46,7 +46,7 @@ public class OngoingWorkEntryListPanel extends AbstractPanel
     {
         table.insertToLastRow(
             DateUtil.formatDateTime( workEntry.createdDate().get() ),
-            workEntry.projectAssignee().get().staff().get().getFullname() );
+            workEntry.projectAssignee().get().staff().get().name().get() );
     }
 
     protected String getLayoutColSpec()
