@@ -421,10 +421,10 @@ public class MockServicesMixin implements Services
 
     private AddressComposite newAddress( String firstLine, String secondLine, String zipCode, String aCity, String aState, String aCountry )
     {
-        AddressComposite address = factory.currentUnitOfWork().compositeBuilderFactory().newCompositeBuilder( AddressComposite.class ).newInstance();
-        CityComposite city = factory.currentUnitOfWork().compositeBuilderFactory().newCompositeBuilder( CityComposite.class ).newInstance();
-        StateComposite state = factory.currentUnitOfWork().compositeBuilderFactory().newCompositeBuilder( StateComposite.class ).newInstance();
-        CountryComposite country = factory.currentUnitOfWork().compositeBuilderFactory().newCompositeBuilder( CountryComposite.class ).newInstance();
+        AddressComposite address = factory.currentUnitOfWork().newEntityBuilder( AddressComposite.class ).newInstance();
+        CityComposite city = factory.currentUnitOfWork().newEntityBuilder( CityComposite.class ).newInstance();
+        StateComposite state = factory.currentUnitOfWork().newEntityBuilder( StateComposite.class ).newInstance();
+        CountryComposite country = factory.currentUnitOfWork().newEntityBuilder( CountryComposite.class ).newInstance();
 
         address.city().set( city );
 

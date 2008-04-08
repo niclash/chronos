@@ -13,16 +13,16 @@
 package org.qi4j.chronos.model.composites;
 
 import org.qi4j.chronos.model.validations.AddressValidatableConcern;
-import org.qi4j.composite.Composite;
 import org.qi4j.composite.Concerns;
 import org.qi4j.composite.Mixins;
 import org.qi4j.library.framework.validation.Validatable;
 import org.qi4j.library.framework.validation.ValidatableMixin;
 import org.qi4j.library.general.model.Address;
 import org.qi4j.library.general.model.Descriptor;
+import org.qi4j.entity.EntityComposite;
 
 @Concerns( AddressValidatableConcern.class )
 @Mixins( ValidatableMixin.class )
-public interface AddressComposite extends Address, Validatable, Descriptor, Composite
+public interface AddressComposite extends Address, Validatable, Descriptor, EntityComposite
 {
 }
