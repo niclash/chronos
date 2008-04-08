@@ -20,7 +20,6 @@ import org.qi4j.chronos.common.text.JMaxLengthTextArea;
 import org.qi4j.chronos.common.text.ReadOnlyTextField;
 import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.chronos.util.DateUtil;
 import org.qi4j.chronos.util.UiUtil;
 
@@ -67,13 +66,13 @@ public abstract class CommentAddEditDialog extends AddEditDialog
         builder.add( UiUtil.createScrollPanel( commentTextArea ), cc.xyw( 3, 3, 5, "fill, fill" ) );
     }
 
-    public void assignFieldValueToComment( CommentComposite comment )
+    public void assignFieldValueToComment( Comment comment )
     {
         comment.text().set( commentTextArea.getText() );
         comment.user().set( getCreatedBy() );
     }
 
-    protected void assignCommentToFieldValue( CommentComposite comment )
+    protected void assignCommentToFieldValue( Comment comment )
     {
         createdDateField.setText( DateUtil.formatDateTime( comment.createdDate().get() ) );
         userField.setText( comment.user().get().name().get() );

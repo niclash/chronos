@@ -14,8 +14,8 @@ package org.qi4j.chronos.comment;
 
 import com.intellij.openapi.project.Project;
 import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.model.associations.HasComments;
-import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.chronos.service.CommentService;
 
 public abstract class CommentEditDialog extends CommentAddEditDialog
@@ -28,14 +28,14 @@ public abstract class CommentEditDialog extends CommentAddEditDialog
 
     public void handleOkClicked()
     {
-        CommentComposite comment = getComment();
+        Comment comment = getComment();
 
         CommentService commentService = getServices().getCommentService();
 
         //TODO bp, different from web app? because getComment always return same instance?
         String ownerId = comment.user().get().identity().get();
 
-        CommentComposite oldComment = commentService.get( getHasComments(), comment.createdDate().get(), ownerId );
+        Comment oldComment = commentService.get( getHasComments(), comment.createdDate().get(), ownerId );
 
         //set values
         assignFieldValueToComment( comment );
@@ -59,7 +59,7 @@ public abstract class CommentEditDialog extends CommentAddEditDialog
         return getComment().user().get();
     }
 
-    public abstract CommentComposite getComment();
+    public abstract Comment getComment();
 
     public abstract HasComments getHasComments();
 }

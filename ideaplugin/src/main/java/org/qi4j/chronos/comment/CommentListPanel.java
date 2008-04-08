@@ -18,9 +18,9 @@ import java.util.List;
 import org.qi4j.chronos.common.AbstractPanel;
 import org.qi4j.chronos.common.ChronosTable;
 import org.qi4j.chronos.common.ChronosTableModel;
-import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.chronos.util.DateUtil;
 import org.qi4j.chronos.util.UiUtil;
+import org.qi4j.chronos.model.Comment;
 
 public class CommentListPanel extends AbstractPanel
 {
@@ -34,15 +34,15 @@ public class CommentListPanel extends AbstractPanel
         init();
     }
 
-    public void initData( List<CommentComposite> comments )
+    public void initData( List<Comment> comments )
     {
-        for( CommentComposite comment : comments )
+        for( Comment comment : comments )
         {
             insertComment( comment );
         }
     }
 
-    private void insertComment( CommentComposite comment )
+    private void insertComment( Comment comment )
     {
         commentTable.insertToLastRow(
             DateUtil.formatDateTime( comment.createdDate().get() ),
