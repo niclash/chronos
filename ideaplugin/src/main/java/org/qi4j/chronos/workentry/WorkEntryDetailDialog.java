@@ -50,7 +50,7 @@ public abstract class WorkEntryDetailDialog extends AbstractDialog
     {
         WorkEntryEntityComposite workEntry = getWorkEntry();
         createdDateField.setText( DateUtil.formatDateTime( workEntry.createdDate().get() ) );
-        userField.setText( workEntry.projectAssignee().get().staff().get().getFullname() );
+        userField.setText( workEntry.projectAssignee().get().staff().get().name().get() );
         titleField.setText( workEntry.title().get() );
         descTextArea.setText( workEntry.description().get() );
         startDateTime.setText( DateUtil.formatDateTime( workEntry.startTime().get() ) );

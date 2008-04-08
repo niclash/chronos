@@ -46,7 +46,7 @@ public abstract class TaskAddEditDialog extends AddEditDialog
     protected void initComponents()
     {
         titleField = new JMaxLengthTextField( Task.TITLE_LEN );
-        userField = new ReadOnlyTextField( getCreatedBy().getFullname() );
+        userField = new ReadOnlyTextField( getCreatedBy().name().get() );
         createdDateField = new ReadOnlyTextField( "--" );
 
         taskStatusComboBox = new JComboBox( TaskStatus.values() );

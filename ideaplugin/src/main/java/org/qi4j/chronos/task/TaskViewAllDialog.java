@@ -141,7 +141,7 @@ public abstract class TaskViewAllDialog extends AbstractDialog
                 return new Object[]{
                     DateUtil.formatDateTime( task.createdDate().get() ),
                     task.taskStatus().get().toString(),
-                    task.user().get().getFullname(),
+                    task.user().get().name().get(),
                     task.title().get()
                 };
             }

@@ -40,7 +40,7 @@ public abstract class CommentAddEditDialog extends AddEditDialog
     {
         createdDateField = new ReadOnlyTextField( "--" );
 
-        userField = new ReadOnlyTextField( getCreatedBy().getFullname() );
+        userField = new ReadOnlyTextField( getCreatedBy().name().get() );
 
         commentTextArea = new JMaxLengthTextArea( Comment.COMMENT_LEN );
     }
@@ -76,7 +76,7 @@ public abstract class CommentAddEditDialog extends AddEditDialog
     protected void assignCommentToFieldValue( CommentComposite comment )
     {
         createdDateField.setText( DateUtil.formatDateTime( comment.createdDate().get() ) );
-        userField.setText( comment.user().get().getFullname() );
+        userField.setText( comment.user().get().name().get() );
         commentTextArea.setText( comment.text().get() );
     }
 

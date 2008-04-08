@@ -55,7 +55,7 @@ public abstract class TaskDetailDialog extends AbstractDialog
         TaskEntityComposite task = getTask();
 
         titleField.setText( task.title().get() );
-        userField.setText( task.user().get().getFullname() );
+        userField.setText( task.user().get().name().get() );
         createdDateField.setText( DateUtil.formatDateTime( task.createdDate().get() ) );
         taskStatusField.setText( task.taskStatus().get().toString() );
         descTextArea.setText( task.description().get() );

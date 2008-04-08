@@ -47,7 +47,7 @@ public abstract class WorkEntryAddEditDialog extends AddEditDialog
         titleField = new JTextField();
         createdDateField = new ReadOnlyTextField( "--" );
 
-        userField = new ReadOnlyTextField( getProjectAssignee().staff().get().getFullname() );
+        userField = new ReadOnlyTextField( getProjectAssignee().staff().get().name().get() );
 
         descTextArea = new JTextArea();
         UiUtil.createScrollPanel( descTextArea );

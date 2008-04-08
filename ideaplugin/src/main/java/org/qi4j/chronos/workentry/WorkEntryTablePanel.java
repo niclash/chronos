@@ -169,7 +169,7 @@ public class WorkEntryTablePanel extends AbstractPanel
                 DateUtil.formatDateTime( workEntry.startTime().get() ),
                 DateUtil.formatDateTime( workEntry.endTime().get() ),
                 DateUtil.getTimeDifferent( workEntry.startTime().get(), workEntry.endTime().get() ),
-                workEntry.projectAssignee().get().staff().get().getFullname(),
+                workEntry.projectAssignee().get().staff().get().name().get(),
                 workEntry.title().get()
             };
         }

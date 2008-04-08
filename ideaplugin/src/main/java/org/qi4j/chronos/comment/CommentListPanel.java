@@ -47,7 +47,7 @@ public class CommentListPanel extends AbstractPanel
         commentTable.insertToLastRow(
             DateUtil.formatDateTime( comment.createdDate().get() ),
             comment.text().get(),
-            comment.user().get().getFullname()
+            comment.user().get().name().get()
         );
     }
 
