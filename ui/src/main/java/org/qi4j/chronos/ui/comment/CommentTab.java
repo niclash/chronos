@@ -14,7 +14,7 @@ package org.qi4j.chronos.ui.comment;
 
 import org.apache.wicket.markup.html.panel.Panel;
 import org.qi4j.chronos.model.associations.HasComments;
-import org.qi4j.chronos.model.composites.CommentComposite;
+import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.ui.common.NewLinkPanel;
 import org.qi4j.chronos.ui.common.tab.NewLinkTab;
 
@@ -52,7 +52,7 @@ public abstract class CommentTab extends NewLinkTab
         {
             CommentAddPage addPage = new CommentAddPage( this.getPage() )
             {
-                public void addComment( CommentComposite comment )
+                public void addComment( Comment comment )
                 {
                     CommentTab.this.addComment( comment );
                 }
@@ -69,5 +69,5 @@ public abstract class CommentTab extends NewLinkTab
 
     public abstract HasComments getHasComments();
 
-    public abstract void addComment( CommentComposite comment );
+    public abstract void addComment( Comment comment );
 }

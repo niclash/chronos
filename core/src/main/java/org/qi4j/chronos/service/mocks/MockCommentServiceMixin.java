@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import org.qi4j.chronos.model.Login;
+import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.model.associations.HasComments;
 import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.chronos.service.CommentService;
@@ -26,16 +27,16 @@ import org.qi4j.entity.association.ManyAssociation;
 
 public class MockCommentServiceMixin implements CommentService
 {
-    public List<CommentComposite> findAll( HasComments hasComments, FindFilter findFilter )
+    public List<Comment> findAll( HasComments hasComments, FindFilter findFilter )
     {
         return findAll( hasComments ).subList( findFilter.getFirst(), findFilter.getFirst() + findFilter.getCount() );
     }
 
-    public List<CommentComposite> findAll( HasComments hasComments )
+    public List<Comment> findAll( HasComments hasComments )
     {
-        Iterator<CommentComposite> iter = hasComments.comments().iterator();
+        Iterator<Comment> iter = hasComments.comments().iterator();
 
-        List<CommentComposite> returnList = new ArrayList<CommentComposite>();
+        List<Comment> returnList = new ArrayList<Comment>();
 
         while( iter.hasNext() )
         {
@@ -50,12 +51,12 @@ public class MockCommentServiceMixin implements CommentService
         return findAll( hasComments ).size();
     }
 
-    public void update( HasComments hasComments, CommentComposite oldComment, CommentComposite newComment )
+    public void update( HasComments hasComments, Comment oldComment, Comment newComment )
     {
-        CommentComposite toBeDeleted = null;
-        ManyAssociation<CommentComposite> commentsAssociation = hasComments.comments();
+        Comment toBeDeleted = null;
+        ManyAssociation<Comment> commentsAssociation = hasComments.comments();
 
-        for( CommentComposite comment : commentsAssociation )
+        for( Comment comment : commentsAssociation )
         {
 
             if( comment.text().get().equals( oldComment.text().get() ) &&
@@ -69,36 +70,35 @@ public class MockCommentServiceMixin implements CommentService
         commentsAssociation.add( newComment );
     }
 
-    public CommentComposite get( HasComments hasComments, Date createdDate, String userId )
+    public Comment get( HasComments hasComments, Date createdDate, String userId )
     {
-
-        for( CommentComposite commentComposite : hasComments.comments() )
+        for( Comment comment : hasComments.comments() )
         {
 
-            String tempId = commentComposite.user().get().identity().get();
-            if( commentComposite.createdDate().get().equals( createdDate ) && tempId.equals( userId ) )
+            String tempId = comment.user().get().identity().get();
+            if( comment.createdDate().get().equals( createdDate ) && tempId.equals( userId ) )
             {
-                return commentComposite;
+                return comment;
             }
         }
 
         return null;
     }
 
-    public void deleteComments( HasComments hasComments, Collection<CommentComposite> comments )
+    public void deleteComments( HasComments hasComments, Collection<Comment> comments )
     {
-        for( CommentComposite comment : comments )
+        for( Comment comment : comments )
         {
-            CommentComposite toBeDeleted = null;
+            Comment toBeDeleted = null;
 
-            for( CommentComposite commentComposite : hasComments.comments() )
+            for( Comment commentInner : hasComments.comments() )
             {
 
-                Login commentsUserLogin = commentComposite.user().get().login().get();
-                if( commentComposite.createdDate().get().equals( comment.createdDate().get() ) &&
+                Login commentsUserLogin = commentInner.user().get().login().get();
+                if( commentInner.createdDate().get().equals( comment.createdDate().get() ) &&
                     commentsUserLogin.name().get().equals( comment.user().get().login().get().name().get() ) )
                 {
-                    toBeDeleted = commentComposite;
+                    toBeDeleted = commentInner;
                     break;
                 }
             }

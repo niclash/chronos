@@ -23,8 +23,8 @@ import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.associations.HasComments;
-import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.ui.comment.CommentTab;
 import org.qi4j.chronos.ui.common.SimpleTextArea;
 import org.qi4j.chronos.ui.common.SimpleTextField;
@@ -114,7 +114,7 @@ public abstract class WorkEntryDetailPage extends LeftMenuNavPage
                     return WorkEntryDetailPage.this.getWorkEntry();
                 }
 
-                public void addComment( CommentComposite comment )
+                public void addComment( Comment comment )
                 {
                     WorkEntryDetailPage.this.addComment( comment );
                 }
@@ -134,7 +134,7 @@ public abstract class WorkEntryDetailPage extends LeftMenuNavPage
         }
     }
 
-    private void addComment( CommentComposite comment )
+    private void addComment( Comment comment )
     {
         WorkEntryEntityComposite workEntry = getWorkEntry();
 

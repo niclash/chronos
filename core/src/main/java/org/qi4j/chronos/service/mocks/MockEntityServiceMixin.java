@@ -54,6 +54,14 @@ public class MockEntityServiceMixin
         dataMap.put( obj.identity().get(), obj );
     }
 
+    public void saveAll( Collection<Identity> objs )
+    {
+        for( Identity identity : objs )
+        {
+            save( identity );
+        }
+    }
+
     private void validate( Identity obj )
     {
         if( obj instanceof Validatable )

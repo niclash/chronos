@@ -17,7 +17,7 @@ import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
-import org.qi4j.chronos.model.composites.CommentComposite;
+import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.ui.common.SimpleTextArea;
 import org.qi4j.chronos.ui.common.SimpleTextField;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
@@ -57,7 +57,7 @@ public abstract class CommentDetailPage extends LeftMenuNavPage
 
         private void initComponents()
         {
-            CommentComposite comment = getComment();
+            Comment comment = getComment();
 
             String createdDateString = DateUtil.formatDateTime( comment.createdDate().get() );
             createdDateField = new SimpleTextField( "createdDateField", createdDateString );
@@ -80,5 +80,5 @@ public abstract class CommentDetailPage extends LeftMenuNavPage
         }
     }
 
-    public abstract CommentComposite getComment();
+    public abstract Comment getComment();
 }

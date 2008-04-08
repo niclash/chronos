@@ -17,8 +17,8 @@ import java.util.Date;
 import java.util.List;
 import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.associations.HasComments;
-import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.service.CommentService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
@@ -27,7 +27,7 @@ import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.util.DateUtil;
 
-public abstract class CommentTable extends ActionTable<CommentComposite, CommentId>
+public abstract class CommentTable extends ActionTable<Comment, CommentId>
 {
     private CommentDataProvider dataProvider;
 
@@ -40,16 +40,16 @@ public abstract class CommentTable extends ActionTable<CommentComposite, Comment
 
     private void addActions()
     {
-        addAction( new SimpleDeleteAction<CommentComposite>( "Delete" )
+        addAction( new SimpleDeleteAction<Comment>( "Delete" )
         {
-            public void performAction( List<CommentComposite> comments )
+            public void performAction( List<Comment> comments )
             {
                 getCommentService().deleteComments( getHasComments(), comments );
             }
         } );
     }
 
-    public AbstractSortableDataProvider<CommentComposite, CommentId> getDetachableDataProvider()
+    public AbstractSortableDataProvider<Comment, CommentId> getDetachableDataProvider()
     {
         if( dataProvider == null )
         {
@@ -65,7 +65,7 @@ public abstract class CommentTable extends ActionTable<CommentComposite, Comment
         return dataProvider;
     }
 
-    public void populateItems( Item item, CommentComposite obj )
+    public void populateItems( Item item, Comment obj )
     {
         User user = obj.user().get();
         String userId = user.identity().get();
@@ -85,7 +85,7 @@ public abstract class CommentTable extends ActionTable<CommentComposite, Comment
             {
                 CommentDetailPage detailPage = new CommentDetailPage( this.getPage() )
                 {
-                    public CommentComposite getComment()
+                    public Comment getComment()
                     {
                         return getCommentService().get( getHasComments(), createdDate, userId );
                     }

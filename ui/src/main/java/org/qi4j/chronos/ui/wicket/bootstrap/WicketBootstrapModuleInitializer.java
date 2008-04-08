@@ -2,8 +2,14 @@ package org.qi4j.chronos.ui.wicket.bootstrap;
 
 import org.qi4j.bootstrap.LayerAssembly;
 import org.qi4j.bootstrap.ModuleAssembly;
+import org.qi4j.bootstrap.AssemblyException;
 import static org.qi4j.chronos.ui.wicket.bootstrap.Constants.MODULE_NAME_WICKET_BOOTSTRAP;
+import org.qi4j.chronos.ui.wicket.authentication.LoginPage;
+import org.qi4j.chronos.service.authentication.AuthenticationService;
+import org.qi4j.chronos.service.authentication.AuthenticationConfiguration;
 import static org.qi4j.composite.NullArgumentException.validateNotNull;
+import org.qi4j.spi.entity.UuidIdentityGeneratorComposite;
+import org.qi4j.entity.memory.MemoryEntityStoreComposite;
 
 /**
  * @author edward.yakop@gmail.com
@@ -19,5 +25,27 @@ public final class WicketBootstrapModuleInitializer
         validateNotNull( "aLayerAssembly", aLayerAssembly );
         ModuleAssembly moduleAssembly = aLayerAssembly.newModuleAssembly();
         moduleAssembly.setName( MODULE_NAME_WICKET_BOOTSTRAP );
+        try
+        {
+            moduleAssembly.addObjects(
+                ChronosWebApp.class,
+                ChronosPageFactory.class,
+                ChronosSession.class,
+                LoginPage.class
+            );
+            moduleAssembly.addComposites(
+                AuthenticationConfiguration.class
+            );
+            moduleAssembly.addServices(
+                AuthenticationService.class,
+                UuidIdentityGeneratorComposite.class,
+                MemoryEntityStoreComposite.class
+            );
+        }
+        catch( AssemblyException e )
+        {
+            System.err.println( e.getLocalizedMessage() );
+            e.printStackTrace();
+        }
     }
 }

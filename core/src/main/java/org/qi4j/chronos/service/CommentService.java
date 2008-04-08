@@ -17,18 +17,19 @@ import java.util.Date;
 import java.util.List;
 import org.qi4j.chronos.model.associations.HasComments;
 import org.qi4j.chronos.model.composites.CommentComposite;
+import org.qi4j.chronos.model.Comment;
 
 public interface CommentService
 {
-    List<CommentComposite> findAll( HasComments hasComments, FindFilter findFilter );
+    List<Comment> findAll( HasComments hasComments, FindFilter findFilter );
 
-    List<CommentComposite> findAll( HasComments hasComments );
+    List<Comment> findAll( HasComments hasComments );
 
     int countAll( HasComments hasComments );
 
-    void update( HasComments hasComments, CommentComposite oldComment, CommentComposite newCommnent );
+    void update( HasComments hasComments, Comment oldComment, Comment newCommnent );
 
-    CommentComposite get( HasComments hasComments, Date createdDate, String userId );
+    Comment get( HasComments hasComments, Date createdDate, String userId );
 
-    void deleteComments( HasComments hasComments, Collection<CommentComposite> comments );
+    void deleteComments( HasComments hasComments, Collection<Comment> comments );
 }

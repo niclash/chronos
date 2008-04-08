@@ -18,6 +18,7 @@ import java.util.Date;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Random;
+import java.util.ArrayList;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.PriceRateType;
 import org.qi4j.chronos.model.ProjectStatus;
@@ -91,6 +92,7 @@ import org.qi4j.composite.scope.Structure;
 import org.qi4j.entity.association.Association;
 import org.qi4j.entity.association.SetAssociation;
 import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.entity.UnitOfWork;
 import org.qi4j.library.general.model.City;
 import org.qi4j.library.general.model.GenderType;
 import org.qi4j.library.general.model.composites.CityComposite;
@@ -220,7 +222,8 @@ public class MockServicesMixin implements Services
 
     private ProjectAssigneeService initProjectAssigneeService( String propertyName, Object propertyValue )
     {
-        CompositeBuilder<ProjectAssigneeServiceComposite> compositeBuilder = factory.currentUnitOfWork().compositeBuilderFactory().newCompositeBuilder( ProjectAssigneeServiceComposite.class );
+        UnitOfWork uow = factory.currentUnitOfWork();
+        CompositeBuilder<ProjectAssigneeServiceComposite> compositeBuilder = uow.compositeBuilderFactory().newCompositeBuilder( ProjectAssigneeServiceComposite.class );
 
         // TODO Fix this. What is it trying to do ?? compositeBuilder.properties( ParentBasedService.class, PropertyValue.property( propertyName, propertyValue ) );
         compositeBuilder.use( propertyValue );
@@ -323,13 +326,14 @@ public class MockServicesMixin implements Services
 
     private ProjectEntityComposite initProjectDummyData( CustomerEntityComposite customer, AccountEntityComposite account )
     {
+        UnitOfWork uow = factory.currentUnitOfWork();
         ProjectEntityComposite project = projectService.newInstance( ProjectEntityComposite.class );
 
         project.name().set( "Chronos" );
         project.reference().set( "Chronos 1.2v" );
 
-        TimeRangeComposite actualTimeRange = factory.currentUnitOfWork().compositeBuilderFactory().newCompositeBuilder( TimeRangeComposite.class ).newInstance();
-        TimeRangeComposite estimateTimeRange = factory.currentUnitOfWork().compositeBuilderFactory().newCompositeBuilder( TimeRangeComposite.class ).newInstance();
+        TimeRangeComposite actualTimeRange = uow.compositeBuilderFactory().newCompositeBuilder( TimeRangeComposite.class ).newInstance();
+        TimeRangeComposite estimateTimeRange = uow.compositeBuilderFactory().newCompositeBuilder( TimeRangeComposite.class ).newInstance();
 
         actualTimeRange.endTime().set( new Date() );
         actualTimeRange.startTime().set( new Date() );
@@ -359,7 +363,8 @@ public class MockServicesMixin implements Services
 
     private RelationshipComposite initRelationshipDummyData()
     {
-        RelationshipComposite relationship = factory.currentUnitOfWork().compositeBuilderFactory().newCompositeBuilder( RelationshipComposite.class ).newInstance();
+        UnitOfWork uow = factory.currentUnitOfWork();
+        RelationshipComposite relationship = uow.compositeBuilderFactory().newCompositeBuilder( RelationshipComposite.class ).newInstance();
 
         relationship.relationship().set( "IT Manager" );
 
@@ -377,7 +382,8 @@ public class MockServicesMixin implements Services
 
     private PriceRateScheduleComposite newPriceRateSchedule( ProjectRoleComposite[] projectRoles )
     {
-        PriceRateScheduleComposite priceRateSchedule = factory.currentUnitOfWork().newEntityBuilder( PriceRateScheduleComposite.class ).newInstance();
+        UnitOfWork uow = factory.currentUnitOfWork();
+        PriceRateScheduleComposite priceRateSchedule = uow.newEntityBuilder( PriceRateScheduleComposite.class ).newInstance();
 
         priceRateSchedule.name().set( "Standard Rate" + new Random().nextInt() );
         priceRateSchedule.currency().set( CurrencyUtil.getDefaultCurrency() );
@@ -395,7 +401,8 @@ public class MockServicesMixin implements Services
 
     private PriceRateComposite newPriceRate( long amount, PriceRateType priceRateType, ProjectRoleComposite projectRole )
     {
-        PriceRateComposite priceRate = factory.currentUnitOfWork().newEntityBuilder( PriceRateComposite.class ).newInstance();
+        UnitOfWork uow = factory.currentUnitOfWork();
+        PriceRateComposite priceRate = uow.newEntityBuilder( PriceRateComposite.class ).newInstance();
 
         priceRate.amount().set( amount );
         priceRate.priceRateType().set( priceRateType );
@@ -406,7 +413,8 @@ public class MockServicesMixin implements Services
 
     private AccountEntityComposite initAccountDummyData()
     {
-        AccountEntityComposite account = accountService.newInstance( AccountEntityComposite.class );
+        UnitOfWork uow = factory.currentUnitOfWork();
+        AccountEntityComposite account = accountService.newInstance( uow );
 
         account.name().set( "Jayway Malaysia" );
         account.reference().set( "Jayway Malaysia Sdn Bhd" );
@@ -415,16 +423,17 @@ public class MockServicesMixin implements Services
         account.address().set( newAddress( "AbcMixin Road", "Way Center", "111", "KL", "Wilayah", "Malaysia" ) );
 
         accountService.save( account );
-
+        
         return account;
     }
 
     private AddressComposite newAddress( String firstLine, String secondLine, String zipCode, String aCity, String aState, String aCountry )
     {
-        AddressComposite address = factory.currentUnitOfWork().newEntityBuilder( AddressComposite.class ).newInstance();
-        CityComposite city = factory.currentUnitOfWork().newEntityBuilder( CityComposite.class ).newInstance();
-        StateComposite state = factory.currentUnitOfWork().newEntityBuilder( StateComposite.class ).newInstance();
-        CountryComposite country = factory.currentUnitOfWork().newEntityBuilder( CountryComposite.class ).newInstance();
+        UnitOfWork uow = factory.currentUnitOfWork();
+        AddressComposite address = uow.newEntityBuilder( AddressComposite.class ).newInstance();
+        CityComposite city = uow.newEntityBuilder( CityComposite.class ).newInstance();
+        StateComposite state = uow.newEntityBuilder( StateComposite.class ).newInstance();
+        CountryComposite country = uow.newEntityBuilder( CountryComposite.class ).newInstance();
 
         address.city().set( city );
 
@@ -445,15 +454,16 @@ public class MockServicesMixin implements Services
 
     private ProjectRoleComposite[] initProjectRoleDummyData( AccountEntityComposite account )
     {
+        UnitOfWork uow = factory.currentUnitOfWork();
         ProjectRoleComposite[] dummyProjectRoles = new ProjectRoleComposite[3];
 
-        dummyProjectRoles[ 0 ] = factory.currentUnitOfWork().newEntityBuilder( ProjectRoleComposite.class ).newInstance();
+        dummyProjectRoles[ 0 ] = uow.newEntityBuilder( ProjectRoleComposite.class ).newInstance();
         dummyProjectRoles[ 0 ].name().set( "Programmer" );
 
-        dummyProjectRoles[ 1 ] = factory.currentUnitOfWork().newEntityBuilder( ProjectRoleComposite.class ).newInstance();
+        dummyProjectRoles[ 1 ] = uow.newEntityBuilder( ProjectRoleComposite.class ).newInstance();
         dummyProjectRoles[ 1 ].name().set( "Consultant" );
 
-        dummyProjectRoles[ 2 ] = factory.currentUnitOfWork().newEntityBuilder( ProjectRoleComposite.class ).newInstance();
+        dummyProjectRoles[ 2 ] = uow.newEntityBuilder( ProjectRoleComposite.class ).newInstance();
         dummyProjectRoles[ 2 ].name().set( "Project Manager" );
 
         SetAssociation<ProjectRoleComposite> projectRoles = account.projectRoles();
@@ -472,11 +482,12 @@ public class MockServicesMixin implements Services
         admin.lastName().set( "admin" );
         admin.gender().set( GenderType.MALE );
 
-        LoginComposite login = factory.currentUnitOfWork().compositeBuilderFactory().newCompositeBuilder( LoginComposite.class ).newInstance();
+//        LoginComposite login = factory.currentUnitOfWork().compositeBuilderFactory().newCompositeBuilder( LoginComposite.class ).newInstance();
+        LoginComposite login = newLogin( "admin", "admin", true );
 
-        login.name().set( "admin" );
-        login.password().set( "admin" );
-        login.isEnabled().set( true );
+//        login.name().set( "admin" );
+//        login.password().set( "admin" );
+//        login.isEnabled().set( true );
 
         admin.login().set( login );
 
@@ -533,7 +544,8 @@ public class MockServicesMixin implements Services
 
     private MoneyComposite createMoney( long amount, Currency currency )
     {
-        MoneyComposite money = factory.currentUnitOfWork().compositeBuilderFactory().newCompositeBuilder( MoneyComposite.class ).newInstance();
+        UnitOfWork uow = factory.currentUnitOfWork();
+        MoneyComposite money = uow.compositeBuilderFactory().newCompositeBuilder( MoneyComposite.class ).newInstance();
 
         money.amount().set( amount );
         money.currency().set( currency );
@@ -543,7 +555,8 @@ public class MockServicesMixin implements Services
 
     private LoginComposite newLogin( String loginId, String password, boolean enabled )
     {
-        LoginComposite login = factory.currentUnitOfWork().compositeBuilderFactory().newCompositeBuilder( LoginComposite.class ).newInstance();
+        UnitOfWork uow = factory.currentUnitOfWork();
+        LoginComposite login = uow.newEntityBuilder( LoginComposite.class ).newInstance();
 
         login.name().set( loginId );
         login.password().set( password );
@@ -554,26 +567,35 @@ public class MockServicesMixin implements Services
 
     private void initSystemRoleDummyData()
     {
-        SystemRoleComposite admin = factory.currentUnitOfWork().newEntityBuilder( SystemRoleComposite.class ).newInstance();
+        UnitOfWork uow = factory.currentUnitOfWork();
+        CompositeBuilder<SystemRoleComposite> builder = uow.newEntityBuilder( SystemRoleComposite.class );
+        List<SystemRoleComposite> roles = new ArrayList<SystemRoleComposite>();
+
+        SystemRoleComposite admin = builder.newInstance();
         admin.name().set( SystemRole.SYSTEM_ADMIN );
         admin.systemRoleType().set( SystemRoleType.ADMIN );
+        roles.add( admin );
 
-        SystemRoleComposite accountAdmin = factory.currentUnitOfWork().newEntityBuilder( SystemRoleComposite.class ).newInstance();
+        SystemRoleComposite accountAdmin = builder.newInstance();
         accountAdmin.name().set( SystemRole.ACCOUNT_ADMIN );
         accountAdmin.systemRoleType().set( SystemRoleType.STAFF );
+        roles.add( accountAdmin );
 
-        SystemRoleComposite developer = factory.currentUnitOfWork().newEntityBuilder( SystemRoleComposite.class ).newInstance();
+        SystemRoleComposite developer = builder.newInstance();
         developer.name().set( SystemRole.ACCOUNT_DEVELOPER );
         developer.systemRoleType().set( SystemRoleType.STAFF );
+        roles.add( developer );
 
-        SystemRoleComposite contactPerson = factory.currentUnitOfWork().newEntityBuilder( SystemRoleComposite.class ).newInstance();
+        SystemRoleComposite contactPerson = builder.newInstance();
         contactPerson.name().set( SystemRole.CONTACT_PERSON );
         contactPerson.systemRoleType().set( SystemRoleType.CONTACT_PERSON );
+        roles.add( contactPerson );
 
-        systemRoleService.save( admin );
-        systemRoleService.save( accountAdmin );
-        systemRoleService.save( developer );
-        systemRoleService.save( contactPerson );
+//        systemRoleService.save( admin );
+//        systemRoleService.save( accountAdmin );
+//        systemRoleService.save( developer );
+//        systemRoleService.save( contactPerson );
+        systemRoleService.saveAll( roles );
 
         systemRoleService.findAll();
     }
@@ -605,6 +627,7 @@ public class MockServicesMixin implements Services
 
     private void initContactPerson( Customer[] customers, RelationshipComposite relationship )
     {
+        UnitOfWork uow = factory.currentUnitOfWork();
         SystemRoleComposite contactPersonRole = systemRoleService.getSystemRoleByName( SystemRole.CONTACT_PERSON );
 
         ContactPersonEntityComposite contactPerson = contactPersonService.newInstance( ContactPersonEntityComposite.class );
@@ -614,11 +637,13 @@ public class MockServicesMixin implements Services
         contactPerson.gender().set( GenderType.MALE );
         contactPerson.relationship().set( cloneRelationship( relationship ) );
 
-        LoginComposite login = factory.currentUnitOfWork().newEntityBuilder( LoginComposite.class ).newInstance();
+//        CompositeBuilder<LoginComposite> builder = uow.newEntityBuilder( LoginComposite.class );
+//        LoginComposite login = builder.newInstance();
+        LoginComposite login = newLogin( "michael", "michael", true );
 
-        login.name().set( "michael" );
-        login.password().set( "michael" );
-        login.isEnabled().set( true );
+//        login.name().set( "michael" );
+//        login.password().set( "michael" );
+//        login.isEnabled().set( true );
 
         contactPerson.login().set( login );
         contactPerson.systemRoles().add( contactPersonRole );
@@ -630,11 +655,12 @@ public class MockServicesMixin implements Services
         contactPerson2.gender().set( GenderType.MALE );
         contactPerson2.relationship().set( cloneRelationship( relationship ) );
 
-        LoginComposite login2 = factory.currentUnitOfWork().newEntityBuilder( LoginComposite.class ).newInstance();
-
-        login2.name().set( "robert" );
-        login2.password().set( "robert" );
-        login2.isEnabled().set( true );
+//        LoginComposite login2 = builder.newInstance();
+        LoginComposite login2 = newLogin( "robert", "robert", true );
+//
+//        login2.name().set( "robert" );
+//        login2.password().set( "robert" );
+//        login2.isEnabled().set( true );
 
         contactPerson2.login().set( login2 );
         contactPerson2.systemRoles().add( contactPersonRole );
@@ -646,11 +672,12 @@ public class MockServicesMixin implements Services
         contactPerson3.gender().set( GenderType.MALE );
         contactPerson3.relationship().set( cloneRelationship( relationship ) );
 
-        LoginComposite login3 = factory.currentUnitOfWork().newEntityBuilder( LoginComposite.class ).newInstance();
+//        LoginComposite login3 = builder.newInstance();
+        LoginComposite login3 = newLogin( "elvin", "elvin", true );
 
-        login3.name().set( "elvin" );
-        login3.password().set( "elvin" );
-        login3.isEnabled().set( true );
+//        login3.name().set( "elvin" );
+//        login3.password().set( "elvin" );
+//        login3.isEnabled().set( true );
 
         contactPerson3.login().set( login3 );
         contactPerson3.systemRoles().add( contactPersonRole );
@@ -663,7 +690,8 @@ public class MockServicesMixin implements Services
 
     private RelationshipComposite cloneRelationship( RelationshipComposite relationshipComposite )
     {
-        RelationshipComposite newRelationship = factory.currentUnitOfWork().compositeBuilderFactory().newCompositeBuilder( RelationshipComposite.class ).newInstance();
+        UnitOfWork uow = factory.currentUnitOfWork();
+        RelationshipComposite newRelationship = uow.compositeBuilderFactory().newCompositeBuilder( RelationshipComposite.class ).newInstance();
 
         newRelationship.relationship().set( relationshipComposite.relationship().get() );
 
@@ -768,7 +796,8 @@ public class MockServicesMixin implements Services
     @SuppressWarnings( { "unchecked" } )
     private <T extends Composite> T newService( Class<T> clazz )
     {
-        CompositeBuilder<? extends Composite> compositeBuilder = factory.currentUnitOfWork().compositeBuilderFactory().newCompositeBuilder( clazz );
+        UnitOfWork uow = factory.currentUnitOfWork();
+        CompositeBuilder<? extends Composite> compositeBuilder = uow.compositeBuilderFactory().newCompositeBuilder( clazz );
 
         return (T) compositeBuilder.newInstance();
     }

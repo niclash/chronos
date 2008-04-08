@@ -22,7 +22,7 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.util.value.ValueMap;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.ui.ChronosSession;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.account.AccountDelegator;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
@@ -41,7 +41,7 @@ public class LoginPage extends BasePage
     public LoginPage()
     {
         add( new FeedbackPanel( WICKET_ID_FEEDBACK_PANEL ) );
-//        add( new LoginForm( WICKET_ID_LOGIN_FORM ) );
+        add( new LoginForm( WICKET_ID_LOGIN_FORM ) );
     }
 
     public String getUsername()
@@ -79,7 +79,14 @@ public class LoginPage extends BasePage
             accountDropDownChoice = new SimpleDropDownChoice<AccountDelegator>( "accountDropDownChoice", accountList, true );
 
             username = new TextField( "username", new PropertyModel( properties, "username" ) );
-            password = new PasswordTextField( "password", new PropertyModel( properties, "password" ) );
+            password = new PasswordTextField( "password", new PropertyModel( properties, "password" ) )
+            {
+                 @Override
+                 protected boolean supportsPersistence()
+                {
+                    return true;
+                }
+            };
 
             username.setPersistent( true );
             password.setPersistent( true );

@@ -37,11 +37,10 @@ public final class ChronosSession extends AuthenticatedWebSession
 {
     private static final long serialVersionUID = 1L;
 
-    @Service
-    private AuthenticationService authenticationService;
+    @Service private AuthenticationService authenticationService;
 
-    @Service
-    private AccountService accountService;
+//    @Service
+//    private AccountService accountService;
 
 
     private SystemRoleResolver roleResolver;
@@ -80,6 +79,11 @@ public final class ChronosSession extends AuthenticatedWebSession
     public String getAccountId()
     {
         return accountId;
+    }
+
+    public void setAccountId( String accountId )
+    {
+        this.accountId = accountId;
     }
 
     public boolean isStaff()

@@ -23,12 +23,12 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.associations.HasComments;
 import org.qi4j.chronos.model.associations.HasWorkEntries;
-import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.ui.comment.CommentTab;
 import org.qi4j.chronos.ui.common.SimpleTextArea;
 import org.qi4j.chronos.ui.common.SimpleTextField;
@@ -90,7 +90,7 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
 
             List<AbstractTab> tabs = new ArrayList<AbstractTab>();
 
-            tabs.add( createCommenTab() );
+            tabs.add( createCommentTab() );
             tabs.add( createWorkEntryTab() );
 
             tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
@@ -124,7 +124,7 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
             };
         }
 
-        private CommentTab createCommenTab()
+        private CommentTab createCommentTab()
         {
             return new CommentTab( "Comment" )
             {
@@ -133,7 +133,7 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
                     return TaskDetailPage.this.getTask();
                 }
 
-                public void addComment( CommentComposite comment )
+                public void addComment( Comment comment )
                 {
                     TaskDetailPage.this.addingComment( comment );
                 }
@@ -141,7 +141,7 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
         }
     }
 
-    private void addingComment( CommentComposite comment )
+    private void addingComment( Comment comment )
     {
         TaskEntityComposite task = getTask();
 

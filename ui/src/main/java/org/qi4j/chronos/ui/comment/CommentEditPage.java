@@ -14,8 +14,8 @@ package org.qi4j.chronos.ui.comment;
 
 import org.apache.wicket.Page;
 import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.model.associations.HasComments;
-import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.chronos.service.CommentService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.slf4j.Logger;
@@ -34,7 +34,7 @@ public abstract class CommentEditPage extends CommentAddEditPage
 
     private void initData()
     {
-        CommentComposite comment = getComment();
+        Comment comment = getComment();
 
         assignCommentToFieldValue( comment );
     }
@@ -58,8 +58,8 @@ public abstract class CommentEditPage extends CommentAddEditPage
     {
         try
         {
-            CommentComposite toBeUpdated = getComment();
-            CommentComposite oldComment = getComment();
+            Comment toBeUpdated = getComment();
+            Comment oldComment = getComment();
 
             assignFieldValueToComment( toBeUpdated );
 
@@ -83,6 +83,6 @@ public abstract class CommentEditPage extends CommentAddEditPage
 
     public abstract HasComments getHasComments();
 
-    public abstract CommentComposite getComment();
+    public abstract Comment getComment();
 
 }

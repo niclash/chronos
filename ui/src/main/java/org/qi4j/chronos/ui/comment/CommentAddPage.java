@@ -15,9 +15,13 @@ package org.qi4j.chronos.ui.comment;
 import java.util.Date;
 import org.apache.wicket.Page;
 import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.chronos.ui.ChronosSession;
 import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.composite.scope.Structure;
+import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.entity.UnitOfWork;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +36,7 @@ public abstract class CommentAddPage extends CommentAddEditPage
 
     public void onSubmitting()
     {
-        CommentComposite comment = ChronosWebApp.newInstance( CommentComposite.class );
+        CommentComposite comment = ChronosWebApp.newEntityInstance( CommentComposite.class );
 
         try
         {
@@ -40,6 +44,11 @@ public abstract class CommentAddPage extends CommentAddEditPage
 
             comment.createdDate().set( new Date() );
 
+            UnitOfWork uow = ChronosWebApp.currentUnitOfWork();
+            uow.complete();
+            
+            comment = ChronosWebApp.dereference( comment );
+            
             addComment( comment );
 
             logInfoMsg( "Comment is added successfully" );
@@ -68,5 +77,5 @@ public abstract class CommentAddPage extends CommentAddEditPage
         return ChronosSession.get().getUser();
     }
 
-    public abstract void addComment( CommentComposite comment );
+    public abstract void addComment( Comment comment );
 }

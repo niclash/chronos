@@ -13,28 +13,10 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import java.io.Serializable;
-import org.qi4j.chronos.model.composites.CommentComposite;
-import org.qi4j.composite.Mixins;
-import org.qi4j.composite.scope.AssociationField;
+import org.qi4j.chronos.model.Comment;
 import org.qi4j.entity.association.ManyAssociation;
 
-@Mixins( HasComments.HasCommentsMixin.class )
 public interface HasComments
 {
-    ManyAssociation<CommentComposite> comments();
-
-    final class HasCommentsMixin
-        implements HasComments, Serializable
-    {
-        private static final long serialVersionUID = 1L;
-
-        @AssociationField
-        private ManyAssociation<CommentComposite> comments;
-
-        public final ManyAssociation<CommentComposite> comments()
-        {
-            return comments;
-        }
-    }
+    ManyAssociation<Comment> comments();
 }

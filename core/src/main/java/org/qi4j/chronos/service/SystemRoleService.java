@@ -13,6 +13,7 @@
 package org.qi4j.chronos.service;
 
 import java.util.List;
+import java.util.Collection;
 import org.qi4j.chronos.model.composites.SystemRoleComposite;
 import org.qi4j.chronos.model.SystemRole;
 
@@ -21,6 +22,8 @@ public interface SystemRoleService
     List<SystemRoleComposite> findAll();
 
     void save( SystemRoleComposite systemRole );
+
+    void saveAll( Collection<SystemRoleComposite> systemRoles );
 
     List<SystemRoleComposite> findAllStaffSystemRole();
 

@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
+ * Copyright (c) 2008, Muhd Kamil Mohd Baki. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -10,34 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service;
+package org.qi4j.chronos.service.authentication;
 
-import java.util.Collection;
-import java.util.List;
 import org.qi4j.entity.EntityComposite;
-import org.qi4j.entity.Identity;
+import org.qi4j.property.Property;
 
-public interface EntityService<T extends Identity>
+public interface AuthenticationConfiguration extends EntityComposite
 {
-    T get( String id );
+    Property<String> username();
 
-    void save( T obj );
-
-    void saveAll( Collection<T> objs );
-
-    void delete( String id );
-
-    void delete( T obj );
-
-    void delete( Collection<T> objs );
-
-    void update( T obj );
-
-    List<T> findAll();
-
-    List<T> find( FindFilter findFilter );
-
-    int countAll();
-
-    T newInstance( Class<? extends EntityComposite> clazz );
+    Property<String> password();
 }

@@ -72,6 +72,9 @@ import org.qi4j.composite.Composite;
 import org.qi4j.composite.CompositeBuilder;
 import org.qi4j.composite.CompositeBuilderFactory;
 import org.qi4j.entity.memory.MemoryEntityStoreComposite;
+import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.entity.EntityComposite;
+import org.qi4j.entity.UnitOfWork;
 import org.qi4j.spi.entity.UuidIdentityGeneratorComposite;
 import org.qi4j.library.general.model.composites.CityComposite;
 import org.qi4j.library.general.model.composites.StateComposite;
@@ -80,6 +83,8 @@ import org.qi4j.library.general.model.composites.CountryComposite;
 public class ChronosWebApp extends AuthenticatedWebApplication
 {
     private static CompositeBuilderFactory factory;
+
+    private static UnitOfWorkFactory uowFactory;
 
     private static Services services;
 
@@ -146,6 +151,7 @@ public class ChronosWebApp extends AuthenticatedWebApplication
             }
         };
         factory = assembly.getCompositeBuilderFactory();
+        uowFactory = assembly.getUnitOfWorkFactory();
 
         CompositeBuilder<ServicesComposite> serviceBuilder = factory.newCompositeBuilder( ServicesComposite.class );
 
@@ -176,6 +182,27 @@ public class ChronosWebApp extends AuthenticatedWebApplication
     public static <T extends Composite> T newInstance( Class<T> compositeType )
     {
         return factory.newCompositeBuilder( compositeType ).newInstance();
+    }
+
+    public static <T extends EntityComposite> T newEntityInstance( Class<T> compositeType )
+    {
+        UnitOfWork uow = uowFactory.newUnitOfWork();
+        return uow.newEntityBuilder( compositeType ).newInstance();
+    }
+
+    public static UnitOfWork newUnitOfWork()
+    {
+        return uowFactory.newUnitOfWork();
+    }
+
+    public static UnitOfWork currentUnitOfWork()
+    {
+        return uowFactory.currentUnitOfWork();
+    }
+
+    public static <T extends EntityComposite> T dereference( T obj )
+    {
+        return uowFactory.newUnitOfWork().dereference( obj );
     }
 
     public Class getHomePage()

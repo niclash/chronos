@@ -14,15 +14,14 @@ package org.qi4j.chronos.ui.comment;
 
 import java.io.Serializable;
 import java.util.Date;
-import org.qi4j.chronos.model.composites.CommentComposite;
-import org.qi4j.entity.Identity;
+import org.qi4j.chronos.model.Comment;
 
 public class CommentId implements Serializable
 {
     private String userId;
     private Date createdDate;
 
-    public CommentId( CommentComposite comment )
+    public CommentId( Comment comment )
     {
         this.userId = comment.user().get().identity().get();
         createdDate = comment.createdDate().get();
