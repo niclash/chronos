@@ -90,7 +90,7 @@ public abstract class TaskTable extends ActionTable<TaskEntityComposite, String>
 
         item.add( new Label( "createdDateLabel", DateUtil.formatDateTime( obj.createdDate().get() ) ) );
 
-        item.add( new Label( "createdByLabel", obj.user().get().getFullname() ) );
+        item.add( new Label( "createdByLabel", obj.user().get().name().get() ) );
 
         SimpleLink editLink = new SimpleLink( "editLink", "Edit" )
         {

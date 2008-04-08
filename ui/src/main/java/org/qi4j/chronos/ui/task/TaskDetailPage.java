@@ -75,7 +75,7 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
         {
             TaskEntityComposite taskMaster = getTask();
 
-            userField = new SimpleTextField( "userField", taskMaster.user().get().getFullname() );
+            userField = new SimpleTextField( "userField", taskMaster.user().get().name().get() );
             titleField = new SimpleTextField( "titleField", taskMaster.title().get() );
             createDateField = new SimpleTextField( "createDateField", DateUtil.formatDateTime( taskMaster.createdDate().get() ) );
             descriptionTextArea = new SimpleTextArea( "descriptionTextArea", taskMaster.description().get() );

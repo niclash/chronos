@@ -102,7 +102,7 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
             CustomerEntityComposite projectCustomer = project.customer().get();
             projectOwnerField = new SimpleTextField( "customerField", projectCustomer.name().get() );
 
-            String primaryContact = project.primaryContactPerson().get().getFullname();
+            String primaryContact = project.primaryContactPerson().get().name().get();
             primaryContactField = new SimpleTextField( "primaryContactField", primaryContact );
 
             TimeRange projectEstimateTime = project.estimateTime().get();

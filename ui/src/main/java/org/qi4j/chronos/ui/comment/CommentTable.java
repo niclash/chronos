@@ -71,7 +71,7 @@ public abstract class CommentTable extends ActionTable<CommentComposite, Comment
         String userId = user.identity().get();
 
         Date createdDate = obj.createdDate().get();
-        item.add( createDetailLink( "user", user.getFullname(), userId, createdDate ) );
+        item.add( createDetailLink( "user", user.name().get(), userId, createdDate ) );
         item.add( createDetailLink( "createdDate", DateUtil.formatDateTime( createdDate ), userId, obj.createdDate().get() ) );
         //TODO bp.  truncate comment
         item.add( createDetailLink( "comment", obj.text().get(), userId, createdDate ) );

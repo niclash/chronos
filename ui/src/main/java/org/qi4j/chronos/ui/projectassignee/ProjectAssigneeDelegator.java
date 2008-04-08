@@ -24,7 +24,7 @@ public class ProjectAssigneeDelegator implements Serializable
     {
         this.id = projectAssignee.identity().get();
 
-        this.fullName = projectAssignee.staff().get().getFullname();
+        this.fullName = projectAssignee.staff().get().name().get();
     }
 
     public String getId()

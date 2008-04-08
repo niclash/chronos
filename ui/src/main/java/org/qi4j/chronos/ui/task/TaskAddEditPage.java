@@ -42,7 +42,7 @@ public abstract class TaskAddEditPage extends AddEditBasePage
         titleField = new MaxLengthTextField( "titleField", "Title", Task.TITLE_LEN );
         descriptionTextArea = new MaxLengthTextArea( "descriptionTextArea", "Description", Task.DESCRIPTION_LEN );
 
-        userField = new SimpleTextField( "userField", getTaskOwner().getFullname(), true );
+        userField = new SimpleTextField( "userField", getTaskOwner().name().get(), true );
 
         taskStatusChoice = new SimpleDropDownChoice<TaskStatus>( "taskStatusChoice", Arrays.asList( TaskStatus.values() ), true );
 

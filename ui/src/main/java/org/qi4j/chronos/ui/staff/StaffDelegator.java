@@ -23,7 +23,7 @@ public class StaffDelegator implements Serializable
     public StaffDelegator( StaffEntityComposite staff )
     {
         this.id = staff.identity().get();
-        this.fullName = staff.getFullname();
+        this.fullName = staff.name().get();
     }
 
     public String getId()
