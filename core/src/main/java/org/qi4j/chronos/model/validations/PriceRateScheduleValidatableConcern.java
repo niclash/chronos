@@ -13,14 +13,14 @@
 package org.qi4j.chronos.model.validations;
 
 import org.qi4j.chronos.model.PriceRateSchedule;
-import static org.qi4j.chronos.util.ValidatorUtil.isEmptyOrInvalidLength;
-import org.qi4j.composite.scope.ThisCompositeAs;
+import static org.qi4j.chronos.util.ValidatorUtil.*;
+import org.qi4j.composite.scope.This;
 import org.qi4j.library.framework.validation.AbstractValidatableConcern;
 import org.qi4j.library.framework.validation.Validator;
 
 public class PriceRateScheduleValidatableConcern extends AbstractValidatableConcern
 {
-    @ThisCompositeAs private PriceRateSchedule priceRateSchedule;
+    @This private PriceRateSchedule priceRateSchedule;
 
     protected void isValid( Validator validator )
     {

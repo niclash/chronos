@@ -17,14 +17,14 @@ import org.qi4j.chronos.model.ProjectStatus;
 import org.qi4j.chronos.model.TimeRange;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.util.ValidatorUtil;
-import org.qi4j.composite.scope.ThisCompositeAs;
+import org.qi4j.composite.scope.This;
 import org.qi4j.entity.association.Association;
 import org.qi4j.library.framework.validation.AbstractValidatableConcern;
 import org.qi4j.library.framework.validation.Validator;
 
 public class ProjectValidatableConcern extends AbstractValidatableConcern
 {
-    @ThisCompositeAs private Project project;
+    @This private Project project;
 
     protected void isValid( Validator validator )
     {

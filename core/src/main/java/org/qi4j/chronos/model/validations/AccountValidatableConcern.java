@@ -13,15 +13,15 @@
 package org.qi4j.chronos.model.validations;
 
 import org.qi4j.chronos.model.Account;
-import static org.qi4j.chronos.util.ValidatorUtil.isEmptyOrInvalidLength;
-import org.qi4j.composite.scope.ThisCompositeAs;
+import static org.qi4j.chronos.util.ValidatorUtil.*;
+import org.qi4j.composite.scope.This;
 import org.qi4j.library.framework.validation.AbstractValidatableConcern;
 import org.qi4j.library.framework.validation.Validator;
 import org.qi4j.library.general.model.Address;
 
 public final class AccountValidatableConcern extends AbstractValidatableConcern
 {
-    @ThisCompositeAs private Account account;
+    @This private Account account;
 
     protected void isValid( Validator validator )
     {

@@ -14,13 +14,13 @@ package org.qi4j.chronos.model.validations;
 
 import org.qi4j.chronos.model.Relationship;
 import org.qi4j.chronos.util.ValidatorUtil;
-import org.qi4j.composite.scope.ThisCompositeAs;
+import org.qi4j.composite.scope.This;
 import org.qi4j.library.framework.validation.AbstractValidatableConcern;
 import org.qi4j.library.framework.validation.Validator;
 
 public class RelationshipValidatableConcern extends AbstractValidatableConcern
 {
-    @ThisCompositeAs private Relationship relationship;
+    @This private Relationship relationship;
 
     protected void isValid( Validator validator )
     {

@@ -20,13 +20,13 @@ import org.qi4j.chronos.model.associations.HasContactPersons;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.service.ContactPersonService;
 import org.qi4j.chronos.service.FindFilter;
-import org.qi4j.composite.scope.ThisCompositeAs;
+import org.qi4j.composite.scope.This;
 import org.qi4j.entity.association.SetAssociation;
 import org.qi4j.property.Property;
 
 public abstract class MockContactPersonMiscServiceMixin implements ContactPersonService
 {
-    @ThisCompositeAs private ContactPersonService contactPersonService;
+    @This private ContactPersonService contactPersonService;
 
     public List<ContactPersonEntityComposite> findAll( HasContactPersons hasContactPersons )
     {

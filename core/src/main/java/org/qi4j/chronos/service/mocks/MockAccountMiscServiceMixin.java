@@ -17,16 +17,14 @@ import java.util.List;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.service.AccountService;
-import org.qi4j.composite.scope.ThisCompositeAs;
-import org.qi4j.composite.Composite;
 import org.qi4j.composite.CompositeBuilder;
-import org.qi4j.entity.association.SetAssociation;
-import org.qi4j.entity.Identity;
+import org.qi4j.composite.scope.This;
 import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.association.SetAssociation;
 
 public abstract class MockAccountMiscServiceMixin implements AccountService
 {
-    @ThisCompositeAs private AccountService accountService;
+    @This private AccountService accountService;
 
     public MockAccountMiscServiceMixin()
     {

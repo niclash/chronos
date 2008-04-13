@@ -26,12 +26,12 @@ import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.ProjectService;
-import org.qi4j.composite.scope.ThisCompositeAs;
+import org.qi4j.composite.scope.This;
 import org.qi4j.entity.association.SetAssociation;
 
 public abstract class MockProjectMiscServiceMixin implements ProjectService
 {
-    @ThisCompositeAs private ProjectService projectService;
+    @This private ProjectService projectService;
 
     public List<ProjectEntityComposite> getRecentProjects( AccountEntityComposite account, FindFilter findFilter )
     {

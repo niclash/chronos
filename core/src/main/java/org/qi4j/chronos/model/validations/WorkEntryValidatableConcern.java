@@ -14,13 +14,13 @@ package org.qi4j.chronos.model.validations;
 
 import org.qi4j.chronos.model.WorkEntry;
 import org.qi4j.chronos.util.ValidatorUtil;
-import org.qi4j.composite.scope.ThisCompositeAs;
+import org.qi4j.composite.scope.This;
 import org.qi4j.library.framework.validation.AbstractValidatableConcern;
 import org.qi4j.library.framework.validation.Validator;
 
 public class WorkEntryValidatableConcern extends AbstractValidatableConcern
 {
-    @ThisCompositeAs private WorkEntry workEntry;
+    @This private WorkEntry workEntry;
 
     protected void isValid( Validator validator )
     {

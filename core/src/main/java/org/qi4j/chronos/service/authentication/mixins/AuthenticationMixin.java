@@ -14,12 +14,12 @@ package org.qi4j.chronos.service.authentication.mixins;
 
 import org.qi4j.chronos.service.authentication.Authentication;
 import org.qi4j.chronos.service.authentication.AuthenticationConfiguration;
+import org.qi4j.composite.scope.This;
 import org.qi4j.service.Activatable;
-import org.qi4j.composite.scope.ThisCompositeAs;
 
 public class AuthenticationMixin implements Authentication, Activatable
 {
-    @ThisCompositeAs AuthenticationConfiguration config;
+    @This AuthenticationConfiguration config;
 
     private String username;
 

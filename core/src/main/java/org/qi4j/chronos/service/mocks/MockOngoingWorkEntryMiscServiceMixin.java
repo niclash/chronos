@@ -19,12 +19,12 @@ import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.OngoingWorkEntryService;
-import org.qi4j.composite.scope.ThisCompositeAs;
+import org.qi4j.composite.scope.This;
 import org.qi4j.entity.association.SetAssociation;
 
 public abstract class MockOngoingWorkEntryMiscServiceMixin implements OngoingWorkEntryService
 {
-    @ThisCompositeAs OngoingWorkEntryService ongoingWorkEntryService;
+    @This OngoingWorkEntryService ongoingWorkEntryService;
 
     public OngoingWorkEntryEntityComposite getOngoingWorkEntry( TaskEntityComposite task, StaffEntityComposite staff )
     {

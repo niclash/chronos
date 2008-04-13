@@ -25,12 +25,12 @@ import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.TaskService;
-import org.qi4j.composite.scope.ThisCompositeAs;
+import org.qi4j.composite.scope.This;
 import org.qi4j.entity.association.SetAssociation;
 
 public abstract class MockTaskMiscServiceMixin implements TaskService
 {
-    @ThisCompositeAs private TaskService taskService;
+    @This private TaskService taskService;
 
     public List<TaskEntityComposite> getRecentTasks( AccountEntityComposite account )
     {

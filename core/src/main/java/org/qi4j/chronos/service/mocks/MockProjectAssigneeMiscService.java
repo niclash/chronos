@@ -17,11 +17,11 @@ import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.service.ProjectAssigneeService;
-import org.qi4j.composite.scope.ThisCompositeAs;
+import org.qi4j.composite.scope.This;
 
 public abstract class MockProjectAssigneeMiscService implements ProjectAssigneeService
 {
-    @ThisCompositeAs private ProjectAssigneeService service;
+    @This private ProjectAssigneeService service;
 
     public ProjectAssigneeEntityComposite getProjectAssignee( ProjectEntityComposite project, StaffEntityComposite staff )
     {

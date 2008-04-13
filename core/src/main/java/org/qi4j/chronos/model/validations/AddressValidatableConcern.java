@@ -13,14 +13,14 @@
 package org.qi4j.chronos.model.validations;
 
 import org.qi4j.chronos.util.ValidatorUtil;
-import org.qi4j.composite.scope.ThisCompositeAs;
+import org.qi4j.composite.scope.This;
 import org.qi4j.library.framework.validation.AbstractValidatableConcern;
 import org.qi4j.library.framework.validation.Validator;
 import org.qi4j.library.general.model.Address;
 
 public class AddressValidatableConcern extends AbstractValidatableConcern
 {
-    @ThisCompositeAs private Address address;
+    @This private Address address;
 
     protected void isValid( Validator validator )
     {
