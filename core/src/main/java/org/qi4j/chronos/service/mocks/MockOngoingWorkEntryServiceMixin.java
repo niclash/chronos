@@ -16,12 +16,12 @@ import java.util.Iterator;
 import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 
-public class MockOngoingWorkEntryServiceMixin extends MockTaskBasedServiceMixin<OngoingWorkEntryEntityComposite>
+public abstract class MockOngoingWorkEntryServiceMixin extends MockTaskBasedServiceMixin<OngoingWorkEntryEntityComposite>
 {
-    protected Iterator<OngoingWorkEntryEntityComposite> getItems( TaskEntityComposite taskEntityComposite )
+    /* protected Iterator<OngoingWorkEntryEntityComposite> getItems( TaskEntityComposite taskEntityComposite )
     {
         return taskEntityComposite.onGoingWorkEntries().iterator();
-    }
+    } */
 
     protected void removeItem( TaskEntityComposite taskEntityComposite, OngoingWorkEntryEntityComposite ongoingWorkEntryEntityComposite )
     {

@@ -17,13 +17,13 @@ import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.entity.association.SetAssociation;
 
-public class MockProjectAssigneeServiceMixin extends MockProjectBasedServiceMixin<ProjectAssigneeEntityComposite>
+public abstract class MockProjectAssigneeServiceMixin extends MockProjectBasedServiceMixin<ProjectAssigneeEntityComposite>
 {
     public MockProjectAssigneeServiceMixin()
     {
     }
 
-    protected Iterator<ProjectAssigneeEntityComposite> getItems( ProjectEntityComposite projectEntityComposite )
+    /* protected Iterator<ProjectAssigneeEntityComposite> getItems( ProjectEntityComposite projectEntityComposite )
     {
         return projectEntityComposite.projectAssignees().iterator();
     }
@@ -32,5 +32,5 @@ public class MockProjectAssigneeServiceMixin extends MockProjectBasedServiceMixi
     {
         SetAssociation<ProjectAssigneeEntityComposite> projectAssignees = projectEntity.projectAssignees();
         projectAssignees.remove( projectAssignee );
-    }
+    } */
 }

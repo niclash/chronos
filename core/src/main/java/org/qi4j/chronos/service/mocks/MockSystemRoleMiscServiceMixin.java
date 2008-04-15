@@ -16,47 +16,46 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Collection;
-import org.qi4j.chronos.model.SystemRoleType;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.composites.SystemRoleComposite;
+import org.qi4j.chronos.model.SystemRoleTypeEnum;
 import org.qi4j.chronos.service.SystemRoleService;
 
 public class MockSystemRoleMiscServiceMixin implements SystemRoleService
 {
-    private List<SystemRoleComposite> list;
+    private List<SystemRole> list;
 
-    public List<SystemRoleComposite> findAll()
+    public List<SystemRole> findAll()
     {
         return Collections.unmodifiableList( list );
     }
 
-    public void save( SystemRoleComposite systemRole )
+    public void save( SystemRole systemRole )
     {
         list.add( systemRole );
     }
 
-    public void saveAll( Collection<SystemRoleComposite> systemRoles )
+    public void saveAll( Collection<SystemRole> systemRoles )
     {
         list.addAll( systemRoles );
     }
 
     public MockSystemRoleMiscServiceMixin()
     {
-        list = new ArrayList<SystemRoleComposite>();
+        list = new ArrayList<SystemRole>();
     }
 
-    public List<SystemRoleComposite> findAllStaffSystemRole( int first, int count )
+    public List<SystemRole> findAllStaffSystemRole( int first, int count )
     {
         return findAllStaffSystemRole().subList( first, count + first );
     }
 
-    public List<SystemRoleComposite> findAllStaffSystemRole()
+    public List<SystemRole> findAllStaffSystemRole()
     {
-        List<SystemRoleComposite> staffSystemRoleList = new ArrayList<SystemRoleComposite>();
+        List<SystemRole> staffSystemRoleList = new ArrayList<SystemRole>();
 
-        for( SystemRoleComposite systemRole : list )
+        for( SystemRole systemRole : list )
         {
-            if( systemRole.systemRoleType().get().equals( SystemRoleType.STAFF ) )
+            if( systemRole.systemRoleType().get().equals( SystemRoleTypeEnum.STAFF ) )
             {
                 staffSystemRoleList.add( systemRole );
             }
@@ -70,9 +69,9 @@ public class MockSystemRoleMiscServiceMixin implements SystemRoleService
         return findAllStaffSystemRole().size();
     }
 
-    public SystemRoleComposite getSystemRoleByName( String name )
+    public SystemRole getSystemRoleByName( String name )
     {
-        for( SystemRoleComposite systemRole : list )
+        for( SystemRole systemRole : list )
         {
             if( systemRole.name().get().equals( name ) )
             {

@@ -123,6 +123,7 @@ public abstract class MockParentBasedServiceMixin<ITEM extends Identity, PARENT 
         }
     }
 
+/*
     public void delete( Collection<ITEM> items )
     {
         for( ITEM item : items )
@@ -130,6 +131,7 @@ public abstract class MockParentBasedServiceMixin<ITEM extends Identity, PARENT 
             delete( item );
         }
     }
+*/
 
     public void delete( ITEM item )
     {

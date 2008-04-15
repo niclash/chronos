@@ -22,7 +22,7 @@ import org.qi4j.composite.CompositeBuilderFactory;
 import org.qi4j.composite.scope.Structure;
 import org.qi4j.entity.association.SetAssociation;
 
-public class MockRelationshipServiceMixin implements RelationshipService
+public abstract class MockRelationshipServiceMixin implements RelationshipService
 {
     @Structure private CompositeBuilderFactory factory;
 
@@ -30,7 +30,7 @@ public class MockRelationshipServiceMixin implements RelationshipService
     {
     }
 
-    public List<RelationshipComposite> findAll( CustomerEntityComposite customer )
+    /* public List<RelationshipComposite> findAll( CustomerEntityComposite customer )
     {
         final List<RelationshipComposite> relationshipList = new ArrayList<RelationshipComposite>();
 
@@ -83,5 +83,5 @@ public class MockRelationshipServiceMixin implements RelationshipService
         } );
 
         return returnValue[ 0 ];
-    }
+    } */
 }

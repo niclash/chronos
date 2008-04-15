@@ -24,11 +24,11 @@ import org.qi4j.composite.scope.Structure;
 import org.qi4j.entity.association.SetAssociation;
 import org.qi4j.library.general.model.Contact;
 
-public class MockContactServiceMixin implements ContactService
+public abstract class MockContactServiceMixin implements ContactService
 {
     @Structure private CompositeBuilderFactory factory;
 
-    public List<ContactComposite> findAll( HasContacts hasContacts, FindFilter findFilter )
+    /* public List<ContactComposite> findAll( HasContacts hasContacts, FindFilter findFilter )
     {
         return findAll( hasContacts ).subList( findFilter.getFirst(), findFilter.getFirst() + findFilter.getCount() );
     }
@@ -131,5 +131,5 @@ public class MockContactServiceMixin implements ContactService
 
             target.remove( toBeDeleted );
         }
-    }
+    } */
 }

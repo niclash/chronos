@@ -24,12 +24,12 @@ import org.qi4j.composite.scope.Structure;
 import org.qi4j.entity.association.SetAssociation;
 import org.qi4j.entity.UnitOfWorkFactory;
 
-public class MockPriceRateScheduleServiceMixin implements PriceRateScheduleService
+public abstract class MockPriceRateScheduleServiceMixin implements PriceRateScheduleService
 {
 //    @Structure private CompositeBuilderFactory factory;
     @Structure private UnitOfWorkFactory factory;
 
-    public List<PriceRateScheduleComposite> findAll( HasPriceRateSchedules hasPriceRateSchedules, FindFilter findFilter )
+    /* public List<PriceRateScheduleComposite> findAll( HasPriceRateSchedules hasPriceRateSchedules, FindFilter findFilter )
     {
         return findAll( hasPriceRateSchedules ).subList( findFilter.getFirst(), findFilter.getFirst() + findFilter.getCount() );
     }
@@ -110,5 +110,5 @@ public class MockPriceRateScheduleServiceMixin implements PriceRateScheduleServi
 
             targetPriceRateSchedules.remove( toBeDeleted );
         }
-    }
+    } */
 }

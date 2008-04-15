@@ -17,14 +17,14 @@ import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.entity.association.SetAssociation;
 
-public class MockContactPersonServiceMixin extends MockCustomerBasedServiceMixin<ContactPersonEntityComposite>
+public abstract class MockContactPersonServiceMixin extends MockCustomerBasedServiceMixin<ContactPersonEntityComposite>
 {
     public MockContactPersonServiceMixin()
     {
         super();
     }
 
-    protected Iterator<ContactPersonEntityComposite> getItems( CustomerEntityComposite customerEntityComposite )
+    /* protected Iterator<ContactPersonEntityComposite> getItems( CustomerEntityComposite customerEntityComposite )
     {
         return customerEntityComposite.contactPersons().iterator();
     }
@@ -33,5 +33,5 @@ public class MockContactPersonServiceMixin extends MockCustomerBasedServiceMixin
     {
         SetAssociation<ContactPersonEntityComposite> customerContacts = customer.contactPersons();
         customerContacts.remove( contactPerson );
-    }
+    } */
 }

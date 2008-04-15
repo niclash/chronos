@@ -28,7 +28,7 @@ public abstract class MockContactPersonMiscServiceMixin implements ContactPerson
 {
     @This private ContactPersonService contactPersonService;
 
-    public List<ContactPersonEntityComposite> findAll( HasContactPersons hasContactPersons )
+    /* public List<ContactPersonEntityComposite> findAll( HasContactPersons hasContactPersons )
     {
         SetAssociation<ContactPersonEntityComposite> contacts = hasContactPersons.contactPersons();
         return new ArrayList<ContactPersonEntityComposite>( contacts );
@@ -54,5 +54,5 @@ public abstract class MockContactPersonMiscServiceMixin implements ContactPerson
 
             contactPersonService.update( contactPerson );
         }
-    }
+    } */
 }

@@ -16,17 +16,17 @@ import java.util.Iterator;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 
-public class MockStaffServiceMixin extends MockAccountBasedServiceMixin<StaffEntityComposite>
+public abstract class MockStaffServiceMixin extends MockAccountBasedServiceMixin<StaffEntityComposite>
 {
     public MockStaffServiceMixin()
     {
         super();
     }
 
-    protected Iterator<StaffEntityComposite> getItems( AccountEntityComposite accountEntityComposite )
+    /* protected Iterator<StaffEntityComposite> getItems( AccountEntityComposite accountEntityComposite )
     {
         return accountEntityComposite.staffs().iterator();
-    }
+    } */
 
     protected void removeItem( AccountEntityComposite account, StaffEntityComposite staff )
     {

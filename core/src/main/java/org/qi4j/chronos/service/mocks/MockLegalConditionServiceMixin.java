@@ -25,11 +25,11 @@ import org.qi4j.composite.CompositeBuilderFactory;
 import org.qi4j.composite.scope.Structure;
 import org.qi4j.entity.association.SetAssociation;
 
-public class MockLegalConditionServiceMixin implements LegalConditionService
+public abstract class MockLegalConditionServiceMixin implements LegalConditionService
 {
     @Structure private CompositeBuilderFactory factory;
 
-    public List<LegalConditionComposite> findAll( HasLegalConditions hasLegalConditions, FindFilter findFilter )
+    /* public List<LegalConditionComposite> findAll( HasLegalConditions hasLegalConditions, FindFilter findFilter )
     {
         return findAll( hasLegalConditions ).subList( findFilter.getFirst(), findFilter.getFirst() + findFilter.getCount() );
     }
@@ -147,5 +147,5 @@ public class MockLegalConditionServiceMixin implements LegalConditionService
 
         legalConditions.remove( toBeDeleted );
         legalConditions.add( newLegalCondition );
-    }
+    } */
 }

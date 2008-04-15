@@ -16,9 +16,9 @@ import java.util.Iterator;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 
-public class MockTaskServiceMixin extends MockProjectBasedServiceMixin<TaskEntityComposite>
+public abstract class MockTaskServiceMixin extends MockProjectBasedServiceMixin<TaskEntityComposite>
 {
-    protected Iterator<TaskEntityComposite> getItems( ProjectEntityComposite projectEntityComposite )
+    /* protected Iterator<TaskEntityComposite> getItems( ProjectEntityComposite projectEntityComposite )
     {
         return projectEntityComposite.tasks().iterator();
     }
@@ -26,5 +26,5 @@ public class MockTaskServiceMixin extends MockProjectBasedServiceMixin<TaskEntit
     protected void removeItem( ProjectEntityComposite project, TaskEntityComposite task )
     {
         project.tasks().remove( task );
-    }
+    } */
 }

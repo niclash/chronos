@@ -12,39 +12,6 @@
  */
 package org.qi4j.chronos.service.mocks;
 
-import java.util.Calendar;
-import java.util.Currency;
-import java.util.Date;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Random;
-import java.util.ArrayList;
-import org.qi4j.chronos.model.Customer;
-import org.qi4j.chronos.model.PriceRateType;
-import org.qi4j.chronos.model.ProjectStatus;
-import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.SystemRoleType;
-import org.qi4j.chronos.model.Task;
-import org.qi4j.chronos.model.TaskStatus;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.AddressComposite;
-import org.qi4j.chronos.model.composites.AdminEntityComposite;
-import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
-import org.qi4j.chronos.model.composites.CustomerEntityComposite;
-import org.qi4j.chronos.model.composites.LoginComposite;
-import org.qi4j.chronos.model.composites.MoneyComposite;
-import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
-import org.qi4j.chronos.model.composites.PriceRateComposite;
-import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
-import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectRoleComposite;
-import org.qi4j.chronos.model.composites.RelationshipComposite;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
-import org.qi4j.chronos.model.composites.SystemRoleComposite;
-import org.qi4j.chronos.model.composites.TaskEntityComposite;
-import org.qi4j.chronos.model.composites.TimeRangeComposite;
-import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.service.AdminService;
 import org.qi4j.chronos.service.CommentService;
@@ -65,41 +32,10 @@ import org.qi4j.chronos.service.SystemRoleService;
 import org.qi4j.chronos.service.TaskService;
 import org.qi4j.chronos.service.UserService;
 import org.qi4j.chronos.service.WorkEntryService;
-import org.qi4j.chronos.service.composites.AccountServiceComposite;
-import org.qi4j.chronos.service.composites.AdminServiceComposite;
-import org.qi4j.chronos.service.composites.CommentServiceComposite;
-import org.qi4j.chronos.service.composites.ContactPersonServiceComposite;
-import org.qi4j.chronos.service.composites.ContactServiceComposite;
-import org.qi4j.chronos.service.composites.CustomerServiceComposite;
-import org.qi4j.chronos.service.composites.LegalConditionServiceComposite;
-import org.qi4j.chronos.service.composites.OngoingWorkEntryServiceComposite;
-import org.qi4j.chronos.service.composites.PriceRateScheduleServiceComposite;
-import org.qi4j.chronos.service.composites.PriceRateServiceComposite;
-import org.qi4j.chronos.service.composites.ProjectAssigneeServiceComposite;
-import org.qi4j.chronos.service.composites.ProjectRoleServiceComposite;
-import org.qi4j.chronos.service.composites.ProjectServiceComposite;
-import org.qi4j.chronos.service.composites.RelationshipServiceComposite;
-import org.qi4j.chronos.service.composites.StaffServiceComposite;
-import org.qi4j.chronos.service.composites.SystemRoleServiceComposite;
-import org.qi4j.chronos.service.composites.TaskServiceComposite;
-import org.qi4j.chronos.service.composites.UserServiceComposite;
-import org.qi4j.chronos.service.composites.WorkEntryServiceComposite;
-import org.qi4j.chronos.util.CurrencyUtil;
-import org.qi4j.composite.Composite;
-import org.qi4j.composite.CompositeBuilder;
-import org.qi4j.composite.CompositeBuilderFactory;
 import org.qi4j.composite.scope.Structure;
-import org.qi4j.entity.association.Association;
-import org.qi4j.entity.association.SetAssociation;
 import org.qi4j.entity.UnitOfWorkFactory;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.library.general.model.City;
-import org.qi4j.library.general.model.GenderType;
-import org.qi4j.library.general.model.composites.CityComposite;
-import org.qi4j.library.general.model.composites.CountryComposite;
-import org.qi4j.library.general.model.composites.StateComposite;
 
-public class MockServicesMixin implements Services
+public abstract class MockServicesMixin implements Services
 {
 //    @Structure CompositeBuilderFactory factory;
     @Structure UnitOfWorkFactory factory;
@@ -126,7 +62,7 @@ public class MockServicesMixin implements Services
     private LegalConditionService legalConditionService;
     private OngoingWorkEntryService ongoingWorkEntryService;
 
-    public void initServices()
+    /* public void initServices()
     {
         if( factory.currentUnitOfWork() == null )
         {
@@ -800,5 +736,5 @@ public class MockServicesMixin implements Services
         CompositeBuilder<? extends Composite> compositeBuilder = uow.compositeBuilderFactory().newCompositeBuilder( clazz );
 
         return (T) compositeBuilder.newInstance();
-    }
+    } */
 }

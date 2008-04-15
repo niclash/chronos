@@ -62,7 +62,7 @@ public final class CloneUtil
         return cloned;
     }
 
-    public static PriceRateScheduleComposite clonePriceRateSchedule( UnitOfWorkFactory factory, PriceRateScheduleComposite priceRateSchedule )
+    /* public static PriceRateScheduleComposite clonePriceRateSchedule( UnitOfWorkFactory factory, PriceRateScheduleComposite priceRateSchedule )
     {
         if( factory.currentUnitOfWork() == null )
         {
@@ -98,7 +98,7 @@ public final class CloneUtil
         }
 
         return cloned;
-    }
+    } */
 
     public static RelationshipComposite cloneRelationship( CompositeBuilderFactory factory, RelationshipComposite relationship )
     {

@@ -16,16 +16,16 @@ import java.util.Iterator;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 
-public class MockProjectServiceMixin extends MockAccountBasedServiceMixin<ProjectEntityComposite>
+public abstract class MockProjectServiceMixin extends MockAccountBasedServiceMixin<ProjectEntityComposite>
 {
     public MockProjectServiceMixin()
     {
     }
 
-    protected Iterator<ProjectEntityComposite> getItems( AccountEntityComposite accountEntityComposite )
+    /* protected Iterator<ProjectEntityComposite> getItems( AccountEntityComposite accountEntityComposite )
     {
         return accountEntityComposite.projects().iterator();
-    }
+    } */
 
     protected void removeItem( AccountEntityComposite account, ProjectEntityComposite project )
     {

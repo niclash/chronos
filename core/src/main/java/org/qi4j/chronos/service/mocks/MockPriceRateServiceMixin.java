@@ -24,12 +24,12 @@ import org.qi4j.composite.CompositeBuilderFactory;
 import org.qi4j.composite.scope.Structure;
 import org.qi4j.entity.UnitOfWorkFactory;
 
-public class MockPriceRateServiceMixin implements PriceRateService
+public abstract class MockPriceRateServiceMixin implements PriceRateService
 {
 //    @Structure private CompositeBuilderFactory factory;
     @Structure private UnitOfWorkFactory factory;
 
-    public List<PriceRateComposite> findAll( HasPriceRates hasPriceRates, FindFilter findFilter )
+    /* public List<PriceRateComposite> findAll( HasPriceRates hasPriceRates, FindFilter findFilter )
     {
         return findAll( hasPriceRates ).subList( findFilter.getFirst(), findFilter.getFirst() + findFilter.getCount() );
     }
@@ -97,5 +97,5 @@ public class MockPriceRateServiceMixin implements PriceRateService
     public void update( PriceRateComposite priceRate )
     {
         //nothing to do.
-    }
+    } */
 }

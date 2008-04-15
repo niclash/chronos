@@ -33,7 +33,7 @@ public abstract class MockProjectMiscServiceMixin implements ProjectService
 {
     @This private ProjectService projectService;
 
-    public List<ProjectEntityComposite> getRecentProjects( AccountEntityComposite account, FindFilter findFilter )
+    /* public List<ProjectEntityComposite> getRecentProjects( AccountEntityComposite account, FindFilter findFilter )
     {
         return projectService.findAll( account, findFilter );
     }
@@ -217,5 +217,5 @@ public abstract class MockProjectMiscServiceMixin implements ProjectService
         }
 
         return null;
-    }
+    } */
 }

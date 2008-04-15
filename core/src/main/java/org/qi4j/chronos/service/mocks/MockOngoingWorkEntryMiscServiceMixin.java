@@ -26,7 +26,7 @@ public abstract class MockOngoingWorkEntryMiscServiceMixin implements OngoingWor
 {
     @This OngoingWorkEntryService ongoingWorkEntryService;
 
-    public OngoingWorkEntryEntityComposite getOngoingWorkEntry( TaskEntityComposite task, StaffEntityComposite staff )
+    /* public OngoingWorkEntryEntityComposite getOngoingWorkEntry( TaskEntityComposite task, StaffEntityComposite staff )
     {
         List<OngoingWorkEntryEntityComposite> list = ongoingWorkEntryService.findAll( task );
 
@@ -58,5 +58,5 @@ public abstract class MockOngoingWorkEntryMiscServiceMixin implements OngoingWor
         }
 
         return null;
-    }
+    } */
 }

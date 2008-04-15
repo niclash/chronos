@@ -23,11 +23,11 @@ import org.qi4j.composite.CompositeBuilderFactory;
 import org.qi4j.composite.scope.Structure;
 import org.qi4j.entity.association.SetAssociation;
 
-public class MockProjectRoleServiceMixin implements ProjectRoleService
+public abstract class MockProjectRoleServiceMixin implements ProjectRoleService
 {
     @Structure private CompositeBuilderFactory factory;
 
-    public List<ProjectRoleComposite> findAll( AccountEntityComposite account, FindFilter findFilter )
+    /* public List<ProjectRoleComposite> findAll( AccountEntityComposite account, FindFilter findFilter )
     {
         return findAll( account ).subList( findFilter.getFirst(), findFilter.getFirst() + findFilter.getCount() );
     }
@@ -106,5 +106,5 @@ public class MockProjectRoleServiceMixin implements ProjectRoleService
                 accountProjectRoles.remove( toBeDeleted );
             }
         }
-    }
+    } */
 }

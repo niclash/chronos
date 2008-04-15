@@ -31,7 +31,7 @@ public abstract class MockAccountMiscServiceMixin implements AccountService
 
     }
 
-    public AccountEntityComposite getAccount( StaffEntityComposite target )
+    /* public AccountEntityComposite getAccount( StaffEntityComposite target )
     {
         List<AccountEntityComposite> accountList = accountService.findAll();
 
@@ -80,6 +80,6 @@ public abstract class MockAccountMiscServiceMixin implements AccountService
         CompositeBuilder<AccountEntityComposite> compositeBuilder = uow.newEntityBuilder( AccountEntityComposite.class );
 
         return compositeBuilder.newInstance();
-    }
+    } */
 
 }

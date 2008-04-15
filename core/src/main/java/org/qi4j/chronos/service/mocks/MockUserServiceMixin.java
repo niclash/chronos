@@ -31,7 +31,7 @@ import org.qi4j.chronos.service.UserService;
 import org.qi4j.composite.scope.Uses;
 import org.qi4j.entity.association.SetAssociation;
 
-public class MockUserServiceMixin implements UserService
+public abstract class MockUserServiceMixin implements UserService
 {
     @Uses private StaffService staffService;
     @Uses private AdminService adminService;
@@ -42,7 +42,7 @@ public class MockUserServiceMixin implements UserService
     {
     }
 
-    public User get( String userId )
+    /* public User get( String userId )
     {
         User user = staffService.get( userId );
 
@@ -133,5 +133,5 @@ public class MockUserServiceMixin implements UserService
         }
 
         return false;
-    }
+    } */
 }

@@ -31,7 +31,7 @@ import org.qi4j.entity.UnitOfWorkFactory;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.association.SetAssociation;
 
-public class MockWorkEntryServiceMixin implements WorkEntryService
+public abstract class MockWorkEntryServiceMixin implements WorkEntryService
 {
     @Structure CompositeBuilderFactory factory;
     @Structure UnitOfWorkFactory uowFactory;
@@ -47,7 +47,7 @@ public class MockWorkEntryServiceMixin implements WorkEntryService
         return (WorkEntryEntityComposite) compositeBuilder.newInstance();
     }
 
-    public List<WorkEntryEntityComposite> findAll( HasWorkEntries hasWorkEntries )
+    /* public List<WorkEntryEntityComposite> findAll( HasWorkEntries hasWorkEntries )
     {
         SetAssociation<WorkEntryEntityComposite> workEntries = hasWorkEntries.workEntries();
         return new ArrayList<WorkEntryEntityComposite>( workEntries );
@@ -123,5 +123,5 @@ public class MockWorkEntryServiceMixin implements WorkEntryService
     public int countAll( ProjectEntityComposite project, StaffEntityComposite staff )
     {
         return findAll( project, staff ).size();
-    }
+    } */
 }

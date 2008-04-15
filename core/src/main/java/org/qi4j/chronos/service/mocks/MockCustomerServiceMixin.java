@@ -17,9 +17,9 @@ import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.entity.association.SetAssociation;
 
-public class MockCustomerServiceMixin extends MockAccountBasedServiceMixin<CustomerEntityComposite>
+public abstract class MockCustomerServiceMixin extends MockAccountBasedServiceMixin<CustomerEntityComposite>
 {
-    protected Iterator<CustomerEntityComposite> getItems( AccountEntityComposite accountEntityComposite )
+    /* protected Iterator<CustomerEntityComposite> getItems( AccountEntityComposite accountEntityComposite )
     {
         SetAssociation<CustomerEntityComposite> accountCustomers = accountEntityComposite.customers();
         return accountCustomers.iterator();
@@ -28,5 +28,5 @@ public class MockCustomerServiceMixin extends MockAccountBasedServiceMixin<Custo
     protected void removeItem( AccountEntityComposite account, CustomerEntityComposite customer )
     {
         account.customers().remove( customer );
-    }
+    } */
 }

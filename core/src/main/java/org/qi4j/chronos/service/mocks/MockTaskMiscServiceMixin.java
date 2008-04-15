@@ -32,7 +32,7 @@ public abstract class MockTaskMiscServiceMixin implements TaskService
 {
     @This private TaskService taskService;
 
-    public List<TaskEntityComposite> getRecentTasks( AccountEntityComposite account )
+    /* public List<TaskEntityComposite> getRecentTasks( AccountEntityComposite account )
     {
         List<TaskEntityComposite> resultList = new ArrayList<TaskEntityComposite>();
 
@@ -102,5 +102,5 @@ public abstract class MockTaskMiscServiceMixin implements TaskService
         }
 
         return resultList;
-    }
+    } */
 }
