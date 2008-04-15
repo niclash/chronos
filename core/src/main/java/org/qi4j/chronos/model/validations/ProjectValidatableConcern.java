@@ -13,9 +13,9 @@
 package org.qi4j.chronos.model.validations;
 
 import org.qi4j.chronos.model.Project;
-import org.qi4j.chronos.model.ProjectStatus;
 import org.qi4j.chronos.model.TimeRange;
-import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
+import org.qi4j.chronos.model.PriceRateSchedule;
+import org.qi4j.chronos.model.ProjectStatusEnum;
 import org.qi4j.chronos.util.ValidatorUtil;
 import org.qi4j.composite.scope.This;
 import org.qi4j.entity.association.Association;
@@ -31,7 +31,7 @@ public class ProjectValidatableConcern extends AbstractValidatableConcern
         ValidatorUtil.isEmptyOrInvalidLength( project.name().get(), "Name", Project.NAME_LEN, validator );
         ValidatorUtil.isEmptyOrInvalidLength( project.reference().get(), "Reference", Project.REFERENCE_LEN, validator );
 
-        Association<PriceRateScheduleComposite> projectPriceRateSchedule = project.priceRateSchedule();
+        Association<PriceRateSchedule> projectPriceRateSchedule = project.priceRateSchedule();
         if( projectPriceRateSchedule.get() == null )
         {
             validator.error( true, "Please create a new price Rate Schedule." );
@@ -42,8 +42,8 @@ public class ProjectValidatableConcern extends AbstractValidatableConcern
         ValidatorUtil.isAfter( projectEstimateTime.startTime().get(), projectEstimateTime.endTime().get(),
                                "Start Date(Est.)", "End Date(Est.)", validator );
 
-        ProjectStatus projectStatus = project.projectStatus().get();
-        if( projectStatus == ProjectStatus.CLOSED )
+        ProjectStatusEnum projectStatus = project.projectStatus().get();
+        if( projectStatus == ProjectStatusEnum.CLOSED )
         {
             TimeRange projectActualTime = project.actualTime().get();
             ValidatorUtil.isAfter( projectActualTime.startTime().get(), projectActualTime.endTime().get(),
