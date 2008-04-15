@@ -12,14 +12,14 @@
  */
 package org.qi4j.chronos.ui.staff;
 
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
-public abstract class StaffDataProvider extends AbstractSortableDataProvider<StaffEntityComposite, String>
+public abstract class StaffDataProvider extends AbstractSortableDataProvider<Staff, String>
 {
-    public String getId( StaffEntityComposite staffEntityComposite )
+    public String getId( Staff staffEntityComposite )
     {
         return staffEntityComposite.identity().get();
     }
@@ -29,7 +29,7 @@ public abstract class StaffDataProvider extends AbstractSortableDataProvider<Sta
         return ChronosWebApp.getServices().getStaffService();
     }
 
-    public StaffEntityComposite load( String id )
+    public Staff load( String id )
     {
         return getStaffService().get( id );
     }

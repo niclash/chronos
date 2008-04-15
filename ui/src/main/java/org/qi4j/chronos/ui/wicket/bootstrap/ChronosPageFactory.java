@@ -7,6 +7,9 @@ import static org.qi4j.composite.NullArgumentException.validateNotNull;
 import org.qi4j.composite.ObjectBuilder;
 import org.qi4j.composite.ObjectBuilderFactory;
 import org.qi4j.composite.scope.Structure;
+import org.qi4j.composite.scope.Service;
+import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.chronos.service.account.AccountServiceComposite;
 
 /**
  * @author edward.yakop@gmail.com
@@ -15,6 +18,10 @@ final class ChronosPageFactory
     implements IPageFactory
 {
     private ObjectBuilderFactory objectBuilderFactory;
+
+    @Structure private UnitOfWorkFactory factory;
+
+    @Service private AccountServiceComposite accountService;
 
     public ChronosPageFactory( @Structure ObjectBuilderFactory anObjectBuilderFactory )
         throws IllegalArgumentException
@@ -28,6 +35,7 @@ final class ChronosPageFactory
     public final Page newPage( Class pageClass )
     {
         ObjectBuilder<Page> builder = objectBuilderFactory.newObjectBuilder( pageClass );
+        builder.use( factory, accountService );
         return builder.newInstance();
     }
 

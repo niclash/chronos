@@ -13,8 +13,8 @@
 package org.qi4j.chronos.ui.systemrole;
 
 import java.io.Serializable;
-import org.qi4j.chronos.model.SystemRoleType;
-import org.qi4j.chronos.model.composites.SystemRoleComposite;
+import org.qi4j.chronos.model.SystemRoleTypeEnum;
+import org.qi4j.chronos.model.SystemRole;
 
 
 //TODO bp. we dun need this when we have ValueComposite
@@ -22,9 +22,9 @@ public class SystemRoleDelegator implements Serializable
 {
     private String systemRoleName;
 
-    private SystemRoleType systemRoleType;
+    private SystemRoleTypeEnum systemRoleType;
 
-    public SystemRoleDelegator( SystemRoleComposite systemRole )
+    public SystemRoleDelegator( SystemRole systemRole )
     {
         this.systemRoleName = systemRole.name().get();
         this.systemRoleType = systemRole.systemRoleType().get();
@@ -35,7 +35,7 @@ public class SystemRoleDelegator implements Serializable
         return systemRoleName;
     }
 
-    public SystemRoleType getSystemRoleType()
+    public SystemRoleTypeEnum getSystemRoleType()
     {
         return systemRoleType;
     }

@@ -6,5 +6,5 @@ package org.qi4j.chronos.ui.wicket.authentication;
  */
 public class Constants
 {
-    public static final String MODULE_NAME_WICKET_AUTHENTICATION = "WicketAuthenticationModule";
+    public static final String MODULE_NAME_WICKET_AUTHENTICATION = "Chronos Wicket Authentication Module";
 }

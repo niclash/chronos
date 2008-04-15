@@ -25,11 +25,12 @@ import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.qi4j.chronos.model.PriceRateSchedule;
-import org.qi4j.chronos.model.PriceRateType;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.composites.PriceRateComposite;
-import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
-import org.qi4j.chronos.model.composites.ProjectRoleComposite;
+import org.qi4j.chronos.model.PriceRateTypeEnum;
+import org.qi4j.chronos.model.PriceRate;
+import org.qi4j.chronos.model.ProjectRole;
+import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
+import org.qi4j.chronos.model.composites.PriceRateEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.common.NumberTextField;
@@ -46,7 +47,7 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
     private MaxLengthTextField nameField;
 
     private List<SimpleDropDownChoice<ProjectRoleDelegator>> projectRoleChoiceList;
-    private List<SimpleDropDownChoice<PriceRateType>> priceRateTypeChoiceList;
+    private List<SimpleDropDownChoice<PriceRateTypeEnum>> priceRateTypeChoiceList;
     private List<NumberTextField> amountFieldList;
 
     private ListView priceRateListView;
@@ -54,7 +55,7 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
     private SubmitLink newPriceRateLink;
 
     //TODO remove static
-    private static List<PriceRateComposite> priceRateList;
+    private static List<PriceRate> priceRateList;
 
     private SimpleDropDownChoice<Currency> currencyChoice;
 
@@ -107,7 +108,7 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
         }
 
         projectRoleChoiceList = new ArrayList<SimpleDropDownChoice<ProjectRoleDelegator>>();
-        priceRateTypeChoiceList = new ArrayList<SimpleDropDownChoice<PriceRateType>>();
+        priceRateTypeChoiceList = new ArrayList<SimpleDropDownChoice<PriceRateTypeEnum>>();
 
         amountFieldList = new ArrayList<NumberTextField>();
 
@@ -124,16 +125,16 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
             protected void populateItem( ListItem item )
             {
                 final int index = item.getIndex();
-                PriceRateComposite priceRate = priceRateList.get( index );
+                PriceRate priceRate = priceRateList.get( index );
 
                 SimpleDropDownChoice<ProjectRoleDelegator> projectRoleChoice;
-                SimpleDropDownChoice<PriceRateType> priceRateTypeChoice;
+                SimpleDropDownChoice<PriceRateTypeEnum> priceRateTypeChoice;
                 NumberTextField amountField;
 
                 if( projectRoleChoiceList.size() <= index )
                 {
                     projectRoleChoice = new SimpleDropDownChoice<ProjectRoleDelegator>( "projectRoleChoice", ListUtil.getProjectRoleDelegatorList( getAccount() ), true );
-                    priceRateTypeChoice = new SimpleDropDownChoice<PriceRateType>( "priceRateTypeChoice", Arrays.asList( PriceRateType.values() ), true );
+                    priceRateTypeChoice = new SimpleDropDownChoice<PriceRateTypeEnum>( "priceRateTypeChoice", Arrays.asList( PriceRateTypeEnum.values() ), true );
 
                     amountField = new NumberTextField( "amountField", "Amount" );
 
@@ -181,7 +182,7 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
     {
         PriceRateScheduleSelectionPage selectionPage = new PriceRateScheduleSelectionPage( this )
         {
-            public void handleSelectedPriceRateSchedule( PriceRateScheduleComposite priceRateSchedule )
+            public void handleSelectedPriceRateSchedule( PriceRateSchedule priceRateSchedule )
             {
                 resetPriceRateSchedule( priceRateSchedule );
             }
@@ -190,7 +191,7 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
         setResponsePage( selectionPage );
     }
 
-    private void resetPriceRateSchedule( PriceRateScheduleComposite priceRateSchedule )
+    private void resetPriceRateSchedule( PriceRateSchedule priceRateSchedule )
     {
         nameField.setText( "[Customize] " + priceRateSchedule.name().get() );
         currencyChoice.setChoice( priceRateSchedule.currency().get() );
@@ -213,11 +214,12 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
 
     private void addNewPriceRate()
     {
-        PriceRateComposite priceRate = ChronosWebApp.newInstance( PriceRateComposite.class );
+        PriceRate priceRate = ChronosWebApp.newInstance( PriceRateEntityComposite.class );
 
-        priceRate.priceRateType().set( PriceRateType.HOURLY );
+        priceRate.priceRateType().set( PriceRateTypeEnum.HOURLY );
 
-        List<ProjectRoleComposite> projectRolelists = ChronosWebApp.getServices().getProjectRoleService().findAll( getAccount() );
+        // TODO: migrate to new service
+        List<ProjectRole> projectRolelists = ChronosWebApp.getServices().getProjectRoleService().findAll( getAccount() );
 
         priceRate.projectRole().set( projectRolelists.get( 0 ) );
         priceRate.amount().set( 0L );
@@ -243,7 +245,7 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
 
     private void updatePriceRateListView()
     {
-        priceRateListView.setList( Arrays.asList( new Integer[priceRateList.size()] ) );
+        priceRateListView.setList( Arrays.asList( new Integer[ priceRateList.size() ] ) );
     }
 
     public final void handleSubmit()
@@ -296,13 +298,13 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
         for( int i = 0; i < projectRoleChoiceList.size(); i++ )
         {
             ProjectRoleDelegator projectRole = projectRoleChoiceList.get( i ).getChoice();
-            PriceRateType priceRateType = priceRateTypeChoiceList.get( i ).getChoice();
+            PriceRateTypeEnum priceRateType = priceRateTypeChoiceList.get( i ).getChoice();
             long amount = amountFieldList.get( i ).getLongValue();
 
             for( int j = i + 1; j < projectRoleChoiceList.size(); j++ )
             {
                 ProjectRoleDelegator projectRole2 = projectRoleChoiceList.get( j ).getChoice();
-                PriceRateType priceRateType2 = priceRateTypeChoiceList.get( j ).getChoice();
+                PriceRateTypeEnum priceRateType2 = priceRateTypeChoiceList.get( j ).getChoice();
                 long amount2 = amountFieldList.get( j ).getLongValue();
 
                 if( projectRole.getName().equals( projectRole2.getName() )
@@ -323,9 +325,9 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
     {
         int index = 0;
 
-        for( PriceRateComposite priceRate : priceRateList )
+        for( PriceRate priceRate : priceRateList )
         {
-            ProjectRoleComposite projectRole = getProjectRole( projectRoleChoiceList.get( index ).getChoice() );
+            ProjectRole projectRole = getProjectRole( projectRoleChoiceList.get( index ).getChoice() );
 
             priceRate.projectRole().set( projectRole );
             priceRate.priceRateType().set( priceRateTypeChoiceList.get( index ).getChoice() );
@@ -335,9 +337,9 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
         }
     }
 
-    private ProjectRoleComposite getProjectRole( ProjectRoleDelegator projectRoleDelegator )
+    private ProjectRole getProjectRole( ProjectRoleDelegator projectRoleDelegator )
     {
-        ProjectRoleComposite projectRole = ChronosWebApp.newInstance( ProjectRoleComposite.class );
+        ProjectRole projectRole = ChronosWebApp.newInstance( ProjectRoleEntityComposite.class );
 
         projectRole.name().set( projectRoleDelegator.getName() );
 
@@ -349,7 +351,7 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
         priceRateSchedule.name().set( nameField.getText() );
         priceRateSchedule.currency().set( currencyChoice.getChoice() );
 
-        SetAssociation<PriceRateComposite> priceRates = priceRateSchedule.priceRates();
+        SetAssociation<PriceRate> priceRates = priceRateSchedule.priceRates();
         priceRates.clear();
         priceRates.addAll( priceRateList );
     }
@@ -361,9 +363,9 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
         //skip initializing priceRate as it is done in getInitPriceRateInit
     }
 
-    private List<PriceRateComposite> buildPriceRateList( Iterator<PriceRateComposite> priceRateIterator )
+    private List<PriceRate> buildPriceRateList( Iterator<PriceRate> priceRateIterator )
     {
-        List<PriceRateComposite> priceRateList = new ArrayList<PriceRateComposite>();
+        List<PriceRate> priceRateList = new ArrayList<PriceRate>();
 
         while( priceRateIterator.hasNext() )
         {
@@ -374,7 +376,7 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
     }
 
 
-    public abstract Iterator<PriceRateComposite> getInitPriceRateIterator();
+    public abstract Iterator<PriceRate> getInitPriceRateIterator();
 
     public abstract void onSubmitting();
 }

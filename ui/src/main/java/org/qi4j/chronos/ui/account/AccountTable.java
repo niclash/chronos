@@ -16,8 +16,8 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
-import org.qi4j.chronos.model.ProjectStatus;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.ProjectStatusEnum;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.service.EntityService;
 import org.qi4j.chronos.service.ProjectService;
@@ -29,10 +29,11 @@ import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleAction;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
+import org.qi4j.entity.Identity;
 
-public abstract class AccountTable extends ActionTable<AccountEntityComposite, String>
+public abstract class AccountTable extends ActionTable<Account, String>
 {
-    private SimpleDataProvider<AccountEntityComposite> dataProvider;
+    private SimpleDataProvider<Account> dataProvider;
 
     public AccountTable( String id )
     {
@@ -43,19 +44,20 @@ public abstract class AccountTable extends ActionTable<AccountEntityComposite, S
 
     private void addActions()
     {
-        addAction( new SimpleDeleteAction<AccountEntityComposite>( "Delete account" )
+        addAction( new SimpleDeleteAction<Account>( "Delete account" )
         {
-            public void performAction( List<AccountEntityComposite> accounts )
+            public void performAction( List<Account> accounts )
             {
-                getAccountService().delete( accounts );
+                // TODO migrate
+//                getAccountService().delete( accounts );
 
                 info( "Selected account(s) are deleted." );
             }
         } );
 
-        addAction( new SimpleAction<AccountEntityComposite>( "Disable account" )
+        addAction( new SimpleAction<Account>( "Disable account" )
         {
-            public void performAction( List<AccountEntityComposite> accounts )
+            public void performAction( List<Account> accounts )
             {
                 getAccountService().enableAccount( false, accounts );
 
@@ -63,9 +65,9 @@ public abstract class AccountTable extends ActionTable<AccountEntityComposite, S
             }
         } );
 
-        addAction( new SimpleAction<AccountEntityComposite>( "Enable account" )
+        addAction( new SimpleAction<Account>( "Enable account" )
         {
-            public void performAction( List<AccountEntityComposite> accounts )
+            public void performAction( List<Account> accounts )
             {
                 getAccountService().enableAccount( true, accounts );
 
@@ -74,17 +76,18 @@ public abstract class AccountTable extends ActionTable<AccountEntityComposite, S
         } );
     }
 
-    public AbstractSortableDataProvider<AccountEntityComposite, String> getDetachableDataProvider()
+    public AbstractSortableDataProvider<Account, String> getDetachableDataProvider()
     {
         if( dataProvider == null )
         {
-            dataProvider = new SimpleDataProvider<AccountEntityComposite>()
-            {
-                public EntityService<AccountEntityComposite> getEntityService()
-                {
-                    return AccountTable.this.getAccountService();
-                }
-            };
+            // TODO migrate
+//            dataProvider = new SimpleDataProvider<Account>()
+//            {
+//                public EntityService<Account> getEntityService()
+//                {
+//                    return AccountTable.this.getAccountService();
+//                }
+//            };
         }
         return dataProvider;
     }
@@ -99,19 +102,21 @@ public abstract class AccountTable extends ActionTable<AccountEntityComposite, S
         return ChronosWebApp.getServices().getProjectService();
     }
 
-    public void populateItems( Item item, AccountEntityComposite obj )
+    public void populateItems( Item item, Account obj )
     {
-        final String accountId = obj.identity().get();
+        final String accountId = ( (Identity) obj).identity().get();
 
         item.add( createDetailPage( "name", obj.name().get(), accountId ) );
         item.add( createDetailPage( "formalReference", obj.reference().get(), accountId ) );
 
         item.add( new SimpleCheckBox( "enabled", obj.isEnabled().get(), true ) );
 
-        int totalProject = getProjectService().countAll( getAccount() );
-        int totalActive = getProjectService().countAll( getAccount(), ProjectStatus.ACTIVE );
-        int totalInactive = getProjectService().countAll( getAccount(), ProjectStatus.INACTIVE );
-        int totalClosed = getProjectService().countAll( getAccount(), ProjectStatus.CLOSED );
+        // TODO migrate
+//        int totalProject = getProjectService().countAll( getAccount() );
+        int totalProject = 0;
+        int totalActive = getProjectService().countAll( getAccount(), ProjectStatusEnum.ACTIVE );
+        int totalInactive = getProjectService().countAll( getAccount(), ProjectStatusEnum.INACTIVE );
+        int totalClosed = getProjectService().countAll( getAccount(), ProjectStatusEnum.CLOSED );
 
         item.add( new Label( "totalProject", String.valueOf( totalProject ) ) );
 
@@ -148,5 +153,5 @@ public abstract class AccountTable extends ActionTable<AccountEntityComposite, S
         return Arrays.asList( "Name", "Formal Reference", "Enabled", "Total Project", "Active", "Inactive", "Closed", "" );
     }
 
-    public abstract AccountEntityComposite getAccount();
+    public abstract Account getAccount();
 }

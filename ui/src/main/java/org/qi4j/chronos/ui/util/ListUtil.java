@@ -15,17 +15,17 @@ package org.qi4j.chronos.ui.util;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
-import org.qi4j.chronos.model.PriceRateType;
-import org.qi4j.chronos.model.ProjectStatus;
-import org.qi4j.chronos.model.TaskStatus;
+import org.qi4j.chronos.model.PriceRateSchedule;
+import org.qi4j.chronos.model.Staff;
+import org.qi4j.chronos.model.PriceRate;
+import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.ProjectRole;
+import org.qi4j.chronos.model.PriceRateTypeEnum;
+import org.qi4j.chronos.model.ProjectStatusEnum;
+import org.qi4j.chronos.model.TaskStatusEnum;
 import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
 import org.qi4j.chronos.model.associations.HasPriceRates;
 import org.qi4j.chronos.model.associations.HasStaffs;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.PriceRateComposite;
-import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
-import org.qi4j.chronos.model.composites.ProjectRoleComposite;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.pricerate.PriceRateDelegator;
 import org.qi4j.chronos.ui.projectrole.ProjectRoleDelegator;
@@ -40,8 +40,8 @@ public final class ListUtil
     {
         List<String> nameList = new ArrayList<String>();
 
-        SetAssociation<PriceRateScheduleComposite> priceRateSchedules = hasPriceRateSchedules.priceRateSchedules();
-        for( PriceRateScheduleComposite priceRateScheduleComposite : priceRateSchedules )
+        SetAssociation<PriceRateSchedule> priceRateSchedules = hasPriceRateSchedules.priceRateSchedules();
+        for( PriceRateSchedule priceRateScheduleComposite : priceRateSchedules )
         {
             nameList.add( priceRateScheduleComposite.name().get() );
         }
@@ -54,8 +54,8 @@ public final class ListUtil
     {
         List<StaffDelegator> staffDelegatorList = new ArrayList<StaffDelegator>();
 
-        SetAssociation<StaffEntityComposite> staffs = hasStaffs.staffs();
-        for( StaffEntityComposite staffEntityComposite : staffs )
+        SetAssociation<Staff> staffs = hasStaffs.staffs();
+        for( Staff staffEntityComposite : staffs )
         {
             staffDelegatorList.add( new StaffDelegator( staffEntityComposite ) );
         }
@@ -67,8 +67,8 @@ public final class ListUtil
     public static List<PriceRateDelegator> getPriceRateDelegator( HasPriceRates hasPriceRates )
     {
         List<PriceRateDelegator> priceRateList = new ArrayList<PriceRateDelegator>();
-        SetAssociation<PriceRateComposite> priceRates = hasPriceRates.priceRates();
-        for( PriceRateComposite priceRateComposite : priceRates )
+        SetAssociation<PriceRate> priceRates = hasPriceRates.priceRates();
+        for( PriceRate priceRateComposite : priceRates )
         {
             priceRateList.add( new PriceRateDelegator( priceRateComposite ) );
         }
@@ -76,13 +76,13 @@ public final class ListUtil
         return priceRateList;
     }
 
-    public static List<ProjectRoleDelegator> getProjectRoleDelegatorList( AccountEntityComposite account )
+    public static List<ProjectRoleDelegator> getProjectRoleDelegatorList( Account account )
     {
-        List<ProjectRoleComposite> projectRolelists = ChronosWebApp.getServices().getProjectRoleService().findAll( account );
+        List<ProjectRole> projectRolelists = ChronosWebApp.getServices().getProjectRoleService().findAll( account );
 
         List<ProjectRoleDelegator> resultList = new ArrayList<ProjectRoleDelegator>();
 
-        for( ProjectRoleComposite projectRole : projectRolelists )
+        for( ProjectRole projectRole : projectRolelists )
         {
             resultList.add( new ProjectRoleDelegator( projectRole ) );
         }
@@ -105,11 +105,11 @@ public final class ListUtil
 
     public static List<String> getPriceRateTypeList()
     {
-        PriceRateType[] priceRateTypes = PriceRateType.values();
+        PriceRateTypeEnum[] priceRateTypes = PriceRateTypeEnum.values();
 
         List<String> list = new ArrayList<String>();
 
-        for( PriceRateType priceRateType : priceRateTypes )
+        for( PriceRateTypeEnum priceRateType : priceRateTypes )
         {
             list.add( priceRateType.toString() );
         }
@@ -132,11 +132,9 @@ public final class ListUtil
 
     public static List<String> getProjectStatusList()
     {
-        ProjectStatus[] projectStatuses = ProjectStatus.values();
-
         List<String> result = new ArrayList<String>();
 
-        for( ProjectStatus projectStatus : projectStatuses )
+        for( ProjectStatusEnum projectStatus : ProjectStatusEnum.values() )
         {
             result.add( projectStatus.toString() );
         }
@@ -146,11 +144,9 @@ public final class ListUtil
 
     public static List<String> getTaskStatusList()
     {
-        TaskStatus[] taskStatuses = TaskStatus.values();
-
         List<String> resultList = new ArrayList<String>();
 
-        for( TaskStatus taskStatus : taskStatuses )
+        for( TaskStatusEnum taskStatus : TaskStatusEnum.values() )
         {
             resultList.add( taskStatus.toString() );
         }

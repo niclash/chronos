@@ -19,8 +19,9 @@ import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuth
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.Item;
-import org.qi4j.chronos.model.ProjectStatus;
 import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.ProjectStatusEnum;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.ui.ChronosWebApp;
@@ -31,7 +32,7 @@ import org.qi4j.chronos.ui.common.action.SimpleAction;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
 
-public abstract class ProjectTable extends ActionTable<ProjectEntityComposite, String>
+public abstract class ProjectTable extends ActionTable<Project, String>
 {
     private ProjectDataProvider provider;
 
@@ -49,9 +50,9 @@ public abstract class ProjectTable extends ActionTable<ProjectEntityComposite, S
 
     private void addActions()
     {
-        addAction( new SimpleDeleteAction<ProjectEntityComposite>( "Delete" )
+        addAction( new SimpleDeleteAction<Project>( "Delete" )
         {
-            public void performAction( List<ProjectEntityComposite> projects )
+            public void performAction( List<Project> projects )
             {
                 getProjectService().delete( projects );
 
@@ -59,38 +60,38 @@ public abstract class ProjectTable extends ActionTable<ProjectEntityComposite, S
             }
         } );
 
-        addAction( new SimpleAction<ProjectEntityComposite>( "Change to active status" )
+        addAction( new SimpleAction<Project>( "Change to active status" )
         {
-            public void performAction( List<ProjectEntityComposite> projects )
+            public void performAction( List<Project> projects )
             {
-                getProjectService().changeProjectStatus( ProjectStatus.ACTIVE, projects );
+                getProjectService().changeProjectStatus( ProjectStatusEnum.ACTIVE, projects );
 
                 info( "Selected project(s) are changed to status Active" );
             }
         } );
 
-        addAction( new SimpleAction<ProjectEntityComposite>( "Change to inactive status" )
+        addAction( new SimpleAction<Project>( "Change to inactive status" )
         {
-            public void performAction( List<ProjectEntityComposite> projects )
+            public void performAction( List<Project> projects )
             {
-                getProjectService().changeProjectStatus( ProjectStatus.INACTIVE, projects );
+                getProjectService().changeProjectStatus( ProjectStatusEnum.INACTIVE, projects );
 
                 info( "Selected project(s) are changed to inactive status" );
             }
         } );
 
-        addAction( new SimpleAction<ProjectEntityComposite>( "Change to closed status " )
+        addAction( new SimpleAction<Project>( "Change to closed status " )
         {
-            public void performAction( List<ProjectEntityComposite> projects )
+            public void performAction( List<Project> projects )
             {
-                getProjectService().changeProjectStatus( ProjectStatus.CLOSED, projects );
+                getProjectService().changeProjectStatus( ProjectStatusEnum.CLOSED, projects );
 
                 info( "Selected project(s) are changed to  Closed ActivationStatus" );
             }
         } );
     }
 
-    public AbstractSortableDataProvider<ProjectEntityComposite, String> getDetachableDataProvider()
+    public AbstractSortableDataProvider<Project, String> getDetachableDataProvider()
     {
         if( provider == null )
         {
@@ -101,7 +102,7 @@ public abstract class ProjectTable extends ActionTable<ProjectEntityComposite, S
                     return ProjectTable.this.getSize();
                 }
 
-                public List<ProjectEntityComposite> dataList( int first, int count )
+                public List<Project> dataList( int first, int count )
                 {
                     return ProjectTable.this.dataList( first, count );
                 }
@@ -111,9 +112,9 @@ public abstract class ProjectTable extends ActionTable<ProjectEntityComposite, S
         return provider;
     }
 
-    public void populateItems( Item item, ProjectEntityComposite obj )
+    public void populateItems( Item item, Project obj )
     {
-        final String projectId = obj.identity().get();
+        final String projectId = ( (ProjectEntityComposite) obj).identity().get();
 
         item.add( createDetailLink( "name", obj.name().get(), projectId ) );
         item.add( createDetailLink( "formalReference", obj.reference().get(), projectId ) );
@@ -157,7 +158,7 @@ public abstract class ProjectTable extends ActionTable<ProjectEntityComposite, S
             {
                 ProjectDetailPage detailPage = new ProjectDetailPage( this.getPage() )
                 {
-                    public ProjectEntityComposite getProject()
+                    public Project getProject()
                     {
                         return getProjectService().get( projectId );
                     }
@@ -180,5 +181,5 @@ public abstract class ProjectTable extends ActionTable<ProjectEntityComposite, S
 
     public abstract int getSize();
 
-    public abstract List<ProjectEntityComposite> dataList( int first, int count );
+    public abstract List<Project> dataList( int first, int count );
 }

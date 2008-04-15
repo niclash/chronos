@@ -13,9 +13,9 @@
 package org.qi4j.chronos.ui.customer;
 
 import org.apache.wicket.Page;
-import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.service.CustomerService;
 import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.model.Customer;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -41,9 +41,10 @@ public abstract class CustomerEditPage extends CustomerAddEditPage
         {
             CustomerService service = ChronosWebApp.getServices().getCustomerService();
 
-            CustomerEntityComposite customer = getCustomer();
+            Customer customer = getCustomer();
 
-            service.update( customer );
+            // TODO migrate
+//            service.update( customer );
 
             logInfoMsg( "Customer is updated successfully." );
 
@@ -66,5 +67,5 @@ public abstract class CustomerEditPage extends CustomerAddEditPage
         return "Edit Customer";
     }
 
-    public abstract CustomerEntityComposite getCustomer();
+    public abstract Customer getCustomer();
 }

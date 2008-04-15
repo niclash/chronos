@@ -17,6 +17,7 @@ import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.associations.HasWorkEntries;
+import org.qi4j.chronos.model.WorkEntry;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.WorkEntryService;
@@ -28,7 +29,7 @@ import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.chronos.util.DateUtil;
 
-public abstract class WorkEntryTable extends ActionTable<WorkEntryEntityComposite, String>
+public abstract class WorkEntryTable extends ActionTable<WorkEntry, String>
 {
     private WorkEntryDataProvider provider;
 
@@ -41,9 +42,9 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntryEntityComposit
 
     private void initActions()
     {
-        addAction( new SimpleDeleteAction<WorkEntryEntityComposite>( "Delete" )
+        addAction( new SimpleDeleteAction<WorkEntry>( "Delete" )
         {
-            public void performAction( List<WorkEntryEntityComposite> workEntries )
+            public void performAction( List<WorkEntry> workEntries )
             {
                 getWorkEntryService().delete( getHasWorkEntries(), workEntries );
 
@@ -52,13 +53,13 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntryEntityComposit
         } );
     }
 
-    public AbstractSortableDataProvider<WorkEntryEntityComposite, String> getDetachableDataProvider()
+    public AbstractSortableDataProvider<WorkEntry, String> getDetachableDataProvider()
     {
         if( provider == null )
         {
             provider = new WorkEntryDataProvider()
             {
-                public List<WorkEntryEntityComposite> dataList( int first, int count )
+                public List<WorkEntry> dataList( int first, int count )
                 {
                     return getWorkEntryService().findAll( getHasWorkEntries(), new FindFilter( first, first + count ) );
                 }
@@ -83,9 +84,9 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntryEntityComposit
         return ChronosWebApp.getServices().getWorkEntryService();
     }
 
-    public void populateItems( Item item, WorkEntryEntityComposite obj )
+    public void populateItems( Item item, WorkEntry obj )
     {
-        final String workEntryId = obj.identity().get();
+        final String workEntryId = ( (WorkEntryEntityComposite) obj).identity().get();
 
         item.add( new SimpleLink( "title", obj.title().get() )
         {
@@ -93,7 +94,7 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntryEntityComposit
             {
                 WorkEntryDetailPage detailPage = new WorkEntryDetailPage( this.getPage() )
                 {
-                    public WorkEntryEntityComposite getWorkEntry()
+                    public WorkEntry getWorkEntry()
                     {
                         return getWorkEntryService().get( getHasWorkEntries(), workEntryId );
                     }
@@ -113,7 +114,7 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntryEntityComposit
             {
                 WorkEntryEditPage editPage = new WorkEntryEditPage( (BasePage) this.getPage() )
                 {
-                    public WorkEntryEntityComposite getWorkEntry()
+                    public WorkEntry getWorkEntry()
                     {
                         return getWorkEntryService().get( getHasWorkEntries(), workEntryId );
                     }

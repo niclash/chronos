@@ -13,29 +13,29 @@
 package org.qi4j.chronos.ui.systemrole;
 
 import java.util.List;
-import org.qi4j.chronos.model.composites.SystemRoleComposite;
 import org.qi4j.chronos.service.SystemRoleService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
+import org.qi4j.chronos.model.SystemRole;
 
-public class StaffSystemRoleDataProvider extends AbstractSortableDataProvider<SystemRoleComposite, String>
+public class StaffSystemRoleDataProvider extends AbstractSortableDataProvider<SystemRole, String>
 {
     private SystemRoleService getSystemRoleService()
     {
         return ChronosWebApp.getServices().getSystemRoleService();
     }
 
-    public String getId( SystemRoleComposite systemRole )
+    public String getId( SystemRole systemRole )
     {
         return systemRole.name().get();
     }
 
-    public SystemRoleComposite load( String id )
+    public SystemRole load( String id )
     {
         return getSystemRoleService().getSystemRoleByName( id );
     }
 
-    public List<SystemRoleComposite> dataList( int first, int count )
+    public List<SystemRole> dataList( int first, int count )
     {
         return getSystemRoleService().findAllStaffSystemRole( first, count );
     }

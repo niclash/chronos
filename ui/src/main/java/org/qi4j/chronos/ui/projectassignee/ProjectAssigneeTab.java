@@ -15,8 +15,8 @@ package org.qi4j.chronos.ui.projectassignee;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.ui.common.NewLinkPanel;
 import org.qi4j.chronos.ui.common.tab.NewLinkTab;
 
@@ -48,7 +48,7 @@ public abstract class ProjectAssigneeTab extends NewLinkTab
         {
             return new ProjectAssigneeTable( id )
             {
-                public ProjectEntityComposite getProject()
+                public Project getProject()
                 {
                     return ProjectAssigneeTab.this.getProject();
                 }
@@ -59,7 +59,7 @@ public abstract class ProjectAssigneeTab extends NewLinkTab
         {
             ProjectAssigneeAddPage addPage = new ProjectAssigneeAddPage( this.getPage() )
             {
-                public ProjectEntityComposite getProject()
+                public Project getProject()
                 {
                     return ProjectAssigneeTab.this.getProject();
                 }
@@ -74,5 +74,5 @@ public abstract class ProjectAssigneeTab extends NewLinkTab
         }
     }
 
-    public abstract ProjectEntityComposite getProject();
+    public abstract Project getProject();
 }

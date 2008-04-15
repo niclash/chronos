@@ -13,8 +13,9 @@
 package org.qi4j.chronos.ui.relationship;
 
 import org.apache.wicket.Page;
-import org.qi4j.chronos.model.composites.CustomerEntityComposite;
-import org.qi4j.chronos.model.composites.RelationshipComposite;
+import org.qi4j.chronos.model.composites.RelationshipEntityComposite;
+import org.qi4j.chronos.model.Customer;
+import org.qi4j.chronos.model.Relationship;
 import org.qi4j.chronos.service.RelationshipService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 
@@ -43,7 +44,7 @@ public abstract class RelationshipAddPage extends RelationshipAddEditPage
             return;
         }
 
-        RelationshipComposite newRelationship = ChronosWebApp.newInstance( RelationshipComposite.class );
+        Relationship newRelationship = ChronosWebApp.newInstance( RelationshipEntityComposite.class );
 
         newRelationship.relationship().set( relationship );
 
@@ -62,7 +63,7 @@ public abstract class RelationshipAddPage extends RelationshipAddEditPage
         return "Add Relationship";
     }
 
-    public abstract CustomerEntityComposite getCustomer();
+    public abstract Customer getCustomer();
 
-    public abstract void newRelationship( RelationshipComposite relationship );
+    public abstract void newRelationship( Relationship relationship );
 }

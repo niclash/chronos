@@ -13,18 +13,19 @@
 package org.qi4j.chronos.ui.projectassignee;
 
 import java.io.Serializable;
-import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
+import org.qi4j.chronos.model.ProjectAssignee;
+import org.qi4j.entity.Identity;
 
 public class ProjectAssigneeDelegator implements Serializable
 {
     private String id;
     private String fullName;
 
-    public ProjectAssigneeDelegator( ProjectAssigneeEntityComposite projectAssignee )
+    public ProjectAssigneeDelegator( ProjectAssignee projectAssignee )
     {
-        this.id = projectAssignee.identity().get();
+        this.id = ( (Identity) projectAssignee).identity().get();
 
-        this.fullName = projectAssignee.staff().get().name().get();
+        this.fullName = projectAssignee.staff().get().fullName().get();
     }
 
     public String getId()

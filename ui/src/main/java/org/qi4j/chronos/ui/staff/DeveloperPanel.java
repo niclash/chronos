@@ -17,15 +17,15 @@ import java.util.List;
 import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
-import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.service.TaskService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.project.ProjectTab;
 import org.qi4j.chronos.ui.task.RecentTaskTab;
+import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.Staff;
+import org.qi4j.chronos.model.Task;
 
 public abstract class DeveloperPanel extends Panel
 {
@@ -69,7 +69,7 @@ public abstract class DeveloperPanel extends Panel
                 return getProjectService().countRecentProject( getStaff() );
             }
 
-            public List<ProjectEntityComposite> dataList( int first, int count )
+            public List<Project> dataList( int first, int count )
             {
                 return getProjectService().getRecentProjects( getStaff(), new FindFilter( first, count ) );
             }
@@ -85,12 +85,12 @@ public abstract class DeveloperPanel extends Panel
                 return getTaskService().countRecentTasks( getStaff() );
             }
 
-            public List<TaskEntityComposite> dataList( int first, int count )
+            public List<Task> dataList( int first, int count )
             {
                 return getTaskService().getRecentTasks( getStaff(), new FindFilter( first, count ) );
             }
         };
     }
 
-    public abstract StaffEntityComposite getStaff();
+    public abstract Staff getStaff();
 }

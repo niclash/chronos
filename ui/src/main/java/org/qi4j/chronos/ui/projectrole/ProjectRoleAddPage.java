@@ -13,9 +13,10 @@
 package org.qi4j.chronos.ui.projectrole;
 
 import org.apache.wicket.Page;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectRoleComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.model.ProjectRole;
+import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -30,17 +31,18 @@ public class ProjectRoleAddPage extends ProjectRoleAddEditPage
 
     public void onSubmitting()
     {
-        ProjectRoleComposite projectRole = ChronosWebApp.newInstance( ProjectRoleComposite.class );
+        ProjectRole projectRole = ChronosWebApp.newInstance( ProjectRoleEntityComposite.class );
 
         try
         {
             assignFieldValueToProjectRole( projectRole );
 
-            AccountEntityComposite account = getAccount();
+            Account account = getAccount();
 
             account.projectRoles().add( projectRole );
 
-            ChronosWebApp.getServices().getAccountService().update( account );
+            // TODO migrate
+//            ChronosWebApp.getServices().getAccountService().update( account );
 
             logInfoMsg( "ProjectRole is added successfully!" );
 

@@ -21,15 +21,28 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.util.value.ValueMap;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.Login;
+import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.account.AccountDelegator;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
+import org.qi4j.chronos.service.account.AccountServiceComposite;
+import org.qi4j.composite.scope.Structure;
+import org.qi4j.composite.scope.Service;
+import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.entity.UnitOfWork;
+
+import static org.qi4j.composite.NullArgumentException.validateNotNull;
 
 public class LoginPage extends BasePage
 {
+    transient private UnitOfWorkFactory factory;
+
+//    transient private AccountEntityServiceComposite accountService;
+//    transient private YetAnotherAccountServiceComposite accountService;
+    transient private AccountServiceComposite accountService;
+
     private static final long serialVersionUID = 1L;
 
     private static final String WICKET_ID_FEEDBACK_PANEL = "feedbackPanel";
@@ -38,8 +51,13 @@ public class LoginPage extends BasePage
     private PasswordTextField password;
     private TextField username;
 
-    public LoginPage()
+    public LoginPage( final @Structure UnitOfWorkFactory factory, final @Service AccountServiceComposite accountService )
     {
+        validateNotNull( "factory", factory );
+        validateNotNull( "accountService", accountService );
+
+        this.factory = factory;
+        this.accountService = accountService;
         add( new FeedbackPanel( WICKET_ID_FEEDBACK_PANEL ) );
         add( new LoginForm( WICKET_ID_LOGIN_FORM ) );
     }
@@ -58,7 +76,7 @@ public class LoginPage extends BasePage
     {
         private static final long serialVersionUID = 1L;
 
-        private final static String SYSTEM_ACCOUNT = "[ Sytem ]";
+        private final static String SYSTEM_ACCOUNT = "[ System ]";
 
         private final ValueMap properties = new ValueMap();
         private SimpleDropDownChoice<AccountDelegator> accountDropDownChoice;
@@ -78,7 +96,14 @@ public class LoginPage extends BasePage
 
             accountDropDownChoice = new SimpleDropDownChoice<AccountDelegator>( "accountDropDownChoice", accountList, true );
 
-            username = new TextField( "username", new PropertyModel( properties, "username" ) );
+            username = new TextField( "username", new PropertyModel( properties, "username" ) )
+            {
+                @Override
+                protected boolean supportsPersistence()
+                {
+                    return true;
+                }
+            };
             password = new PasswordTextField( "password", new PropertyModel( properties, "password" ) )
             {
                  @Override
@@ -88,8 +113,8 @@ public class LoginPage extends BasePage
                 }
             };
 
-            username.setPersistent( true );
-            password.setPersistent( true );
+//            username.setPersistent( true );
+//            password.setPersistent( true );
 
             add( accountDropDownChoice );
             add( username );
@@ -119,12 +144,16 @@ public class LoginPage extends BasePage
         {
             List<AccountDelegator> resultList = new ArrayList<AccountDelegator>();
 
-            List<AccountEntityComposite> accounts = ChronosWebApp.getServices().getAccountService().findAll();
+//            UnitOfWork uow = factory.newUnitOfWork();
 
-            for( AccountEntityComposite account : accounts )
+//            List<Account> accounts = ChronosSession.get().getAccountService().findAll( uow );
+            List<Account> accounts = accountService.findAll();
+
+            for( Account account : accounts )
             {
                 resultList.add( new AccountDelegator( account ) );
             }
+//            uow.discard();
 
             return resultList;
         }
@@ -135,6 +164,15 @@ public class LoginPage extends BasePage
 
             session.setAccountId( accountId );
 
+            UnitOfWork uow = factory.newUnitOfWork();
+            for( Login login : session.getLoginService().findAll( uow ) )
+            {
+                if( login.isEnabled().get() && username.equals( login.name().get() ) )
+                {
+                    return password.equals( login.password().get() );
+                }
+            }
+            uow.discard();
             return session.signIn( username, password );
         }
 

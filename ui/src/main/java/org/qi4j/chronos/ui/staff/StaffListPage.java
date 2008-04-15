@@ -13,11 +13,12 @@
 package org.qi4j.chronos.ui.staff;
 
 import java.util.List;
+import java.util.ArrayList;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.ui.ChronosWebApp;
@@ -50,9 +51,11 @@ public class StaffListPage extends LeftMenuNavPage
                 return StaffListPage.this.getSize();
             }
 
-            public List<StaffEntityComposite> dataList( int first, int count )
+            public List<Staff> dataList( int first, int count )
             {
-                return StaffListPage.this.dataList( first, count );
+                // TODO migration
+//                return StaffListPage.this.dataList( first, count );
+                return new ArrayList<Staff>(0);
             }
         };
 
@@ -66,11 +69,15 @@ public class StaffListPage extends LeftMenuNavPage
 
     public int getSize()
     {
-        return getStaffService().countAll( getAccount() );
+        // TODO migrate
+//        return getStaffService().countAll( getAccount() );
+        return 0;
     }
 
-    public List<StaffEntityComposite> dataList( int first, int count )
+    public List<Staff> dataList( int first, int count )
     {
-        return getStaffService().findAll( getAccount(), new FindFilter( first, count ) );
+        return new ArrayList<Staff>(0);
+        // TODO
+//        return getStaffService().findAll( getAccount(), new FindFilter( first, count ) );
     }
 }

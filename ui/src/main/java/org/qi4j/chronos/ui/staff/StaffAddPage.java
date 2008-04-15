@@ -13,15 +13,18 @@
 package org.qi4j.chronos.ui.staff;
 
 import org.apache.wicket.Page;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.LoginComposite;
-import org.qi4j.chronos.model.composites.MoneyComposite;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.login.LoginUserAddPanel;
+import org.qi4j.chronos.model.composites.LoginEntityComposite;
+import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.composites.MoneyEntityComposite;
+import org.qi4j.chronos.model.Login;
+import org.qi4j.chronos.model.Money;
+import org.qi4j.chronos.model.Staff;
+import org.qi4j.chronos.model.Account;
 import org.qi4j.library.framework.validation.ValidationException;
 
 public class StaffAddPage extends StaffAddEditPage
@@ -57,13 +60,13 @@ public class StaffAddPage extends StaffAddEditPage
     {
         StaffService staffService = getServices().getStaffService();
 
-        StaffEntityComposite staff = staffService.newInstance( StaffEntityComposite.class );
+        Staff staff = staffService.newInstance( StaffEntityComposite.class );
 
-        MoneyComposite money = ChronosWebApp.newInstance( MoneyComposite.class );
+        Money money = ChronosWebApp.newInstance( MoneyEntityComposite.class );
 
         staff.salary().set( money );
 
-        LoginComposite login = ChronosWebApp.newInstance( LoginComposite.class );
+        Login login = ChronosWebApp.newInstance( LoginEntityComposite.class );
 
         staff.login().set( login );
 
@@ -71,13 +74,14 @@ public class StaffAddPage extends StaffAddEditPage
 
         try
         {
-            AccountEntityComposite account = getAccount();
+            Account account = getAccount();
 
             account.staffs().add( staff );
 
             AccountService accountService = getServices().getAccountService();
 
-            accountService.update( account );
+            // TODO migrate
+//            accountService.update( account );
 
             logInfoMsg( "Staff is added successfully." );
 

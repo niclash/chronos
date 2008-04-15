@@ -13,17 +13,18 @@
 package org.qi4j.chronos.ui.customer;
 
 import java.io.Serializable;
-import org.qi4j.chronos.model.composites.CustomerEntityComposite;
+import org.qi4j.chronos.model.Customer;
+import org.qi4j.entity.Identity;
 
 public class CustomerDelegator implements Serializable
 {
     private String name;
     private String id;
 
-    public CustomerDelegator( CustomerEntityComposite customer )
+    public CustomerDelegator( Customer customer )
     {
         name = customer.name().get();
-        id = customer.identity().get();
+        id = ( (Identity) customer).identity().get();
     }
 
     public String getId()

@@ -19,11 +19,12 @@ import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInst
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.SubmitLink;
-import org.qi4j.chronos.model.PriceRateType;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.composites.PriceRateComposite;
-import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
-import org.qi4j.chronos.model.composites.ProjectRoleComposite;
+import org.qi4j.chronos.model.PriceRateTypeEnum;
+import org.qi4j.chronos.model.ProjectRole;
+import org.qi4j.chronos.model.PriceRate;
+import org.qi4j.chronos.model.PriceRateSchedule;
+import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 import org.qi4j.chronos.ui.common.NumberTextField;
@@ -36,7 +37,7 @@ public abstract class PriceRateAddEditPage extends AddEditBasePage
 {
     private NumberTextField amountField;
     private SimpleDropDownChoice<ProjectRoleDelegator> projectRoleChoice;
-    private SimpleDropDownChoice<PriceRateType> priceRateTypeChoice;
+    private SimpleDropDownChoice<PriceRateTypeEnum> priceRateTypeChoice;
 
     private SubmitLink selectPriceRateLink;
     private WebMarkupContainer selectPriceRateContainer;
@@ -66,10 +67,10 @@ public abstract class PriceRateAddEditPage extends AddEditBasePage
 
         amountField = new NumberTextField( "amount", "Amount" );
 
-        List<PriceRateType> priceRatyeTypeList = Arrays.asList( PriceRateType.values() );
+        List<PriceRateTypeEnum> priceRatyeTypeList = Arrays.asList( PriceRateTypeEnum.values() );
         List<ProjectRoleDelegator> roleList = ListUtil.getProjectRoleDelegatorList( getAccount() );
 
-        priceRateTypeChoice = new SimpleDropDownChoice<PriceRateType>( "priceRateTypeChoice", priceRatyeTypeList, true );
+        priceRateTypeChoice = new SimpleDropDownChoice<PriceRateTypeEnum>( "priceRateTypeChoice", priceRatyeTypeList, true );
         projectRoleChoice = new SimpleDropDownChoice<ProjectRoleDelegator>( "projectRoleChoice", roleList, true );
 
         form.add( selectPriceRateContainer );
@@ -82,12 +83,12 @@ public abstract class PriceRateAddEditPage extends AddEditBasePage
     {
         PriceRateSelectionPage selectionPage = new PriceRateSelectionPage( this )
         {
-            public void handleSelectedPriceRate( PriceRateComposite priceRate )
+            public void handleSelectedPriceRate( PriceRate priceRate )
             {
                 PriceRateAddEditPage.this.handleSelectedPriceRate( priceRate );
             }
 
-            public PriceRateScheduleComposite getPriceRateSchedule()
+            public PriceRateSchedule getPriceRateSchedule()
             {
                 return PriceRateAddEditPage.this.getPriceRateSchedule();
             }
@@ -96,28 +97,28 @@ public abstract class PriceRateAddEditPage extends AddEditBasePage
         setResponsePage( selectionPage );
     }
 
-    private void handleSelectedPriceRate( PriceRateComposite priceRate )
+    private void handleSelectedPriceRate( PriceRate priceRate )
     {
         assignPriceRateToFieldValue( priceRate );
     }
 
-    protected void assignFieldValueToPriceRate( PriceRateComposite priceRate )
+    protected void assignFieldValueToPriceRate( PriceRate priceRate )
     {
         priceRate.amount().set( amountField.getLongValue() );
         priceRate.priceRateType().set( priceRateTypeChoice.getChoice() );
         priceRate.projectRole().set( getSelectedProjectRole() );
     }
 
-    protected void assignPriceRateToFieldValue( PriceRateComposite priceRate )
+    protected void assignPriceRateToFieldValue( PriceRate priceRate )
     {
         amountField.setLongValue( priceRate.amount().get() );
         priceRateTypeChoice.setChoice( priceRate.priceRateType().get() );
         projectRoleChoice.setChoice( new ProjectRoleDelegator( priceRate.projectRole().get() ) );
     }
 
-    private ProjectRoleComposite getSelectedProjectRole()
+    private ProjectRole getSelectedProjectRole()
     {
-        ProjectRoleComposite projectRole = ChronosWebApp.newInstance( ProjectRoleComposite.class );
+        ProjectRole projectRole = ChronosWebApp.newInstance( ProjectRoleEntityComposite.class );
 
         projectRole.name().set( projectRoleChoice.getChoice().getName() );
 
@@ -143,5 +144,5 @@ public abstract class PriceRateAddEditPage extends AddEditBasePage
 
     public abstract void onSubmitting();
 
-    public abstract PriceRateScheduleComposite getPriceRateSchedule();
+    public abstract PriceRateSchedule getPriceRateSchedule();
 }

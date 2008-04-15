@@ -15,7 +15,8 @@ package org.qi4j.chronos.ui.task;
 import java.util.Date;
 import org.apache.wicket.Page;
 import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.Task;
+import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.TaskService;
 import org.qi4j.chronos.ui.ChronosSession;
@@ -37,17 +38,18 @@ public abstract class TaskAddPage extends TaskAddEditPage
 
         try
         {
-            TaskEntityComposite taskMaster = taskService.newInstance( TaskEntityComposite.class );
+            Task taskMaster = taskService.newInstance( TaskEntityComposite.class );
 
             taskMaster.createdDate().set( new Date() );
 
             assignFieldValueToTaskMaster( taskMaster );
 
-            ProjectEntityComposite project = getProject();
+            Project project = getProject();
 
             project.tasks().add( taskMaster );
 
-            getServices().getProjectService().update( project );
+            // TODO migrate
+//            getServices().getProjectService().update( project );
 
             logInfoMsg( "Task is added successfully." );
 
@@ -75,5 +77,5 @@ public abstract class TaskAddPage extends TaskAddEditPage
         return ChronosSession.get().getUser();
     }
 
-    public abstract ProjectEntityComposite getProject();
+    public abstract Project getProject();
 }

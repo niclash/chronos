@@ -13,20 +13,21 @@
 package org.qi4j.chronos.ui.customer;
 
 import java.util.List;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.CustomerEntityComposite;
+import org.qi4j.chronos.model.Customer;
+import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.service.CustomerService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
+import org.qi4j.entity.Identity;
 
-public abstract class CustomerDataProvider extends AbstractSortableDataProvider<CustomerEntityComposite, String>
+public abstract class CustomerDataProvider extends AbstractSortableDataProvider<Customer, String>
 {
-    public String getId( CustomerEntityComposite customer )
+    public String getId( Customer customer )
     {
-        return customer.identity().get();
+        return ( (Identity) customer).identity().get();
     }
 
-    public CustomerEntityComposite load( String id )
+    public Customer load( String id )
     {
         return getCustomerService().get( id );
     }
@@ -36,16 +37,20 @@ public abstract class CustomerDataProvider extends AbstractSortableDataProvider<
         return ChronosWebApp.getServices().getCustomerService();
     }
 
-    public List<CustomerEntityComposite> dataList( int first, int count )
+    public List<Customer> dataList( int first, int count )
     {
-        return getCustomerService().findAll( getAccount() );
+        // TODO migrate
+//        return getCustomerService().findAll( getAccount() );
+        return null;
     }
 
-    public abstract AccountEntityComposite getAccount();
+    public abstract Account getAccount();
 
     public int getSize()
     {
-        return getCustomerService().countAll( getAccount() );
+        // TODO migrate
+//        return getCustomerService().countAll( getAccount() );
+        return 0;
     }
 
 }

@@ -17,7 +17,6 @@ import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInst
 import org.apache.wicket.markup.html.form.Form;
 import org.qi4j.chronos.model.ProjectRole;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.composites.ProjectRoleComposite;
 import org.qi4j.chronos.service.ProjectRoleService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
@@ -45,12 +44,12 @@ public abstract class ProjectRoleAddEditPage extends AddEditBasePage
         return ChronosWebApp.getServices().getProjectRoleService();
     }
 
-    protected void assignFieldValueToProjectRole( ProjectRoleComposite projectRole )
+    protected void assignFieldValueToProjectRole( ProjectRole projectRole )
     {
         projectRole.name().set( nameField.getText() );
     }
 
-    protected void assignProjectRoleToFieldValue( ProjectRoleComposite projectRole )
+    protected void assignProjectRoleToFieldValue( ProjectRole projectRole )
     {
         nameField.setText( projectRole.name().get() );
     }

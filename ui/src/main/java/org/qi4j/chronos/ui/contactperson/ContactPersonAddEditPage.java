@@ -25,9 +25,8 @@ import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.composites.ContactComposite;
-import org.qi4j.chronos.model.composites.CustomerEntityComposite;
-import org.qi4j.chronos.model.composites.SystemRoleComposite;
+import org.qi4j.chronos.model.Customer;
+import org.qi4j.chronos.model.composites.ContactEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
@@ -52,7 +51,7 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
     private ListView contactListView;
 
     //TODO remove static
-    private static List<ContactComposite> contactList;
+    private static List<Contact> contactList;
 
     public ContactPersonAddEditPage( Page goBackPage )
     {
@@ -79,7 +78,7 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
             protected void populateItem( ListItem item )
             {
                 final int index = item.getIndex();
-                ContactComposite contact = contactList.get( index );
+                Contact contact = contactList.get( index );
 
                 MaxLengthTextField contactValueField;
                 MaxLengthTextField contactTypeField;
@@ -118,7 +117,7 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
 
         relationshipOptionPanel = new RelationshipOptionPanel( "relationshipOptionPanel" )
         {
-            public CustomerEntityComposite getCustomer()
+            public Customer getCustomer()
             {
                 return ContactPersonAddEditPage.this.getCustomer();
             }
@@ -131,7 +130,7 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
                 return ContactPersonAddEditPage.this.getLoginUserAbstractPanel( id );
             }
 
-            public Iterator<SystemRoleComposite> getInitSelectedRoleList()
+            public Iterator<SystemRole> getInitSelectedRoleList()
             {
                 return ContactPersonAddEditPage.this.getInitSelectedRoleList();
             }
@@ -167,14 +166,14 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
 
     private void addNewPriceRate()
     {
-        ContactComposite contact = ChronosWebApp.newInstance( ContactComposite.class );
+        Contact contact = ChronosWebApp.newInstance( ContactEntityComposite.class );
 
         contactList.add( contact );
     }
 
     private void updateContactListView()
     {
-        contactListView.setList( Arrays.asList( new Integer[contactList.size()] ) );
+        contactListView.setList( Arrays.asList( new Integer[ contactList.size() ] ) );
     }
 
     protected void assignContactPersonToFieldValue( ContactPerson contactPerson )
@@ -189,13 +188,13 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
         userAddEditPanel.assignFieldValueToUser( contactPerson );
 
         contactPerson.relationship().set( relationshipOptionPanel.getSelectedRelationship() );
-        SetAssociation<ContactComposite> contacts = contactPerson.contacts();
+        SetAssociation<Contact> contacts = contactPerson.contacts();
         contacts.addAll( contactList );
     }
 
-    public Iterator<SystemRoleComposite> getInitSelectedRoleList()
+    public Iterator<SystemRole> getInitSelectedRoleList()
     {
-        List<SystemRoleComposite> emptyList = Collections.emptyList();
+        List<SystemRole> emptyList = Collections.emptyList();
         return emptyList.iterator();
     }
 
@@ -232,7 +231,7 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
     {
         int index = 0;
 
-        for( ContactComposite contact : contactList )
+        for( Contact contact : contactList )
         {
             MaxLengthTextField contactValueField = contactValueFieldList.get( index );
             MaxLengthTextField contactTypeField = contactTypeFieldList.get( index );
@@ -301,11 +300,11 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
         return isInvalidContactType || isInvalidContactValue;
     }
 
-    private List<ContactComposite> getInitContactList()
+    private List<Contact> getInitContactList()
     {
-        List<ContactComposite> contactList = new ArrayList<ContactComposite>();
+        List<Contact> contactList = new ArrayList<Contact>();
 
-        Iterator<ContactComposite> contactIterator = getInitContactIterator();
+        Iterator<Contact> contactIterator = getInitContactIterator();
 
         while( contactIterator.hasNext() )
         {
@@ -315,9 +314,9 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
         return contactList;
     }
 
-    public abstract Iterator<ContactComposite> getInitContactIterator();
+    public abstract Iterator<Contact> getInitContactIterator();
 
-    public abstract CustomerEntityComposite getCustomer();
+    public abstract Customer getCustomer();
 
     public abstract void onSubmitting();
 

@@ -19,7 +19,6 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.qi4j.chronos.model.LegalCondition;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.composites.LegalConditionComposite;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 import org.qi4j.chronos.ui.common.MaxLengthTextArea;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
@@ -75,7 +74,7 @@ public abstract class LegalConditionAddEditPage extends AddEditBasePage
     {
         LegalConditionSelectionPage page = new LegalConditionSelectionPage( this )
         {
-            public void selectedLegalCondition( LegalConditionComposite legalCondition )
+            public void selectedLegalCondition( LegalCondition legalCondition )
             {
                 assignLegalConditionToFieldValue( legalCondition );
             }
@@ -84,13 +83,13 @@ public abstract class LegalConditionAddEditPage extends AddEditBasePage
         setResponsePage( page );
     }
 
-    protected void assignFieldValueToLegalCondition( LegalConditionComposite legalCondition )
+    protected void assignFieldValueToLegalCondition( LegalCondition legalCondition )
     {
         legalCondition.name().set( nameField.getText() );
         legalCondition.description().set( descField.getText() );
     }
 
-    protected void assignLegalConditionToFieldValue( LegalConditionComposite legalCondition )
+    protected void assignLegalConditionToFieldValue( LegalCondition legalCondition )
     {
         nameField.setText( legalCondition.name().get() );
         descField.setText( legalCondition.description().get() );

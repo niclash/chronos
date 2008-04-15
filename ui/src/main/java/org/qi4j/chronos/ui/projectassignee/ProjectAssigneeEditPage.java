@@ -13,10 +13,11 @@
 package org.qi4j.chronos.ui.projectassignee;
 
 import java.util.List;
+import java.util.ArrayList;
 import org.apache.wicket.Page;
-import org.qi4j.chronos.model.composites.PriceRateComposite;
-import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.model.ProjectAssignee;
+import org.qi4j.chronos.model.PriceRate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,13 +49,14 @@ public abstract class ProjectAssigneeEditPage extends ProjectAssigneeAddEditPage
 
     public void onsubmitting()
     {
-        ProjectAssigneeEntityComposite projectAssignee = getProjectAssignee();
+        ProjectAssignee projectAssignee = getProjectAssignee();
 
         try
         {
             assignFieldValueToProjectAssignee( projectAssignee );
 
-            ChronosWebApp.getServices().getProjectAssigneeService().update( projectAssignee );
+            // TODO migrate
+//            ChronosWebApp.getServices().getProjectAssigneeService().update( projectAssignee );
 
             logInfoMsg( "Project assignee is updated successfully." );
 
@@ -67,15 +69,17 @@ public abstract class ProjectAssigneeEditPage extends ProjectAssigneeAddEditPage
         }
     }
 
-    public List<PriceRateComposite> getAvailablePriceRates()
+    public List<PriceRate> getAvailablePriceRates()
     {
-        List<PriceRateComposite> priceRateList = ChronosWebApp.getServices().getPriceRateService().
-            findAll( getProject().priceRateSchedule().get() );
+        // TODO migrate
+//        List<PriceRate> priceRateList = ChronosWebApp.getServices().getPriceRateService().
+//            findAll( getProject().priceRateSchedule().get() );
 
+        List<PriceRate> priceRateList = new ArrayList<PriceRate>();
         priceRateList.add( getProjectAssignee().priceRate().get() );
 
         return priceRateList;
     }
 
-    public abstract ProjectAssigneeEntityComposite getProjectAssignee();
+    public abstract ProjectAssignee getProjectAssignee();
 }

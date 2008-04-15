@@ -16,7 +16,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
-import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.TaskService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
@@ -25,8 +24,10 @@ import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.chronos.util.DateUtil;
+import org.qi4j.chronos.model.Task;
+import org.qi4j.entity.Identity;
 
-public abstract class TaskTable extends ActionTable<TaskEntityComposite, String>
+public abstract class TaskTable extends ActionTable<Task, String>
 {
     private TaskDataProvider dataProvider;
 
@@ -39,9 +40,9 @@ public abstract class TaskTable extends ActionTable<TaskEntityComposite, String>
 
     private void addActions()
     {
-        addAction( new SimpleDeleteAction<TaskEntityComposite>( "Delete" )
+        addAction( new SimpleDeleteAction<Task>( "Delete" )
         {
-            public void performAction( List<TaskEntityComposite> tasks )
+            public void performAction( List<Task> tasks )
             {
                 getTaskService().delete( tasks );
 
@@ -55,7 +56,7 @@ public abstract class TaskTable extends ActionTable<TaskEntityComposite, String>
         return ChronosWebApp.getServices().getTaskService();
     }
 
-    public AbstractSortableDataProvider<TaskEntityComposite, String> getDetachableDataProvider()
+    public AbstractSortableDataProvider<Task, String> getDetachableDataProvider()
     {
         if( dataProvider == null )
         {
@@ -66,7 +67,7 @@ public abstract class TaskTable extends ActionTable<TaskEntityComposite, String>
                     return TaskTable.this.getSize();
                 }
 
-                public List<TaskEntityComposite> dataList( int first, int count )
+                public List<Task> dataList( int first, int count )
                 {
                     return TaskTable.this.dataList( first, count );
                 }
@@ -76,9 +77,9 @@ public abstract class TaskTable extends ActionTable<TaskEntityComposite, String>
         return dataProvider;
     }
 
-    public void populateItems( Item item, TaskEntityComposite obj )
+    public void populateItems( Item item, Task obj )
     {
-        final String id = obj.identity().get();
+        final String id = ( (Identity) obj).identity().get();
 
         item.add( new SimpleLink( "title", obj.title().get() )
         {
@@ -90,7 +91,7 @@ public abstract class TaskTable extends ActionTable<TaskEntityComposite, String>
 
         item.add( new Label( "createdDateLabel", DateUtil.formatDateTime( obj.createdDate().get() ) ) );
 
-        item.add( new Label( "createdByLabel", obj.user().get().name().get() ) );
+        item.add( new Label( "createdByLabel", obj.user().get().fullName().get() ) );
 
         SimpleLink editLink = new SimpleLink( "editLink", "Edit" )
         {
@@ -107,7 +108,7 @@ public abstract class TaskTable extends ActionTable<TaskEntityComposite, String>
     {
         TaskDetailPage detailPage = new TaskDetailPage( (BasePage) this.getPage() )
         {
-            public TaskEntityComposite getTask()
+            public Task getTask()
             {
                 return getTaskService().get( id );
             }
@@ -120,7 +121,7 @@ public abstract class TaskTable extends ActionTable<TaskEntityComposite, String>
     {
         TaskEditPage editPage = new TaskEditPage( (BasePage) this.getPage() )
         {
-            public TaskEntityComposite getTask()
+            public Task getTask()
             {
                 return getTaskService().get( id );
             }
@@ -136,6 +137,6 @@ public abstract class TaskTable extends ActionTable<TaskEntityComposite, String>
 
     public abstract int getSize();
 
-    public abstract List<TaskEntityComposite> dataList( int first, int count );
+    public abstract List<Task> dataList( int first, int count );
 
 }

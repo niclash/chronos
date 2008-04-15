@@ -22,8 +22,8 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.ui.ChronosWebApp;
@@ -69,7 +69,7 @@ public abstract class ContactPersonDetailPage extends LeftMenuNavPage
 
         private void initComponents()
         {
-            ContactPersonEntityComposite contactPerson = getContactPerson();
+            ContactPerson contactPerson = getContactPerson();
 
             relationshipField = new SimpleTextField( "relationshipField", contactPerson.relationship().get().relationship().get() );
 
@@ -93,7 +93,7 @@ public abstract class ContactPersonDetailPage extends LeftMenuNavPage
 
             tabs.add( new ContactTab()
             {
-                public ContactPersonEntityComposite getContactPerson()
+                public ContactPerson getContactPerson()
                 {
                     return ContactPersonDetailPage.this.getContactPerson();
                 }
@@ -106,7 +106,7 @@ public abstract class ContactPersonDetailPage extends LeftMenuNavPage
                     return getProjectService().countAll( ContactPersonDetailPage.this.getContactPerson() );
                 }
 
-                public List<ProjectEntityComposite> dataList( int first, int count )
+                public List<Project> dataList( int first, int count )
                 {
                     return getProjectService().findAll( ContactPersonDetailPage.this.getContactPerson(), new FindFilter( first, count ) );
                 }
@@ -126,6 +126,6 @@ public abstract class ContactPersonDetailPage extends LeftMenuNavPage
         return ChronosWebApp.getServices().getProjectService();
     }
 
-    public abstract ContactPersonEntityComposite getContactPerson();
+    public abstract ContactPerson getContactPerson();
 }
 

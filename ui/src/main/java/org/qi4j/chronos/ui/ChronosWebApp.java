@@ -41,7 +41,7 @@ import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.SystemEntityComposite;
 import org.qi4j.chronos.model.composites.SystemRoleComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
-import org.qi4j.chronos.model.composites.TimeRangeComposite;
+import org.qi4j.chronos.model.composites.TimeRangeEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.service.composites.AccountServiceComposite;
@@ -121,7 +121,7 @@ public class ChronosWebApp extends AuthenticatedWebApplication
                     StaffEntityComposite.class,
                     SystemEntityComposite.class,
                     TaskEntityComposite.class,
-                    TimeRangeComposite.class,
+                    TimeRangeEntityComposite.class,
                     WorkEntryEntityComposite.class,
                     CommentServiceComposite.class,
                     ContactPersonServiceComposite.class,

@@ -15,16 +15,17 @@ package org.qi4j.chronos.ui.customer;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.repeater.Item;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.CustomerEntityComposite;
+import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.service.CustomerService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
+import org.qi4j.entity.Identity;
 
-public abstract class CustomerTable extends ActionTable<CustomerEntityComposite, String>
+public abstract class CustomerTable extends ActionTable<Customer, String>
 {
     private CustomerDataProvider provider;
 
@@ -37,9 +38,9 @@ public abstract class CustomerTable extends ActionTable<CustomerEntityComposite,
 
     private void addActions()
     {
-        addAction( new SimpleDeleteAction<CustomerEntityComposite>( "Delete" )
+        addAction( new SimpleDeleteAction<Customer>( "Delete" )
         {
-            public void performAction( List<CustomerEntityComposite> customers )
+            public void performAction( List<Customer> customers )
             {
                 getCustomerService().delete( customers );
 
@@ -48,13 +49,13 @@ public abstract class CustomerTable extends ActionTable<CustomerEntityComposite,
         } );
     }
 
-    public AbstractSortableDataProvider<CustomerEntityComposite, String> getDetachableDataProvider()
+    public AbstractSortableDataProvider<Customer, String> getDetachableDataProvider()
     {
         if( provider == null )
         {
             provider = new CustomerDataProvider()
             {
-                public AccountEntityComposite getAccount()
+                public Account getAccount()
                 {
                     return CustomerTable.this.getAccount();
                 }
@@ -64,11 +65,11 @@ public abstract class CustomerTable extends ActionTable<CustomerEntityComposite,
         return provider;
     }
 
-    public abstract AccountEntityComposite getAccount();
+    public abstract Account getAccount();
 
-    public void populateItems( Item item, CustomerEntityComposite obj )
+    public void populateItems( Item item, Customer obj )
     {
-        final String customerId = obj.identity().get();
+        final String customerId = ( (Identity) obj).identity().get();
 
         item.add( createDetailLink( "name", obj.name().get(), customerId ) );
         item.add( createDetailLink( "formalReference", obj.reference().get(), customerId ) );
@@ -78,7 +79,7 @@ public abstract class CustomerTable extends ActionTable<CustomerEntityComposite,
             {
                 CustomerEditPage editPage = new CustomerEditPage( this.getPage() )
                 {
-                    public CustomerEntityComposite getCustomer()
+                    public Customer getCustomer()
                     {
                         return getCustomerService().get( customerId );
                     }
@@ -97,7 +98,7 @@ public abstract class CustomerTable extends ActionTable<CustomerEntityComposite,
             {
                 CustomerDetailPage detailPage = new CustomerDetailPage( this.getPage() )
                 {
-                    public CustomerEntityComposite getCustomer()
+                    public Customer getCustomer()
                     {
                         return getCustomerService().get( customerId );
                     }

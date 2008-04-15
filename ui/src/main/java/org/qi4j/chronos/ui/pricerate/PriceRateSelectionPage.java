@@ -21,6 +21,8 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.model.PriceRate;
+import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
@@ -88,7 +90,7 @@ public abstract class PriceRateSelectionPage extends LeftMenuNavPage
         {
             PriceRateDelegator delegator = priceRateChoice.getChoice();
 
-            PriceRateComposite priceRate = getServices().
+            PriceRate priceRate = getServices().
                 getPriceRateService().get( getPriceRateSchedule(),
                                            delegator.getProjectRoleName(), delegator.getPriceRateType(), delegator.getAmount() );
 
@@ -101,17 +103,17 @@ public abstract class PriceRateSelectionPage extends LeftMenuNavPage
         {
             List<PriceRateDelegator> delegators = new ArrayList<PriceRateDelegator>();
 
-            SetAssociation<PriceRateComposite> priceRates = getPriceRateSchedule().priceRates();
-            for( PriceRateComposite priceRateComposite : priceRates )
+            SetAssociation<PriceRate> priceRates = getPriceRateSchedule().priceRates();
+            for( PriceRate priceRate : priceRates )
             {
-                delegators.add( new PriceRateDelegator( priceRateComposite ) );
+                delegators.add( new PriceRateDelegator( priceRate ) );
             }
 
             return delegators;
         }
     }
 
-    public abstract void handleSelectedPriceRate( PriceRateComposite priceRate );
+    public abstract void handleSelectedPriceRate( PriceRate priceRate );
 
-    public abstract PriceRateScheduleComposite getPriceRateSchedule();
+    public abstract PriceRateSchedule getPriceRateSchedule();
 }

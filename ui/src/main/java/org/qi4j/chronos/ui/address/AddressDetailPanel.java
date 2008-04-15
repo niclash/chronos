@@ -14,8 +14,8 @@ package org.qi4j.chronos.ui.address;
 
 import org.apache.wicket.markup.html.panel.Panel;
 import org.qi4j.chronos.ui.common.SimpleTextField;
-import org.qi4j.library.general.model.Address;
-import org.qi4j.library.general.model.City;
+import org.qi4j.chronos.model.Address;
+import org.qi4j.chronos.model.City;
 
 public class AddressDetailPanel extends Panel
 {

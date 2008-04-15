@@ -13,7 +13,7 @@
 package org.qi4j.chronos.ui.legalcondition;
 
 import java.io.Serializable;
-import org.qi4j.chronos.model.composites.LegalConditionComposite;
+import org.qi4j.chronos.model.LegalCondition;
 
 //TODO bp. Don't need this when we have ValueObjectComposite
 public class LegalConditionDelegator implements Serializable
@@ -21,7 +21,7 @@ public class LegalConditionDelegator implements Serializable
     private String name;
     private String desc;
 
-    public LegalConditionDelegator( LegalConditionComposite legalCondition )
+    public LegalConditionDelegator( LegalCondition legalCondition )
     {
         name = legalCondition.name().get();
         desc = legalCondition.description().get();

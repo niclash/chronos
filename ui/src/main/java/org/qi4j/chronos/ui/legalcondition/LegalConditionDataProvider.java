@@ -14,31 +14,26 @@ package org.qi4j.chronos.ui.legalcondition;
 
 import java.util.List;
 import org.qi4j.chronos.model.LegalCondition;
-import org.qi4j.chronos.model.composites.LegalConditionComposite;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.LegalConditionService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
-public abstract class LegalConditionDataProvider extends AbstractSortableDataProvider<LegalConditionComposite, String>
+public abstract class LegalConditionDataProvider extends AbstractSortableDataProvider<LegalCondition, String>
 {
     public String getId( LegalCondition legalCondition )
     {
         return legalCondition.name().get();
     }
 
-    public String getId( LegalConditionComposite t )
-    {
-        return t.name().get();
-    }
 
-    public LegalConditionComposite load( String id )
+    public LegalCondition load( String id )
     {
         return getLegalConditionService().get( getProject(), id );
     }
 
-    public List<LegalConditionComposite> dataList( int first, int count )
+    public List<LegalCondition> dataList( int first, int count )
     {
         return getLegalConditionService().findAll( getProject(), new FindFilter( first, count ) );
     }
@@ -53,5 +48,5 @@ public abstract class LegalConditionDataProvider extends AbstractSortableDataPro
         return ChronosWebApp.getServices().getLegalConditionService();
     }
 
-    public abstract ProjectEntityComposite getProject();
+    public abstract Project getProject();
 }

@@ -21,15 +21,14 @@ import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInst
 import org.apache.wicket.markup.html.form.Form;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.composites.SystemRoleComposite;
+import org.qi4j.chronos.model.Money;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 import org.qi4j.chronos.ui.common.NumberTextField;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.user.UserAddEditPanel;
 import org.qi4j.chronos.ui.util.ListUtil;
-import org.qi4j.library.general.model.Money;
-import org.qi4j.property.Property;
+import org.qi4j.entity.association.Association;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public abstract class StaffAddEditPage extends AddEditBasePage
@@ -53,7 +52,7 @@ public abstract class StaffAddEditPage extends AddEditBasePage
                 return StaffAddEditPage.this.getLoginUserAbstractPanel( id );
             }
 
-            public Iterator<SystemRoleComposite> getInitSelectedRoleList()
+            public Iterator<SystemRole> getInitSelectedRoleList()
             {
                 return StaffAddEditPage.this.getInitSelectedRoleList();
             }
@@ -75,7 +74,7 @@ public abstract class StaffAddEditPage extends AddEditBasePage
 
         Currency currency = Currency.getInstance( salaryCurrencyField.getChoiceAsString() );
 
-        Property<Money> staffSalary = staff.salary();
+        Association<Money> staffSalary = staff.salary();
         staffSalary.get().amount().set( salaryAmountField.getLongValue() );
         staffSalary.get().currency().set( currency );
     }
@@ -89,9 +88,9 @@ public abstract class StaffAddEditPage extends AddEditBasePage
         salaryCurrencyField.setChoice( staffSalary.currency().get().getCurrencyCode() );
     }
 
-    public Iterator<SystemRoleComposite> getInitSelectedRoleList()
+    public Iterator<SystemRole> getInitSelectedRoleList()
     {
-        List<SystemRoleComposite> systemRoles = Collections.emptyList();
+        List<SystemRole> systemRoles = Collections.emptyList();
         return systemRoles.iterator();
     }
 

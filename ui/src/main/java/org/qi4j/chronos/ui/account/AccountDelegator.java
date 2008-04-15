@@ -13,17 +13,18 @@
 package org.qi4j.chronos.ui.account;
 
 import java.io.Serializable;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.Account;
+import org.qi4j.entity.Identity;
 
 public class AccountDelegator implements Serializable
 {
     private String name;
     private String id;
 
-    public AccountDelegator( AccountEntityComposite account )
+    public AccountDelegator( Account account )
     {
         this.name = account.name().get();
-        this.id = account.identity().get();
+        this.id = ( (Identity) account).identity().get();
     }
 
     public AccountDelegator( String name, String id )

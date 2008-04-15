@@ -18,10 +18,10 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
-import org.qi4j.chronos.model.composites.LegalConditionComposite;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.SimpleTextArea;
 import org.qi4j.chronos.ui.common.SimpleTextField;
+import org.qi4j.chronos.model.LegalCondition;
 
 public abstract class LegalConditionDetailPage extends LeftMenuNavPage
 {
@@ -56,7 +56,7 @@ public abstract class LegalConditionDetailPage extends LeftMenuNavPage
 
         private void initComponents()
         {
-            LegalConditionComposite legalCondition = getLegalCondition();
+            LegalCondition legalCondition = getLegalCondition();
 
             nameField = new SimpleTextField( "nameField", legalCondition.name().get(), true );
             descField = new SimpleTextArea( "descTextArea", legalCondition.description().get(), true );
@@ -82,5 +82,5 @@ public abstract class LegalConditionDetailPage extends LeftMenuNavPage
         }
     }
 
-    public abstract LegalConditionComposite getLegalCondition();
+    public abstract LegalCondition getLegalCondition();
 }

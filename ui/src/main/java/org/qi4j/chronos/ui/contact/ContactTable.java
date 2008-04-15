@@ -16,8 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
-import org.qi4j.chronos.model.composites.ContactComposite;
-import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.service.ContactService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
@@ -25,8 +24,9 @@ import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
+import org.qi4j.library.general.model.Contact;
 
-public abstract class ContactTable extends ActionTable<ContactComposite, String>
+public abstract class ContactTable extends ActionTable<Contact, String>
 {
     public ContactTable( String id )
     {
@@ -37,9 +37,9 @@ public abstract class ContactTable extends ActionTable<ContactComposite, String>
 
     private void addActions()
     {
-        addAction( new SimpleDeleteAction<ContactComposite>( "Delete" )
+        addAction( new SimpleDeleteAction<Contact>( "Delete" )
         {
-            public void performAction( List<ContactComposite> contactComposites )
+            public void performAction( List<Contact> contactComposites )
             {
                 getContactService().deleteContact( getContactPerson(), contactComposites );
 
@@ -48,11 +48,11 @@ public abstract class ContactTable extends ActionTable<ContactComposite, String>
         } );
     }
 
-    public AbstractSortableDataProvider<ContactComposite, String> getDetachableDataProvider()
+    public AbstractSortableDataProvider<Contact, String> getDetachableDataProvider()
     {
-        return new ContactDataProvider<ContactPersonEntityComposite>()
+        return new ContactDataProvider<ContactPerson>()
         {
-            public ContactPersonEntityComposite getHasContacts()
+            public ContactPerson getHasContacts()
             {
                 return ContactTable.this.getContactPerson();
             }
@@ -64,7 +64,7 @@ public abstract class ContactTable extends ActionTable<ContactComposite, String>
         return ChronosWebApp.getServices().getContactService();
     }
 
-    public void populateItems( Item item, ContactComposite obj )
+    public void populateItems( Item item, Contact obj )
     {
         final String contactValue = obj.contactValue().get();
 
@@ -84,12 +84,12 @@ public abstract class ContactTable extends ActionTable<ContactComposite, String>
             {
                 ContactEditPage editPage = new ContactEditPage( (BasePage) this.getPage() )
                 {
-                    public ContactComposite getContact()
+                    public Contact getContact()
                     {
                         return getContactService().get( ContactTable.this.getContactPerson(), contactValue );
                     }
 
-                    public ContactPersonEntityComposite getContactPerson()
+                    public ContactPerson getContactPerson()
                     {
                         return ContactTable.this.getContactPerson();
                     }
@@ -105,5 +105,5 @@ public abstract class ContactTable extends ActionTable<ContactComposite, String>
         return Arrays.asList( "Contact", "Contact Type", "" );
     }
 
-    public abstract ContactPersonEntityComposite getContactPerson();
+    public abstract ContactPerson getContactPerson();
 }

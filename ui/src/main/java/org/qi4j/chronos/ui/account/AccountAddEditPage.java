@@ -17,7 +17,7 @@ import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInst
 import org.apache.wicket.markup.html.form.Form;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.ui.address.AddressAddEditPanel;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
@@ -47,7 +47,7 @@ public abstract class AccountAddEditPage extends AddEditBasePage
         form.add( addressAddEditPanel );
     }
 
-    protected void assignFieldValueToAccount( AccountEntityComposite account )
+    protected void assignFieldValueToAccount( Account account )
     {
         account.name().set( nameField.getText() );
         account.reference().set( referenceField.getText() );
@@ -55,7 +55,7 @@ public abstract class AccountAddEditPage extends AddEditBasePage
         addressAddEditPanel.assignFieldValueToAddress( account.address().get() );
     }
 
-    protected void assignAccountToFieldValue( AccountEntityComposite account )
+    protected void assignAccountToFieldValue( Account account )
     {
         nameField.setText( account.name().get() );
         referenceField.setText( account.reference().get() );

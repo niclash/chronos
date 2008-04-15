@@ -14,11 +14,11 @@ package org.qi4j.chronos.ui.project;
 
 import java.util.Iterator;
 import java.util.List;
-import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
-import org.qi4j.chronos.model.composites.CustomerEntityComposite;
-import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.PriceRateSchedule;
+import org.qi4j.chronos.model.Customer;
+import org.qi4j.chronos.model.ContactPerson;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.wicket.Page;
@@ -41,13 +41,14 @@ public abstract class ProjectEditPage extends ProjectAddEditPage
 
     public void onSubmitting()
     {
-        ProjectEntityComposite project = getProject();
+        Project project = getProject();
 
         try
         {
             assignFieldValuesToProject( project );
 
-            ChronosWebApp.getServices().getProjectService().update( project );
+            // TODO migrate
+//            ChronosWebApp.getServices().getProjectService().update( project );
 
             logInfoMsg( "Project updated successfully." );
 
@@ -71,21 +72,21 @@ public abstract class ProjectEditPage extends ProjectAddEditPage
         return "Edit Project";
     }
 
-    public Iterator<ContactPersonEntityComposite> getInitSelectedContactPersonList()
+    public Iterator<ContactPerson> getInitSelectedContactPersonList()
     {
         return getProject().contactPersons().iterator();
     }
 
-    public List<PriceRateScheduleComposite> getAvailablePriceRateScheduleChoice()
+    public List<PriceRateSchedule> getAvailablePriceRateScheduleChoice()
     {
-        CustomerEntityComposite customer = getCustomerService().get( customerChoice.getChoice().getId() );
+        Customer customer = getCustomerService().get( customerChoice.getChoice().getId() );
 
-        List<PriceRateScheduleComposite> list = ChronosWebApp.getServices().getPriceRateScheduleService().findAll( customer );
+        List<PriceRateSchedule> list = ChronosWebApp.getServices().getPriceRateScheduleService().findAll( customer );
 
         list.add( getProject().priceRateSchedule().get() );
 
         return list;
     }
 
-    public abstract ProjectEntityComposite getProject();
+    public abstract Project getProject();
 }

@@ -13,12 +13,14 @@
 package org.qi4j.chronos.ui.projectassignee;
 
 import java.util.List;
+import java.util.ArrayList;
 import org.apache.wicket.Page;
-import org.qi4j.chronos.model.composites.PriceRateComposite;
-import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.service.ProjectAssigneeService;
 import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.ProjectAssignee;
+import org.qi4j.chronos.model.PriceRate;
+import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,15 +41,16 @@ public abstract class ProjectAssigneeAddPage extends ProjectAssigneeAddEditPage
 
         try
         {
-            ProjectAssigneeEntityComposite projectAssignee = service.newInstance( ProjectAssigneeEntityComposite.class );
+            ProjectAssignee projectAssignee = service.newInstance( ProjectAssigneeEntityComposite.class );
 
             assignFieldValueToProjectAssignee( projectAssignee );
 
-            ProjectEntityComposite project = getProject();
+            Project project = getProject();
 
             project.projectAssignees().add( projectAssignee );
 
-            ChronosWebApp.getServices().getProjectService().update( project );
+            // TODO migrate
+//            ChronosWebApp.getServices().getProjectService().update( project );
 
             logInfoMsg( "Project Assignee is added successfully." );
 
@@ -60,9 +63,11 @@ public abstract class ProjectAssigneeAddPage extends ProjectAssigneeAddEditPage
         }
     }
 
-    public List<PriceRateComposite> getAvailablePriceRates()
+    public List<PriceRate> getAvailablePriceRates()
     {
-        return ChronosWebApp.getServices().getPriceRateService().findAll( getProject().priceRateSchedule().get() );
+        return new ArrayList<PriceRate>(0);
+          // TODO migrate
+//        return ChronosWebApp.getServices().getPriceRateService().findAll( getProject().priceRateSchedule().get() );
     }
 
     public String getSubmitButtonValue()

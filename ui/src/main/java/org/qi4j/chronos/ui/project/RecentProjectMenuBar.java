@@ -13,7 +13,8 @@
 package org.qi4j.chronos.ui.project;
 
 import java.util.List;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.ProjectService;
@@ -32,25 +33,28 @@ public abstract class RecentProjectMenuBar extends MenuBar
         super( "Recent Projects" );
     }
 
-    public abstract AccountEntityComposite getAccount();
+    public abstract Account getAccount();
 
     public MenuItem[] getMenuItemList()
     {
         ProjectService projectService = ChronosWebApp.getServices().getProjectService();
 
-        int countAll = projectService.countAll( getAccount() );
+        // TODO migrate
+//        int countAll = projectService.countAll( getAccount() );
 
+        int countAll = 0;
+        
         int toShowSize = Math.min( TOTAL_PROJECT_TO_SHOW, countAll );
 
-        List<ProjectEntityComposite> recentProjectList = projectService.
+        List<Project> recentProjectList = projectService.
             getRecentProjects( getAccount(), new FindFilter( 0, toShowSize ) );
 
         MenuItem[] menuItems = new MenuItem[recentProjectList.size()];
 
         int index = 0;
-        for( ProjectEntityComposite project : recentProjectList )
+        for( Project project : recentProjectList )
         {
-            final String projectId = project.identity().get();
+            final String projectId = ( (ProjectEntityComposite) project).identity().get();
 
             menuItems[ index ] = new MenuLink( project.name().get() )
             {
@@ -70,7 +74,7 @@ public abstract class RecentProjectMenuBar extends MenuBar
     {
         ProjectDetailPage detailPage = new ProjectDetailPage( (BasePage) this.getPage() )
         {
-            public ProjectEntityComposite getProject()
+            public Project getProject()
             {
                 return ChronosWebApp.getServices().getProjectService().get( projectId );
             }

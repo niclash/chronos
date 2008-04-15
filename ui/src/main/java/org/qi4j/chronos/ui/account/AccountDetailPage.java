@@ -17,7 +17,7 @@ import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.ui.address.AddressDetailPanel;
 import org.qi4j.chronos.ui.common.SimpleTextField;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
@@ -38,7 +38,7 @@ public class AccountDetailPage extends LeftMenuNavPage
     }
 
     @Override
-    protected AccountEntityComposite getAccount()
+    protected Account getAccount()
     {
         return ChronosWebApp.getServices().getAccountService().get( accountId );
     }
@@ -61,7 +61,7 @@ public class AccountDetailPage extends LeftMenuNavPage
         {
             super( id );
 
-            AccountEntityComposite account = getAccount();
+            Account account = getAccount();
 
             nameField = new SimpleTextField( "nameField", account.name().get(), true );
             referenceField = new SimpleTextField( "referenceField", account.reference().get(), true );

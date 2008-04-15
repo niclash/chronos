@@ -19,9 +19,9 @@ import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuth
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.model.LegalCondition;
+import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.associations.HasLegalConditions;
-import org.qi4j.chronos.model.composites.LegalConditionComposite;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.service.LegalConditionService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
@@ -29,7 +29,7 @@ import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 
-public abstract class LegalConditionTable extends ActionTable<LegalConditionComposite, String>
+public abstract class LegalConditionTable extends ActionTable<LegalCondition, String>
 {
     private LegalConditionDataProvider provider;
 
@@ -42,9 +42,9 @@ public abstract class LegalConditionTable extends ActionTable<LegalConditionComp
 
     private void addActions()
     {
-        addAction( new SimpleDeleteAction<LegalConditionComposite>( "Delete" )
+        addAction( new SimpleDeleteAction<LegalCondition>( "Delete" )
         {
-            public void performAction( List<LegalConditionComposite> legalConditions )
+            public void performAction( List<LegalCondition> legalConditions )
             {
                 getLegalConditionService().deleteLegalCondition( getProject(), legalConditions );
 
@@ -63,13 +63,13 @@ public abstract class LegalConditionTable extends ActionTable<LegalConditionComp
         MetaDataRoleAuthorizationStrategy.authorize( component, RENDER, SystemRole.ACCOUNT_ADMIN );
     }
 
-    public AbstractSortableDataProvider<LegalConditionComposite, String> getDetachableDataProvider()
+    public AbstractSortableDataProvider<LegalCondition, String> getDetachableDataProvider()
     {
         if( provider == null )
         {
             provider = new LegalConditionDataProvider()
             {
-                public ProjectEntityComposite getProject()
+                public Project getProject()
                 {
                     return LegalConditionTable.this.getProject();
                 }
@@ -79,7 +79,7 @@ public abstract class LegalConditionTable extends ActionTable<LegalConditionComp
         return provider;
     }
 
-    public void populateItems( Item item, LegalConditionComposite obj )
+    public void populateItems( Item item, LegalCondition obj )
     {
         final String legalConditionName = obj.name().get();
 
@@ -89,7 +89,7 @@ public abstract class LegalConditionTable extends ActionTable<LegalConditionComp
             {
                 LegalConditionDetailPage detailPage = new LegalConditionDetailPage( this.getPage() )
                 {
-                    public LegalConditionComposite getLegalCondition()
+                    public LegalCondition getLegalCondition()
                     {
                         return getServices().getLegalConditionService().get( getProject(), legalConditionName );
                     }
@@ -112,7 +112,7 @@ public abstract class LegalConditionTable extends ActionTable<LegalConditionComp
             {
                 LegalConditionEditPage editPage = new LegalConditionEditPage( this.getPage() )
                 {
-                    public LegalConditionComposite getLegalCondition()
+                    public LegalCondition getLegalCondition()
                     {
                         return getLegalConditionService().get( getProject(), legalConditionName );
                     }
@@ -138,5 +138,5 @@ public abstract class LegalConditionTable extends ActionTable<LegalConditionComp
         return Arrays.asList( "Name", "" );
     }
 
-    public abstract ProjectEntityComposite getProject();
+    public abstract Project getProject();
 }

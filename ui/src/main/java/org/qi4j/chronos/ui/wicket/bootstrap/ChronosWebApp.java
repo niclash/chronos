@@ -22,6 +22,7 @@ import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.settings.IApplicationSettings;
 import org.apache.wicket.settings.ISessionSettings;
 import org.qi4j.chronos.ui.wicket.authentication.LoginPage;
+import org.qi4j.chronos.ui.admin.AdminHomePage;
 import static org.qi4j.composite.NullArgumentException.validateNotNull;
 import org.qi4j.composite.ObjectBuilder;
 import org.qi4j.composite.ObjectBuilderFactory;
@@ -34,7 +35,7 @@ import org.qi4j.composite.scope.Structure;
  */
 final class ChronosWebApp extends AuthenticatedWebApplication
 {
-    @Structure private ObjectBuilderFactory objectBuilderFactory;
+    private ObjectBuilderFactory objectBuilderFactory;
 
     /**
      * Construct a new instance of {@code ChronosWebApp}.
@@ -97,6 +98,14 @@ final class ChronosWebApp extends AuthenticatedWebApplication
 
     public Class getHomePage()
     {
-        return LoginPage.class;
+        ChronosSession session = ChronosSession.get();
+        if( !session.isSignIn() )
+        {
+            return LoginPage.class;
+        }
+        else
+        {
+            return AdminHomePage.class;
+        }
     }
 }

@@ -15,9 +15,10 @@ package org.qi4j.chronos.ui.pricerate;
 import java.util.Collections;
 import java.util.Iterator;
 import org.apache.wicket.Page;
-import org.qi4j.chronos.model.composites.PriceRateComposite;
-import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.model.PriceRate;
+import org.qi4j.chronos.model.PriceRateSchedule;
+import org.qi4j.chronos.model.composites.PriceRateScheduleEntityComposite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -42,7 +43,7 @@ public abstract class PriceRateScheduleAddPage extends PriceRateScheduleAddEditP
 
     public void onSubmitting()
     {
-        PriceRateScheduleComposite priceRateSchedule = ChronosWebApp.newInstance( PriceRateScheduleComposite.class );
+        PriceRateSchedule priceRateSchedule = ChronosWebApp.newInstance( PriceRateScheduleEntityComposite.class );
 
         try
         {
@@ -59,10 +60,10 @@ public abstract class PriceRateScheduleAddPage extends PriceRateScheduleAddEditP
         }
     }
 
-    public Iterator<PriceRateComposite> getInitPriceRateIterator()
+    public Iterator<PriceRate> getInitPriceRateIterator()
     {
         return Collections.EMPTY_LIST.iterator();
     }
 
-    public abstract void addPriceRateSchedule( PriceRateScheduleComposite priceRateScheduleComposite );
+    public abstract void addPriceRateSchedule( PriceRateSchedule priceRateScheduleComposite );
 }

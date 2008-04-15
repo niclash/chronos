@@ -14,8 +14,8 @@ package org.qi4j.chronos.ui.pricerate;
 
 import org.apache.wicket.markup.html.panel.Panel;
 import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
+import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.chronos.ui.common.NewLinkPanel;
 import org.qi4j.chronos.ui.common.tab.NewLinkTab;
@@ -48,7 +48,7 @@ public abstract class PriceRateScheduleTab<T extends HasPriceRateSchedules> exte
                     return PriceRateScheduleTab.this.getHasPriceRateSchedules();
                 }
 
-                public AccountEntityComposite getAccount()
+                public Account getAccount()
                 {
                     return PriceRateScheduleTab.this.getAccount();
                 }
@@ -59,7 +59,7 @@ public abstract class PriceRateScheduleTab<T extends HasPriceRateSchedules> exte
         {
             PriceRateScheduleAddPage addPage = new PriceRateScheduleAddPage( (BasePage) this.getPage() )
             {
-                public void addPriceRateSchedule( PriceRateScheduleComposite priceRateSchedule )
+                public void addPriceRateSchedule( PriceRateSchedule priceRateSchedule )
                 {
                     PriceRateScheduleTab.this.addPriceRateSchedule( priceRateSchedule );
                 }
@@ -73,9 +73,9 @@ public abstract class PriceRateScheduleTab<T extends HasPriceRateSchedules> exte
         }
     }
 
-    public abstract AccountEntityComposite getAccount();
+    public abstract Account getAccount();
 
-    public abstract void addPriceRateSchedule( PriceRateScheduleComposite priceRateSchedule );
+    public abstract void addPriceRateSchedule( PriceRateSchedule priceRateSchedule );
 
     public abstract T getHasPriceRateSchedules();
 }

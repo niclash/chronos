@@ -17,15 +17,15 @@ import java.util.List;
 import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.service.TaskService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.project.ProjectTab;
 import org.qi4j.chronos.ui.task.RecentTaskTab;
+import org.qi4j.chronos.model.Task;
+import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.Project;
 
 public abstract class AccountAdminPanel extends Panel
 {
@@ -64,7 +64,7 @@ public abstract class AccountAdminPanel extends Panel
                 return getTaskService().countRecentTasks( getAccount() );
             }
 
-            public List<TaskEntityComposite> dataList( int first, int count )
+            public List<Task> dataList( int first, int count )
             {
                 return getTaskService().getRecentTasks( getAccount(), new FindFilter( first, count ) );
             }
@@ -85,12 +85,12 @@ public abstract class AccountAdminPanel extends Panel
                 return getProjectService().countRecentProject( getAccount() );
             }
 
-            public List<ProjectEntityComposite> dataList( int first, int count )
+            public List<Project> dataList( int first, int count )
             {
                 return getProjectService().getRecentProjects( getAccount(), new FindFilter( first, count ) );
             }
         };
     }
 
-    public abstract AccountEntityComposite getAccount();
+    public abstract Account getAccount();
 }

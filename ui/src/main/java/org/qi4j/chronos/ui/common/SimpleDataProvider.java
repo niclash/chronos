@@ -17,11 +17,11 @@ import org.qi4j.chronos.service.EntityService;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.entity.Identity;
 
-public abstract class SimpleDataProvider<ITEM extends Identity> extends AbstractSortableDataProvider<ITEM, String>
+public abstract class SimpleDataProvider<ITEM> extends AbstractSortableDataProvider<ITEM, String>
 {
     public String getId( ITEM t )
     {
-        return t.identity().get();
+        return ( (Identity) t).identity().get();
     }
 
     public ITEM load( String id )

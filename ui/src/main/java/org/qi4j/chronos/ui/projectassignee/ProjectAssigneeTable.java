@@ -22,10 +22,10 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
-import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.ProjectAssignee;
+import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.Staff;
+import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.service.ProjectAssigneeService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
@@ -33,8 +33,9 @@ import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
+import org.qi4j.entity.Identity;
 
-public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssigneeEntityComposite, String>
+public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssignee, String>
 {
     private ProjectAssigneeDataProvider dataProvider;
 
@@ -47,9 +48,9 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssigneeEn
 
     private void addActions()
     {
-        addAction( new SimpleDeleteAction<ProjectAssigneeEntityComposite>( "Delete" )
+        addAction( new SimpleDeleteAction<ProjectAssignee>( "Delete" )
         {
-            public void performAction( List<ProjectAssigneeEntityComposite> projectAsssignees )
+            public void performAction( List<ProjectAssignee> projectAsssignees )
             {
                 getProjectAssigneeService().delete( projectAsssignees );
 
@@ -63,13 +64,13 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssigneeEn
         MetaDataRoleAuthorizationStrategy.authorize( component, RENDER, SystemRole.ACCOUNT_ADMIN );
     }
 
-    public AbstractSortableDataProvider<ProjectAssigneeEntityComposite, String> getDetachableDataProvider()
+    public AbstractSortableDataProvider<ProjectAssignee, String> getDetachableDataProvider()
     {
         if( dataProvider == null )
         {
             dataProvider = new ProjectAssigneeDataProvider()
             {
-                public ProjectEntityComposite getProject()
+                public Project getProject()
                 {
                     return ProjectAssigneeTable.this.getProject();
                 }
@@ -79,11 +80,11 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssigneeEn
         return dataProvider;
     }
 
-    public void populateItems( Item item, ProjectAssigneeEntityComposite obj )
+    public void populateItems( Item item, ProjectAssignee obj )
     {
-        final String projectAssigneeId = obj.identity().get();
+        final String projectAssigneeId = ( (Identity) obj).identity().get();
 
-        StaffEntityComposite staff = obj.staff().get();
+        Staff staff = obj.staff().get();
         item.add( new Label( "firstName", staff.firstName().get() ) );
         item.add( new Label( "lastName", staff.lastName().get() ) );
         CheckBox isLeadCheckBox = new CheckBox( "isLead", new Model( obj.isLead().get() ) );
@@ -110,17 +111,17 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssigneeEn
             {
                 ProjectAssigneeEditPage editPage = new ProjectAssigneeEditPage( (BasePage) this.getPage() )
                 {
-                    public ProjectAssigneeEntityComposite getProjectAssignee()
+                    public ProjectAssignee getProjectAssignee()
                     {
                         return getProjectAssigneeService().get( projectAssigneeId );
                     }
 
-                    public PriceRateScheduleComposite getPriceRateSchedule()
+                    public PriceRateSchedule getPriceRateSchedule()
                     {
                         return getProject().priceRateSchedule().get();
                     }
 
-                    public ProjectEntityComposite getProject()
+                    public Project getProject()
                     {
                         return ProjectAssigneeTable.this.getProject();
                     }
@@ -141,5 +142,5 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssigneeEn
         return Arrays.asList( "First Name", "Last name", "Is Lead", "" );
     }
 
-    public abstract ProjectEntityComposite getProject();
+    public abstract Project getProject();
 }

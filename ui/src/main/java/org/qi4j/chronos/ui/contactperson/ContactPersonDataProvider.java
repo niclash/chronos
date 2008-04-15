@@ -15,19 +15,20 @@ package org.qi4j.chronos.ui.contactperson;
 import java.util.List;
 import org.qi4j.chronos.model.associations.HasContactPersons;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.service.ContactPersonService;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
-public abstract class ContactPersonDataProvider<T extends HasContactPersons> extends AbstractSortableDataProvider<ContactPersonEntityComposite, String>
+public abstract class ContactPersonDataProvider<T extends HasContactPersons> extends AbstractSortableDataProvider<ContactPerson, String>
 {
-    public String getId( ContactPersonEntityComposite contactPersonEntityComposite )
+    public String getId( ContactPerson contactPerson )
     {
-        return contactPersonEntityComposite.identity().get();
+        return ( (ContactPersonEntityComposite) contactPerson).identity().get();
     }
 
-    public ContactPersonEntityComposite load( String id )
+    public ContactPerson load( String id )
     {
         return getContactPersonService().get( id );
     }
@@ -37,7 +38,7 @@ public abstract class ContactPersonDataProvider<T extends HasContactPersons> ext
         return ChronosWebApp.getServices().getContactPersonService();
     }
 
-    public List<ContactPersonEntityComposite> dataList( int first, int count )
+    public List<ContactPerson> dataList( int first, int count )
     {
         return getContactPersonService().findAll( getHasContactPersons(), new FindFilter( first, count ) );
     }

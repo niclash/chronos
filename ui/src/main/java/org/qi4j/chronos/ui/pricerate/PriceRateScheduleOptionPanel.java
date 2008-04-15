@@ -15,9 +15,9 @@ package org.qi4j.chronos.ui.pricerate;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
+import org.qi4j.chronos.model.PriceRateSchedule;
+import org.qi4j.chronos.model.Account;
 
 public abstract class PriceRateScheduleOptionPanel extends Panel
 {
@@ -27,7 +27,7 @@ public abstract class PriceRateScheduleOptionPanel extends Panel
     private Label priceRateScheduleNameLabel;
 
     //TODO bp. Remove priceRateSchedule
-    private static PriceRateScheduleComposite priceRateSchedule;
+    private static PriceRateSchedule priceRateSchedule;
 
     public PriceRateScheduleOptionPanel( String id )
     {
@@ -71,12 +71,12 @@ public abstract class PriceRateScheduleOptionPanel extends Panel
     {
         PriceRateScheduleEditPage editPage = new PriceRateScheduleEditPage( (BasePage) this.getPage() )
         {
-            public PriceRateScheduleComposite getPriceRateSchedule()
+            public PriceRateSchedule getPriceRateSchedule()
             {
                 return PriceRateScheduleOptionPanel.this.getPriceRateSchedule();
             }
 
-            public void updatePriceRateSchedule( PriceRateScheduleComposite priceRateScheduleComposite )
+            public void updatePriceRateSchedule( PriceRateSchedule priceRateScheduleComposite )
             {
                 setPriceRateSchedule( priceRateScheduleComposite );
             }
@@ -85,7 +85,7 @@ public abstract class PriceRateScheduleOptionPanel extends Panel
         setResponsePage( editPage );
     }
 
-    public PriceRateScheduleComposite getPriceRateSchedule()
+    public PriceRateSchedule getPriceRateSchedule()
     {
         return priceRateSchedule;
     }
@@ -94,7 +94,7 @@ public abstract class PriceRateScheduleOptionPanel extends Panel
     {
         PriceRateScheduleAddPage addPage = new PriceRateScheduleAddPage( (BasePage) this.getPage() )
         {
-            public void addPriceRateSchedule( PriceRateScheduleComposite priceRateScheduleComposite )
+            public void addPriceRateSchedule( PriceRateSchedule priceRateScheduleComposite )
             {
                 PriceRateScheduleOptionPanel.this.addPriceRateSchedule( priceRateScheduleComposite );
             }
@@ -108,7 +108,7 @@ public abstract class PriceRateScheduleOptionPanel extends Panel
         setResponsePage( addPage );
     }
 
-    private void addPriceRateSchedule( PriceRateScheduleComposite priceRateSchedule )
+    private void addPriceRateSchedule( PriceRateSchedule priceRateSchedule )
     {
         setPriceRateSchedule( priceRateSchedule );
     }
@@ -124,7 +124,7 @@ public abstract class PriceRateScheduleOptionPanel extends Panel
         return false;
     }
 
-    public void setPriceRateSchedule( PriceRateScheduleComposite priceRateSchedule )
+    public void setPriceRateSchedule( PriceRateSchedule priceRateSchedule )
     {
         this.priceRateSchedule = priceRateSchedule;
 
@@ -134,5 +134,5 @@ public abstract class PriceRateScheduleOptionPanel extends Panel
         customizePriceRateScheduleLink.setVisible( true );
     }
 
-    public abstract AccountEntityComposite getAccount();
+    public abstract Account getAccount();
 }

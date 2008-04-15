@@ -15,6 +15,7 @@ package org.qi4j.chronos.ui.project;
 import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.ui.common.BorderPanel;
 import org.qi4j.chronos.ui.common.BorderPanelWrapper;
 import org.qi4j.chronos.ui.common.tab.BaseTab;
@@ -39,7 +40,7 @@ public abstract class ProjectTab extends BaseTab
                         return ProjectTab.this.getSize();
                     }
 
-                    public List<ProjectEntityComposite> dataList( int first, int count )
+                    public List<Project> dataList( int first, int count )
                     {
                         return ProjectTab.this.dataList( first, count );
                     }
@@ -54,5 +55,5 @@ public abstract class ProjectTab extends BaseTab
 
     public abstract int getSize();
 
-    public abstract List<ProjectEntityComposite> dataList( int first, int count );
+    public abstract List<Project> dataList( int first, int count );
 }

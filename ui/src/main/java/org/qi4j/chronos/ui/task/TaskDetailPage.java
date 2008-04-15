@@ -23,12 +23,13 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.associations.HasComments;
 import org.qi4j.chronos.model.associations.HasWorkEntries;
-import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
-import org.qi4j.chronos.model.composites.TaskEntityComposite;
-import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.model.Comment;
+import org.qi4j.chronos.model.Task;
+import org.qi4j.chronos.model.ProjectAssignee;
+import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.Staff;
+import org.qi4j.chronos.model.WorkEntry;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.ui.comment.CommentTab;
 import org.qi4j.chronos.ui.common.SimpleTextArea;
 import org.qi4j.chronos.ui.common.SimpleTextField;
@@ -73,9 +74,9 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
 
         private void initComponents()
         {
-            TaskEntityComposite taskMaster = getTask();
+            Task taskMaster = getTask();
 
-            userField = new SimpleTextField( "userField", taskMaster.user().get().name().get() );
+            userField = new SimpleTextField( "userField", taskMaster.user().get().fullName().get() );
             titleField = new SimpleTextField( "titleField", taskMaster.title().get() );
             createDateField = new SimpleTextField( "createDateField", DateUtil.formatDateTime( taskMaster.createdDate().get() ) );
             descriptionTextArea = new SimpleTextArea( "descriptionTextArea", taskMaster.description().get() );
@@ -107,12 +108,12 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
         {
             return new WorkEntryTab( "WorkEntries" )
             {
-                public void addingWorkEntry( WorkEntryEntityComposite workEntry )
+                public void addingWorkEntry( WorkEntry workEntry )
                 {
                     TaskDetailPage.this.addingWorkEntry( workEntry );
                 }
 
-                public ProjectAssigneeEntityComposite getProjectAssignee()
+                public ProjectAssignee getProjectAssignee()
                 {
                     return TaskDetailPage.this.getProjectAssignee();
                 }
@@ -143,35 +144,37 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
 
     private void addingComment( Comment comment )
     {
-        TaskEntityComposite task = getTask();
+        Task task = getTask();
 
         task.comments().add( comment );
 
-        getServices().getTaskService().update( task );
+        // TODO migrate
+//        getServices().getTaskService().update( task );
     }
 
-    private void addingWorkEntry( WorkEntryEntityComposite workEntry )
+    private void addingWorkEntry( WorkEntry workEntry )
     {
-        TaskEntityComposite task = getTask();
+        Task task = getTask();
 
         //add workEntry to task
         task.workEntries().add( workEntry );
 
         //update task
-        getServices().getTaskService().update( task );
+        // TODO migrate
+//        getServices().getTaskService().update( task );
     }
 
-    private ProjectAssigneeEntityComposite getProjectAssignee()
+    private ProjectAssignee getProjectAssignee()
     {
         //TODO bp. This may return null if current user is Customer or ACCOUNT_ADMIN.
         //TODO got better way to handle this?
         if( getChronosSession().isStaff() )
         {
-            ProjectEntityComposite project = getServices().getTaskService().getParent( getTask() );
+            Project project = getServices().getTaskService().getParent( (TaskEntityComposite) getTask() );
 
-            StaffEntityComposite staff = (StaffEntityComposite) getChronosSession().getUser();
+            Staff staff = (Staff) getChronosSession().getUser();
 
-            ProjectAssigneeEntityComposite projectAssignee = getServices().getProjectAssigneeService().getProjectAssignee( project, staff );
+            ProjectAssignee projectAssignee = getServices().getProjectAssigneeService().getProjectAssignee( project, staff );
 
             return projectAssignee;
         }
@@ -181,5 +184,5 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
         }
     }
 
-    public abstract TaskEntityComposite getTask();
+    public abstract Task getTask();
 }

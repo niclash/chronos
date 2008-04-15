@@ -13,33 +13,39 @@
 package org.qi4j.chronos.ui.projectassignee;
 
 import java.util.List;
-import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import java.util.ArrayList;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.ProjectAssigneeService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
+import org.qi4j.chronos.model.ProjectAssignee;
+import org.qi4j.chronos.model.Project;
+import org.qi4j.entity.Identity;
 
-public abstract class ProjectAssigneeDataProvider extends AbstractSortableDataProvider<ProjectAssigneeEntityComposite, String>
+public abstract class ProjectAssigneeDataProvider extends AbstractSortableDataProvider<ProjectAssignee, String>
 {
     public int getSize()
     {
-        return getProjectAssigneeService().countAll( getProject() );
+        return 0;
+        // TODO
+//        return getProjectAssigneeService().countAll( getProject() );
     }
 
-    public String getId( ProjectAssigneeEntityComposite t )
+    public String getId( ProjectAssignee assignee )
     {
-        return t.identity().get();
+        return ( (Identity) assignee).identity().get();
     }
 
-    public ProjectAssigneeEntityComposite load( String s )
+    public ProjectAssignee load( String s )
     {
         return getProjectAssigneeService().get( s );
     }
 
-    public List<ProjectAssigneeEntityComposite> dataList( int first, int count )
+    public List<ProjectAssignee> dataList( int first, int count )
     {
-        return getProjectAssigneeService().findAll( getProject(), new FindFilter( first, count ) );
+        return new ArrayList<ProjectAssignee>(0);
+        // TODO migrate
+//        return getProjectAssigneeService().findAll( getProject(), new FindFilter( first, count ) );
     }
 
     private ProjectAssigneeService getProjectAssigneeService()
@@ -47,5 +53,5 @@ public abstract class ProjectAssigneeDataProvider extends AbstractSortableDataPr
         return ChronosWebApp.getServices().getProjectAssigneeService();
     }
 
-    public abstract ProjectEntityComposite getProject();
+    public abstract Project getProject();
 }

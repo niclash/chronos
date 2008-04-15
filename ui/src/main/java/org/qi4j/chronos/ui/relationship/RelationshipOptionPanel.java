@@ -18,8 +18,8 @@ import java.util.List;
 import java.util.Set;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.model.composites.CustomerEntityComposite;
-import org.qi4j.chronos.model.composites.RelationshipComposite;
+import org.qi4j.chronos.model.Relationship;
+import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.service.RelationshipService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
@@ -34,13 +34,13 @@ public abstract class RelationshipOptionPanel extends Panel
     private List<String> relationshipList;
 
     //TODO bp. remove static
-    private static List<RelationshipComposite> addedRelationshipList;
+    private static List<Relationship> addedRelationshipList;
 
     public RelationshipOptionPanel( String id )
     {
         super( id );
 
-        addedRelationshipList = new ArrayList<RelationshipComposite>();
+        addedRelationshipList = new ArrayList<Relationship>();
 
         initComponents();
     }
@@ -56,12 +56,12 @@ public abstract class RelationshipOptionPanel extends Panel
             {
                 RelationshipAddPage addPage = new RelationshipAddPage( (BasePage) this.getPage() )
                 {
-                    public CustomerEntityComposite getCustomer()
+                    public Customer getCustomer()
                     {
                         return RelationshipOptionPanel.this.getCustomer();
                     }
 
-                    public void newRelationship( RelationshipComposite relationship )
+                    public void newRelationship( Relationship relationship )
                     {
                         RelationshipOptionPanel.this.addNewRelationship( relationship );
                     }
@@ -80,7 +80,7 @@ public abstract class RelationshipOptionPanel extends Panel
         add( newRelationshipLink );
     }
 
-    private void addNewRelationship( RelationshipComposite relationshipComposite )
+    private void addNewRelationship( Relationship relationshipComposite )
     {
         addedRelationshipList.add( relationshipComposite );
         relationshipList.add( relationshipComposite.relationship().get() );
@@ -97,11 +97,11 @@ public abstract class RelationshipOptionPanel extends Panel
 
         RelationshipService service = ChronosWebApp.getServices().getRelationshipService();
 
-        CustomerEntityComposite customer = getCustomer();
+        Customer customer = getCustomer();
 
-        List<RelationshipComposite> list = service.findAll( customer );
+        List<Relationship> list = service.findAll( customer );
 
-        for( RelationshipComposite relationship : list )
+        for( Relationship relationship : list )
         {
             relationshipSet.add( relationship.relationship().get() );
         }
@@ -122,16 +122,16 @@ public abstract class RelationshipOptionPanel extends Panel
         return false;
     }
 
-    public void setSelectedRelationship( RelationshipComposite relationship )
+    public void setSelectedRelationship( Relationship relationship )
     {
         relationshipChoice.setChoice( relationship.relationship().get() );
     }
 
-    public RelationshipComposite getSelectedRelationship()
+    public Relationship getSelectedRelationship()
     {
         String choice = relationshipChoice.getChoiceAsString();
 
-        for( RelationshipComposite relationship : addedRelationshipList )
+        for( Relationship relationship : addedRelationshipList )
         {
             if( choice.equals( relationship.relationship().get() ) )
             {
@@ -142,5 +142,5 @@ public abstract class RelationshipOptionPanel extends Panel
         return ChronosWebApp.getServices().getRelationshipService().get( getCustomer(), choice );
     }
 
-    public abstract CustomerEntityComposite getCustomer();
+    public abstract Customer getCustomer();
 }

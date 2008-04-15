@@ -14,12 +14,11 @@ package org.qi4j.chronos.ui.contactperson;
 
 import java.util.Iterator;
 import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.model.composites.ContactComposite;
-import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
-import org.qi4j.chronos.model.composites.SystemRoleComposite;
-import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.model.ContactPerson;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.login.LoginUserEditPanel;
+import org.qi4j.library.general.model.Contact;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.wicket.Page;
@@ -39,19 +38,19 @@ public abstract class ContactPersonEditPage extends ContactPersonAddEditPage
 
     private void initData()
     {
-        ContactPersonEntityComposite contactPerson = getContactPerson();
+        ContactPerson contactPerson = getContactPerson();
 
         assignContactPersonToFieldValue( contactPerson );
     }
 
-    public Iterator<SystemRoleComposite> getInitSelectedRoleList()
+    public Iterator<SystemRole> getInitSelectedRoleList()
     {
         return getContactPerson().systemRoles().iterator();
     }
 
     public void onSubmitting()
     {
-        ContactPersonEntityComposite contactPerson = getContactPerson();
+        ContactPerson contactPerson = getContactPerson();
 
         //bp. ContactPerson has and only has one system role which is SystemRole.CONTACT_PERSON
         //hence, we don't need to remove all system role.
@@ -59,7 +58,8 @@ public abstract class ContactPersonEditPage extends ContactPersonAddEditPage
 
         try
         {
-            ChronosWebApp.getServices().getContactPersonService().update( contactPerson );
+// TODO replace with service           
+//            ChronosWebApp.getServices().getContactPersonService().update( contactPerson );
 
             logInfoMsg( "Contact Person is updated successfully." );
 
@@ -98,10 +98,12 @@ public abstract class ContactPersonEditPage extends ContactPersonAddEditPage
         return "Edit Contact Person";
     }
 
-    public Iterator<ContactComposite> getInitContactIterator()
+    public Iterator<Contact> getInitContactIterator()
     {
-        return ChronosWebApp.getServices().getContactService().findAll( getContactPerson() ).iterator();
+        // TODO migrate
+//        return ChronosWebApp.getServices().getContactService().findAll( getContactPerson() ).iterator();
+        return null;
     }
 
-    public abstract ContactPersonEntityComposite getContactPerson();
+    public abstract ContactPerson getContactPerson();
 }

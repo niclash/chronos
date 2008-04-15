@@ -21,7 +21,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
+import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.service.PriceRateScheduleService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
@@ -82,7 +82,7 @@ public abstract class PriceRateScheduleSelectionPage extends LeftMenuNavPage
                 }
             };
 
-            PriceRateScheduleComposite priceRateSchedule = getSelectedPriceRateSchedule();
+            PriceRateSchedule priceRateSchedule = getSelectedPriceRateSchedule();
 
             List<PriceRateDelegator> delegators = ListUtil.getPriceRateDelegator( priceRateSchedule );
 
@@ -115,14 +115,14 @@ public abstract class PriceRateScheduleSelectionPage extends LeftMenuNavPage
 
         private void handleSelect()
         {
-            PriceRateScheduleComposite priceRateSchedule = getSelectedPriceRateSchedule();
+            PriceRateSchedule priceRateSchedule = getSelectedPriceRateSchedule();
 
             handleSelectedPriceRateSchedule( priceRateSchedule );
 
             setResponsePage( basePage );
         }
 
-        private PriceRateScheduleComposite getSelectedPriceRateSchedule()
+        private PriceRateSchedule getSelectedPriceRateSchedule()
         {
             String name = priceRateScheduleChoice.getChoice();
 
@@ -131,7 +131,7 @@ public abstract class PriceRateScheduleSelectionPage extends LeftMenuNavPage
 
         private void handlePriceRateSheduleChanged()
         {
-            PriceRateScheduleComposite priceRateSchedule = getSelectedPriceRateSchedule();
+            PriceRateSchedule priceRateSchedule = getSelectedPriceRateSchedule();
 
             List<PriceRateDelegator> delegators = ListUtil.getPriceRateDelegator( priceRateSchedule );
 
@@ -142,9 +142,9 @@ public abstract class PriceRateScheduleSelectionPage extends LeftMenuNavPage
     private List<String> getPriceRateScheduleNameList()
     {
         List<String> nameList = new ArrayList<String>();
-        List<PriceRateScheduleComposite> list = getAvailablePriceRateScheduleList();
+        List<PriceRateSchedule> list = getAvailablePriceRateScheduleList();
 
-        for( PriceRateScheduleComposite priceRateSchedule : list )
+        for( PriceRateSchedule priceRateSchedule : list )
         {
             nameList.add( priceRateSchedule.name().get() );
         }
@@ -157,11 +157,11 @@ public abstract class PriceRateScheduleSelectionPage extends LeftMenuNavPage
         return ChronosWebApp.getServices().getPriceRateScheduleService();
     }
 
-    private List<PriceRateScheduleComposite> getAvailablePriceRateScheduleList()
+    private List<PriceRateSchedule> getAvailablePriceRateScheduleList()
     {
         return getPriceRateScheduleService().findAll( getAccount() );
     }
 
-    public abstract void handleSelectedPriceRateSchedule( PriceRateScheduleComposite priceRateSchedule );
+    public abstract void handleSelectedPriceRateSchedule( PriceRateSchedule priceRateSchedule );
 
 }

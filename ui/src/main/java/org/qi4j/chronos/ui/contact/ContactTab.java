@@ -13,7 +13,7 @@
 package org.qi4j.chronos.ui.contact;
 
 import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.ui.common.BorderPanel;
 import org.qi4j.chronos.ui.common.BorderPanelWrapper;
 import org.qi4j.chronos.ui.common.tab.BaseTab;
@@ -33,7 +33,7 @@ public abstract class ContactTab extends BaseTab
             {
                 ContactTable contactTable = new ContactTable( panelId )
                 {
-                    public ContactPersonEntityComposite getContactPerson()
+                    public ContactPerson getContactPerson()
                     {
                         return ContactTab.this.getContactPerson();
                     }
@@ -46,5 +46,5 @@ public abstract class ContactTab extends BaseTab
         return wrapper;
     }
 
-    public abstract ContactPersonEntityComposite getContactPerson();
+    public abstract ContactPerson getContactPerson();
 }

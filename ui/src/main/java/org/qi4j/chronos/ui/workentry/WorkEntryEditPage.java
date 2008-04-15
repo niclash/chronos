@@ -13,8 +13,8 @@
 package org.qi4j.chronos.ui.workentry;
 
 import org.apache.wicket.Page;
-import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.service.WorkEntryService;
+import org.qi4j.chronos.model.WorkEntry;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,7 +36,7 @@ public abstract class WorkEntryEditPage extends WorkEntryAddEditPage
 
     public void onSubmitting()
     {
-        WorkEntryEntityComposite workEntry = getWorkEntry();
+        WorkEntry workEntry = getWorkEntry();
 
         try
         {
@@ -68,5 +68,5 @@ public abstract class WorkEntryEditPage extends WorkEntryAddEditPage
         return "Edit Work Entry";
     }
 
-    public abstract WorkEntryEntityComposite getWorkEntry();
+    public abstract WorkEntry getWorkEntry();
 }

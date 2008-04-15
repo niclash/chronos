@@ -21,15 +21,15 @@ import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.CustomerEntityComposite;
-import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.service.CustomerService;
 import org.qi4j.chronos.ui.address.AddressDetailPanel;
 import org.qi4j.chronos.ui.common.SimpleTextField;
 import org.qi4j.chronos.ui.contactperson.ContactPersonTab;
 import org.qi4j.chronos.ui.pricerate.PriceRateScheduleTab;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
+import org.qi4j.chronos.model.Customer;
+import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.PriceRateSchedule;
 
 public abstract class CustomerDetailPage extends LeftMenuNavPage
 {
@@ -48,7 +48,7 @@ public abstract class CustomerDetailPage extends LeftMenuNavPage
         add( new CustomerDetailForm( "customerDetailForm" ) );
     }
 
-    public abstract CustomerEntityComposite getCustomer();
+    public abstract Customer getCustomer();
 
     private class CustomerDetailForm extends Form
     {
@@ -65,7 +65,7 @@ public abstract class CustomerDetailPage extends LeftMenuNavPage
         {
             super( id );
 
-            CustomerEntityComposite customer = getCustomer();
+            Customer customer = getCustomer();
 
             nameField = new SimpleTextField( "nameField", customer.name().get(), true );
             referenceField = new SimpleTextField( "referenceField", customer.reference().get(), true );
@@ -76,25 +76,25 @@ public abstract class CustomerDetailPage extends LeftMenuNavPage
 
             tabs.add( new ContactPersonTab()
             {
-                public CustomerEntityComposite getCustomer()
+                public Customer getCustomer()
                 {
                     return CustomerDetailPage.this.getCustomer();
                 }
             } );
 
-            tabs.add( new PriceRateScheduleTab<CustomerEntityComposite>( "Standard Price Rate Schedules" )
+            tabs.add( new PriceRateScheduleTab<Customer>( "Standard Price Rate Schedules" )
             {
-                public AccountEntityComposite getAccount()
+                public Account getAccount()
                 {
                     return CustomerDetailPage.this.getAccount();
                 }
 
-                public void addPriceRateSchedule( PriceRateScheduleComposite priceRateSchedule )
+                public void addPriceRateSchedule( PriceRateSchedule priceRateSchedule )
                 {
                     handleAddPriceRateSchedule( priceRateSchedule );
                 }
 
-                public CustomerEntityComposite getHasPriceRateSchedules()
+                public Customer getHasPriceRateSchedules()
                 {
                     return getCustomer();
                 }
@@ -117,15 +117,16 @@ public abstract class CustomerDetailPage extends LeftMenuNavPage
             add( submitButton );
         }
 
-        private void handleAddPriceRateSchedule( PriceRateScheduleComposite priceRateSchedule )
+        private void handleAddPriceRateSchedule( PriceRateSchedule priceRateSchedule )
         {
-            CustomerEntityComposite customer = getCustomer();
+            Customer customer = getCustomer();
 
             customer.priceRateSchedules().add( priceRateSchedule );
 
             CustomerService service = getServices().getCustomerService();
 
-            service.update( customer );
+            // TODO migrate
+//            service.update( customer );
         }
 
     }

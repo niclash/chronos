@@ -16,7 +16,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Set;
 import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.model.composites.SystemRoleComposite;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.ChronosSession;
 
 public class AuthorizationUtil
@@ -55,11 +55,11 @@ public class AuthorizationUtil
         return roles.toArray( new String[roles.size()] );
     }
 
-    private static void getSystemRole( Iterator<SystemRoleComposite> iterator, Set<String> roles )
+    private static void getSystemRole( Iterator<SystemRole> iterator, Set<String> roles )
     {
         while( iterator.hasNext() )
         {
-            SystemRoleComposite next = iterator.next();
+            SystemRole next = iterator.next();
 
             if( !roles.contains( next.name().get() ) )
             {

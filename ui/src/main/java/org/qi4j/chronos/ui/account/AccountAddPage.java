@@ -13,14 +13,19 @@
 package org.qi4j.chronos.ui.account;
 
 import org.apache.wicket.Page;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.AddressComposite;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.Address;
+import org.qi4j.chronos.model.City;
+import org.qi4j.chronos.model.Country;
+import org.qi4j.chronos.model.State;
+import org.qi4j.chronos.model.composites.AddressEntityComposite;
 import org.qi4j.library.framework.validation.ValidationException;
-import org.qi4j.library.general.model.composites.CityComposite;
-import org.qi4j.library.general.model.composites.CountryComposite;
-import org.qi4j.library.general.model.composites.StateComposite;
+import org.qi4j.chronos.model.composites.StateEntityComposite;
+import org.qi4j.chronos.model.composites.CityEntityComposite;
+import org.qi4j.chronos.model.composites.CountryEntityComposite;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
 
 public class AccountAddPage extends AccountAddEditPage
 {
@@ -33,14 +38,14 @@ public class AccountAddPage extends AccountAddEditPage
     {
         AccountService accountService = ChronosWebApp.getServices().getAccountService();
 
-        AccountEntityComposite account = accountService.newInstance( AccountEntityComposite.class );
+        Account account = accountService.newInstance( AccountEntityComposite.class );
 
         try
         {
-            AddressComposite address = ChronosWebApp.newInstance( AddressComposite.class );
-            CityComposite city = ChronosWebApp.newInstance( CityComposite.class );
-            StateComposite state = ChronosWebApp.newInstance( StateComposite.class );
-            CountryComposite country = ChronosWebApp.newInstance( CountryComposite.class );
+            Address address = ChronosWebApp.newInstance( AddressEntityComposite.class );
+            City city = ChronosWebApp.newInstance( CityEntityComposite.class );
+            State state = ChronosWebApp.newInstance( StateEntityComposite.class );
+            Country country = ChronosWebApp.newInstance( CountryEntityComposite.class );
 
             address.city().set( city );
 
@@ -54,7 +59,8 @@ public class AccountAddPage extends AccountAddEditPage
             //assign data to customer
             assignFieldValueToAccount( account );
 
-            accountService.save( account );
+            // TODO migrate
+//            accountService.save( account );
 
             logInfoMsg( "Account is added successfully." );
 

@@ -16,8 +16,7 @@ import java.util.Iterator;
 import org.apache.wicket.Page;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
-import org.qi4j.chronos.model.composites.SystemRoleComposite;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
@@ -46,7 +45,7 @@ public abstract class StaffEditPage extends StaffAddEditPage
         assignStaffToFieldValue( staff );
     }
 
-    public Iterator<SystemRoleComposite> getInitSelectedRoleList()
+    public Iterator<SystemRole> getInitSelectedRoleList()
     {
         return getStaff().systemRoles().iterator();
     }
@@ -84,18 +83,19 @@ public abstract class StaffEditPage extends StaffAddEditPage
 
     public void onSubmitting()
     {
-        StaffEntityComposite staff = getStaff();
+        Staff staff = getStaff();
 
         //TODO bp. system role is valueObject, let delete all assigned system role
         //TODO before assigning to new system roles. Seeking for correct solution.
-        SetAssociation<SystemRoleComposite> systemRoles = staff.systemRoles();
+        SetAssociation<SystemRole> systemRoles = staff.systemRoles();
         systemRoles.clear();
 
         assignFieldValueToStaff( staff );
 
         try
         {
-            getStaffService().update( staff );
+            // TODO migrate
+//            getStaffService().update( staff );
 
             logInfoMsg( "Staff is updated successfully." );
 
@@ -108,6 +108,6 @@ public abstract class StaffEditPage extends StaffAddEditPage
         }
     }
 
-    public abstract StaffEntityComposite getStaff();
+    public abstract Staff getStaff();
 
 }

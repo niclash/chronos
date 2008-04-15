@@ -19,12 +19,13 @@ import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
-import org.qi4j.chronos.model.composites.LegalConditionComposite;
 import org.qi4j.chronos.service.LegalConditionService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.common.SimpleTextArea;
+import org.qi4j.chronos.model.composites.LegalConditionEntityComposite;
+import org.qi4j.chronos.model.LegalCondition;
 
 public abstract class LegalConditionSelectionPage extends LeftMenuNavPage
 {
@@ -102,7 +103,7 @@ public abstract class LegalConditionSelectionPage extends LeftMenuNavPage
 
         private void handleSelect()
         {
-            LegalConditionComposite legalCondition = ChronosWebApp.newInstance( LegalConditionComposite.class );
+            LegalCondition legalCondition = ChronosWebApp.newInstance( LegalConditionEntityComposite.class );
 
             legalCondition.name().set( legalConditionChoice.getChoice().getName() );
             legalCondition.description().set( legalConditionChoice.getChoice().getDesc() );
@@ -120,11 +121,11 @@ public abstract class LegalConditionSelectionPage extends LeftMenuNavPage
 
     private List<LegalConditionDelegator> getAvailableLegalCondition()
     {
-        List<LegalConditionComposite> list = getLegalConditionService().findAll( getAccount() );
+        List<LegalCondition> list = getLegalConditionService().findAll( getAccount() );
 
         List<LegalConditionDelegator> resultList = new ArrayList<LegalConditionDelegator>();
 
-        for( LegalConditionComposite legalCondition : list )
+        for( LegalCondition legalCondition : list )
         {
             resultList.add( new LegalConditionDelegator( legalCondition ) );
         }
@@ -137,5 +138,5 @@ public abstract class LegalConditionSelectionPage extends LeftMenuNavPage
         return ChronosWebApp.getServices().getLegalConditionService();
     }
 
-    public abstract void selectedLegalCondition( LegalConditionComposite legalCondition );
+    public abstract void selectedLegalCondition( LegalCondition legalCondition );
 }

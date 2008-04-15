@@ -13,23 +13,24 @@
 package org.qi4j.chronos.ui.project;
 
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
-public abstract class ProjectDataProvider extends AbstractSortableDataProvider<ProjectEntityComposite, String>
+public abstract class ProjectDataProvider extends AbstractSortableDataProvider<Project, String>
 {
     public ProjectDataProvider()
     {
     }
 
-    public String getId( ProjectEntityComposite projectEntityComposite )
+    public String getId( Project project )
     {
 
-        return projectEntityComposite.identity().get();
+        return ( (ProjectEntityComposite) project).identity().get();
     }
 
-    public ProjectEntityComposite load( String id )
+    public Project load( String id )
     {
         return getProjectService().get( id );
     }

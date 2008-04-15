@@ -14,7 +14,7 @@ package org.qi4j.chronos.ui.task;
 
 import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.ui.common.BorderPanel;
 import org.qi4j.chronos.ui.common.BorderPanelWrapper;
 import org.qi4j.chronos.ui.common.tab.BaseTab;
@@ -39,7 +39,7 @@ public abstract class RecentTaskTab extends BaseTab
                         return RecentTaskTab.this.getSize();
                     }
 
-                    public List<TaskEntityComposite> dataList( int first, int count )
+                    public List<Task> dataList( int first, int count )
                     {
                         return RecentTaskTab.this.dataList( first, count );
                     }
@@ -54,5 +54,5 @@ public abstract class RecentTaskTab extends BaseTab
 
     public abstract int getSize();
 
-    public abstract List<TaskEntityComposite> dataList( int first, int count );
+    public abstract List<Task> dataList( int first, int count );
 }

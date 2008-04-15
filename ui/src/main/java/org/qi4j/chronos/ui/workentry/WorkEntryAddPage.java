@@ -14,10 +14,11 @@ package org.qi4j.chronos.ui.workentry;
 
 import java.util.Date;
 import org.apache.wicket.Page;
-import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
-import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.qi4j.chronos.model.WorkEntry;
+import org.qi4j.chronos.model.ProjectAssignee;
+import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 
 public abstract class WorkEntryAddPage extends WorkEntryAddEditPage
 {
@@ -30,7 +31,7 @@ public abstract class WorkEntryAddPage extends WorkEntryAddEditPage
 
     public void onSubmitting()
     {
-        WorkEntryEntityComposite workEntry = getServices().getWorkEntryService().newInstance( WorkEntryEntityComposite.class );
+        WorkEntry workEntry = getServices().getWorkEntryService().newInstance( WorkEntryEntityComposite.class );
 
         try
         {
@@ -64,7 +65,7 @@ public abstract class WorkEntryAddPage extends WorkEntryAddEditPage
         return "New Work Entry";
     }
 
-    public abstract ProjectAssigneeEntityComposite getProjectAssignee();
+    public abstract ProjectAssignee getProjectAssignee();
 
-    public abstract void addingWorkEntry( WorkEntryEntityComposite workentry );
+    public abstract void addingWorkEntry( WorkEntry workentry );
 }

@@ -16,7 +16,6 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
@@ -26,9 +25,11 @@ import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleAction;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
-import org.qi4j.library.general.model.Money;
+import org.qi4j.chronos.model.Staff;
+import org.qi4j.chronos.model.Money;
+import org.qi4j.entity.Identity;
 
-public abstract class StaffTable extends ActionTable<StaffEntityComposite, String>
+public abstract class StaffTable extends ActionTable<Staff, String>
 {
     private StaffDataProvider dataProvider;
 
@@ -41,9 +42,9 @@ public abstract class StaffTable extends ActionTable<StaffEntityComposite, Strin
 
     private void initActions()
     {
-        addAction( new SimpleDeleteAction<StaffEntityComposite>( "Delete Staff" )
+        addAction( new SimpleDeleteAction<Staff>( "Delete Staff" )
         {
-            public void performAction( List<StaffEntityComposite> staffs )
+            public void performAction( List<Staff> staffs )
             {
                 getStaffService().delete( staffs );
 
@@ -51,9 +52,9 @@ public abstract class StaffTable extends ActionTable<StaffEntityComposite, Strin
             }
         } );
 
-        addAction( new SimpleAction<StaffEntityComposite>( "Disable Login" )
+        addAction( new SimpleAction<Staff>( "Disable Login" )
         {
-            public void performAction( List<StaffEntityComposite> staffs )
+            public void performAction( List<Staff> staffs )
             {
                 getStaffService().enableLogin( false, staffs );
 
@@ -61,9 +62,9 @@ public abstract class StaffTable extends ActionTable<StaffEntityComposite, Strin
             }
         } );
 
-        addAction( new SimpleAction<StaffEntityComposite>( "Enable Login" )
+        addAction( new SimpleAction<Staff>( "Enable Login" )
         {
-            public void performAction( List<StaffEntityComposite> staffs )
+            public void performAction( List<Staff> staffs )
             {
                 getStaffService().enableLogin( true, staffs );
 
@@ -77,7 +78,7 @@ public abstract class StaffTable extends ActionTable<StaffEntityComposite, Strin
         return ChronosWebApp.getServices().getStaffService();
     }
 
-    public AbstractSortableDataProvider<StaffEntityComposite, String> getDetachableDataProvider()
+    public AbstractSortableDataProvider<Staff, String> getDetachableDataProvider()
     {
         if( dataProvider == null )
         {
@@ -88,7 +89,7 @@ public abstract class StaffTable extends ActionTable<StaffEntityComposite, Strin
                     return StaffTable.this.getSize();
                 }
 
-                public List<StaffEntityComposite> dataList( int first, int count )
+                public List<Staff> dataList( int first, int count )
                 {
                     return StaffTable.this.dataList( first, count );
                 }
@@ -98,9 +99,9 @@ public abstract class StaffTable extends ActionTable<StaffEntityComposite, Strin
         return dataProvider;
     }
 
-    public void populateItems( Item item, StaffEntityComposite obj )
+    public void populateItems( Item item, Staff obj )
     {
-        final String staffId = obj.identity().get();
+        final String staffId = ( (Identity) obj).identity().get();
 
         item.add( createDetailLink( "firstName", obj.firstName().get(), staffId ) );
         item.add( createDetailLink( "lastName", obj.lastName().get(), staffId ) );
@@ -119,7 +120,7 @@ public abstract class StaffTable extends ActionTable<StaffEntityComposite, Strin
             {
                 setResponsePage( new StaffEditPage( (BasePage) this.getPage() )
                 {
-                    public StaffEntityComposite getStaff()
+                    public Staff getStaff()
                     {
                         return getStaffService().get( staffId );
                     }
@@ -136,7 +137,7 @@ public abstract class StaffTable extends ActionTable<StaffEntityComposite, Strin
             {
                 StaffDetailPage detailPage = new StaffDetailPage( (BasePage) this.getPage() )
                 {
-                    public StaffEntityComposite getStaff()
+                    public Staff getStaff()
                     {
                         return getStaffService().get( staffId );
                     }
@@ -154,5 +155,5 @@ public abstract class StaffTable extends ActionTable<StaffEntityComposite, Strin
 
     public abstract int getSize();
 
-    public abstract List<StaffEntityComposite> dataList( int first, int count );
+    public abstract List<Staff> dataList( int first, int count );
 }

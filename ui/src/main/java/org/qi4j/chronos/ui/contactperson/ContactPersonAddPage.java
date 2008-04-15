@@ -16,6 +16,7 @@ import java.util.Collections;
 import java.util.Iterator;
 import org.apache.wicket.Page;
 import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.composites.ContactComposite;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
@@ -26,6 +27,7 @@ import org.qi4j.chronos.service.CustomerService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.login.LoginUserAddPanel;
+import org.qi4j.library.general.model.Contact;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -52,19 +54,20 @@ public abstract class ContactPersonAddPage extends ContactPersonAddEditPage
 
         assignFieldValueToContactPerson( contactPerson );
 
-        SystemRoleComposite contactPersonSystemRole = getServices().getSystemRoleService().getSystemRoleByName( SystemRole.CONTACT_PERSON );
+        SystemRole contactPersonSystemRole = getServices().getSystemRoleService().getSystemRoleByName( SystemRole.CONTACT_PERSON );
 
         contactPerson.systemRoles().add( contactPersonSystemRole );
 
         try
         {
-            CustomerEntityComposite customer = getCustomer();
+            Customer customer = getCustomer();
 
             customer.contactPersons().add( contactPerson );
 
             CustomerService customerService = getServices().getCustomerService();
 
-            customerService.update( customer );
+            // TODO migrate
+//            customerService.update( customer );
 
             logInfoMsg( "Contact Person is added successfully." );
 
@@ -97,7 +100,7 @@ public abstract class ContactPersonAddPage extends ContactPersonAddEditPage
         return "New Contact Person";
     }
 
-    public Iterator<ContactComposite> getInitContactIterator()
+    public Iterator<Contact> getInitContactIterator()
     {
         return Collections.EMPTY_LIST.iterator();
     }

@@ -17,9 +17,8 @@ import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.PriceRateSchedule;
+import org.qi4j.chronos.model.PriceRate;
 import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
-import org.qi4j.chronos.model.composites.PriceRateComposite;
-import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.service.PriceRateScheduleService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
@@ -29,7 +28,7 @@ import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.entity.association.SetAssociation;
 
-public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> extends ActionTable<PriceRateScheduleComposite, String>
+public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> extends ActionTable<PriceRateSchedule, String>
 {
     private PriceRateScheduleDataProvider<T> dataProvider;
 
@@ -42,9 +41,9 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
 
     private void addActions()
     {
-        addAction( new SimpleDeleteAction<PriceRateScheduleComposite>( "Delete" )
+        addAction( new SimpleDeleteAction<PriceRateSchedule>( "Delete" )
         {
-            public void performAction( List<PriceRateScheduleComposite> priceRateSchedules )
+            public void performAction( List<PriceRateSchedule> priceRateSchedules )
             {
                 getPriceRateScheduleService().deletePriceRateSchedule( getHasPriceRateSchedules(), priceRateSchedules );
 
@@ -58,7 +57,7 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
         return ChronosWebApp.getServices().getPriceRateScheduleService();
     }
 
-    public AbstractSortableDataProvider<PriceRateScheduleComposite, String> getDetachableDataProvider()
+    public AbstractSortableDataProvider<PriceRateSchedule, String> getDetachableDataProvider()
     {
         if( dataProvider == null )
         {
@@ -74,7 +73,7 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
         return dataProvider;
     }
 
-    public void populateItems( Item item, PriceRateScheduleComposite obj )
+    public void populateItems( Item item, PriceRateSchedule obj )
     {
         final String priceRateScheduleName = obj.name().get();
 
@@ -102,12 +101,12 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
             {
                 PriceRateScheduleEditPage editPage = new PriceRateScheduleEditPage( (BasePage) this.getPage() )
                 {
-                    public PriceRateScheduleComposite getPriceRateSchedule()
+                    public PriceRateSchedule getPriceRateSchedule()
                     {
                         return PriceRateScheduleTable.this.getPriceRateSchedule( priceRateScheduleName );
                     }
 
-                    public void updatePriceRateSchedule( PriceRateScheduleComposite priceRateScheduleComposite )
+                    public void updatePriceRateSchedule( PriceRateSchedule priceRateScheduleComposite )
                     {
                         handleUpdatePriceRateSchedule( priceRateScheduleComposite, priceRateScheduleName );
                     }
@@ -118,12 +117,12 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
         } );
     }
 
-    private void handleUpdatePriceRateSchedule( PriceRateScheduleComposite updated, String originalName )
+    private void handleUpdatePriceRateSchedule( PriceRateSchedule updated, String originalName )
     {
         //TODO bp. Since i got no idea how qi4j updates ValueObject, for now, lets have a workaround solution.
         T t = getHasPriceRateSchedules();
-        SetAssociation<PriceRateScheduleComposite> priceRateSchedules = t.priceRateSchedules();
-        for( PriceRateScheduleComposite priceRateSchedule : priceRateSchedules )
+        SetAssociation<PriceRateSchedule> priceRateSchedules = t.priceRateSchedules();
+        for( PriceRateSchedule priceRateSchedule : priceRateSchedules )
         {
 
             if( priceRateSchedule.name().get().equals( originalName ) )
@@ -131,14 +130,14 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
                 priceRateSchedule.name().set( updated.name().get() );
                 priceRateSchedule.currency().set( updated.currency().get() );
 
-                SetAssociation<PriceRateComposite> priceRates = priceRateSchedule.priceRates();
+                SetAssociation<PriceRate> priceRates = priceRateSchedule.priceRates();
                 priceRates.clear();
                 priceRates.addAll( updated.priceRates() );
             }
         }
     }
 
-    private PriceRateScheduleComposite getPriceRateSchedule( String name )
+    private PriceRateSchedule getPriceRateSchedule( String name )
     {
         return getPriceRateScheduleService().get( getHasPriceRateSchedules(), name );
     }

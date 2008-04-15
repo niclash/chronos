@@ -15,8 +15,8 @@ package org.qi4j.chronos.ui.projectrole;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
@@ -41,7 +41,7 @@ public class ProjectRoleListPage extends LeftMenuNavPage
 
         ProjectRoleTable roleTable = new ProjectRoleTable( "roleTable" )
         {
-            public AccountEntityComposite getAccount()
+            public Account getAccount()
             {
                 return ProjectRoleListPage.this.getAccount();
             }

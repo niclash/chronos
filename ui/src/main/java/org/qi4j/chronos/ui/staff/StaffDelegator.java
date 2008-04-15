@@ -13,17 +13,17 @@
 package org.qi4j.chronos.ui.staff;
 
 import java.io.Serializable;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.Staff;
 
 public class StaffDelegator implements Serializable
 {
     private String fullName;
     private String id;
 
-    public StaffDelegator( StaffEntityComposite staff )
+    public StaffDelegator( Staff staff )
     {
         this.id = staff.identity().get();
-        this.fullName = staff.name().get();
+        this.fullName = staff.fullName().get();
     }
 
     public String getId()

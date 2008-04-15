@@ -18,7 +18,7 @@ import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuth
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.ui.ChronosWebApp;
@@ -51,7 +51,7 @@ public class ProjectListPage extends LeftMenuNavPage
                 return ProjectListPage.this.getSize();
             }
 
-            public List<ProjectEntityComposite> dataList( int first, int count )
+            public List<Project> dataList( int first, int count )
             {
                 return ProjectListPage.this.dataList( first, count );
             }
@@ -72,11 +72,15 @@ public class ProjectListPage extends LeftMenuNavPage
 
     protected int getSize()
     {
-        return getProjectService().countAll( getAccount() );
+        return 0;
+        // TODO migrate
+//        return getProjectService().countAll( getAccount() );
     }
 
-    protected List<ProjectEntityComposite> dataList( int first, int count )
+    protected List<Project> dataList( int first, int count )
     {
-        return getProjectService().findAll( getAccount(), new FindFilter( first, count ) );
+        return null;
+        // TODO migrate
+//        return getProjectService().findAll( getAccount(), new FindFilter( first, count ) );
     }
 }

@@ -13,8 +13,8 @@
 package org.qi4j.chronos.ui.projectrole;
 
 import org.apache.wicket.Page;
-import org.qi4j.chronos.model.composites.ProjectRoleComposite;
 import org.qi4j.chronos.service.ProjectRoleService;
+import org.qi4j.chronos.model.ProjectRole;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -48,9 +48,9 @@ public abstract class ProjectRoleEditPage extends ProjectRoleAddEditPage
     {
         ProjectRoleService roleService = getRoleService();
 
-        ProjectRoleComposite oldProjectRole = getProjectRole();
+        ProjectRole oldProjectRole = getProjectRole();
 
-        ProjectRoleComposite toBeUpdated = getProjectRole();
+        ProjectRole toBeUpdated = getProjectRole();
 
         try
         {
@@ -68,5 +68,5 @@ public abstract class ProjectRoleEditPage extends ProjectRoleAddEditPage
         }
     }
 
-    public abstract ProjectRoleComposite getProjectRole();
+    public abstract ProjectRole getProjectRole();
 }

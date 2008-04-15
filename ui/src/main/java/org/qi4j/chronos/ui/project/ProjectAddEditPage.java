@@ -25,13 +25,12 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Project;
-import org.qi4j.chronos.model.ProjectStatus;
 import org.qi4j.chronos.model.TimeRange;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
-import org.qi4j.chronos.model.composites.CustomerEntityComposite;
-import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.ProjectStatusEnum;
+import org.qi4j.chronos.model.PriceRateSchedule;
+import org.qi4j.chronos.model.ContactPerson;
+import org.qi4j.chronos.model.Customer;
+import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.service.ContactPersonService;
 import org.qi4j.chronos.service.CustomerService;
 import org.qi4j.chronos.ui.ChronosWebApp;
@@ -51,7 +50,7 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
     protected MaxLengthTextField projectNameField;
     protected MaxLengthTextField formalReferenceField;
 
-    protected SimpleDropDownChoice<ProjectStatus> statusChoice;
+    protected SimpleDropDownChoice<ProjectStatusEnum> statusChoice;
     protected SimpleDropDownChoice<ContactPersonDelegator> primaryContactChoice;
 
     protected SimpleDropDownChoice<CustomerDelegator> customerChoice;
@@ -94,12 +93,12 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
 
         priceRateScheduleOptionPanel = new PriceRateScheduleOptionPanel( "priceRateScheduleOptionPanel" )
         {
-            public List<PriceRateScheduleComposite> getAvailablePriceRateSchedule()
+            public List<PriceRateSchedule> getAvailablePriceRateSchedule()
             {
                 return ProjectAddEditPage.this.getAvailablePriceRateScheduleChoice();
             }
 
-            public AccountEntityComposite getAccount()
+            public Account getAccount()
             {
                 return ProjectAddEditPage.this.getAccount();
             }
@@ -108,7 +107,7 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
         projectNameField = new MaxLengthTextField( "projectName", "Project Name", Project.PROJECT_NAME_LEN );
         formalReferenceField = new MaxLengthTextField( "projectFormalReference", "Project Formal Reference", Project.PROJECT_FORMAL_REFERENCE_LEN );
 
-        statusChoice = new SimpleDropDownChoice<ProjectStatus>( "statusChoice", Arrays.asList( ProjectStatus.values() ), true )
+        statusChoice = new SimpleDropDownChoice<ProjectStatusEnum>( "statusChoice", Arrays.asList( ProjectStatusEnum.values() ), true )
         {
 
             protected void onSelectionChanged( Object newSelection )
@@ -180,9 +179,9 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
 
     private List<ContactPersonDelegator> getSelectedContactPersonChoices()
     {
-        Iterator<ContactPersonEntityComposite> contactPersonIterator = getInitSelectedContactPersonList();
+        Iterator<ContactPerson> contactPersonIterator = getInitSelectedContactPersonList();
 
-        List<ContactPersonEntityComposite> selectedContactPerson = new ArrayList<ContactPersonEntityComposite>();
+        List<ContactPerson> selectedContactPerson = new ArrayList<ContactPerson>();
 
         while( contactPersonIterator.hasNext() )
         {
@@ -196,20 +195,20 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
 
     private List<ContactPersonDelegator> getAvailableContactPersonChoices()
     {
-        CustomerEntityComposite projectOwner = getCustomerService().get( customerChoice.getChoice().getId() );
+        Customer projectOwner = getCustomerService().get( customerChoice.getChoice().getId() );
 
-        List<ContactPersonEntityComposite> contactPersonList = getContactPersonService().findAll( projectOwner );
+        List<ContactPerson> contactPersonList = getContactPersonService().findAll( projectOwner );
 
         List<ContactPersonDelegator> results = constructContactPerson( contactPersonList );
 
         return results;
     }
 
-    private List<ContactPersonDelegator> constructContactPerson( List<ContactPersonEntityComposite> contacts )
+    private List<ContactPersonDelegator> constructContactPerson( List<ContactPerson> contacts )
     {
         List<ContactPersonDelegator> returns = new ArrayList<ContactPersonDelegator>();
 
-        for( ContactPersonEntityComposite contactPerson : contacts )
+        for( ContactPerson contactPerson : contacts )
         {
             returns.add( new ContactPersonDelegator( contactPerson ) );
         }
@@ -222,7 +221,7 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
         return ChronosWebApp.getServices().getContactPersonService();
     }
 
-    private ContactPersonEntityComposite getPrimaryContactPerson()
+    private ContactPerson getPrimaryContactPerson()
     {
         ContactPersonDelegator selected = primaryContactChoice.getChoice();
 
@@ -236,11 +235,11 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
         }
     }
 
-    private List<ContactPersonEntityComposite> getSelectedContactPersons()
+    private List<ContactPerson> getSelectedContactPersons()
     {
         Iterator<ContactPersonDelegator> selectedIter = contactPalette.getSelectedChoices();
 
-        List<ContactPersonEntityComposite> resultList = new ArrayList<ContactPersonEntityComposite>();
+        List<ContactPerson> resultList = new ArrayList<ContactPerson>();
 
         while( selectedIter.hasNext() )
         {
@@ -252,9 +251,9 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
 
     private void handleStatusChanged()
     {
-        ProjectStatus projectStatus = statusChoice.getChoice();
+        ProjectStatusEnum projectStatus = statusChoice.getChoice();
 
-        if( projectStatus == ProjectStatus.CLOSED )
+        if( projectStatus == ProjectStatusEnum.CLOSED )
         {
             actualDateContainer.setVisible( true );
         }
@@ -270,9 +269,11 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
     {
         List<CustomerDelegator> delegatorList = new ArrayList<CustomerDelegator>();
 
-        List<CustomerEntityComposite> customers = getCustomerService().findAll( getAccount() );
+        // TODO migrate
+//        List<Customer> customers = getCustomerService().findAll( getAccount() );
+        List<Customer> customers = new ArrayList<Customer>();
 
-        for( CustomerEntityComposite customer : customers )
+        for( Customer customer : customers )
         {
             delegatorList.add( new CustomerDelegator( customer ) );
         }
@@ -280,30 +281,30 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
         return delegatorList;
     }
 
-    protected void assignFieldValuesToProject( ProjectEntityComposite project )
+    protected void assignFieldValuesToProject( Project project )
     {
         project.name().set( projectNameField.getText() );
         project.reference().set( formalReferenceField.getText() );
 
         project.projectStatus().set( statusChoice.getChoice() );
 
-        CustomerEntityComposite customer = getCustomerService().get( customerChoice.getChoice().getId() );
+        Customer customer = getCustomerService().get( customerChoice.getChoice().getId() );
 
         project.customer().set( customer );
 
         project.primaryContactPerson().set( null );
 
-        ContactPersonEntityComposite primaryContactPerson = getPrimaryContactPerson();
+        ContactPerson primaryContactPerson = getPrimaryContactPerson();
 
         if( primaryContactPerson != null )
         {
             project.primaryContactPerson().set( primaryContactPerson );
         }
 
-        SetAssociation<ContactPersonEntityComposite> projectContacts = project.contactPersons();
+        SetAssociation<ContactPerson> projectContacts = project.contactPersons();
         projectContacts.clear();
 
-        List<ContactPersonEntityComposite> selectedContacts = getSelectedContactPersons();
+        List<ContactPerson> selectedContacts = getSelectedContactPersons();
         projectContacts.addAll( selectedContacts );
 
         TimeRange projectEstimateTime = project.estimateTime().get();
@@ -314,13 +315,13 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
         projectActualTime.startTime().set( null );
         projectActualTime.endTime().set( null );
 
-        if( project.projectStatus().get() == ProjectStatus.CLOSED )
+        if( project.projectStatus().get() == ProjectStatusEnum.CLOSED )
         {
             projectActualTime.startTime().set( actualStartDate.getDate() );
             projectActualTime.endTime().set( actualEndDate.getDate() );
         }
 
-        Association<PriceRateScheduleComposite> projectPriceRateSchedule = project.priceRateSchedule();
+        Association<PriceRateSchedule> projectPriceRateSchedule = project.priceRateSchedule();
         projectPriceRateSchedule.set( priceRateScheduleOptionPanel.getPriceRateSchedule() );
     }
 
@@ -330,20 +331,20 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
 
         formalReferenceField.setText( project.reference().get() );
 
-        ProjectStatus projectStatus = project.projectStatus().get();
+        ProjectStatusEnum projectStatus = project.projectStatus().get();
         statusChoice.setChoice( projectStatus );
 
-        if( projectStatus == ProjectStatus.CLOSED )
+        if( projectStatus == ProjectStatusEnum.CLOSED )
         {
             actualDateContainer.setVisible( true );
         }
 
-        CustomerEntityComposite projectCustomer = project.customer().get();
+        Customer projectCustomer = project.customer().get();
         customerChoice.setChoice( new CustomerDelegator( projectCustomer ) );
 
         primaryContactChoice.setNewChoices( getAvailableContactPersonChoices() );
 
-        ContactPersonEntityComposite primaryContactPerson = project.primaryContactPerson().get();
+        ContactPerson primaryContactPerson = project.primaryContactPerson().get();
         if( primaryContactPerson != null )
         {
             primaryContactChoice.setChoice( new ContactPersonDelegator( primaryContactPerson ) );
@@ -396,7 +397,7 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
             isRejected = true;
         }
 
-        if( statusChoice.getChoice() == ProjectStatus.CLOSED )
+        if( statusChoice.getChoice() == ProjectStatusEnum.CLOSED )
         {
             if( ValidatorUtil.isAfter( actualStartDate.getDate(), actualEndDate.getDate(),
                                        "Start Date(Act.)", "End Date(Act.)", this ) )
@@ -415,8 +416,8 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
 
     public abstract void onSubmitting();
 
-    public abstract Iterator<ContactPersonEntityComposite> getInitSelectedContactPersonList();
+    public abstract Iterator<ContactPerson> getInitSelectedContactPersonList();
 
-    public abstract List<PriceRateScheduleComposite> getAvailablePriceRateScheduleChoice();
+    public abstract List<PriceRateSchedule> getAvailablePriceRateScheduleChoice();
 }
 

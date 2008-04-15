@@ -14,6 +14,7 @@ package org.qi4j.chronos.ui.legalcondition;
 
 import org.apache.wicket.Page;
 import org.qi4j.chronos.model.composites.LegalConditionComposite;
+import org.qi4j.chronos.model.LegalCondition;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -58,5 +59,5 @@ public abstract class LegalConditionAddPage extends LegalConditionAddEditPage
         }
     }
 
-    public abstract void addLegalCondition( LegalConditionComposite legalCondition );
+    public abstract void addLegalCondition( LegalCondition legalCondition );
 }

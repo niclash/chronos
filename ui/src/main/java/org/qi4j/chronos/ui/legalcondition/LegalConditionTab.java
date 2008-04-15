@@ -16,8 +16,8 @@ import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuth
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.composites.LegalConditionComposite;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.LegalCondition;
+import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.ui.common.NewLinkPanel;
 import org.qi4j.chronos.ui.common.tab.NewLinkTab;
 import org.qi4j.entity.association.SetAssociation;
@@ -50,7 +50,7 @@ public abstract class LegalConditionTab extends NewLinkTab
         {
             return new LegalConditionTable( id )
             {
-                public ProjectEntityComposite getProject()
+                public Project getProject()
                 {
                     return LegalConditionTab.this.getProject();
                 }
@@ -61,13 +61,14 @@ public abstract class LegalConditionTab extends NewLinkTab
         {
             LegalConditionAddPage addPage = new LegalConditionAddPage( this.getPage() )
             {
-                public void addLegalCondition( LegalConditionComposite legalCondition )
+                public void addLegalCondition( LegalCondition legalCondition )
                 {
-                    ProjectEntityComposite project = getProject();
-                    SetAssociation<LegalConditionComposite> legalConditions = project.legalConditions();
+                    Project project = getProject();
+                    SetAssociation<LegalCondition> legalConditions = project.legalConditions();
                     legalConditions.add( legalCondition );
 
-                    getServices().getProjectService().update( project );
+                    // TODO migrate
+//                    getServices().getProjectService().update( project );
                 }
             };
 
@@ -80,5 +81,5 @@ public abstract class LegalConditionTab extends NewLinkTab
         }
     }
 
-    public abstract ProjectEntityComposite getProject();
+    public abstract Project getProject();
 }

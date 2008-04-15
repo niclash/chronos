@@ -13,7 +13,7 @@
 package org.qi4j.chronos.ui.pricerate;
 
 import org.apache.wicket.markup.html.basic.Label;
-import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
+import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.ui.common.BorderPanel;
 import org.qi4j.chronos.ui.common.tab.BaseTab;
 import org.qi4j.chronos.ui.util.ListUtil;
@@ -40,7 +40,7 @@ public abstract class PriceRateTab extends BaseTab
         {
             super( id );
 
-            PriceRateScheduleComposite priceRateSchedule = getPriceRateSchedule();
+            PriceRateSchedule priceRateSchedule = getPriceRateSchedule();
             priceRateListView = new PriceRateListView( "priceRateListView", ListUtil.getPriceRateDelegator( priceRateSchedule ) );
 
             priceRateScheduleNameField = new Label( "priceRateScheduleNameLabel", priceRateSchedule.name().get() );
@@ -52,5 +52,5 @@ public abstract class PriceRateTab extends BaseTab
         }
     }
 
-    public abstract PriceRateScheduleComposite getPriceRateSchedule();
+    public abstract PriceRateSchedule getPriceRateSchedule();
 }

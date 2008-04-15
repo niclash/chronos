@@ -13,14 +13,15 @@
 package org.qi4j.chronos.ui.task;
 
 import java.util.List;
+import java.util.Arrays;
+import java.util.ArrayList;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.model.composites.TaskEntityComposite;
-import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.TaskService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.NewLinkPanel;
 import org.qi4j.chronos.ui.common.tab.NewLinkTab;
+import org.qi4j.chronos.model.Task;
+import org.qi4j.chronos.model.Project;
 
 public abstract class TaskTab extends NewLinkTab
 {
@@ -52,12 +53,16 @@ public abstract class TaskTab extends NewLinkTab
             {
                 public int getSize()
                 {
-                    return getTaskMasterService().countAll( getProject() );
+                    // TODO migrate
+//                    return getTaskMasterService().countAll( getProject() );
+                    return 0;
                 }
 
-                public List<TaskEntityComposite> dataList( int first, int count )
+                public List<Task> dataList( int first, int count )
                 {
-                    return getTaskMasterService().findAll( getProject(), new FindFilter( first, count ) );
+                    // TODO migrate
+//                    return getTaskMasterService().findAll( getProject(), new FindFilter( first, count ) );
+                    return new ArrayList<Task>(0);
                 }
             };
         }
@@ -66,7 +71,7 @@ public abstract class TaskTab extends NewLinkTab
         {
             TaskAddPage addPage = new TaskAddPage( this.getPage() )
             {
-                public ProjectEntityComposite getProject()
+                public Project getProject()
                 {
                     return TaskTab.this.getProject();
                 }
@@ -82,5 +87,5 @@ public abstract class TaskTab extends NewLinkTab
         }
     }
 
-    public abstract ProjectEntityComposite getProject();
+    public abstract Project getProject();
 }

@@ -15,9 +15,9 @@ package org.qi4j.chronos.ui.pricerate;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.model.composites.PriceRateComposite;
-import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
+import org.qi4j.chronos.model.PriceRate;
+import org.qi4j.chronos.model.PriceRateSchedule;
 
 public abstract class PriceRateOptionPanel extends Panel
 {
@@ -25,7 +25,7 @@ public abstract class PriceRateOptionPanel extends Panel
     private SubmitLink customizePriceRateLink;
 
     //TODO bp. fix this
-    private static PriceRateComposite priceRate;
+    private static PriceRate priceRate;
 
     private Label priceRateDetailLabel;
 
@@ -68,12 +68,12 @@ public abstract class PriceRateOptionPanel extends Panel
     {
         PriceRateAddPage addPage = new PriceRateAddPage( (BasePage) this.getPage() )
         {
-            public void addPriceRate( PriceRateComposite priceRate )
+            public void addPriceRate( PriceRate priceRate )
             {
                 PriceRateOptionPanel.this.addPriceRate( priceRate );
             }
 
-            public PriceRateScheduleComposite getPriceRateSchedule()
+            public PriceRateSchedule getPriceRateSchedule()
             {
                 return PriceRateOptionPanel.this.getPriceRateSchedule();
             }
@@ -87,7 +87,7 @@ public abstract class PriceRateOptionPanel extends Panel
         setResponsePage( addPage );
     }
 
-    private void addPriceRate( PriceRateComposite priceRate )
+    private void addPriceRate( PriceRate priceRate )
     {
         setPriceRate( priceRate );
     }
@@ -96,17 +96,17 @@ public abstract class PriceRateOptionPanel extends Panel
     {
         PriceRateEditPage editPage = new PriceRateEditPage( (BasePage) this.getPage() )
         {
-            public PriceRateComposite getPriceRate()
+            public PriceRate getPriceRate()
             {
                 return PriceRateOptionPanel.this.getPriceRate();
             }
 
-            public void updatePriceRate( PriceRateComposite priceRate )
+            public void updatePriceRate( PriceRate priceRate )
             {
                 PriceRateOptionPanel.this.updatePriceRate( priceRate );
             }
 
-            public PriceRateScheduleComposite getPriceRateSchedule()
+            public PriceRateSchedule getPriceRateSchedule()
             {
                 return PriceRateOptionPanel.this.getPriceRateSchedule();
             }
@@ -115,12 +115,12 @@ public abstract class PriceRateOptionPanel extends Panel
         setResponsePage( editPage );
     }
 
-    private void updatePriceRate( PriceRateComposite priceRate )
+    private void updatePriceRate( PriceRate priceRate )
     {
         setPriceRate( priceRate );
     }
 
-    public PriceRateComposite getPriceRate()
+    public PriceRate getPriceRate()
     {
         return priceRate;
     }
@@ -136,7 +136,7 @@ public abstract class PriceRateOptionPanel extends Panel
         return false;
     }
 
-    public void setPriceRate( PriceRateComposite priceRate )
+    public void setPriceRate( PriceRate priceRate )
     {
         this.priceRate = priceRate;
 
@@ -153,6 +153,6 @@ public abstract class PriceRateOptionPanel extends Panel
         customizePriceRateLink.setVisible( true );
     }
 
-    public abstract PriceRateScheduleComposite getPriceRateSchedule();
+    public abstract PriceRateSchedule getPriceRateSchedule();
 }
 

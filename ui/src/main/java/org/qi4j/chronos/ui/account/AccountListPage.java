@@ -16,7 +16,7 @@ import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInst
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 
 @AuthorizeInstantiation( SystemRole.SYSTEM_ADMIN )
@@ -41,7 +41,7 @@ public class AccountListPage extends LeftMenuNavPage
 
         AccountTable accountTable = new AccountTable( "accountTable" )
         {
-            public AccountEntityComposite getAccount()
+            public Account getAccount()
             {
                 return AccountListPage.this.getAccount();
             }

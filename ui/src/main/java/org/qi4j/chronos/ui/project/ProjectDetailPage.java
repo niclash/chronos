@@ -23,16 +23,15 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Project;
-import org.qi4j.chronos.model.ProjectStatus;
 import org.qi4j.chronos.model.TimeRange;
+import org.qi4j.chronos.model.ProjectStatusEnum;
+import org.qi4j.chronos.model.Customer;
+import org.qi4j.chronos.model.ProjectAssignee;
+import org.qi4j.chronos.model.PriceRateSchedule;
+import org.qi4j.chronos.model.WorkEntry;
+import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.associations.HasContactPersons;
 import org.qi4j.chronos.model.associations.HasWorkEntries;
-import org.qi4j.chronos.model.composites.CustomerEntityComposite;
-import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
-import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
-import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.ui.common.SimpleTextField;
 import org.qi4j.chronos.ui.contactperson.ContactPersonTable;
 import org.qi4j.chronos.ui.legalcondition.LegalConditionTab;
@@ -96,13 +95,13 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
             projectNameField = new SimpleTextField( "projectNameField", project.name().get() );
             formalReferenceField = new SimpleTextField( "formalReferenceField", project.reference().get() );
 
-            ProjectStatus projectStatus = project.projectStatus().get();
+            ProjectStatusEnum projectStatus = project.projectStatus().get();
             projectStatusField = new SimpleTextField( "projectStatusField", projectStatus.toString() );
 
-            CustomerEntityComposite projectCustomer = project.customer().get();
+            Customer projectCustomer = project.customer().get();
             projectOwnerField = new SimpleTextField( "customerField", projectCustomer.name().get() );
 
-            String primaryContact = project.primaryContactPerson().get().name().get();
+            String primaryContact = project.primaryContactPerson().get().fullName().get();
             primaryContactField = new SimpleTextField( "primaryContactField", primaryContact );
 
             TimeRange projectEstimateTime = project.estimateTime().get();
@@ -147,7 +146,7 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
                     return getProject();
                 }
 
-                public CustomerEntityComposite getCustomer()
+                public Customer getCustomer()
                 {
                     return getProject().customer().get();
                 }
@@ -171,7 +170,7 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
 
             add( contactPersonTable );
 
-            if( projectStatus != ProjectStatus.CLOSED )
+            if( projectStatus != ProjectStatusEnum.CLOSED )
             {
                 actualTimeContainer.setVisible( false );
             }
@@ -182,12 +181,12 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
     {
         return new WorkEntryTab( "WorkEntries" )
         {
-            public void addingWorkEntry( WorkEntryEntityComposite workEntry )
+            public void addingWorkEntry( WorkEntry workEntry )
             {
                 ProjectDetailPage.this.addingWorkEntry( workEntry );
             }
 
-            public ProjectAssigneeEntityComposite getProjectAssignee()
+            public ProjectAssignee getProjectAssignee()
             {
                 return ProjectDetailPage.this.getProjectAssignee();
             }
@@ -199,26 +198,27 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
         };
     }
 
-    private void addingWorkEntry( WorkEntryEntityComposite workEntry )
+    private void addingWorkEntry( WorkEntry workEntry )
     {
-        ProjectEntityComposite project = getProject();
+        Project project = getProject();
 
         //add workEntry to project
         project.workEntries().add( workEntry );
 
         //update project
-        getServices().getProjectService().update( project );
+        // TODO migrate
+//        getServices().getProjectService().update( project );
     }
 
-    private ProjectAssigneeEntityComposite getProjectAssignee()
+    private ProjectAssignee getProjectAssignee()
     {
         //TODO bp. This may return null if current user is Customer or ACCOUNT_ADMIN.
         //TODO got better way to handle this?
         if( getChronosSession().isStaff() )
         {
-            StaffEntityComposite staff = (StaffEntityComposite) getChronosSession().getUser();
+            Staff staff = (Staff) getChronosSession().getUser();
 
-            ProjectAssigneeEntityComposite projectAssignee = getServices().getProjectAssigneeService().getProjectAssignee( getProject(), staff );
+            ProjectAssignee projectAssignee = getServices().getProjectAssigneeService().getProjectAssignee( getProject(), staff );
 
             return projectAssignee;
         }
@@ -230,7 +230,7 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
     {
         return new LegalConditionTab( "Legal Condition" )
         {
-            public ProjectEntityComposite getProject()
+            public Project getProject()
             {
                 return ProjectDetailPage.this.getProject();
             }
@@ -241,7 +241,7 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
     {
         return new TaskTab( "Task" )
         {
-            public ProjectEntityComposite getProject()
+            public Project getProject()
             {
                 return ProjectDetailPage.this.getProject();
             }
@@ -252,7 +252,7 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
     {
         return new ProjectAssigneeTab( "Project Assignee" )
         {
-            public ProjectEntityComposite getProject()
+            public Project getProject()
             {
                 return ProjectDetailPage.this.getProject();
             }
@@ -263,12 +263,12 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
     {
         return new PriceRateTab( "Price Rate Schedule" )
         {
-            public PriceRateScheduleComposite getPriceRateSchedule()
+            public PriceRateSchedule getPriceRateSchedule()
             {
                 return ProjectDetailPage.this.getProject().priceRateSchedule().get();
             }
         };
     }
 
-    public abstract ProjectEntityComposite getProject();
+    public abstract Project getProject();
 }

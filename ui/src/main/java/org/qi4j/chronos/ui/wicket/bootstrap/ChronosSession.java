@@ -20,8 +20,9 @@ import org.apache.wicket.authorization.strategies.role.Roles;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.service.AccountService;
+import org.qi4j.chronos.service.lab.LoginServiceComposite;
 import org.qi4j.chronos.service.authentication.AuthenticationService;
+import org.qi4j.chronos.service.account.AccountServiceComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.SystemRoleResolver;
 import org.qi4j.composite.scope.Service;
@@ -39,8 +40,9 @@ public final class ChronosSession extends AuthenticatedWebSession
 
     @Service private AuthenticationService authenticationService;
 
-//    @Service
-//    private AccountService accountService;
+    @Service private AccountServiceComposite accountService;
+
+    @Service private LoginServiceComposite loginService;
 
 
     private SystemRoleResolver roleResolver;
@@ -101,6 +103,16 @@ public final class ChronosSession extends AuthenticatedWebSession
         {
             return null;
         }
+    }
+
+    public LoginServiceComposite getLoginService()
+    {
+        return loginService;
+    }
+
+    public AccountServiceComposite getAccountService()
+    {
+        return accountService;
     }
 
     public SystemRoleResolver getSystemRoleResolver()

@@ -22,8 +22,8 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.ui.ChronosWebApp;
@@ -87,7 +87,7 @@ public abstract class StaffDetailPage extends LeftMenuNavPage
                     return getProjectService().countAll( StaffDetailPage.this.getStaff() );
                 }
 
-                public List<ProjectEntityComposite> dataList( int first, int count )
+                public List<Project> dataList( int first, int count )
                 {
                     return getProjectService().findAll( StaffDetailPage.this.getStaff(), new FindFilter( first, count ) );
                 }
@@ -109,5 +109,5 @@ public abstract class StaffDetailPage extends LeftMenuNavPage
         }
     }
 
-    public abstract StaffEntityComposite getStaff();
+    public abstract Staff getStaff();
 }

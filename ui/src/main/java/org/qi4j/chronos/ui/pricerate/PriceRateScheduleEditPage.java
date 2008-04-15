@@ -14,8 +14,8 @@ package org.qi4j.chronos.ui.pricerate;
 
 import java.util.Iterator;
 import org.apache.wicket.Page;
-import org.qi4j.chronos.model.composites.PriceRateComposite;
-import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
+import org.qi4j.chronos.model.PriceRateSchedule;
+import org.qi4j.chronos.model.PriceRate;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,7 +34,7 @@ public abstract class PriceRateScheduleEditPage extends PriceRateScheduleAddEdit
 
     private void initData()
     {
-        PriceRateScheduleComposite priceRateSchedule = getPriceRateSchedule();
+        PriceRateSchedule priceRateSchedule = getPriceRateSchedule();
 
         assignPriceRateScheduleToFieldValue( priceRateSchedule );
     }
@@ -51,7 +51,7 @@ public abstract class PriceRateScheduleEditPage extends PriceRateScheduleAddEdit
 
     public void onSubmitting()
     {
-        PriceRateScheduleComposite priceRateSchedule = getPriceRateSchedule();
+        PriceRateSchedule priceRateSchedule = getPriceRateSchedule();
 
         try
         {
@@ -70,12 +70,14 @@ public abstract class PriceRateScheduleEditPage extends PriceRateScheduleAddEdit
         }
     }
 
-    public Iterator<PriceRateComposite> getInitPriceRateIterator()
+    public Iterator<PriceRate> getInitPriceRateIterator()
     {
-        return ChronosWebApp.getServices().getPriceRateService().findAll( getPriceRateSchedule() ).iterator();
+        // TODO migrate
+//        return ChronosWebApp.getServices().getPriceRateService().findAll( getPriceRateSchedule() ).iterator();
+        return null;
     }
 
-    public abstract PriceRateScheduleComposite getPriceRateSchedule();
+    public abstract PriceRateSchedule getPriceRateSchedule();
 
-    public abstract void updatePriceRateSchedule( PriceRateScheduleComposite priceRateScheduleComposite );
+    public abstract void updatePriceRateSchedule( PriceRateSchedule priceRateSchedule );
 }

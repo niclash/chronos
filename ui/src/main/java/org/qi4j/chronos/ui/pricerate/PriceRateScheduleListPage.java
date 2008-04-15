@@ -16,8 +16,8 @@ import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInst
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
+import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
@@ -42,9 +42,9 @@ public class PriceRateScheduleListPage extends LeftMenuNavPage
 
         add( new FeedbackPanel( "feedbackPanel" ) );
 
-        PriceRateScheduleTable<AccountEntityComposite> table = new PriceRateScheduleTable<AccountEntityComposite>( "priceRateScheduleTable" )
+        PriceRateScheduleTable<Account> table = new PriceRateScheduleTable<Account>( "priceRateScheduleTable" )
         {
-            public AccountEntityComposite getHasPriceRateSchedules()
+            public Account getHasPriceRateSchedules()
             {
                 return getAccount();
             }
@@ -57,7 +57,7 @@ public class PriceRateScheduleListPage extends LeftMenuNavPage
     {
         PriceRateScheduleAddPage addPage = new PriceRateScheduleAddPage( this )
         {
-            public void addPriceRateSchedule( PriceRateScheduleComposite priceRateScheduleComposite )
+            public void addPriceRateSchedule( PriceRateSchedule priceRateScheduleComposite )
             {
                 handleAddPriceRateSchedule( priceRateScheduleComposite );
             }
@@ -66,11 +66,12 @@ public class PriceRateScheduleListPage extends LeftMenuNavPage
         setResponsePage( addPage );
     }
 
-    private void handleAddPriceRateSchedule( PriceRateScheduleComposite schedule )
+    private void handleAddPriceRateSchedule( PriceRateSchedule schedule )
     {
         getAccount().priceRateSchedules().add( schedule );
 
-        getAccountService().update( getAccount() );
+        // TODO migrate
+//        getAccountService().update( getAccount() );
     }
 
     private AccountService getAccountService()

@@ -13,9 +13,9 @@
 package org.qi4j.chronos.ui.pricerate;
 
 import org.apache.wicket.Page;
-import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.qi4j.chronos.model.PriceRate;
 
 public abstract class PriceRateEditPage extends PriceRateAddEditPage
 {
@@ -37,7 +37,7 @@ public abstract class PriceRateEditPage extends PriceRateAddEditPage
 
     public void onSubmitting()
     {
-        PriceRateComposite priceRate = getPriceRate();
+        PriceRate priceRate = getPriceRate();
 
         try
         {
@@ -66,7 +66,7 @@ public abstract class PriceRateEditPage extends PriceRateAddEditPage
         return "Edit Price Rate";
     }
 
-    public abstract PriceRateComposite getPriceRate();
+    public abstract PriceRate getPriceRate();
 
-    public abstract void updatePriceRate( PriceRateComposite priceRate );
+    public abstract void updatePriceRate( PriceRate priceRate );
 }

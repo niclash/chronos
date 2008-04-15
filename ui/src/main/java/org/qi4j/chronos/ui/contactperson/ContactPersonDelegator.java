@@ -13,16 +13,16 @@
 package org.qi4j.chronos.ui.contactperson;
 
 import java.io.Serializable;
-import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.model.ContactPerson;
 
 public class ContactPersonDelegator implements Serializable
 {
     private String fullname;
     private String id;
 
-    public ContactPersonDelegator( ContactPersonEntityComposite contactPerson )
+    public ContactPersonDelegator( ContactPerson contactPerson )
     {
-        this.fullname = contactPerson.name().get();
+        this.fullname = contactPerson.fullName().get();
         this.id = contactPerson.identity().get();
     }
 

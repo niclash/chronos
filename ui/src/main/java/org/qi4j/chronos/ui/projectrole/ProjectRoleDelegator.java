@@ -14,13 +14,14 @@ package org.qi4j.chronos.ui.projectrole;
 
 import java.io.Serializable;
 import org.qi4j.chronos.model.composites.ProjectRoleComposite;
+import org.qi4j.chronos.model.ProjectRole;
 
 //TODO bp. we don't need this when ProjectRole can be made serializable
 public class ProjectRoleDelegator implements Serializable
 {
     private String name;
 
-    public ProjectRoleDelegator( ProjectRoleComposite name )
+    public ProjectRoleDelegator( ProjectRole name )
     {
         this.name = name.name().get();
     }

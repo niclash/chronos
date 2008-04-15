@@ -19,11 +19,11 @@ import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.composites.PriceRateComposite;
-import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
-import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.PriceRate;
+import org.qi4j.chronos.model.PriceRateSchedule;
+import org.qi4j.chronos.model.ProjectAssignee;
+import org.qi4j.chronos.model.Staff;
+import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.pricerate.PriceRateOptionPanel;
@@ -52,12 +52,12 @@ public abstract class ProjectAssigneeAddEditPage extends AddEditBasePage
 
         priceRateOptionPanel = new PriceRateOptionPanel( "priceRateOptionPanel" )
         {
-            public List<PriceRateComposite> getAvailablePriceRates()
+            public List<PriceRate> getAvailablePriceRates()
             {
                 return ProjectAssigneeAddEditPage.this.getAvailablePriceRates();
             }
 
-            public PriceRateScheduleComposite getPriceRateSchedule()
+            public PriceRateSchedule getPriceRateSchedule()
             {
                 return getProject().priceRateSchedule().get();
             }
@@ -68,7 +68,7 @@ public abstract class ProjectAssigneeAddEditPage extends AddEditBasePage
         form.add( priceRateOptionPanel );
     }
 
-    protected void assignFieldValueToProjectAssignee( ProjectAssigneeEntityComposite projectAssignee )
+    protected void assignFieldValueToProjectAssignee( ProjectAssignee projectAssignee )
     {
         projectAssignee.priceRate().set( priceRateOptionPanel.getPriceRate() );
         projectAssignee.staff().set( getSelectedStaff() );
@@ -76,7 +76,7 @@ public abstract class ProjectAssigneeAddEditPage extends AddEditBasePage
         projectAssignee.isLead().set( Boolean.parseBoolean( isLeadCheckBox.getModelObjectAsString() ) );
     }
 
-    protected void assignProjectAssigneeToFieldValue( ProjectAssigneeEntityComposite projectAssignee )
+    protected void assignProjectAssigneeToFieldValue( ProjectAssignee projectAssignee )
     {
         priceRateOptionPanel.setPriceRate( projectAssignee.priceRate().get() );
         staffChoice.setChoice( new StaffDelegator( projectAssignee.staff().get() ) );
@@ -85,7 +85,7 @@ public abstract class ProjectAssigneeAddEditPage extends AddEditBasePage
         staffChoice.setEnabled( false );
     }
 
-    private StaffEntityComposite getSelectedStaff()
+    private Staff getSelectedStaff()
     {
         return ChronosWebApp.getServices().getStaffService().get( staffChoice.getChoice().getId() );
     }
@@ -97,7 +97,7 @@ public abstract class ProjectAssigneeAddEditPage extends AddEditBasePage
 
     public abstract void onsubmitting();
 
-    public abstract List<PriceRateComposite> getAvailablePriceRates();
+    public abstract List<PriceRate> getAvailablePriceRates();
 
-    public abstract ProjectEntityComposite getProject();
+    public abstract Project getProject();
 }

@@ -13,9 +13,9 @@
 package org.qi4j.chronos.ui.account;
 
 import org.apache.wicket.Page;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.model.Account;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,7 +34,7 @@ public class AccountEditPage extends AccountAddEditPage
         assignAccountToFieldValue( getAccount() );
     }
 
-    protected AccountEntityComposite getAccount()
+    protected Account getAccount()
     {
         return ChronosWebApp.getServices().getAccountService().get( accountId );
     }
@@ -42,7 +42,7 @@ public class AccountEditPage extends AccountAddEditPage
     public void onSubmitting()
     {
         AccountService accountService = ChronosWebApp.getServices().getAccountService();
-        AccountEntityComposite account = getAccount();
+        Account account = getAccount();
 
         account.isEnabled().set( true );
 
@@ -50,7 +50,8 @@ public class AccountEditPage extends AccountAddEditPage
         {
             assignFieldValueToAccount( account );
 
-            accountService.update( account );
+            // TODO migrate
+//            accountService.update( account );
 
             logInfoMsg( "Account is updated successfully." );
 

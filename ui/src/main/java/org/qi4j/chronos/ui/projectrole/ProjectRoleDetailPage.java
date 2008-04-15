@@ -18,9 +18,9 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
-import org.qi4j.chronos.model.composites.ProjectRoleComposite;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.SimpleTextField;
+import org.qi4j.chronos.model.ProjectRole;
 
 public abstract class ProjectRoleDetailPage extends LeftMenuNavPage
 {
@@ -53,7 +53,7 @@ public abstract class ProjectRoleDetailPage extends LeftMenuNavPage
 
         private void initComponents()
         {
-            ProjectRoleComposite projectRole = getProjectRole();
+            ProjectRole projectRole = getProjectRole();
 
             roleNameField = new SimpleTextField( "roleName", projectRole.name().get(), false );
 
@@ -77,5 +77,5 @@ public abstract class ProjectRoleDetailPage extends LeftMenuNavPage
         }
     }
 
-    public abstract ProjectRoleComposite getProjectRole();
+    public abstract ProjectRole getProjectRole();
 }

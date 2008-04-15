@@ -13,9 +13,9 @@
 package org.qi4j.chronos.ui.contact;
 
 import org.apache.wicket.Page;
-import org.qi4j.chronos.model.composites.ContactComposite;
 import org.qi4j.chronos.service.ContactService;
 import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.library.general.model.Contact;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -32,7 +32,7 @@ public abstract class ContactEditPage extends ContactAddEditPage
 
     private void initData()
     {
-        ContactComposite contact = getContact();
+        Contact contact = getContact();
 
         assignContactToFieldValue( contact );
     }
@@ -46,8 +46,8 @@ public abstract class ContactEditPage extends ContactAddEditPage
     {
         try
         {
-            ContactComposite toBeUpdated = getContact();
-            ContactComposite old = getContact();
+            Contact toBeUpdated = getContact();
+            Contact old = getContact();
 
             assignFieldValueToContact( toBeUpdated );
 
@@ -74,5 +74,5 @@ public abstract class ContactEditPage extends ContactAddEditPage
         return "Edit Contact";
     }
 
-    public abstract ContactComposite getContact();
+    public abstract Contact getContact();
 }

@@ -22,9 +22,9 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.model.Customer;
+import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.associations.HasContactPersons;
-import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
-import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.service.ContactPersonService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
@@ -32,8 +32,9 @@ import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleAction;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
+import org.qi4j.entity.Identity;
 
-public abstract class ContactPersonTable<T extends HasContactPersons> extends ActionTable<ContactPersonEntityComposite, String>
+public abstract class ContactPersonTable<T extends HasContactPersons> extends ActionTable<ContactPerson, String>
 {
     private ContactPersonDataProvider provider;
 
@@ -46,9 +47,9 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
 
     private void addActions()
     {
-        addAction( new SimpleDeleteAction<ContactPersonEntityComposite>( "Delete" )
+        addAction( new SimpleDeleteAction<ContactPerson>( "Delete" )
         {
-            public void performAction( List<ContactPersonEntityComposite> contactPersons )
+            public void performAction( List<ContactPerson> contactPersons )
             {
                 getContactPersonService().delete( contactPersons );
 
@@ -56,9 +57,9 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
             }
         } );
 
-        addAction( new SimpleAction<ContactPersonEntityComposite>( "Disable login" )
+        addAction( new SimpleAction<ContactPerson>( "Disable login" )
         {
-            public void performAction( List<ContactPersonEntityComposite> contactPersons )
+            public void performAction( List<ContactPerson> contactPersons )
             {
                 getContactPersonService().enableLogin( false, contactPersons );
 
@@ -66,9 +67,9 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
             }
         } );
 
-        addAction( new SimpleAction<ContactPersonEntityComposite>( "Enable login" )
+        addAction( new SimpleAction<ContactPerson>( "Enable login" )
         {
-            public void performAction( List<ContactPersonEntityComposite> contactPersons )
+            public void performAction( List<ContactPerson> contactPersons )
             {
                 getContactPersonService().enableLogin( true, contactPersons );
 
@@ -82,7 +83,7 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
         MetaDataRoleAuthorizationStrategy.authorize( component, RENDER, SystemRole.ACCOUNT_ADMIN );
     }
 
-    public AbstractSortableDataProvider<ContactPersonEntityComposite, String> getDetachableDataProvider()
+    public AbstractSortableDataProvider<ContactPerson, String> getDetachableDataProvider()
     {
         if( provider == null )
         {
@@ -98,9 +99,9 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
         return provider;
     }
 
-    public void populateItems( Item item, ContactPersonEntityComposite obj )
+    public void populateItems( Item item, ContactPerson obj )
     {
-        final String contactPersonId = obj.identity().get();
+        final String contactPersonId = ( (Identity) obj).identity().get();
 
         item.add( createDetailLink( "firstName", obj.firstName().get(), contactPersonId ) );
 
@@ -132,12 +133,12 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
             {
                 setResponsePage( new ContactPersonEditPage( this.getPage() )
                 {
-                    public CustomerEntityComposite getCustomer()
+                    public Customer getCustomer()
                     {
                         return ContactPersonTable.this.getCustomer();
                     }
 
-                    public ContactPersonEntityComposite getContactPerson()
+                    public ContactPerson getContactPerson()
                     {
                         return getContactPersonService().get( contactPersonId );
                     }
@@ -159,7 +160,7 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
             {
                 ContactPersonDetailPage detailPage = new ContactPersonDetailPage( this.getPage() )
                 {
-                    public ContactPersonEntityComposite getContactPerson()
+                    public ContactPerson getContactPerson()
                     {
                         return getContactPersonService().get( contactPersonId );
                     }
@@ -177,5 +178,5 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
 
     public abstract T getHasContactPersons();
 
-    public abstract CustomerEntityComposite getCustomer();
+    public abstract Customer getCustomer();
 }

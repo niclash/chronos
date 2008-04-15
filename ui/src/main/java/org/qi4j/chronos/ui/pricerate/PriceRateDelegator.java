@@ -14,6 +14,8 @@ package org.qi4j.chronos.ui.pricerate;
 
 import java.io.Serializable;
 import org.qi4j.chronos.model.PriceRateType;
+import org.qi4j.chronos.model.PriceRate;
+import org.qi4j.chronos.model.PriceRateTypeEnum;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
 
 //TODO bp. We may don't need this when we can make priceRateComposite serilizable.
@@ -21,11 +23,11 @@ public class PriceRateDelegator implements Serializable
 {
     private String projectRoleName;
     private long amonunt;
-    private PriceRateType priceRateType;
+    private PriceRateTypeEnum priceRateType;
 
     private String toString;
 
-    public PriceRateDelegator( PriceRateComposite priceRate )
+    public PriceRateDelegator( PriceRate priceRate )
     {
         projectRoleName = priceRate.projectRole().get().name().get();
         amonunt = priceRate.amount().get();
@@ -46,7 +48,7 @@ public class PriceRateDelegator implements Serializable
         return projectRoleName;
     }
 
-    public PriceRateType getPriceRateType()
+    public PriceRateTypeEnum getPriceRateType()
     {
         return priceRateType;
     }

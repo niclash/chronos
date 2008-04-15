@@ -33,7 +33,7 @@ public abstract class CommentAddEditPage extends AddEditBasePage
     {
         commentTextArea = new MaxLengthTextArea( "commentTextArea", "Comment", Comment.COMMENT_LEN );
 
-        SimpleTextField userField = new SimpleTextField( "userField", getCommentOwner().name().get(), true );
+        SimpleTextField userField = new SimpleTextField( "userField", getCommentOwner().fullName().get(), true );
 
         form.add( commentTextArea );
         form.add( userField );

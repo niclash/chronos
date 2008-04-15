@@ -13,21 +13,21 @@
 package org.qi4j.chronos.ui.projectrole;
 
 import java.util.List;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectRoleComposite;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.ProjectRoleService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
+import org.qi4j.chronos.model.ProjectRole;
+import org.qi4j.chronos.model.Account;
 
-public abstract class ProjectRoleDataProvider extends AbstractSortableDataProvider<ProjectRoleComposite, String>
+public abstract class ProjectRoleDataProvider extends AbstractSortableDataProvider<ProjectRole, String>
 {
-    public String getId( ProjectRoleComposite projectRoleEntityComposite )
+    public String getId( ProjectRole projectRoleEntityComposite )
     {
         return projectRoleEntityComposite.name().get();
     }
 
-    public ProjectRoleComposite load( String id )
+    public ProjectRole load( String id )
     {
         return getRoleService().get( getAccount(), id );
     }
@@ -37,7 +37,7 @@ public abstract class ProjectRoleDataProvider extends AbstractSortableDataProvid
         return ChronosWebApp.getServices().getProjectRoleService();
     }
 
-    public List<ProjectRoleComposite> dataList( int first, int count )
+    public List<ProjectRole> dataList( int first, int count )
     {
         return getRoleService().findAll( getAccount(), new FindFilter( first, count ) );
     }
@@ -47,5 +47,5 @@ public abstract class ProjectRoleDataProvider extends AbstractSortableDataProvid
         return getRoleService().countAll( getAccount() );
     }
 
-    public abstract AccountEntityComposite getAccount();
+    public abstract Account getAccount();
 }

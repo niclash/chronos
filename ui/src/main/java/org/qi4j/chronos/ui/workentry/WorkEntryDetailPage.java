@@ -23,8 +23,8 @@ import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.associations.HasComments;
-import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.model.Comment;
+import org.qi4j.chronos.model.WorkEntry;
 import org.qi4j.chronos.ui.comment.CommentTab;
 import org.qi4j.chronos.ui.common.SimpleTextArea;
 import org.qi4j.chronos.ui.common.SimpleTextField;
@@ -73,7 +73,7 @@ public abstract class WorkEntryDetailPage extends LeftMenuNavPage
 
         private void initComponents()
         {
-            WorkEntryEntityComposite workEntry = getWorkEntry();
+            WorkEntry workEntry = getWorkEntry();
 
             titleTextField = new SimpleTextField( "titleField", workEntry.title().get() );
             descriptionTextArea = new SimpleTextArea( "descriptionTextArea", workEntry.description().get() );
@@ -136,12 +136,12 @@ public abstract class WorkEntryDetailPage extends LeftMenuNavPage
 
     private void addComment( Comment comment )
     {
-        WorkEntryEntityComposite workEntry = getWorkEntry();
+        WorkEntry workEntry = getWorkEntry();
 
         workEntry.comments().add( comment );
 
         getServices().getWorkEntryService().update( workEntry );
     }
 
-    public abstract WorkEntryEntityComposite getWorkEntry();
+    public abstract WorkEntry getWorkEntry();
 }

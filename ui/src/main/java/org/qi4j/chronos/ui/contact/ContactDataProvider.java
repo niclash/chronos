@@ -19,8 +19,9 @@ import org.qi4j.chronos.service.ContactService;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
+import org.qi4j.library.general.model.Contact;
 
-public abstract class ContactDataProvider<T extends HasContacts> extends AbstractSortableDataProvider<ContactComposite, String>
+public abstract class ContactDataProvider<T extends HasContacts> extends AbstractSortableDataProvider<Contact, String>
 {
     public int getSize()
     {
@@ -32,17 +33,17 @@ public abstract class ContactDataProvider<T extends HasContacts> extends Abstrac
         return ChronosWebApp.getServices().getContactService();
     }
 
-    public String getId( ContactComposite t )
+    public String getId( Contact t )
     {
         return t.contactValue().get();
     }
 
-    public ContactComposite load( String s )
+    public Contact load( String s )
     {
         return getContactService().get( getHasContacts(), s );
     }
 
-    public List<ContactComposite> dataList( int first, int count )
+    public List<Contact> dataList( int first, int count )
     {
         return getContactService().findAll( getHasContacts(), new FindFilter( first, count ) );
     }

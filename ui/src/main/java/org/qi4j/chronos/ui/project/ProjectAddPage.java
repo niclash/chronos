@@ -16,14 +16,15 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.wicket.Page;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
-import org.qi4j.chronos.model.composites.CustomerEntityComposite;
-import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.model.composites.TimeRangeComposite;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.model.PriceRateSchedule;
+import org.qi4j.chronos.model.Customer;
+import org.qi4j.chronos.model.ContactPerson;
+import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.composites.TimeRangeEntityComposite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,20 +41,21 @@ public class ProjectAddPage extends ProjectAddEditPage
     {
         ProjectService projectService = ChronosWebApp.getServices().getProjectService();
 
-        ProjectEntityComposite project = projectService.newInstance( ProjectEntityComposite.class );
+        Project project = projectService.newInstance( ProjectEntityComposite.class );
 
-        project.actualTime().set( ChronosWebApp.newInstance( TimeRangeComposite.class ) );
-        project.estimateTime().set( ChronosWebApp.newInstance( TimeRangeComposite.class ) );
+        project.actualTime().set( ChronosWebApp.newInstance( TimeRangeEntityComposite.class ) );
+        project.estimateTime().set( ChronosWebApp.newInstance( TimeRangeEntityComposite.class ) );
 
         try
         {
             assignFieldValuesToProject( project );
 
-            AccountEntityComposite account = getAccount();
+            Account account = getAccount();
 
             account.projects().add( project );
 
-            ChronosWebApp.getServices().getAccountService().update( account );
+            // TODO migrate
+//            ChronosWebApp.getServices().getAccountService().update( account );
 
             logInfoMsg( "Project is added successfully." );
 
@@ -76,19 +78,19 @@ public class ProjectAddPage extends ProjectAddEditPage
         return "New Project";
     }
 
-    public Iterator<ContactPersonEntityComposite> getInitSelectedContactPersonList()
+    public Iterator<ContactPerson> getInitSelectedContactPersonList()
     {
         return Collections.EMPTY_LIST.iterator();
     }
 
-    public List<PriceRateScheduleComposite> getAvailablePriceRateSchedule()
+    public List<PriceRateSchedule> getAvailablePriceRateSchedule()
     {
         return Collections.EMPTY_LIST;
     }
 
-    public List<PriceRateScheduleComposite> getAvailablePriceRateScheduleChoice()
+    public List<PriceRateSchedule> getAvailablePriceRateScheduleChoice()
     {
-        CustomerEntityComposite customer = getCustomerService().get( customerChoice.getChoice().getId() );
+        Customer customer = getCustomerService().get( customerChoice.getChoice().getId() );
 
         return ChronosWebApp.getServices().getPriceRateScheduleService().findAll( customer );
     }
