@@ -13,9 +13,7 @@
  */
 package org.qi4j.chronos.model;
 
-import org.qi4j.library.general.model.HasName;
-
-public interface ProjectRole extends HasName
+public interface ProjectRole extends Name
 {
     public final static int NAME_LEN = 80;
 }

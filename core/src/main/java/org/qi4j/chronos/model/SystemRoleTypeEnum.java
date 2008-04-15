@@ -1,5 +1,4 @@
 /*
- * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,11 +12,7 @@
  */
 package org.qi4j.chronos.model;
 
-import org.qi4j.library.general.model.Description;
-
-public interface LegalCondition extends Name, Description
+public enum SystemRoleTypeEnum
 {
-    public final static int NAME_LEN = 120;
-
-    public final static int DESC_LEN = 2000;
+    ADMIN, STAFF, CONTACT_PERSON
 }

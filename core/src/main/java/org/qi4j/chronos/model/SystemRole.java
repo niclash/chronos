@@ -13,11 +13,10 @@
  */
 package org.qi4j.chronos.model;
 
-import org.qi4j.chronos.model.associations.HasSystemRoleType;
 import org.qi4j.chronos.model.associations.HasSystemRoles;
 import org.qi4j.library.general.model.HasName;
 
-public interface SystemRole extends HasName, HasSystemRoleType, HasSystemRoles
+public interface SystemRole extends Name, SystemRoleType, HasSystemRoles
 {
     /* Hidden System Role*/
     String SYSTEM_ADMIN = "System Admin";

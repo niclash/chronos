@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
+ * Copyright (c) 2008, Muhd Kamil Mohd Baki. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,11 +12,17 @@
  */
 package org.qi4j.chronos.model;
 
-import org.qi4j.chronos.model.associations.HasSalary;
+import org.qi4j.property.Property;
 
 /**
- * Generic interface for Staff
+ * Created by IntelliJ IDEA.
+ * User: kamil
+ * Date: Apr 13, 2008
+ * Time: 4:57:32 AM
  */
-public interface Staff extends User, HasSalary
+public interface AddressLine
 {
+    Property<String> firstLine();
+
+    Property<String> secondLine();
 }

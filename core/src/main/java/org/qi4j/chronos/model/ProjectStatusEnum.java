@@ -13,11 +13,7 @@
  */
 package org.qi4j.chronos.model;
 
-import org.qi4j.library.general.model.Description;
-
-public interface LegalCondition extends Name, Description
+public enum ProjectStatusEnum
 {
-    public final static int NAME_LEN = 120;
-
-    public final static int DESC_LEN = 2000;
+    ACTIVE, CLOSED, INACTIVE
 }

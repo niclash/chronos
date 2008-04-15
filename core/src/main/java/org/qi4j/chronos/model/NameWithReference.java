@@ -13,12 +13,10 @@
  */
 package org.qi4j.chronos.model;
 
-import org.qi4j.library.general.model.HasName;
-
 /**
  * Aggregation interface for name and reference
  */
-public interface NameWithReference extends HasName, Reference
+public interface NameWithReference extends Name, Reference
 {
     public final static int NAME_LEN = 80;
 

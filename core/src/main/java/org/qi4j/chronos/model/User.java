@@ -13,7 +13,6 @@
  */
 package org.qi4j.chronos.model;
 
-import org.qi4j.chronos.model.associations.HasContacts;
 import org.qi4j.chronos.model.associations.HasLogin;
 import org.qi4j.chronos.model.associations.HasSystemRoles;
 import org.qi4j.library.general.model.Person;
@@ -30,7 +29,7 @@ import org.qi4j.library.general.model.Person;
  * <ol>External consultant
  * </li>
  */
-public interface User extends Person, HasLogin, HasContacts, HasSystemRoles
+public interface User extends Person, HasLogin, HasSystemRoles
 {
     public final static int FIRST_NAME_LEN = 80;
     public final static int LAST_NAME_LEN = 80;

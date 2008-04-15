@@ -15,6 +15,6 @@ package org.qi4j.chronos.model;
 import org.qi4j.chronos.model.associations.HasCreatedDate;
 import org.qi4j.chronos.model.associations.HasProjectAssignee;
 
-public interface OngoingWorkEntry extends HasCreatedDate, HasProjectAssignee
+public interface OngoingWorkEntry extends CreatedDate, HasProjectAssignee
 {
 }

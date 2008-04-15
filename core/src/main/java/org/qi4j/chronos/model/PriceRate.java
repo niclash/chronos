@@ -13,10 +13,8 @@
  */
 package org.qi4j.chronos.model;
 
-import org.qi4j.chronos.model.associations.HasPriceRateType;
 import org.qi4j.chronos.model.associations.HasProjectRole;
-import org.qi4j.library.general.model.Amount;
 
-public interface PriceRate extends Amount<Long>, HasProjectRole, HasPriceRateType
+public interface PriceRate extends Money, HasProjectRole, PriceRateType
 {
 }

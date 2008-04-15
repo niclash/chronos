@@ -1,6 +1,5 @@
 /*
- * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
- * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
+ * Copyright (c) 2008, Muhd Kamil Mohd Baki. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,11 +12,15 @@
  */
 package org.qi4j.chronos.model;
 
-import org.qi4j.library.general.model.Description;
+import org.qi4j.property.ImmutableProperty;
 
-public interface LegalCondition extends Name, Description
+/**
+ * Created by IntelliJ IDEA.
+ * User: kamil
+ * Date: Apr 12, 2008
+ * Time: 8:30:16 PM
+ */
+public interface Descriptor
 {
-    public final static int NAME_LEN = 120;
-
-    public final static int DESC_LEN = 2000;
+    ImmutableProperty<String> displayValue();
 }
