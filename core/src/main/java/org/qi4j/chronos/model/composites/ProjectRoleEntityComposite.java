@@ -12,9 +12,10 @@
  */
 package org.qi4j.chronos.model.composites;
 
-import org.qi4j.chronos.model.ContactPerson;
+import org.qi4j.chronos.model.ProjectRole;
 import org.qi4j.entity.EntityComposite;
 
-public interface ContactPersonEntityComposite extends ContactPerson
+public interface ProjectRoleEntityComposite extends ProjectRole, EntityComposite
 {
+
 }

@@ -1,6 +1,5 @@
 /*
  * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
- * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,14 +12,20 @@
  */
 package org.qi4j.chronos.model.composites;
 
-import org.qi4j.chronos.model.Account;
-import org.qi4j.chronos.model.validations.AccountValidatableConcern;
-import org.qi4j.composite.Concerns;
+import org.qi4j.library.general.model.Contact;
 import org.qi4j.entity.EntityComposite;
-import org.qi4j.library.framework.validation.Validatable;
 
-@Concerns( { AccountValidatableConcern.class } )
-public interface AccountEntityComposite extends Account, Validatable, EntityComposite
+/**
+ * Validatable Contact composite. Contact must have {@link org.qi4j.library.general.model.ContactType}.
+ * E.g. email contact would be john.smith@gmail.com
+ * <p/>
+ * Contact does not extend {@link org.qi4j.entity.EntityComposite} because
+ * Contact is bound to {@link org.qi4j.chronos.model.ContactPerson}.
+ * When contact person is removed, the contact is removed as well
+ * <p/>
+ * TODO: Fix the validation modifier as Lifecycle is not part of the interface anymore
+ */
+//@Concerns( { ContactRegexValidationModifier.class } )
+public interface ContactEntityComposite extends Contact, EntityComposite
 {
 }
-
