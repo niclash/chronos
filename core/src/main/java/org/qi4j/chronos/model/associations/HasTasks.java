@@ -12,10 +12,10 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.model.Task;
 import org.qi4j.entity.association.SetAssociation;
 
 public interface HasTasks
 {
-    SetAssociation<TaskEntityComposite> tasks();
+    SetAssociation<Task> tasks();
 }

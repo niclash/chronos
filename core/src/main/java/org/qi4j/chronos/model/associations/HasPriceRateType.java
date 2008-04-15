@@ -13,10 +13,10 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.chronos.model.PriceRateType;
+import org.qi4j.chronos.model.PriceRateTypeEnum;
 import org.qi4j.property.Property;
 
 public interface HasPriceRateType
 {
-    Property<PriceRateType> priceRateType();
+    Property<PriceRateTypeEnum> priceRateType();
 }

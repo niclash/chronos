@@ -12,10 +12,10 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.chronos.model.composites.CustomerEntityComposite;
+import org.qi4j.chronos.model.Customer;
 import org.qi4j.entity.association.Association;
 
 public interface HasCustomer
 {
-    Association<CustomerEntityComposite> customer();
+    Association<Customer> customer();
 }

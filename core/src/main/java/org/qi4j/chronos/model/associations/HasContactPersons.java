@@ -13,10 +13,10 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.entity.association.SetAssociation;
 
 public interface HasContactPersons
 {
-    SetAssociation<ContactPersonEntityComposite> contactPersons();
+    SetAssociation<ContactPerson> contactPersons();
 }

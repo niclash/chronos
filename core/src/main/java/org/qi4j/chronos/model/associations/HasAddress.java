@@ -13,10 +13,10 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.library.general.model.Address;
-import org.qi4j.property.Property;
+import org.qi4j.chronos.model.Address;
+import org.qi4j.entity.association.Association;
 
 public interface HasAddress
 {
-    Property<Address> address();
+    Association<Address> address();
 }

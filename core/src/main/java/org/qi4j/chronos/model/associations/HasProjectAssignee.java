@@ -12,10 +12,10 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
+import org.qi4j.chronos.model.ProjectAssignee;
 import org.qi4j.entity.association.Association;
 
 public interface HasProjectAssignee
 {
-    Association<ProjectAssigneeEntityComposite> projectAssignee();
+    Association<ProjectAssignee> projectAssignee();
 }

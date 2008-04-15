@@ -16,7 +16,7 @@ import org.qi4j.chronos.model.Login;
 import org.qi4j.entity.association.Association;
 
 /**
- * Describe association with {@link org.qi4j.chronos.model.composites.LoginComposite}
+ * Describe association with {@link org.qi4j.chronos.model.composites.LoginEntityComposite}
  */
 public interface HasLogin
 {

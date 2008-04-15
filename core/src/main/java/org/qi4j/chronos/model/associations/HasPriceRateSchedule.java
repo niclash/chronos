@@ -12,10 +12,10 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
+import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.entity.association.Association;
 
 public interface HasPriceRateSchedule
 {
-    Association<PriceRateScheduleComposite> priceRateSchedule();
+    Association<PriceRateSchedule> priceRateSchedule();
 }

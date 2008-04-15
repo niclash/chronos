@@ -12,13 +12,13 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.chronos.model.composites.RelationshipComposite;
-import org.qi4j.property.Property;
+import org.qi4j.chronos.model.Relationship;
+import org.qi4j.entity.association.Association;
 
 /**
  * Generic interface to describe association with relationship.
  */
 public interface HasRelationship
 {
-    Property<RelationshipComposite> relationship();
+    Association<Relationship> relationship();
 }

@@ -12,10 +12,10 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.Staff;
 import org.qi4j.entity.association.SetAssociation;
 
 public interface HasStaffs
 {
-    SetAssociation<StaffEntityComposite> staffs();
+    SetAssociation<Staff> staffs();
 }

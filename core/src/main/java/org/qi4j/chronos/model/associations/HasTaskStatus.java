@@ -12,10 +12,10 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.chronos.model.TaskStatus;
+import org.qi4j.chronos.model.TaskStatusEnum;
 import org.qi4j.property.Property;
 
 public interface HasTaskStatus
 {
-    Property<TaskStatus> taskStatus();
+    Property<TaskStatusEnum> taskStatus();
 }

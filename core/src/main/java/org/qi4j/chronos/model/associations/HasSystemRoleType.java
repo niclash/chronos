@@ -12,10 +12,10 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.chronos.model.SystemRoleType;
+import org.qi4j.chronos.model.SystemRoleTypeEnum;
 import org.qi4j.property.Property;
 
 public interface HasSystemRoleType
 {
-    Property<SystemRoleType> systemRoleType();
+    Property<SystemRoleTypeEnum> systemRoleType();
 }

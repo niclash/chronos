@@ -13,13 +13,14 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.entity.association.SetAssociation;
-import org.qi4j.library.general.model.Contact;
+import org.qi4j.entity.association.Association;
+import org.qi4j.chronos.model.composites.MoneyEntityComposite;
+import org.qi4j.chronos.model.Money;
 
 /**
- * Generic interface to describe association with {@link org.qi4j.chronos.model.composites.ContactEntityComposite}
+ * Generic interface for Salary.
  */
-public interface HasContacts
+public interface HasSalary
 {
-    SetAssociation<Contact> contacts();
+    Association<Money> salary();
 }

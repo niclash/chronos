@@ -12,7 +12,7 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.entity.association.Association;
 
 /**
@@ -20,5 +20,5 @@ import org.qi4j.entity.association.Association;
  */
 public interface HasPrimaryContactPerson
 {
-    Association<ContactPersonEntityComposite> primaryContactPerson();
+    Association<ContactPerson> primaryContactPerson();
 }

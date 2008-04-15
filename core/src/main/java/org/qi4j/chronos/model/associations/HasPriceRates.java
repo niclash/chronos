@@ -13,10 +13,10 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.chronos.model.composites.PriceRateComposite;
+import org.qi4j.chronos.model.PriceRate;
 import org.qi4j.entity.association.SetAssociation;
 
 public interface HasPriceRates
 {
-    SetAssociation<PriceRateComposite> priceRates();
+    SetAssociation<PriceRate> priceRates();
 }

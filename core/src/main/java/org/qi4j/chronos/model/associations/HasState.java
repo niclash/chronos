@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
+ * Copyright (c) 2008, Muhd Kamil Mohd Baki. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,10 +12,16 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.chronos.model.Customer;
-import org.qi4j.entity.association.SetAssociation;
+import org.qi4j.entity.association.Association;
+import org.qi4j.chronos.model.State;
 
-public interface HasCustomers
+/**
+ * Created by IntelliJ IDEA.
+ * User: kamil
+ * Date: Apr 13, 2008
+ * Time: 4:53:28 AM
+ */
+public interface HasState
 {
-    SetAssociation<Customer> customers();
+    Association<State> state();
 }

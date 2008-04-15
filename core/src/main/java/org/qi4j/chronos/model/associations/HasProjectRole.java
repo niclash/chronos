@@ -13,7 +13,6 @@
 package org.qi4j.chronos.model.associations;
 
 import org.qi4j.chronos.model.ProjectRole;
-import org.qi4j.chronos.model.composites.ProjectRoleComposite;
 import org.qi4j.entity.association.Association;
 
 /**
@@ -21,5 +20,5 @@ import org.qi4j.entity.association.Association;
  */
 public interface HasProjectRole
 {
-    Association<ProjectRoleComposite> projectRole();
+    Association<ProjectRole> projectRole();
 }

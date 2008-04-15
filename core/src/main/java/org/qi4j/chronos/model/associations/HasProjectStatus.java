@@ -14,18 +14,18 @@
 package org.qi4j.chronos.model.associations;
 
 import java.io.Serializable;
-import org.qi4j.chronos.model.ProjectStatus;
+import org.qi4j.chronos.model.ProjectStatusEnum;
 import org.qi4j.composite.Mixins;
 import org.qi4j.composite.scope.PropertyField;
 import org.qi4j.property.Property;
 
 /**
- * Describe association with {@link org.qi4j.chronos.model.ProjectStatus}
+ * Describe association with {@link org.qi4j.chronos.model.ProjectStatusEnum}
  */
 @Mixins( HasProjectStatus.HasProjectStatusMixin.class )
 public interface HasProjectStatus
 {
-    Property<ProjectStatus> projectStatus();
+    Property<ProjectStatusEnum> projectStatus();
 
     final class HasProjectStatusMixin
         implements HasProjectStatus, Serializable
@@ -33,9 +33,9 @@ public interface HasProjectStatus
         private static final long serialVersionUID = 1L;
 
         @PropertyField
-        private Property<ProjectStatus> projectStatus;
+        private Property<ProjectStatusEnum> projectStatus;
 
-        public final Property<ProjectStatus> projectStatus()
+        public final Property<ProjectStatusEnum> projectStatus()
         {
             return projectStatus;
         }

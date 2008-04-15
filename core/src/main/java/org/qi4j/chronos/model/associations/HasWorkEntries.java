@@ -13,10 +13,10 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.chronos.model.WorkEntry;
 import org.qi4j.entity.association.SetAssociation;
 
 public interface HasWorkEntries
 {
-    SetAssociation<WorkEntryEntityComposite> workEntries();
+    SetAssociation<WorkEntry> workEntries();
 }

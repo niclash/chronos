@@ -12,10 +12,10 @@
  */
 package org.qi4j.chronos.model.associations;
 
-import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
+import org.qi4j.chronos.model.OngoingWorkEntry;
 import org.qi4j.entity.association.SetAssociation;
 
 public interface HasOngoingWorkEntries
 {
-    SetAssociation<OngoingWorkEntryEntityComposite> onGoingWorkEntries();
+    SetAssociation<OngoingWorkEntry> onGoingWorkEntries();
 }
