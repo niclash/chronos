@@ -1,25 +1,40 @@
+/*
+ * Copyright (c) 2008, Muhd Kamil Mohd Baki. All Rights Reserved.
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at http://www.apache.org/licenses/LICENSE-2.0
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 package org.qi4j.chronos.service.user;
 
 import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.Admin;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.composite.Composite;
-import org.qi4j.composite.Mixins;
+import org.qi4j.entity.UnitOfWork;
 
 /**
- * @author edward.yakop@gmail.com
- * @since 0.1.0
+ * Created by IntelliJ IDEA.
+ * User: kamil
+ * Date: Apr 13, 2008
+ * Time: 12:41:22 AM
  */
-@Mixins( UserServiceImpl.class )
-public interface UserService extends Composite
+public interface UserService
 {
-    User getUserById( String aUserId );
+    User get( UnitOfWork unitOfWork, String userId );
 
-    User getUser( AccountEntityComposite account, String loginId, String password );
+    User getUser( Account account, String loginId );
 
-    //TODO bp. renamed this to getAdmin
-    User getUser( String loginId, String password );
-
-    void update( User user );
+    Admin getAdmin( String loginId, String password );
 
     boolean hasThisSystemRole( User user, String systemRoleName );
+
+    boolean isUnique( Account account, String loginId );
+
+    void addAdmin( Admin admin );
 }

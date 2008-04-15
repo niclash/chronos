@@ -15,8 +15,11 @@ package org.qi4j.chronos.service;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.ProjectAssignee;
+import org.qi4j.chronos.model.Staff;
 
 public interface ProjectAssigneeService extends ProjectBasedService<ProjectAssigneeEntityComposite>
 {
-    ProjectAssigneeEntityComposite getProjectAssignee( ProjectEntityComposite project, StaffEntityComposite staff );
+    ProjectAssignee getProjectAssignee( Project project, Staff staff );
 }

@@ -13,13 +13,14 @@
 package org.qi4j.chronos.service;
 
 import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 
 public interface UserService
 {
     public User get( String userId );
 
-    public User getUser( AccountEntityComposite account, String loginId, String password );
+    public User getUser( Account account, String loginId, String password );
 
     //TODO bp. renamed this to getAdmin
     public User getUser( String loginId, String password );

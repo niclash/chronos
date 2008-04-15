@@ -17,7 +17,7 @@ import java.util.List;
 import org.qi4j.entity.EntityComposite;
 import org.qi4j.entity.Identity;
 
-public interface ParentBasedService<ITEM extends Identity, PARENT extends EntityComposite>
+public interface ParentBasedService<ITEM, PARENT extends EntityComposite>
 {
     ITEM get( String id );
 
@@ -25,7 +25,7 @@ public interface ParentBasedService<ITEM extends Identity, PARENT extends Entity
 
     PARENT getParent( ITEM t );
 
-    void delete( Collection<ITEM> items );
+    void delete( Collection<? super ITEM> items );
 
     void delete( ITEM item );
 

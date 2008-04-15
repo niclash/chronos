@@ -15,15 +15,17 @@ package org.qi4j.chronos.service;
 import java.util.Collection;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.Staff;
 import org.qi4j.entity.UnitOfWork;
 
 public interface AccountService extends EntityService<AccountEntityComposite>
 {
-    AccountEntityComposite getAccount( StaffEntityComposite staff );
+    Account getAccount( Staff staff );
 
-    void enableAccount( boolean enabled, Collection<AccountEntityComposite> accounts );
+    void enableAccount( boolean enabled, Collection<Account> accounts );
 
-    AccountEntityComposite findAccountByName( String accountName );
+    Account findAccountByName( String accountName );
 
-    AccountEntityComposite newInstance( UnitOfWork unitOfWork );
+    Account newInstance( UnitOfWork unitOfWork );
 }

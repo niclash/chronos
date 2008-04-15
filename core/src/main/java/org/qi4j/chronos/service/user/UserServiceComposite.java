@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
+ * Copyright (c) 2008, Muhd Kamil Mohd Baki. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -10,17 +10,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service;
+package org.qi4j.chronos.service.user;
 
-import java.util.List;
-import org.qi4j.chronos.model.composites.CustomerEntityComposite;
-import org.qi4j.chronos.model.composites.RelationshipComposite;
-import org.qi4j.chronos.model.Relationship;
-import org.qi4j.chronos.model.Customer;
+import org.qi4j.service.ServiceComposite;
+import org.qi4j.service.Activatable;
+import org.qi4j.composite.Mixins;
 
-public interface RelationshipService
+/**
+ * Created by IntelliJ IDEA.
+ * User: kamil
+ * Date: Apr 13, 2008
+ * Time: 12:31:12 AM
+ */
+@Mixins( UserServiceMixin.class )
+public interface UserServiceComposite extends ServiceComposite, UserService, Activatable
 {
-    List<Relationship> findAll( Customer customer );
-
-    Relationship get( Customer customer, String relationship );
 }

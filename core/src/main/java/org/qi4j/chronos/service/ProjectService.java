@@ -14,42 +14,43 @@ package org.qi4j.chronos.service;
 
 import java.util.Collection;
 import java.util.List;
-import org.qi4j.chronos.model.ProjectStatus;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.Task;
+import org.qi4j.chronos.model.Staff;
+import org.qi4j.chronos.model.ContactPerson;
+import org.qi4j.chronos.model.ProjectStatusEnum;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
-import org.qi4j.chronos.model.composites.TaskEntityComposite;
 
 public interface ProjectService extends AccountBasedService<ProjectEntityComposite>
 {
-    List<ProjectEntityComposite> getRecentProjects( AccountEntityComposite account, FindFilter findFilter );
+    List<Project> getRecentProjects( Account account, FindFilter findFilter );
 
-    List<ProjectEntityComposite> getRecentProjects( StaffEntityComposite staff );
+    List<Project> getRecentProjects( Staff staff );
 
-    List<ProjectEntityComposite> getRecentProjects( StaffEntityComposite staff, FindFilter findFilter );
+    List<Project> getRecentProjects( Staff staff, FindFilter findFilter );
 
-    int countRecentProject( StaffEntityComposite staff );
+    int countRecentProject( Staff staff );
 
-    List<ProjectEntityComposite> findAll( ContactPersonEntityComposite contactPerson, FindFilter findFilter );
+    List<Project> findAll( ContactPerson contactPerson, FindFilter findFilter );
 
-    List<ProjectEntityComposite> findAll( ContactPersonEntityComposite contactPerson );
+    List<Project> findAll( ContactPerson contactPerson );
 
-    int countAll( ContactPersonEntityComposite contactPerson );
+    int countAll( ContactPerson contactPerson );
 
-    List<ProjectEntityComposite> findAll( StaffEntityComposite staff );
+    List<Project> findAll( Staff staff );
 
-    List<ProjectEntityComposite> findAll( StaffEntityComposite staff, FindFilter findFilter );
+    List<Project> findAll( Staff staff, FindFilter findFilter );
 
-    int countAll( StaffEntityComposite staff );
+    int countAll( Staff staff );
 
-    int countRecentProject( AccountEntityComposite account );
+    int countRecentProject( Account account );
 
-    ProjectEntityComposite getProjectByTask( TaskEntityComposite task );
+    Project getProjectByTask( Task task );
 
-    void changeProjectStatus( ProjectStatus projectStatus, Collection<ProjectEntityComposite> projects );
+    void changeProjectStatus( ProjectStatusEnum projectStatus, Collection<Project> projects );
 
-    int countAll( AccountEntityComposite account, ProjectStatus projectStatus );
+    int countAll( Account account, ProjectStatusEnum projectStatus );
 
-    ProjectEntityComposite getProjectByName( AccountEntityComposite account, String projectName );
+    Project getProjectByName( Account account, String projectName );
 }

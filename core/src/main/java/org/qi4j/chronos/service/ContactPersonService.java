@@ -16,14 +16,15 @@ import java.util.Collection;
 import java.util.List;
 import org.qi4j.chronos.model.associations.HasContactPersons;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.model.ContactPerson;
 
 public interface ContactPersonService extends CustomerBasedService<ContactPersonEntityComposite>
 {
-    List<ContactPersonEntityComposite> findAll( HasContactPersons hasContactPersons );
+    List<ContactPerson> findAll( HasContactPersons hasContactPersons );
 
-    List<ContactPersonEntityComposite> findAll( HasContactPersons hasContactPersons, FindFilter findFilter );
+    List<ContactPerson> findAll( HasContactPersons hasContactPersons, FindFilter findFilter );
 
     int countAll( HasContactPersons hasContactPersons );
 
-    void enableLogin( boolean enabled, Collection<ContactPersonEntityComposite> contactPersons );
+    void enableLogin( boolean enabled, Collection<ContactPerson> contactPersons );
 }

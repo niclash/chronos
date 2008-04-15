@@ -16,18 +16,20 @@ import java.util.Collection;
 import java.util.List;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectRoleComposite;
+import org.qi4j.chronos.model.ProjectRole;
+import org.qi4j.chronos.model.Account;
 
 public interface ProjectRoleService
 {
-    List<ProjectRoleComposite> findAll( AccountEntityComposite account, FindFilter findFilter );
+    List<ProjectRole> findAll( Account account, FindFilter findFilter );
 
-    List<ProjectRoleComposite> findAll( AccountEntityComposite account );
+    List<ProjectRole> findAll( Account account );
 
-    int countAll( AccountEntityComposite account );
+    int countAll( Account account );
 
-    ProjectRoleComposite get( AccountEntityComposite account, String projectRoleName );
+    ProjectRole get( Account account, String projectRoleName );
 
-    void deleteProjectRole( AccountEntityComposite account, Collection<ProjectRoleComposite> projectRoles );
+    void deleteProjectRole( Account account, Collection<ProjectRole> projectRoles );
 
-    void updateProjectRole( AccountEntityComposite account, ProjectRoleComposite oldProjectRole, ProjectRoleComposite newProjectRole );
+    void updateProjectRole( Account account, ProjectRole oldProjectRole, ProjectRole newProjectRole );
 }

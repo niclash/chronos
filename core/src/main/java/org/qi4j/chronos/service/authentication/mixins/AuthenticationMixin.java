@@ -21,26 +21,24 @@ public class AuthenticationMixin implements Authentication, Activatable
 {
     @This AuthenticationConfiguration config;
 
-    private String username;
+    private String m_username;
 
-    private String password;
+    private String m_password;
 
     public boolean authenticate( String username, String password )
     {
-        return username.equals( this.username ) && password.equals( this.password );
+        return username.equals( this.m_username ) && password.equals( this.m_password );
     }
 
     public void activate() throws Exception
     {
-        config.username().set( "robert" );
-        config.password().set( "robert" );
-        username = config.username().get();
-        password = config.password().get();
+        m_username = config.username().get();
+        m_password = config.password().get();
     }
 
     public void passivate() throws Exception
     {
-        username = null;
-        password = null;
+        m_username = null;
+        m_password = null;
     }
 }

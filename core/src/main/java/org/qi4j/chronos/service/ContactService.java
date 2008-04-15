@@ -20,15 +20,15 @@ import org.qi4j.library.general.model.Contact;
 
 public interface ContactService
 {
-    List<ContactComposite> findAll( HasContacts hasContacts, FindFilter findFilter );
+    List<Contact> findAll( HasContacts hasContacts, FindFilter findFilter );
 
-    List<ContactComposite> findAll( HasContacts hasContacts );
+    List<Contact> findAll( HasContacts hasContacts );
 
     int countAll( HasContacts hasContacts );
 
-    ContactComposite get( HasContacts hasContacts, String contactValue );
+    Contact get( HasContacts hasContacts, String contactValue );
 
-    void update( HasContacts hasContacts, ContactComposite oldContact, ContactComposite updatedContact );
+    void update( HasContacts hasContacts, Contact oldContact, Contact updatedContact );
 
-    void deleteContact( HasContacts hasContacts, Collection<ContactComposite> contacts );
+    void deleteContact( HasContacts hasContacts, Collection<Contact> contacts );
 }

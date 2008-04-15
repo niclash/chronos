@@ -19,17 +19,17 @@ import org.qi4j.chronos.model.SystemRole;
 
 public interface SystemRoleService
 {
-    List<SystemRoleComposite> findAll();
+    List<SystemRole> findAll();
 
-    void save( SystemRoleComposite systemRole );
+    void save( SystemRole systemRole );
 
-    void saveAll( Collection<SystemRoleComposite> systemRoles );
+    void saveAll( Collection<SystemRole> systemRoles );
 
-    List<SystemRoleComposite> findAllStaffSystemRole();
+    List<SystemRole> findAllStaffSystemRole();
 
-    List<SystemRoleComposite> findAllStaffSystemRole( int first, int count );
+    List<SystemRole> findAllStaffSystemRole( int first, int count );
 
     int countAllStaffSystemRole();
 
-    SystemRoleComposite getSystemRoleByName( String name );
+    SystemRole getSystemRoleByName( String name );
 }

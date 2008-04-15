@@ -15,24 +15,24 @@ package org.qi4j.chronos.service;
 import java.util.Collection;
 import java.util.List;
 import org.qi4j.chronos.model.associations.HasLegalConditions;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.LegalConditionComposite;
+import org.qi4j.chronos.model.LegalCondition;
+import org.qi4j.chronos.model.Account;
 
 public interface LegalConditionService
 {
-    List<LegalConditionComposite> findAll( HasLegalConditions hasLegalConditions, FindFilter findFilter );
+    List<LegalCondition> findAll( HasLegalConditions hasLegalConditions, FindFilter findFilter );
 
-    List<LegalConditionComposite> findAll( HasLegalConditions hasLegalConditions );
+    List<LegalCondition> findAll( HasLegalConditions hasLegalConditions );
 
     int countAll( HasLegalConditions hasLegalConditions );
 
-    LegalConditionComposite get( HasLegalConditions hasLegalConditions, String name );
+    LegalCondition get( HasLegalConditions hasLegalConditions, String name );
 
-    List<LegalConditionComposite> findAll( AccountEntityComposite account );
+    List<LegalCondition> findAll( Account account );
 
-    int countAll( AccountEntityComposite account );
+    int countAll( Account account );
 
-    void deleteLegalCondition( HasLegalConditions hasLegalConditions, Collection<LegalConditionComposite> legalConditions );
+    void deleteLegalCondition( HasLegalConditions hasLegalConditions, Collection<LegalCondition> legalConditions );
 
-    void updateLegalCondition( HasLegalConditions hasLegalConditions, LegalConditionComposite oldLegalCondition, LegalConditionComposite newLegalCondition );
+    void updateLegalCondition( HasLegalConditions hasLegalConditions, LegalCondition oldLegalCondition, LegalCondition newLegalCondition );
 }

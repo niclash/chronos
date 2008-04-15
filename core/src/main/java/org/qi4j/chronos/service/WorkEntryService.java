@@ -17,26 +17,29 @@ import org.qi4j.chronos.model.associations.HasWorkEntries;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.chronos.model.WorkEntry;
+import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.Staff;
 
 public interface WorkEntryService
 {
-    List<WorkEntryEntityComposite> findAll( HasWorkEntries hasWorkEntries );
+    List<WorkEntry> findAll( HasWorkEntries hasWorkEntries );
 
-    List<WorkEntryEntityComposite> findAll( HasWorkEntries hasWorkEntries, FindFilter findFilter );
+    List<WorkEntry> findAll( HasWorkEntries hasWorkEntries, FindFilter findFilter );
 
     int countAll( HasWorkEntries hasWorkEntries );
 
-    WorkEntryEntityComposite newInstance( Class<? extends WorkEntryEntityComposite> clazz );
+    WorkEntry newInstance( Class<? extends WorkEntry> clazz );
 
-    void update( WorkEntryEntityComposite workEntry );
+    void update( WorkEntry workEntry );
 
-    void delete( HasWorkEntries hasWorkEntries, List<WorkEntryEntityComposite> workEntries );
+    void delete( HasWorkEntries hasWorkEntries, List<WorkEntry> workEntries );
 
-    WorkEntryEntityComposite get( HasWorkEntries hasWorkEntries, String id );
+    WorkEntry get( HasWorkEntries hasWorkEntries, String id );
 
-    List<WorkEntryEntityComposite> findAll( ProjectEntityComposite project, StaffEntityComposite staff );
+    List<WorkEntry> findAll( Project project, Staff staff );
 
-    List<WorkEntryEntityComposite> findAll( ProjectEntityComposite project, StaffEntityComposite staff, FindFilter findFilter );
+    List<WorkEntry> findAll( Project project, Staff staff, FindFilter findFilter );
 
-    int countAll( ProjectEntityComposite project, StaffEntityComposite staff );
+    int countAll( Project project, Staff staff );
 }

@@ -13,13 +13,16 @@
 package org.qi4j.chronos.service;
 
 import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.OngoingWorkEntry;
+import org.qi4j.chronos.model.Task;
+import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 
 public interface OngoingWorkEntryService extends TaskBasedService<OngoingWorkEntryEntityComposite>
 {
-    OngoingWorkEntryEntityComposite getOngoingWorkEntry( TaskEntityComposite task, StaffEntityComposite staff );
+    OngoingWorkEntry getOngoingWorkEntry( Task task, Staff staff );
 
-    OngoingWorkEntryEntityComposite getOngoingWorkEntry( Project project, StaffEntityComposite staff );
+    OngoingWorkEntry getOngoingWorkEntry( Project project, Staff staff );
 }

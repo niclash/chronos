@@ -14,6 +14,7 @@ package org.qi4j.chronos.service;
 
 import java.util.List;
 import org.qi4j.chronos.model.PriceRateType;
+import org.qi4j.chronos.model.PriceRateTypeEnum;
 import org.qi4j.chronos.model.associations.HasPriceRates;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
 
@@ -25,7 +26,7 @@ public interface PriceRateService
 
     int countAll( HasPriceRates hasPriceRates );
 
-    PriceRateComposite get( HasPriceRates hasPriceRates, String projectRoleName, PriceRateType priceRateType,
+    PriceRateComposite get( HasPriceRates hasPriceRates, String projectRoleName, PriceRateTypeEnum priceRateType,
                             final long amount );
 
     void update( PriceRateComposite priceRate );

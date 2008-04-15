@@ -14,6 +14,11 @@ package org.qi4j.chronos.service;
 
 import java.util.List;
 import org.qi4j.chronos.model.TaskStatus;
+import org.qi4j.chronos.model.Task;
+import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.TaskStatusEnum;
+import org.qi4j.chronos.model.Staff;
+import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
@@ -21,19 +26,19 @@ import org.qi4j.chronos.model.composites.TaskEntityComposite;
 
 public interface TaskService extends ProjectBasedService<TaskEntityComposite>
 {
-    List<TaskEntityComposite> getRecentTasks( AccountEntityComposite account );
+    List<Task> getRecentTasks( Account account );
 
-    List<TaskEntityComposite> getRecentTasks( AccountEntityComposite account, FindFilter findFilter );
+    List<Task> getRecentTasks( Account account, FindFilter findFilter );
 
-    int countRecentTasks( AccountEntityComposite account );
+    int countRecentTasks( Account account );
 
-    List<TaskEntityComposite> getRecentTasks( StaffEntityComposite staff );
+    List<Task> getRecentTasks( Staff staff );
 
-    List<TaskEntityComposite> getRecentTasks( StaffEntityComposite staff, FindFilter findFilter );
+    List<Task> getRecentTasks( Staff staff, FindFilter findFilter );
 
-    int countRecentTasks( StaffEntityComposite staff );
+    int countRecentTasks( Staff staff );
 
-    List<TaskEntityComposite> findTask( ProjectEntityComposite project, TaskStatus taskStatus );
+    List<Task> findTask( Project project, TaskStatusEnum taskStatus );
 
-//    TaskEntityComposite getTaskByTaskAssignee( TaskAssigneeEntityComposite taskAssignee );
+//    Task getTaskByTaskAssignee( TaskAssignee taskAssignee );
 }

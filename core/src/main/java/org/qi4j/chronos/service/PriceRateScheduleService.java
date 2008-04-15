@@ -16,16 +16,17 @@ import java.util.Collection;
 import java.util.List;
 import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
 import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
+import org.qi4j.chronos.model.PriceRateSchedule;
 
 public interface PriceRateScheduleService
 {
-    List<PriceRateScheduleComposite> findAll( HasPriceRateSchedules hasPriceRateSchedules, FindFilter findFilter );
+    List<PriceRateSchedule> findAll( HasPriceRateSchedules hasPriceRateSchedules, FindFilter findFilter );
 
-    List<PriceRateScheduleComposite> findAll( HasPriceRateSchedules hasPriceRateSchedules );
+    List<PriceRateSchedule> findAll( HasPriceRateSchedules hasPriceRateSchedules );
 
     int countAll( HasPriceRateSchedules hasPriceRateSchedules );
 
-    PriceRateScheduleComposite get( HasPriceRateSchedules hasPriceRateSchedules, String priceRateName );
+    PriceRateSchedule get( HasPriceRateSchedules hasPriceRateSchedules, String priceRateName );
 
-    void deletePriceRateSchedule( HasPriceRateSchedules hasPriceRateSchedules, Collection<PriceRateScheduleComposite> priceRateSchedules );
+    void deletePriceRateSchedule( HasPriceRateSchedules hasPriceRateSchedules, Collection<PriceRateSchedule> priceRateSchedules );
 }
