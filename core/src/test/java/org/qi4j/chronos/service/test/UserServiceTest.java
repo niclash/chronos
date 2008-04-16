@@ -14,6 +14,7 @@ package org.qi4j.chronos.service.test;
 
 import java.util.List;
 import org.junit.After;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.qi4j.bootstrap.AssemblyException;
@@ -26,18 +27,13 @@ import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.SystemRoleTypeEnum;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.AdminEntityComposite;
-import org.qi4j.chronos.test.AbstractCommonTest;
+import org.qi4j.chronos.service.account.AccountServiceComposite;
+import org.qi4j.chronos.service.account.AccountServiceConfiguration;
 import org.qi4j.chronos.service.user.UserService;
 import org.qi4j.chronos.service.user.UserServiceComposite;
 import org.qi4j.chronos.service.user.UserServiceConfiguration;
-import org.qi4j.chronos.service.account.AccountServiceConfiguration;
-import org.qi4j.chronos.service.account.AccountServiceComposite;
+import org.qi4j.chronos.test.AbstractCommonTest;
 import org.qi4j.library.general.model.GenderType;
-
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertNotSame;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 /**
  * Created by IntelliJ IDEA.
@@ -65,7 +61,7 @@ public class UserServiceTest extends AbstractCommonTest
         userService = null;
         account = null;
         customers = null;
-        
+
         super.tearDown();
     }
 
@@ -92,15 +88,15 @@ public class UserServiceTest extends AbstractCommonTest
         String bossId = null;
         for( User user : account.staffs() )
         {
-            if( user.fullName().get().startsWith( "Boss" ) )
+            if( user.fullName().get().endsWith( "Boss" ) )
             {
                 bossId = user.identity().get();
             }
         }
-        unitOfWork  = complete( unitOfWork );
+        unitOfWork = complete( unitOfWork );
 
         User find = userService.get( unitOfWork, bossId );
-        assertTrue( "Cannot find boss!!!!", find.fullName().get().equals( "Boss, The" ));
+        assertTrue( "Cannot find boss!!!!", find.fullName().get().equals( "The Boss" ) );
     }
 
     @Test public void getUserTest() throws Exception
@@ -112,14 +108,14 @@ public class UserServiceTest extends AbstractCommonTest
         account = unitOfWork.dereference( account );
         User boss = userService.getUser( account, "boss" );
         assertNotNull( "Unable to find User Boss!!!", boss );
-        assertEquals( "User boss is not found !!!", "Boss, The", boss.fullName().get() );
-        assertNotNull( "Salary is null!!!", ((Staff) boss).salary().get() );
+        assertEquals( "User boss is not found !!!", "The Boss", boss.fullName().get() );
+        assertNotNull( "Salary is null!!!", ( (Staff) boss ).salary().get() );
 
-        System.out.println( ( (Staff) boss).salary().get().displayValue().get() );
+        System.out.println( ( (Staff) boss ).salary().get().displayValue().get() );
 
         User contactPerson = userService.getUser( account, "contact2c3" );
         assertNotNull( "Unable to find contact person!!!", contactPerson );
-        assertEquals( "User contact person 2 from customer 3 is not found !!!", "Person 2, Contact", contactPerson.fullName().get() );
+        assertEquals( "User contact person 2 from customer 3 is not found !!!", "Contact Person 2", contactPerson.fullName().get() );
     }
 
     @Test public void getAdminTest() throws Exception
@@ -129,7 +125,7 @@ public class UserServiceTest extends AbstractCommonTest
         unitOfWork = complete( unitOfWork );
 
         User admin = userService.getAdmin( "admin", "admin" );
-        assertEquals( "Admin user is not found!!!", "System, Administrator", admin.fullName().get() );
+        assertEquals( "Admin user is not found!!!", "Administrator System", admin.fullName().get() );
     }
 
     @Test public void hasThisSystemRoleTest() throws Exception
@@ -151,7 +147,7 @@ public class UserServiceTest extends AbstractCommonTest
         unitOfWork = complete( unitOfWork );
 
         account = unitOfWork.dereference( account );
-        assertTrue( "Username is unique", userService.isUnique( account, "wakaka" ));
+        assertTrue( "Username is unique", userService.isUnique( account, "wakaka" ) );
     }
 
     @Test public void deleteStaffTest() throws Exception
@@ -163,7 +159,7 @@ public class UserServiceTest extends AbstractCommonTest
         unitOfWork = complete( unitOfWork );
 
         account = unitOfWork.dereference( account );
-        Staff deletedStaff = (Staff) userService.getUser( account,  "developer1" );
+        Staff deletedStaff = (Staff) userService.getUser( account, "developer1" );
 
         assertNotNull( "Unable to find staff!!!", deletedStaff );
 
@@ -172,7 +168,7 @@ public class UserServiceTest extends AbstractCommonTest
 
         unitOfWork = complete( unitOfWork );
 
-        account = unitOfWork.dereference( account);
+        account = unitOfWork.dereference( account );
         unitOfWork.refresh( account );
 
         assertNotSame( "Unable to delete staff!!!! NotExpected[" + noOfStaffs +
