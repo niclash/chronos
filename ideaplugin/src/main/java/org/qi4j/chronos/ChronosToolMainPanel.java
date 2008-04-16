@@ -18,6 +18,7 @@ import com.jgoodies.forms.builder.PanelBuilder;
 import com.jgoodies.forms.layout.CellConstraints;
 import org.qi4j.chronos.common.AbstractPanel;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.chronos.model.WorkEntry;
 import org.qi4j.chronos.workentry.WorkEntryProducerListener;
 
 public class ChronosToolMainPanel extends AbstractPanel implements WorkEntryProducerListener
@@ -55,7 +56,7 @@ public class ChronosToolMainPanel extends AbstractPanel implements WorkEntryProd
         chronosToolCententPanel = new ChronosToolContentPanel( project );
     }
 
-    public void workEntryAdded( WorkEntryEntityComposite workEntry )
+    public void workEntryAdded( WorkEntry workEntry )
     {
         chronosToolCententPanel.resetData();
     }

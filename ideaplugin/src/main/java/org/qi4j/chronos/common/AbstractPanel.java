@@ -21,13 +21,14 @@ import org.qi4j.chronos.ChronosApp;
 import org.qi4j.chronos.ChronosProjectComponent;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.service.Services;
 
 public abstract class AbstractPanel extends JPanel
 {
     private ChronosApp chronosApp;
-    private ProjectEntityComposite chronosProject;
-    private StaffEntityComposite staff;
+    private org.qi4j.chronos.model.Project chronosProject;
+    private Staff staff;
     private Services services;
 
     public AbstractPanel()
@@ -61,7 +62,7 @@ public abstract class AbstractPanel extends JPanel
         return chronosApp;
     }
 
-    protected ProjectEntityComposite getChronosProject( Project project )
+    protected org.qi4j.chronos.model.Project getChronosProject( Project project )
     {
         if( chronosProject == null )
         {
@@ -71,7 +72,7 @@ public abstract class AbstractPanel extends JPanel
         return chronosProject;
     }
 
-    protected StaffEntityComposite getStaff( Project project )
+    protected Staff getStaff( Project project )
     {
         if( staff == null )
         {

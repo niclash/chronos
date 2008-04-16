@@ -15,11 +15,11 @@ package org.qi4j.chronos.ui.wicket.base;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.service.Services;
-import org.qi4j.chronos.ui.ChronosSession;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.login.LoginPage;
+import org.qi4j.chronos.ui.wicket.authentication.LoginPage;
 
 public abstract class TopMenuNavPage extends BasePage
 {
@@ -58,7 +58,7 @@ public abstract class TopMenuNavPage extends BasePage
     {
         ChronosSession chronosSession = ChronosSession.get();
 
-        AccountEntityComposite account = chronosSession.getAccount();
+        Account account = chronosSession.getAccount();
 
         return account == null ? null : account.name().get();
     }

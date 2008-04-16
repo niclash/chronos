@@ -10,12 +10,26 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service;
+package org.qi4j.chronos.service.systemrole;
 
-import org.qi4j.chronos.model.composites.TaskEntityComposite;
-import org.qi4j.chronos.model.Task;
-import org.qi4j.entity.Identity;
+import java.util.List;
+import java.util.Collection;
+import org.qi4j.chronos.model.composites.SystemRoleComposite;
+import org.qi4j.chronos.model.SystemRole;
 
-public interface TaskBasedService<ITEM> extends ParentBasedService<ITEM, Task>
+public interface SystemRoleService
 {
+    List<SystemRole> findAll();
+
+    void save( SystemRole systemRole );
+
+    void saveAll( Collection<SystemRole> systemRoles );
+
+    List<SystemRole> findAllStaffSystemRole();
+
+    List<SystemRole> findAllStaffSystemRole( int first, int count );
+
+    int countAllStaffSystemRole();
+
+    SystemRole getSystemRoleByName( String name );
 }

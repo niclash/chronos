@@ -15,6 +15,7 @@ package org.qi4j.chronos.service.project;
 import org.qi4j.service.Activatable;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.ProjectStatusEnum;
 import org.qi4j.chronos.model.associations.HasProjects;
 import org.qi4j.chronos.service.account.AccountService;
 import org.qi4j.composite.scope.This;
@@ -45,9 +46,8 @@ public class ProjectServiceMixin implements ProjectService, Activatable
         }
     }
 
-    public Account getAccount( UnitOfWork unitOfWork, Project project )
+    public Account getAccount( Project project )
     {
-        validateNotNull( "unitOfWork", unitOfWork );
         validateNotNull( "project", project );
 
         for( Account account : accountService.findAll() )
@@ -64,6 +64,16 @@ public class ProjectServiceMixin implements ProjectService, Activatable
             return unitOfWork.find( map.get( ( (Identity) project).identity().get() ), AccountEntityComposite.class );
         }*/
         return null;
+    }
+
+    public int countAll( Account account )
+    {
+        return 0;
+    }
+
+    public int countAll( Account account, ProjectStatusEnum projectStatusEnum )
+    {
+        return 0;
     }
 
     private boolean contains( HasProjects hasProjects, Project project )

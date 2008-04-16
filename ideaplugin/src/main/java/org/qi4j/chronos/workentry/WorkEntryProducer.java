@@ -26,6 +26,8 @@ import org.qi4j.chronos.activity.Activity;
 import org.qi4j.chronos.activity.ActivityManager;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.chronos.model.WorkEntry;
+import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.multicaster.IdleEventMulticaster;
 import org.qi4j.chronos.multicaster.InputEventMulticaster;
 import org.qi4j.chronos.service.Services;
@@ -168,7 +170,7 @@ public class WorkEntryProducer
 
         WorkEntryService workEntryService = services.getWorkEntryService();
 
-        final WorkEntryEntityComposite workEntry = workEntryService.newInstance( WorkEntryEntityComposite.class );
+        final WorkEntry workEntry = workEntryService.newInstance( WorkEntry.class );
 
         workEntry.createdDate().set( endDate );
         workEntry.startTime().set( startedDate );
@@ -178,7 +180,7 @@ public class WorkEntryProducer
         workEntry.projectAssignee().set( chronosApp.getProjectAssignee() );
 
         //get associated task
-        TaskEntityComposite associatedTask = chronosApp.getAssociatedTask();
+        Task associatedTask = chronosApp.getAssociatedTask();
 
         //add new workEntry to associated task
         associatedTask.workEntries().add( workEntry );

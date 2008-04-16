@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
+ * Copyright (c) 2008, Muhd Kamil Mohd Baki. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -10,12 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service;
+package org.qi4j.chronos.ui.wicket.bootstrap;
 
-import org.qi4j.chronos.model.composites.TaskEntityComposite;
-import org.qi4j.chronos.model.Task;
-import org.qi4j.entity.Identity;
-
-public interface TaskBasedService<ITEM> extends ParentBasedService<ITEM, Task>
+public class DummyDataInitializer
 {
 }

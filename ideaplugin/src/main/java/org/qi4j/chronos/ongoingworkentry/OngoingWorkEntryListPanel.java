@@ -19,6 +19,7 @@ import org.qi4j.chronos.common.AbstractPanel;
 import org.qi4j.chronos.common.ChronosTable;
 import org.qi4j.chronos.common.ChronosTableModel;
 import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
+import org.qi4j.chronos.model.OngoingWorkEntry;
 import org.qi4j.chronos.util.DateUtil;
 import org.qi4j.chronos.util.UiUtil;
 
@@ -34,19 +35,19 @@ public class OngoingWorkEntryListPanel extends AbstractPanel
         init();
     }
 
-    public void initData( List<OngoingWorkEntryEntityComposite> ongoingWorkEntries )
+    public void initData( List<OngoingWorkEntry> ongoingWorkEntries )
     {
-        for( OngoingWorkEntryEntityComposite ongoingWorkEntry : ongoingWorkEntries )
+        for( OngoingWorkEntry ongoingWorkEntry : ongoingWorkEntries )
         {
             insertOngoingWorkEntry( ongoingWorkEntry );
         }
     }
 
-    private void insertOngoingWorkEntry( OngoingWorkEntryEntityComposite workEntry )
+    private void insertOngoingWorkEntry( OngoingWorkEntry workEntry )
     {
         table.insertToLastRow(
             DateUtil.formatDateTime( workEntry.createdDate().get() ),
-            workEntry.projectAssignee().get().staff().get().name().get() );
+            workEntry.projectAssignee().get().staff().get().fullName().get() );
     }
 
     protected String getLayoutColSpec()

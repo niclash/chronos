@@ -27,8 +27,11 @@ import javax.swing.JComboBox;
 import javax.swing.JComponent;
 import org.qi4j.chronos.common.AbstractPanel;
 import org.qi4j.chronos.model.TaskStatus;
+import org.qi4j.chronos.model.TaskStatusEnum;
+import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.TaskService;
+import org.qi4j.entity.Identity;
 
 public class TaskAssociationAction extends AnAction
     implements CustomComponentAction
@@ -92,11 +95,11 @@ public class TaskAssociationAction extends AnAction
         {
             TaskService taskService = getServices( project ).getTaskService();
 
-            List<TaskEntityComposite> tasks = taskService.findTask( getChronosProject( project ), TaskStatus.OPEN );
+            List<Task> tasks = taskService.findTask( getChronosProject( project ), TaskStatusEnum.OPEN );
 
             List<TaskDelegator> list = new ArrayList<TaskDelegator>();
 
-            for( TaskEntityComposite task : tasks )
+            for( Task task : tasks )
             {
                 list.add( new TaskDelegator( task ) );
             }
@@ -119,7 +122,7 @@ public class TaskAssociationAction extends AnAction
         {
             TaskDelegator delegator = (TaskDelegator) taskComboBox.getSelectedItem();
 
-            TaskEntityComposite task = getServices( project ).getTaskService().get( delegator.getId() );
+            Task task = getServices( project ).getTaskService().get( delegator.getId() );
 
             getChronosApp( project ).setAssociatedTask( task );
         }
@@ -130,9 +133,9 @@ public class TaskAssociationAction extends AnAction
         private String title;
         private String id;
 
-        public TaskDelegator( TaskEntityComposite task )
+        public TaskDelegator( Task task )
         {
-            this.id = task.identity().get();
+            this.id = ((Identity) task).identity().get();
             this.title = task.title().get();
         }
 

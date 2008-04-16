@@ -28,6 +28,8 @@ public interface UserService
 {
     User get( UnitOfWork unitOfWork, String userId );
 
+    User getUser( String accountId, String loginId );
+
     User getUser( Account account, String loginId );
 
     Admin getAdmin( String loginId, String password );

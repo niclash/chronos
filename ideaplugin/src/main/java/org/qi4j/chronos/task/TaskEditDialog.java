@@ -14,6 +14,7 @@ package org.qi4j.chronos.task;
 
 import com.intellij.openapi.project.Project;
 import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 
 public abstract class TaskEditDialog extends TaskAddEditDialog
@@ -36,7 +37,7 @@ public abstract class TaskEditDialog extends TaskAddEditDialog
 
     public void handleOkClicked()
     {
-        TaskEntityComposite task = getTask();
+        Task task = getTask();
 
         //set values
         assignFieldValueToTask( task );
@@ -52,5 +53,5 @@ public abstract class TaskEditDialog extends TaskAddEditDialog
         return "Edit Task";
     }
 
-    public abstract TaskEntityComposite getTask();
+    public abstract Task getTask();
 }

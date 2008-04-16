@@ -36,13 +36,14 @@ public class AccountAddPage extends AccountAddEditPage
 
     public void onSubmitting()
     {
-        AccountService accountService = ChronosWebApp.getServices().getAccountService();
+        // TODO
+//        AccountService accountService = ChronosWebApp.getServices().getAccountService();
 
-        Account account = accountService.newInstance( AccountEntityComposite.class );
+//        Account account = accountService.newInstance( AccountEntityComposite.class );
 
         try
         {
-            Address address = ChronosWebApp.newInstance( AddressEntityComposite.class );
+            /*Address address = ChronosWebApp.newInstance( AddressEntityComposite.class );
             City city = ChronosWebApp.newInstance( CityEntityComposite.class );
             State state = ChronosWebApp.newInstance( StateEntityComposite.class );
             Country country = ChronosWebApp.newInstance( CountryEntityComposite.class );
@@ -54,10 +55,10 @@ public class AccountAddPage extends AccountAddEditPage
 
             account.address().set( address );
 
-            account.isEnabled().set( true );
+            account.isEnabled().set( true );*/
 
             //assign data to customer
-            assignFieldValueToAccount( account );
+//            assignFieldValueToAccount( account );
 
             // TODO migrate
 //            accountService.save( account );

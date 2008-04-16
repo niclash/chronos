@@ -15,6 +15,7 @@ package org.qi4j.chronos.service.project;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.ProjectStatusEnum;
 import org.qi4j.entity.UnitOfWork;
 import java.util.List;
 
@@ -22,5 +23,9 @@ public interface ProjectService
 {
     void add( Account account, Project project );
 
-    Account getAccount( UnitOfWork unitofWork, Project project );
+    Account getAccount( Project project );
+
+    int countAll( Account account );
+
+    int countAll( Account account, ProjectStatusEnum projectStatusEnum );
 }

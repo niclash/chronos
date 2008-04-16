@@ -16,6 +16,8 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import org.qi4j.chronos.action.task.TaskBaseAction;
 import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.model.OngoingWorkEntry;
+import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.service.OngoingWorkEntryService;
 import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.task.TaskListComponent;
@@ -30,14 +32,14 @@ public class OngoingWorkEntryCancelAction extends TaskBaseAction
             return;
         }
 
-        TaskEntityComposite task = taskList.getSelectedTask();
+        Task task = taskList.getSelectedTask();
 
         Services services = getServices( e );
 
         OngoingWorkEntryService service = getServices( e ).getOngoingWorkEntryService();
 
         //get the ongoingWorkEntry
-        final OngoingWorkEntryEntityComposite ongoingWorkEntry = service.getOngoingWorkEntry( task, getProjectAssignee( e ).staff().get() );
+        final OngoingWorkEntry ongoingWorkEntry = service.getOngoingWorkEntry( task, getProjectAssignee( e ).staff().get() );
 
         //remove it from task
         task.onGoingWorkEntries().remove( ongoingWorkEntry );

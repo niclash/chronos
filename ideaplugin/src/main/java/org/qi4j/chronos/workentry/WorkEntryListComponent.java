@@ -14,12 +14,13 @@ package org.qi4j.chronos.workentry;
 
 import java.awt.Container;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.chronos.model.WorkEntry;
 
 public interface WorkEntryListComponent
 {
-    public WorkEntryEntityComposite getSelectedWorkEntry();
+    public WorkEntry getSelectedWorkEntry();
 
-    public WorkEntryEntityComposite[] getSelectedWorkEntries();
+    public WorkEntry[] getSelectedWorkEntries();
 
     public void refreshList();
 

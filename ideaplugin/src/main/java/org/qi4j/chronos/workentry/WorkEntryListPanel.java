@@ -23,6 +23,7 @@ import org.qi4j.chronos.common.AbstractPanel;
 import org.qi4j.chronos.common.ChronosTable;
 import org.qi4j.chronos.common.ChronosTableModel;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.chronos.model.WorkEntry;
 import org.qi4j.chronos.util.DateUtil;
 import org.qi4j.chronos.util.UiUtil;
 
@@ -33,7 +34,7 @@ public class WorkEntryListPanel extends AbstractPanel
 
     private ChronosTable workEntryTable;
 
-    private List<WorkEntryEntityComposite> workEntries;
+    private List<WorkEntry> workEntries;
     private final Project project;
 
     public WorkEntryListPanel( Project project )
@@ -42,23 +43,23 @@ public class WorkEntryListPanel extends AbstractPanel
         init();
     }
 
-    public void initData( List<WorkEntryEntityComposite> workEntries )
+    public void initData( List<WorkEntry> workEntries )
     {
         this.workEntries = workEntries;
 
-        for( WorkEntryEntityComposite workEntry : workEntries )
+        for( WorkEntry workEntry : workEntries )
         {
             insertWorkEntry( workEntry );
         }
     }
 
-    private void insertWorkEntry( WorkEntryEntityComposite workEntry )
+    private void insertWorkEntry( WorkEntry workEntry )
     {
         workEntryTable.insertToLastRow(
             DateUtil.formatDateTime( workEntry.startTime().get() ),
             DateUtil.formatDateTime( workEntry.endTime().get() ),
             DateUtil.getTimeDifferent( workEntry.startTime().get(), workEntry.endTime().get() ),
-            workEntry.projectAssignee().get().staff().get().name().get(),
+            workEntry.projectAssignee().get().staff().get().fullName().get(),
             workEntry.title().get() );
     }
 
@@ -107,11 +108,11 @@ public class WorkEntryListPanel extends AbstractPanel
 
         if( row != -1 )
         {
-            final WorkEntryEntityComposite workEntry = workEntries.get( row );
+            final WorkEntry workEntry = workEntries.get( row );
 
             WorkEntryDetailDialog detailDialog = new WorkEntryDetailDialog( project )
             {
-                public WorkEntryEntityComposite getWorkEntry()
+                public WorkEntry getWorkEntry()
                 {
                     return workEntry;
                 }

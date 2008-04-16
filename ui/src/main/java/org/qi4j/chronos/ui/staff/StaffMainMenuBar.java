@@ -16,7 +16,7 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.ui.ChronosSession;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.chronos.ui.SystemRoleResolver;
 import org.qi4j.chronos.ui.common.menu.MenuBar;
 import org.qi4j.chronos.ui.common.menu.MenuItem;

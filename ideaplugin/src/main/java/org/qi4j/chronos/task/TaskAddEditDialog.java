@@ -23,6 +23,7 @@ import org.qi4j.chronos.common.text.ReadOnlyTextField;
 import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.model.TaskStatus;
 import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.TaskStatusEnum;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.util.DateUtil;
 import org.qi4j.chronos.util.UiUtil;
@@ -46,10 +47,10 @@ public abstract class TaskAddEditDialog extends AddEditDialog
     protected void initComponents()
     {
         titleField = new JMaxLengthTextField( Task.TITLE_LEN );
-        userField = new ReadOnlyTextField( getCreatedBy().name().get() );
+        userField = new ReadOnlyTextField( getCreatedBy().fullName().get() );
         createdDateField = new ReadOnlyTextField( "--" );
 
-        taskStatusComboBox = new JComboBox( TaskStatus.values() );
+        taskStatusComboBox = new JComboBox( TaskStatusEnum.values() );
 
         descTextArea = new JMaxLengthTextArea( Task.DESCRIPTION_LEN );
     }
@@ -82,15 +83,15 @@ public abstract class TaskAddEditDialog extends AddEditDialog
         builder.add( UiUtil.createScrollPanel( descTextArea ), cc.xyw( 3, 7, 5, "fill, fill" ) );
     }
 
-    protected void assignFieldValueToTask( TaskEntityComposite task )
+    protected void assignFieldValueToTask( Task task )
     {
         task.user().set( getCreatedBy() );
         task.title().set( titleField.getText() );
         task.description().set( descTextArea.getText() );
-        task.taskStatus().set( (TaskStatus) taskStatusComboBox.getSelectedItem() );
+        task.taskStatus().set( (TaskStatusEnum) taskStatusComboBox.getSelectedItem() );
     }
 
-    protected void assignTaskToFieldValue( TaskEntityComposite task )
+    protected void assignTaskToFieldValue( Task task )
     {
         titleField.setText( task.title().get() );
         descTextArea.setText( task.description().get() );

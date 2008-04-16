@@ -12,7 +12,36 @@
  */
 package org.qi4j.chronos.model;
 
+import java.lang.System;
+
 public enum SystemRoleTypeEnum
 {
-    ADMIN, STAFF, CONTACT_PERSON
+    ADMIN( "Admin" ), STAFF( "Staff" ), CONTACT_PERSON( "Contact Person" );
+
+    private String description;
+
+    private SystemRoleTypeEnum( String description )
+    {
+        this.description = description;
+    }
+
+    @Override public String toString()
+    {
+        return this.description;
+    }
+
+    public static final SystemRoleTypeEnum toEnum( String text )
+    {
+        try
+        {
+            return valueOf( text.toUpperCase() );
+        }
+        catch( IllegalArgumentException iae )
+        {
+            System.err.println( iae.getLocalizedMessage() );
+            iae.printStackTrace();
+        }
+        
+        return null;
+    }
 }

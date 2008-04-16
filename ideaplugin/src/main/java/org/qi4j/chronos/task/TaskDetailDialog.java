@@ -21,12 +21,17 @@ import org.qi4j.chronos.common.AbstractDialog;
 import org.qi4j.chronos.common.ChronosTabbedPanel;
 import org.qi4j.chronos.common.text.ReadOnlyTextField;
 import org.qi4j.chronos.model.TaskStatus;
+import org.qi4j.chronos.model.TaskStatusEnum;
+import org.qi4j.chronos.model.Task;
+import org.qi4j.chronos.model.OngoingWorkEntry;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
 import org.qi4j.chronos.ongoingworkentry.OngoingWorkEntryListPanel;
 import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.util.DateUtil;
 import org.qi4j.chronos.util.UiUtil;
 import org.qi4j.chronos.workentry.WorkEntryListPanel;
+import java.util.List;
 
 public abstract class TaskDetailDialog extends AbstractDialog
 {
@@ -52,10 +57,10 @@ public abstract class TaskDetailDialog extends AbstractDialog
 
     private void initData()
     {
-        TaskEntityComposite task = getTask();
+        Task task = getTask();
 
         titleField.setText( task.title().get() );
-        userField.setText( task.user().get().name().get() );
+        userField.setText( task.user().get().fullName().get() );
         createdDateField.setText( DateUtil.formatDateTime( task.createdDate().get() ) );
         taskStatusField.setText( task.taskStatus().get().toString() );
         descTextArea.setText( task.description().get() );
@@ -67,15 +72,16 @@ public abstract class TaskDetailDialog extends AbstractDialog
 
         if( isOpenStatus() )
         {
-            ongoingWorkEntryListPanel.initData( services.getOngoingWorkEntryService().findAll( task ) );
+            List<OngoingWorkEntry> entityComposites = services.getOngoingWorkEntryService().findAll( task );
+            ongoingWorkEntryListPanel.initData( entityComposites );
         }
     }
 
     private boolean isOpenStatus()
     {
-        TaskEntityComposite task = getTask();
+        Task task = getTask();
 
-        return task.taskStatus().get().equals( TaskStatus.OPEN );
+        return task.taskStatus().get().equals( TaskStatusEnum.OPEN );
     }
 
     protected void initComponents()
@@ -138,5 +144,5 @@ public abstract class TaskDetailDialog extends AbstractDialog
         return "Task Detail";
     }
 
-    public abstract TaskEntityComposite getTask();
+    public abstract Task getTask();
 }

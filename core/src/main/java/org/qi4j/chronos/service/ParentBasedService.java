@@ -17,7 +17,7 @@ import java.util.List;
 import org.qi4j.entity.EntityComposite;
 import org.qi4j.entity.Identity;
 
-public interface ParentBasedService<ITEM, PARENT extends EntityComposite>
+public interface ParentBasedService<ITEM, PARENT>
 {
     ITEM get( String id );
 
@@ -41,5 +41,5 @@ public interface ParentBasedService<ITEM, PARENT extends EntityComposite>
 
     int countAll( PARENT parent );
 
-    ITEM newInstance( Class<? extends EntityComposite> clazz );
+    ITEM newInstance( Class<?> clazz );
 }

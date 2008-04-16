@@ -13,10 +13,11 @@
 package org.qi4j.chronos.task.tree;
 
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.model.Task;
 
 public class TaskOpenedTreeNode extends TaskTreeNode
 {
-    public TaskOpenedTreeNode( TaskEntityComposite task )
+    public TaskOpenedTreeNode( Task task )
     {
         super( task );
     }

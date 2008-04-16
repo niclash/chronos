@@ -14,11 +14,12 @@ package org.qi4j.chronos.service.mocks;
 
 import java.util.List;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.composite.scope.Uses;
 import org.qi4j.entity.Identity;
 
-public abstract class MockProjectBasedServiceMixin<ITEM extends Identity> extends MockParentBasedServiceMixin<ITEM, ProjectEntityComposite>
+public abstract class MockProjectBasedServiceMixin<ITEM extends Identity> extends MockParentBasedServiceMixin<ITEM, Project>
 {
     @Uses private ProjectService projectService;
 
@@ -27,7 +28,7 @@ public abstract class MockProjectBasedServiceMixin<ITEM extends Identity> extend
 
     }
 
-    protected List<ProjectEntityComposite> getParentList()
+    protected List<Project> getParentList()
     {
         return projectService.findAll();
     }

@@ -16,6 +16,7 @@ import com.intellij.openapi.project.Project;
 import org.qi4j.chronos.comment.CommentAddDialog;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.model.Comment;
+import org.qi4j.chronos.model.WorkEntry;
 import org.qi4j.chronos.util.UiUtil;
 
 public abstract class WorkEntryCommentAddDialog extends CommentAddDialog
@@ -27,7 +28,7 @@ public abstract class WorkEntryCommentAddDialog extends CommentAddDialog
 
     public void addingComment( Comment comment )
     {
-        WorkEntryEntityComposite workEntry = getWorkEntry();
+        WorkEntry workEntry = getWorkEntry();
 
         //add comment to workEntry
         workEntry.comments().add( comment );
@@ -38,5 +39,5 @@ public abstract class WorkEntryCommentAddDialog extends CommentAddDialog
         getServices().getWorkEntryService().update( workEntry );
     }
 
-    public abstract WorkEntryEntityComposite getWorkEntry();
+    public abstract WorkEntry getWorkEntry();
 }

@@ -99,7 +99,8 @@ public class ProjectServiceTest extends AbstractCommonTest
 
         Project project = unitOfWork.dereference( projects.get( 0 ) );
 
-        Account find = projectService.getAccount( unitOfWork, project );
+//        Account find = projectService.getAccount( unitOfWork, project );
+        Account find = projectService.getAccount( project );
 
         assertNotNull( "Unable to find Account!!!", find );
         assertEquals( "Account name is different!!!", "Primary Account", find.name().get() );

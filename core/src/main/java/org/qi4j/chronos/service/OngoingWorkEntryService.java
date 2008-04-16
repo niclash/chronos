@@ -20,7 +20,7 @@ import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 
-public interface OngoingWorkEntryService extends TaskBasedService<OngoingWorkEntryEntityComposite>
+public interface OngoingWorkEntryService extends TaskBasedService<OngoingWorkEntry>
 {
     OngoingWorkEntry getOngoingWorkEntry( Task task, Staff staff );
 

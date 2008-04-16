@@ -16,6 +16,7 @@ import com.intellij.openapi.project.Project;
 import org.qi4j.chronos.comment.CommentAddDialog;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.model.Comment;
+import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.util.UiUtil;
 
 public abstract class TaskCommentAddDialog extends CommentAddDialog
@@ -27,7 +28,7 @@ public abstract class TaskCommentAddDialog extends CommentAddDialog
 
     public void addingComment( Comment comment )
     {
-        TaskEntityComposite task = getTask();
+        Task task = getTask();
 
         //add comment to task
         task.comments().add( comment );
@@ -38,5 +39,5 @@ public abstract class TaskCommentAddDialog extends CommentAddDialog
         getServices().getTaskService().update( task );
     }
 
-    public abstract TaskEntityComposite getTask();
+    public abstract Task getTask();
 }

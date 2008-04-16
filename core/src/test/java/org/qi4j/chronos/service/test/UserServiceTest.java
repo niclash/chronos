@@ -30,6 +30,8 @@ import org.qi4j.chronos.test.AbstractCommonTest;
 import org.qi4j.chronos.service.user.UserService;
 import org.qi4j.chronos.service.user.UserServiceComposite;
 import org.qi4j.chronos.service.user.UserServiceConfiguration;
+import org.qi4j.chronos.service.account.AccountServiceConfiguration;
+import org.qi4j.chronos.service.account.AccountServiceComposite;
 import org.qi4j.library.general.model.GenderType;
 
 import static org.junit.Assert.assertNotNull;
@@ -70,8 +72,8 @@ public class UserServiceTest extends AbstractCommonTest
     public void assemble( ModuleAssembly module ) throws AssemblyException
     {
         super.assemble( module );
-        module.addComposites( UserServiceConfiguration.class );
-        module.addServices( UserServiceComposite.class );
+        module.addComposites( UserServiceConfiguration.class, AccountServiceConfiguration.class );
+        module.addServices( UserServiceComposite.class, AccountServiceComposite.class );
     }
 
     @Test public void initServiceTest() throws Exception
@@ -90,7 +92,7 @@ public class UserServiceTest extends AbstractCommonTest
         String bossId = null;
         for( User user : account.staffs() )
         {
-            if( user.fullName().get().endsWith( "oss" ) )
+            if( user.fullName().get().startsWith( "Boss" ) )
             {
                 bossId = user.identity().get();
             }
@@ -117,7 +119,7 @@ public class UserServiceTest extends AbstractCommonTest
 
         User contactPerson = userService.getUser( account, "contact2c3" );
         assertNotNull( "Unable to find contact person!!!", contactPerson );
-        assertEquals( "User contact person 2 from customer 3 is not found !!!", "Contact, Person 2", contactPerson.fullName().get() );
+        assertEquals( "User contact person 2 from customer 3 is not found !!!", "Person 2, Contact", contactPerson.fullName().get() );
     }
 
     @Test public void getAdminTest() throws Exception

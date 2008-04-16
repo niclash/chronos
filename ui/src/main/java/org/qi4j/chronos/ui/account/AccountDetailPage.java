@@ -13,6 +13,7 @@
 package org.qi4j.chronos.ui.account;
 
 import org.apache.wicket.Page;
+import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
@@ -21,6 +22,7 @@ import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.ui.address.AddressDetailPanel;
 import org.qi4j.chronos.ui.common.SimpleTextField;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.chronos.ui.ChronosWebApp;
 
 public class AccountDetailPage extends LeftMenuNavPage
@@ -40,7 +42,9 @@ public class AccountDetailPage extends LeftMenuNavPage
     @Override
     protected Account getAccount()
     {
-        return ChronosWebApp.getServices().getAccountService().get( accountId );
+        // TODO properly
+        return ( (ChronosSession) Session.get() ).getAccountService().get( accountId );
+//        return ChronosWebApp.getServices().getAccountService().get( accountId );
     }
 
     private void initComponents()

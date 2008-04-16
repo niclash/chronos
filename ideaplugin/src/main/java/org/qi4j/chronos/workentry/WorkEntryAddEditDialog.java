@@ -23,6 +23,8 @@ import org.qi4j.chronos.common.JDateTime;
 import org.qi4j.chronos.common.text.ReadOnlyTextField;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.chronos.model.WorkEntry;
+import org.qi4j.chronos.model.ProjectAssignee;
 import org.qi4j.chronos.util.ChronosUtil;
 import org.qi4j.chronos.util.UiUtil;
 
@@ -47,7 +49,7 @@ public abstract class WorkEntryAddEditDialog extends AddEditDialog
         titleField = new JTextField();
         createdDateField = new ReadOnlyTextField( "--" );
 
-        userField = new ReadOnlyTextField( getProjectAssignee().staff().get().name().get() );
+        userField = new ReadOnlyTextField( getProjectAssignee().staff().get().fullName().get() );
 
         descTextArea = new JTextArea();
         UiUtil.createScrollPanel( descTextArea );
@@ -92,7 +94,7 @@ public abstract class WorkEntryAddEditDialog extends AddEditDialog
         builder.add( UiUtil.createScrollPanel( descTextArea ), cc.xyw( 3, 9, 5, "fill, fill" ) );
     }
 
-    protected void assignFieldValueToWorkEntry( WorkEntryEntityComposite workEntry )
+    protected void assignFieldValueToWorkEntry( WorkEntry workEntry )
     {
         workEntry.description().set( descTextArea.getText() );
         workEntry.endTime().set( endDatetime.getDate() );
@@ -101,7 +103,7 @@ public abstract class WorkEntryAddEditDialog extends AddEditDialog
         workEntry.projectAssignee().set( getProjectAssignee() );
     }
 
-    protected void assignWorkEntryToFieldValue( WorkEntryEntityComposite workEntry )
+    protected void assignWorkEntryToFieldValue( WorkEntry workEntry )
     {
         descTextArea.setText( workEntry.description().get() );
         endDatetime.setDate( workEntry.endTime().get() );
@@ -115,5 +117,5 @@ public abstract class WorkEntryAddEditDialog extends AddEditDialog
         return ChronosUtil.getCurrentDate();
     }
 
-    public abstract ProjectAssigneeEntityComposite getProjectAssignee();
+    public abstract ProjectAssignee getProjectAssignee();
 }

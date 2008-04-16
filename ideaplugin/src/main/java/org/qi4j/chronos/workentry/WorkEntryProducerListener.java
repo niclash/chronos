@@ -14,8 +14,9 @@ package org.qi4j.chronos.workentry;
 
 import java.util.EventListener;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.chronos.model.WorkEntry;
 
 public interface WorkEntryProducerListener extends EventListener
 {
-    void workEntryAdded( WorkEntryEntityComposite workEntry );
+    void workEntryAdded( WorkEntry workEntry );
 }

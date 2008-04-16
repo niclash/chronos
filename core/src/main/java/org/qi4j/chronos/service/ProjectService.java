@@ -22,7 +22,7 @@ import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.ProjectStatusEnum;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 
-public interface ProjectService extends AccountBasedService<ProjectEntityComposite>
+public interface ProjectService extends AccountBasedService<org.qi4j.chronos.model.Project>
 {
     List<Project> getRecentProjects( Account account, FindFilter findFilter );
 

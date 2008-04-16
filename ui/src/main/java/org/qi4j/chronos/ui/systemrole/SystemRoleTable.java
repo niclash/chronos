@@ -19,10 +19,13 @@ import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.action.ActionTable;
+import org.qi4j.chronos.service.systemrole.SystemRoleService;
 
 public class SystemRoleTable extends ActionTable<SystemRole, String>
 {
     private StaffSystemRoleDataProvider dataProvider;
+
+    private SystemRoleService systemRoleService;
 
     public SystemRoleTable( String id )
     {
@@ -42,10 +45,11 @@ public class SystemRoleTable extends ActionTable<SystemRole, String>
     public void populateItems( Item item, SystemRole obj )
     {
         item.add( new Label( "systemRoleName", obj.name().get() ) );
+        item.add( new Label( "systemRoleType", obj.systemRoleType().get().toString() ) );
     }
 
     public List<String> getTableHeaderList()
     {
-        return Arrays.asList( "Name" );
+        return Arrays.asList( "Name", "System Role Type" );
     }
 }

@@ -27,7 +27,8 @@ import org.qi4j.entity.Identity;
 import org.qi4j.entity.UnitOfWorkFactory;
 import org.qi4j.entity.UnitOfWork;
 
-public abstract class MockParentBasedServiceMixin<ITEM extends Identity, PARENT extends EntityComposite> implements ParentBasedService<ITEM, PARENT>
+public abstract class MockParentBasedServiceMixin<ITEM extends Identity, PARENT>
+    implements ParentBasedService<ITEM, PARENT>
 {
     @Structure private CompositeBuilderFactory factory;
     @Structure private UnitOfWorkFactory uowFactory;

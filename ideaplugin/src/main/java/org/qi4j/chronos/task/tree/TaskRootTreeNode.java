@@ -18,6 +18,9 @@ import org.qi4j.chronos.ChronosApp;
 import org.qi4j.chronos.ChronosProjectComponent;
 import org.qi4j.chronos.common.AbstractTreeNode;
 import org.qi4j.chronos.model.TaskStatus;
+import org.qi4j.chronos.model.TaskStatusEnum;
+import org.qi4j.chronos.model.Task;
+import org.qi4j.chronos.model.OngoingWorkEntry;
 import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.OngoingWorkEntryService;
@@ -40,9 +43,9 @@ public class TaskRootTreeNode extends AbstractTreeNode
 
     private void loadTaskTreeNode( TaskService taskService )
     {
-        List<TaskEntityComposite> tasks = taskService.findTask( getChronosApp().getChronosProject(), TaskStatus.OPEN );
+        List<Task> tasks = taskService.findTask( getChronosApp().getChronosProject(), TaskStatusEnum.OPEN );
 
-        for( TaskEntityComposite task : tasks )
+        for( Task task : tasks )
         {
             addTaskTreeNode( task );
         }
@@ -62,10 +65,10 @@ public class TaskRootTreeNode extends AbstractTreeNode
         this.add( taskOpenedGroupTreeNode );
     }
 
-    public void addTaskTreeNode( TaskEntityComposite task )
+    public void addTaskTreeNode( Task task )
     {
-        TaskStatus taskStatus = task.taskStatus().get();
-        if( !taskStatus.equals( TaskStatus.OPEN ) )
+        TaskStatusEnum taskStatus = task.taskStatus().get();
+        if( !taskStatus.equals( TaskStatusEnum.OPEN ) )
         {
             System.err.println( "Task with Closed or Won't Fix status should not shown up here." );
         }
@@ -73,7 +76,7 @@ public class TaskRootTreeNode extends AbstractTreeNode
         {
             OngoingWorkEntryService ongoingWorkEntryService = getChronosApp().getServices().getOngoingWorkEntryService();
 
-            OngoingWorkEntryEntityComposite ongoingWorkEntry = ongoingWorkEntryService.getOngoingWorkEntry( task, getChronosApp().getStaff() );
+            OngoingWorkEntry ongoingWorkEntry = ongoingWorkEntryService.getOngoingWorkEntry( task, getChronosApp().getStaff() );
 
             if( ongoingWorkEntry != null )
             {

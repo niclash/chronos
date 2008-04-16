@@ -13,9 +13,9 @@
 package org.qi4j.chronos.ui.account;
 
 import org.apache.wicket.Page;
-import org.qi4j.chronos.service.AccountService;
-import org.qi4j.chronos.ui.ChronosWebApp;
+import org.apache.wicket.Session;
 import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,12 +36,12 @@ public class AccountEditPage extends AccountAddEditPage
 
     protected Account getAccount()
     {
-        return ChronosWebApp.getServices().getAccountService().get( accountId );
+        return ( ( ChronosSession ) Session.get()).getAccountService().get( accountId );
     }
 
     public void onSubmitting()
     {
-        AccountService accountService = ChronosWebApp.getServices().getAccountService();
+//        AccountService accountService = ChronosWebApp.getServices().getAccountService();
         Account account = getAccount();
 
         account.isEnabled().set( true );

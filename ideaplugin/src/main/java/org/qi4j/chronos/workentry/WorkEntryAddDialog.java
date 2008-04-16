@@ -14,6 +14,8 @@ package org.qi4j.chronos.workentry;
 
 import com.intellij.openapi.project.Project;
 import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.WorkEntry;
+import org.qi4j.chronos.model.ProjectAssignee;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.service.WorkEntryService;
@@ -35,7 +37,7 @@ public abstract class WorkEntryAddDialog extends WorkEntryAddEditDialog
     {
         WorkEntryService workEntryService = getServices().getWorkEntryService();
 
-        WorkEntryEntityComposite workEntry = workEntryService.newInstance( WorkEntryEntityComposite.class );
+        WorkEntry workEntry = workEntryService.newInstance( WorkEntry.class );
 
         workEntry.createdDate().set( ChronosUtil.getCurrentDate() );
 
@@ -56,10 +58,10 @@ public abstract class WorkEntryAddDialog extends WorkEntryAddEditDialog
         return getChronosApp().getStaff();
     }
 
-    public ProjectAssigneeEntityComposite getProjectAssignee()
+    public ProjectAssignee getProjectAssignee()
     {
         return getChronosApp().getProjectAssignee();
     }
 
-    public abstract void addingWorkEntry( WorkEntryEntityComposite workEntry );
+    public abstract void addingWorkEntry( WorkEntry workEntry );
 }

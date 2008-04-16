@@ -18,6 +18,7 @@ import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.EntityCompositeNotFoundException;
 import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.entity.Identity;
 import org.qi4j.composite.scope.This;
 import org.qi4j.composite.scope.Structure;
 
@@ -42,6 +43,21 @@ public class AccountServiceMixin implements AccountService, Activatable
         validateNotNull( "account", account );
         
         return ( (AccountEntityComposite) account).identity().get();
+    }
+
+    public Account get( String accountId )
+    {
+        validateNotNull( "accountId", accountId );
+
+        for( Account account : config.accounts() )
+        {
+            if( accountId.equals( ( (Identity) account ).identity().get() ) )
+            {
+                return account;
+            }
+        }
+
+        return null;
     }
 
     public Account get( UnitOfWork unitOfWork, String accountId )
@@ -83,6 +99,14 @@ public class AccountServiceMixin implements AccountService, Activatable
         config.accounts().toArray( accountArray );
 
         return Arrays.asList( accountArray );
+    }
+
+    public List<Account> findAll( int first, int count )
+    {
+        validateNotNull( "first", first );
+        validateNotNull( "count", count );
+
+        return findAll().subList( first, first + count );
     }
 
     public Account findAccountByName( String accountName )

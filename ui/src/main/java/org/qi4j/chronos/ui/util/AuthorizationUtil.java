@@ -17,7 +17,7 @@ import java.util.Iterator;
 import java.util.Set;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.ui.ChronosSession;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 
 public class AuthorizationUtil
 {

@@ -16,6 +16,8 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import org.qi4j.chronos.action.task.TaskBaseAction;
 import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.model.OngoingWorkEntry;
+import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.service.OngoingWorkEntryService;
 import org.qi4j.chronos.task.TaskListComponent;
 import org.qi4j.chronos.util.ChronosUtil;
@@ -32,18 +34,18 @@ public class OngoingWorkEntryNewAction extends TaskBaseAction
             return;
         }
 
-        TaskEntityComposite task = taskList.getSelectedTask();
+        Task task = taskList.getSelectedTask();
 
         OngoingWorkEntryService service = getServices( e ).getOngoingWorkEntryService();
 
-        OngoingWorkEntryEntityComposite ongoingWorkEntry = service.newInstance( OngoingWorkEntryEntityComposite.class );
+        OngoingWorkEntry ongoingWorkEntry = service.newInstance( OngoingWorkEntry.class );
 
         //set created date and projectassignee
         ongoingWorkEntry.createdDate().set( ChronosUtil.getCurrentDate() );
         ongoingWorkEntry.projectAssignee().set( getProjectAssignee( e ) );
 
         //add it to task
-        SetAssociation<OngoingWorkEntryEntityComposite> onGoingWorkEntries = task.onGoingWorkEntries();
+        SetAssociation<OngoingWorkEntry> onGoingWorkEntries = task.onGoingWorkEntries();
         onGoingWorkEntries.add( ongoingWorkEntry );
 
         //update task

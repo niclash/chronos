@@ -21,12 +21,15 @@ import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.AdminEntityComposite;
+import org.qi4j.chronos.service.account.AccountService;
 import org.qi4j.service.Activatable;
 import org.qi4j.composite.scope.This;
 import org.qi4j.composite.scope.Structure;
+import org.qi4j.composite.scope.Service;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.EntityCompositeNotFoundException;
 import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.entity.Identity;
 import org.qi4j.entity.association.ManyAssociation;
 import org.qi4j.entity.association.SetAssociation;
 
@@ -40,6 +43,8 @@ import static org.qi4j.composite.NullArgumentException.validateNotNull;
  */
 public class UserServiceMixin implements UserService, Activatable
 {
+    private @Service AccountService accountService;
+
     private @This UserServiceConfiguration config;
 
     private @Structure UnitOfWorkFactory factory;
@@ -65,6 +70,21 @@ public class UserServiceMixin implements UserService, Activatable
             }
         }
         return user;
+    }
+
+    public User getUser( String accountId, String loginId )
+    {
+        validateNotNull( "accountId", accountId );
+        validateNotNull( "loginId", loginId );
+        
+        for( Account account : accountService.findAll() )
+        {
+            if( accountId.equals( ( (Identity) account).identity().get() ) )
+            {
+                return getUser( account, loginId );
+            }
+        }
+        return null;
     }
 
     public User getUser( Account account, String loginId )

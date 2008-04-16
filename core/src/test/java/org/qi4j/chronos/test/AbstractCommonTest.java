@@ -245,11 +245,16 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
 
     protected final List<PriceRate> getPriceRates()
     {
+        return getPriceRates( 20L, "EUR", "Programmer" );
+    }
+
+    protected final List<PriceRate> getPriceRates( Long amount, String currencyCode, String projectRoleName )
+    {
         List<PriceRate> priceRates = new ArrayList<PriceRate>();
-        priceRates.add( newPriceRate( 20L, "EUR", PriceRateTypeEnum.HOURLY, "Programmer" ) );
-        priceRates.add( newPriceRate( 100L, "EUR", PriceRateTypeEnum.DAILY, "Programmer" ) );
-        priceRates.add( newPriceRate( 1000L, "EUR", PriceRateTypeEnum.MONTHLY, "Programmer" ) );
-        priceRates.add( newPriceRate( 12000L, "EUR", PriceRateTypeEnum.YEARLY, "Programmer" ) );
+        priceRates.add( newPriceRate( amount, currencyCode, PriceRateTypeEnum.HOURLY, projectRoleName ) );
+        priceRates.add( newPriceRate( amount * 5, currencyCode, PriceRateTypeEnum.DAILY, projectRoleName ) );
+        priceRates.add( newPriceRate( amount * 50, currencyCode, PriceRateTypeEnum.MONTHLY, projectRoleName ) );
+        priceRates.add( newPriceRate( amount * 600, currencyCode, PriceRateTypeEnum.YEARLY, projectRoleName ) );
 
         return priceRates;
     }
@@ -282,6 +287,11 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
         staffs.add( developerB );
 
         return staffs;
+    }
+
+    protected Customer newCustomer( String customerName, String reference, String priceRateScheme )
+    {
+        return newCustomer( customerName, reference, "firstLine", "secondLine", "city", "state", "country", "zipCode", priceRateScheme );
     }
 
     protected Customer newCustomer( String customerName, String reference, String firstLine, String secondLine,
@@ -321,6 +331,10 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
         contactPersonBuilder.stateOfComposite().login().set( newLogin( username, password ) );
         contactPersonBuilder.stateOfComposite().relationship().set( newRelationship( relationshipName ) );
 
+//        contactPersonBuilder.stateOfComposite().systemRoles().add( newSystemRole( SystemRoleTypeEnum.CONTACT_PERSON, SystemRole.CONTACT_PERSON ) );
+//        contactPersonBuilder.stateOfComposite().contacts().addAll( getContacts() );
+//
+//        return contactPersonBuilder.newInstance();
         ContactPerson contactPerson = contactPersonBuilder.newInstance();
         contactPerson.systemRoles().add( newSystemRole( SystemRoleTypeEnum.CONTACT_PERSON, SystemRole.CONTACT_PERSON ) );
         contactPerson.contacts().addAll( getContacts() );
@@ -376,33 +390,55 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
     protected Address newAddress( String firstLine, String secondLine, String cityName,
                                   String stateName, String countryName, String zipCode )
     {
-        Country country = unitOfWork.newEntityBuilder( CountryEntityComposite.class ).newInstance();
-        country.name().set( countryName );
-
-        State state = unitOfWork.newEntityBuilder( StateEntityComposite.class ).newInstance();
-        state.name().set( stateName );
-
-        City city = unitOfWork.newEntityBuilder( CityEntityComposite.class ).newInstance();
-        city.name().set( cityName );
-        city.state().set( state );
-        city.country().set( country );
-
         CompositeBuilder<AddressEntityComposite> addressBuilder = unitOfWork.newEntityBuilder( AddressEntityComposite.class );
         addressBuilder.stateOfComposite().firstLine().set( firstLine );
         addressBuilder.stateOfComposite().secondLine().set( secondLine );
         addressBuilder.stateOfComposite().zipCode().set( zipCode );
-        addressBuilder.stateOfComposite().city().set( city );
+        addressBuilder.stateOfComposite().city().set( newCity( cityName, newState( stateName ), newCountry( countryName ) ) );
 
         return addressBuilder.newInstance();
     }
 
+    protected City newCity( String cityName, State state, Country country )
+    {
+        CompositeBuilder<CityEntityComposite> cityBuilder = unitOfWork.newEntityBuilder( CityEntityComposite.class );
+        cityBuilder.stateOfComposite().name().set( cityName );
+        cityBuilder.stateOfComposite().state().set( state );
+        cityBuilder.stateOfComposite().country().set( country );
+
+        return cityBuilder.newInstance();
+    }
+
+    protected State newState( String stateName )
+    {
+        CompositeBuilder<StateEntityComposite> stateBuilder = unitOfWork.newEntityBuilder( StateEntityComposite.class );
+        stateBuilder.stateOfComposite().name().set( stateName );
+
+        return stateBuilder.newInstance();
+    }
+
+    protected Country newCountry( String countryName )
+    {
+        CompositeBuilder<CountryEntityComposite> countryBuilder = unitOfWork.newEntityBuilder( CountryEntityComposite.class );
+        countryBuilder.stateOfComposite().name().set( countryName );
+
+        return countryBuilder.newInstance();
+    }
+
     protected Account newAccount( String name, String reference )
+    {
+        return newAccount( name, reference, "firstLine", "secondLine", "city", "state", "country", "zipCode" );
+    }
+
+    protected Account newAccount( String name, String reference, String firstLine, String secondLine, String cityName,
+                                  String stateName, String countryName, String zipCode )
     {
         CompositeBuilder<AccountEntityComposite> accountBuilder = unitOfWork.newEntityBuilder( AccountEntityComposite.class );
         accountBuilder.stateOfComposite().isEnabled().set( true );
         accountBuilder.stateOfComposite().name().set( name );
         accountBuilder.stateOfComposite().reference().set( reference );
-        accountBuilder.stateOfComposite().address().set( newAddress( "1", "2", "city", "state", "country", "12345" ) );
+        accountBuilder.stateOfComposite().address().set( newAddress( firstLine, secondLine, cityName, stateName,
+                                                                     countryName, zipCode ) );
 
         return accountBuilder.newInstance();
     }
@@ -418,6 +454,13 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
         staffBuilder.stateOfComposite().login().set( newLogin( username, password ) );
         staffBuilder.stateOfComposite().salary().set( newMoney( salaryAmount, currencyCode ) );
 
+//        for( SystemRole systemRole : systemRoles )
+//        {
+//            staffBuilder.stateOfComposite().systemRoles().addAll( Arrays.asList( systemRoles ) );
+//            staffBuilder.stateOfComposite().systemRoles().add( systemRole );
+//        }
+//
+//        return staffBuilder.newInstance();
         Staff staff = staffBuilder.newInstance();
         staff.systemRoles().addAll( Arrays.asList( systemRoles ) );
         return staff;

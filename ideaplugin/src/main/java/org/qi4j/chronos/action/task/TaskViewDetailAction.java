@@ -16,6 +16,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataConstants;
 import com.intellij.openapi.project.Project;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.task.TaskDetailDialog;
 import org.qi4j.chronos.task.TaskListComponent;
 
@@ -26,7 +27,7 @@ public class TaskViewDetailAction extends TaskBaseAction
         Project project = (Project) e.getDataContext().getData( DataConstants.PROJECT );
         TaskDetailDialog taskDetailDialog = new TaskDetailDialog( project )
         {
-            public TaskEntityComposite getTask()
+            public Task getTask()
             {
                 return taskList.getSelectedTask();
             }

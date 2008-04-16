@@ -9,7 +9,8 @@ import org.qi4j.composite.ObjectBuilderFactory;
 import org.qi4j.composite.scope.Structure;
 import org.qi4j.composite.scope.Service;
 import org.qi4j.entity.UnitOfWorkFactory;
-import org.qi4j.chronos.service.account.AccountServiceComposite;
+import org.qi4j.chronos.service.account.AccountService;
+import org.qi4j.chronos.service.systemrole.SystemRoleService;
 
 /**
  * @author edward.yakop@gmail.com
@@ -19,9 +20,11 @@ final class ChronosPageFactory
 {
     private ObjectBuilderFactory objectBuilderFactory;
 
-    @Structure private UnitOfWorkFactory factory;
+    private @Structure UnitOfWorkFactory factory;
 
-    @Service private AccountServiceComposite accountService;
+    private @Service AccountService accountService;
+
+    private @Service SystemRoleService systemRoleService;
 
     public ChronosPageFactory( @Structure ObjectBuilderFactory anObjectBuilderFactory )
         throws IllegalArgumentException
@@ -35,7 +38,7 @@ final class ChronosPageFactory
     public final Page newPage( Class pageClass )
     {
         ObjectBuilder<Page> builder = objectBuilderFactory.newObjectBuilder( pageClass );
-        builder.use( factory, accountService );
+        builder.use( factory, accountService, systemRoleService );
         return builder.newInstance();
     }
 

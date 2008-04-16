@@ -21,8 +21,9 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.service.UserService;
+import org.qi4j.chronos.service.user.UserService;
 import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.chronos.ui.common.MaxLengthPasswordField;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +49,9 @@ public abstract class ChangePasswordPage extends LeftMenuNavPage
 
     public UserService getUserService()
     {
-        return ChronosWebApp.getServices().getUserService();
+
+        return ( (ChronosSession) getSession() ).getUserService();
+//        return ChronosWebApp.getServices().getUserService();
     }
 
     public abstract User getUser();
@@ -159,7 +162,8 @@ public abstract class ChangePasswordPage extends LeftMenuNavPage
 
             try
             {
-                userService.update( user );
+                // TODO migrate
+//                userService.update( user );
 
                 goBackPage.info( "Password changed successfully." );
 

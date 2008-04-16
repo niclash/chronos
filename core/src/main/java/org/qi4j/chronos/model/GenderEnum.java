@@ -20,21 +20,31 @@ package org.qi4j.chronos.model;
  */
 public enum GenderEnum
 {
-    MALE, FEMALE;
+    MALE( "Male" ), FEMALE( "Female" );
 
-    public static GenderEnum getGenderEnum( String genderEnum )
+    private String description;
+
+    private GenderEnum( String description )
     {
-        if( MALE.toString().equalsIgnoreCase( genderEnum ) )
+        this.description = description;
+    }
+
+    @Override public String toString()
+    {
+        return this.description;
+    }
+
+    public static final GenderEnum toEnum( String text )
+    {
+        try
         {
-            return MALE;
+            return valueOf( text.toUpperCase() );
         }
-        else if( FEMALE.toString().equalsIgnoreCase( genderEnum ) )
+        catch( IllegalArgumentException iae )
         {
-            return FEMALE;
+            // TODO
         }
-        else
-        {
-            throw new IllegalArgumentException( "Unknown genderEnum " + genderEnum );
-        }
+
+        return null;
     }
 }

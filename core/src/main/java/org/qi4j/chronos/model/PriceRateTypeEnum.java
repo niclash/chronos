@@ -16,7 +16,35 @@
  */
 package org.qi4j.chronos.model;
 
+import java.beans.Introspector;
+
 public enum PriceRateTypeEnum
 {
-    HOURLY, DAILY, MONTHLY, YEARLY
+    HOURLY( " Hourly" ), DAILY( "Daily" ), MONTHLY( "Monthly" ), YEARLY( "Yearly" );
+
+    private String description;
+
+    private PriceRateTypeEnum( String description )
+    {
+        this.description = description;
+    }
+
+    @Override public String toString()
+    {
+        return this.description;
+    }
+
+    public static final PriceRateTypeEnum toEnum( String text )
+    {
+        try
+        {
+            return valueOf( text.toUpperCase() );
+        }
+        catch( IllegalArgumentException iae )
+        {
+            // TODO
+        }
+        
+        return null;
+    }
 }

@@ -14,12 +14,13 @@ package org.qi4j.chronos.task;
 
 import java.awt.Container;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.model.Task;
 
 public interface TaskListComponent
 {
-    public TaskEntityComposite getSelectedTask();
+    public Task getSelectedTask();
 
-    public TaskEntityComposite[] getSelectedTasks();
+    public Task[] getSelectedTasks();
 
     public void refreshList();
 

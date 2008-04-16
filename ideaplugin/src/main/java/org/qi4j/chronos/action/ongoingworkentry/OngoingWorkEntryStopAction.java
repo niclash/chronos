@@ -20,6 +20,9 @@ import org.qi4j.chronos.action.task.TaskBaseAction;
 import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.chronos.model.OngoingWorkEntry;
+import org.qi4j.chronos.model.WorkEntry;
+import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.service.OngoingWorkEntryService;
 import org.qi4j.chronos.task.TaskListComponent;
 import org.qi4j.chronos.util.UiUtil;
@@ -29,14 +32,14 @@ public class OngoingWorkEntryStopAction extends TaskBaseAction
 {
     public void execute( final TaskListComponent taskList, final AnActionEvent e )
     {
-        final TaskEntityComposite task = taskList.getSelectedTask();
+        final Task task = taskList.getSelectedTask();
         OngoingWorkEntryService service = getServices( e ).getOngoingWorkEntryService();
-        final OngoingWorkEntryEntityComposite ongoingWorkEntry = service.getOngoingWorkEntry( task, getProjectAssignee( e ).staff().get() );
+        final OngoingWorkEntry ongoingWorkEntry = service.getOngoingWorkEntry( task, getProjectAssignee( e ).staff().get() );
 
         Project project = (Project) e.getDataContext().getData( DataConstants.PROJECT );
         WorkEntryAddDialog addDialog = new WorkEntryAddDialog( project )
         {
-            public void addingWorkEntry( WorkEntryEntityComposite workEntry )
+            public void addingWorkEntry( WorkEntry workEntry )
             {
                 //add workentry to task
                 task.workEntries().add( workEntry );

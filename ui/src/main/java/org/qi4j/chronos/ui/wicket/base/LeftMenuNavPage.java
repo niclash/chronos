@@ -16,7 +16,7 @@ import java.util.Arrays;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.qi4j.chronos.model.Account;
-import org.qi4j.chronos.ui.ChronosSession;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.chronos.ui.SystemRoleResolver;
 import org.qi4j.chronos.ui.admin.AdminMainMenuBar;
 import org.qi4j.chronos.ui.common.menu.MenuBar;

@@ -14,17 +14,18 @@ package org.qi4j.chronos.task.tree;
 
 import org.qi4j.chronos.common.AbstractTreeNode;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.model.Task;
 
 public class TaskTreeNode extends AbstractTreeNode
 {
-    public TaskTreeNode( TaskEntityComposite task )
+    public TaskTreeNode( Task task )
     {
         setUserObject( task );
     }
 
-    public TaskEntityComposite getTask()
+    public Task getTask()
     {
-        return (TaskEntityComposite) getUserObject();
+        return (Task) getUserObject();
     }
 
     public String toString()

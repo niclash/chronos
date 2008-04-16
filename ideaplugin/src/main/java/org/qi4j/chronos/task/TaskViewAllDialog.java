@@ -31,6 +31,7 @@ import org.qi4j.chronos.common.ChronosTable;
 import org.qi4j.chronos.common.ChronosTableModel;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.TaskService;
 import org.qi4j.chronos.util.DateUtil;
@@ -41,7 +42,7 @@ public abstract class TaskViewAllDialog extends AbstractDialog
     private final static String[] COL_NAMES = { "Created Date", "Task Status", "Created By", "Title" };
     private final static int[] COL_WITDHS = { 150, 150, 150, 300 };
 
-    private ChronosPageableWrapper<TaskEntityComposite> pageableWrapper;
+    private ChronosPageableWrapper<Task> pageableWrapper;
 
     public TaskViewAllDialog( Project project )
     {
@@ -50,7 +51,7 @@ public abstract class TaskViewAllDialog extends AbstractDialog
 
     protected void initComponents()
     {
-        pageableWrapper = new ChronosPageableWrapper<TaskEntityComposite>( createDataProvider(), COL_NAMES, COL_WITDHS )
+        pageableWrapper = new ChronosPageableWrapper<Task>( createDataProvider(), COL_NAMES, COL_WITDHS )
         {
             protected ChronosTable createTable( String[] colNames, int[] colWidths )
             {
@@ -65,7 +66,8 @@ public abstract class TaskViewAllDialog extends AbstractDialog
         };
     }
 
-    private class TaskTable extends ChronosTable implements TaskListComponent
+    private class TaskTable extends ChronosTable
+        implements TaskListComponent
     {
         public TaskTable( ChronosTableModel model )
         {
@@ -95,15 +97,15 @@ public abstract class TaskViewAllDialog extends AbstractDialog
             this.addMouseListener( popupHandler );
         }
 
-        public TaskEntityComposite getSelectedTask()
+        public Task getSelectedTask()
         {
             return pageableWrapper.getSelectedItem();
         }
 
-        public TaskEntityComposite[] getSelectedTasks()
+        public Task[] getSelectedTasks()
         {
             //bp. no multiple selection at this moment
-            return new TaskEntityComposite[]{ getSelectedTask() };
+            return new Task[]{ getSelectedTask() };
         }
 
         public void refreshList()
@@ -122,26 +124,26 @@ public abstract class TaskViewAllDialog extends AbstractDialog
         return getServices().getTaskService();
     }
 
-    private ProjectEntityComposite getChronosProject()
+    private org.qi4j.chronos.model.Project getChronosProject()
     {
         return getChronosApp().getChronosProject();
     }
 
-    private ChronosDataProvider<TaskEntityComposite> createDataProvider()
+    private ChronosDataProvider<Task> createDataProvider()
     {
-        return new ChronosDataProvider<TaskEntityComposite>()
+        return new ChronosDataProvider<Task>()
         {
-            public List<TaskEntityComposite> getData( int first, int count )
+            public List<Task> getData( int first, int count )
             {
                 return getTaskService().findAll( getChronosProject(), new FindFilter( first, count ) );
             }
 
-            public Object[] populateData( TaskEntityComposite task )
+            public Object[] populateData( Task task )
             {
                 return new Object[]{
                     DateUtil.formatDateTime( task.createdDate().get() ),
                     task.taskStatus().get().toString(),
-                    task.user().get().name().get(),
+                    task.user().get().fullName().get(),
                     task.title().get()
                 };
             }

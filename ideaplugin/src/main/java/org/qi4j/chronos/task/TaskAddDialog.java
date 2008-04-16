@@ -14,6 +14,7 @@ package org.qi4j.chronos.task;
 
 import com.intellij.openapi.project.Project;
 import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.TaskService;
@@ -40,7 +41,7 @@ public class TaskAddDialog extends TaskAddEditDialog
     {
         TaskService taskService = getServices().getTaskService();
 
-        TaskEntityComposite task = taskService.newInstance( TaskEntityComposite.class );
+        Task task = taskService.newInstance( Task.class );
 
         //set the owner of this task
         task.user().set( getChronosApp().getStaff() );
@@ -51,7 +52,7 @@ public class TaskAddDialog extends TaskAddEditDialog
         //set values
         assignFieldValueToTask( task );
 
-        ProjectEntityComposite project = getChronosApp().getChronosProject();
+        org.qi4j.chronos.model.Project project = getChronosApp().getChronosProject();
 
         //add it to project
         project.tasks().add( task );

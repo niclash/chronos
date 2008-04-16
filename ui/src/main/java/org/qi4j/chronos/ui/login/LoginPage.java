@@ -22,7 +22,7 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.util.value.ValueMap;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.ui.ChronosSession;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.account.AccountDelegator;
 import org.qi4j.chronos.ui.wicket.base.BasePage;

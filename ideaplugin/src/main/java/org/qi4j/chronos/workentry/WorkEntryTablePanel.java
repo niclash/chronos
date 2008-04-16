@@ -30,6 +30,7 @@ import org.qi4j.chronos.common.ChronosPageableWrapper;
 import org.qi4j.chronos.common.ChronosTable;
 import org.qi4j.chronos.common.ChronosTableModel;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.chronos.model.WorkEntry;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.WorkEntryService;
 import org.qi4j.chronos.util.DateUtil;
@@ -40,7 +41,7 @@ public class WorkEntryTablePanel extends AbstractPanel
     private final static String[] COL_NAMES = { "Started Date", "End Date", "Duration", "By", "Title" };
     private final static int[] COL_WITDHS = { 150, 150, 100, 80, 300 };
 
-    private ChronosPageableWrapper<WorkEntryEntityComposite> pageableWrapper;
+    private ChronosPageableWrapper<WorkEntry> pageableWrapper;
 
     private Project project;
 
@@ -73,7 +74,7 @@ public class WorkEntryTablePanel extends AbstractPanel
 
     protected void initComponents()
     {
-        pageableWrapper = new ChronosPageableWrapper<WorkEntryEntityComposite>( new WorkEntryDataProvider(), COL_NAMES, COL_WITDHS )
+        pageableWrapper = new ChronosPageableWrapper<WorkEntry>( new WorkEntryDataProvider(), COL_NAMES, COL_WITDHS )
         {
             protected ChronosTable createTable( String[] colNames, int[] colWidths )
             {
@@ -99,7 +100,8 @@ public class WorkEntryTablePanel extends AbstractPanel
         return ActionManager.getInstance();
     }
 
-    private class Table extends ChronosTable implements WorkEntryListComponent
+    private class Table extends ChronosTable
+        implements WorkEntryListComponent
     {
         public Table( ChronosTableModel model )
         {
@@ -129,14 +131,14 @@ public class WorkEntryTablePanel extends AbstractPanel
             this.addMouseListener( popupHandler );
         }
 
-        public WorkEntryEntityComposite getSelectedWorkEntry()
+        public WorkEntry getSelectedWorkEntry()
         {
             return pageableWrapper.getSelectedItem();
         }
 
-        public WorkEntryEntityComposite[] getSelectedWorkEntries()
+        public WorkEntry[] getSelectedWorkEntries()
         {
-            return new WorkEntryEntityComposite[]{ getSelectedWorkEntry() };
+            return new WorkEntry[]{ getSelectedWorkEntry() };
         }
 
         public void refreshList()
@@ -155,21 +157,21 @@ public class WorkEntryTablePanel extends AbstractPanel
         return getServices( project ).getWorkEntryService();
     }
 
-    private class WorkEntryDataProvider implements ChronosDataProvider<WorkEntryEntityComposite>
+    private class WorkEntryDataProvider implements ChronosDataProvider<WorkEntry>
     {
-        public List<WorkEntryEntityComposite> getData( int first, int count )
+        public List<WorkEntry> getData( int first, int count )
         {
             return getWorkEntryService().findAll( getChronosProject( project ),
                                                   getStaff( project ), new FindFilter( first, count ) );
         }
 
-        public Object[] populateData( WorkEntryEntityComposite workEntry )
+        public Object[] populateData( WorkEntry workEntry )
         {
             return new Object[]{
                 DateUtil.formatDateTime( workEntry.startTime().get() ),
                 DateUtil.formatDateTime( workEntry.endTime().get() ),
                 DateUtil.getTimeDifferent( workEntry.startTime().get(), workEntry.endTime().get() ),
-                workEntry.projectAssignee().get().staff().get().name().get(),
+                workEntry.projectAssignee().get().staff().get().fullName().get(),
                 workEntry.title().get()
             };
         }

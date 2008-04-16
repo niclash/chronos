@@ -14,8 +14,9 @@ package org.qi4j.chronos;
 
 import java.util.EventListener;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.model.Task;
 
 public interface TaskAssociationListener extends EventListener
 {
-    void taskAssocciated( TaskEntityComposite task );
+    void taskAssocciated( Task task );
 }

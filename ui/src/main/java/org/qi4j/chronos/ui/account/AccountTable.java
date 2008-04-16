@@ -16,12 +16,14 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.Session;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.ProjectStatusEnum;
-import org.qi4j.chronos.service.AccountService;
+import org.qi4j.chronos.service.account.AccountService;
 import org.qi4j.chronos.service.EntityService;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleCheckBox;
 import org.qi4j.chronos.ui.common.SimpleDataProvider;
@@ -33,7 +35,7 @@ import org.qi4j.entity.Identity;
 
 public abstract class AccountTable extends ActionTable<Account, String>
 {
-    private SimpleDataProvider<Account> dataProvider;
+    private AccountDataProvider dataProvider;
 
     public AccountTable( String id )
     {
@@ -59,7 +61,8 @@ public abstract class AccountTable extends ActionTable<Account, String>
         {
             public void performAction( List<Account> accounts )
             {
-                getAccountService().enableAccount( false, accounts );
+                // TODO
+//                getAccountService().enableAccount( false, accounts );
 
                 info( "Selected account(s) are disabled." );
             }
@@ -69,7 +72,8 @@ public abstract class AccountTable extends ActionTable<Account, String>
         {
             public void performAction( List<Account> accounts )
             {
-                getAccountService().enableAccount( true, accounts );
+                // TODO
+//                getAccountService().enableAccount( true, accounts );
 
                 info( "Selected account(s) are enabled." );
             }
@@ -88,19 +92,23 @@ public abstract class AccountTable extends ActionTable<Account, String>
 //                    return AccountTable.this.getAccountService();
 //                }
 //            };
+            dataProvider = new AccountDataProvider();
         }
         return dataProvider;
     }
 
     private AccountService getAccountService()
     {
-        return ChronosWebApp.getServices().getAccountService();
+        return ( ( ChronosSession ) Session.get() ).getAccountService();
+//        return ChronosWebApp.getServices().getAccountService();
     }
 
+/*
     private ProjectService getProjectService()
     {
         return ChronosWebApp.getServices().getProjectService();
     }
+*/
 
     public void populateItems( Item item, Account obj )
     {
@@ -112,11 +120,14 @@ public abstract class AccountTable extends ActionTable<Account, String>
         item.add( new SimpleCheckBox( "enabled", obj.isEnabled().get(), true ) );
 
         // TODO migrate
-//        int totalProject = getProjectService().countAll( getAccount() );
-        int totalProject = 0;
-        int totalActive = getProjectService().countAll( getAccount(), ProjectStatusEnum.ACTIVE );
-        int totalInactive = getProjectService().countAll( getAccount(), ProjectStatusEnum.INACTIVE );
-        int totalClosed = getProjectService().countAll( getAccount(), ProjectStatusEnum.CLOSED );
+        int totalProject = obj.projects().size();
+//        int totalProject = 0;
+//        int totalActive = getProjectService().countAll( getAccount(), ProjectStatusEnum.ACTIVE );
+        int totalActive = 0;
+//        int totalInactive = getProjectService().countAll( getAccount(), ProjectStatusEnum.INACTIVE );
+        int totalInactive = 0;
+//        int totalClosed = getProjectService().countAll( getAccount(), ProjectStatusEnum.CLOSED );
+        int totalClosed = 0;
 
         item.add( new Label( "totalProject", String.valueOf( totalProject ) ) );
 

@@ -15,6 +15,10 @@ package org.qi4j.chronos;
 import com.intellij.openapi.project.Project;
 import com.intellij.openapi.util.text.StringUtil;
 import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.ProjectAssignee;
+import org.qi4j.chronos.model.Staff;
+import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
@@ -33,15 +37,15 @@ public class ChronosApp
     private CompositeBuilderFactory factory;
     private Services services;
 
-    private ProjectEntityComposite chronosProject;
-    private AccountEntityComposite account;
+    private org.qi4j.chronos.model.Project chronosProject;
+    private Account account;
 
     private ChronosConfig chronosConfig;
     private UserConfig userConfig;
 
-    private ProjectAssigneeEntityComposite projectAssignee;
+    private ProjectAssignee projectAssignee;
 
-    private TaskEntityComposite associatedTask;
+    private Task associatedTask;
 
     private boolean connected = false;
 
@@ -308,17 +312,17 @@ public class ChronosApp
         return factory.newCompositeBuilder( compositeType ).newInstance();
     }
 
-    public ProjectEntityComposite getChronosProject()
+    public org.qi4j.chronos.model.Project getChronosProject()
     {
         return chronosProject;
     }
 
-    public StaffEntityComposite getStaff()
+    public Staff getStaff()
     {
         return projectAssignee.staff().get();
     }
 
-    public ProjectAssigneeEntityComposite getProjectAssignee()
+    public ProjectAssignee getProjectAssignee()
     {
         return projectAssignee;
     }
@@ -328,12 +332,12 @@ public class ChronosApp
         return services;
     }
 
-    public TaskEntityComposite getAssociatedTask()
+    public Task getAssociatedTask()
     {
         return associatedTask;
     }
 
-    public void setAssociatedTask( TaskEntityComposite task )
+    public void setAssociatedTask( Task task )
     {
         this.associatedTask = task;
 

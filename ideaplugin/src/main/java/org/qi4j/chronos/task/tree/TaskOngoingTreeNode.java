@@ -14,19 +14,21 @@ package org.qi4j.chronos.task.tree;
 
 import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.model.Task;
+import org.qi4j.chronos.model.OngoingWorkEntry;
 
 public class TaskOngoingTreeNode extends TaskTreeNode
 {
-    private OngoingWorkEntryEntityComposite ongoingWorkEntry;
+    private OngoingWorkEntry ongoingWorkEntry;
 
-    public TaskOngoingTreeNode( TaskEntityComposite task, OngoingWorkEntryEntityComposite ongoingWorkEntry )
+    public TaskOngoingTreeNode( Task task, OngoingWorkEntry ongoingWorkEntry )
     {
         super( task );
 
         this.ongoingWorkEntry = ongoingWorkEntry;
     }
 
-    public OngoingWorkEntryEntityComposite getOngoingWorkEntry()
+    public OngoingWorkEntry getOngoingWorkEntry()
     {
         return ongoingWorkEntry;
     }

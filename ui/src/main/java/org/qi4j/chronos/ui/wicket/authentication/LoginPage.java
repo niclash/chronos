@@ -21,7 +21,6 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.PropertyModel;
 import org.apache.wicket.util.value.ValueMap;
-import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.chronos.ui.account.AccountDelegator;
@@ -161,18 +160,17 @@ public class LoginPage extends BasePage
         private boolean signIn( String accountId, String username, String password )
         {
             ChronosSession session = ChronosSession.get();
-
             session.setAccountId( accountId );
 
-            UnitOfWork uow = factory.newUnitOfWork();
-            for( Login login : session.getLoginService().findAll( uow ) )
-            {
-                if( login.isEnabled().get() && username.equals( login.name().get() ) )
-                {
-                    return password.equals( login.password().get() );
-                }
-            }
-            uow.discard();
+//            UnitOfWork uow = factory.newUnitOfWork();
+//            for( Login login : session.getLoginService().findAll( uow ) )
+//            {
+//                if( login.isEnabled().get() && username.equals( login.name().get() ) )
+//                {
+//                    return password.equals( login.password().get() );
+//                }
+//            }
+//            uow.discard();
             return session.signIn( username, password );
         }
 

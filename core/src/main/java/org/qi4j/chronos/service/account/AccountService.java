@@ -14,7 +14,9 @@ import java.util.List;
 public interface AccountService
 {
     String getId( Account account );
-    
+
+    Account get( String accountId );
+
     Account get( UnitOfWork unitOfWork, String accountId );
 
     void add( Account account );
@@ -22,6 +24,8 @@ public interface AccountService
     void remove( Account account );
 
     List<Account> findAll();
+
+    List<Account> findAll( int first, int count );
 
     Account findAccountByName( String accountName );
 

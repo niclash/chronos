@@ -16,6 +16,7 @@ import org.qi4j.chronos.model.composites.CityEntityComposite;
 import org.qi4j.chronos.model.composites.StateEntityComposite;
 import org.qi4j.chronos.model.composites.CountryEntityComposite;
 import org.qi4j.chronos.model.composites.LoginEntityComposite;
+import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.model.Admin;
 import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.model.SystemRole;
@@ -24,13 +25,16 @@ import org.qi4j.chronos.model.City;
 import org.qi4j.chronos.model.State;
 import org.qi4j.chronos.model.Country;
 import org.qi4j.chronos.model.SystemRoleTypeEnum;
-import org.qi4j.chronos.service.lab.AdminServiceComposite;
 import org.qi4j.chronos.service.lab.LoginServiceComposite;
-import org.qi4j.chronos.service.lab.SystemRoleServiceComposite;
+import org.qi4j.chronos.service.systemrole.SystemRoleServiceComposite;
+import org.qi4j.chronos.service.systemrole.SystemRoleService;
 import org.qi4j.chronos.service.account.AccountService;
 import org.qi4j.chronos.service.account.AccountServiceComposite;
+import org.qi4j.chronos.service.user.UserService;
+import org.qi4j.chronos.service.user.UserServiceComposite;
 import org.qi4j.composite.ObjectBuilder;
 import org.qi4j.composite.ObjectBuilderFactory;
+import org.qi4j.composite.CompositeBuilder;
 import org.qi4j.runtime.Energy4Java;
 import org.qi4j.runtime.Qi4jRuntime;
 import org.qi4j.runtime.structure.ApplicationContext;
@@ -171,31 +175,33 @@ public final class ChronosWebAppFactory
         unitOfWork = factory.newUnitOfWork();
 
         List<SystemRole> roles = new ArrayList<SystemRole>();
-        SystemRoleServiceComposite roleService = locator.lookupService( SystemRoleServiceComposite.class ).get();
+        SystemRoleService roleService = locator.lookupService( SystemRoleServiceComposite.class ).get();
 
-        SystemRole adminRole = roleService.newInstance( unitOfWork );
+        CompositeBuilder<SystemRoleEntityComposite> systemRoleBuilder = unitOfWork.newEntityBuilder( SystemRoleEntityComposite.class );
+        SystemRole adminRole = systemRoleBuilder.newInstance();
         adminRole.name().set( SystemRole.SYSTEM_ADMIN );
         adminRole.systemRoleType().set( SystemRoleTypeEnum.ADMIN );
         roles.add( adminRole );
 
-        SystemRole accountAdmin = roleService.newInstance( unitOfWork );
+        SystemRole accountAdmin = systemRoleBuilder.newInstance();
         accountAdmin.name().set( SystemRole.ACCOUNT_ADMIN );
         accountAdmin.systemRoleType().set( SystemRoleTypeEnum.STAFF );
         roles.add( accountAdmin );
 
-        SystemRole developer = roleService.newInstance( unitOfWork );
+        SystemRole developer = systemRoleBuilder.newInstance();
         developer.name().set( SystemRole.ACCOUNT_DEVELOPER );
         developer.systemRoleType().set( SystemRoleTypeEnum.STAFF );
         roles.add( developer );
 
-        SystemRole contactPerson = roleService.newInstance( unitOfWork );
+        SystemRole contactPerson = systemRoleBuilder.newInstance();
         contactPerson.name().set( SystemRole.CONTACT_PERSON );
         contactPerson.systemRoleType().set( SystemRoleTypeEnum.CONTACT_PERSON );
         roles.add( contactPerson );
 
+        roleService.saveAll( roles );
         try
         {
-             roleService.saveAll( unitOfWork, roles );
+            unitOfWork.complete();
         }
         catch( UnitOfWorkCompletionException uowce )
         {
@@ -205,27 +211,29 @@ public final class ChronosWebAppFactory
 
         unitOfWork = factory.newUnitOfWork();
         
-        AdminServiceComposite adminService = locator.lookupService( AdminServiceComposite.class ).get();
+        UserService userService = locator.lookupService( UserServiceComposite.class ).get();
 
-        Admin admin = adminService.newInstance( unitOfWork, AdminEntityComposite.class );
+        Admin admin = unitOfWork.newEntityBuilder( AdminEntityComposite.class ).newInstance();
         admin.firstName().set( "admin" );
         admin.lastName().set( "admin" );
         admin.gender().set( GenderType.MALE );
         admin.login().set( loginService.get( unitOfWork, loginId ) );
 
-        for( SystemRole role : roleService.findAll( unitOfWork ) )
+        for( SystemRole role : roleService.findAll() )
         {
             admin.systemRoles().add( role );
         }
 
+        userService.addAdmin( admin );
+        
         try
         {
-            adminService.save( unitOfWork, admin );
+            unitOfWork.complete();
         }
         catch( UnitOfWorkCompletionException uowce )
         {
-            System.err.println( uowce.getLocalizedMessage() );
-            uowce.printStackTrace();
+           System.err.println( uowce.getLocalizedMessage() );
+           uowce.printStackTrace();
         }
 
         unitOfWork = factory.newUnitOfWork();

@@ -14,5 +14,31 @@ package org.qi4j.chronos.model;
 
 public enum TaskStatusEnum
 {
-    OPEN, CLOSED, WONT_FIX
+    OPEN( "Open" ), CLOSED( "Closed" ), WONT_FIX( "Will Not Fix" );
+
+    private String description;
+
+    private TaskStatusEnum( String description )
+    {
+        this.description = description;
+    }
+
+    @Override public String toString()
+    {
+        return this.description;
+    }
+
+    public static final TaskStatusEnum toEnum( String text )
+    {
+        try
+        {
+            return valueOf( text.toUpperCase() );
+        }
+        catch( IllegalArgumentException iae )
+        {
+            // TODO
+        }
+
+        return null;
+    }
 }

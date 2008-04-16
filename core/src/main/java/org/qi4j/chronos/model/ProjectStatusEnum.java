@@ -15,5 +15,31 @@ package org.qi4j.chronos.model;
 
 public enum ProjectStatusEnum
 {
-    ACTIVE, CLOSED, INACTIVE
+    ACTIVE( "Active" ), CLOSED( "Closed" ), INACTIVE( "Inactive" );
+
+    private String description;
+
+    private ProjectStatusEnum( String description )
+    {
+        this.description = description;
+    }
+
+    @Override public String toString()
+    {
+        return this.description;
+    }
+
+    public static final ProjectStatusEnum toEnum( String text )
+    {
+        try
+        {
+            return valueOf( text.toUpperCase() );
+        }
+        catch( IllegalArgumentException iae )
+        {
+            // TODO
+        }
+        
+        return null;
+    }
 }

@@ -21,6 +21,7 @@ import org.qi4j.chronos.common.ChronosTabbedPanel;
 import org.qi4j.chronos.common.text.ReadOnlyTextArea;
 import org.qi4j.chronos.common.text.ReadOnlyTextField;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.chronos.model.WorkEntry;
 import org.qi4j.chronos.util.DateUtil;
 import org.qi4j.chronos.util.UiUtil;
 
@@ -48,9 +49,9 @@ public abstract class WorkEntryDetailDialog extends AbstractDialog
 
     private void initData()
     {
-        WorkEntryEntityComposite workEntry = getWorkEntry();
+        WorkEntry workEntry = getWorkEntry();
         createdDateField.setText( DateUtil.formatDateTime( workEntry.createdDate().get() ) );
-        userField.setText( workEntry.projectAssignee().get().staff().get().name().get() );
+        userField.setText( workEntry.projectAssignee().get().staff().get().fullName().get() );
         titleField.setText( workEntry.title().get() );
         descTextArea.setText( workEntry.description().get() );
         startDateTime.setText( DateUtil.formatDateTime( workEntry.startTime().get() ) );
@@ -123,6 +124,6 @@ public abstract class WorkEntryDetailDialog extends AbstractDialog
         return "WorkEntry Detail";
     }
 
-    public abstract WorkEntryEntityComposite getWorkEntry();
+    public abstract WorkEntry getWorkEntry();
 
 }

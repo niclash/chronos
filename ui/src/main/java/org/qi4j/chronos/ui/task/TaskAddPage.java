@@ -19,7 +19,7 @@ import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.TaskService;
-import org.qi4j.chronos.ui.ChronosSession;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

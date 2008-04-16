@@ -20,6 +20,7 @@ import com.intellij.openapi.project.Project;
 import org.qi4j.chronos.ChronosApp;
 import org.qi4j.chronos.ChronosProjectComponent;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
+import org.qi4j.chronos.model.ProjectAssignee;
 import org.qi4j.chronos.service.Services;
 
 public abstract class AbstractAction extends AnAction
@@ -31,7 +32,7 @@ public abstract class AbstractAction extends AnAction
     }
 
     //convenient method
-    public ProjectAssigneeEntityComposite getProjectAssignee( AnActionEvent e )
+    public ProjectAssignee getProjectAssignee( AnActionEvent e )
     {
         return getChronosApp( e ).getProjectAssignee();
     }

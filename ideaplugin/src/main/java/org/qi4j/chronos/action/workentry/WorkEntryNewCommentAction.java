@@ -16,6 +16,7 @@ import com.intellij.openapi.actionSystem.AnActionEvent;
 import com.intellij.openapi.actionSystem.DataConstants;
 import com.intellij.openapi.project.Project;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.chronos.model.WorkEntry;
 import org.qi4j.chronos.workentry.WorkEntryCommentAddDialog;
 import org.qi4j.chronos.workentry.WorkEntryListComponent;
 
@@ -27,7 +28,7 @@ public class WorkEntryNewCommentAction extends WorkEntryBasedAction
 
         WorkEntryCommentAddDialog addDialog = new WorkEntryCommentAddDialog( project )
         {
-            public WorkEntryEntityComposite getWorkEntry()
+            public WorkEntry getWorkEntry()
             {
                 return workEntryListComponent.getSelectedWorkEntry();
             }

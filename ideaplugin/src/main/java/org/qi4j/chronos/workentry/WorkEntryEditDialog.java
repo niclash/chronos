@@ -15,6 +15,8 @@ package org.qi4j.chronos.workentry;
 import com.intellij.openapi.project.Project;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.chronos.model.ProjectAssignee;
+import org.qi4j.chronos.model.WorkEntry;
 
 public abstract class WorkEntryEditDialog extends WorkEntryAddEditDialog
 {
@@ -24,7 +26,7 @@ public abstract class WorkEntryEditDialog extends WorkEntryAddEditDialog
         assignWorkEntryToFieldValue( getWorkEntry() );
     }
 
-    public ProjectAssigneeEntityComposite getProjectAssignee()
+    public ProjectAssignee getProjectAssignee()
     {
         return getWorkEntry().projectAssignee().get();
     }
@@ -36,7 +38,7 @@ public abstract class WorkEntryEditDialog extends WorkEntryAddEditDialog
 
     public void handleOkClicked()
     {
-        WorkEntryEntityComposite workEntry = getWorkEntry();
+        WorkEntry workEntry = getWorkEntry();
 
         //set values
         assignFieldValueToWorkEntry( workEntry );
@@ -50,5 +52,5 @@ public abstract class WorkEntryEditDialog extends WorkEntryAddEditDialog
         return "Edit Work Entry";
     }
 
-    public abstract WorkEntryEntityComposite getWorkEntry();
+    public abstract WorkEntry getWorkEntry();
 }

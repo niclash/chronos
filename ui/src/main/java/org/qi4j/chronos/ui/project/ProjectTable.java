@@ -134,7 +134,7 @@ public abstract class ProjectTable extends ActionTable<Project, String>
             {
                 ProjectEditPage editPage = new ProjectEditPage( (BasePage) this.getPage() )
                 {
-                    public ProjectEntityComposite getProject()
+                    public org.qi4j.chronos.model.Project getProject()
                     {
                         return getProjectService().get( projectId );
                     }

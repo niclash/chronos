@@ -24,7 +24,7 @@ import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 
-public interface TaskService extends ProjectBasedService<TaskEntityComposite>
+public interface TaskService extends ProjectBasedService<Task>
 {
     List<Task> getRecentTasks( Account account );
 

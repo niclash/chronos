@@ -27,6 +27,7 @@ import org.qi4j.chronos.action.ChronosActionConstant;
 import org.qi4j.chronos.action.task.TaskBaseAction;
 import org.qi4j.chronos.common.AbstractTree;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.service.TaskService;
 import org.qi4j.chronos.task.TaskListComponent;
 import org.qi4j.chronos.util.UiUtil;
@@ -90,7 +91,7 @@ public class TaskTree extends AbstractTree implements TaskListComponent
     }
 
 
-    public TaskEntityComposite getSelectedTask()
+    public Task getSelectedTask()
     {
         TreePath treePath = this.getSelectionPath();
 
@@ -104,10 +105,10 @@ public class TaskTree extends AbstractTree implements TaskListComponent
         return null;
     }
 
-    public TaskEntityComposite[] getSelectedTasks()
+    public Task[] getSelectedTasks()
     {
         //bp. no support for multiple selection at this moment
-        return new TaskEntityComposite[]{ getSelectedTask() };
+        return new Task[]{ getSelectedTask() };
     }
 
     public void refreshList()
