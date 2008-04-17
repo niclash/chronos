@@ -51,14 +51,14 @@ public abstract class CustomerAddEditPage extends AddEditBasePage
         customer.name().set( nameField.getText() );
         customer.reference().set( referenceField.getText() );
 
-        addressAddEditPanel.assignFieldValueToAddress( customer.address().get() );
+        addressAddEditPanel.assignFieldValueToAddress( customer );
     }
 
     protected void assignCustomerToFieldValue( Customer customer )
     {
         nameField.setText( customer.name().get() );
         referenceField.setText( customer.reference().get() );
-        addressAddEditPanel.assignAddressToFieldValue( customer.address().get() );
+        addressAddEditPanel.assignAddressToFieldValue( customer );
     }
 
     public final void handleSubmit()

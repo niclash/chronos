@@ -52,14 +52,14 @@ public abstract class AccountAddEditPage extends AddEditBasePage
         account.name().set( nameField.getText() );
         account.reference().set( referenceField.getText() );
 
-        addressAddEditPanel.assignFieldValueToAddress( account.address().get() );
+        addressAddEditPanel.assignFieldValueToAddress( account );
     }
 
     protected void assignAccountToFieldValue( Account account )
     {
         nameField.setText( account.name().get() );
         referenceField.setText( account.reference().get() );
-        addressAddEditPanel.assignAddressToFieldValue( account.address().get() );
+        addressAddEditPanel.assignAddressToFieldValue( account );
     }
 
     public final void handleSubmit()

@@ -37,7 +37,7 @@ public class PageMenuLink extends MenuLink
     {
         if( pageParamaters != null )
         {
-            setResponsePage( getPageFactory().newPage( webPageClazz, pageParamaters ) );
+            setResponsePage( newPage( webPageClazz, pageParamaters ) );
         }
         else
         {

@@ -24,6 +24,7 @@ import org.qi4j.chronos.ui.common.SimpleTextField;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.composite.scope.Uses;
 
 public class AccountDetailPage extends LeftMenuNavPage
 {
@@ -31,7 +32,7 @@ public class AccountDetailPage extends LeftMenuNavPage
 
     private String accountId;
 
-    public AccountDetailPage( Page returnPage, String accountId )
+    public AccountDetailPage( @Uses Page returnPage, @Uses String accountId )
     {
         this.returnPage = returnPage;
         this.accountId = accountId;

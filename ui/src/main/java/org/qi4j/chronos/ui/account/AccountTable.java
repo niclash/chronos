@@ -17,6 +17,7 @@ import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.Session;
+import org.apache.wicket.PageParameters;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.ProjectStatusEnum;
 import org.qi4j.chronos.service.account.AccountService;
@@ -139,9 +140,9 @@ public abstract class AccountTable extends ActionTable<Account, String>
         {
             public void linkClicked()
             {
-                AccountEditPage editPage = new AccountEditPage( this.getPage(), accountId );
+//                AccountEditPage editPage = new AccountEditPage( this.getPage(), accountId );
 
-                setResponsePage( editPage );
+                setResponsePage( newPage( AccountEditPage.class, getPageParameters( accountId ) ) );
             }
         } );
     }
@@ -152,11 +153,20 @@ public abstract class AccountTable extends ActionTable<Account, String>
         {
             public void linkClicked()
             {
-                AccountDetailPage detailPage = new AccountDetailPage( this.getPage(), accountId );
+//                AccountDetailPage detailPage = new AccountDetailPage( this.getPage(), accountId );
 
-                setResponsePage( detailPage );
+                setResponsePage( newPage( AccountDetailPage.class, getPageParameters( accountId ) ) );
             }
         };
+    }
+
+    private PageParameters getPageParameters( final String accountId )
+    {
+        final PageParameters params = new PageParameters();
+        params.put( this.getPage().getClass(), this.getPage() );
+        params.put( String.class, accountId );
+
+        return params;
     }
 
     public List<String> getTableHeaderList()

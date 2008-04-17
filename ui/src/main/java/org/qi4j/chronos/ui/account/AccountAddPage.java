@@ -15,9 +15,29 @@ package org.qi4j.chronos.ui.account;
 import org.apache.wicket.Page;
 import org.qi4j.library.framework.validation.ValidationException;
 import org.qi4j.composite.scope.Uses;
+import org.qi4j.composite.scope.Structure;
+import org.qi4j.composite.scope.Service;
+import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.qi4j.chronos.service.account.AccountService;
+import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.Address;
+import org.qi4j.chronos.model.City;
+import org.qi4j.chronos.model.State;
+import org.qi4j.chronos.model.Country;
+import org.qi4j.chronos.model.composites.AddressEntityComposite;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.composites.StateEntityComposite;
+import org.qi4j.chronos.model.composites.CityEntityComposite;
+import org.qi4j.chronos.model.composites.CountryEntityComposite;
 
 public class AccountAddPage extends AccountAddEditPage
 {
+    transient private @Structure UnitOfWorkFactory factory;
+
+    transient private @Service AccountService accountService;
+
     public AccountAddPage( @Uses Page goBackPage )
     {
         super( goBackPage );
@@ -25,36 +45,48 @@ public class AccountAddPage extends AccountAddEditPage
 
     public void onSubmitting()
     {
-        // TODO
-//        AccountService accountService = ChronosWebApp.getServices().getAccountService();
+        if( !accountService.isUnique( nameField.getText() ) )
+        {
+            logErrorMsg( "Account name " + nameField.getText() + " is not unique!!!" );
 
-//        Account account = accountService.newInstance( AccountEntityComposite.class );
+            return;
+        }
 
+        final UnitOfWork unitOfWork = factory.newUnitOfWork();
         try
         {
-            /*Address address = ChronosWebApp.newInstance( AddressEntityComposite.class );
-            City city = ChronosWebApp.newInstance( CityEntityComposite.class );
-            State state = ChronosWebApp.newInstance( StateEntityComposite.class );
-            Country country = ChronosWebApp.newInstance( CountryEntityComposite.class );
 
-            address.city().set( city );
+            Account account = unitOfWork.newEntityBuilder( AccountEntityComposite.class ).newInstance();
+            Address address = unitOfWork.newEntityBuilder( AddressEntityComposite.class ).newInstance();
+            City city = unitOfWork.newEntityBuilder( CityEntityComposite.class ).newInstance();
+            State state = unitOfWork.newEntityBuilder( StateEntityComposite.class ).newInstance();
+            Country country = unitOfWork.newEntityBuilder( CountryEntityComposite.class ).newInstance();
 
             city.state().set( state );
             city.country().set( country );
+            address.city().set( city );
 
             account.address().set( address );
+            account.isEnabled().set( true );
 
-            account.isEnabled().set( true );*/
+            assignFieldValueToAccount( account );
 
-            //assign data to customer
-//            assignFieldValueToAccount( account );
+            accountService.add( account );
 
-            // TODO migrate
-//            accountService.save( account );
+            unitOfWork.complete();
 
             logInfoMsg( "Account is added successfully." );
 
             divertToGoBackPage();
+        }
+        catch( UnitOfWorkCompletionException uowce )
+        {
+            logErrorMsg( "Unable to save account!!!. " + uowce.getClass().getSimpleName() );
+
+            if( null != unitOfWork && unitOfWork.isOpen() )
+            {
+                unitOfWork.discard();
+            }
         }
         catch( ValidationException validationErr )
         {

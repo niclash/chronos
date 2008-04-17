@@ -37,7 +37,7 @@ public class AccountListPage extends LeftMenuNavPage
                 final PageParameters param = new PageParameters();
                 param.put( AccountListPage.class, AccountListPage.this );
 
-                setResponsePage( getPageFactory().newPage( AccountAddPage.class, param ) );
+                setResponsePage( newPage( AccountAddPage.class, param ) );
             }
         } );
 

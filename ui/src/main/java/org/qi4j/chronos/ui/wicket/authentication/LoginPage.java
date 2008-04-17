@@ -60,10 +60,6 @@ public class LoginPage extends BasePage
         this.factory = factory;
         this.accountService = accountService;
 
-        if( serviceReference == null )
-        {
-            System.err.println( "Unable to get service reference!!!!" );
-        }
         add( new FeedbackPanel( WICKET_ID_FEEDBACK_PANEL ) );
         add( new LoginForm( WICKET_ID_LOGIN_FORM ) );
     }
@@ -178,8 +174,7 @@ public class LoginPage extends BasePage
         {
             if( !continueToOriginalDestination() )
             {
-                setResponsePage( getPageFactory().newPage( 
-                    getApplication().getHomePage(), (PageParameters) null ) );
+                setResponsePage( newPage( getApplication().getHomePage(), (PageParameters) null ) );
             }
         }
     }

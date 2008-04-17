@@ -17,6 +17,8 @@ import static org.qi4j.chronos.ui.wicket.bootstrap.Constants.*;
 import org.qi4j.chronos.ui.admin.AdminHomePage;
 import org.qi4j.chronos.ui.account.AccountListPage;
 import org.qi4j.chronos.ui.account.AccountAddPage;
+import org.qi4j.chronos.ui.account.AccountDetailPage;
+import org.qi4j.chronos.ui.account.AccountEditPage;
 import org.qi4j.chronos.ui.systemrole.SystemRoleListPage;
 import org.qi4j.chronos.ui.systemrole.StaffSystemRoleDataProvider;
 import org.qi4j.chronos.ui.staff.StaffHomePage;
@@ -62,7 +64,9 @@ public final class WicketBootstrapModuleInitializer
                 ChronosPageFactory.class,
                 ChronosSession.class,
                 LoginPage.class,
-                AccountAddPage.class
+                AccountAddPage.class,
+                AccountDetailPage.class,
+                AccountEditPage.class
             );
             moduleAssembly.addComposites(
                 AccountServiceConfiguration.class,

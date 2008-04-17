@@ -79,6 +79,11 @@ public class AccountServiceMixin implements AccountService, Activatable, Seriali
         return account;
     }
 
+    public Account newInstance( UnitOfWork unitOfWork )
+    {
+        return unitOfWork.newEntityBuilder( AccountEntityComposite.class ).newInstance();
+    }
+
     public void add( Account account )
     {
         validateNotNull( "account", account );

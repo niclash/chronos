@@ -16,6 +16,7 @@ import org.qi4j.chronos.ui.wicket.base.AddEditBasePanel;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.model.Address;
 import org.qi4j.chronos.model.City;
+import org.qi4j.chronos.model.associations.HasAddress;
 
 public class AddressAddEditPanel extends AddEditBasePanel
 {
@@ -52,25 +53,25 @@ public class AddressAddEditPanel extends AddEditBasePanel
         add( stateField );
     }
 
-    public void assignFieldValueToAddress( Address address )
+    public void assignFieldValueToAddress( HasAddress hasAddress )
     {
-        address.firstLine().set( address1Field.getText() );
-        address.firstLine().set( address2Field.getText() );
+        hasAddress.address().get().firstLine().set( address1Field.getText() );
+        hasAddress.address().get().secondLine().set( address2Field.getText() );
 
-        address.zipCode().set( zipcodeField.getText() );
-        City addressCity = address.city().get();
+        hasAddress.address().get().zipCode().set( zipcodeField.getText() );
+        City addressCity = hasAddress.address().get().city().get();
         addressCity.name().set( cityField.getText() );
         addressCity.state().get().name().set( stateField.getText() );
         addressCity.country().get().name().set( countryField.getText() );
     }
 
-    public void assignAddressToFieldValue( Address address )
+    public void assignAddressToFieldValue( HasAddress hasAddress )
     {
-        address1Field.setText( address.firstLine().get() );
-        address2Field.setText( address.secondLine().get() );
+        address1Field.setText( hasAddress.address().get().firstLine().get() );
+        address2Field.setText( hasAddress.address().get().secondLine().get() );
 
-        zipcodeField.setText( address.zipCode().get() );
-        City addressCity = address.city().get();
+        zipcodeField.setText( hasAddress.address().get().zipCode().get() );
+        City addressCity = hasAddress.address().get().city().get();
         cityField.setText( addressCity.name().get() );
 
         stateField.setText( addressCity.state().get().name().get() );

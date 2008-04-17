@@ -48,6 +48,7 @@ final class ChronosPageFactory
         // TODO: EFY: We don't have a way to pass page parameters yet.
 //        return newPage( pageClass );
         ObjectBuilder<Page> builder = objectBuilderFactory.newObjectBuilder( pageClass );
+        builder.use( factory, accountService );
         if( null!= parameters )
         {
             for( Object obj : parameters.values() )

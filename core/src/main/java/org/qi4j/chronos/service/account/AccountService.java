@@ -19,6 +19,8 @@ public interface AccountService
 
     Account get( UnitOfWork unitOfWork, String accountId );
 
+//    Account newInstance( UnitOfWork unitOfWork );
+
     void add( Account account );
 
     void remove( Account account );

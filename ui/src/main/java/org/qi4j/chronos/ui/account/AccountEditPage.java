@@ -16,6 +16,13 @@ import org.apache.wicket.Page;
 import org.apache.wicket.Session;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
+import org.qi4j.chronos.service.account.AccountService;
+import org.qi4j.composite.scope.Uses;
+import org.qi4j.composite.scope.Structure;
+import org.qi4j.composite.scope.Service;
+import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -23,12 +30,17 @@ public class AccountEditPage extends AccountAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( AccountEditPage.class );
 
+    transient private @Structure UnitOfWorkFactory factory;
+
+    transient private AccountService accountService;
+
     private String accountId;
 
-    public AccountEditPage( Page goBackPage, String accountId )
+    public AccountEditPage( @Uses Page goBackPage, @Uses String accountId, final @Service AccountService accountService )
     {
         super( goBackPage );
 
+        this.accountService = accountService;
         this.accountId = accountId;
 
         assignAccountToFieldValue( getAccount() );
@@ -36,26 +48,35 @@ public class AccountEditPage extends AccountAddEditPage
 
     protected Account getAccount()
     {
-        return ( ( ChronosSession ) Session.get()).getAccountService().get( accountId );
+//        return ( ( ChronosSession ) Session.get()).getAccountService().get( accountId );
+        return accountService.get( accountId );
     }
 
     public void onSubmitting()
     {
-//        AccountService accountService = ChronosWebApp.getServices().getAccountService();
-        Account account = getAccount();
-
-        account.isEnabled().set( true );
+        final UnitOfWork unitOfWork = factory.newUnitOfWork();
 
         try
         {
+            Account account = unitOfWork.dereference( getAccount() );
             assignFieldValueToAccount( account );
 
-            // TODO migrate
-//            accountService.update( account );
+            accountService.add( account );
 
+            unitOfWork.complete();
             logInfoMsg( "Account is updated successfully." );
 
             divertToGoBackPage();
+        }
+        catch( UnitOfWorkCompletionException uowce )
+        {
+            logErrorMsg( "Unable to update account!!!. " + uowce.getClass().getSimpleName() );
+            LOGGER.error( uowce.getLocalizedMessage() );
+
+            if( null != unitOfWork && unitOfWork.isOpen() )
+            {
+                unitOfWork.discard();
+            }
         }
         catch( Exception err )
         {
