@@ -23,6 +23,8 @@ import org.apache.wicket.settings.IApplicationSettings;
 import org.apache.wicket.settings.ISessionSettings;
 import org.qi4j.chronos.ui.wicket.authentication.LoginPage;
 import org.qi4j.chronos.ui.admin.AdminHomePage;
+import org.qi4j.chronos.ui.staff.StaffHomePage;
+import org.qi4j.chronos.model.Admin;
 import static org.qi4j.composite.NullArgumentException.validateNotNull;
 import org.qi4j.composite.ObjectBuilder;
 import org.qi4j.composite.ObjectBuilderFactory;
@@ -105,7 +107,14 @@ final class ChronosWebApp extends AuthenticatedWebApplication
         }
         else
         {
-            return AdminHomePage.class;
+            if( ChronosSession.get().getUser() instanceof Admin )
+            {
+                return AdminHomePage.class;
+            }
+            else
+            {
+                return StaffHomePage.class;
+            }
         }
     }
 }

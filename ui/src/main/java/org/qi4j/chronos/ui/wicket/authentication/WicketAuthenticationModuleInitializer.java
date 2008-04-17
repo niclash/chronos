@@ -4,8 +4,6 @@ import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.LayerAssembly;
 import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.structure.Visibility;
-import org.qi4j.entity.memory.MemoryEntityStoreService;
-import org.qi4j.chronos.service.authentication.AuthenticationServiceComposite;
 
 import static org.qi4j.chronos.ui.wicket.authentication.Constants.MODULE_NAME_WICKET_AUTHENTICATION;
 import static org.qi4j.composite.NullArgumentException.validateNotNull;
@@ -38,6 +36,5 @@ public final class WicketAuthenticationModuleInitializer
         ModuleAssembly moduleAssembly = aLayerAssembly.newModuleAssembly();
         moduleAssembly.setName( MODULE_NAME_WICKET_AUTHENTICATION );
         moduleAssembly.addComposites( RoleHelperComposite.class ).visibleIn( Visibility.layer );
-        moduleAssembly.addServices( AuthenticationServiceComposite.class, MemoryEntityStoreService.class ).visibleIn( Visibility.layer ).instantiateOnStartup();
     }
 }

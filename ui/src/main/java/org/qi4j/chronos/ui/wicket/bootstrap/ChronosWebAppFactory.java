@@ -1,7 +1,6 @@
 package org.qi4j.chronos.ui.wicket.bootstrap;
 
 import java.util.List;
-import java.util.ArrayList;
 import org.apache.wicket.protocol.http.IWebApplicationFactory;
 import org.apache.wicket.protocol.http.WebApplication;
 import org.apache.wicket.protocol.http.WicketFilter;
@@ -9,23 +8,6 @@ import org.qi4j.bootstrap.ApplicationAssembly;
 import org.qi4j.bootstrap.ApplicationAssemblyFactory;
 import org.qi4j.bootstrap.ApplicationFactory;
 import org.qi4j.bootstrap.AssemblyException;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.AdminEntityComposite;
-import org.qi4j.chronos.model.composites.AddressEntityComposite;
-import org.qi4j.chronos.model.composites.CityEntityComposite;
-import org.qi4j.chronos.model.composites.StateEntityComposite;
-import org.qi4j.chronos.model.composites.CountryEntityComposite;
-import org.qi4j.chronos.model.composites.LoginEntityComposite;
-import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
-import org.qi4j.chronos.model.Admin;
-import org.qi4j.chronos.model.Login;
-import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.Address;
-import org.qi4j.chronos.model.City;
-import org.qi4j.chronos.model.State;
-import org.qi4j.chronos.model.Country;
-import org.qi4j.chronos.model.SystemRoleTypeEnum;
-import org.qi4j.chronos.service.lab.LoginServiceComposite;
 import org.qi4j.chronos.service.systemrole.SystemRoleServiceComposite;
 import org.qi4j.chronos.service.systemrole.SystemRoleService;
 import org.qi4j.chronos.service.account.AccountService;
@@ -34,7 +16,6 @@ import org.qi4j.chronos.service.user.UserService;
 import org.qi4j.chronos.service.user.UserServiceComposite;
 import org.qi4j.composite.ObjectBuilder;
 import org.qi4j.composite.ObjectBuilderFactory;
-import org.qi4j.composite.CompositeBuilder;
 import org.qi4j.runtime.Energy4Java;
 import org.qi4j.runtime.Qi4jRuntime;
 import org.qi4j.runtime.structure.ApplicationContext;
@@ -49,11 +30,7 @@ import org.qi4j.spi.structure.LayerResolution;
 import org.qi4j.spi.structure.ModuleBinding;
 import org.qi4j.spi.structure.ModuleModel;
 import org.qi4j.spi.structure.ModuleResolution;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.qi4j.entity.UnitOfWorkFactory;
-import org.qi4j.entity.Identity;
-import org.qi4j.library.general.model.GenderType;
 import org.qi4j.service.ServiceLocator;
 
 import static org.qi4j.chronos.ui.wicket.Constants.LAYER_NAME_WICKET;
@@ -97,146 +74,34 @@ public final class ChronosWebAppFactory
 
         UnitOfWorkFactory factory = bootstrapModule.getStructureContext().getUnitOfWorkFactory();
         ServiceLocator locator = bootstrapModule.getStructureContext().getServiceLocator();
-        initDummyData( factory, locator );
-
-        ObjectBuilderFactory builderFactory = bootstrapModule.getStructureContext().getObjectBuilderFactory();
-        ObjectBuilder<ChronosWebApp> builder = builderFactory.newObjectBuilder( ChronosWebApp.class );
-
-        return builder.newInstance();
-    }
-
-    private void initDummyData( UnitOfWorkFactory factory, ServiceLocator locator )
-    {
-        UnitOfWork unitOfWork = factory.newUnitOfWork();
-
-        AccountService accountService = locator.lookupService( AccountServiceComposite.class ).get();
-        AccountEntityComposite jayway = unitOfWork.newEntityBuilder( AccountEntityComposite.class ).newInstance();
-        jayway.name().set( "Jayway Malaysia" );
-        jayway.reference().set( "Jayway Malaysia Sdn Bhd" );
-        jayway.isEnabled().set( true );
-
-        AccountEntityComposite test = unitOfWork.newEntityBuilder( AccountEntityComposite.class ).newInstance();
-        test.name().set( "Test Corp" );
-        test.reference().set( "Test Corporation" );
-        test.isEnabled().set( true );
-
-        Address address = unitOfWork.newEntityBuilder( AddressEntityComposite.class ).newInstance();
-        City city = unitOfWork.newEntityBuilder( CityEntityComposite.class ).newInstance();
-        State state = unitOfWork.newEntityBuilder( StateEntityComposite.class ).newInstance();
-        Country country = unitOfWork.newEntityBuilder( CountryEntityComposite.class ).newInstance();
-
-        address.firstLine().set( "AbcMixin Road" );
-        address.secondLine().set( "Way Cente" );
-        address.zipCode().set( "111" );
-        country.name().set( "Malaysia" );
-        state.name().set( "Wilayah" );
-        city.name().set( "KL" );
-        city.country().set( country );
-        city.state().set( state );
-
-        address.city().set( city );
-
-        jayway.address().set( address );
-        test.address().set( address );
-
-        accountService.add( jayway );
-        accountService.add( test );
-
-        try
-        {
-            unitOfWork.complete();
-        }
-        catch( UnitOfWorkCompletionException uowce )
-        {
-            System.err.println( uowce.getLocalizedMessage() );
-            uowce.printStackTrace();
-        }
-
-        unitOfWork = factory.newUnitOfWork();
-
-        LoginServiceComposite loginService = locator.lookupService( LoginServiceComposite.class ).get();
-
-        Login adminLogin = loginService.newInstance( unitOfWork, LoginEntityComposite.class );
-        String loginId = ( (Identity) adminLogin).identity().get();
-        adminLogin.isEnabled().set( true );
-        adminLogin.name().set( "admin" );
-        adminLogin.password().set( "admin" );
-
-        try
-        {
-            loginService.save( unitOfWork, adminLogin );
-        }
-        catch( UnitOfWorkCompletionException uowce )
-        {
-            System.err.println( uowce.getLocalizedMessage() );
-            uowce.printStackTrace();
-        }
-
-        unitOfWork = factory.newUnitOfWork();
-
-        List<SystemRole> roles = new ArrayList<SystemRole>();
         SystemRoleService roleService = locator.lookupService( SystemRoleServiceComposite.class ).get();
-
-        CompositeBuilder<SystemRoleEntityComposite> systemRoleBuilder = unitOfWork.newEntityBuilder( SystemRoleEntityComposite.class );
-        SystemRole adminRole = systemRoleBuilder.newInstance();
-        adminRole.name().set( SystemRole.SYSTEM_ADMIN );
-        adminRole.systemRoleType().set( SystemRoleTypeEnum.ADMIN );
-        roles.add( adminRole );
-
-        SystemRole accountAdmin = systemRoleBuilder.newInstance();
-        accountAdmin.name().set( SystemRole.ACCOUNT_ADMIN );
-        accountAdmin.systemRoleType().set( SystemRoleTypeEnum.STAFF );
-        roles.add( accountAdmin );
-
-        SystemRole developer = systemRoleBuilder.newInstance();
-        developer.name().set( SystemRole.ACCOUNT_DEVELOPER );
-        developer.systemRoleType().set( SystemRoleTypeEnum.STAFF );
-        roles.add( developer );
-
-        SystemRole contactPerson = systemRoleBuilder.newInstance();
-        contactPerson.name().set( SystemRole.CONTACT_PERSON );
-        contactPerson.systemRoleType().set( SystemRoleTypeEnum.CONTACT_PERSON );
-        roles.add( contactPerson );
-
-        roleService.saveAll( roles );
-        try
-        {
-            unitOfWork.complete();
-        }
-        catch( UnitOfWorkCompletionException uowce )
-        {
-            System.err.println( uowce.getLocalizedMessage() );
-            uowce.printStackTrace();
-        }
-
-        unitOfWork = factory.newUnitOfWork();
-        
+        AccountService accountService = locator.lookupService( AccountServiceComposite.class ).get();
         UserService userService = locator.lookupService( UserServiceComposite.class ).get();
 
-        Admin admin = unitOfWork.newEntityBuilder( AdminEntityComposite.class ).newInstance();
-        admin.firstName().set( "admin" );
-        admin.lastName().set( "admin" );
-        admin.gender().set( GenderType.MALE );
-        admin.login().set( loginService.get( unitOfWork, loginId ) );
+//        try
+//        {
+//            if( null != unitOfWork && unitOfWork.isOpen() )
+//            {
+//                unitOfWork.complete();
+//                unitOfWork = factory.newUnitOfWork();
+//            }
+//        }
+//        catch( UnitOfWorkCompletionException uowce )
+//        {
+//            System.err.println( uowce.getLocalizedMessage() );
+//            uowce.printStackTrace();
+//
+//            unitOfWork.discard();
+//        }
 
-        for( SystemRole role : roleService.findAll() )
-        {
-            admin.systemRoles().add( role );
-        }
+        ObjectBuilderFactory builderFactory = bootstrapModule.getStructureContext().getObjectBuilderFactory();
+        ObjectBuilder<DummyDataInitializer> initializerBuilder = builderFactory.newObjectBuilder( DummyDataInitializer.class );
+        initializerBuilder.use( factory, locator, roleService, accountService, userService );
+        initializerBuilder.newInstance().initializeDummyData();
 
-        userService.addAdmin( admin );
-        
-        try
-        {
-            unitOfWork.complete();
-        }
-        catch( UnitOfWorkCompletionException uowce )
-        {
-           System.err.println( uowce.getLocalizedMessage() );
-           uowce.printStackTrace();
-        }
+        ObjectBuilder<ChronosWebApp> appBuilder = builderFactory.newObjectBuilder( ChronosWebApp.class );
 
-        unitOfWork = factory.newUnitOfWork();
+        return appBuilder.newInstance();
     }
 
     private ModuleInstance getBootstrapModule( LayerInstance wicketLayer )

@@ -39,12 +39,23 @@ final class ChronosPageFactory
     {
         ObjectBuilder<Page> builder = objectBuilderFactory.newObjectBuilder( pageClass );
         builder.use( factory, accountService, systemRoleService );
+
         return builder.newInstance();
     }
 
     public final Page newPage( Class pageClass, PageParameters parameters )
     {
         // TODO: EFY: We don't have a way to pass page parameters yet.
-        return newPage( pageClass );
+//        return newPage( pageClass );
+        ObjectBuilder<Page> builder = objectBuilderFactory.newObjectBuilder( pageClass );
+        if( null!= parameters )
+        {
+            for( Object obj : parameters.values() )
+            {
+                builder.use( obj );
+            }
+        }
+
+        return builder.newInstance();
     }
 }

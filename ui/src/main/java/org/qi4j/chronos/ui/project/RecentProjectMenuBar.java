@@ -13,11 +13,10 @@
 package org.qi4j.chronos.ui.project;
 
 import java.util.List;
+import java.util.ArrayList;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.service.FindFilter;
-import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.menu.MenuBar;
 import org.qi4j.chronos.ui.common.menu.MenuItem;
@@ -37,7 +36,7 @@ public abstract class RecentProjectMenuBar extends MenuBar
 
     public MenuItem[] getMenuItemList()
     {
-        ProjectService projectService = ChronosWebApp.getServices().getProjectService();
+//        ProjectService projectService = ChronosWebApp.getServices().getProjectService();
 
         // TODO migrate
 //        int countAll = projectService.countAll( getAccount() );
@@ -46,9 +45,10 @@ public abstract class RecentProjectMenuBar extends MenuBar
         
         int toShowSize = Math.min( TOTAL_PROJECT_TO_SHOW, countAll );
 
-        List<Project> recentProjectList = projectService.
-            getRecentProjects( getAccount(), new FindFilter( 0, toShowSize ) );
+//        List<Project> recentProjectList = projectService.
+//            getRecentProjects( getAccount(), new FindFilter( 0, toShowSize ) );
 
+        List<Project> recentProjectList = new ArrayList<Project>();
         MenuItem[] menuItems = new MenuItem[recentProjectList.size()];
 
         int index = 0;

@@ -136,7 +136,7 @@ public class UserServiceMixin implements UserService, Activatable
         {
             Login login = admin.login().get();
 
-            if( login.name().get().equals( loginId ) && login.password().get().equals( password ))
+            if( login.name().get().equals( loginId ) && login.password().get().equals( password ) )
             {
                 return admin;
             }
@@ -163,7 +163,7 @@ public class UserServiceMixin implements UserService, Activatable
     {
         validateNotNull( "systemRoles", systemRoles );
         validateNotNull( "systemRolesName", systemRolesName );
-        
+
         for( SystemRole systemRole : systemRoles )
         {
             if( systemRole.name().get().equals( systemRolesName ) || hasThisSystemRole( systemRole.systemRoles(), systemRolesName ) )
@@ -186,6 +186,7 @@ public class UserServiceMixin implements UserService, Activatable
     {
         validateNotNull( "config", config );
         validateNotNull( "factory", factory );
+        validateNotNull( "accountService", accountService );
     }
 
     public void passivate() throws Exception

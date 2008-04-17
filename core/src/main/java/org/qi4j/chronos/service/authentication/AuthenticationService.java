@@ -1,10 +1,7 @@
 package org.qi4j.chronos.service.authentication;
 
-import org.qi4j.service.ServiceComposite;
-import org.qi4j.service.Activatable;
-import org.qi4j.composite.Mixins;
-import org.qi4j.chronos.service.authentication.mixins.AuthenticationMixin;
 import org.qi4j.chronos.model.associations.HasLogin;
+import org.qi4j.chronos.model.User;
 
 /**
  * @author edward.yakop@gmail.com
@@ -13,4 +10,6 @@ import org.qi4j.chronos.model.associations.HasLogin;
 public interface AuthenticationService
 {
     boolean authenticate( HasLogin hasLogin, String username, String password );
+
+    User authenticate( String accountId, String username, String password );
 }

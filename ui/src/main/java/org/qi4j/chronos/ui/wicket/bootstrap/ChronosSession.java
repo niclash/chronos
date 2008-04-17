@@ -20,15 +20,16 @@ import org.apache.wicket.authorization.strategies.role.Roles;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.Admin;
 import org.qi4j.chronos.service.authentication.AuthenticationService;
 import org.qi4j.chronos.service.account.AccountService;
 import org.qi4j.chronos.service.user.UserService;
 import org.qi4j.chronos.service.systemrole.SystemRoleService;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.SystemRoleResolver;
 import org.qi4j.composite.scope.Service;
 import org.qi4j.composite.scope.Uses;
-import org.qi4j.entity.Identity;
+import org.qi4j.composite.scope.Structure;
+import org.qi4j.entity.UnitOfWorkFactory;
 
 /**
  * TODO: Refactor this
@@ -47,6 +48,8 @@ public final class ChronosSession extends AuthenticatedWebSession
     private @Service UserService userService;
 
     private @Service SystemRoleService systemRoleService;
+
+    private @Structure UnitOfWorkFactory factory;
 
     private SystemRoleResolver roleResolver;
 
@@ -74,48 +77,25 @@ public final class ChronosSession extends AuthenticatedWebSession
 
     public final boolean authenticate( String aUserName, String aPassword )
     {
-        if( aUserName == null )
+        if( aUserName == null || aPassword == null )
         {
             return false;
         }
 
-        User user = null;
+        User user = authenticationService.authenticate( accountId, aUserName, aPassword );
 
-        if( accountId == null )
+        if( user != null )
         {
-            // this must be admin
-            user = userService.getAdmin( aUserName, aPassword );
+            this.user = user;
+            this.userId = user.identity().get();
+            this.roleResolver = new SystemRoleResolver( user );
 
-            if( user != null )
+            if( !( user instanceof Admin ) )
             {
-                this.user = user;
-                this.userId = user.identity().get();
-                this.roleResolver  = new SystemRoleResolver( user );
-
-                return true;
+                this.account = accountService.get( accountId );
             }
-        }
-        else
-        {
-            // normal user
-            user = userService.getUser( accountId, aUserName );
 
-            if( user!= null && authenticationService.authenticate( user, aUserName, aPassword ) )
-            {
-                this.user = user;
-                this.userId = user.identity().get();
-
-                for( Account anAccount : accountService.findAll() )
-                {
-                    if( accountId.equals( ( (Identity) anAccount ).identity().get() ) )
-                    {
-                        this.account = anAccount;
-                    }
-                }
-                this.roleResolver  = new SystemRoleResolver( user );
-
-                return true;
-            }
+            return true;
         }
 
         return false;
@@ -123,7 +103,6 @@ public final class ChronosSession extends AuthenticatedWebSession
 
     public User getUser()
     {
-//        return ChronosWebApp.getServices().getUserService().get( userId );
         return this.user;
     }
 
@@ -144,14 +123,6 @@ public final class ChronosSession extends AuthenticatedWebSession
 
     public Account getAccount()
     {
-//        if( accountId != null )
-//        {
-//            return ChronosWebApp.getServices().getAccountService().get( accountId );
-//        }
-//        else
-//        {
-//            return null;
-//        }
         return this.account;
     }
 

@@ -13,23 +13,12 @@
 package org.qi4j.chronos.ui.account;
 
 import org.apache.wicket.Page;
-import org.qi4j.chronos.service.AccountService;
-import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.model.Account;
-import org.qi4j.chronos.model.Address;
-import org.qi4j.chronos.model.City;
-import org.qi4j.chronos.model.Country;
-import org.qi4j.chronos.model.State;
-import org.qi4j.chronos.model.composites.AddressEntityComposite;
 import org.qi4j.library.framework.validation.ValidationException;
-import org.qi4j.chronos.model.composites.StateEntityComposite;
-import org.qi4j.chronos.model.composites.CityEntityComposite;
-import org.qi4j.chronos.model.composites.CountryEntityComposite;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.composite.scope.Uses;
 
 public class AccountAddPage extends AccountAddEditPage
 {
-    public AccountAddPage( Page goBackPage )
+    public AccountAddPage( @Uses Page goBackPage )
     {
         super( goBackPage );
     }

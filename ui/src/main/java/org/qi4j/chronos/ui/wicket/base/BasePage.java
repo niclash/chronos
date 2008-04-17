@@ -18,6 +18,5 @@ public abstract class BasePage extends WebPage
 {
     public BasePage()
     {
-
     }
 }

@@ -27,20 +27,22 @@ import org.qi4j.chronos.ui.account.AccountDelegator;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.chronos.service.account.AccountServiceComposite;
+import org.qi4j.chronos.service.account.AccountService;
 import org.qi4j.composite.scope.Structure;
 import org.qi4j.composite.scope.Service;
 import org.qi4j.entity.UnitOfWorkFactory;
 import org.qi4j.entity.UnitOfWork;
 
 import static org.qi4j.composite.NullArgumentException.validateNotNull;
+import org.qi4j.service.ServiceReference;
 
 public class LoginPage extends BasePage
 {
     transient private UnitOfWorkFactory factory;
 
-//    transient private AccountEntityServiceComposite accountService;
-//    transient private YetAnotherAccountServiceComposite accountService;
-    transient private AccountServiceComposite accountService;
+    transient private AccountService accountService;
+
+    transient private @Service ServiceReference<AccountService> serviceReference;
 
     private static final long serialVersionUID = 1L;
 
@@ -57,6 +59,11 @@ public class LoginPage extends BasePage
 
         this.factory = factory;
         this.accountService = accountService;
+
+        if( serviceReference == null )
+        {
+            System.err.println( "Unable to get service reference!!!!" );
+        }
         add( new FeedbackPanel( WICKET_ID_FEEDBACK_PANEL ) );
         add( new LoginForm( WICKET_ID_LOGIN_FORM ) );
     }
@@ -142,17 +149,14 @@ public class LoginPage extends BasePage
         private List<AccountDelegator> getAvailableAccount()
         {
             List<AccountDelegator> resultList = new ArrayList<AccountDelegator>();
-
-//            UnitOfWork uow = factory.newUnitOfWork();
-
-//            List<Account> accounts = ChronosSession.get().getAccountService().findAll( uow );
             List<Account> accounts = accountService.findAll();
 
+            final UnitOfWork unitOfWork = factory.newUnitOfWork();
             for( Account account : accounts )
             {
-                resultList.add( new AccountDelegator( account ) );
+                resultList.add( new AccountDelegator( unitOfWork.dereference( account ) ) );
             }
-//            uow.discard();
+            unitOfWork.discard();
 
             return resultList;
         }
@@ -162,15 +166,6 @@ public class LoginPage extends BasePage
             ChronosSession session = ChronosSession.get();
             session.setAccountId( accountId );
 
-//            UnitOfWork uow = factory.newUnitOfWork();
-//            for( Login login : session.getLoginService().findAll( uow ) )
-//            {
-//                if( login.isEnabled().get() && username.equals( login.name().get() ) )
-//                {
-//                    return password.equals( login.password().get() );
-//                }
-//            }
-//            uow.discard();
             return session.signIn( username, password );
         }
 
@@ -183,7 +178,7 @@ public class LoginPage extends BasePage
         {
             if( !continueToOriginalDestination() )
             {
-                setResponsePage( getApplication().getSessionSettings().getPageFactory().newPage(
+                setResponsePage( getPageFactory().newPage( 
                     getApplication().getHomePage(), (PageParameters) null ) );
             }
         }

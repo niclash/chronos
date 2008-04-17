@@ -16,8 +16,10 @@ import org.qi4j.chronos.ui.wicket.authentication.LoginPage;
 import static org.qi4j.chronos.ui.wicket.bootstrap.Constants.*;
 import org.qi4j.chronos.ui.admin.AdminHomePage;
 import org.qi4j.chronos.ui.account.AccountListPage;
+import org.qi4j.chronos.ui.account.AccountAddPage;
 import org.qi4j.chronos.ui.systemrole.SystemRoleListPage;
 import org.qi4j.chronos.ui.systemrole.StaffSystemRoleDataProvider;
+import org.qi4j.chronos.ui.staff.StaffHomePage;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.AdminEntityComposite;
 import org.qi4j.chronos.model.composites.LoginEntityComposite;
@@ -26,9 +28,13 @@ import org.qi4j.chronos.model.composites.CityEntityComposite;
 import org.qi4j.chronos.model.composites.StateEntityComposite;
 import org.qi4j.chronos.model.composites.CountryEntityComposite;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
+import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.composites.MoneyEntityComposite;
+import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import static org.qi4j.composite.NullArgumentException.*;
 import org.qi4j.entity.memory.MemoryEntityStoreService;
 import org.qi4j.spi.entity.UuidIdentityGeneratorService;
+import org.qi4j.structure.Visibility;
 
 /**
  * @author edward.yakop@gmail.com
@@ -47,37 +53,43 @@ public final class WicketBootstrapModuleInitializer
         try
         {
             moduleAssembly.addObjects(
+                DummyDataInitializer.class,
                 AccountListPage.class,
                 SystemRoleListPage.class,
                 AdminHomePage.class,
+                StaffHomePage.class,
                 ChronosWebApp.class,
                 ChronosPageFactory.class,
                 ChronosSession.class,
-                LoginPage.class
+                LoginPage.class,
+                AccountAddPage.class
             );
             moduleAssembly.addComposites(
                 AccountServiceConfiguration.class,
                 AccountEntityComposite.class,
                 AdminEntityComposite.class,
+                ContactPersonEntityComposite.class,
                 LoginEntityComposite.class,
                 AddressEntityComposite.class,
                 CityEntityComposite.class,
                 StateEntityComposite.class,
                 CountryEntityComposite.class,
+                MoneyEntityComposite.class,
                 UserServiceConfiguration.class,
+                StaffEntityComposite.class,
                 SystemRoleServiceConfiguration.class,
                 SystemRoleEntityComposite.class
             );
             moduleAssembly.addServices(
                 AccountServiceComposite.class,
                 AdminServiceComposite.class,
-                AuthenticationServiceComposite.class,
                 LoginServiceComposite.class,
                 UserServiceComposite.class,
                 UuidIdentityGeneratorService.class,
                 MemoryEntityStoreService.class,
-                SystemRoleServiceComposite.class
-            );
+                SystemRoleServiceComposite.class,
+                AuthenticationServiceComposite.class
+            ).visibleIn( Visibility.layer ).instantiateOnStartup();
         }
         catch( AssemblyException e )
         {

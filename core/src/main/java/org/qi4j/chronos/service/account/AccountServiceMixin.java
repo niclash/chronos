@@ -25,6 +25,7 @@ import org.qi4j.composite.scope.Structure;
 import static org.qi4j.composite.NullArgumentException.validateNotNull;
 import java.util.List;
 import java.util.Arrays;
+import java.io.Serializable;
 
 /**
  * Created by IntelliJ IDEA.
@@ -32,11 +33,11 @@ import java.util.Arrays;
  * Date: Apr 13, 2008
  * Time: 6:48:03 PM
  */
-public class AccountServiceMixin implements AccountService, Activatable
+public class AccountServiceMixin implements AccountService, Activatable, Serializable
 {
-    private @This AccountServiceConfiguration config;
+    private transient @This AccountServiceConfiguration config;
 
-    private @Structure UnitOfWorkFactory factory;
+    private transient @Structure UnitOfWorkFactory factory;
 
     public String getId( Account account )
     {
