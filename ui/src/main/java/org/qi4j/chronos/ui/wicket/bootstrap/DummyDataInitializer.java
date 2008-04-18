@@ -29,6 +29,18 @@ import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.model.composites.AdminEntityComposite;
 import org.qi4j.chronos.model.composites.MoneyEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
+import org.qi4j.chronos.model.composites.PriceRateEntityComposite;
+import org.qi4j.chronos.model.composites.PriceRateScheduleEntityComposite;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
+import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.model.composites.RelationshipEntityComposite;
+import org.qi4j.chronos.model.composites.ContactEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.composites.TimeRangeEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
+import org.qi4j.chronos.model.composites.LegalConditionEntityComposite;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.model.Address;
 import org.qi4j.chronos.model.City;
 import org.qi4j.chronos.model.State;
@@ -41,16 +53,32 @@ import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.Money;
 import org.qi4j.chronos.model.Staff;
+import org.qi4j.chronos.model.ProjectRole;
+import org.qi4j.chronos.model.PriceRate;
+import org.qi4j.chronos.model.PriceRateTypeEnum;
+import org.qi4j.chronos.model.PriceRateSchedule;
+import org.qi4j.chronos.model.Customer;
+import org.qi4j.chronos.model.ContactPerson;
+import org.qi4j.chronos.model.Relationship;
+import org.qi4j.chronos.model.Name;
+import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.ProjectStatusEnum;
+import org.qi4j.chronos.model.TimeRange;
+import org.qi4j.chronos.model.ProjectAssignee;
+import org.qi4j.chronos.model.Task;
+import org.qi4j.chronos.model.LegalCondition;
+import org.qi4j.chronos.model.TaskStatusEnum;
 import org.qi4j.composite.CompositeBuilder;
 import org.qi4j.composite.scope.Structure;
 import org.qi4j.composite.scope.Service;
 import org.qi4j.library.general.model.GenderType;
+import org.qi4j.library.general.model.Contact;
 import java.util.Currency;
+import java.util.Calendar;
+import java.util.Date;
 
 final class DummyDataInitializer
 {
-    private @Structure ServiceLocator serviceLocator;
-
     private @Structure UnitOfWorkFactory unitOfWorkFactory;
 
     private @Service SystemRoleService roleService;
@@ -74,10 +102,109 @@ final class DummyDataInitializer
 
         unitOfWork = complete( unitOfWork, unitOfWorkFactory );
 
+        initProjectRoles();
         initAdmin();
         initStaff();
 
         unitOfWork = complete( unitOfWork, unitOfWorkFactory );
+
+        initPriceRateSchedule();
+        initCustomersAndContactPersons();
+
+        unitOfWork = complete( unitOfWork, unitOfWorkFactory );
+
+        initProjectsTasksAndAssignees();
+        
+        try
+        {
+             unitOfWork.complete();
+        }
+        catch( UnitOfWorkCompletionException uowce )
+        {
+           System.err.println( uowce.getLocalizedMessage() );
+           uowce.printStackTrace();
+        }
+//        unitOfWork = complete( unitOfWork, unitOfWorkFactory );
+    }
+
+    private void initProjectsTasksAndAssignees()
+    {
+        Calendar now = Calendar.getInstance();
+        now.add( Calendar.MONTH, -1 );
+        Date startDate = now.getTime();
+        now.add( Calendar.MONTH, 2 );
+        Date endDate = now.getTime();
+
+        for( Account account : accountService.findAll() )
+        {
+            for( Customer customer : account.customers() )
+            {
+                ContactPerson contactPerson = customer.contactPersons().iterator().next();
+                PriceRateSchedule priceRateSchedule = customer.priceRateSchedules().iterator().next();
+                Staff staff = account.staffs().iterator().next();
+                PriceRate priceRate = priceRateSchedule.priceRates().iterator().next();
+                ProjectAssignee projectAssignee = newProjectAssignee( unitOfWork, true, staff, priceRate );
+                Task task = newTask( unitOfWork, "Task 1", "Task 1 description", startDate, TaskStatusEnum.OPEN );
+                task.user().set( staff );
+
+                Project project = newProject( unitOfWork, "Project 1", "p1", ProjectStatusEnum.ACTIVE );
+                project.customer().set( customer );
+                project.primaryContactPerson().set( contactPerson );
+                project.contactPersons().addAll( customer.contactPersons() );
+                project.priceRateSchedule().set( priceRateSchedule );
+                project.estimateTime().set( newTimeRange( unitOfWork, startDate, endDate ) );
+                project.projectAssignees().add( projectAssignee );
+                project.tasks().add( task );
+
+                account.projects().add( project );
+            }
+        }
+    }
+
+    private void initCustomersAndContactPersons()
+    {
+        for( Account account : accountService.findAll() )
+        {
+            Customer customer = newCustomer( unitOfWork, "Client A", "clientA",
+                                             "line 1", "line 2", "city", "state", "country", "41412" );
+            customer.priceRateSchedules().addAll( account.priceRateSchedules() );
+
+            ContactPerson projectManager = newContactPerson( unitOfWork, "Michael", "Lim", "michael", "michael", GenderType.MALE, "Project Manager" );
+            Contact mobile = newContact( unitOfWork, "Mobile", "7073247032" );
+            projectManager.contacts().add( mobile );
+            projectManager.systemRoles().add( roleService.getSystemRoleByName( SystemRole.CONTACT_PERSON ) );
+
+            customer.contactPersons().add( projectManager );
+        }
+    }
+
+    private void initPriceRateSchedule()
+    {
+        for( Account account : accountService.findAll() )
+        {
+            PriceRateSchedule priceRateSchedule = newPriceRateSchedule( unitOfWork, "Default" );
+
+            for( ProjectRole projectRole : account.projectRoles() )
+            {
+                PriceRate priceRate = newPriceRate( unitOfWork, 3000L, "EUR", PriceRateTypeEnum.MONTHLY );
+                priceRate.projectRole().set( projectRole );
+                priceRateSchedule.priceRates().add( priceRate );
+            }
+        }
+    }
+
+    private void initProjectRoles()
+    {
+        for( Account account : accountService.findAll() )
+        {
+            ProjectRole programmerRole = newProjectRole( unitOfWork, "Programmer" );
+            ProjectRole consultantRole = newProjectRole( unitOfWork, "Consultant" );
+            ProjectRole projectManagerRole = newProjectRole( unitOfWork, "Project Manager" );
+
+            account.projectRoles().add( programmerRole );
+            account.projectRoles().add( consultantRole );
+            account.projectRoles().add( projectManagerRole );
+        }
     }
 
     private void initAccounts()
@@ -148,7 +275,7 @@ final class DummyDataInitializer
         for( SystemRole role : roleService.findAllStaffSystemRole() )
         {
             boss.systemRoles().add( role );
-            if( role.name().equals( SystemRole.ACCOUNT_DEVELOPER ) )
+            if( SystemRole.ACCOUNT_DEVELOPER.equals( role.name().get() ) )
             {
                 developer.systemRoles().add( role );
             }
@@ -159,6 +286,11 @@ final class DummyDataInitializer
             account.staffs().add( boss );
             account.staffs().add( developer );
         }
+    }
+
+    private boolean equals( Name name, String text )
+    {
+        return text.equals( name.name().get() );
     }
 
     protected static final UnitOfWork complete( UnitOfWork unitOfWork, UnitOfWorkFactory unitOfWorkFactory )
@@ -268,5 +400,124 @@ final class DummyDataInitializer
         money.stateOfComposite().currency().set( Currency.getInstance( currencyCode ) );
 
         return money.newInstance();
+    }
+
+    protected static ProjectRole newProjectRole( UnitOfWork unitOfWork, String projectRoleName )
+    {
+        CompositeBuilder<ProjectRoleEntityComposite> projectRoleBuilder = unitOfWork.newEntityBuilder( ProjectRoleEntityComposite.class );
+        projectRoleBuilder.stateOfComposite().name().set( projectRoleName );
+
+        return projectRoleBuilder.newInstance();
+    }
+
+    protected static PriceRateSchedule newPriceRateSchedule( UnitOfWork unitOfWork, String reference )
+    {
+        CompositeBuilder<PriceRateScheduleEntityComposite> priceRateScheduleBuilder = unitOfWork.newEntityBuilder( PriceRateScheduleEntityComposite.class );
+        priceRateScheduleBuilder.stateOfComposite().name().set( reference );
+
+        return priceRateScheduleBuilder.newInstance();
+    }
+
+    protected static PriceRate newPriceRate( UnitOfWork unitOfWork, Long amount, String currencyCode,
+                                      PriceRateTypeEnum priceRateTypeEnum )
+    {
+        CompositeBuilder<PriceRateEntityComposite> priceRateBuilder = unitOfWork.newEntityBuilder( PriceRateEntityComposite.class );
+        priceRateBuilder.stateOfComposite().amount().set( amount );
+        priceRateBuilder.stateOfComposite().currency().set( Currency.getInstance(currencyCode) );
+        priceRateBuilder.stateOfComposite().priceRateType().set( priceRateTypeEnum );
+
+        return priceRateBuilder.newInstance();
+    }
+
+    protected static Customer newCustomer( UnitOfWork unitOfWork, String customerName, String reference, String firstLine, String secondLine,
+                                    String cityName, String stateName, String countryName, String zipCode )
+    {
+        CompositeBuilder<CustomerEntityComposite> customerBuilder = unitOfWork.newEntityBuilder( CustomerEntityComposite.class );
+        customerBuilder.stateOfComposite().name().set( customerName );
+        customerBuilder.stateOfComposite().reference().set( reference );
+        customerBuilder.stateOfComposite().address().set(
+            newAddress( unitOfWork, firstLine, secondLine, cityName, stateName, countryName, zipCode ));
+
+        return customerBuilder.newInstance();
+    }
+
+    protected static ContactPerson newContactPerson( UnitOfWork unitOfWork, String firstName, String lastName, String username, String password,
+                            GenderType genderType, String relationshipName )
+    {
+        CompositeBuilder<ContactPersonEntityComposite> contactPersonBuilder = unitOfWork.newEntityBuilder( ContactPersonEntityComposite.class );
+        contactPersonBuilder.stateOfComposite().firstName().set( firstName );
+        contactPersonBuilder.stateOfComposite().lastName().set( lastName );
+        contactPersonBuilder.stateOfComposite().gender().set( genderType );
+        contactPersonBuilder.stateOfComposite().login().set( newLogin( unitOfWork, username, password ) );
+        contactPersonBuilder.stateOfComposite().relationship().set( newRelationship( unitOfWork, relationshipName ) );
+
+        return contactPersonBuilder.newInstance();
+    }
+
+    protected static Relationship newRelationship( UnitOfWork unitOfWork, String relationshipName )
+    {
+        CompositeBuilder<RelationshipEntityComposite> relationshipBuilder = unitOfWork.newEntityBuilder( RelationshipEntityComposite.class );
+        relationshipBuilder.stateOfComposite().relationship().set( relationshipName );
+
+        return relationshipBuilder.newInstance();
+    }
+
+    protected static Contact newContact( UnitOfWork unitOfWork, String contactType, String contactValue )
+    {
+        CompositeBuilder<ContactEntityComposite> contactBuilder = unitOfWork.newEntityBuilder( ContactEntityComposite.class );
+        contactBuilder.stateOfComposite().contactType().set( contactType );
+        contactBuilder.stateOfComposite().contactValue().set( contactValue );
+
+        return contactBuilder.newInstance();
+    }
+
+    protected static Project newProject( UnitOfWork unitOfWork, String projectName,
+                                         String formalReference, ProjectStatusEnum projectStatus )
+    {
+        CompositeBuilder<ProjectEntityComposite> projectBuilder = unitOfWork.newEntityBuilder( ProjectEntityComposite.class );
+        projectBuilder.stateOfComposite().name().set( projectName );
+        projectBuilder.stateOfComposite().reference().set( formalReference );
+        projectBuilder.stateOfComposite().projectStatus().set( projectStatus );
+
+        return projectBuilder.newInstance();
+    }
+
+    protected static TimeRange newTimeRange( UnitOfWork unitOfWork, Date startDate, Date endDate )
+    {
+        CompositeBuilder<TimeRangeEntityComposite> timeRangeBuilder = unitOfWork.newEntityBuilder( TimeRangeEntityComposite.class );
+        timeRangeBuilder.stateOfComposite().startTime().set( startDate );
+        timeRangeBuilder.stateOfComposite().endTime().set( endDate );
+
+        return timeRangeBuilder.newInstance();
+    }
+
+    protected static ProjectAssignee newProjectAssignee( UnitOfWork unitOfWork, boolean isLead, Staff staff, PriceRate priceRate )
+    {
+        CompositeBuilder<ProjectAssigneeEntityComposite> projectAssigneeBuilder = unitOfWork.newEntityBuilder( ProjectAssigneeEntityComposite.class );
+        projectAssigneeBuilder.stateOfComposite().isLead().set( isLead );
+        projectAssigneeBuilder.stateOfComposite().staff().set( staff );
+        projectAssigneeBuilder.stateOfComposite().priceRate().set( priceRate );
+
+        return projectAssigneeBuilder.newInstance();
+    }
+
+    protected static LegalCondition newLegalCondition( UnitOfWork unitOfWork, String value, String description )
+    {
+        CompositeBuilder<LegalConditionEntityComposite> legalConditionBuilder = unitOfWork.newEntityBuilder( LegalConditionEntityComposite.class );
+        legalConditionBuilder.stateOfComposite().name().set( value );
+        legalConditionBuilder.stateOfComposite().description().set( description );
+
+        return legalConditionBuilder.newInstance();
+    }
+
+    protected Task newTask( UnitOfWork unitOfWork, String title, String description, Date createdDate, TaskStatusEnum taskStatus )
+    {
+        CompositeBuilder<TaskEntityComposite> taskBuilder = unitOfWork.newEntityBuilder( TaskEntityComposite.class );
+        taskBuilder.stateOfComposite().title().set( title );
+        taskBuilder.stateOfComposite().description().set( description );
+        taskBuilder.stateOfComposite().createdDate().set( createdDate );
+        taskBuilder.stateOfComposite().taskStatus().set( taskStatus );
+
+        return taskBuilder.newInstance();
     }
 }

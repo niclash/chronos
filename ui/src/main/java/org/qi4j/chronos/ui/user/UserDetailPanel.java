@@ -15,6 +15,7 @@ package org.qi4j.chronos.ui.user;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.associations.HasLogin;
 import org.qi4j.chronos.ui.common.SimpleTextField;
 import org.qi4j.chronos.ui.login.LoginUserDetailPanel;
 
@@ -45,9 +46,9 @@ public abstract class UserDetailPanel extends Panel
 
         loginUserDetailPanel = new LoginUserDetailPanel( "loginUserDetailPanel" )
         {
-            public Login getLogin()
+            public HasLogin getLogin()
             {
-                return UserDetailPanel.this.getUser().login().get();
+                return UserDetailPanel.this.getUser();
             }
         };
 

@@ -42,8 +42,6 @@ public class LoginPage extends BasePage
 
     transient private AccountService accountService;
 
-    transient private @Service ServiceReference<AccountService> serviceReference;
-
     private static final long serialVersionUID = 1L;
 
     private static final String WICKET_ID_FEEDBACK_PANEL = "feedbackPanel";
@@ -52,14 +50,14 @@ public class LoginPage extends BasePage
     private PasswordTextField password;
     private TextField username;
 
-    public LoginPage( final @Structure UnitOfWorkFactory factory, final @Service AccountServiceComposite accountService )
+    public LoginPage( final @Structure UnitOfWorkFactory factory, final @Service AccountService accountService )
     {
         validateNotNull( "factory", factory );
         validateNotNull( "accountService", accountService );
 
         this.factory = factory;
         this.accountService = accountService;
-
+        
         add( new FeedbackPanel( WICKET_ID_FEEDBACK_PANEL ) );
         add( new LoginForm( WICKET_ID_LOGIN_FORM ) );
     }

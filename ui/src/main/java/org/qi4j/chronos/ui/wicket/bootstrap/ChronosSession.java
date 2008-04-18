@@ -49,7 +49,7 @@ public final class ChronosSession extends AuthenticatedWebSession
 
     private @Service SystemRoleService systemRoleService;
 
-    private @Structure UnitOfWorkFactory factory;
+//    transient private @Structure UnitOfWorkFactory factory;
 
     private SystemRoleResolver roleResolver;
 

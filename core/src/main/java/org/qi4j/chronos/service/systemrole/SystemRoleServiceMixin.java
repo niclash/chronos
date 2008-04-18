@@ -86,7 +86,7 @@ public class SystemRoleServiceMixin implements SystemRoleService, Activatable
 
         for( SystemRole systemRole : config.systemRoles() )
         {
-            if( name.equals( systemRole.name() ) )
+            if( name.equals( systemRole.name().get() ) )
             {
                 return systemRole;
             }

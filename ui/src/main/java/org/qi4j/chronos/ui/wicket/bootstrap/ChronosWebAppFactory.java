@@ -14,6 +14,8 @@ import org.qi4j.chronos.service.account.AccountService;
 import org.qi4j.chronos.service.account.AccountServiceComposite;
 import org.qi4j.chronos.service.user.UserService;
 import org.qi4j.chronos.service.user.UserServiceComposite;
+import org.qi4j.chronos.service.authentication.AuthenticationService;
+import org.qi4j.chronos.service.authentication.AuthenticationServiceComposite;
 import org.qi4j.composite.ObjectBuilder;
 import org.qi4j.composite.ObjectBuilderFactory;
 import org.qi4j.runtime.Energy4Java;
@@ -72,56 +74,56 @@ public final class ChronosWebAppFactory
             throw new IllegalStateException( "Module [" + MODULE_NAME_WICKET_BOOTSTRAP + "] is not found." );
         }
 
+//        instance.getApplicationContext().getApplicationBinding().getApplicationResolution().getApplicationModel().
+//        wicketLayer.lookupService(  );
+
+        ModuleInstance accountModuleInstance = getModuleInstanceByName( wicketLayer, "Account Module" );
+
         UnitOfWorkFactory factory = bootstrapModule.getStructureContext().getUnitOfWorkFactory();
-        ServiceLocator locator = bootstrapModule.getStructureContext().getServiceLocator();
-        SystemRoleService roleService = locator.lookupService( SystemRoleServiceComposite.class ).get();
-        AccountService accountService = locator.lookupService( AccountServiceComposite.class ).get();
-        UserService userService = locator.lookupService( UserServiceComposite.class ).get();
+//        ServiceLocator locator = bootstrapModule.getStructureContext().getServiceLocator();
+        SystemRoleService roleService = wicketLayer.lookupService( SystemRoleServiceComposite.class ).get();
 
-//        try
-//        {
-//            if( null != unitOfWork && unitOfWork.isOpen() )
-//            {
-//                unitOfWork.complete();
-//                unitOfWork = factory.newUnitOfWork();
-//            }
-//        }
-//        catch( UnitOfWorkCompletionException uowce )
-//        {
-//            System.err.println( uowce.getLocalizedMessage() );
-//            uowce.printStackTrace();
-//
-//            unitOfWork.discard();
-//        }
+//        AccountService accountService = accountModuleInstance.getStructureContext().getServiceLocator().lookupService( AccountServiceComposite.class ).get();
+        AccountService accountService = wicketLayer.lookupService( AccountServiceComposite.class ).get();
 
-        ObjectBuilderFactory builderFactory = bootstrapModule.getStructureContext().getObjectBuilderFactory();
+        AuthenticationService authenticationService = wicketLayer.lookupService( AuthenticationServiceComposite.class ).get();
+        UserService userService = wicketLayer.lookupService( UserServiceComposite.class ).get();
+
+//        ObjectBuilderFactory builderFactory = bootstrapModule.getStructureContext().getObjectBuilderFactory();
+        ObjectBuilderFactory builderFactory = accountModuleInstance.getStructureContext().getObjectBuilderFactory();
         ObjectBuilder<DummyDataInitializer> initializerBuilder = builderFactory.newObjectBuilder( DummyDataInitializer.class );
-        initializerBuilder.use( factory, locator, roleService, accountService, userService );
+        initializerBuilder.use( factory, roleService, accountService, userService );
         initializerBuilder.newInstance().initializeDummyData();
 
         ObjectBuilder<ChronosWebApp> appBuilder = builderFactory.newObjectBuilder( ChronosWebApp.class );
+        appBuilder.use( roleService, accountService, userService, authenticationService );
 
         return appBuilder.newInstance();
     }
 
     private ModuleInstance getBootstrapModule( LayerInstance wicketLayer )
     {
+        return getModuleInstanceByName( wicketLayer, MODULE_NAME_WICKET_BOOTSTRAP );
+    }
+
+    private ModuleInstance getModuleInstanceByName( LayerInstance wicketLayer, String moduleName )
+    {
         List<ModuleInstance> moduleInstances = wicketLayer.getModuleInstances();
-        ModuleInstance bootstrapModule = null;
+        ModuleInstance instance = null;
         for( ModuleInstance moduleInstance : moduleInstances )
         {
             ModuleContext moduleContext = moduleInstance.getModuleContext();
             ModuleBinding moduleBinding = moduleContext.getModuleBinding();
             ModuleResolution moduleResolution = moduleBinding.getModuleResolution();
             ModuleModel moduleModel = moduleResolution.getModuleModel();
-            String moduleName = moduleModel.getName();
-            if( MODULE_NAME_WICKET_BOOTSTRAP.equals( moduleName ) )
+            String m_moduleName = moduleModel.getName();
+            if( m_moduleName.equals( moduleName ) )
             {
-                bootstrapModule = moduleInstance;
+                instance = moduleInstance;
                 break;
             }
         }
-        return bootstrapModule;
+        return instance;
     }
 
     private LayerInstance getWicketLayerInstance( ApplicationInstance instance )

@@ -15,6 +15,7 @@ package org.qi4j.chronos.ui.login;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.Model;
+import org.qi4j.chronos.model.associations.HasLogin;
 import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.ui.common.SimpleTextField;
 
@@ -32,7 +33,7 @@ public abstract class LoginUserDetailPanel extends Panel
 
     private void initComponents()
     {
-        Login login = getLogin();
+        Login login = getLogin().login().get();
 
         loginIdField = new SimpleTextField( "loginIdField", login.name().get() );
         isEnabledCheckBox = new CheckBox( "isEnabledCheckBox", new Model( login.isEnabled().get() ) );
@@ -41,5 +42,5 @@ public abstract class LoginUserDetailPanel extends Panel
         add( isEnabledCheckBox );
     }
 
-    public abstract Login getLogin();
+    public abstract HasLogin getLogin();
 }

@@ -13,6 +13,7 @@
 package org.qi4j.chronos.ui.login;
 
 import org.qi4j.chronos.model.Login;
+import org.qi4j.chronos.model.associations.HasLogin;
 import org.qi4j.chronos.ui.common.MaxLengthPasswordField;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 
@@ -73,14 +74,15 @@ public class LoginUserAddPanel extends LoginUserAbstractPanel
         return isRejected;
     }
 
-    public void assignFieldValueToLogin( Login login )
+    public void assignFieldValueToLogin( HasLogin hasLogin )
     {
+        Login login = hasLogin.login().get();
         login.name().set( loginIdField.getText() );
         login.password().set( passwordField.getText() );
         login.isEnabled().set( true );
     }
 
-    public void assignLoginToFieldValue( Login login )
+    public void assignLoginToFieldValue( HasLogin hasLogin )
     {
         //printSomething here
     }

@@ -54,11 +54,23 @@ public class AccountEditPage extends AccountAddEditPage
 
     public void onSubmitting()
     {
-        final UnitOfWork unitOfWork = factory.newUnitOfWork();
+        final UnitOfWork unitOfWork;
+
+        if( null != factory.currentUnitOfWork() && factory.currentUnitOfWork().isOpen() )
+        {
+            unitOfWork = factory.currentUnitOfWork();
+            System.err.println( "Using existing unit of work" );
+        }
+        else
+        {
+            unitOfWork = factory.newUnitOfWork();
+            System.err.println( "Got new unit of work" );
+        }
 
         try
         {
             Account account = unitOfWork.dereference( getAccount() );
+//            Account account = getAccount();
             assignFieldValueToAccount( account );
 
             accountService.add( account );

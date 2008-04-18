@@ -61,12 +61,16 @@ public abstract class AccountAdminPanel extends Panel
         {
             public int getSize()
             {
-                return getTaskService().countRecentTasks( getAccount() );
+                // TODO migrate
+//                return getTaskService().countRecentTasks( getAccount() );
+                return 0;
             }
 
             public List<Task> dataList( int first, int count )
             {
-                return getTaskService().getRecentTasks( getAccount(), new FindFilter( first, count ) );
+                // TODO migrate
+//                return getTaskService().getRecentTasks( getAccount(), new FindFilter( first, count ) );
+                return new ArrayList<Task>();
             }
         };
     }
@@ -82,12 +86,16 @@ public abstract class AccountAdminPanel extends Panel
         {
             public int getSize()
             {
-                return getProjectService().countRecentProject( getAccount() );
+                // TODO migrate
+//                return getProjectService().countRecentProject( getAccount() );
+                return 0;
             }
 
             public List<Project> dataList( int first, int count )
             {
-                return getProjectService().getRecentProjects( getAccount(), new FindFilter( first, count ) );
+                // TODO migrate
+//                return getProjectService().getRecentProjects( getAccount(), new FindFilter( first, count ) );
+                return new ArrayList<Project>();
             }
         };
     }

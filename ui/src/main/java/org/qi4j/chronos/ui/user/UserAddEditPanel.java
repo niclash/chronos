@@ -182,7 +182,7 @@ public abstract class UserAddEditPanel extends AddEditBasePanel
             user.systemRoles().addAll( roleLists );
         }
 
-        loginUserPanel.assignFieldValueToLogin( user.login().get() );
+        loginUserPanel.assignFieldValueToLogin( user );
     }
 
     public void assignUserToFieldValue( User user )
@@ -192,7 +192,7 @@ public abstract class UserAddEditPanel extends AddEditBasePanel
 
         genderChoice.setChoice( user.gender().get().toString() );
 
-        loginUserPanel.assignLoginToFieldValue( user.login().get() );
+        loginUserPanel.assignLoginToFieldValue( user );
 
         //skip the rolePalette, as it is already done in getInitSelectedRoleList();
     }

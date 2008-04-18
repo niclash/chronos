@@ -25,10 +25,15 @@ import org.qi4j.chronos.ui.wicket.authentication.LoginPage;
 import org.qi4j.chronos.ui.admin.AdminHomePage;
 import org.qi4j.chronos.ui.staff.StaffHomePage;
 import org.qi4j.chronos.model.Admin;
+import org.qi4j.chronos.service.account.AccountService;
+import org.qi4j.chronos.service.systemrole.SystemRoleService;
+import org.qi4j.chronos.service.user.UserService;
+import org.qi4j.chronos.service.authentication.AuthenticationService;
 import static org.qi4j.composite.NullArgumentException.validateNotNull;
 import org.qi4j.composite.ObjectBuilder;
 import org.qi4j.composite.ObjectBuilderFactory;
 import org.qi4j.composite.scope.Structure;
+import org.qi4j.composite.scope.Service;
 
 /**
  * @author Lan Boon Ping
@@ -38,6 +43,14 @@ import org.qi4j.composite.scope.Structure;
 final class ChronosWebApp extends AuthenticatedWebApplication
 {
     private ObjectBuilderFactory objectBuilderFactory;
+
+    private @Service AccountService accountService;
+
+    private @Service SystemRoleService roleService;
+
+    private @Service UserService userService;
+
+    private @Service AuthenticationService authenticationService;
 
     /**
      * Construct a new instance of {@code ChronosWebApp}.
@@ -87,8 +100,15 @@ final class ChronosWebApp extends AuthenticatedWebApplication
     @Override
     public final Session newSession( Request request, Response response )
     {
+        validateNotNull( "request", request );
+        validateNotNull( "response", response );
+        validateNotNull( "accountService", accountService );
+        validateNotNull( "roleService", roleService );
+        validateNotNull( "userService", userService );
+        validateNotNull( "authenticationService", authenticationService );
+
         ObjectBuilder<ChronosSession> builder = objectBuilderFactory.newObjectBuilder( ChronosSession.class );
-        builder.use( this );
+        builder.use( this, request, accountService, userService, roleService, authenticationService );
         builder.use( request );
         return builder.newInstance();
     }

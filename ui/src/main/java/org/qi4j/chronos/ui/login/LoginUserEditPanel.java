@@ -18,6 +18,7 @@ import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.associations.HasLogin;
 import org.qi4j.chronos.ui.wicket.base.ChangePasswordPage;
 
 public abstract class LoginUserEditPanel extends LoginUserAbstractPanel
@@ -71,14 +72,16 @@ public abstract class LoginUserEditPanel extends LoginUserAbstractPanel
         return false;
     }
 
-    public void assignLoginToFieldValue( Login login )
+    public void assignLoginToFieldValue( HasLogin hasLogin )
     {
+        Login login = hasLogin.login().get();
+
         loginIdLabel.setModel( new Model( login.name().get() ) );
         loginEnabledCheckBox.setModel( new Model( login.isEnabled().get() ) );
     }
 
-    public void assignFieldValueToLogin( Login login )
+    public void assignFieldValueToLogin( HasLogin hasLogin )
     {
-        login.isEnabled().set( Boolean.parseBoolean( loginEnabledCheckBox.getModelObjectAsString() ) );
+        hasLogin.login().get().isEnabled().set( Boolean.parseBoolean( loginEnabledCheckBox.getModelObjectAsString() ) );
     }
 }
