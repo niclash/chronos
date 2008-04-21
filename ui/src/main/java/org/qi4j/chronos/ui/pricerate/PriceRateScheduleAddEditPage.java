@@ -75,7 +75,9 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
 
     private int getTotalAvailablePriceRateSchedule()
     {
-        return ChronosWebApp.getServices().getPriceRateScheduleService().countAll( getAccount() );
+        // TODO kamil: migrate
+//        return ChronosWebApp.getServices().getPriceRateScheduleService().countAll( getAccount() );
+        return getAccount().priceRateSchedules().size();
     }
 
     public final void initComponent( Form form )
@@ -339,11 +341,23 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
 
     private ProjectRole getProjectRole( ProjectRoleDelegator projectRoleDelegator )
     {
+/*
+        TODO kamil: migrate
         ProjectRole projectRole = ChronosWebApp.newInstance( ProjectRoleEntityComposite.class );
 
         projectRole.name().set( projectRoleDelegator.getName() );
 
         return projectRole;
+*/
+        for( ProjectRole projectRole : getAccount().projectRoles() )
+        {
+            if( projectRoleDelegator.getName().equals( projectRole.name().get() ) )
+            {
+                return projectRole;
+            }
+        }
+
+        return null;
     }
 
     protected void assignFieldValueToPriceRateSchedule( PriceRateSchedule priceRateSchedule )

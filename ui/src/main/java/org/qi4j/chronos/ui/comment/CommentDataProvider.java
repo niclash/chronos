@@ -13,6 +13,7 @@
 package org.qi4j.chronos.ui.comment;
 
 import java.util.List;
+import java.util.ArrayList;
 import org.qi4j.chronos.model.associations.HasComments;
 import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.service.CommentService;
@@ -24,7 +25,9 @@ public abstract class CommentDataProvider extends AbstractSortableDataProvider<C
 {
     public int getSize()
     {
-        return getCommentService().countAll( getHasComments() );
+        // TODO kamil: migrate
+//        return getCommentService().countAll( getHasComments() );
+        return getHasComments().comments().size();
     }
 
     public CommentId getId( Comment t )
@@ -44,7 +47,9 @@ public abstract class CommentDataProvider extends AbstractSortableDataProvider<C
 
     public List<Comment> dataList( int first, int count )
     {
-        return getCommentService().findAll( getHasComments(), new FindFilter( first, count ) );
+        // TODO kamil: migrate
+//        return getCommentService().findAll( getHasComments(), new FindFilter( first, count ) );
+        return new ArrayList<Comment>( getHasComments().comments() );
     }
 
     public abstract HasComments getHasComments();

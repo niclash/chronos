@@ -39,7 +39,8 @@ public abstract class CustomerEditPage extends CustomerAddEditPage
     {
         try
         {
-            CustomerService service = ChronosWebApp.getServices().getCustomerService();
+            // TODO kamil
+//            CustomerService service = ChronosWebApp.getServices().getCustomerService();
 
             Customer customer = getCustomer();
 

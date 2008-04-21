@@ -14,6 +14,7 @@ package org.qi4j.chronos.ui.workentry;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.associations.HasWorkEntries;
@@ -28,6 +29,7 @@ import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.chronos.util.DateUtil;
+import org.qi4j.entity.Identity;
 
 public abstract class WorkEntryTable extends ActionTable<WorkEntry, String>
 {
@@ -61,12 +63,16 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntry, String>
             {
                 public List<WorkEntry> dataList( int first, int count )
                 {
-                    return getWorkEntryService().findAll( getHasWorkEntries(), new FindFilter( first, first + count ) );
+                    // TODO kamil: migrate
+//                    return getWorkEntryService().findAll( getHasWorkEntries(), new FindFilter( first, first + count ) );
+                    return new ArrayList<WorkEntry>( getHasWorkEntries().workEntries() );
                 }
 
                 public int getSize()
                 {
-                    return getWorkEntryService().countAll( getHasWorkEntries() );
+                    // TODO kamil: migrate
+//                    return getWorkEntryService().countAll( getHasWorkEntries() );
+                    return getHasWorkEntries().workEntries().size();
                 }
 
                 public HasWorkEntries getHasWorkEntries()
@@ -96,7 +102,17 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntry, String>
                 {
                     public WorkEntry getWorkEntry()
                     {
-                        return getWorkEntryService().get( getHasWorkEntries(), workEntryId );
+                        // TODO kamil: migate
+//                        return getWorkEntryService().get( getHasWorkEntries(), workEntryId );
+                        for( WorkEntry workEntry : getHasWorkEntries().workEntries() )
+                        {
+                            if( workEntryId.equals( ( (Identity) workEntry).identity().get() ) )
+                            {
+                                return workEntry;
+                            }
+                        }
+
+                        return null;
                     }
                 };
 
@@ -116,7 +132,17 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntry, String>
                 {
                     public WorkEntry getWorkEntry()
                     {
-                        return getWorkEntryService().get( getHasWorkEntries(), workEntryId );
+                        // TODO kamil: migrate
+//                        return getWorkEntryService().get( getHasWorkEntries(), workEntryId );
+                        for( WorkEntry workEntry : getHasWorkEntries().workEntries() )
+                        {
+                            if( workEntryId.equals( ( (Identity) workEntry).identity().get() ) )
+                            {
+                                return workEntry;
+                            }
+                        }
+
+                        return null;
                     }
                 };
 

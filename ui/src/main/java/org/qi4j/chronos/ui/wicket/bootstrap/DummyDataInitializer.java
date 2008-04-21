@@ -15,7 +15,6 @@ package org.qi4j.chronos.ui.wicket.bootstrap;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkFactory;
 import org.qi4j.entity.UnitOfWorkCompletionException;
-import org.qi4j.service.ServiceLocator;
 import org.qi4j.chronos.service.account.AccountService;
 import org.qi4j.chronos.service.systemrole.SystemRoleService;
 import org.qi4j.chronos.service.user.UserService;
@@ -41,6 +40,9 @@ import org.qi4j.chronos.model.composites.TimeRangeEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.LegalConditionEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.model.composites.CommentEntityComposite;
+import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
 import org.qi4j.chronos.model.Address;
 import org.qi4j.chronos.model.City;
 import org.qi4j.chronos.model.State;
@@ -68,6 +70,9 @@ import org.qi4j.chronos.model.ProjectAssignee;
 import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.model.LegalCondition;
 import org.qi4j.chronos.model.TaskStatusEnum;
+import org.qi4j.chronos.model.Comment;
+import org.qi4j.chronos.model.WorkEntry;
+import org.qi4j.chronos.model.OngoingWorkEntry;
 import org.qi4j.composite.CompositeBuilder;
 import org.qi4j.composite.scope.Structure;
 import org.qi4j.composite.scope.Service;
@@ -109,12 +114,19 @@ final class DummyDataInitializer
         unitOfWork = complete( unitOfWork, unitOfWorkFactory );
 
         initPriceRateSchedule();
+
+        unitOfWork = complete( unitOfWork, unitOfWorkFactory );
+
         initCustomersAndContactPersons();
 
         unitOfWork = complete( unitOfWork, unitOfWorkFactory );
 
         initProjectsTasksAndAssignees();
-        
+
+        unitOfWork = complete( unitOfWork, unitOfWorkFactory );
+
+        initWorkEntries();
+
         try
         {
              unitOfWork.complete();
@@ -124,7 +136,36 @@ final class DummyDataInitializer
            System.err.println( uowce.getLocalizedMessage() );
            uowce.printStackTrace();
         }
-//        unitOfWork = complete( unitOfWork, unitOfWorkFactory );
+    }
+
+    private void initWorkEntries()
+    {
+        Calendar now = Calendar.getInstance();
+        now.add( Calendar.DATE, -13 );
+        Date createdDate = now.getTime();
+        now.add( Calendar.DATE, -4 );
+        Date startTime = now.getTime();
+        now.add( Calendar.DATE, 3 );
+        Date endTime = now.getTime();
+        for( Account account : accountService.findAll() )
+        {
+            for( Project project : account.projects() )
+            {
+                for( Task task : project.tasks() )
+                {
+                    ProjectAssignee assignee = project.projectAssignees().iterator().next();
+                    Comment comment = newComment( unitOfWork, "This is a comment.", createdDate, task.user().get() );
+                    WorkEntry workEntry = newWorkEntry( unitOfWork, "Work Entry 1", "Description",
+                                                        createdDate, startTime, endTime, assignee );
+                    workEntry.comments().add( comment );
+                    OngoingWorkEntry ongoingWorkEntry = newOngoingWorkEntry( unitOfWork, createdDate, assignee );
+
+                    task.comments().add( comment );
+                    task.workEntries().add( workEntry );
+                    task.onGoingWorkEntries().add( ongoingWorkEntry );
+                }
+            }
+        }
     }
 
     private void initProjectsTasksAndAssignees()
@@ -140,12 +181,13 @@ final class DummyDataInitializer
             for( Customer customer : account.customers() )
             {
                 ContactPerson contactPerson = customer.contactPersons().iterator().next();
-                PriceRateSchedule priceRateSchedule = customer.priceRateSchedules().iterator().next();
+                PriceRateSchedule priceRateSchedule = account.priceRateSchedules().iterator().next();
                 Staff staff = account.staffs().iterator().next();
                 PriceRate priceRate = priceRateSchedule.priceRates().iterator().next();
                 ProjectAssignee projectAssignee = newProjectAssignee( unitOfWork, true, staff, priceRate );
                 Task task = newTask( unitOfWork, "Task 1", "Task 1 description", startDate, TaskStatusEnum.OPEN );
                 task.user().set( staff );
+                LegalCondition condition = newLegalCondition( unitOfWork, "3 years", "Maintenance contract" );
 
                 Project project = newProject( unitOfWork, "Project 1", "p1", ProjectStatusEnum.ACTIVE );
                 project.customer().set( customer );
@@ -155,6 +197,7 @@ final class DummyDataInitializer
                 project.estimateTime().set( newTimeRange( unitOfWork, startDate, endDate ) );
                 project.projectAssignees().add( projectAssignee );
                 project.tasks().add( task );
+                project.legalConditions().add( condition );
 
                 account.projects().add( project );
             }
@@ -175,6 +218,8 @@ final class DummyDataInitializer
             projectManager.systemRoles().add( roleService.getSystemRoleByName( SystemRole.CONTACT_PERSON ) );
 
             customer.contactPersons().add( projectManager );
+
+            account.customers().add( customer );
         }
     }
 
@@ -183,6 +228,7 @@ final class DummyDataInitializer
         for( Account account : accountService.findAll() )
         {
             PriceRateSchedule priceRateSchedule = newPriceRateSchedule( unitOfWork, "Default" );
+            priceRateSchedule.currency().set( Currency.getInstance( "EUR" ) );
 
             for( ProjectRole projectRole : account.projectRoles() )
             {
@@ -190,6 +236,7 @@ final class DummyDataInitializer
                 priceRate.projectRole().set( projectRole );
                 priceRateSchedule.priceRates().add( priceRate );
             }
+            account.priceRateSchedules().add( priceRateSchedule );
         }
     }
 
@@ -264,25 +311,25 @@ final class DummyDataInitializer
 
     private void initStaff()
     {
-        Staff boss = newUser( unitOfWork, StaffEntityComposite.class, "The", "Boss", GenderType.MALE );
-        boss.login().set( newLogin( unitOfWork, "boss", "boss" ) );
-        boss.salary().set( newMoney( unitOfWork, 8000L, "EUR" ) );
-
-        Staff developer = newUser( unitOfWork, StaffEntityComposite.class, "The", "Developer", GenderType.MALE );
-        developer.login().set( newLogin( unitOfWork, "developer", "developer" ) );
-        developer.salary().set( newMoney( unitOfWork, 2000L, "USD" ) );
-
-        for( SystemRole role : roleService.findAllStaffSystemRole() )
-        {
-            boss.systemRoles().add( role );
-            if( SystemRole.ACCOUNT_DEVELOPER.equals( role.name().get() ) )
-            {
-                developer.systemRoles().add( role );
-            }
-        }
-
         for( Account account : accountService.findAll() )
         {
+            Staff boss = newUser( unitOfWork, StaffEntityComposite.class, "The", "Boss", GenderType.MALE );
+            boss.login().set( newLogin( unitOfWork, "boss", "boss" ) );
+            boss.salary().set( newMoney( unitOfWork, 8000L, "EUR" ) );
+
+            Staff developer = newUser( unitOfWork, StaffEntityComposite.class, "The", "Developer", GenderType.MALE );
+            developer.login().set( newLogin( unitOfWork, "developer", "developer" ) );
+            developer.salary().set( newMoney( unitOfWork, 2000L, "USD" ) );
+
+            for( SystemRole role : roleService.findAllStaffSystemRole() )
+            {
+                boss.systemRoles().add( role );
+                if( SystemRole.ACCOUNT_DEVELOPER.equals( role.name().get() ) )
+                {
+                    developer.systemRoles().add( role );
+                }
+            }
+
             account.staffs().add( boss );
             account.staffs().add( developer );
         }
@@ -510,7 +557,7 @@ final class DummyDataInitializer
         return legalConditionBuilder.newInstance();
     }
 
-    protected Task newTask( UnitOfWork unitOfWork, String title, String description, Date createdDate, TaskStatusEnum taskStatus )
+    protected static Task newTask( UnitOfWork unitOfWork, String title, String description, Date createdDate, TaskStatusEnum taskStatus )
     {
         CompositeBuilder<TaskEntityComposite> taskBuilder = unitOfWork.newEntityBuilder( TaskEntityComposite.class );
         taskBuilder.stateOfComposite().title().set( title );
@@ -519,5 +566,38 @@ final class DummyDataInitializer
         taskBuilder.stateOfComposite().taskStatus().set( taskStatus );
 
         return taskBuilder.newInstance();
+    }
+
+    protected static Comment newComment( UnitOfWork unitOfWork, String comment, Date createdDate, User user )
+    {
+        CompositeBuilder<CommentEntityComposite> commentBuilder = unitOfWork.newEntityBuilder( CommentEntityComposite.class );
+        commentBuilder.stateOfComposite().text().set( comment );
+        commentBuilder.stateOfComposite().createdDate().set( createdDate );
+        commentBuilder.stateOfComposite().user().set( user );
+
+        return commentBuilder.newInstance();
+    }
+
+    protected static WorkEntry newWorkEntry( UnitOfWork unitOfWork, String title, String description, Date createdDate,
+                                             Date startTime, Date endTime, ProjectAssignee projectAssignee )
+    {
+        CompositeBuilder<WorkEntryEntityComposite> workEntryBuilder = unitOfWork.newEntityBuilder( WorkEntryEntityComposite.class );
+        workEntryBuilder.stateOfComposite().title().set( title );
+        workEntryBuilder.stateOfComposite().description().set( description );
+        workEntryBuilder.stateOfComposite().createdDate().set( createdDate );
+        workEntryBuilder.stateOfComposite().startTime().set( startTime );
+        workEntryBuilder.stateOfComposite().endTime().set( endTime );
+        workEntryBuilder.stateOfComposite().projectAssignee().set( projectAssignee );
+
+        return workEntryBuilder.newInstance();
+    }
+
+    protected static OngoingWorkEntry newOngoingWorkEntry( UnitOfWork unitOfWork, Date createdDate, ProjectAssignee projectAssignee )
+    {
+        CompositeBuilder<OngoingWorkEntryEntityComposite> ongoingWorkEntryBuilder = unitOfWork.newEntityBuilder( OngoingWorkEntryEntityComposite.class );
+        ongoingWorkEntryBuilder.stateOfComposite().createdDate().set( createdDate );
+        ongoingWorkEntryBuilder.stateOfComposite().projectAssignee().set( projectAssignee );
+
+        return ongoingWorkEntryBuilder.newInstance();
     }
 }

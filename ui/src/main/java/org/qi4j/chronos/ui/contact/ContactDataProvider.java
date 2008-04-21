@@ -13,6 +13,7 @@
 package org.qi4j.chronos.ui.contact;
 
 import java.util.List;
+import java.util.ArrayList;
 import org.qi4j.chronos.model.associations.HasContacts;
 import org.qi4j.chronos.model.composites.ContactComposite;
 import org.qi4j.chronos.service.ContactService;
@@ -25,7 +26,9 @@ public abstract class ContactDataProvider<T extends HasContacts> extends Abstrac
 {
     public int getSize()
     {
-        return getContactService().countAll( getHasContacts() );
+        return getHasContacts().contacts().size();
+        // TODO
+//        return getContactService().countAll( getHasContacts() );
     }
 
     private ContactService getContactService()
@@ -45,7 +48,9 @@ public abstract class ContactDataProvider<T extends HasContacts> extends Abstrac
 
     public List<Contact> dataList( int first, int count )
     {
-        return getContactService().findAll( getHasContacts(), new FindFilter( first, count ) );
+        return new ArrayList<Contact>( getHasContacts().contacts() );
+        // TODO
+//        return getContactService().findAll( getHasContacts(), new FindFilter( first, count ) );
     }
 
     public abstract T getHasContacts();

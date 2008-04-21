@@ -13,6 +13,7 @@
 package org.qi4j.chronos.ui.pricerate;
 
 import java.util.List;
+import java.util.ArrayList;
 import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
 import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.service.FindFilter;
@@ -39,12 +40,16 @@ public abstract class PriceRateScheduleDataProvider<T extends HasPriceRateSchedu
 
     public List<PriceRateSchedule> dataList( int first, int count )
     {
-        return getPriceRateScheduleService().findAll( getHasPriceRateSchedules(), new FindFilter( first, count ) );
+        // TODO migrate
+//        return getPriceRateScheduleService().findAll( getHasPriceRateSchedules(), new FindFilter( first, count ) );
+        return new ArrayList<PriceRateSchedule>( getHasPriceRateSchedules().priceRateSchedules() );
     }
 
     public int getSize()
     {
-        return getPriceRateScheduleService().countAll( getHasPriceRateSchedules() );
+        // TODO migrate
+//        return getPriceRateScheduleService().countAll( getHasPriceRateSchedules() );
+        return getHasPriceRateSchedules().priceRateSchedules().size();
     }
 
     public abstract T getHasPriceRateSchedules();

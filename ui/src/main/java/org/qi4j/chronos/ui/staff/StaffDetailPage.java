@@ -84,12 +84,16 @@ public abstract class StaffDetailPage extends LeftMenuNavPage
             {
                 public int getSize()
                 {
-                    return getProjectService().countAll( StaffDetailPage.this.getStaff() );
+                    return getAccount().projects().size();
+                    // TODO kamil
+//                    return getProjectService().countAll( StaffDetailPage.this.getStaff() );
                 }
 
                 public List<Project> dataList( int first, int count )
                 {
-                    return getProjectService().findAll( StaffDetailPage.this.getStaff(), new FindFilter( first, count ) );
+                    return new ArrayList<Project>( getAccount().projects() );
+                    // TODO kamil
+//                    return getProjectService().findAll( StaffDetailPage.this.getStaff(), new FindFilter( first, count ) );
                 }
             } );
 

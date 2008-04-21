@@ -78,11 +78,11 @@ public final class ListUtil
 
     public static List<ProjectRoleDelegator> getProjectRoleDelegatorList( Account account )
     {
-        List<ProjectRole> projectRolelists = ChronosWebApp.getServices().getProjectRoleService().findAll( account );
+//        List<ProjectRole> projectRolelists = ChronosWebApp.getServices().getProjectRoleService().findAll( account );
 
         List<ProjectRoleDelegator> resultList = new ArrayList<ProjectRoleDelegator>();
 
-        for( ProjectRole projectRole : projectRolelists )
+        for( ProjectRole projectRole : account.projectRoles() )
         {
             resultList.add( new ProjectRoleDelegator( projectRole ) );
         }
@@ -142,6 +142,7 @@ public final class ListUtil
         return result;
     }
 
+/*
     public static List<String> getTaskStatusList()
     {
         List<String> resultList = new ArrayList<String>();
@@ -153,4 +154,5 @@ public final class ListUtil
 
         return resultList;
     }
+*/
 }

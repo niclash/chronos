@@ -31,6 +31,7 @@ import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleAction;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
+import org.qi4j.entity.Identity;
 
 public abstract class ProjectTable extends ActionTable<Project, String>
 {
@@ -54,7 +55,8 @@ public abstract class ProjectTable extends ActionTable<Project, String>
         {
             public void performAction( List<Project> projects )
             {
-                getProjectService().delete( projects );
+                // TODO
+//                getProjectService().delete( projects );
 
                 info( "Selected project(s) are deleted." );
             }
@@ -64,7 +66,8 @@ public abstract class ProjectTable extends ActionTable<Project, String>
         {
             public void performAction( List<Project> projects )
             {
-                getProjectService().changeProjectStatus( ProjectStatusEnum.ACTIVE, projects );
+                // TODO
+//                getProjectService().changeProjectStatus( ProjectStatusEnum.ACTIVE, projects );
 
                 info( "Selected project(s) are changed to status Active" );
             }
@@ -74,7 +77,8 @@ public abstract class ProjectTable extends ActionTable<Project, String>
         {
             public void performAction( List<Project> projects )
             {
-                getProjectService().changeProjectStatus( ProjectStatusEnum.INACTIVE, projects );
+                // TODO
+//                getProjectService().changeProjectStatus( ProjectStatusEnum.INACTIVE, projects );
 
                 info( "Selected project(s) are changed to inactive status" );
             }
@@ -84,7 +88,8 @@ public abstract class ProjectTable extends ActionTable<Project, String>
         {
             public void performAction( List<Project> projects )
             {
-                getProjectService().changeProjectStatus( ProjectStatusEnum.CLOSED, projects );
+                // TODO
+//                getProjectService().changeProjectStatus( ProjectStatusEnum.CLOSED, projects );
 
                 info( "Selected project(s) are changed to  Closed ActivationStatus" );
             }
@@ -114,7 +119,7 @@ public abstract class ProjectTable extends ActionTable<Project, String>
 
     public void populateItems( Item item, Project obj )
     {
-        final String projectId = ( (ProjectEntityComposite) obj).identity().get();
+        final String projectId = ( (Identity) obj).identity().get();
 
         item.add( createDetailLink( "name", obj.name().get(), projectId ) );
         item.add( createDetailLink( "formalReference", obj.reference().get(), projectId ) );
@@ -136,7 +141,17 @@ public abstract class ProjectTable extends ActionTable<Project, String>
                 {
                     public org.qi4j.chronos.model.Project getProject()
                     {
-                        return getProjectService().get( projectId );
+                        for( Project project : getAccount().projects() )
+                        {
+                            if( projectId.equals( ( (Identity) project).identity().get() ) )
+                            {
+                                return project;
+                            }
+                        }
+
+                        return null;
+                        // TODO
+//                        return getProjectService().get( projectId );
                     }
                 };
 
@@ -160,7 +175,17 @@ public abstract class ProjectTable extends ActionTable<Project, String>
                 {
                     public Project getProject()
                     {
-                        return getProjectService().get( projectId );
+                        for( Project project : getAccount().projects() )
+                        {
+                            if( projectId.equals( ( (Identity) project).identity().get() ) )
+                            {
+                                return project;
+                            }
+                        }
+
+                        return null;
+                        // TODO
+//                        return getProjectService().get( projectId );
                     }
                 };
 
@@ -169,10 +194,12 @@ public abstract class ProjectTable extends ActionTable<Project, String>
         };
     }
 
+/*
     private ProjectService getProjectService()
     {
         return ChronosWebApp.getServices().getProjectService();
     }
+*/
 
     public List<String> getTableHeaderList()
     {

@@ -99,20 +99,20 @@ public abstract class StaffTable extends ActionTable<Staff, String>
         return dataProvider;
     }
 
-    public void populateItems( Item item, Staff obj )
+    public void populateItems( Item item, final Staff staff )
     {
-        final String staffId = ( (Identity) obj).identity().get();
+        final String staffId = staff.identity().get();
 
-        item.add( createDetailLink( "firstName", obj.firstName().get(), staffId ) );
-        item.add( createDetailLink( "lastName", obj.lastName().get(), staffId ) );
+        item.add( createDetailLink( "firstName", staff.firstName().get(), staffId ) );
+        item.add( createDetailLink( "lastName", staff.lastName().get(), staffId ) );
 
-        Money salary = obj.salary().get();
+        Money salary = staff.salary().get();
 
         item.add( new Label( "salary", salary.currency().get().getSymbol() + salary.amount().get() ) );
 
-        item.add( new Label( "loginId", obj.login().get().name().get() ) );
+        item.add( new Label( "loginId", staff.login().get().name().get() ) );
 
-        item.add( new SimpleCheckBox( "loginEnabled", obj.login().get().isEnabled().get(), true ) );
+        item.add( new SimpleCheckBox( "loginEnabled", staff.login().get().isEnabled().get(), true ) );
 
         item.add( new SimpleLink( "editLink", "Edit" )
         {
@@ -122,7 +122,18 @@ public abstract class StaffTable extends ActionTable<Staff, String>
                 {
                     public Staff getStaff()
                     {
-                        return getStaffService().get( staffId );
+                        for( Staff staff : getAccount().staffs() )
+                        {
+                            if( staffId.equals( staff.identity().get() ) )
+                            {
+                                return staff;
+                            }
+                        }
+
+                        return null;
+//                        return staff;
+                        // TODO migrate
+//                        return getStaffService().get( staffId );
                     }
                 } );
             }
@@ -139,7 +150,17 @@ public abstract class StaffTable extends ActionTable<Staff, String>
                 {
                     public Staff getStaff()
                     {
-                        return getStaffService().get( staffId );
+                        for( Staff staff : getAccount().staffs() )
+                        {
+                            if( staffId.equals( staff.identity().get() ) )
+                            {
+                                return staff;
+                            }
+                        }
+
+                        return null;
+                        // TODO kamil
+//                        return getStaffService().get( staffId );
                     }
                 };
 

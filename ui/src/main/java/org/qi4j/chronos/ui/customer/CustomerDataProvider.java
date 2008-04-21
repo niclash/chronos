@@ -13,6 +13,7 @@
 package org.qi4j.chronos.ui.customer;
 
 import java.util.List;
+import java.util.ArrayList;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.service.CustomerService;
@@ -39,9 +40,10 @@ public abstract class CustomerDataProvider extends AbstractSortableDataProvider<
 
     public List<Customer> dataList( int first, int count )
     {
+        return new ArrayList<Customer>( getAccount().customers() );
         // TODO migrate
 //        return getCustomerService().findAll( getAccount() );
-        return null;
+//        return null;
     }
 
     public abstract Account getAccount();
@@ -50,7 +52,7 @@ public abstract class CustomerDataProvider extends AbstractSortableDataProvider<
     {
         // TODO migrate
 //        return getCustomerService().countAll( getAccount() );
-        return 0;
+        return getAccount().customers().size();
     }
 
 }

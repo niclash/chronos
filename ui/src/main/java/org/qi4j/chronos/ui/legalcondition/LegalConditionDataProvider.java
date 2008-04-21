@@ -13,6 +13,7 @@
 package org.qi4j.chronos.ui.legalcondition;
 
 import java.util.List;
+import java.util.ArrayList;
 import org.qi4j.chronos.model.LegalCondition;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.service.FindFilter;
@@ -35,12 +36,16 @@ public abstract class LegalConditionDataProvider extends AbstractSortableDataPro
 
     public List<LegalCondition> dataList( int first, int count )
     {
-        return getLegalConditionService().findAll( getProject(), new FindFilter( first, count ) );
+        // TODO kamil: migrate
+//        return getLegalConditionService().findAll( getProject(), new FindFilter( first, count ) );
+        return new ArrayList<LegalCondition>( getProject().legalConditions() );
     }
 
     public int getSize()
     {
-        return getLegalConditionService().countAll( getProject() );
+        // TODO kamil: migrate
+//        return getLegalConditionService().countAll( getProject() );
+        return getProject().legalConditions().size();
     }
 
     private LegalConditionService getLegalConditionService()

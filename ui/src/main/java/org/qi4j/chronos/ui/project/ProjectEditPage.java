@@ -14,6 +14,7 @@ package org.qi4j.chronos.ui.project;
 
 import java.util.Iterator;
 import java.util.List;
+import java.util.ArrayList;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.PriceRateSchedule;
@@ -79,10 +80,10 @@ public abstract class ProjectEditPage extends ProjectAddEditPage
 
     public List<PriceRateSchedule> getAvailablePriceRateScheduleChoice()
     {
-        Customer customer = getCustomerService().get( customerChoice.getChoice().getId() );
-
-        List<PriceRateSchedule> list = ChronosWebApp.getServices().getPriceRateScheduleService().findAll( customer );
-
+//        Customer customer = getCustomerService().get( customerChoice.getChoice().getId() );
+//        List<PriceRateSchedule> list = ChronosWebApp.getServices().getPriceRateScheduleService().findAll( customer );
+        List<PriceRateSchedule> list = new ArrayList<PriceRateSchedule>();
+        list.addAll( getProject().customer().get().priceRateSchedules() );
         list.add( getProject().priceRateSchedule().get() );
 
         return list;

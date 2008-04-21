@@ -92,7 +92,17 @@ public abstract class ProjectRoleTable extends ActionTable<ProjectRole, String>
                 {
                     public ProjectRole getProjectRole()
                     {
-                        return getProjectRoleService().get( getAccount(), projectRoleName );
+                        // TODO kamil: migrate
+//                        return getProjectRoleService().get( getAccount(), projectRoleName );
+                        for( ProjectRole projectRole : getAccount().projectRoles() )
+                        {
+                            if( projectRoleName.equals( projectRole.name().get() ) )
+                            {
+                                return projectRole;
+                            }
+                        }
+
+                        return null;
                     }
                 };
                 setResponsePage( roleEditPage );

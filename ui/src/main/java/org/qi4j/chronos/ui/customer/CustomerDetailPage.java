@@ -123,7 +123,7 @@ public abstract class CustomerDetailPage extends LeftMenuNavPage
 
             customer.priceRateSchedules().add( priceRateSchedule );
 
-            CustomerService service = getServices().getCustomerService();
+//            CustomerService service = getServices().getCustomerService();
 
             // TODO migrate
 //            service.update( customer );

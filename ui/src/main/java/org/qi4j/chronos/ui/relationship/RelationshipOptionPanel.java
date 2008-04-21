@@ -20,6 +20,7 @@ import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.qi4j.chronos.model.Relationship;
 import org.qi4j.chronos.model.Customer;
+import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.service.RelationshipService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
@@ -33,8 +34,7 @@ public abstract class RelationshipOptionPanel extends Panel
 
     private List<String> relationshipList;
 
-    //TODO bp. remove static
-    private static List<Relationship> addedRelationshipList;
+    private List<Relationship> addedRelationshipList;
 
     public RelationshipOptionPanel( String id )
     {
@@ -95,16 +95,23 @@ public abstract class RelationshipOptionPanel extends Panel
     {
         Set<String> relationshipSet = new HashSet();
 
-        RelationshipService service = ChronosWebApp.getServices().getRelationshipService();
+//        RelationshipService service = ChronosWebApp.getServices().getRelationshipService();
 
         Customer customer = getCustomer();
 
-        List<Relationship> list = service.findAll( customer );
+//        customer.contactPersons().iterator().next().relationship().get()
 
+//        List<Relationship> list = service.findAll( customer );
+        for( ContactPerson contactPerson : customer.contactPersons() )
+        {
+            relationshipSet.add( contactPerson.relationship().get().relationship().get() );
+        }
+/*
         for( Relationship relationship : list )
         {
             relationshipSet.add( relationship.relationship().get() );
         }
+*/
 
         relationshipList = new ArrayList<String>();
 
@@ -139,7 +146,16 @@ public abstract class RelationshipOptionPanel extends Panel
             }
         }
 
-        return ChronosWebApp.getServices().getRelationshipService().get( getCustomer(), choice );
+//        return ChronosWebApp.getServices().getRelationshipService().get( getCustomer(), choice );
+        for( ContactPerson contactPerson : getCustomer().contactPersons() )
+        {
+            if( choice.equals( contactPerson.relationship().get().relationship().get() ) )
+            {
+                return contactPerson.relationship().get();
+            }
+        }
+
+        return null;
     }
 
     public abstract Customer getCustomer();

@@ -13,6 +13,7 @@
 package org.qi4j.chronos.ui.projectrole;
 
 import java.util.List;
+import java.util.ArrayList;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.ProjectRoleService;
 import org.qi4j.chronos.ui.ChronosWebApp;
@@ -22,9 +23,9 @@ import org.qi4j.chronos.model.Account;
 
 public abstract class ProjectRoleDataProvider extends AbstractSortableDataProvider<ProjectRole, String>
 {
-    public String getId( ProjectRole projectRoleEntityComposite )
+    public String getId( ProjectRole projectRole )
     {
-        return projectRoleEntityComposite.name().get();
+        return projectRole.name().get();
     }
 
     public ProjectRole load( String id )
@@ -39,12 +40,16 @@ public abstract class ProjectRoleDataProvider extends AbstractSortableDataProvid
 
     public List<ProjectRole> dataList( int first, int count )
     {
-        return getRoleService().findAll( getAccount(), new FindFilter( first, count ) );
+        return new ArrayList<ProjectRole>( getAccount().projectRoles() );
+        // TODO migrate
+//        return getRoleService().findAll( getAccount(), new FindFilter( first, count ) );
     }
 
     public int getSize()
     {
-        return getRoleService().countAll( getAccount() );
+        return getAccount().projectRoles().size();
+        // TODO migrate
+//        return getRoleService().countAll( getAccount() );
     }
 
     public abstract Account getAccount();

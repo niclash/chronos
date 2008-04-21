@@ -45,17 +45,20 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
         {
             public void performAction( List<PriceRateSchedule> priceRateSchedules )
             {
-                getPriceRateScheduleService().deletePriceRateSchedule( getHasPriceRateSchedules(), priceRateSchedules );
+                // TODO migrate
+//                getPriceRateScheduleService().deletePriceRateSchedule( getHasPriceRateSchedules(), priceRateSchedules );
 
                 info( "Selected price rate schedule(s) are deleted." );
             }
         } );
     }
 
+/*
     private PriceRateScheduleService getPriceRateScheduleService()
     {
         return ChronosWebApp.getServices().getPriceRateScheduleService();
     }
+*/
 
     public AbstractSortableDataProvider<PriceRateSchedule, String> getDetachableDataProvider()
     {
@@ -139,7 +142,17 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
 
     private PriceRateSchedule getPriceRateSchedule( String name )
     {
-        return getPriceRateScheduleService().get( getHasPriceRateSchedules(), name );
+        // TODO migrate
+//        return getPriceRateScheduleService().get( getHasPriceRateSchedules(), name );
+        for( PriceRateSchedule priceRateSchedule : getHasPriceRateSchedules().priceRateSchedules() )
+        {
+            if( name.equals( priceRateSchedule.name().get() ) )
+            {
+                return priceRateSchedule;
+            }
+        }
+
+        return null;
     }
 
     public List<String> getTableHeaderList()

@@ -22,6 +22,7 @@ import org.qi4j.chronos.ui.common.menu.MenuBar;
 import org.qi4j.chronos.ui.common.menu.MenuItem;
 import org.qi4j.chronos.ui.common.menu.MenuLink;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
+import org.qi4j.entity.Identity;
 
 public abstract class RecentProjectMenuBar extends MenuBar
 {
@@ -40,21 +41,20 @@ public abstract class RecentProjectMenuBar extends MenuBar
 
         // TODO migrate
 //        int countAll = projectService.countAll( getAccount() );
-
-        int countAll = 0;
+        int countAll = getAccount().projects().size();
         
         int toShowSize = Math.min( TOTAL_PROJECT_TO_SHOW, countAll );
 
 //        List<Project> recentProjectList = projectService.
 //            getRecentProjects( getAccount(), new FindFilter( 0, toShowSize ) );
 
-        List<Project> recentProjectList = new ArrayList<Project>();
-        MenuItem[] menuItems = new MenuItem[recentProjectList.size()];
+        List<Project> recentProjectList = new ArrayList<Project>( getAccount().projects() );
+        MenuItem[] menuItems = new MenuItem[ recentProjectList.size() ];
 
         int index = 0;
         for( Project project : recentProjectList )
         {
-            final String projectId = ( (ProjectEntityComposite) project).identity().get();
+            final String projectId = ( (Identity) project).identity().get();
 
             menuItems[ index ] = new MenuLink( project.name().get() )
             {
@@ -76,7 +76,17 @@ public abstract class RecentProjectMenuBar extends MenuBar
         {
             public Project getProject()
             {
-                return ChronosWebApp.getServices().getProjectService().get( projectId );
+                // TODO kamil: migrate
+//                return ChronosWebApp.getServices().getProjectService().get( projectId );
+                for( Project project : getAccount().projects() )
+                {
+                    if( projectId.equals( ( (Identity) project).identity().get() ) )
+                    {
+                        return project;
+                    }
+                }
+
+                return null;
             }
         };
 

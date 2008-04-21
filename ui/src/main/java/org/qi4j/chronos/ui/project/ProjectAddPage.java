@@ -15,6 +15,7 @@ package org.qi4j.chronos.ui.project;
 import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
+import java.util.ArrayList;
 import org.apache.wicket.Page;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.ui.ChronosWebApp;
@@ -25,14 +26,20 @@ import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.TimeRangeEntityComposite;
+import org.qi4j.composite.scope.Structure;
+import org.qi4j.composite.scope.Uses;
+import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.entity.Identity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ProjectAddPage extends ProjectAddEditPage
 {
+//    private @Structure UnitOfWorkFactory factory;
+    
     private final static Logger LOGGER = LoggerFactory.getLogger( ProjectAddPage.class );
 
-    public ProjectAddPage( Page basePage )
+    public ProjectAddPage( final @Uses Page basePage )
     {
         super( basePage );
     }
@@ -85,13 +92,27 @@ public class ProjectAddPage extends ProjectAddEditPage
 
     public List<PriceRateSchedule> getAvailablePriceRateSchedule()
     {
-        return Collections.EMPTY_LIST;
+        return new ArrayList<PriceRateSchedule>( getAccount().priceRateSchedules() );
+            // TODO migrate
+//        return Collections.EMPTY_LIST;
     }
 
     public List<PriceRateSchedule> getAvailablePriceRateScheduleChoice()
     {
+        for( Customer customer : getAccount().customers() )
+        {
+            if( customerChoice.getChoice().getId().equals( ( (Identity) customer).identity().get() ) )
+            {
+                return new ArrayList<PriceRateSchedule>( customer.priceRateSchedules() );
+            }
+        }
+
+        return Collections.EMPTY_LIST;
+        // TODO migrate
+/*
         Customer customer = getCustomerService().get( customerChoice.getChoice().getId() );
 
         return ChronosWebApp.getServices().getPriceRateScheduleService().findAll( customer );
+*/
     }
 }

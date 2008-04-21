@@ -44,6 +44,7 @@ import org.qi4j.chronos.ui.util.ValidatorUtil;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 import org.qi4j.entity.association.Association;
 import org.qi4j.entity.association.SetAssociation;
+import org.qi4j.entity.Identity;
 
 public abstract class ProjectAddEditPage extends AddEditBasePage
 {
@@ -195,7 +196,9 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
 
     private List<ContactPersonDelegator> getAvailableContactPersonChoices()
     {
-        Customer projectOwner = getCustomerService().get( customerChoice.getChoice().getId() );
+        // TODO
+//        Customer projectOwner = getCustomerService().get( customerChoice.getChoice().getId() );
+        Customer projectOwner = getCustomer();
 
         List<ContactPerson> contactPersonList = getContactPersonService().findAll( projectOwner );
 
@@ -288,7 +291,9 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
 
         project.projectStatus().set( statusChoice.getChoice() );
 
-        Customer customer = getCustomerService().get( customerChoice.getChoice().getId() );
+        // TODO migrate
+//        Customer customer = getCustomerService().get( customerChoice.getChoice().getId() );
+        Customer customer = getCustomer();
 
         project.customer().set( customer );
 
@@ -367,9 +372,23 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
         customerChoice.setEnabled( false );
     }
 
-    protected CustomerService getCustomerService()
+    /*
+        protected CustomerService getCustomerService()
+        {
+            return ChronosWebApp.getServices().getCustomerService();
+        }
+    */
+    protected Customer getCustomer()
     {
-        return ChronosWebApp.getServices().getCustomerService();
+        for( Customer customer : getAccount().customers() )
+        {
+            if( customerChoice.getChoice().getId().equals( ( (Identity) customer).identity().get() ) )
+            {
+                return customer;
+            }
+        }
+
+        return null;
     }
 
     public void handleSubmit()

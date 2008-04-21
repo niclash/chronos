@@ -14,6 +14,8 @@ package org.qi4j.chronos.ui.staff;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Arrays;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
@@ -53,9 +55,7 @@ public class StaffListPage extends LeftMenuNavPage
 
             public List<Staff> dataList( int first, int count )
             {
-                // TODO migration
-//                return StaffListPage.this.dataList( first, count );
-                return new ArrayList<Staff>(0);
+                return StaffListPage.this.dataList( first, count );
             }
         };
 
@@ -71,12 +71,15 @@ public class StaffListPage extends LeftMenuNavPage
     {
         // TODO migrate
 //        return getStaffService().countAll( getAccount() );
-        return 0;
+        return getAccount().staffs().size();
     }
 
     public List<Staff> dataList( int first, int count )
     {
-        return new ArrayList<Staff>(0);
+        return new ArrayList<Staff>( getAccount().staffs() );
+//        Staff[] staffs = new Staff[ getSize() ];
+//        return Arrays.asList( getAccount().staffs().toArray( staffs ) );
+//        return new ArrayList<Staff>(0);
         // TODO
 //        return getStaffService().findAll( getAccount(), new FindFilter( first, count ) );
     }

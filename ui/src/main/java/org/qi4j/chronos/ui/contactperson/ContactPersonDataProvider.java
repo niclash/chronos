@@ -13,6 +13,7 @@
 package org.qi4j.chronos.ui.contactperson;
 
 import java.util.List;
+import java.util.ArrayList;
 import org.qi4j.chronos.model.associations.HasContactPersons;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.ContactPerson;
@@ -25,7 +26,7 @@ public abstract class ContactPersonDataProvider<T extends HasContactPersons> ext
 {
     public String getId( ContactPerson contactPerson )
     {
-        return ( (ContactPersonEntityComposite) contactPerson).identity().get();
+        return contactPerson.identity().get();
     }
 
     public ContactPerson load( String id )
@@ -40,12 +41,16 @@ public abstract class ContactPersonDataProvider<T extends HasContactPersons> ext
 
     public List<ContactPerson> dataList( int first, int count )
     {
-        return getContactPersonService().findAll( getHasContactPersons(), new FindFilter( first, count ) );
+        return new ArrayList<ContactPerson>( getHasContactPersons().contactPersons() );
+        // TODO
+//        return getContactPersonService().findAll( getHasContactPersons(), new FindFilter( first, count ) );
     }
 
     public int getSize()
     {
-        return getContactPersonService().countAll( getHasContactPersons() );
+        return getHasContactPersons().contactPersons().size();
+        // TODO
+//        return getContactPersonService().countAll( getHasContactPersons() );
     }
 
     public abstract T getHasContactPersons();

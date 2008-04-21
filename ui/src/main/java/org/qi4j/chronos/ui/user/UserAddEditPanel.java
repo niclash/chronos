@@ -16,6 +16,7 @@ import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Arrays;
 import org.apache.wicket.extensions.markup.html.form.palette.Palette;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
@@ -23,21 +24,19 @@ import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePanel;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.systemrole.SystemRoleDelegator;
-import org.qi4j.chronos.ui.util.ListUtil;
 import org.qi4j.library.general.model.GenderType;
 
 public abstract class UserAddEditPanel extends AddEditBasePanel
 {
     private MaxLengthTextField firstNameField;
     private MaxLengthTextField lastNameField;
-    private SimpleDropDownChoice genderChoice;
+    private SimpleDropDownChoice<GenderType> genderChoice;
 
     private Palette rolePalette;
 
@@ -61,9 +60,7 @@ public abstract class UserAddEditPanel extends AddEditBasePanel
         firstNameField = new MaxLengthTextField( "firstNameField", "First Name", User.FIRST_NAME_LEN );
         lastNameField = new MaxLengthTextField( "lastNameField", "Last Name", User.LAST_NAME_LEN );
 
-        List<String> genderTypeList = ListUtil.getGenderTypeList();
-
-        genderChoice = new SimpleDropDownChoice( "genderChoice", genderTypeList, true );
+        genderChoice = new SimpleDropDownChoice<GenderType>( "genderChoice", Arrays.asList( GenderType.values() ), true );
 
         IChoiceRenderer renderer = new ChoiceRenderer( "systemRoleName", "systemRoleName" );
 
@@ -119,9 +116,11 @@ public abstract class UserAddEditPanel extends AddEditBasePanel
 
     private List<SystemRoleDelegator> getAvailableRoleChoices()
     {
-        List<SystemRole> systemRoleList = ChronosWebApp.getServices().
-            getSystemRoleService().findAllStaffSystemRole();
+        // TODO kamil: make it proper
+//        List<SystemRole> systemRoleList = ChronosWebApp.getServices().
+//            getSystemRoleService().findAllStaffSystemRole();
 
+        List<SystemRole> systemRoleList = ChronosSession.get().getSystemRoleService().findAllStaffSystemRole();
         List<SystemRoleDelegator> systemRoleDelegators = constuctRoleDelegatorList( systemRoleList );
 
         return systemRoleDelegators;
@@ -137,10 +136,12 @@ public abstract class UserAddEditPanel extends AddEditBasePanel
         {
             SystemRoleDelegator delegator = selectedIterator.next();
 
-            SystemRole systemRole = ChronosWebApp.newInstance( SystemRoleEntityComposite.class );
+            // TODO kamil: make it proper
+//            SystemRole systemRole = ChronosWebApp.newInstance( SystemRoleEntityComposite.class );
+            SystemRole systemRole = ChronosSession.get().getSystemRoleService().getSystemRoleByName( delegator.getSystemRoleName() );
 
-            systemRole.systemRoleType().set( delegator.getSystemRoleType() );
-            systemRole.name().set( delegator.getSystemRoleName() );
+//            systemRole.systemRoleType().set( delegator.getSystemRoleType() );
+//            systemRole.name().set( delegator.getSystemRoleName() );
 
             SystemRoleList.add( systemRole );
         }
@@ -163,7 +164,7 @@ public abstract class UserAddEditPanel extends AddEditBasePanel
         return lastNameField;
     }
 
-    public SimpleDropDownChoice getGenderChoice()
+    public SimpleDropDownChoice<GenderType> getGenderChoice()
     {
         return genderChoice;
     }
@@ -173,7 +174,7 @@ public abstract class UserAddEditPanel extends AddEditBasePanel
         user.firstName().set( firstNameField.getText() );
         user.lastName().set( lastNameField.getText() );
 
-        GenderType genderType = GenderType.getGenderType( genderChoice.getChoiceAsString() );
+        GenderType genderType = GenderType.toEnum( genderChoice.getChoiceAsString() );
         user.gender().set( genderType );
 
         if( !isHideRolePalette )
@@ -190,7 +191,7 @@ public abstract class UserAddEditPanel extends AddEditBasePanel
         firstNameField.setText( user.firstName().get() );
         lastNameField.setText( user.lastName().get() );
 
-        genderChoice.setChoice( user.gender().get().toString() );
+        genderChoice.setChoice( user.gender().get() );
 
         loginUserPanel.assignLoginToFieldValue( user );
 

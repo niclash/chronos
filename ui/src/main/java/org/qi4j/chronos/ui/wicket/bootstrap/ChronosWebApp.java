@@ -24,7 +24,9 @@ import org.apache.wicket.settings.ISessionSettings;
 import org.qi4j.chronos.ui.wicket.authentication.LoginPage;
 import org.qi4j.chronos.ui.admin.AdminHomePage;
 import org.qi4j.chronos.ui.staff.StaffHomePage;
+import org.qi4j.chronos.ui.contactperson.ContactPersonHomePage;
 import org.qi4j.chronos.model.Admin;
+import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.service.account.AccountService;
 import org.qi4j.chronos.service.systemrole.SystemRoleService;
 import org.qi4j.chronos.service.user.UserService;
@@ -131,9 +133,13 @@ final class ChronosWebApp extends AuthenticatedWebApplication
             {
                 return AdminHomePage.class;
             }
-            else
+            else if( ChronosSession.get().getUser() instanceof Staff )
             {
                 return StaffHomePage.class;
+            }
+            else
+            {
+                return ContactPersonHomePage.class;
             }
         }
     }

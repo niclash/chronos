@@ -170,6 +170,8 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
         //TODO got better way to handle this?
         if( getChronosSession().isStaff() )
         {
+/*
+            TODO kamil: migrate
             Project project = getServices().getTaskService().getParent( (TaskEntityComposite) getTask() );
 
             Staff staff = (Staff) getChronosSession().getUser();
@@ -177,6 +179,20 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
             ProjectAssignee projectAssignee = getServices().getProjectAssigneeService().getProjectAssignee( project, staff );
 
             return projectAssignee;
+*/
+            Staff staff = (Staff) getChronosSession().getUser();
+            for( Project project : getAccount().projects() )
+            {
+                for( ProjectAssignee projectAssignee : project.projectAssignees() )
+                {
+                    if( staff.equals( projectAssignee.staff().get() ) )
+                    {
+                        return projectAssignee;
+                    }
+                }
+            }
+
+            return null;
         }
         else
         {

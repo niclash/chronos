@@ -81,7 +81,17 @@ public abstract class CustomerTable extends ActionTable<Customer, String>
                 {
                     public Customer getCustomer()
                     {
-                        return getCustomerService().get( customerId );
+                        for( Customer customer : getAccount().customers() )
+                        {
+                            if( customerId.equals( ( (Identity) customer ).identity().get() ) )
+                            {
+                                return customer;
+                            }
+                        }
+
+                        return null;
+                        // TODO kamil
+//                        return getCustomerService().get( customerId );
                     }
                 };
 
@@ -100,7 +110,17 @@ public abstract class CustomerTable extends ActionTable<Customer, String>
                 {
                     public Customer getCustomer()
                     {
-                        return getCustomerService().get( customerId );
+                        for( Customer customer : getAccount().customers() )
+                        {
+                            if( customerId.equals( ( (Identity) customer ).identity().get() ) )
+                            {
+                                return customer;
+                            }
+                        }
+
+                        return null;
+                        // TODO kamil
+//                        return getCustomerService().get( customerId );
                     }
                 };
 

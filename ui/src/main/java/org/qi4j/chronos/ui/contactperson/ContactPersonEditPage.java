@@ -13,6 +13,7 @@
 package org.qi4j.chronos.ui.contactperson;
 
 import java.util.Iterator;
+import java.util.ArrayList;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.SystemRole;
@@ -102,7 +103,7 @@ public abstract class ContactPersonEditPage extends ContactPersonAddEditPage
     {
         // TODO migrate
 //        return ChronosWebApp.getServices().getContactService().findAll( getContactPerson() ).iterator();
-        return null;
+        return getContactPerson().contacts().iterator();
     }
 
     public abstract ContactPerson getContactPerson();

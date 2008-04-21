@@ -109,8 +109,13 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
             estimateEndTimeField = new SimpleTextField( "estimateEndTimeField", DateUtil.formatDate( projectEstimateTime.endTime().get() ) );
 
             TimeRange projectActualTime = project.actualTime().get();
-            String actualStartTime = projectActualTime.startTime().get() == null ? "" : DateUtil.formatDate( projectActualTime.startTime().get() );
-            String actualEndTime = projectActualTime.endTime().get() == null ? "" : DateUtil.formatDate( projectActualTime.endTime().get() );
+            String actualStartTime = null;
+            String actualEndTime = null;
+            if( null != projectActualTime )
+            {
+                actualStartTime = projectActualTime.startTime().get() == null ? "" : DateUtil.formatDate( projectActualTime.startTime().get() );
+                actualEndTime = projectActualTime.endTime().get() == null ? "" : DateUtil.formatDate( projectActualTime.endTime().get() );
+            }
 
             actualStartTimeField = new SimpleTextField( "actualStartTimeField", actualStartTime );
             actualEndTimeField = new SimpleTextField( "actualEndTimeField", actualEndTime );
@@ -216,11 +221,24 @@ public abstract class ProjectDetailPage extends LeftMenuNavPage
         //TODO got better way to handle this?
         if( getChronosSession().isStaff() )
         {
+/*
+            TODO kamil: migrate
             Staff staff = (Staff) getChronosSession().getUser();
 
             ProjectAssignee projectAssignee = getServices().getProjectAssigneeService().getProjectAssignee( getProject(), staff );
 
             return projectAssignee;
+*/
+            Staff staff = (Staff) getChronosSession().getUser();
+            for( ProjectAssignee projectAssignee : getProject().projectAssignees() )
+            {
+                if( staff.equals( projectAssignee.staff().get() ) )
+                {
+                    return projectAssignee;
+                }
+            }
+
+            return null;
         }
 
         return null;

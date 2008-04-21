@@ -51,7 +51,8 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
         {
             public void performAction( List<ContactPerson> contactPersons )
             {
-                getContactPersonService().delete( contactPersons );
+                // TODO
+//                getContactPersonService().delete( contactPersons );
 
                 info( "Selected contact person(s) are deleted." );
             }
@@ -61,7 +62,8 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
         {
             public void performAction( List<ContactPerson> contactPersons )
             {
-                getContactPersonService().enableLogin( false, contactPersons );
+                // TODO
+//                getContactPersonService().enableLogin( false, contactPersons );
 
                 info( "Selected contact person(s) are disabled login." );
             }
@@ -71,7 +73,8 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
         {
             public void performAction( List<ContactPerson> contactPersons )
             {
-                getContactPersonService().enableLogin( true, contactPersons );
+                // TODO
+//                getContactPersonService().enableLogin( true, contactPersons );
 
                 info( "Selected contact person(s) are enabled login." );
             }
@@ -120,10 +123,12 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
         item.add( editLink );
     }
 
+/*
     private ContactPersonService getContactPersonService()
     {
         return ChronosWebApp.getServices().getContactPersonService();
     }
+*/
 
     private SimpleLink createEditLink( final String contactPersonId )
     {
@@ -140,7 +145,17 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
 
                     public ContactPerson getContactPerson()
                     {
-                        return getContactPersonService().get( contactPersonId );
+                        for( ContactPerson contactPerson : getCustomer().contactPersons() )
+                        {
+                            if( contactPersonId.equals( contactPerson.identity().get() ) )
+                            {
+                                return contactPerson;
+                            }
+                        }
+
+                        return null;
+                        // TODO
+//                        return getContactPersonService().get( contactPersonId );
                     }
                 } );
             }
@@ -162,7 +177,17 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
                 {
                     public ContactPerson getContactPerson()
                     {
-                        return getContactPersonService().get( contactPersonId );
+                        for( ContactPerson contactPerson : getCustomer().contactPersons() )
+                        {
+                            if( contactPersonId.equals( contactPerson.identity().get() ) )
+                            {
+                                return contactPerson;
+                            }
+                        }
+
+                        return null;
+                        // TODO
+//                        return getContactPersonService().get( contactPersonId );
                     }
                 };
 

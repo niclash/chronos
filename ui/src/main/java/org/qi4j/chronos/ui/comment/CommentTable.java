@@ -44,7 +44,8 @@ public abstract class CommentTable extends ActionTable<Comment, CommentId>
         {
             public void performAction( List<Comment> comments )
             {
-                getCommentService().deleteComments( getHasComments(), comments );
+                // TODO kamil: migrate
+//                getCommentService().deleteComments( getHasComments(), comments );
             }
         } );
     }
@@ -87,7 +88,17 @@ public abstract class CommentTable extends ActionTable<Comment, CommentId>
                 {
                     public Comment getComment()
                     {
-                        return getCommentService().get( getHasComments(), createdDate, userId );
+                        // TODO kamil: migrate
+//                        return getCommentService().get( getHasComments(), createdDate, userId );
+                        for( Comment comment : getHasComments().comments() )
+                        {
+                            if( createdDate.equals( comment.createdDate().get() ) )
+                            {
+                                return comment;
+                            }
+                        }
+
+                        return null;
                     }
                 };
 

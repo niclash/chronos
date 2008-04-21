@@ -13,20 +13,27 @@
 package org.qi4j.chronos.ui.project;
 
 import java.util.List;
+import java.util.Arrays;
+import java.util.ArrayList;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.PageParameters;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
+import org.qi4j.composite.scope.Structure;
+import org.qi4j.entity.UnitOfWorkFactory;
 
 @AuthorizeInstantiation( { SystemRole.ACCOUNT_ADMIN, SystemRole.ACCOUNT_DEVELOPER } )
 public class ProjectListPage extends LeftMenuNavPage
 {
+//    private @Structure UnitOfWorkFactory factory;
+    
     public ProjectListPage()
     {
         initComponents();
@@ -38,7 +45,12 @@ public class ProjectListPage extends LeftMenuNavPage
         {
             public void onClick()
             {
-                setResponsePage( new ProjectAddPage( ProjectListPage.this ) );
+                // TODO migrate
+//                setResponsePage( new ProjectAddPage( ProjectListPage.this ) );
+                PageParameters param = new PageParameters();
+                param.put( ProjectListPage.class, ProjectListPage.this );
+
+                setResponsePage( newPage( ProjectAddPage.class, param ) );
             }
         };
 
@@ -72,14 +84,14 @@ public class ProjectListPage extends LeftMenuNavPage
 
     protected int getSize()
     {
-        return 0;
+        return getAccount().projects().size();
         // TODO migrate
 //        return getProjectService().countAll( getAccount() );
     }
 
     protected List<Project> dataList( int first, int count )
     {
-        return null;
+        return new ArrayList<Project>( getAccount().projects() );
         // TODO migrate
 //        return getProjectService().findAll( getAccount(), new FindFilter( first, count ) );
     }

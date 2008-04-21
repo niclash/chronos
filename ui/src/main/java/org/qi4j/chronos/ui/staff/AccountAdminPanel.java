@@ -14,6 +14,7 @@ package org.qi4j.chronos.ui.staff;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Arrays;
 import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.panel.Panel;
@@ -61,16 +62,16 @@ public abstract class AccountAdminPanel extends Panel
         {
             public int getSize()
             {
-                // TODO migrate
+                // TODO kamil: migrate
 //                return getTaskService().countRecentTasks( getAccount() );
-                return 0;
+                return getAccount().projects().iterator().next().tasks().size();
             }
 
             public List<Task> dataList( int first, int count )
             {
                 // TODO migrate
 //                return getTaskService().getRecentTasks( getAccount(), new FindFilter( first, count ) );
-                return new ArrayList<Task>();
+                return new ArrayList<Task>( getAccount().projects().iterator().next().tasks() );
             }
         };
     }
@@ -88,14 +89,14 @@ public abstract class AccountAdminPanel extends Panel
             {
                 // TODO migrate
 //                return getProjectService().countRecentProject( getAccount() );
-                return 0;
+                return getAccount().projects().size();
             }
 
             public List<Project> dataList( int first, int count )
             {
                 // TODO migrate
 //                return getProjectService().getRecentProjects( getAccount(), new FindFilter( first, count ) );
-                return new ArrayList<Project>();
+                return new ArrayList<Project>( getAccount().projects() );
             }
         };
     }

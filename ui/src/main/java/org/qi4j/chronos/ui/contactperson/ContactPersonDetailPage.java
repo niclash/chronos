@@ -103,12 +103,16 @@ public abstract class ContactPersonDetailPage extends LeftMenuNavPage
             {
                 public int getSize()
                 {
-                    return getProjectService().countAll( ContactPersonDetailPage.this.getContactPerson() );
+                    // TODO kamil: migrate
+//                    return getProjectService().countAll( ContactPersonDetailPage.this.getContactPerson() );
+                    return getAccount().projects().size();
                 }
 
                 public List<Project> dataList( int first, int count )
                 {
-                    return getProjectService().findAll( ContactPersonDetailPage.this.getContactPerson(), new FindFilter( first, count ) );
+                    // TODO kamil: migrate
+//                    return getProjectService().findAll( ContactPersonDetailPage.this.getContactPerson(), new FindFilter( first, count ) );
+                    return new ArrayList<Project>( getAccount().projects() );
                 }
             } );
 

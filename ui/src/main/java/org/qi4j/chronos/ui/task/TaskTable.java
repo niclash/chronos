@@ -110,7 +110,17 @@ public abstract class TaskTable extends ActionTable<Task, String>
         {
             public Task getTask()
             {
-                return getTaskService().get( id );
+                // TODO kamil: migrate
+//                return getTaskService().get( id );
+                for( Task task : dataList( 0, getSize() ) )
+                {
+                    if( id.equals( ( (Identity) task).identity().get() ) )
+                    {
+                        return task;
+                    }
+                }
+
+                return null;
             }
         };
 
@@ -123,7 +133,18 @@ public abstract class TaskTable extends ActionTable<Task, String>
         {
             public Task getTask()
             {
-                return getTaskService().get( id );
+                // TODO kamil: migrate
+//                return getTaskService().get( id );
+                for( Task task : dataList( 0, getSize() ) )
+                {
+                    if( id.equals( ( (Identity) task).identity().get() ) )
+                    {
+                        return task;
+                    }
+                }
+
+                return null;
+                
             }
         };
 
