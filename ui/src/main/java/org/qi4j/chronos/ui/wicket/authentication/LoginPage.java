@@ -26,20 +26,14 @@ import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.chronos.ui.account.AccountDelegator;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
-import org.qi4j.chronos.service.account.AccountServiceComposite;
 import org.qi4j.chronos.service.account.AccountService;
 import org.qi4j.composite.scope.Structure;
 import org.qi4j.composite.scope.Service;
-import org.qi4j.entity.UnitOfWorkFactory;
-import org.qi4j.entity.UnitOfWork;
 
 import static org.qi4j.composite.NullArgumentException.validateNotNull;
-import org.qi4j.service.ServiceReference;
 
 public class LoginPage extends BasePage
 {
-    transient private UnitOfWorkFactory factory;
-
     transient private AccountService accountService;
 
     private static final long serialVersionUID = 1L;
@@ -50,12 +44,10 @@ public class LoginPage extends BasePage
     private PasswordTextField password;
     private TextField username;
 
-    public LoginPage( final @Structure UnitOfWorkFactory factory, final @Service AccountService accountService )
+    public LoginPage( final @Service AccountService accountService )
     {
-        validateNotNull( "factory", factory );
         validateNotNull( "accountService", accountService );
 
-        this.factory = factory;
         this.accountService = accountService;
         
         add( new FeedbackPanel( WICKET_ID_FEEDBACK_PANEL ) );
@@ -143,14 +135,12 @@ public class LoginPage extends BasePage
         private List<AccountDelegator> getAvailableAccount()
         {
             List<AccountDelegator> resultList = new ArrayList<AccountDelegator>();
-            List<Account> accounts = accountService.findAll();
+            List<Account> accounts = accountService.findAvailableAccounts();
 
-            final UnitOfWork unitOfWork = factory.newUnitOfWork();
             for( Account account : accounts )
             {
-                resultList.add( new AccountDelegator( unitOfWork.dereference( account ) ) );
+                resultList.add( new AccountDelegator( account ) );
             }
-            unitOfWork.discard();
 
             return resultList;
         }

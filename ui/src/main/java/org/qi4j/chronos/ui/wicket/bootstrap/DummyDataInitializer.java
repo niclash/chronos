@@ -160,7 +160,7 @@ final class DummyDataInitializer
                     workEntry.comments().add( comment );
                     OngoingWorkEntry ongoingWorkEntry = newOngoingWorkEntry( unitOfWork, createdDate, assignee );
 
-                    task.comments().add( comment );
+                    task.comments().add( newComment( unitOfWork, "This is a comment.", createdDate, task.user().get() ) );
                     task.workEntries().add( workEntry );
                     task.onGoingWorkEntries().add( ongoingWorkEntry );
                 }
@@ -187,9 +187,9 @@ final class DummyDataInitializer
                 ProjectAssignee projectAssignee = newProjectAssignee( unitOfWork, true, staff, priceRate );
                 Task task = newTask( unitOfWork, "Task 1", "Task 1 description", startDate, TaskStatusEnum.OPEN );
                 task.user().set( staff );
-                LegalCondition condition = newLegalCondition( unitOfWork, "3 years", "Maintenance contract" );
+                LegalCondition condition = newLegalCondition( unitOfWork, "Maintenance contract", "Maintenance contract 3 years" );
 
-                Project project = newProject( unitOfWork, "Project 1", "p1", ProjectStatusEnum.ACTIVE );
+                Project project = newProject( unitOfWork, "Chronos Qi4J", "Chronos v0.1", ProjectStatusEnum.ACTIVE );
                 project.customer().set( customer );
                 project.primaryContactPerson().set( contactPerson );
                 project.contactPersons().addAll( customer.contactPersons() );
@@ -228,11 +228,11 @@ final class DummyDataInitializer
         for( Account account : accountService.findAll() )
         {
             PriceRateSchedule priceRateSchedule = newPriceRateSchedule( unitOfWork, "Default" );
-            priceRateSchedule.currency().set( Currency.getInstance( "EUR" ) );
+            priceRateSchedule.currency().set( Currency.getInstance( "USD" ) );
 
             for( ProjectRole projectRole : account.projectRoles() )
             {
-                PriceRate priceRate = newPriceRate( unitOfWork, 3000L, "EUR", PriceRateTypeEnum.MONTHLY );
+                PriceRate priceRate = newPriceRate( unitOfWork, 3000L, "USD", PriceRateTypeEnum.MONTHLY );
                 priceRate.projectRole().set( projectRole );
                 priceRateSchedule.priceRates().add( priceRate );
             }
@@ -315,7 +315,7 @@ final class DummyDataInitializer
         {
             Staff boss = newUser( unitOfWork, StaffEntityComposite.class, "The", "Boss", GenderType.MALE );
             boss.login().set( newLogin( unitOfWork, "boss", "boss" ) );
-            boss.salary().set( newMoney( unitOfWork, 8000L, "EUR" ) );
+            boss.salary().set( newMoney( unitOfWork, 8000L, "USD" ) );
 
             Staff developer = newUser( unitOfWork, StaffEntityComposite.class, "The", "Developer", GenderType.MALE );
             developer.login().set( newLogin( unitOfWork, "developer", "developer" ) );

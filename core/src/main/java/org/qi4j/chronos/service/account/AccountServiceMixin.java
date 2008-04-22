@@ -23,8 +23,12 @@ import org.qi4j.composite.scope.This;
 import org.qi4j.composite.scope.Structure;
 
 import static org.qi4j.composite.NullArgumentException.validateNotNull;
+import org.qi4j.query.QueryBuilderFactory;
+import org.qi4j.query.QueryBuilder;
 import java.util.List;
 import java.util.Arrays;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.io.Serializable;
 
 /**
@@ -99,12 +103,54 @@ public class AccountServiceMixin implements AccountService, Activatable, Seriali
         config.accounts().remove( account );
     }
 
+    public void removeAll( Collection<Account> accounts )
+    {
+        validateNotNull( "accounts", accounts );
+
+        for( Account account : accounts )
+        {
+            factory.currentUnitOfWork().remove( account );
+        }
+        config.accounts().removeAll( accounts );
+    }
+
+    public List<Account> findAvailableAccounts()
+    {
+        List<Account> accounts = new ArrayList<Account>();
+
+        for( Account account : config.accounts() )
+        {
+            if( account.isEnabled().get() )
+            {
+                accounts.add( account );
+            }
+        }
+
+        return accounts;
+    }
+
     public List<Account> findAll()
     {
+/*
+        UnitOfWork unitOfWork = null == factory.currentUnitOfWork() ? factory.newUnitOfWork() : factory.currentUnitOfWork();
+
+        QueryBuilderFactory queryBuilderFactory = unitOfWork.queryBuilderFactory();
+        QueryBuilder<AccountEntityComposite> queryBuilder = queryBuilderFactory.newQueryBuilder( AccountEntityComposite.class );
+
+        for( Account account : queryBuilder.newQuery() )
+        {
+            System.err.println( "Found: " + account.name().get() );
+        }
+        unitOfWork.discard();
+*/
+
+/*
         Account[] accountArray = new Account[ count() ];
         config.accounts().toArray( accountArray );
 
         return Arrays.asList( accountArray );
+*/
+        return new ArrayList<Account>( config.accounts() );
     }
 
     public List<Account> findAll( int first, int count )
@@ -140,7 +186,18 @@ public class AccountServiceMixin implements AccountService, Activatable, Seriali
     {
         return config.accounts().size();
     }
-    
+
+    public void enableAccounts( Collection<Account> accounts, boolean enabled )
+    {
+        validateNotNull( "accounts", accounts );
+        validateNotNull( "enabled", enabled );
+
+        for( Account account : accounts )
+        {
+            account.isEnabled().set( enabled );
+        }
+    }
+
     public void activate() throws Exception
     {
         validateNotNull( "factory", factory );

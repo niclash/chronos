@@ -32,15 +32,12 @@ public class AccountEditPage extends AccountAddEditPage
 
     transient private @Structure UnitOfWorkFactory factory;
 
-    transient private AccountService accountService;
-
     private String accountId;
 
-    public AccountEditPage( @Uses Page goBackPage, @Uses String accountId, final @Service AccountService accountService )
+    public AccountEditPage( @Uses Page goBackPage, @Uses String accountId )
     {
         super( goBackPage );
 
-        this.accountService = accountService;
         this.accountId = accountId;
 
         assignAccountToFieldValue( getAccount() );
@@ -48,12 +45,24 @@ public class AccountEditPage extends AccountAddEditPage
 
     protected Account getAccount()
     {
-//        return ( ( ChronosSession ) Session.get()).getAccountService().get( accountId );
-        return accountService.get( accountId );
+        return getAccountService().get( accountId );
+    }
+
+    protected AccountService getAccountService()
+    {
+        return ( ( ChronosSession ) Session.get()).getAccountService();
     }
 
     public void onSubmitting()
     {
+        if( !nameField.getText().equals( getAccount().name().get() ) &&
+            !getAccountService().isUnique( nameField.getText() ) )
+        {
+            logErrorMsg( "Account name " + nameField.getText() + " is not unique!!!" );
+
+            return;
+        }
+
         final UnitOfWork unitOfWork;
 
         if( null != factory.currentUnitOfWork() && factory.currentUnitOfWork().isOpen() )
@@ -69,11 +78,11 @@ public class AccountEditPage extends AccountAddEditPage
 
         try
         {
-            Account account = unitOfWork.dereference( getAccount() );
-//            Account account = getAccount();
+            Account account = getAccount();
+
             assignFieldValueToAccount( account );
 
-            accountService.add( account );
+            getAccountService().add( account );
 
             unitOfWork.complete();
             logInfoMsg( "Account is updated successfully." );

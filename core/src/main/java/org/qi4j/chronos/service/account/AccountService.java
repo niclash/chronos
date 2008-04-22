@@ -10,6 +10,7 @@ package org.qi4j.chronos.service.account;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.entity.UnitOfWork;
 import java.util.List;
+import java.util.Collection;
 
 public interface AccountService
 {
@@ -25,6 +26,10 @@ public interface AccountService
 
     void remove( Account account );
 
+    void removeAll( Collection<Account> accounts );
+
+    List<Account> findAvailableAccounts();
+
     List<Account> findAll();
 
     List<Account> findAll( int first, int count );
@@ -34,4 +39,6 @@ public interface AccountService
     boolean isUnique( String accountName );
 
     int count();
+
+    void enableAccounts( Collection<Account> accounts, boolean enabled );
 }

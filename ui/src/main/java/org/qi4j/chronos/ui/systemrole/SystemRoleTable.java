@@ -25,8 +25,6 @@ public class SystemRoleTable extends ActionTable<SystemRole, String>
 {
     private StaffSystemRoleDataProvider dataProvider;
 
-    private SystemRoleService systemRoleService;
-
     public SystemRoleTable( String id )
     {
         super( id );

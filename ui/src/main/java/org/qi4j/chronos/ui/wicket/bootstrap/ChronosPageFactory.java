@@ -11,6 +11,7 @@ import org.qi4j.composite.scope.Service;
 import org.qi4j.entity.UnitOfWorkFactory;
 import org.qi4j.chronos.service.account.AccountService;
 import org.qi4j.chronos.service.systemrole.SystemRoleService;
+import org.qi4j.chronos.model.Account;
 
 /**
  * @author edward.yakop@gmail.com
@@ -37,6 +38,9 @@ final class ChronosPageFactory
     @SuppressWarnings( "unchecked" )
     public final Page newPage( Class pageClass )
     {
+        validateNotNull( "accountService", accountService );
+        validateNotNull( "factory", factory );
+        
         ObjectBuilder<Page> builder = objectBuilderFactory.newObjectBuilder( pageClass );
         builder.use( factory, accountService, systemRoleService );
 
@@ -49,12 +53,10 @@ final class ChronosPageFactory
 //        return newPage( pageClass );
         ObjectBuilder<Page> builder = objectBuilderFactory.newObjectBuilder( pageClass );
         builder.use( factory, accountService );
-        if( null!= parameters )
+        
+        if( null != parameters )
         {
-            for( Object obj : parameters.values() )
-            {
-                builder.use( obj );
-            }
+            builder.use( parameters.values().toArray() );
         }
 
         return builder.newInstance();

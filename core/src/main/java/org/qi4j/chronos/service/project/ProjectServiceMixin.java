@@ -33,16 +33,16 @@ public class ProjectServiceMixin implements ProjectService, Activatable
 
     private @Service AccountService accountService;
 
-    public void add( Account account, Project project )
+    public void add( HasProjects hasProjects, Project project )
     {
-        validateNotNull( "account", account );
+        validateNotNull( "hasProjects", hasProjects );
         validateNotNull( "project", project );
 
         Map<String, String> map = config.map().get();
 
         if( !map.containsKey( ( (Identity) project).identity().get() ) )
         {
-            map.put( ( (Identity) project).identity().get(), ( (Identity) account).identity().get() );
+            map.put( ( (Identity) project).identity().get(), ( (Identity) hasProjects).identity().get() );
         }
     }
 
@@ -66,14 +66,28 @@ public class ProjectServiceMixin implements ProjectService, Activatable
         return null;
     }
 
-    public int countAll( Account account )
+    public int countAll( HasProjects hasProjects )
     {
-        return 0;
+        validateNotNull( "hasProjects", hasProjects );
+
+        return hasProjects.projects().size();
     }
 
-    public int countAll( Account account, ProjectStatusEnum projectStatusEnum )
+    public int countAll( HasProjects hasProjects, ProjectStatusEnum projectStatusEnum )
     {
-        return 0;
+        validateNotNull( "hasProjects", hasProjects );
+        validateNotNull( "projectStatusEnum", projectStatusEnum );
+        
+        int count = 0;
+        for( Project project : hasProjects.projects() )
+        {
+            if( projectStatusEnum == project.projectStatus().get() )
+            {
+                ++count;
+            }
+        }
+
+        return count;
     }
 
     private boolean contains( HasProjects hasProjects, Project project )

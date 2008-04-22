@@ -31,21 +31,27 @@ import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.StateEntityComposite;
 import org.qi4j.chronos.model.composites.CityEntityComposite;
 import org.qi4j.chronos.model.composites.CountryEntityComposite;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
+
+import static org.qi4j.composite.NullArgumentException.validateNotNull;
 
 public class AccountAddPage extends AccountAddEditPage
 {
-    transient private @Structure UnitOfWorkFactory factory;
+    transient private UnitOfWorkFactory factory;
 
-    transient private @Service AccountService accountService;
-
-    public AccountAddPage( @Uses Page goBackPage )
+    public AccountAddPage( @Uses Page goBackPage, final @Structure UnitOfWorkFactory factory )
     {
         super( goBackPage );
+
+        validateNotNull( "goBackPage", goBackPage );
+        validateNotNull( "factory", factory );
+
+        this.factory = factory;
     }
 
     public void onSubmitting()
     {
-        if( !accountService.isUnique( nameField.getText() ) )
+        if( !getAccountService().isUnique( nameField.getText() ) )
         {
             logErrorMsg( "Account name " + nameField.getText() + " is not unique!!!" );
 
@@ -71,7 +77,7 @@ public class AccountAddPage extends AccountAddEditPage
 
             assignFieldValueToAccount( account );
 
-            accountService.add( account );
+            getAccountService().add( account );
 
             unitOfWork.complete();
 
@@ -92,6 +98,11 @@ public class AccountAddPage extends AccountAddEditPage
         {
             logErrorMsg( validationErr.getMessages() );
         }
+    }
+
+    protected AccountService getAccountService()
+    {
+        return ChronosSession.get().getAccountService();
     }
 
     public String getSubmitButtonValue()

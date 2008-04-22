@@ -31,20 +31,24 @@ import org.qi4j.chronos.service.account.AccountService;
 import org.qi4j.chronos.service.systemrole.SystemRoleService;
 import org.qi4j.chronos.service.user.UserService;
 import org.qi4j.chronos.service.authentication.AuthenticationService;
+import org.qi4j.chronos.service.AggregatedService;
 import static org.qi4j.composite.NullArgumentException.validateNotNull;
 import org.qi4j.composite.ObjectBuilder;
 import org.qi4j.composite.ObjectBuilderFactory;
 import org.qi4j.composite.scope.Structure;
 import org.qi4j.composite.scope.Service;
+import org.qi4j.entity.UnitOfWorkFactory;
 
 /**
  * @author Lan Boon Ping
  * @author edward.yakop@gmail.com
  * @since 0.1.0
  */
-final class ChronosWebApp extends AuthenticatedWebApplication
+public final class ChronosWebApp extends AuthenticatedWebApplication
 {
     private ObjectBuilderFactory objectBuilderFactory;
+
+    private @Structure UnitOfWorkFactory factory;
 
     private @Service AccountService accountService;
 
@@ -53,6 +57,8 @@ final class ChronosWebApp extends AuthenticatedWebApplication
     private @Service UserService userService;
 
     private @Service AuthenticationService authenticationService;
+
+    private @Service AggregatedService aggregatedService;
 
     /**
      * Construct a new instance of {@code ChronosWebApp}.
@@ -82,8 +88,15 @@ final class ChronosWebApp extends AuthenticatedWebApplication
         // Set page factory
         ISessionSettings sessionSettings = getSessionSettings();
         ObjectBuilder<ChronosPageFactory> builder = objectBuilderFactory.newObjectBuilder( ChronosPageFactory.class );
+        builder.use( factory, accountService, roleService, userService, authenticationService );
         ChronosPageFactory pageFactory = builder.newInstance();
+        
         sessionSettings.setPageFactory( pageFactory );
+    }
+
+    public AggregatedService getService()
+    {
+        return this.aggregatedService;
     }
 
     protected Class<? extends AuthenticatedWebSession> getWebSessionClass()
@@ -108,10 +121,11 @@ final class ChronosWebApp extends AuthenticatedWebApplication
         validateNotNull( "roleService", roleService );
         validateNotNull( "userService", userService );
         validateNotNull( "authenticationService", authenticationService );
+        validateNotNull( "aggregatedService", aggregatedService );
 
         ObjectBuilder<ChronosSession> builder = objectBuilderFactory.newObjectBuilder( ChronosSession.class );
-        builder.use( this, request, accountService, userService, roleService, authenticationService );
-        builder.use( request );
+        builder.use( this, request, aggregatedService, accountService, userService, roleService, authenticationService );
+
         return builder.newInstance();
     }
 

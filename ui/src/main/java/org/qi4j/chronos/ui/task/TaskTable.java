@@ -16,16 +16,23 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.Session;
 import org.qi4j.chronos.service.TaskService;
-import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.chronos.util.DateUtil;
 import org.qi4j.chronos.model.Task;
+import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.Project;
 import org.qi4j.entity.Identity;
+import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkCompletionException;
 
 public abstract class TaskTable extends ActionTable<Task, String>
 {
@@ -44,16 +51,41 @@ public abstract class TaskTable extends ActionTable<Task, String>
         {
             public void performAction( List<Task> tasks )
             {
-                getTaskService().delete( tasks );
+                // TODO kamil: migrate
+                UnitOfWork unitOfWork = null == getUnitOfWorkFactory().currentUnitOfWork() ?
+                                        getUnitOfWorkFactory().newUnitOfWork() :
+                                        getUnitOfWorkFactory().currentUnitOfWork();
+
+                Account account = ChronosSession.get().getAccount();
+                for( Project project : account.projects() )
+                {
+                    if( project.tasks().containsAll( tasks ) )
+                    {
+                        project.tasks().removeAll( tasks );
+                    }
+                }
+
+                for( Task task : tasks )
+                {
+                    unitOfWork.remove( task );
+                }
+
+                try
+                {
+                    unitOfWork.complete();
+                }
+                catch( UnitOfWorkCompletionException uowce )
+                {
+                    // TODO kamil: use LOGGER
+                    System.err.println( uowce.getLocalizedMessage() );
+                    uowce.printStackTrace();
+                    error( "Unable to delete selected task(s)!!!" );
+                }
+//                getTaskService().delete( tasks );
 
                 info( "Selected task(s) are deleted." );
             }
         } );
-    }
-
-    private TaskService getTaskService()
-    {
-        return ChronosWebApp.getServices().getTaskService();
     }
 
     public AbstractSortableDataProvider<Task, String> getDetachableDataProvider()
@@ -154,6 +186,11 @@ public abstract class TaskTable extends ActionTable<Task, String>
     public List<String> getTableHeaderList()
     {
         return Arrays.asList( "Title", "Created Date", "Created by", "" );
+    }
+
+    private UnitOfWorkFactory getUnitOfWorkFactory()
+    {
+        return ( ( ChronosSession ) Session.get() ).getUnitOfWorkFactory();
     }
 
     public abstract int getSize();

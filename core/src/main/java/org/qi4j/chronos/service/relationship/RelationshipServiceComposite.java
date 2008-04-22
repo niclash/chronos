@@ -10,23 +10,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service.project;
+package org.qi4j.chronos.service.relationship;
 
-import org.qi4j.chronos.model.Account;
-import org.qi4j.chronos.model.Customer;
-import org.qi4j.chronos.model.Project;
-import org.qi4j.chronos.model.ProjectStatusEnum;
-import org.qi4j.chronos.model.associations.HasProjects;
-import org.qi4j.entity.UnitOfWork;
-import java.util.List;
+import org.qi4j.service.Activatable;
+import org.qi4j.service.ServiceComposite;
+import org.qi4j.composite.Mixins;
 
-public interface ProjectService
+@Mixins( RelationshipServiceMixin.class )
+public interface RelationshipServiceComposite extends ServiceComposite, RelationshipService, Activatable
 {
-    void add( HasProjects hasProjects, Project project );
-
-    Account getAccount( Project project );
-
-    int countAll( HasProjects hasProjects );
-
-    int countAll( HasProjects hasProjects, ProjectStatusEnum projectStatusEnum );
 }

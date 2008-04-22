@@ -12,20 +12,30 @@
  */
 package org.qi4j.chronos.ui.task;
 
-import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.model.Task;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
+import org.qi4j.entity.Identity;
 
 public abstract class TaskDataProvider extends AbstractSortableDataProvider<Task, String>
 {
     public String getId( Task task )
     {
-        return ( (TaskEntityComposite) task).identity().get();
+        return ( (Identity) task).identity().get();
     }
 
-    public Task load( String s )
+    public Task load( String taskId )
     {
-        return ChronosWebApp.getServices().getTaskService().get( s );
+        for( Task task : dataList( 0, getSize() ) )
+        {
+            if( taskId.equals( ( (Identity) task ).identity().get() ) )
+            {
+                return task;
+            }
+        }
+
+        return null;
+//        return ChronosSession.get().getService().getTaskService().get( taskId );
+//        return ChronosWebApp.getServices().getTaskService().get( taskId );
     }
 }

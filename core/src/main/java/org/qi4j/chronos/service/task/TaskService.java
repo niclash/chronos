@@ -10,23 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service.project;
+package org.qi4j.chronos.service.task;
 
-import org.qi4j.chronos.model.Account;
-import org.qi4j.chronos.model.Customer;
-import org.qi4j.chronos.model.Project;
-import org.qi4j.chronos.model.ProjectStatusEnum;
-import org.qi4j.chronos.model.associations.HasProjects;
-import org.qi4j.entity.UnitOfWork;
-import java.util.List;
+import org.qi4j.chronos.model.Task;
 
-public interface ProjectService
+public interface TaskService
 {
-    void add( HasProjects hasProjects, Project project );
-
-    Account getAccount( Project project );
-
-    int countAll( HasProjects hasProjects );
-
-    int countAll( HasProjects hasProjects, ProjectStatusEnum projectStatusEnum );
+    Task get( String taskId );
 }

@@ -55,7 +55,7 @@ public abstract class ProjectTable extends ActionTable<Project, String>
         {
             public void performAction( List<Project> projects )
             {
-                // TODO
+                // TODO kamil: use service
 //                getProjectService().delete( projects );
 
                 info( "Selected project(s) are deleted." );
@@ -66,7 +66,7 @@ public abstract class ProjectTable extends ActionTable<Project, String>
         {
             public void performAction( List<Project> projects )
             {
-                // TODO
+                // TODO kamil: use service
 //                getProjectService().changeProjectStatus( ProjectStatusEnum.ACTIVE, projects );
 
                 info( "Selected project(s) are changed to status Active" );
@@ -77,7 +77,7 @@ public abstract class ProjectTable extends ActionTable<Project, String>
         {
             public void performAction( List<Project> projects )
             {
-                // TODO
+                // TODO kamil: use service
 //                getProjectService().changeProjectStatus( ProjectStatusEnum.INACTIVE, projects );
 
                 info( "Selected project(s) are changed to inactive status" );
@@ -88,7 +88,7 @@ public abstract class ProjectTable extends ActionTable<Project, String>
         {
             public void performAction( List<Project> projects )
             {
-                // TODO
+                // TODO kamil: use service
 //                getProjectService().changeProjectStatus( ProjectStatusEnum.CLOSED, projects );
 
                 info( "Selected project(s) are changed to  Closed ActivationStatus" );

@@ -12,6 +12,11 @@ import org.qi4j.chronos.service.systemrole.SystemRoleServiceComposite;
 import org.qi4j.chronos.service.systemrole.SystemRoleServiceConfiguration;
 import org.qi4j.chronos.service.user.UserServiceComposite;
 import org.qi4j.chronos.service.user.UserServiceConfiguration;
+import org.qi4j.chronos.service.AggregatedServiceComposite;
+import org.qi4j.chronos.service.task.TaskServiceComposite;
+import org.qi4j.chronos.service.project.ProjectServiceComposite;
+import org.qi4j.chronos.service.relationship.RelationshipServiceComposite;
+import org.qi4j.chronos.service.customer.CustomerServiceComposite;
 import org.qi4j.chronos.ui.wicket.authentication.LoginPage;
 import org.qi4j.chronos.ui.admin.AdminHomePage;
 import org.qi4j.chronos.ui.account.AccountListPage;
@@ -47,7 +52,8 @@ import org.qi4j.chronos.model.composites.LegalConditionEntityComposite;
 import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.model.composites.CommentEntityComposite;
-import org.qi4j.entity.memory.MemoryEntityStoreService;
+import org.qi4j.entity.memory.IndexedMemoryEntityStoreService;
+import org.qi4j.entity.index.rdf.RDFQueryService;
 import org.qi4j.spi.entity.UuidIdentityGeneratorService;
 import org.qi4j.structure.Visibility;
 
@@ -80,6 +86,7 @@ public final class WicketBootstrapModuleInitializer
         ModuleAssembly otherModule = aLayerAssembly.newModuleAssembly();
         otherModule.setName( "Other Module" );
 
+        // TODO kamil: make it into separate module/assembler
         try
         {
             accountModule.addObjects( AccountListPage.class,
@@ -88,6 +95,11 @@ public final class WicketBootstrapModuleInitializer
                                       AccountEditPage.class,
                                       AccountDataProvider.class
             ).visibleIn( Visibility.application );
+/*
+            accountModule.addComposites( AccountServiceConfiguration.class ).visibleIn( Visibility.application );
+            accountModule.addServices( AccountServiceComposite.class );
+*/
+
             projectModule.addObjects(
                 ProjectListPage.class,
                 ProjectAddPage.class
@@ -161,9 +173,16 @@ public final class WicketBootstrapModuleInitializer
                 LoginServiceComposite.class,
                 UserServiceComposite.class,
                 UuidIdentityGeneratorService.class,
-                MemoryEntityStoreService.class,
+                IndexedMemoryEntityStoreService.class,
+                RDFQueryService.class,
+
+                CustomerServiceComposite.class,
+                TaskServiceComposite.class,
+                ProjectServiceComposite.class,
                 SystemRoleServiceComposite.class,
-                AuthenticationServiceComposite.class
+                RelationshipServiceComposite.class,
+                AuthenticationServiceComposite.class,
+                AggregatedServiceComposite.class
             ).visibleIn( Visibility.application );
         }
         catch( AssemblyException e )

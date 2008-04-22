@@ -25,6 +25,7 @@ import org.qi4j.chronos.service.authentication.AuthenticationService;
 import org.qi4j.chronos.service.account.AccountService;
 import org.qi4j.chronos.service.user.UserService;
 import org.qi4j.chronos.service.systemrole.SystemRoleService;
+import org.qi4j.chronos.service.AggregatedService;
 import org.qi4j.chronos.ui.SystemRoleResolver;
 import org.qi4j.composite.scope.Service;
 import org.qi4j.composite.scope.Uses;
@@ -47,9 +48,11 @@ public final class ChronosSession extends AuthenticatedWebSession
 
     private @Service UserService userService;
 
+    private @Service AggregatedService aggregatedService;
+
     private @Service SystemRoleService systemRoleService;
 
-//    transient private @Structure UnitOfWorkFactory factory;
+    private @Structure UnitOfWorkFactory factory;
 
     private SystemRoleResolver roleResolver;
 
@@ -144,6 +147,16 @@ public final class ChronosSession extends AuthenticatedWebSession
     public SystemRoleService getSystemRoleService()
     {
         return systemRoleService;
+    }
+
+    public UnitOfWorkFactory getUnitOfWorkFactory()
+    {
+        return this.factory;
+    }
+
+    public AggregatedService getService()
+    {
+        return this.aggregatedService;
     }
 
     public boolean isSignIn()

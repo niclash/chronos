@@ -10,13 +10,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.service.relationship;
+package org.qi4j.chronos.service.task;
 
-import org.qi4j.service.Activatable;
 import org.qi4j.service.ServiceComposite;
+import org.qi4j.service.Activatable;
 import org.qi4j.composite.Mixins;
 
-@Mixins( RelationshipServiceMixin.class )
-public interface RelationShipServiceComposite extends ServiceComposite, RelationshipService, Activatable
+@Mixins( TaskServiceMixin.class )
+public interface TaskServiceComposite extends ServiceComposite, TaskService, Activatable
 {
 }

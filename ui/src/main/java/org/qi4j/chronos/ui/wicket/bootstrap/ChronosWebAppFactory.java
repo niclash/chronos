@@ -16,6 +16,8 @@ import org.qi4j.chronos.service.user.UserService;
 import org.qi4j.chronos.service.user.UserServiceComposite;
 import org.qi4j.chronos.service.authentication.AuthenticationService;
 import org.qi4j.chronos.service.authentication.AuthenticationServiceComposite;
+import org.qi4j.chronos.service.AggregatedService;
+import org.qi4j.chronos.service.AggregatedServiceComposite;
 import org.qi4j.composite.ObjectBuilder;
 import org.qi4j.composite.ObjectBuilderFactory;
 import org.qi4j.runtime.Energy4Java;
@@ -32,11 +34,14 @@ import org.qi4j.spi.structure.LayerResolution;
 import org.qi4j.spi.structure.ModuleBinding;
 import org.qi4j.spi.structure.ModuleModel;
 import org.qi4j.spi.structure.ModuleResolution;
+import org.qi4j.spi.query.EntityIndexer;
 import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.entity.index.rdf.RDFQueryService;
 
 import static org.qi4j.chronos.ui.wicket.Constants.LAYER_NAME_WICKET;
 import static org.qi4j.chronos.ui.wicket.WicketLayerAssemblyInitializer.addWicketLayerAssembly;
 import static org.qi4j.chronos.ui.wicket.bootstrap.Constants.MODULE_NAME_WICKET_BOOTSTRAP;
+import org.qi4j.query.QueryBuilderFactory;
 
 /**
  * {@code ChronosWebAppFactory} responsibles to create a chronos web application factory.
@@ -76,7 +81,7 @@ public final class ChronosWebAppFactory
 //        instance.getApplicationContext().getApplicationBinding().getApplicationResolution().getApplicationModel().
 //        wicketLayer.lookupService(  );
 
-        ModuleInstance accountModuleInstance = getModuleInstanceByName( wicketLayer, "Account Module" );
+//        ModuleInstance accountModuleInstance = getModuleInstanceByName( wicketLayer, "Account Module" );
 
         UnitOfWorkFactory factory = bootstrapModule.getStructureContext().getUnitOfWorkFactory();
 //        ServiceLocator locator = bootstrapModule.getStructureContext().getServiceLocator();
@@ -89,13 +94,17 @@ public final class ChronosWebAppFactory
         UserService userService = wicketLayer.lookupService( UserServiceComposite.class ).get();
 
 //        ObjectBuilderFactory builderFactory = bootstrapModule.getStructureContext().getObjectBuilderFactory();
-        ObjectBuilderFactory builderFactory = accountModuleInstance.getStructureContext().getObjectBuilderFactory();
+//        UnitOfWorkFactory factoryBuilder = bootstrapModule.getStructureContext().getUnitOfWorkFactory();
+
+        AggregatedService aggregatedService = wicketLayer.lookupService( AggregatedServiceComposite.class ).get();
+
+        ObjectBuilderFactory builderFactory = bootstrapModule.getStructureContext().getObjectBuilderFactory();
         ObjectBuilder<DummyDataInitializer> initializerBuilder = builderFactory.newObjectBuilder( DummyDataInitializer.class );
-        initializerBuilder.use( factory, roleService, accountService, userService );
+        initializerBuilder.use( aggregatedService, factory, roleService, accountService, userService );
         initializerBuilder.newInstance().initializeDummyData();
 
         ObjectBuilder<ChronosWebApp> appBuilder = builderFactory.newObjectBuilder( ChronosWebApp.class );
-        appBuilder.use( roleService, accountService, userService, authenticationService );
+        appBuilder.use( aggregatedService, factory, roleService, accountService, userService, authenticationService );
 
         return appBuilder.newInstance();
     }
