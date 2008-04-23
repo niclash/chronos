@@ -12,11 +12,10 @@
  */
 package org.qi4j.chronos.service.authentication;
 
-import org.qi4j.service.ServiceComposite;
-import org.qi4j.service.Activatable;
 import org.qi4j.composite.Mixins;
+import org.qi4j.service.ServiceComposite;
 
 @Mixins( AuthenticationServiceMixin.class )
-public interface AuthenticationServiceComposite extends ServiceComposite, AuthenticationService, Activatable
+public interface AuthenticationServiceComposite extends ServiceComposite, AuthenticationService
 {
 }

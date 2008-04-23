@@ -12,22 +12,22 @@
  */
 package org.qi4j.chronos.ui.common;
 
-import java.io.Serializable;
 import java.util.List;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.model.PropertyModel;
 
-public class SimpleDropDownChoice<T extends Serializable> extends DropDownChoice
+public class SimpleDropDownChoice<T> extends DropDownChoice
 {
-    private T choice;
+    private static final long serialVersionUID = 1L;
 
+    private T choice;
     private boolean setDefaultValue;
 
-    public SimpleDropDownChoice( String id, List<T> optionList, boolean setDefaultValue )
+    public SimpleDropDownChoice( String id, List<T> optionList, boolean isSetDefaultValue )
     {
         super( id );
 
-        this.setDefaultValue = setDefaultValue;
+        setDefaultValue = isSetDefaultValue;
         this.setModel( new PropertyModel( this, "choice" ) );
 
         setNewChoices( optionList );

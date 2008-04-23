@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
+ * Copyright (c) 2008, Edward Yakop. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,19 +18,18 @@ import org.apache.wicket.Session;
 import org.apache.wicket.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authorization.strategies.role.Roles;
+import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.model.Account;
-import org.qi4j.chronos.model.Admin;
-import org.qi4j.chronos.service.authentication.AuthenticationService;
-import org.qi4j.chronos.service.account.AccountService;
-import org.qi4j.chronos.service.user.UserService;
-import org.qi4j.chronos.service.systemrole.SystemRoleService;
 import org.qi4j.chronos.service.AggregatedService;
+import org.qi4j.chronos.service.account.AccountService;
+import org.qi4j.chronos.service.authentication.AuthenticationService;
+import org.qi4j.chronos.service.systemrole.SystemRoleService;
+import org.qi4j.chronos.service.user.UserService;
 import org.qi4j.chronos.ui.SystemRoleResolver;
 import org.qi4j.composite.scope.Service;
-import org.qi4j.composite.scope.Uses;
 import org.qi4j.composite.scope.Structure;
+import org.qi4j.composite.scope.Uses;
 import org.qi4j.entity.UnitOfWorkFactory;
 
 /**
@@ -58,8 +58,6 @@ public final class ChronosSession extends AuthenticatedWebSession
 
     private String userId;
 
-    private String accountId;
-
     private Account account;
 
     private User user;
@@ -85,18 +83,13 @@ public final class ChronosSession extends AuthenticatedWebSession
             return false;
         }
 
-        User user = authenticationService.authenticate( accountId, aUserName, aPassword );
+        User user = authenticationService.authenticate( account, aUserName, aPassword );
 
         if( user != null )
         {
             this.user = user;
             this.userId = user.identity().get();
             this.roleResolver = new SystemRoleResolver( user );
-
-            if( !( user instanceof Admin ) )
-            {
-                this.account = accountService.get( accountId );
-            }
 
             return true;
         }
@@ -109,14 +102,9 @@ public final class ChronosSession extends AuthenticatedWebSession
         return this.user;
     }
 
-    public String getAccountId()
+    public void setAccount( Account anAccount )
     {
-        return accountId;
-    }
-
-    public void setAccountId( String accountId )
-    {
-        this.accountId = accountId;
+        account = anAccount;
     }
 
     public boolean isStaff()
@@ -151,12 +139,12 @@ public final class ChronosSession extends AuthenticatedWebSession
 
     public UnitOfWorkFactory getUnitOfWorkFactory()
     {
-        return this.factory;
+        return factory;
     }
 
     public AggregatedService getService()
     {
-        return this.aggregatedService;
+        return aggregatedService;
     }
 
     public boolean isSignIn()

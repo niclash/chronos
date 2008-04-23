@@ -12,158 +12,160 @@
  */
 package org.qi4j.chronos.ui.wicket.authentication;
 
-import java.util.ArrayList;
+import java.io.Serializable;
 import java.util.List;
-import org.apache.wicket.PageParameters;
+import org.apache.wicket.Application;
+import org.apache.wicket.Localizer;
+import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.model.PropertyModel;
-import org.apache.wicket.util.value.ValueMap;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Account;
-import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
-import org.qi4j.chronos.ui.account.AccountDelegator;
-import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
-import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.chronos.service.account.AccountService;
-import org.qi4j.composite.scope.Structure;
+import org.qi4j.chronos.ui.wicket.base.BasePage;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
+import static org.qi4j.composite.NullArgumentException.*;
 import org.qi4j.composite.scope.Service;
-
-import static org.qi4j.composite.NullArgumentException.validateNotNull;
+import org.qi4j.entity.Identity;
 
 public class LoginPage extends BasePage
 {
-    transient private AccountService accountService;
 
     private static final long serialVersionUID = 1L;
 
     private static final String WICKET_ID_FEEDBACK_PANEL = "feedbackPanel";
     private static final String WICKET_ID_LOGIN_FORM = "loginForm";
 
-    private PasswordTextField password;
-    private TextField username;
-
-    public LoginPage( final @Service AccountService accountService )
+    public LoginPage( @Service AccountService anAccountService )
+        throws IllegalArgumentException
     {
-        validateNotNull( "accountService", accountService );
+        validateNotNull( "anAccountService", anAccountService );
 
-        this.accountService = accountService;
-        
         add( new FeedbackPanel( WICKET_ID_FEEDBACK_PANEL ) );
-        add( new LoginForm( WICKET_ID_LOGIN_FORM ) );
+        add( new LoginForm( WICKET_ID_LOGIN_FORM, new LoginModel(), anAccountService ) );
     }
 
-    public String getUsername()
-    {
-        return username.getModelObjectAsString();
-    }
-
-    public String getPassword()
-    {
-        return password.getModelObjectAsString();
-    }
-
-    private class LoginForm extends Form
+    private static class LoginForm extends Form
     {
         private static final long serialVersionUID = 1L;
 
-        private final static String SYSTEM_ACCOUNT = "[ System ]";
+        private static final String WICKET_ID_ACCOUNT_DROP_DOWN_CHOICE = "accountDropDownChoice";
+        private static final String WICKET_ID_USERNAME = "username";
+        private static final String WICKET_ID_PASSWORD = "password";
 
-        private final ValueMap properties = new ValueMap();
-        private SimpleDropDownChoice<AccountDelegator> accountDropDownChoice;
+        private DropDownChoice accountDropDownChoice;
 
-        public LoginForm( String id )
+        private LoginForm( String aWicketId, LoginModel aLoginModel, AccountService anAccountService )
         {
-            super( id );
+            super( aWicketId );
 
-            initComponents();
-        }
+            validateNotNull( "aLoginModel", aLoginModel );
+            validateNotNull( "anAccountService", anAccountService );
 
-        private void initComponents()
-        {
-            List<AccountDelegator> accountList = getAvailableAccount();
+            CompoundPropertyModel compoundPropertyModel = new CompoundPropertyModel( aLoginModel );
+            setModel( compoundPropertyModel );
 
-            accountList.add( new AccountDelegator( SYSTEM_ACCOUNT, SYSTEM_ACCOUNT ) );
-
-            accountDropDownChoice = new SimpleDropDownChoice<AccountDelegator>( "accountDropDownChoice", accountList, true );
-
-            username = new TextField( "username", new PropertyModel( properties, "username" ) )
-            {
-                @Override
-                protected boolean supportsPersistence()
-                {
-                    return true;
-                }
-            };
-            password = new PasswordTextField( "password", new PropertyModel( properties, "password" ) )
-            {
-                 @Override
-                 protected boolean supportsPersistence()
-                {
-                    return true;
-                }
-            };
-
-//            username.setPersistent( true );
-//            password.setPersistent( true );
-
+            // Select account
+            List<Account> availableAccounts = anAccountService.findAvailableAccounts();
+            AccountChoiceRenderer renderer = new AccountChoiceRenderer();
+            accountDropDownChoice = new DropDownChoice( WICKET_ID_ACCOUNT_DROP_DOWN_CHOICE, availableAccounts, renderer );
             add( accountDropDownChoice );
+            accountDropDownChoice.setModel( new Model() );
+
+            // username
+            IModel userNameModel = compoundPropertyModel.bind( "userName" );
+            TextField username = new TextField( WICKET_ID_USERNAME, userNameModel );
             add( username );
+
+            // password
+            IModel passwordModel = compoundPropertyModel.bind( "password" );
+            PasswordTextField password = new PasswordTextField( WICKET_ID_PASSWORD, passwordModel );
             add( password );
         }
 
         public final void onSubmit()
         {
-            String accountId = null;
+            Account account = (Account) accountDropDownChoice.getModelObject();
+            LoginModel loginModel = (LoginModel) getModelObject();
 
-            if( !accountDropDownChoice.getChoice().getId().equals( SYSTEM_ACCOUNT ) )
-            {
-                accountId = accountDropDownChoice.getChoice().getId();
-            }
+            // Sign in user
+            ChronosSession session = ChronosSession.get();
+            session.setAccount( account );
+            String userName = loginModel.getUserName();
+            String password = loginModel.getPassword();
+            boolean isSignedIn = session.signIn( userName, password );
 
-            if( signIn( accountId, getUsername(), getPassword() ) )
+            if( isSignedIn )
             {
-                onSignInSucceeded();
+                if( !continueToOriginalDestination() )
+                {
+                    Application application = getApplication();
+                    Class homePage = application.getHomePage();
+                    setResponsePage( newPage( homePage, null ) );
+                }
             }
             else
             {
-                onSignInFailed();
+                Localizer localizer = getLocalizer();
+                error( localizer.getString( "signInFailed", this, "Sign in failed" ) );
             }
         }
 
-        private List<AccountDelegator> getAvailableAccount()
+        /**
+         * {@code AccountChoiceRenderer} is used to render account in drop down choice.
+         *
+         * @author edward.yakop@gmail.com
+         */
+        private static class AccountChoiceRenderer
+            implements IChoiceRenderer
         {
-            List<AccountDelegator> resultList = new ArrayList<AccountDelegator>();
-            List<Account> accounts = accountService.findAvailableAccounts();
+            private static final long serialVersionUID = 1L;
 
-            for( Account account : accounts )
+            public final Object getDisplayValue( Object anObjAccount )
             {
-                resultList.add( new AccountDelegator( account ) );
+                Account account = (Account) anObjAccount;
+                return account.name().get();
             }
 
-            return resultList;
-        }
-
-        private boolean signIn( String accountId, String username, String password )
-        {
-            ChronosSession session = ChronosSession.get();
-            session.setAccountId( accountId );
-
-            return session.signIn( username, password );
-        }
-
-        private void onSignInFailed()
-        {
-            error( getLocalizer().getString( "signInFailed", this, "Sign in failed" ) );
-        }
-
-        private void onSignInSucceeded()
-        {
-            if( !continueToOriginalDestination() )
+            public final String getIdValue( Object objIdentity, int index )
             {
-                setResponsePage( newPage( getApplication().getHomePage(), null ) );
+                Identity identity = (Identity) objIdentity;
+                return identity.identity().get();
             }
+        }
+    }
+
+    private static final class LoginModel
+        implements Serializable
+    {
+        private static final long serialVersionUID = 1L;
+
+        private String userName;
+        private String password;
+
+        public final String getPassword()
+        {
+            return password;
+        }
+
+        public final void setPassword( String aPassword )
+        {
+            password = aPassword;
+        }
+
+        public final String getUserName()
+        {
+            return userName;
+        }
+
+        public final void setUserName( String aUserName )
+        {
+            userName = aUserName;
         }
     }
 }

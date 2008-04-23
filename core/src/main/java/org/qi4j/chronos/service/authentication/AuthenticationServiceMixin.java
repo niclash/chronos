@@ -12,23 +12,22 @@
  */
 package org.qi4j.chronos.service.authentication;
 
-import org.qi4j.service.Activatable;
-import org.qi4j.chronos.model.associations.HasLogin;
+import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.associations.HasLogin;
 import org.qi4j.chronos.service.user.UserService;
-
-import static org.qi4j.composite.NullArgumentException.validateNotNull;
+import static org.qi4j.composite.NullArgumentException.*;
 import org.qi4j.composite.scope.Service;
 import org.qi4j.composite.scope.Structure;
 import org.qi4j.entity.UnitOfWorkFactory;
 
-public class AuthenticationServiceMixin implements AuthenticationService, Activatable
+public final class AuthenticationServiceMixin
+    implements AuthenticationService
 {
     private @Service UserService userService;
-
     private @Structure UnitOfWorkFactory factory;
 
-    public boolean authenticate( HasLogin hasLogin, String username, String password )
+    public final boolean authenticate( HasLogin hasLogin, String username, String password )
     {
         validateNotNull( "hasLogin", hasLogin );
         validateNotNull( "username", username );
@@ -38,12 +37,12 @@ public class AuthenticationServiceMixin implements AuthenticationService, Activa
                password.equals( hasLogin.login().get().password().get() );
     }
 
-    public User authenticate( String accountId, String username, String password )
+    public final User authenticate( Account anAccount, String username, String password )
     {
         validateNotNull( "username", username );
         validateNotNull( "password", password );
 
-        if( null == accountId )
+        if( anAccount == null )
         {
             // admin
             return userService.getAdmin( username, password );
@@ -51,24 +50,14 @@ public class AuthenticationServiceMixin implements AuthenticationService, Activa
         else
         {
             // normal user
-            User user = userService.getUser( accountId, username );
+            User user = userService.getUser( anAccount, username );
 
             if( null != user )
             {
                 return authenticate( user, username, password ) ? user : null;
             }
         }
+
         return null;
-    }
-
-    public void activate() throws Exception
-    {
-        validateNotNull( "userService", userService );
-        validateNotNull( "factory", factory );
-    }
-
-    public void passivate() throws Exception
-    {
-        //To change body of implemented methods use File | Settings | File Templates.
     }
 }
