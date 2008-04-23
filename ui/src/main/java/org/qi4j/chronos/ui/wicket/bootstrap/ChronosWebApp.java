@@ -21,23 +21,17 @@ import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.settings.IApplicationSettings;
 import org.apache.wicket.settings.ISessionSettings;
-import org.qi4j.chronos.ui.wicket.authentication.LoginPage;
-import org.qi4j.chronos.ui.admin.AdminHomePage;
-import org.qi4j.chronos.ui.staff.StaffHomePage;
-import org.qi4j.chronos.ui.contactperson.ContactPersonHomePage;
+import static org.apache.wicket.util.lang.Objects.*;
 import org.qi4j.chronos.model.Admin;
 import org.qi4j.chronos.model.Staff;
-import org.qi4j.chronos.service.account.AccountService;
-import org.qi4j.chronos.service.systemrole.SystemRoleService;
-import org.qi4j.chronos.service.user.UserService;
-import org.qi4j.chronos.service.authentication.AuthenticationService;
-import org.qi4j.chronos.service.AggregatedService;
-import static org.qi4j.composite.NullArgumentException.validateNotNull;
+import org.qi4j.chronos.ui.admin.AdminHomePage;
+import org.qi4j.chronos.ui.contactperson.ContactPersonHomePage;
+import org.qi4j.chronos.ui.staff.StaffHomePage;
+import org.qi4j.chronos.ui.wicket.authentication.LoginPage;
+import org.qi4j.chronos.ui.wicket.bootstrap.serialization.Qi4jObjectStreamFactory;
 import org.qi4j.composite.ObjectBuilder;
 import org.qi4j.composite.ObjectBuilderFactory;
 import org.qi4j.composite.scope.Structure;
-import org.qi4j.composite.scope.Service;
-import org.qi4j.entity.UnitOfWorkFactory;
 
 /**
  * @author Lan Boon Ping
@@ -46,35 +40,8 @@ import org.qi4j.entity.UnitOfWorkFactory;
  */
 public final class ChronosWebApp extends AuthenticatedWebApplication
 {
+    @Structure
     private ObjectBuilderFactory objectBuilderFactory;
-
-    private @Structure UnitOfWorkFactory factory;
-
-    private @Service AccountService accountService;
-
-    private @Service SystemRoleService roleService;
-
-    private @Service UserService userService;
-
-    private @Service AuthenticationService authenticationService;
-
-    private @Service AggregatedService aggregatedService;
-
-    /**
-     * Construct a new instance of {@code ChronosWebApp}.
-     *
-     * @param anObjectBuilderFactory The object builder factory.
-     * @throws IllegalArgumentException Thrown if the specified {@code anObjectBuilderFactory} is {@code null}.
-     * @since 0.1.0
-     */
-    public ChronosWebApp( @Structure ObjectBuilderFactory anObjectBuilderFactory )
-        throws IllegalArgumentException
-    {
-        super();
-
-        validateNotNull( "anObjectBuilderFactory", anObjectBuilderFactory );
-        objectBuilderFactory = anObjectBuilderFactory;
-    }
 
     @Override
     protected final void init()
@@ -87,16 +54,16 @@ public final class ChronosWebApp extends AuthenticatedWebApplication
 
         // Set page factory
         ISessionSettings sessionSettings = getSessionSettings();
-        ObjectBuilder<ChronosPageFactory> builder = objectBuilderFactory.newObjectBuilder( ChronosPageFactory.class );
-        builder.use( factory, accountService, roleService, userService, authenticationService );
-        ChronosPageFactory pageFactory = builder.newInstance();
-        
+        ObjectBuilder<ChronosPageFactory> pageFactoryBuilder
+            = objectBuilderFactory.newObjectBuilder( ChronosPageFactory.class );
+        ChronosPageFactory pageFactory = pageFactoryBuilder.newInstance();
         sessionSettings.setPageFactory( pageFactory );
-    }
 
-    public AggregatedService getService()
-    {
-        return this.aggregatedService;
+        // Sets the object stream factory builder
+        ObjectBuilder<Qi4jObjectStreamFactory> objectStreamFactoryBuilder
+            = objectBuilderFactory.newObjectBuilder( Qi4jObjectStreamFactory.class );
+        Qi4jObjectStreamFactory objectStreamFactory = objectStreamFactoryBuilder.newInstance();
+        setObjectStreamFactory( objectStreamFactory );
     }
 
     protected Class<? extends AuthenticatedWebSession> getWebSessionClass()
@@ -115,26 +82,22 @@ public final class ChronosWebApp extends AuthenticatedWebApplication
     @Override
     public final Session newSession( Request request, Response response )
     {
-        validateNotNull( "request", request );
-        validateNotNull( "response", response );
-        validateNotNull( "accountService", accountService );
-        validateNotNull( "roleService", roleService );
-        validateNotNull( "userService", userService );
-        validateNotNull( "authenticationService", authenticationService );
-        validateNotNull( "aggregatedService", aggregatedService );
-
         ObjectBuilder<ChronosSession> builder = objectBuilderFactory.newObjectBuilder( ChronosSession.class );
-        builder.use( this, request, aggregatedService, accountService, userService, roleService, authenticationService );
-
+        builder.use( this, request, response );
         return builder.newInstance();
     }
 
-    protected Class<? extends WebPage> getSignInPageClass()
+    /**
+     * Returns the sign in page.
+     *
+     * @return The sign in page.
+     */
+    protected final Class<? extends WebPage> getSignInPageClass()
     {
         return LoginPage.class;
     }
 
-    public Class getHomePage()
+    public final Class getHomePage()
     {
         ChronosSession session = ChronosSession.get();
         if( !session.isSignIn() )
@@ -143,11 +106,11 @@ public final class ChronosWebApp extends AuthenticatedWebApplication
         }
         else
         {
-            if( ChronosSession.get().getUser() instanceof Admin )
+            if( session.getUser() instanceof Admin )
             {
                 return AdminHomePage.class;
             }
-            else if( ChronosSession.get().getUser() instanceof Staff )
+            else if( session.getUser() instanceof Staff )
             {
                 return StaffHomePage.class;
             }

@@ -8,40 +8,25 @@ import org.qi4j.bootstrap.ApplicationAssembly;
 import org.qi4j.bootstrap.ApplicationAssemblyFactory;
 import org.qi4j.bootstrap.ApplicationFactory;
 import org.qi4j.bootstrap.AssemblyException;
-import org.qi4j.chronos.service.systemrole.SystemRoleServiceComposite;
-import org.qi4j.chronos.service.systemrole.SystemRoleService;
-import org.qi4j.chronos.service.account.AccountService;
-import org.qi4j.chronos.service.account.AccountServiceComposite;
-import org.qi4j.chronos.service.user.UserService;
-import org.qi4j.chronos.service.user.UserServiceComposite;
-import org.qi4j.chronos.service.authentication.AuthenticationService;
-import org.qi4j.chronos.service.authentication.AuthenticationServiceComposite;
-import org.qi4j.chronos.service.AggregatedService;
-import org.qi4j.chronos.service.AggregatedServiceComposite;
+import static org.qi4j.chronos.ui.wicket.Constants.*;
+import static org.qi4j.chronos.ui.wicket.WicketLayerAssemblyInitializer.*;
+import static org.qi4j.chronos.ui.wicket.bootstrap.Constants.*;
 import org.qi4j.composite.ObjectBuilder;
 import org.qi4j.composite.ObjectBuilderFactory;
 import org.qi4j.runtime.Energy4Java;
 import org.qi4j.runtime.Qi4jRuntime;
+import org.qi4j.runtime.structure.ApplicationContext;
 import org.qi4j.runtime.structure.ApplicationInstance;
 import org.qi4j.runtime.structure.LayerContext;
 import org.qi4j.runtime.structure.LayerInstance;
 import org.qi4j.runtime.structure.ModuleContext;
 import org.qi4j.runtime.structure.ModuleInstance;
-import org.qi4j.runtime.structure.ApplicationContext;
 import org.qi4j.spi.structure.LayerBinding;
 import org.qi4j.spi.structure.LayerModel;
 import org.qi4j.spi.structure.LayerResolution;
 import org.qi4j.spi.structure.ModuleBinding;
 import org.qi4j.spi.structure.ModuleModel;
 import org.qi4j.spi.structure.ModuleResolution;
-import org.qi4j.spi.query.EntityIndexer;
-import org.qi4j.entity.UnitOfWorkFactory;
-import org.qi4j.entity.index.rdf.RDFQueryService;
-
-import static org.qi4j.chronos.ui.wicket.Constants.LAYER_NAME_WICKET;
-import static org.qi4j.chronos.ui.wicket.WicketLayerAssemblyInitializer.addWicketLayerAssembly;
-import static org.qi4j.chronos.ui.wicket.bootstrap.Constants.MODULE_NAME_WICKET_BOOTSTRAP;
-import org.qi4j.query.QueryBuilderFactory;
 
 /**
  * {@code ChronosWebAppFactory} responsibles to create a chronos web application factory.
@@ -56,6 +41,32 @@ public final class ChronosWebAppFactory
 
     public final WebApplication createApplication( WicketFilter aFilter )
     {
+        ApplicationInstance instance = newChronosQi4jApplication();
+        LayerInstance wicketLayer = getWicketLayer( instance );
+        ModuleInstance bootstrapModule = getBootstrapModule( wicketLayer );
+
+        // Initialize dummy data
+        ObjectBuilderFactory builderFactory = bootstrapModule.getStructureContext().getObjectBuilderFactory();
+        ObjectBuilder<DummyDataInitializer> initializerBuilder = builderFactory.newObjectBuilder( DummyDataInitializer.class );
+        initializerBuilder.newInstance().initializeDummyData();
+
+        // Create new chronos app
+        ObjectBuilder<ChronosWebApp> appBuilder = builderFactory.newObjectBuilder( ChronosWebApp.class );
+        return appBuilder.newInstance();
+    }
+
+    private LayerInstance getWicketLayer( ApplicationInstance instance )
+    {
+        LayerInstance wicketLayer = getWicketLayerInstance( instance );
+        if( wicketLayer == null )
+        {
+            throw new IllegalStateException( "Layer [" + LAYER_NAME_WICKET + "] is not found." );
+        }
+        return wicketLayer;
+    }
+
+    private ApplicationInstance newChronosQi4jApplication()
+    {
         ApplicationInstance instance;
         try
         {
@@ -66,52 +77,17 @@ public final class ChronosWebAppFactory
         {
             throw new IllegalStateException( "Could not activate application", e );
         }
-        LayerInstance wicketLayer = getWicketLayerInstance( instance );
-        if( wicketLayer == null )
-        {
-            throw new IllegalStateException( "Layer [" + LAYER_NAME_WICKET + "] is not found." );
-        }
-
-        ModuleInstance bootstrapModule = getBootstrapModule( wicketLayer );
-        if( bootstrapModule == null )
-        {
-            throw new IllegalStateException( "Module [" + MODULE_NAME_WICKET_BOOTSTRAP + "] is not found." );
-        }
-
-//        instance.getApplicationContext().getApplicationBinding().getApplicationResolution().getApplicationModel().
-//        wicketLayer.lookupService(  );
-
-//        ModuleInstance accountModuleInstance = getModuleInstanceByName( wicketLayer, "Account Module" );
-
-        UnitOfWorkFactory factory = bootstrapModule.getStructureContext().getUnitOfWorkFactory();
-//        ServiceLocator locator = bootstrapModule.getStructureContext().getServiceLocator();
-        SystemRoleService roleService = wicketLayer.lookupService( SystemRoleServiceComposite.class ).get();
-
-//        AccountService accountService = accountModuleInstance.getStructureContext().getServiceLocator().lookupService( AccountServiceComposite.class ).get();
-        AccountService accountService = wicketLayer.lookupService( AccountServiceComposite.class ).get();
-
-        AuthenticationService authenticationService = wicketLayer.lookupService( AuthenticationServiceComposite.class ).get();
-        UserService userService = wicketLayer.lookupService( UserServiceComposite.class ).get();
-
-//        ObjectBuilderFactory builderFactory = bootstrapModule.getStructureContext().getObjectBuilderFactory();
-//        UnitOfWorkFactory factoryBuilder = bootstrapModule.getStructureContext().getUnitOfWorkFactory();
-
-        AggregatedService aggregatedService = wicketLayer.lookupService( AggregatedServiceComposite.class ).get();
-
-        ObjectBuilderFactory builderFactory = bootstrapModule.getStructureContext().getObjectBuilderFactory();
-        ObjectBuilder<DummyDataInitializer> initializerBuilder = builderFactory.newObjectBuilder( DummyDataInitializer.class );
-        initializerBuilder.use( aggregatedService, factory, roleService, accountService, userService );
-        initializerBuilder.newInstance().initializeDummyData();
-
-        ObjectBuilder<ChronosWebApp> appBuilder = builderFactory.newObjectBuilder( ChronosWebApp.class );
-        appBuilder.use( aggregatedService, factory, roleService, accountService, userService, authenticationService );
-
-        return appBuilder.newInstance();
+        return instance;
     }
 
     private ModuleInstance getBootstrapModule( LayerInstance wicketLayer )
     {
-        return getModuleInstanceByName( wicketLayer, MODULE_NAME_WICKET_BOOTSTRAP );
+        ModuleInstance bootstrapModule = getModuleInstanceByName( wicketLayer, MODULE_NAME_WICKET_BOOTSTRAP );
+        if( bootstrapModule == null )
+        {
+            throw new IllegalStateException( "Module [" + MODULE_NAME_WICKET_BOOTSTRAP + "] is not found." );
+        }
+        return bootstrapModule;
     }
 
     private ModuleInstance getModuleInstanceByName( LayerInstance wicketLayer, String moduleName )

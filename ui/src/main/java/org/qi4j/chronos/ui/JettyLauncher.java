@@ -31,7 +31,7 @@ public class JettyLauncher
 
         web.setContextPath( "/chronos" );
 
-        web.setWar( "src/webapp/" );
+        web.setWar( "apps/chronos/ui/src/webapp/" );
         server.addHandler( web );
 
         try

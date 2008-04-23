@@ -162,7 +162,7 @@ public class LoginPage extends BasePage
         {
             if( !continueToOriginalDestination() )
             {
-                setResponsePage( newPage( getApplication().getHomePage(), (PageParameters) null ) );
+                setResponsePage( newPage( getApplication().getHomePage(), null ) );
             }
         }
     }
