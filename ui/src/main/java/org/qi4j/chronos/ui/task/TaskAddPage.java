@@ -20,6 +20,9 @@ import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.service.TaskService;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.qi4j.entity.UnitOfWorkFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -34,26 +37,36 @@ public abstract class TaskAddPage extends TaskAddEditPage
 
     public void onSubmitting()
     {
-        TaskService taskService = getServices().getTaskService();
+        // TODO kamil: add task
+        UnitOfWork unitOfWork = getUnitOfWork();
+//        TaskService taskService = getServices().getTaskService();
 
         try
         {
-            Task taskMaster = taskService.newInstance( TaskEntityComposite.class );
+            Task task = unitOfWork.newEntityBuilder( TaskEntityComposite.class ).newInstance();
 
-            taskMaster.createdDate().set( new Date() );
+            task.createdDate().set( new Date() );
 
-            assignFieldValueToTaskMaster( taskMaster );
+            assignFieldValueToTaskMaster( task );
 
-            Project project = getProject();
+            getProject().tasks().add( task );
 
-            project.tasks().add( taskMaster );
-
-            // TODO migrate
-//            getServices().getProjectService().update( project );
+            unitOfWork.complete();
 
             logInfoMsg( "Task is added successfully." );
 
             divertToGoBackPage();
+        }
+        catch( UnitOfWorkCompletionException uowce )
+        {
+            logErrorMsg( "Unable to save task!!!" + uowce.getClass().getSimpleName() );
+
+            if( null != unitOfWork && unitOfWork.isOpen() )
+            {
+                unitOfWork.discard();
+            }
+
+            LOGGER.error( uowce.getLocalizedMessage(), uowce );
         }
         catch( Exception err )
         {
@@ -74,7 +87,15 @@ public abstract class TaskAddPage extends TaskAddEditPage
 
     public User getTaskOwner()
     {
-        return ChronosSession.get().getUser();
+        return getChronosSession().getUser();
+    }
+
+    private UnitOfWork getUnitOfWork()
+    {
+        UnitOfWorkFactory unitOfWorkFactory = ChronosSession.get().getUnitOfWorkFactory();
+
+        return null == unitOfWorkFactory.currentUnitOfWork() ? unitOfWorkFactory.newUnitOfWork() :
+               unitOfWorkFactory.currentUnitOfWork();
     }
 
     public abstract Project getProject();

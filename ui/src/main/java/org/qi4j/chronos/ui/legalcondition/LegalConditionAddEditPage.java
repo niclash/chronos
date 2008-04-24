@@ -55,7 +55,9 @@ public abstract class LegalConditionAddEditPage extends AddEditBasePage
         selectLegalConditionContainer = new WebMarkupContainer( "selectLegalConditionContainer" );
         selectLegalConditionContainer.add( selectLegalConditionLink );
 
-        if( getServices().getLegalConditionService().countAll( getAccount() ) == 0 )
+//        if( getServices().getLegalConditionService().countAll( getAccount() ) == 0 )
+        // TODO kamil: need to understand this
+        if( false )
         {
             selectLegalConditionContainer.setVisible( false );
         }

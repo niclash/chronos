@@ -20,8 +20,9 @@ import org.qi4j.chronos.service.CommentService;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
+import org.qi4j.entity.Identity;
 
-public abstract class CommentDataProvider extends AbstractSortableDataProvider<Comment, CommentId>
+public abstract class CommentDataProvider extends AbstractSortableDataProvider<Comment, String>
 {
     public int getSize()
     {
@@ -30,9 +31,9 @@ public abstract class CommentDataProvider extends AbstractSortableDataProvider<C
         return getHasComments().comments().size();
     }
 
-    public CommentId getId( Comment t )
+    public String getId( Comment comment )
     {
-        return new CommentId( t );
+        return ( (Identity) comment).identity().get();
     }
 
     private CommentService getCommentService()
@@ -40,9 +41,18 @@ public abstract class CommentDataProvider extends AbstractSortableDataProvider<C
         return ChronosWebApp.getServices().getCommentService();
     }
 
-    public Comment load( CommentId commentId )
+    public Comment load( String commentId )
     {
-        return getCommentService().get( getHasComments(), commentId.getCreatedDate(), commentId.getUserId() );
+//        return getCommentService().get( getHasComments(), commentId.getCreatedDate(), commentId.getUserId() );
+        for( Comment comment : getHasComments().comments() )
+        {
+            if( commentId.equals( ( (Identity) comment ).identity().get() ) )
+            {
+                return comment;
+            }
+        }
+
+        return null;
     }
 
     public List<Comment> dataList( int first, int count )

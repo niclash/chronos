@@ -16,8 +16,11 @@ import org.apache.wicket.Page;
 import org.apache.wicket.Session;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.ui.address.AddressDetailPanel;
 import org.qi4j.chronos.ui.common.SimpleTextField;
@@ -25,17 +28,22 @@ import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.composite.scope.Uses;
+import org.qi4j.composite.Composite;
+import java.io.Serializable;
 
 public class AccountDetailPage extends LeftMenuNavPage
 {
     private Page returnPage;
 
-    private String accountId;
+//    private String accountId;
 
-    public AccountDetailPage( @Uses Page returnPage, @Uses String accountId )
+    private Account account;
+
+    public AccountDetailPage( @Uses Page returnPage, final @Uses Account account )
     {
         this.returnPage = returnPage;
-        this.accountId = accountId;
+//        this.accountId = accountId;
+        this.account = account;
 
         initComponents();
     }
@@ -43,8 +51,9 @@ public class AccountDetailPage extends LeftMenuNavPage
     @Override
     protected Account getAccount()
     {
+        return this.account;
         // TODO properly
-        return ( (ChronosSession) Session.get() ).getAccountService().get( accountId );
+//        return ( (ChronosSession) Session.get() ).getAccountService().get( accountId );
 //        return ChronosWebApp.getServices().getAccountService().get( accountId );
     }
 
@@ -57,18 +66,38 @@ public class AccountDetailPage extends LeftMenuNavPage
     private class AccountDetailForm extends Form
     {
         private Button goButton;
-        private SimpleTextField nameField;
+        private TextField nameField;
         private SimpleTextField referenceField;
 
         private AddressDetailPanel addressDetailPanel;
+
+        private static final String NAME_BINDING = "Name";
 
         public AccountDetailForm( String id )
         {
             super( id );
 
-            Account account = getAccount();
+            final Account account = getAccount();
 
-            nameField = new SimpleTextField( "nameField", account.name().get(), true );
+/*
+            CompoundPropertyModel compoundPropertyModel = new CompoundPropertyModel( new AccountModel( account ) );
+            setModel( compoundPropertyModel );
+
+            IModel nameModel = compoundPropertyModel.bind( NAME_BINDING );
+*/
+            Model testModel = new Model()
+            {
+                @Override public Object getObject()
+                {
+                    return account.name().get();
+                }
+            };
+
+            nameField = new TextField( "nameField", testModel );
+
+            System.err.println( testModel.toString() );
+
+//            nameField = new SimpleTextField( "nameField", account.name().get(), true );
             referenceField = new SimpleTextField( "referenceField", account.reference().get(), true );
 
             addressDetailPanel = new AddressDetailPanel( "addressDetailPanel", account.address().get() );
@@ -89,4 +118,29 @@ public class AccountDetailPage extends LeftMenuNavPage
         }
     }
 
+    private static final class AccountModel
+        implements Serializable
+    {
+        private Account account;
+
+        public AccountModel( Account account )
+        {
+            this.account = account;
+        }
+
+        public final void setName( String name )
+        {
+            this.account.name().set( name );
+        }
+
+        public final String getName()
+        {
+            return this.account.name().get();
+        }
+
+        public final Account getAccount()
+        {
+            return this.account;
+        }
+    }
 }

@@ -17,10 +17,12 @@ import org.qi4j.chronos.model.PriceRateType;
 import org.qi4j.chronos.model.PriceRate;
 import org.qi4j.chronos.model.PriceRateTypeEnum;
 import org.qi4j.chronos.model.composites.PriceRateComposite;
+import org.qi4j.entity.Identity;
 
 //TODO bp. We may don't need this when we can make priceRateComposite serilizable.
 public class PriceRateDelegator implements Serializable
 {
+    private String priceRateId;
     private String projectRoleName;
     private long amonunt;
     private PriceRateTypeEnum priceRateType;
@@ -29,6 +31,7 @@ public class PriceRateDelegator implements Serializable
 
     public PriceRateDelegator( PriceRate priceRate )
     {
+        priceRateId = ( (Identity) priceRate).identity().get();
         projectRoleName = priceRate.projectRole().get().name().get();
         amonunt = priceRate.amount().get();
         priceRateType = priceRate.priceRateType().get();
@@ -41,6 +44,11 @@ public class PriceRateDelegator implements Serializable
             .append( String.valueOf( amonunt ) );
 
         toString = builder.toString();
+    }
+
+    public String getPriceRateId()
+    {
+        return priceRateId;
     }
 
     public String getProjectRoleName()

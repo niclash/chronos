@@ -29,6 +29,7 @@ import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.service.account.AccountService;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
+import org.qi4j.chronos.ui.common.NameChoiceRenderer;
 import static org.qi4j.composite.NullArgumentException.*;
 import org.qi4j.composite.scope.Service;
 import org.qi4j.entity.Identity;
@@ -59,6 +60,11 @@ public class LoginPage extends BasePage
         private static final String WICKET_ID_PASSWORD = "password";
 
         private DropDownChoice accountDropDownChoice;
+        private static final String USER_NAME_BINDING = "userName";
+        private static final String PASSWORD_BINDING = WICKET_ID_PASSWORD;
+
+        private static final String SIGN_IN_FAILED = "signInFailed";
+        private static final String SIGN_IN_FAILED_DEFAULT_MESG = "Sign in failed";
 
         private LoginForm( String aWicketId, LoginModel aLoginModel, AccountService anAccountService )
         {
@@ -72,18 +78,18 @@ public class LoginPage extends BasePage
 
             // Select account
             List<Account> availableAccounts = anAccountService.findAvailableAccounts();
-            AccountChoiceRenderer renderer = new AccountChoiceRenderer();
+            NameChoiceRenderer renderer = new NameChoiceRenderer();
             accountDropDownChoice = new DropDownChoice( WICKET_ID_ACCOUNT_DROP_DOWN_CHOICE, availableAccounts, renderer );
             add( accountDropDownChoice );
             accountDropDownChoice.setModel( new Model() );
 
             // username
-            IModel userNameModel = compoundPropertyModel.bind( "userName" );
+            IModel userNameModel = compoundPropertyModel.bind( USER_NAME_BINDING );
             TextField username = new TextField( WICKET_ID_USERNAME, userNameModel );
             add( username );
 
             // password
-            IModel passwordModel = compoundPropertyModel.bind( "password" );
+            IModel passwordModel = compoundPropertyModel.bind( PASSWORD_BINDING );
             PasswordTextField password = new PasswordTextField( WICKET_ID_PASSWORD, passwordModel );
             add( password );
         }
@@ -112,7 +118,7 @@ public class LoginPage extends BasePage
             else
             {
                 Localizer localizer = getLocalizer();
-                error( localizer.getString( "signInFailed", this, "Sign in failed" ) );
+                error( localizer.getString( SIGN_IN_FAILED, this, SIGN_IN_FAILED_DEFAULT_MESG ) );
             }
         }
 

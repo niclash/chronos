@@ -22,14 +22,11 @@ import org.apache.wicket.PageParameters;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.ProjectStatusEnum;
 import org.qi4j.chronos.service.account.AccountService;
-import org.qi4j.chronos.service.EntityService;
-import org.qi4j.chronos.service.ProjectService;
-import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosWebApp;
 import org.qi4j.chronos.ui.util.ProjectUtil;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleCheckBox;
-import org.qi4j.chronos.ui.common.SimpleDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleAction;
@@ -86,9 +83,7 @@ public abstract class AccountTable extends ActionTable<Account, String>
     private void handleDeleteAction( List<Account> accounts )
     {
         // TODO kamil: use unitOfWork
-        UnitOfWork unitOfWork = null == getUnitOfWorkFactory().currentUnitOfWork() ?
-                                getUnitOfWorkFactory().newUnitOfWork() :
-                                getUnitOfWorkFactory().currentUnitOfWork();
+        UnitOfWork unitOfWork = getUnitOfWork();
 
         getAccountService().removeAll( accounts );
 
@@ -101,16 +96,14 @@ public abstract class AccountTable extends ActionTable<Account, String>
             // TODO kamil: use LOGGER
             System.err.println( uowce.getLocalizedMessage() );
             uowce.printStackTrace();
-            error( "Unable to delete selected accounts!!!" );
+            error( "Unable to delete selected account(s)!!!" );
         }
     }
 
     private void handleDisableAction( List<Account> accounts, boolean enabled )
     {
         // TODO kamil: use unitOfWork
-        UnitOfWork unitOfWork = null == getUnitOfWorkFactory().currentUnitOfWork() ?
-                                getUnitOfWorkFactory().newUnitOfWork() :
-                                getUnitOfWorkFactory().currentUnitOfWork();
+        UnitOfWork unitOfWork = getUnitOfWork();
 
         getAccountService().enableAccounts( accounts, enabled );
 
@@ -146,27 +139,20 @@ public abstract class AccountTable extends ActionTable<Account, String>
 
     private AccountService getAccountService()
     {
-        return ( ( ChronosSession ) Session.get() ).getAccountService();
+        return ChronosSession.get().getAccountService();
     }
 
-    private UnitOfWorkFactory getUnitOfWorkFactory()
+    public void populateItems( Item item, final Account account )
     {
-        return ( ( ChronosSession ) Session.get() ).getUnitOfWorkFactory();
-    }
+        item.add( createDetailPage( "name", account.name().get(), account ) );
+        item.add( createDetailPage( "formalReference", account.reference().get(), account ) );
 
-    public void populateItems( Item item, Account obj )
-    {
-        final String accountId = ( (Identity) obj).identity().get();
-
-        item.add( createDetailPage( "name", obj.name().get(), accountId ) );
-        item.add( createDetailPage( "formalReference", obj.reference().get(), accountId ) );
-
-        item.add( new SimpleCheckBox( "enabled", obj.isEnabled().get(), true ) );
+        item.add( new SimpleCheckBox( "enabled", account.isEnabled().get(), true ) );
 
         // TODO kamil: investigate
-        Map<ProjectStatusEnum, Integer> projectStatusMap = ProjectUtil.getProjectStatusCount( obj );
+        Map<ProjectStatusEnum, Integer> projectStatusMap = ProjectUtil.getProjectStatusCount( account );
 
-        int totalProject = obj.projects().size();
+        int totalProject = account.projects().size();
         int totalActive = projectStatusMap.get( ProjectStatusEnum.ACTIVE );
         int totalInactive = projectStatusMap.get( ProjectStatusEnum.INACTIVE );
         int totalClosed = projectStatusMap.get( ProjectStatusEnum.CLOSED );
@@ -180,29 +166,37 @@ public abstract class AccountTable extends ActionTable<Account, String>
         {
             public void linkClicked()
             {
-                setResponsePage( newPage( AccountEditPage.class, getPageParameters( accountId ) ) );
+                setResponsePage( newPage( AccountEditPage.class, getPageParameters( account ) ) );
             }
         } );
     }
 
-    private SimpleLink createDetailPage( String id, String displayValue, final String accountId )
+    private SimpleLink createDetailPage( String id, String displayValue, final Account account )
     {
         return new SimpleLink( id, displayValue )
         {
             public void linkClicked()
             {
-                setResponsePage( newPage( AccountDetailPage.class, getPageParameters( accountId ) ) );
+                setResponsePage( newPage( AccountDetailPage.class, getPageParameters( account ) ) );
             }
         };
     }
 
-    private PageParameters getPageParameters( final String accountId )
+    private PageParameters getPageParameters( final Account account )
     {
         final PageParameters params = new PageParameters();
         params.put( this.getPage().getClass(), this.getPage() );
-        params.put( String.class, accountId );
+        params.put( Account.class, account );
 
         return params;
+    }
+
+    private UnitOfWork getUnitOfWork()
+    {
+        UnitOfWorkFactory unitOfWorkFactory = ChronosSession.get().getUnitOfWorkFactory();
+
+        return null == unitOfWorkFactory.currentUnitOfWork() ? unitOfWorkFactory.newUnitOfWork() :
+               unitOfWorkFactory.currentUnitOfWork();
     }
 
     public List<String> getTableHeaderList()

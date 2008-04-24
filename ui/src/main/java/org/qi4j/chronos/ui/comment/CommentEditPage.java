@@ -18,6 +18,11 @@ import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.model.associations.HasComments;
 import org.qi4j.chronos.service.CommentService;
 import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.library.framework.validation.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -56,20 +61,36 @@ public abstract class CommentEditPage extends CommentAddEditPage
 
     public void onSubmitting()
     {
+        // TODO kamil: use unit of work
+        UnitOfWork unitOfWork = getUnitOfWork();
+
         try
         {
-            Comment toBeUpdated = getComment();
-            Comment oldComment = getComment();
+            Comment comment = getComment();
+//            Comment oldComment = getComment();
 
-            assignFieldValueToComment( toBeUpdated );
+            assignFieldValueToComment( comment );
 
-            getCommentService().update( getHasComments(), oldComment, toBeUpdated );
+//            getCommentService().update( getHasComments(), oldComment, comment );
+
+            unitOfWork.complete();
 
             logInfoMsg( "Comment is updated successfully." );
 
             divertToGoBackPage();
         }
-        catch( Exception err )
+        catch( UnitOfWorkCompletionException uowce )
+        {
+            logErrorMsg( "Unable to update comment!!!" + uowce.getClass().getSimpleName() );
+
+            if( null != unitOfWork && unitOfWork.isOpen() )
+            {
+                unitOfWork.discard();
+            }
+
+            LOGGER.error( uowce.getLocalizedMessage(), uowce );
+        }
+        catch( ValidationException err )
         {
             logErrorMsg( err.getMessage() );
             LOGGER.error( err.getMessage(), err );
@@ -79,6 +100,14 @@ public abstract class CommentEditPage extends CommentAddEditPage
     public User getCommentOwner()
     {
         return getComment().user().get();
+    }
+
+    private UnitOfWork getUnitOfWork()
+    {
+        UnitOfWorkFactory unitOfWorkFactory = ChronosSession.get().getUnitOfWorkFactory();
+
+        return null == unitOfWorkFactory.currentUnitOfWork() ? unitOfWorkFactory.newUnitOfWork() :
+               unitOfWorkFactory.currentUnitOfWork();
     }
 
     public abstract HasComments getHasComments();

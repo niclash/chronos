@@ -32,20 +32,20 @@ public class AccountEditPage extends AccountAddEditPage
 
     transient private @Structure UnitOfWorkFactory factory;
 
-    private String accountId;
+    private Account account;
 
-    public AccountEditPage( @Uses Page goBackPage, @Uses String accountId )
+    public AccountEditPage( @Uses Page goBackPage, final @Uses Account account )
     {
         super( goBackPage );
 
-        this.accountId = accountId;
+        this.account = account;
 
         assignAccountToFieldValue( getAccount() );
     }
 
     protected Account getAccount()
     {
-        return getAccountService().get( accountId );
+        return this.account;
     }
 
     protected AccountService getAccountService()

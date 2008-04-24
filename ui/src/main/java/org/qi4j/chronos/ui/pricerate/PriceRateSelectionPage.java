@@ -28,6 +28,7 @@ import org.qi4j.chronos.model.composites.PriceRateScheduleComposite;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.entity.association.SetAssociation;
+import org.qi4j.entity.Identity;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public abstract class PriceRateSelectionPage extends LeftMenuNavPage
@@ -90,11 +91,18 @@ public abstract class PriceRateSelectionPage extends LeftMenuNavPage
         {
             PriceRateDelegator delegator = priceRateChoice.getChoice();
 
+/*
             PriceRate priceRate = getServices().
                 getPriceRateService().get( getPriceRateSchedule(),
                                            delegator.getProjectRoleName(), delegator.getPriceRateType(), delegator.getAmount() );
-
-            handleSelectedPriceRate( priceRate );
+*/
+            for( PriceRate priceRate : getPriceRateSchedule().priceRates() )
+            {
+                if( delegator.getPriceRateId().equals( ( ( Identity) priceRate).identity().get() ) )
+                {
+                    handleSelectedPriceRate( priceRate );
+                }
+            }
 
             setResponsePage( returnPage );
         }

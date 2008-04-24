@@ -15,6 +15,7 @@ package org.qi4j.chronos.ui.task;
 import java.util.List;
 import java.util.Arrays;
 import java.util.ArrayList;
+import java.util.Collections;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.qi4j.chronos.service.TaskService;
 import org.qi4j.chronos.ui.ChronosWebApp;
@@ -53,16 +54,16 @@ public abstract class TaskTab extends NewLinkTab
             {
                 public int getSize()
                 {
-                    // TODO migrate
+                    // TODO kamil: migrate
 //                    return getTaskMasterService().countAll( getProject() );
-                    return 0;
+                    return getProject().tasks().size();
                 }
 
                 public List<Task> dataList( int first, int count )
                 {
-                    // TODO migrate
+                    // TODO kamil: migrate
 //                    return getTaskMasterService().findAll( getProject(), new FindFilter( first, count ) );
-                    return new ArrayList<Task>(0);
+                    return Collections.unmodifiableList( new ArrayList<Task>( getProject().tasks() ) );
                 }
             };
         }

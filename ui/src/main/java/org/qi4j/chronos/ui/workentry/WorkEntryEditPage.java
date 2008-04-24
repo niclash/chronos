@@ -15,6 +15,11 @@ package org.qi4j.chronos.ui.workentry;
 import org.apache.wicket.Page;
 import org.qi4j.chronos.service.WorkEntryService;
 import org.qi4j.chronos.model.WorkEntry;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosWebApp;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,19 +41,34 @@ public abstract class WorkEntryEditPage extends WorkEntryAddEditPage
 
     public void onSubmitting()
     {
+        // TODO kamil: use UnitOfWork
+        UnitOfWork unitOfWork = getUnitOfWork();
         WorkEntry workEntry = getWorkEntry();
 
         try
         {
             assignFieldValueToWorkEntry( workEntry );
 
-            WorkEntryService service = getServices().getWorkEntryService();
+//            WorkEntryService service = getServices().getWorkEntryService();
+//
+//            service.update( workEntry );
 
-            service.update( workEntry );
+            unitOfWork.complete();
 
             logInfoMsg( "Work Entry is updated successfully." );
 
             divertToGoBackPage();
+        }
+        catch( UnitOfWorkCompletionException uowce )
+        {
+            logErrorMsg( "Unable to update work entry!!!" + uowce.getClass().getSimpleName() );
+
+            if( null != unitOfWork && unitOfWork.isOpen() )
+            {
+                unitOfWork.discard();
+            }
+
+            LOGGER.error( uowce.getLocalizedMessage(), uowce );
         }
         catch( Exception err )
         {
@@ -66,6 +86,14 @@ public abstract class WorkEntryEditPage extends WorkEntryAddEditPage
     public String getTitleLabel()
     {
         return "Edit Work Entry";
+    }
+
+    private UnitOfWork getUnitOfWork()
+    {
+        UnitOfWorkFactory unitOfWorkFactory = ChronosSession.get().getUnitOfWorkFactory();
+
+        return null == unitOfWorkFactory.currentUnitOfWork() ? unitOfWorkFactory.newUnitOfWork() :
+               unitOfWorkFactory.currentUnitOfWork();
     }
 
     public abstract WorkEntry getWorkEntry();

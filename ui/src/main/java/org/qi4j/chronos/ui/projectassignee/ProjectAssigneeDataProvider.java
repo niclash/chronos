@@ -14,7 +14,7 @@ package org.qi4j.chronos.ui.projectassignee;
 
 import java.util.List;
 import java.util.ArrayList;
-import org.qi4j.chronos.service.FindFilter;
+import java.util.Collections;
 import org.qi4j.chronos.service.ProjectAssigneeService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
@@ -26,8 +26,8 @@ public abstract class ProjectAssigneeDataProvider extends AbstractSortableDataPr
 {
     public int getSize()
     {
-        return 0;
-        // TODO
+        return getProject().projectAssignees().size();
+        // TODO kamil: migrate
 //        return getProjectAssigneeService().countAll( getProject() );
     }
 
@@ -43,7 +43,7 @@ public abstract class ProjectAssigneeDataProvider extends AbstractSortableDataPr
 
     public List<ProjectAssignee> dataList( int first, int count )
     {
-        return new ArrayList<ProjectAssignee>(0);
+        return Collections.unmodifiableList( new ArrayList<ProjectAssignee>( getProject().projectAssignees() ) );
         // TODO migrate
 //        return getProjectAssigneeService().findAll( getProject(), new FindFilter( first, count ) );
     }

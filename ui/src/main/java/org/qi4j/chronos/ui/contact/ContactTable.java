@@ -15,8 +15,12 @@ package org.qi4j.chronos.ui.contact;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
+import org.apache.wicket.Component;
 import org.qi4j.chronos.model.ContactPerson;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.service.ContactService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
@@ -59,6 +63,11 @@ public abstract class ContactTable extends ActionTable<Contact, String>
         };
     }
 
+    protected void authorizatiingActionBar( Component component )
+    {
+        MetaDataRoleAuthorizationStrategy.authorize( component, RENDER, SystemRole.ACCOUNT_ADMIN );
+    }
+    
     private ContactService getContactService()
     {
         return ChronosWebApp.getServices().getContactService();
@@ -96,6 +105,11 @@ public abstract class ContactTable extends ActionTable<Contact, String>
                 };
 
                 setResponsePage( editPage );
+            }
+
+            protected void authorizingLink( Link link )
+            {
+                MetaDataRoleAuthorizationStrategy.authorize( link, ENABLE, SystemRole.ACCOUNT_ADMIN );
             }
         };
     }

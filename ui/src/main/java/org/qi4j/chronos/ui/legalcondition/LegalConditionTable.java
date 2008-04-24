@@ -46,7 +46,8 @@ public abstract class LegalConditionTable extends ActionTable<LegalCondition, St
         {
             public void performAction( List<LegalCondition> legalConditions )
             {
-                getLegalConditionService().deleteLegalCondition( getProject(), legalConditions );
+                // TODO kamil: migrate
+//                getLegalConditionService().deleteLegalCondition( getProject(), legalConditions );
 
                 info( "Selected legal condition(s) are deleted." );
             }
@@ -91,7 +92,9 @@ public abstract class LegalConditionTable extends ActionTable<LegalCondition, St
                 {
                     public LegalCondition getLegalCondition()
                     {
-                        return getServices().getLegalConditionService().get( getProject(), legalConditionName );
+                        // TODO kamil: migrate
+//                        return getServices().getLegalConditionService().get( getProject(), legalConditionName );
+                        return LegalConditionTable.this.getLegalCondition( legalConditionName );
                     }
                 };
 
@@ -114,7 +117,9 @@ public abstract class LegalConditionTable extends ActionTable<LegalCondition, St
                 {
                     public LegalCondition getLegalCondition()
                     {
-                        return getLegalConditionService().get( getProject(), legalConditionName );
+                        // TODO kamil: migrate
+//                        return getLegalConditionService().get( getProject(), legalConditionName );
+                        return LegalConditionTable.this.getLegalCondition( legalConditionName );
                     }
 
                     public HasLegalConditions getHasLegalConditions()
@@ -131,6 +136,19 @@ public abstract class LegalConditionTable extends ActionTable<LegalCondition, St
                 MetaDataRoleAuthorizationStrategy.authorize( link, ENABLE, SystemRole.ACCOUNT_ADMIN );
             }
         };
+    }
+
+    private LegalCondition getLegalCondition( String legalConditionName )
+    {
+        for( LegalCondition legalCondition : getProject().legalConditions() )
+        {
+            if( legalConditionName.equals( legalCondition.name().get() ) )
+            {
+                return legalCondition;
+            }
+        }
+
+        return null;
     }
 
     public List<String> getTableHeaderList()

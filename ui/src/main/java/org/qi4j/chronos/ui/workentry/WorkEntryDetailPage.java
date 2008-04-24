@@ -91,7 +91,13 @@ public abstract class WorkEntryDetailPage extends LeftMenuNavPage
 
             tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
 
-            submitButton = new Button( "submitButton", new Model( "Return" ) );
+            submitButton = new Button( "submitButton", new Model( "Return" ) )
+            {
+                public void onSubmit()
+                {
+                    setResponsePage( returnPage );
+                }
+            };
 
             add( titleTextField );
             add( descriptionTextArea );
@@ -121,6 +127,7 @@ public abstract class WorkEntryDetailPage extends LeftMenuNavPage
             };
         }
 
+/*
         protected void delegateSubmit( IFormSubmittingComponent submittingButton )
         {
             if( submittingButton == submitButton )
@@ -132,6 +139,7 @@ public abstract class WorkEntryDetailPage extends LeftMenuNavPage
                 throw new IllegalArgumentException( submittingButton + " not handled yet." );
             }
         }
+*/
     }
 
     private void addComment( Comment comment )
@@ -140,7 +148,7 @@ public abstract class WorkEntryDetailPage extends LeftMenuNavPage
 
         workEntry.comments().add( comment );
 
-        getServices().getWorkEntryService().update( workEntry );
+//        getServices().getWorkEntryService().update( workEntry );
     }
 
     public abstract WorkEntry getWorkEntry();

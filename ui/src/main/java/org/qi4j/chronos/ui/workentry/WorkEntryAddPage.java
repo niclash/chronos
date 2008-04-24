@@ -19,6 +19,11 @@ import org.slf4j.LoggerFactory;
 import org.qi4j.chronos.model.WorkEntry;
 import org.qi4j.chronos.model.ProjectAssignee;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosWebApp;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
+import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkCompletionException;
 
 public abstract class WorkEntryAddPage extends WorkEntryAddEditPage
 {
@@ -31,21 +36,34 @@ public abstract class WorkEntryAddPage extends WorkEntryAddEditPage
 
     public void onSubmitting()
     {
-        WorkEntry workEntry = getServices().getWorkEntryService().newInstance( WorkEntryEntityComposite.class );
+//        WorkEntry workEntry = getServices().getWorkEntryService().newInstance( WorkEntryEntityComposite.class );
+        // TODO kamil: use UnitOfWork
+        UnitOfWork unitOfWork = getUnitOfWork();
 
         try
         {
+            WorkEntry workEntry = unitOfWork.newEntityBuilder( WorkEntryEntityComposite.class ).newInstance();
             workEntry.createdDate().set( new Date() );
-
             assignFieldValueToWorkEntry( workEntry );
-
             workEntry.projectAssignee().set( getProjectAssignee() );
-
             addingWorkEntry( workEntry );
+
+            unitOfWork.complete();
 
             logInfoMsg( "Work Entry is added successfully." );
 
             divertToGoBackPage();
+        }
+        catch( UnitOfWorkCompletionException uowce )
+        {
+            logErrorMsg( "Unable to save work entry!!!" + uowce.getClass().getSimpleName() );
+
+            if( null != unitOfWork && unitOfWork.isOpen() )
+            {
+                unitOfWork.discard();
+            }
+
+            LOGGER.error( uowce.getLocalizedMessage(), uowce );
         }
         catch( Exception err )
         {
@@ -65,6 +83,14 @@ public abstract class WorkEntryAddPage extends WorkEntryAddEditPage
         return "New Work Entry";
     }
 
+    private UnitOfWork getUnitOfWork()
+    {
+        UnitOfWorkFactory unitOfWorkFactory = ChronosSession.get().getUnitOfWorkFactory();
+
+        return null == unitOfWorkFactory.currentUnitOfWork() ? unitOfWorkFactory.newUnitOfWork() :
+               unitOfWorkFactory.currentUnitOfWork();
+    }
+    
     public abstract ProjectAssignee getProjectAssignee();
 
     public abstract void addingWorkEntry( WorkEntry workentry );

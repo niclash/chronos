@@ -21,13 +21,18 @@ import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.service.CommentService;
 import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.util.DateUtil;
+import org.qi4j.entity.Identity;
+import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkCompletionException;
 
-public abstract class CommentTable extends ActionTable<Comment, CommentId>
+public abstract class CommentTable extends ActionTable<Comment, String>
 {
     private CommentDataProvider dataProvider;
 
@@ -46,11 +51,12 @@ public abstract class CommentTable extends ActionTable<Comment, CommentId>
             {
                 // TODO kamil: migrate
 //                getCommentService().deleteComments( getHasComments(), comments );
+                handleDeleteAction( comments );
             }
         } );
     }
 
-    public AbstractSortableDataProvider<Comment, CommentId> getDetachableDataProvider()
+    public AbstractSortableDataProvider<Comment, String> getDetachableDataProvider()
     {
         if( dataProvider == null )
         {
@@ -69,16 +75,17 @@ public abstract class CommentTable extends ActionTable<Comment, CommentId>
     public void populateItems( Item item, Comment obj )
     {
         User user = obj.user().get();
-        String userId = user.identity().get();
+//        String userId = user.identity().get();
+        String commentId = ( (Identity) obj).identity().get();
 
         Date createdDate = obj.createdDate().get();
-        item.add( createDetailLink( "user", user.fullName().get(), userId, createdDate ) );
-        item.add( createDetailLink( "createdDate", DateUtil.formatDateTime( createdDate ), userId, obj.createdDate().get() ) );
+        item.add( createDetailLink( "user", user.fullName().get(), commentId ) );
+        item.add( createDetailLink( "createdDate", DateUtil.formatDateTime( createdDate ), commentId ) );
         //TODO bp.  truncate comment
-        item.add( createDetailLink( "comment", obj.text().get(), userId, createdDate ) );
+        item.add( createDetailLink( "comment", obj.text().get(), commentId ) );
     }
 
-    private SimpleLink createDetailLink( String id, String text, final String userId, final Date createdDate )
+    private SimpleLink createDetailLink( String id, String text, final String commentId )
     {
         return new SimpleLink( id, text )
         {
@@ -92,7 +99,7 @@ public abstract class CommentTable extends ActionTable<Comment, CommentId>
 //                        return getCommentService().get( getHasComments(), createdDate, userId );
                         for( Comment comment : getHasComments().comments() )
                         {
-                            if( createdDate.equals( comment.createdDate().get() ) )
+                            if( commentId.equals( ( (Identity) comment).identity().get() ) )
                             {
                                 return comment;
                             }
@@ -105,6 +112,39 @@ public abstract class CommentTable extends ActionTable<Comment, CommentId>
                 setResponsePage( detailPage );
             }
         };
+    }
+
+
+    private void handleDeleteAction( List<Comment> comments )
+    {
+        // TODO kamil: use unitOfWork
+        UnitOfWork unitOfWork = null == getUnitOfWorkFactory().currentUnitOfWork() ?
+                                getUnitOfWorkFactory().newUnitOfWork() :
+                                getUnitOfWorkFactory().currentUnitOfWork();
+
+        getHasComments().comments().removeAll( comments );
+
+        for( Comment comment : comments )
+        {
+            unitOfWork.remove( comment );
+        }
+
+        try
+        {
+            unitOfWork.complete();
+        }
+        catch( UnitOfWorkCompletionException uowce )
+        {
+            // TODO kamil: use LOGGER
+            System.err.println( uowce.getLocalizedMessage() );
+            uowce.printStackTrace();
+            error( "Unable to delete selected comment(s)!!!" );
+        }
+    }
+
+    private UnitOfWorkFactory getUnitOfWorkFactory()
+    {
+        return ChronosSession.get().getUnitOfWorkFactory();
     }
 
     private CommentService getCommentService()

@@ -15,6 +15,10 @@ package org.qi4j.chronos.ui.task;
 import org.apache.wicket.Page;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.Task;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.qi4j.entity.UnitOfWorkFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -36,18 +40,30 @@ public abstract class TaskEditPage extends TaskAddEditPage
 
     public void onSubmitting()
     {
+        // TODO kamil: edit task
+        UnitOfWork unitOfWork = getUnitOfWork();
         Task taskMaster = getTask();
 
         try
         {
             assignFieldValueToTaskMaster( taskMaster );
 
-            // TODO migrate
-//            getServices().getTaskService().update( taskMaster );
+            unitOfWork.complete();
 
             logInfoMsg( "Task is updated successfully." );
 
             divertToGoBackPage();
+        }
+        catch( UnitOfWorkCompletionException uowce )
+        {
+            logErrorMsg( "Unable to update task!!!" + uowce.getClass().getSimpleName() );
+
+            if( null != unitOfWork && unitOfWork.isOpen() )
+            {
+                unitOfWork.discard();
+            }
+
+            LOGGER.error( uowce.getLocalizedMessage(), uowce );
         }
         catch( Exception err )
         {
@@ -71,5 +87,13 @@ public abstract class TaskEditPage extends TaskAddEditPage
         return getTask().user().get();
     }
 
+    private UnitOfWork getUnitOfWork()
+    {
+        UnitOfWorkFactory unitOfWorkFactory = ChronosSession.get().getUnitOfWorkFactory();
+
+        return null == unitOfWorkFactory.currentUnitOfWork() ? unitOfWorkFactory.newUnitOfWork() :
+               unitOfWorkFactory.currentUnitOfWork();
+    }
+    
     public abstract Task getTask();
 }

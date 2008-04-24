@@ -58,27 +58,28 @@ public class StaffAddPage extends StaffAddEditPage
 
     public void onSubmitting()
     {
-        StaffService staffService = getServices().getStaffService();
+        // TODO kamil: add staff
+//        StaffService staffService = getServices().getStaffService();
 
-        Staff staff = staffService.newInstance( StaffEntityComposite.class );
+//        Staff staff = staffService.newInstance( StaffEntityComposite.class );
 
-        Money money = ChronosWebApp.newInstance( MoneyEntityComposite.class );
+//        Money money = ChronosWebApp.newInstance( MoneyEntityComposite.class );
 
-        staff.salary().set( money );
+//        staff.salary().set( money );
 
-        Login login = ChronosWebApp.newInstance( LoginEntityComposite.class );
+//        Login login = ChronosWebApp.newInstance( LoginEntityComposite.class );
 
-        staff.login().set( login );
+//        staff.login().set( login );
 
-        assignFieldValueToStaff( staff );
+//        assignFieldValueToStaff( staff );
 
         try
         {
-            Account account = getAccount();
+//            Account account = getAccount();
 
-            account.staffs().add( staff );
+//            account.staffs().add( staff );
 
-            AccountService accountService = getServices().getAccountService();
+//            AccountService accountService = getServices().getAccountService();
 
             // TODO migrate
 //            accountService.update( account );
