@@ -21,6 +21,7 @@ import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.CompoundPropertyModel;
 import org.qi4j.chronos.service.CustomerService;
 import org.qi4j.chronos.ui.address.AddressDetailPanel;
 import org.qi4j.chronos.ui.common.SimpleTextField;
@@ -70,7 +71,7 @@ public abstract class CustomerDetailPage extends LeftMenuNavPage
             nameField = new SimpleTextField( "nameField", customer.name().get(), true );
             referenceField = new SimpleTextField( "referenceField", customer.reference().get(), true );
 
-            addressDetailPanel = new AddressDetailPanel( "addressDetailPanel", customer.address().get() );
+            addressDetailPanel = new AddressDetailPanel( "addressDetailPanel", new CompoundPropertyModel( customer.address().get() ) );   // FIXME later kamil:
 
             List<AbstractTab> tabs = new ArrayList<AbstractTab>();
 

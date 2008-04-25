@@ -14,6 +14,7 @@ package org.qi4j.chronos.ui.wicket.authentication;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.ArrayList;
 import org.apache.wicket.Application;
 import org.apache.wicket.Localizer;
 import org.apache.wicket.markup.html.form.DropDownChoice;
@@ -26,6 +27,7 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.service.account.AccountService;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
@@ -33,6 +35,8 @@ import org.qi4j.chronos.ui.common.NameChoiceRenderer;
 import static org.qi4j.composite.NullArgumentException.*;
 import org.qi4j.composite.scope.Service;
 import org.qi4j.entity.Identity;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkFactory;
 
 public class LoginPage extends BasePage
 {
@@ -77,7 +81,12 @@ public class LoginPage extends BasePage
             setModel( compoundPropertyModel );
 
             // Select account
-            List<Account> availableAccounts = anAccountService.findAvailableAccounts();
+            List<Account> availableAccounts = new ArrayList <Account>();
+            for( Account account : anAccountService.findAvailableAccounts() )
+            {
+                availableAccounts.add( getUnitOfWork().getReference( ( (Identity) account).identity().get(), AccountEntityComposite.class ) );
+            }
+//            List<Account> availableAccounts = anAccountService.findAvailableAccounts();
             NameChoiceRenderer renderer = new NameChoiceRenderer();
             accountDropDownChoice = new DropDownChoice( WICKET_ID_ACCOUNT_DROP_DOWN_CHOICE, availableAccounts, renderer );
             add( accountDropDownChoice );
@@ -143,6 +152,20 @@ public class LoginPage extends BasePage
                 Identity identity = (Identity) objIdentity;
                 return identity.identity().get();
             }
+        }
+    }
+
+    protected static UnitOfWork getUnitOfWork()
+    {
+        UnitOfWorkFactory factory = ChronosSession.get().getUnitOfWorkFactory();
+
+        if( null == factory.currentUnitOfWork() || !factory.currentUnitOfWork().isOpen() )
+        {
+            return factory.newUnitOfWork();
+        }
+        else
+        {
+            return factory.currentUnitOfWork();
         }
     }
 

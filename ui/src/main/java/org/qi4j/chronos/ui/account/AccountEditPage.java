@@ -13,15 +13,10 @@
 package org.qi4j.chronos.ui.account;
 
 import org.apache.wicket.Page;
-import org.apache.wicket.Session;
-import org.qi4j.chronos.model.Account;
-import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
-import org.qi4j.chronos.service.account.AccountService;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.composite.scope.Uses;
-import org.qi4j.composite.scope.Structure;
-import org.qi4j.composite.scope.Service;
-import org.qi4j.entity.UnitOfWorkFactory;
-import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -30,61 +25,28 @@ public class AccountEditPage extends AccountAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( AccountEditPage.class );
 
-    transient private @Structure UnitOfWorkFactory factory;
-
-    private Account account;
-
-    public AccountEditPage( @Uses Page goBackPage, final @Uses Account account )
+    public AccountEditPage( @Uses Page goBackPage, final @Uses String accountId )
     {
         super( goBackPage );
 
-        this.account = account;
-
-        assignAccountToFieldValue( getAccount() );
-    }
-
-    protected Account getAccount()
-    {
-        return this.account;
-    }
-
-    protected AccountService getAccountService()
-    {
-        return ( ( ChronosSession ) Session.get()).getAccountService();
+        setModel( new CompoundPropertyModel(
+            new LoadableDetachableModel()
+            {
+                public Object load()
+                {
+                    return getUnitOfWork().find( accountId, AccountEntityComposite.class );
+                }
+            }
+            )
+        );
+        bindPropertyModel( getModel() );
     }
 
     public void onSubmitting()
     {
-        if( !nameField.getText().equals( getAccount().name().get() ) &&
-            !getAccountService().isUnique( nameField.getText() ) )
-        {
-            logErrorMsg( "Account name " + nameField.getText() + " is not unique!!!" );
-
-            return;
-        }
-
-        final UnitOfWork unitOfWork;
-
-        if( null != factory.currentUnitOfWork() && factory.currentUnitOfWork().isOpen() )
-        {
-            unitOfWork = factory.currentUnitOfWork();
-            System.err.println( "Using existing unit of work" );
-        }
-        else
-        {
-            unitOfWork = factory.newUnitOfWork();
-            System.err.println( "Got new unit of work" );
-        }
-
         try
         {
-            Account account = getAccount();
-
-            assignFieldValueToAccount( account );
-
-            getAccountService().add( account );
-
-            unitOfWork.complete();
+            getUnitOfWork().complete();
             logInfoMsg( "Account is updated successfully." );
 
             divertToGoBackPage();
@@ -94,16 +56,20 @@ public class AccountEditPage extends AccountAddEditPage
             logErrorMsg( "Unable to update account!!!. " + uowce.getClass().getSimpleName() );
             LOGGER.error( uowce.getLocalizedMessage() );
 
-            if( null != unitOfWork && unitOfWork.isOpen() )
-            {
-                unitOfWork.discard();
-            }
+            reset();
         }
         catch( Exception err )
         {
             logErrorMsg( err.getMessage() );
             LOGGER.error( err.getMessage(), err );
         }
+    }
+
+    @Override protected void divertToGoBackPage()
+    {
+        reset();
+        
+        super.divertToGoBackPage();
     }
 
     public String getSubmitButtonValue()

@@ -15,12 +15,17 @@ package org.qi4j.chronos.ui.account;
 import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
+import java.util.ArrayList;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.Session;
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.CompoundPropertyModel;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.ProjectStatusEnum;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.service.account.AccountService;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosWebApp;
 import org.qi4j.chronos.ui.util.ProjectUtil;
@@ -36,9 +41,9 @@ import org.qi4j.entity.UnitOfWorkFactory;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
 
-public abstract class AccountTable extends ActionTable<Account, String>
+public class AccountTable extends ActionTable<IModel, String>
 {
-    private AccountDataProvider dataProvider;
+    private AbstractSortableDataProvider<IModel, String> dataProvider;
 
     public AccountTable( String id )
     {
@@ -49,9 +54,9 @@ public abstract class AccountTable extends ActionTable<Account, String>
 
     private void addActions()
     {
-        addAction( new SimpleDeleteAction<Account>( "Delete account" )
+        addAction( new SimpleDeleteAction<IModel>( "Delete account" )
         {
-            public void performAction( List<Account> accounts )
+            public void performAction( List<IModel> accounts )
             {
                 handleDeleteAction( accounts );
 
@@ -59,9 +64,9 @@ public abstract class AccountTable extends ActionTable<Account, String>
             }
         } );
 
-        addAction( new SimpleAction<Account>( "Disable account" )
+        addAction( new SimpleAction<IModel>( "Disable account" )
         {
-            public void performAction( List<Account> accounts )
+            public void performAction( List<IModel> accounts )
             {
                 handleDisableAction( accounts, false );
 
@@ -69,9 +74,9 @@ public abstract class AccountTable extends ActionTable<Account, String>
             }
         } );
 
-        addAction( new SimpleAction<Account>( "Enable account" )
+        addAction( new SimpleAction<IModel>( "Enable account" )
         {
-            public void performAction( List<Account> accounts )
+            public void performAction( List<IModel> accounts )
             {
                 handleDisableAction( accounts, true );
 
@@ -80,9 +85,10 @@ public abstract class AccountTable extends ActionTable<Account, String>
         } );
     }
 
-    private void handleDeleteAction( List<Account> accounts )
+    private void handleDeleteAction( List<IModel> accounts )
     {
         // TODO kamil: use unitOfWork
+/*
         UnitOfWork unitOfWork = getUnitOfWork();
 
         getAccountService().removeAll( accounts );
@@ -98,11 +104,13 @@ public abstract class AccountTable extends ActionTable<Account, String>
             uowce.printStackTrace();
             error( "Unable to delete selected account(s)!!!" );
         }
+*/
     }
 
-    private void handleDisableAction( List<Account> accounts, boolean enabled )
+    private void handleDisableAction( List<IModel> accounts, boolean enabled )
     {
         // TODO kamil: use unitOfWork
+/*
         UnitOfWork unitOfWork = getUnitOfWork();
 
         getAccountService().enableAccounts( accounts, enabled );
@@ -118,9 +126,10 @@ public abstract class AccountTable extends ActionTable<Account, String>
             uowce.printStackTrace();
             error( "Unable to " + ( enabled ? "enable" : "disable" ) + " selected accounts!!!" );
         }
+*/
     }
 
-    public AbstractSortableDataProvider<Account, String> getDetachableDataProvider()
+    public AbstractSortableDataProvider<IModel, String> getDetachableDataProvider()
     {
         if( dataProvider == null )
         {
@@ -132,30 +141,91 @@ public abstract class AccountTable extends ActionTable<Account, String>
 //                    return AccountTable.this.getAccountService();
 //                }
 //            };
-            dataProvider = new AccountDataProvider();
+//            dataProvider = new AccountDataProvider();
+            dataProvider = new AbstractSortableDataProvider<IModel, String>()
+            {
+                public int getSize()
+                {
+                    return getAccountService().count();
+                }
+
+                public String getId( IModel t )
+                {
+                    return getAccountService().getId( (Account) t.getObject() );
+                }
+
+                public IModel load( final String s )
+                {
+                    return new CompoundPropertyModel(
+                        new LoadableDetachableModel()
+                    {
+                        public Object load()
+                        {
+                            return getUnitOfWork().find( s, AccountEntityComposite.class );
+                        }
+                    }
+                    );
+                }
+
+                public List<IModel> dataList( int first, int count )
+                {
+                    List<IModel> accounts = new ArrayList<IModel>();
+                    for( final String accountId : getAccountId() )
+                    {
+                        accounts.add( new CompoundPropertyModel(
+                            new LoadableDetachableModel()
+                        {
+                            public Object load()
+                            {
+                                return getUnitOfWork().find( accountId, AccountEntityComposite.class );
+                            }
+                        }
+                        )
+                            );
+                    }
+
+                    return accounts;
+                }
+            };
         }
         return dataProvider;
     }
 
-    private AccountService getAccountService()
+    private static AccountService getAccountService()
     {
         return ChronosSession.get().getAccountService();
     }
 
-    public void populateItems( Item item, final Account account )
+    private static List<String> getAccountId()
     {
-        item.add( createDetailPage( "name", account.name().get(), account ) );
-        item.add( createDetailPage( "formalReference", account.reference().get(), account ) );
+        List<String> list = new ArrayList<String>();
+        for( Account account : getAccountService().findAll() )
+        {
+            list.add( ( (Identity) account).identity().get() );
+        }
 
-        item.add( new SimpleCheckBox( "enabled", account.isEnabled().get(), true ) );
+        return list;
+    }
+
+    public void populateItems( Item item, final IModel account )
+    {
+        Account anAccount = (Account) account.getObject();
+        item.add( createDetailPage( "name", anAccount.name().get(), account ) );
+        item.add( createDetailPage( "formalReference", anAccount.reference().get(), account ) );
+
+        item.add( new SimpleCheckBox( "enabled", anAccount.isEnabled().get(), true ) );
 
         // TODO kamil: investigate
-        Map<ProjectStatusEnum, Integer> projectStatusMap = ProjectUtil.getProjectStatusCount( account );
+        Map<ProjectStatusEnum, Integer> projectStatusMap = ProjectUtil.getProjectStatusCount( anAccount );
 
-        int totalProject = account.projects().size();
+        int totalProject = anAccount.projects().size();
+//        int totalProject = 1;
         int totalActive = projectStatusMap.get( ProjectStatusEnum.ACTIVE );
+//        int totalActive = 0;
         int totalInactive = projectStatusMap.get( ProjectStatusEnum.INACTIVE );
+//        int totalInactive = 0;
         int totalClosed = projectStatusMap.get( ProjectStatusEnum.CLOSED );
+//        int totalClosed = 0;
 
         item.add( new Label( "totalProject", String.valueOf( totalProject ) ) );
         item.add( new Label( "activeProject", String.valueOf( totalActive ) ) );
@@ -171,7 +241,7 @@ public abstract class AccountTable extends ActionTable<Account, String>
         } );
     }
 
-    private SimpleLink createDetailPage( String id, String displayValue, final Account account )
+    private SimpleLink createDetailPage( String id, String displayValue, final IModel account )
     {
         return new SimpleLink( id, displayValue )
         {
@@ -182,11 +252,12 @@ public abstract class AccountTable extends ActionTable<Account, String>
         };
     }
 
-    private PageParameters getPageParameters( final Account account )
+    private PageParameters getPageParameters( final IModel account )
     {
         final PageParameters params = new PageParameters();
         params.put( this.getPage().getClass(), this.getPage() );
-        params.put( Account.class, account );
+//        params.put( Account.class, account );
+        params.put( String.class, ( (Identity) account.getObject() ).identity().get() );
 
         return params;
     }
@@ -203,6 +274,4 @@ public abstract class AccountTable extends ActionTable<Account, String>
     {
         return Arrays.asList( "Name", "Formal Reference", "Enabled", "Total Project", "Active", "Inactive", "Closed", "" );
     }
-
-    public abstract Account getAccount();
 }

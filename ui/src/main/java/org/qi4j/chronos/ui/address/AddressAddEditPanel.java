@@ -17,6 +17,7 @@ import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.model.Address;
 import org.qi4j.chronos.model.City;
 import org.qi4j.chronos.model.associations.HasAddress;
+import org.apache.wicket.model.IModel;
 
 public class AddressAddEditPanel extends AddEditBasePanel
 {
@@ -53,6 +54,17 @@ public class AddressAddEditPanel extends AddEditBasePanel
         add( stateField );
     }
 
+    public void bindPropertyModel( IModel iModel )
+    {
+        address1Field.setModel( new CompositeModel( iModel, "firstLine") );
+        address2Field.setModel( new CompositeModel( iModel, "secondLine") );
+        zipcodeField.setModel( new CompositeModel( iModel, "zipCode") );
+        IModel city = new CompositeModel( iModel, "city" );
+        cityField.setModel( new NameModel( city ) );
+        countryField.setModel( new NameModel( new CompositeModel( city, "country" ) ) );
+        stateField.setModel( new NameModel( new CompositeModel( city, "state" ) ) );
+    }
+    
     public void assignFieldValueToAddress( HasAddress hasAddress )
     {
         hasAddress.address().get().firstLine().set( address1Field.getText() );

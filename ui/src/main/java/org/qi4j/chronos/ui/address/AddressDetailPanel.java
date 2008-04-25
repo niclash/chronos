@@ -13,36 +13,36 @@
 package org.qi4j.chronos.ui.address;
 
 import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.ui.common.SimpleTextField;
-import org.qi4j.chronos.model.Address;
-import org.qi4j.chronos.model.City;
+import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.model.IModel;
 
 public class AddressDetailPanel extends Panel
 {
-    private SimpleTextField address1Field;
-    private SimpleTextField address2Field;
+    private TextField address1Field;
+    private TextField address2Field;
 
-    private SimpleTextField zipcodeField;
-    private SimpleTextField countryField;
-    private SimpleTextField cityField;
-    private SimpleTextField stateField;
+    private TextField zipcodeField;
+    private TextField countryField;
+    private TextField cityField;
+    private TextField stateField;
 
-    public AddressDetailPanel( String id, Address address )
+    public AddressDetailPanel( String id, IModel address )
     {
         super( id );
 
         initComponents( address );
     }
 
-    private void initComponents( Address address )
+    private void initComponents( IModel address )
     {
-        address1Field = new SimpleTextField( "address1Field", address.firstLine().get(), true );
-        address2Field = new SimpleTextField( "address2Field", address.secondLine().get(), true );
-        zipcodeField = new SimpleTextField( "zipcodeField", address.zipCode().get(), true );
-        City addressCity = address.city().get();
-        countryField = new SimpleTextField( "countryField", addressCity.country().get().name().get(), true );
-        cityField = new SimpleTextField( "cityField", addressCity.name().get(), true );
-        stateField = new SimpleTextField( "stateField", addressCity.state().get().name().get(), true );
+        address1Field = new TextField( "address1Field", new CompositeModel( address, "firstLine" ) );
+        address2Field = new TextField( "address2Field", new CompositeModel( address, "secondLine" ) );
+        zipcodeField = new TextField( "zipcodeField", new CompositeModel( address, "zipCode" ) );
+
+        IModel city = new CompositeModel( address, "city" );
+        countryField = new TextField( "countryField", new NameModel( new CompositeModel( city, "country" ) ) );
+        cityField = new TextField( "cityField", new NameModel( city ) );
+        stateField = new TextField( "stateField", new NameModel( new CompositeModel( city, "state" ) ) );
 
         add( address1Field );
         add( address2Field );

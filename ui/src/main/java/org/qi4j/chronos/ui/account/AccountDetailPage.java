@@ -13,7 +13,7 @@
 package org.qi4j.chronos.ui.account;
 
 import org.apache.wicket.Page;
-import org.apache.wicket.Session;
+import org.apache.wicket.protocol.http.WebResponse;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
@@ -21,86 +21,81 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
-import org.qi4j.chronos.model.Account;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.qi4j.chronos.model.Address;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.ui.address.AddressDetailPanel;
-import org.qi4j.chronos.ui.common.SimpleTextField;
+import org.qi4j.chronos.ui.address.NameModel;
+import org.qi4j.chronos.ui.address.CompositeModel;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.composite.scope.Uses;
-import org.qi4j.composite.Composite;
-import java.io.Serializable;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkFactory;
 
 public class AccountDetailPage extends LeftMenuNavPage
 {
     private Page returnPage;
 
-//    private String accountId;
-
-    private Account account;
-
-    public AccountDetailPage( @Uses Page returnPage, final @Uses Account account )
+    public AccountDetailPage( @Uses Page returnPage, final @Uses String accountId )
     {
         this.returnPage = returnPage;
-//        this.accountId = accountId;
-        this.account = account;
+
+        setModel( new CompoundPropertyModel(
+            new LoadableDetachableModel()
+            {
+                public Object load()
+                {
+                    return getUnitOfWork().find( accountId, AccountEntityComposite.class );
+                }
+            }
+            )
+        );
 
         initComponents();
-    }
-
-    @Override
-    protected Account getAccount()
-    {
-        return this.account;
-        // TODO properly
-//        return ( (ChronosSession) Session.get() ).getAccountService().get( accountId );
-//        return ChronosWebApp.getServices().getAccountService().get( accountId );
     }
 
     private void initComponents()
     {
         add( new FeedbackPanel( "feedbackPanel" ) );
-        add( new AccountDetailForm( "accountDetailForm" ) );
+        add( new AccountDetailForm( "accountDetailForm", getModel() ) );
+    }
+
+    /**
+     * Query the unit of work factory for existing or new unit of work.
+     * TODO kamil: consider retrieving the factory from ChronosWebApp instead of session.
+     * @return
+     */
+    protected UnitOfWork getUnitOfWork()
+    {
+        UnitOfWorkFactory factory = ChronosSession.get().getUnitOfWorkFactory();
+
+        if( null == factory.currentUnitOfWork() || !factory.currentUnitOfWork().isOpen() )
+        {
+            return factory.newUnitOfWork();
+        }
+        else
+        {
+            return factory.currentUnitOfWork();
+        }
     }
 
     private class AccountDetailForm extends Form
     {
         private Button goButton;
         private TextField nameField;
-        private SimpleTextField referenceField;
-
+        private TextField referenceField;
         private AddressDetailPanel addressDetailPanel;
 
-        private static final String NAME_BINDING = "Name";
 
-        public AccountDetailForm( String id )
+        public AccountDetailForm( String id, IModel iModel )
         {
             super( id );
 
-            final Account account = getAccount();
+            nameField = new TextField( "nameField", new NameModel( iModel ) );
+            referenceField = new TextField( "referenceField", new CompositeModel( iModel, "reference" ) );
 
-/*
-            CompoundPropertyModel compoundPropertyModel = new CompoundPropertyModel( new AccountModel( account ) );
-            setModel( compoundPropertyModel );
-
-            IModel nameModel = compoundPropertyModel.bind( NAME_BINDING );
-*/
-            Model testModel = new Model()
-            {
-                @Override public Object getObject()
-                {
-                    return account.name().get();
-                }
-            };
-
-            nameField = new TextField( "nameField", testModel );
-
-            System.err.println( testModel.toString() );
-
-//            nameField = new SimpleTextField( "nameField", account.name().get(), true );
-            referenceField = new SimpleTextField( "referenceField", account.reference().get(), true );
-
-            addressDetailPanel = new AddressDetailPanel( "addressDetailPanel", account.address().get() );
+            addressDetailPanel = new AddressDetailPanel( "addressDetailPanel", new CompositeModel( iModel, "address") );
 
             goButton = new Button( "submitButton", new Model( "Return" ) )
             {
@@ -118,29 +113,14 @@ public class AccountDetailPage extends LeftMenuNavPage
         }
     }
 
-    private static final class AccountModel
-        implements Serializable
+    @Override public boolean isVersioned()
     {
-        private Account account;
+        return false;
+    }
 
-        public AccountModel( Account account )
-        {
-            this.account = account;
-        }
-
-        public final void setName( String name )
-        {
-            this.account.name().set( name );
-        }
-
-        public final String getName()
-        {
-            return this.account.name().get();
-        }
-
-        public final Account getAccount()
-        {
-            return this.account;
-        }
+    @Override protected void setHeaders( WebResponse response)
+    {
+        response.setHeader("Pragma", "no-cache");
+        response.setHeader("Cache-Control", "no-cache, max-age=0, must-revalidate, no-store");
     }
 }

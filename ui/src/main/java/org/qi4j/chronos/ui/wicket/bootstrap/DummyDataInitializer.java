@@ -148,6 +148,7 @@ final class DummyDataInitializer
         Date endTime = now.getTime();
         for( Account account : accountService.findAll() )
         {
+            account = unitOfWork.dereference( account );
             for( Project project : account.projects() )
             {
                 ProjectAssignee assignee = project.projectAssignees().iterator().next();
@@ -201,6 +202,7 @@ final class DummyDataInitializer
 
         for( Account account : accountService.findAll() )
         {
+            account = unitOfWork.dereference( account );
             for( Customer customer : account.customers() )
             {
                 ContactPerson contactPerson = customer.contactPersons().iterator().next();
@@ -227,7 +229,7 @@ final class DummyDataInitializer
 
                 for( int i = 0; i < 7; i++ )
                 {
-                    LegalCondition condition = newLegalCondition( unitOfWork, "Maintenance contract", 
+                    LegalCondition condition = newLegalCondition( unitOfWork, "Maintenance contract",
                                                                   "Maintenance contract 3 years" );
                     project.legalConditions().add( condition );
                 }
@@ -244,6 +246,8 @@ final class DummyDataInitializer
     {
         for( Account account : accountService.findAll() )
         {
+            account = unitOfWork.dereference( account );
+
             ContactPerson projectManager = newContactPerson( unitOfWork, "Michael", "Lim", "michael", "michael",
                                                              GenderType.MALE, "Project Manager" );
             Contact mobile = newContact( unitOfWork, "Mobile", "7073247032" );
@@ -266,6 +270,8 @@ final class DummyDataInitializer
     {
         for( Account account : accountService.findAll() )
         {
+            account = unitOfWork.dereference( account );
+
             // Creating and adding project roles
             ProjectRole programmerRole = newProjectRole( unitOfWork, "Programmer" );
             ProjectRole consultantRole = newProjectRole( unitOfWork, "Consultant" );
@@ -286,6 +292,7 @@ final class DummyDataInitializer
 
             for( SystemRole role : roleService.findAllStaffSystemRole() )
             {
+                role = unitOfWork.dereference( role );
                 boss.systemRoles().add( role );
                 if( equals( role, SystemRole.ACCOUNT_DEVELOPER ) )
                 {
@@ -305,6 +312,8 @@ final class DummyDataInitializer
     {
         for( Account account : accountService.findAll() )
         {
+            account = unitOfWork.dereference( account );
+            
             PriceRateSchedule priceRateSchedule = newPriceRateSchedule( unitOfWork, "Default" );
             priceRateSchedule.currency().set( Currency.getInstance( "USD" ) );
 
@@ -377,7 +386,7 @@ final class DummyDataInitializer
 
         for( SystemRole role : roleService.findAll() )
         {
-            adminUser.systemRoles().add( role );
+            adminUser.systemRoles().add( unitOfWork.dereference( role ) );
         }
         userService.addAdmin( adminUser );
     }
