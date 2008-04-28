@@ -20,7 +20,7 @@ import org.qi4j.library.framework.validation.ValidatableMixin;
 import org.qi4j.chronos.model.Address;
 import org.qi4j.entity.EntityComposite;
 
-@Concerns( AddressValidatableConcern.class )
+//@Concerns( AddressValidatableConcern.class )  FIXME
 @Mixins( ValidatableMixin.class )
 public interface AddressEntityComposite extends Address, Validatable, EntityComposite
 {
