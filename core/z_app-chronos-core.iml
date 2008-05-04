@@ -17,7 +17,7 @@
     <orderEntry type="module" module-name="library-general" />
     <orderEntry type="library" name="jmock-2.4.0" level="project" />
     <orderEntry type="module" module-name="core-spi" />
-    <orderEntry type="module" module-name="extension-persistence-quick" />
+    <orderEntry type="module" module-name="extension-entitystore-quick" />
     <orderEntry type="module" module-name="core-testsupport" />
     <orderEntry type="module" module-name="core-bootstrap" />
     <orderEntry type="library" name="junit" level="project" />
