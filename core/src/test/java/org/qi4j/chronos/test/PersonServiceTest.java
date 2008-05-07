@@ -12,21 +12,16 @@
  */
 package org.qi4j.chronos.test;
 
-import org.qi4j.bootstrap.ModuleAssembly;
-import org.qi4j.bootstrap.AssemblyException;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkCompletionException;
-import org.qi4j.entity.EntityCompositeNotFoundException;
-import org.qi4j.entity.memory.MemoryEntityStoreService;
-import org.qi4j.spi.entity.UuidIdentityGeneratorService;
-import org.qi4j.composite.ObjectBuilder;
+import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
-import java.util.List;
-import java.util.ArrayList;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
+import org.qi4j.bootstrap.AssemblyException;
+import org.qi4j.bootstrap.ModuleAssembly;
+import org.qi4j.composite.ObjectBuilder;
+import org.qi4j.entity.EntityCompositeNotFoundException;
+import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.qi4j.entity.memory.MemoryEntityStoreService;
+import org.qi4j.spi.entity.UuidIdentityGeneratorService;
 
 public class PersonServiceTest extends AbstractEntityCompositeTest<PersonEntity>
 {
@@ -46,12 +41,12 @@ public class PersonServiceTest extends AbstractEntityCompositeTest<PersonEntity>
     @Test
     public void personTest() throws Exception
     {
-        PersonServiceComposite personService = serviceLocator.lookupService( PersonServiceComposite.class ).get();
+        PersonServiceComposite personService = serviceLocator.findService( PersonServiceComposite.class ).get();
 
         ObjectBuilder<Items> objectBuilder = unitOfWork.objectBuilderFactory().newObjectBuilder( Items.class );
         Items item = objectBuilder.newInstance();
         item.set( "test" );
-        
+
         PersonEntity p = personService.newInstance( unitOfWork );
         p.name().set( "test" );
         p.item().set( item );
@@ -81,7 +76,7 @@ public class PersonServiceTest extends AbstractEntityCompositeTest<PersonEntity>
             System.out.println( person.name().get() );
             System.out.println( person.item().get() );
         }
-        
+
         unitOfWork = unitOfWorkFactory.newUnitOfWork();
 
         PersonEntity deletePerson = unitOfWork.dereference( p2 );

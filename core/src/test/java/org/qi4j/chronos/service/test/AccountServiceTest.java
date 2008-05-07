@@ -12,26 +12,19 @@
  */
 package org.qi4j.chronos.service.test;
 
-import org.qi4j.chronos.test.AbstractCommonTest;
+import org.junit.After;
+import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
+import org.qi4j.bootstrap.AssemblyException;
+import org.qi4j.bootstrap.ModuleAssembly;
+import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.service.account.AccountService;
 import org.qi4j.chronos.service.account.AccountServiceComposite;
 import org.qi4j.chronos.service.account.AccountServiceConfiguration;
-import org.qi4j.chronos.model.Account;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.bootstrap.ModuleAssembly;
-import org.qi4j.bootstrap.AssemblyException;
+import org.qi4j.chronos.test.AbstractCommonTest;
 import org.qi4j.entity.EntityCompositeNotFoundException;
-import org.junit.Before;
-import org.junit.After;
-import org.junit.Test;
-import java.util.List;
-import java.util.ArrayList;
-
-import static org.junit.Assert.assertNotNull;
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNull;
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 /**
  * Created by IntelliJ IDEA.
@@ -57,7 +50,7 @@ public class AccountServiceTest extends AbstractCommonTest
     {
         super.setUp();
 
-        accountService = serviceLocator.lookupService( AccountServiceComposite.class ).get();
+        accountService = serviceLocator.findService( AccountServiceComposite.class ).get();
     }
 
     @After @Override public void tearDown() throws Exception
@@ -85,7 +78,7 @@ public class AccountServiceTest extends AbstractCommonTest
 
         unitOfWork = complete( unitOfWork );
 
-        Account find = accountService.get( unitOfWork,  primaryId );
+        Account find = accountService.get( unitOfWork, primaryId );
         primary = unitOfWork.dereference( primary );
 
         assertEquals( "Account reference is not the same!!!", primary.reference().get(), find.reference().get() );
@@ -108,7 +101,7 @@ public class AccountServiceTest extends AbstractCommonTest
 
         unitOfWork = complete( unitOfWork );
 
-        assertEquals( "Same account has been added multiple times!!!!", 3, accountService.count()  );
+        assertEquals( "Same account has been added multiple times!!!!", 3, accountService.count() );
     }
 
     @Test public void removeTest() throws Exception

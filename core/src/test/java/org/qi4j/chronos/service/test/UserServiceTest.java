@@ -53,7 +53,7 @@ public class UserServiceTest extends AbstractCommonTest
     {
         super.setUp();
 
-        userService = serviceLocator.lookupService( UserServiceComposite.class ).get();
+        userService = serviceLocator.findService( UserServiceComposite.class ).get();
     }
 
     @After @Override public void tearDown() throws Exception

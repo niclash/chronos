@@ -12,25 +12,23 @@
  */
 package org.qi4j.chronos.service.test;
 
-import org.qi4j.chronos.test.AbstractCommonTest;
+import java.util.List;
+import static org.junit.Assert.*;
+import org.junit.Before;
+import org.junit.Test;
+import org.qi4j.bootstrap.AssemblyException;
+import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.service.account.AccountService;
 import org.qi4j.chronos.service.account.AccountServiceComposite;
 import org.qi4j.chronos.service.account.AccountServiceConfiguration;
-import org.qi4j.chronos.service.project.ProjectServiceConfiguration;
-import org.qi4j.chronos.service.project.ProjectServiceComposite;
 import org.qi4j.chronos.service.project.ProjectService;
-import org.qi4j.bootstrap.ModuleAssembly;
-import org.qi4j.bootstrap.AssemblyException;
-import org.junit.Test;
-import org.junit.Before;
-import java.util.List;
-
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
-import static org.qi4j.composite.NullArgumentException.validateNotNull;
+import org.qi4j.chronos.service.project.ProjectServiceComposite;
+import org.qi4j.chronos.service.project.ProjectServiceConfiguration;
+import org.qi4j.chronos.test.AbstractCommonTest;
+import static org.qi4j.composite.NullArgumentException.*;
 
 public class ProjectServiceTest extends AbstractCommonTest
 {
@@ -48,8 +46,8 @@ public class ProjectServiceTest extends AbstractCommonTest
     {
         super.setUp();
 
-        projectService = serviceLocator.lookupService( ProjectServiceComposite.class ).get();
-        accountService = serviceLocator.lookupService( AccountServiceComposite.class ).get();
+        projectService = serviceLocator.findService( ProjectServiceComposite.class ).get();
+        accountService = serviceLocator.findService( AccountServiceComposite.class ).get();
     }
 
 
@@ -70,7 +68,7 @@ public class ProjectServiceTest extends AbstractCommonTest
         {
             account.projects().add( project );
         }
-        
+
         unitOfWork = complete( unitOfWork );
 
         validateNotNull( "projects", projects );
