@@ -13,17 +13,18 @@
 package org.qi4j.chronos.service.lab;
 
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.service.Activatable;
 import org.qi4j.composite.scope.This;
+import org.qi4j.service.Activatable;
+import org.qi4j.service.Configuration;
 
 public class SimpleAccountEntityServiceMixin extends AbstractSimpleEntityServiceComposite<AccountEntityComposite> implements SimpleEntityService<AccountEntityComposite>, Activatable
 {
-    private @This SimpleAccountEntityServiceConfiguration m_config;
+    private @This Configuration<SimpleAccountEntityServiceConfiguration> m_config;
 
     public void activate() throws Exception
     {
         this.clazz = AccountEntityComposite.class;
-        this.config = m_config;
+        this.config = m_config.configuration();
     }
 
     public void passivate() throws Exception

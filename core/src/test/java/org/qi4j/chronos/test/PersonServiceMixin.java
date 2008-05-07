@@ -12,25 +12,25 @@
  */
 package org.qi4j.chronos.test;
 
-import org.qi4j.service.Activatable;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.composite.scope.This;
-
-import static org.qi4j.composite.NullArgumentException.validateNotNull;
-import org.qi4j.composite.CompositeBuilder;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import org.qi4j.composite.CompositeBuilder;
+import static org.qi4j.composite.NullArgumentException.*;
+import org.qi4j.composite.scope.This;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.service.Activatable;
+import org.qi4j.service.Configuration;
 
 public class PersonServiceMixin implements PersonService, Activatable
 {
-    @This PersonServiceConfiguration config; 
+    @This Configuration<PersonServiceConfiguration> config;
 
     public PersonEntity get( String identityId )
     {
         validateNotNull( "identityId", identityId );
 
-        for( PersonEntity entity : config.entities() )
+        for( PersonEntity entity : config.configuration().entities() )
         {
             if( entity.identity().get().equals( identityId ) )
             {
@@ -44,7 +44,7 @@ public class PersonServiceMixin implements PersonService, Activatable
     {
         validateNotNull( "person", person );
 
-        config.entities().add( person );
+        config.configuration().entities().add( person );
     }
 
     public void delete( UnitOfWork unitOfWork, PersonEntity person )
@@ -53,14 +53,14 @@ public class PersonServiceMixin implements PersonService, Activatable
         validateNotNull( "person", person );
 
         unitOfWork.remove( person );
-        config.entities().remove( person );
+        config.configuration().entities().remove( person );
     }
 
     public List<PersonEntity> findAll()
     {
         List<PersonEntity> entityList = new ArrayList<PersonEntity>();
 
-        for( PersonEntity entity : config.entities() )
+        for( PersonEntity entity : config.configuration().entities() )
         {
             entityList.add( entity );
         }
@@ -69,13 +69,13 @@ public class PersonServiceMixin implements PersonService, Activatable
 
     public int count()
     {
-        return config.entities().size();
+        return config.configuration().entities().size();
     }
 
     public PersonEntity newInstance( UnitOfWork unitOfWork )
     {
         validateNotNull( "unitOfWork", unitOfWork );
-        
+
         CompositeBuilder<PersonEntity> compositeBuilder = unitOfWork.newEntityBuilder( PersonEntity.class );
         return compositeBuilder.newInstance();
     }

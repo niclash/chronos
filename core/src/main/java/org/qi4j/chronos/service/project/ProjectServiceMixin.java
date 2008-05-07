@@ -12,24 +12,23 @@
  */
 package org.qi4j.chronos.service.project;
 
-import org.qi4j.service.Activatable;
+import java.util.HashMap;
+import java.util.Map;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.ProjectStatusEnum;
 import org.qi4j.chronos.model.associations.HasProjects;
 import org.qi4j.chronos.service.account.AccountService;
-import org.qi4j.composite.scope.This;
+import static org.qi4j.composite.NullArgumentException.*;
 import org.qi4j.composite.scope.Service;
-
-import static org.qi4j.composite.NullArgumentException.validateNotNull;
+import org.qi4j.composite.scope.This;
 import org.qi4j.entity.Identity;
-import org.qi4j.entity.UnitOfWork;
-import java.util.HashMap;
-import java.util.Map;
+import org.qi4j.service.Activatable;
+import org.qi4j.service.Configuration;
 
 public class ProjectServiceMixin implements ProjectService, Activatable
 {
-    private @This ProjectServiceConfiguration config;
+    private @This Configuration<ProjectServiceConfiguration> config;
 
     private @Service AccountService accountService;
 
@@ -38,11 +37,11 @@ public class ProjectServiceMixin implements ProjectService, Activatable
         validateNotNull( "hasProjects", hasProjects );
         validateNotNull( "project", project );
 
-        Map<String, String> map = config.map().get();
+        Map<String, String> map = config.configuration().map().get();
 
-        if( !map.containsKey( ( (Identity) project).identity().get() ) )
+        if( !map.containsKey( ( (Identity) project ).identity().get() ) )
         {
-            map.put( ( (Identity) project).identity().get(), ( (Identity) hasProjects).identity().get() );
+            map.put( ( (Identity) project ).identity().get(), ( (Identity) hasProjects ).identity().get() );
         }
     }
 
@@ -77,7 +76,7 @@ public class ProjectServiceMixin implements ProjectService, Activatable
     {
         validateNotNull( "hasProjects", hasProjects );
         validateNotNull( "projectStatusEnum", projectStatusEnum );
-        
+
         int count = 0;
         for( Project project : hasProjects.projects() )
         {
@@ -100,9 +99,9 @@ public class ProjectServiceMixin implements ProjectService, Activatable
         validateNotNull( "config", config );
         validateNotNull( "accountService", accountService );
 
-        if( config.map().get() == null )
+        if( config.configuration().map().get() == null )
         {
-            config.map().set( new HashMap<String, String>() );
+            config.configuration().map().set( new HashMap<String, String>() );
         }
     }
 

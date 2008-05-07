@@ -12,28 +12,28 @@
  */
 package org.qi4j.chronos.service.user;
 
-import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.model.Admin;
 import org.qi4j.chronos.model.Account;
-import org.qi4j.chronos.model.Login;
+import org.qi4j.chronos.model.Admin;
 import org.qi4j.chronos.model.Customer;
+import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
-import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.AdminEntityComposite;
+import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.service.account.AccountService;
-import org.qi4j.service.Activatable;
-import org.qi4j.composite.scope.This;
-import org.qi4j.composite.scope.Structure;
+import static org.qi4j.composite.NullArgumentException.*;
 import org.qi4j.composite.scope.Service;
-import org.qi4j.entity.UnitOfWork;
+import org.qi4j.composite.scope.Structure;
+import org.qi4j.composite.scope.This;
 import org.qi4j.entity.EntityCompositeNotFoundException;
-import org.qi4j.entity.UnitOfWorkFactory;
 import org.qi4j.entity.Identity;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkFactory;
 import org.qi4j.entity.association.ManyAssociation;
 import org.qi4j.entity.association.SetAssociation;
-
-import static org.qi4j.composite.NullArgumentException.validateNotNull;
+import org.qi4j.service.Activatable;
+import org.qi4j.service.Configuration;
 
 /**
  * Created by IntelliJ IDEA.
@@ -45,7 +45,7 @@ public class UserServiceMixin implements UserService, Activatable
 {
     private @Service AccountService accountService;
 
-    private @This UserServiceConfiguration config;
+    private @This Configuration<UserServiceConfiguration> config;
 
     private @Structure UnitOfWorkFactory factory;
 
@@ -76,10 +76,10 @@ public class UserServiceMixin implements UserService, Activatable
     {
         validateNotNull( "accountId", accountId );
         validateNotNull( "loginId", loginId );
-        
+
         for( Account account : accountService.findAll() )
         {
-            if( accountId.equals( ( (Identity) account).identity().get() ) )
+            if( accountId.equals( ( (Identity) account ).identity().get() ) )
             {
                 return getUser( account, loginId );
             }
@@ -92,7 +92,7 @@ public class UserServiceMixin implements UserService, Activatable
         validateNotNull( "account", account );
         validateNotNull( "loginId", loginId );
 
-        User user =  getUser( loginId, account.staffs() );
+        User user = getUser( loginId, account.staffs() );
 
         if( user == null )
         {
@@ -107,7 +107,7 @@ public class UserServiceMixin implements UserService, Activatable
         return user;
     }
 
-    private User getUser( String loginId, ManyAssociation<? extends User>...manyAssociations )
+    private User getUser( String loginId, ManyAssociation<? extends User>... manyAssociations )
     {
         validateNotNull( "loginId", loginId );
         validateNotNull( "manyAssociations", manyAssociations );
@@ -132,7 +132,7 @@ public class UserServiceMixin implements UserService, Activatable
         validateNotNull( "loginId", loginId );
         validateNotNull( "password", password );
 
-        for( Admin admin : config.admins() )
+        for( Admin admin : config.configuration().admins() )
         {
             Login login = admin.login().get();
 
@@ -156,7 +156,7 @@ public class UserServiceMixin implements UserService, Activatable
     {
         validateNotNull( "admin", admin );
 
-        config.admins().add( admin );
+        config.configuration().admins().add( admin );
     }
 
     private boolean hasThisSystemRole( ManyAssociation<SystemRole> systemRoles, String systemRolesName )
@@ -178,7 +178,7 @@ public class UserServiceMixin implements UserService, Activatable
     {
         validateNotNull( "account", account );
         validateNotNull( "loginId", loginId );
-        
+
         return getUser( account, loginId ) == null;
     }
 

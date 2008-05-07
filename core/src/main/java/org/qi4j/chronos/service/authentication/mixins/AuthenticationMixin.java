@@ -16,10 +16,11 @@ import org.qi4j.chronos.service.authentication.Authentication;
 import org.qi4j.chronos.service.authentication.AuthenticationConfiguration;
 import org.qi4j.composite.scope.This;
 import org.qi4j.service.Activatable;
+import org.qi4j.service.Configuration;
 
 public class AuthenticationMixin implements Authentication, Activatable
 {
-    @This AuthenticationConfiguration config;
+    @This Configuration<AuthenticationConfiguration> config;
 
     private String m_username;
 
@@ -32,8 +33,8 @@ public class AuthenticationMixin implements Authentication, Activatable
 
     public void activate() throws Exception
     {
-        m_username = config.username().get();
-        m_password = config.password().get();
+        m_username = config.configuration().username().get();
+        m_password = config.configuration().password().get();
     }
 
     public void passivate() throws Exception

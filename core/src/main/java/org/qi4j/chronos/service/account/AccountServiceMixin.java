@@ -12,24 +12,21 @@
  */
 package org.qi4j.chronos.service.account;
 
-import org.qi4j.service.Activatable;
-import org.qi4j.chronos.model.Account;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.EntityCompositeNotFoundException;
-import org.qi4j.entity.UnitOfWorkFactory;
-import org.qi4j.entity.Identity;
-import org.qi4j.composite.scope.This;
-import org.qi4j.composite.scope.Structure;
-
-import static org.qi4j.composite.NullArgumentException.validateNotNull;
-import org.qi4j.query.QueryBuilderFactory;
-import org.qi4j.query.QueryBuilder;
-import java.util.List;
-import java.util.Arrays;
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.io.Serializable;
+import java.util.List;
+import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import static org.qi4j.composite.NullArgumentException.*;
+import org.qi4j.composite.scope.Structure;
+import org.qi4j.composite.scope.This;
+import org.qi4j.entity.EntityCompositeNotFoundException;
+import org.qi4j.entity.Identity;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.service.Activatable;
+import org.qi4j.service.Configuration;
 
 /**
  * Created by IntelliJ IDEA.
@@ -39,22 +36,22 @@ import java.io.Serializable;
  */
 public class AccountServiceMixin implements AccountService, Activatable, Serializable
 {
-    private transient @This AccountServiceConfiguration config;
+    private transient @This Configuration<AccountServiceConfiguration> config;
 
     private transient @Structure UnitOfWorkFactory factory;
 
     public String getId( Account account )
     {
         validateNotNull( "account", account );
-        
-        return ( (AccountEntityComposite) account).identity().get();
+
+        return ( (AccountEntityComposite) account ).identity().get();
     }
 
     public Account get( String accountId )
     {
         validateNotNull( "accountId", accountId );
 
-        for( Account account : config.accounts() )
+        for( Account account : config.configuration().accounts() )
         {
             if( accountId.equals( ( (Identity) account ).identity().get() ) )
             {
@@ -92,7 +89,7 @@ public class AccountServiceMixin implements AccountService, Activatable, Seriali
     {
         validateNotNull( "account", account );
 
-        config.accounts().add( account );
+        config.configuration().accounts().add( account );
     }
 
     public void remove( Account account )
@@ -100,7 +97,7 @@ public class AccountServiceMixin implements AccountService, Activatable, Seriali
         validateNotNull( "account", account );
 
         factory.currentUnitOfWork().remove( account );
-        config.accounts().remove( account );
+        config.configuration().accounts().remove( account );
     }
 
     public void removeAll( Collection<Account> accounts )
@@ -111,14 +108,14 @@ public class AccountServiceMixin implements AccountService, Activatable, Seriali
         {
             factory.currentUnitOfWork().remove( account );
         }
-        config.accounts().removeAll( accounts );
+        config.configuration().accounts().removeAll( accounts );
     }
 
     public List<Account> findAvailableAccounts()
     {
         List<Account> accounts = new ArrayList<Account>();
 
-        for( Account account : config.accounts() )
+        for( Account account : config.configuration().accounts() )
         {
             if( account.isEnabled().get() )
             {
@@ -150,7 +147,7 @@ public class AccountServiceMixin implements AccountService, Activatable, Seriali
 
         return Arrays.asList( accountArray );
 */
-        return new ArrayList<Account>( config.accounts() );
+        return new ArrayList<Account>( config.configuration().accounts() );
     }
 
     public List<Account> findAll( int first, int count )
@@ -165,7 +162,7 @@ public class AccountServiceMixin implements AccountService, Activatable, Seriali
     {
         validateNotNull( "accountName", accountName );
 
-        for( Account account : config.accounts() )
+        for( Account account : config.configuration().accounts() )
         {
             if( account.name().get().equals( accountName ) )
             {
@@ -179,12 +176,12 @@ public class AccountServiceMixin implements AccountService, Activatable, Seriali
     {
         validateNotNull( "accountName", accountName );
 
-        return findAccountByName( accountName ) == null ;
+        return findAccountByName( accountName ) == null;
     }
 
     public int count()
     {
-        return config.accounts().size();
+        return config.configuration().accounts().size();
     }
 
     public void enableAccounts( Collection<Account> accounts, boolean enabled )

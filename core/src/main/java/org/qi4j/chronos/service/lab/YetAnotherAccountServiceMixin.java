@@ -12,30 +12,30 @@
  */
 package org.qi4j.chronos.service.lab;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
-import org.qi4j.service.Activatable;
+import org.qi4j.composite.CompositeBuilder;
+import static org.qi4j.composite.NullArgumentException.*;
+import org.qi4j.composite.scope.This;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
-import org.qi4j.composite.scope.This;
-import java.util.Collection;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Collections;
-
-import static org.qi4j.composite.NullArgumentException.validateNotNull;
-import org.qi4j.composite.CompositeBuilder;
+import org.qi4j.service.Activatable;
+import org.qi4j.service.Configuration;
 
 public class YetAnotherAccountServiceMixin implements GenericEntityService<AccountEntityComposite>, Activatable
 {
-    @This YetAnotherAccountServiceConfiguration config;
+    @This Configuration<YetAnotherAccountServiceConfiguration> config;
 
     public AccountEntityComposite get( UnitOfWork unitOfWork, String entityId )
     {
         validateNotNull( "unitOfWork", unitOfWork );
         validateNotNull( "entityId", entityId );
 
-        for( AccountEntityComposite entity : config.entities() )
+        for( AccountEntityComposite entity : config.configuration().entities() )
         {
             if( entity.identity().get().equals( entityId ) )
             {
@@ -53,7 +53,7 @@ public class YetAnotherAccountServiceMixin implements GenericEntityService<Accou
 
 //        unitOfWork.complete();
 
-        config.entities().add( entity );
+        config.configuration().entities().add( entity );
     }
 
     public void saveAll( UnitOfWork unitOfWork, Collection<AccountEntityComposite> entities ) throws UnitOfWorkCompletionException
@@ -62,7 +62,7 @@ public class YetAnotherAccountServiceMixin implements GenericEntityService<Accou
         validateNotNull( "entities", entities );
 
 //        unitOfWork.complete();
-        config.entities().addAll( entities );
+        config.configuration().entities().addAll( entities );
     }
 
     public void delete( UnitOfWork unitOfWork, AccountEntityComposite entity ) throws UnitOfWorkCompletionException
@@ -71,7 +71,7 @@ public class YetAnotherAccountServiceMixin implements GenericEntityService<Accou
         validateNotNull( "entity", entity );
 
 //        unitOfWork.complete();
-        config.entities().remove( entity );
+        config.configuration().entities().remove( entity );
     }
 
     public void deleteAll( UnitOfWork unitOfWork, Collection<AccountEntityComposite> entities ) throws UnitOfWorkCompletionException
@@ -80,7 +80,7 @@ public class YetAnotherAccountServiceMixin implements GenericEntityService<Accou
         validateNotNull( "entities", entities );
 
 //        unitOfWork.complete();
-        config.entities().removeAll( entities );
+        config.configuration().entities().removeAll( entities );
     }
 
     public List<AccountEntityComposite> findAll( UnitOfWork unitOfWork )
@@ -89,7 +89,7 @@ public class YetAnotherAccountServiceMixin implements GenericEntityService<Accou
 
         List<AccountEntityComposite> entityList = new ArrayList<AccountEntityComposite>();
 //        List<AccountEntityComposite> staleEntityList = new ArrayList<AccountEntityComposite>();
-        for( AccountEntityComposite entity : config.entities() )
+        for( AccountEntityComposite entity : config.configuration().entities() )
         {
 //            entityList.add( unitOfWork.dereference( entity ) );
             entityList.add( entity );
@@ -109,7 +109,7 @@ public class YetAnotherAccountServiceMixin implements GenericEntityService<Accou
 
     public int countAll()
     {
-        return config.entities().size();
+        return config.configuration().entities().size();
     }
 
     public AccountEntityComposite newInstance( UnitOfWork unitOfWork )

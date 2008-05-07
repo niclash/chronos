@@ -12,36 +12,36 @@
  */
 package org.qi4j.chronos.service.systemrole;
 
-import org.qi4j.service.Activatable;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.SystemRoleTypeEnum;
-import org.qi4j.composite.scope.This;
+import static org.qi4j.composite.NullArgumentException.*;
 import org.qi4j.composite.scope.Structure;
+import org.qi4j.composite.scope.This;
 import org.qi4j.entity.UnitOfWorkFactory;
-import java.util.List;
-import java.util.Collection;
-import java.util.Arrays;
-import java.util.ArrayList;
-
-import static org.qi4j.composite.NullArgumentException.validateNotNull;
+import org.qi4j.service.Activatable;
+import org.qi4j.service.Configuration;
 
 public class SystemRoleServiceMixin implements SystemRoleService, Activatable
 {
-    private @This SystemRoleServiceConfiguration config;
+    private @This Configuration<SystemRoleServiceConfiguration> config;
 
     private @Structure UnitOfWorkFactory factory;
 
     public List<SystemRole> findAll()
     {
-        SystemRole[] systemRoles = new SystemRole[ config.systemRoles().size() ];
-        return Arrays.asList( config.systemRoles().toArray( systemRoles ) );
+        SystemRole[] systemRoles = new SystemRole[config.configuration().systemRoles().size()];
+        return Arrays.asList( config.configuration().systemRoles().toArray( systemRoles ) );
     }
 
     public void save( SystemRole systemRole )
     {
         validateNotNull( "systemRole", systemRole );
 
-        config.systemRoles().add( systemRole );
+        config.configuration().systemRoles().add( systemRole );
 
         if( systemRole.systemRoleType().get().equals( SystemRoleTypeEnum.STAFF ) )
         {
@@ -53,14 +53,14 @@ public class SystemRoleServiceMixin implements SystemRoleService, Activatable
     {
         validateNotNull( "systemRoles", systemRoles );
 
-        config.systemRoles().addAll( systemRoles );
+        config.configuration().systemRoles().addAll( systemRoles );
     }
 
     public List<SystemRole> findAllStaffSystemRole()
     {
         List<SystemRole> systemRoles = new ArrayList<SystemRole>();
 
-        for( SystemRole role : config.systemRoles() )
+        for( SystemRole role : config.configuration().systemRoles() )
         {
             systemRoles.add( role );
         }
@@ -84,7 +84,7 @@ public class SystemRoleServiceMixin implements SystemRoleService, Activatable
     {
         validateNotNull( "name", name );
 
-        for( SystemRole systemRole : config.systemRoles() )
+        for( SystemRole systemRole : config.configuration().systemRoles() )
         {
             if( name.equals( systemRole.name().get() ) )
             {
