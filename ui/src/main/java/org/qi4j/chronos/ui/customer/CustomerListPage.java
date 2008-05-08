@@ -30,7 +30,6 @@ public class CustomerListPage extends LeftMenuNavPage
     private void initComponents()
     {
         add( new FeedbackPanel( "feedbackPanel" ) );
-
         add( new Link( "newCustomerLink" )
         {
             public void onClick()

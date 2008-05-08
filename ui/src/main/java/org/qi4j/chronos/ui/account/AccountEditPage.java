@@ -13,8 +13,10 @@
 package org.qi4j.chronos.ui.account;
 
 import org.apache.wicket.Page;
+import org.apache.wicket.Localizer;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.composite.scope.Uses;
 import org.qi4j.entity.UnitOfWorkCompletionException;
@@ -23,20 +25,25 @@ import org.slf4j.LoggerFactory;
 
 public class AccountEditPage extends AccountAddEditPage
 {
-    private final static Logger LOGGER = LoggerFactory.getLogger( AccountEditPage.class );
+    private static final Logger LOGGER = LoggerFactory.getLogger( AccountEditPage.class );
+    private static final String UPDATE_SUCCESS = "updateSuccessful";
+    private static final String UPDATE_FAIL = "updateFailed";
+    private static final String SUBMIT_BUTTON = "editPageSubmitButton";
+    private static final String TITLE_LABEL = "editPageTitleLabel";
 
-    public AccountEditPage( @Uses Page goBackPage, final @Uses String accountId )
+    public AccountEditPage( final @Uses Page goBackPage, final @Uses String accountId )
     {
         super( goBackPage );
 
-        setModel( new CompoundPropertyModel(
-            new LoadableDetachableModel()
-            {
-                public Object load()
+        setModel(
+            new CompoundPropertyModel(
+                new LoadableDetachableModel()
                 {
-                    return getUnitOfWork().find( accountId, AccountEntityComposite.class );
+                    public Object load()
+                    {
+                        return getUnitOfWork().find( accountId, AccountEntityComposite.class );
+                    }
                 }
-            }
             )
         );
         bindPropertyModel( getModel() );
@@ -47,21 +54,23 @@ public class AccountEditPage extends AccountAddEditPage
         try
         {
             getUnitOfWork().complete();
-            logInfoMsg( "Account is updated successfully." );
+            logInfoMsg( getString( UPDATE_SUCCESS ) );
 
-            divertToGoBackPage();
+            super.divertToGoBackPage();
         }
         catch( UnitOfWorkCompletionException uowce )
         {
-            logErrorMsg( "Unable to update account!!!. " + uowce.getClass().getSimpleName() );
-            LOGGER.error( uowce.getLocalizedMessage() );
+            error( getString( UPDATE_FAIL, new Model( uowce ) ) );
+            LOGGER.error( uowce.getLocalizedMessage(), uowce );
 
             reset();
         }
         catch( Exception err )
         {
-            logErrorMsg( err.getMessage() );
+            error( getString( UPDATE_FAIL, new Model( err ) ) );
             LOGGER.error( err.getMessage(), err );
+
+            reset();
         }
     }
 
@@ -74,11 +83,11 @@ public class AccountEditPage extends AccountAddEditPage
 
     public String getSubmitButtonValue()
     {
-        return "Save";
+        return getString( SUBMIT_BUTTON );
     }
 
     public String getTitleLabel()
     {
-        return "Edit Account";
+        return getString( TITLE_LABEL );
     }
 }

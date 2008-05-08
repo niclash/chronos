@@ -116,12 +116,13 @@ public class UserServiceMixin implements UserService, Activatable
         {
             for( User user : associations )
             {
+                // TODO kamil: need to figure out how to refresh the login
+//                Login login = getUnitOfWork().dereference( user.login().get() );
                 Login login = user.login().get();
                 if( login.name().get().equals( loginId ) )
                 {
                     return user;
                 }
-
             }
         }
         return null;
@@ -134,13 +135,14 @@ public class UserServiceMixin implements UserService, Activatable
 
         for( Admin admin : config.configuration().admins() )
         {
+//            Login login = getUnitOfWork().dereference( admin.login().get() );
             Login login = admin.login().get();
-
             if( login.name().get().equals( loginId ) && login.password().get().equals( password ) )
             {
                 return admin;
             }
         }
+
         return null;
     }
 
@@ -166,7 +168,8 @@ public class UserServiceMixin implements UserService, Activatable
 
         for( SystemRole systemRole : systemRoles )
         {
-            if( systemRole.name().get().equals( systemRolesName ) || hasThisSystemRole( systemRole.systemRoles(), systemRolesName ) )
+            if( systemRole.name().get().equals( systemRolesName ) ||
+                hasThisSystemRole( systemRole.systemRoles(), systemRolesName ) )
             {
                 return true;
             }
@@ -181,6 +184,20 @@ public class UserServiceMixin implements UserService, Activatable
 
         return getUser( account, loginId ) == null;
     }
+
+/*
+    private UnitOfWork getUnitOfWork()
+    {
+        if( null == factory.currentUnitOfWork() || factory.currentUnitOfWork().isOpen() )
+        {
+            return factory.newUnitOfWork();
+        }
+        else
+        {
+            return factory.currentUnitOfWork();
+        }
+    }
+*/
 
     public void activate() throws Exception
     {

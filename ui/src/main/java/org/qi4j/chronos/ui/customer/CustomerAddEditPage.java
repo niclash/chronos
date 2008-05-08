@@ -13,11 +13,14 @@
 package org.qi4j.chronos.ui.customer;
 
 import org.apache.wicket.Page;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.form.Form;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.address.AddressAddEditPanel;
+import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
+import org.qi4j.chronos.ui.common.model.NameModel;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 
@@ -26,7 +29,6 @@ public abstract class CustomerAddEditPage extends AddEditBasePage
 {
     protected MaxLengthTextField nameField;
     protected MaxLengthTextField referenceField;
-
     protected AddressAddEditPanel addressAddEditPanel;
 
     public CustomerAddEditPage( Page goBackPage )
@@ -38,7 +40,6 @@ public abstract class CustomerAddEditPage extends AddEditBasePage
     {
         nameField = new MaxLengthTextField( "nameField", "Name", Customer.NAME_LEN );
         referenceField = new MaxLengthTextField( "referenceField", "Reference", Customer.REFERENCE_LEN );
-
         addressAddEditPanel = new AddressAddEditPanel( "addressAddEditPanel" );
 
         form.add( nameField );
@@ -46,19 +47,11 @@ public abstract class CustomerAddEditPage extends AddEditBasePage
         form.add( addressAddEditPanel );
     }
 
-    protected void assignFieldValueToCustomer( Customer customer )
+    protected void bindPropertyModel( IModel iModel )
     {
-        customer.name().set( nameField.getText() );
-        customer.reference().set( referenceField.getText() );
-
-        addressAddEditPanel.assignFieldValueToAddress( customer );
-    }
-
-    protected void assignCustomerToFieldValue( Customer customer )
-    {
-        nameField.setText( customer.name().get() );
-        referenceField.setText( customer.reference().get() );
-        addressAddEditPanel.assignAddressToFieldValue( customer );
+        nameField.setModel( new NameModel( iModel ) );
+        referenceField.setModel( new CustomCompositeModel( iModel, "reference" ) );
+        addressAddEditPanel.bindPropertyModel( new CustomCompositeModel( iModel, "address" ) );
     }
 
     public final void handleSubmit()

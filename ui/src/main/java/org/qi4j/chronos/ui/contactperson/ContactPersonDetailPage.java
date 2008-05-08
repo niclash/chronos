@@ -19,27 +19,45 @@ import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.BoundCompoundPropertyModel;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.ContactPerson;
-import org.qi4j.chronos.service.FindFilter;
-import org.qi4j.chronos.service.ProjectService;
-import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
-import org.qi4j.chronos.ui.common.SimpleTextField;
 import org.qi4j.chronos.ui.contact.ContactTab;
 import org.qi4j.chronos.ui.project.ProjectTab;
 import org.qi4j.chronos.ui.user.UserDetailPanel;
+import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
+import org.qi4j.entity.Identity;
+import org.qi4j.composite.scope.Uses;
 
-public abstract class ContactPersonDetailPage extends LeftMenuNavPage
+public class ContactPersonDetailPage extends LeftMenuNavPage
 {
     private Page basePage;
 
-    public ContactPersonDetailPage( Page basePage )
+    public ContactPersonDetailPage( @Uses Page basePage, final @Uses String contactPersonId )
     {
         this.basePage = basePage;
+
+        setModel(
+            new BoundCompoundPropertyModel(
+                new LoadableDetachableModel()
+                {
+                    public Object load()
+                    {
+                        return getUnitOfWork().find( contactPersonId, ContactPersonEntityComposite.class );
+                    }
+                }
+            )
+        );
 
         initComponents();
     }
@@ -47,37 +65,37 @@ public abstract class ContactPersonDetailPage extends LeftMenuNavPage
     private void initComponents()
     {
         add( new FeedbackPanel( "feedbackPanel" ) );
-        add( new ContactPersonDetailForm( "contactPersonDetailForm" ) );
+        add( new ContactPersonDetailForm( "contactPersonDetailForm", getModel() ) );
     }
 
     private class ContactPersonDetailForm extends Form
     {
         private UserDetailPanel userDetailPanel;
 
-        private SimpleTextField relationshipField;
+        private TextField relationshipField;
 
         private Button submitButton;
 
         private TabbedPanel tabbedPanel;
 
-        public ContactPersonDetailForm( String id )
+        public ContactPersonDetailForm( String id, final IModel iModel )
         {
             super( id );
 
-            initComponents();
+            initComponents( iModel );
         }
 
-        private void initComponents()
+        private void initComponents(final IModel iModel )
         {
-            ContactPerson contactPerson = getContactPerson();
-
-            relationshipField = new SimpleTextField( "relationshipField", contactPerson.relationship().get().relationship().get() );
+            IModel relationshipModel = new CustomCompositeModel( iModel, "relationship" );
+            relationshipField =
+                new TextField( "relationshipField", new CustomCompositeModel( relationshipModel, "relationship" ) );
 
             userDetailPanel = new UserDetailPanel( "userDetailPanel" )
             {
                 public User getUser()
                 {
-                    return ContactPersonDetailPage.this.getContactPerson();
+                    return (ContactPerson) iModel.getObject();
                 }
             };
 
@@ -91,30 +109,45 @@ public abstract class ContactPersonDetailPage extends LeftMenuNavPage
 
             List<AbstractTab> tabs = new ArrayList<AbstractTab>();
 
-            tabs.add( new ContactTab()
-            {
-                public ContactPerson getContactPerson()
+            tabs.add(
+                new ContactTab()
                 {
-                    return ContactPersonDetailPage.this.getContactPerson();
+                    public ContactPerson getContactPerson()
+                    {
+                        return (ContactPerson) iModel.getObject();
+                    }
                 }
-            } );
+            );
 
-            tabs.add( new ProjectTab( "Project" )
-            {
-                public int getSize()
+            tabs.add(
+                new ProjectTab( "Project" )
                 {
-                    // TODO kamil: migrate
-//                    return getProjectService().countAll( ContactPersonDetailPage.this.getContactPerson() );
-                    return getAccount().projects().size();
-                }
+                    public int getSize()
+                    {
+                        return getAccount().projects().size();
+                    }
 
-                public List<Project> dataList( int first, int count )
-                {
-                    // TODO kamil: migrate
-//                    return getProjectService().findAll( ContactPersonDetailPage.this.getContactPerson(), new FindFilter( first, count ) );
-                    return new ArrayList<Project>( getAccount().projects() );
+                    public List<IModel> dataList( int first, int count )
+                    {
+                        List<IModel> models = new ArrayList<IModel>();
+                        for( final String projectId : ContactPersonDetailPage.this.dataList( first, count ) )
+                        {
+                            models.add(
+                                new CompoundPropertyModel(
+                                    new LoadableDetachableModel()
+                                    {
+                                        public Object load()
+                                        {
+                                            return getUnitOfWork().find( projectId, ProjectEntityComposite.class );
+                                        }
+                                    }
+                                )
+                            );
+                        }
+                        return models;
+                    }
                 }
-            } );
+            );
 
             tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
 
@@ -125,11 +158,15 @@ public abstract class ContactPersonDetailPage extends LeftMenuNavPage
         }
     }
 
-    private ProjectService getProjectService()
+    protected List<String> dataList( int first, int count )
     {
-        return ChronosWebApp.getServices().getProjectService();
-    }
+        List<String> projects = new ArrayList<String>();
+        for( Project project : getAccount().projects() )
+        {
+            projects.add( ( (Identity) project).identity().get() );
+        }
 
-    public abstract ContactPerson getContactPerson();
+        return projects.subList( first, first + count );
+    }
 }
 

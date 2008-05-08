@@ -13,27 +13,26 @@
 package org.qi4j.chronos.ui.project;
 
 import java.util.List;
-import java.util.Arrays;
 import java.util.ArrayList;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.Project;
-import org.qi4j.chronos.service.FindFilter;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
-import org.qi4j.composite.scope.Structure;
-import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.entity.Identity;
 
 @AuthorizeInstantiation( { SystemRole.ACCOUNT_ADMIN, SystemRole.ACCOUNT_DEVELOPER } )
 public class ProjectListPage extends LeftMenuNavPage
 {
-//    private @Structure UnitOfWorkFactory factory;
-    
     public ProjectListPage()
     {
         initComponents();
@@ -45,8 +44,6 @@ public class ProjectListPage extends LeftMenuNavPage
         {
             public void onClick()
             {
-                // TODO migrate
-//                setResponsePage( new ProjectAddPage( ProjectListPage.this ) );
                 PageParameters param = new PageParameters();
                 param.put( ProjectListPage.class, ProjectListPage.this );
 
@@ -63,9 +60,24 @@ public class ProjectListPage extends LeftMenuNavPage
                 return ProjectListPage.this.getSize();
             }
 
-            public List<Project> dataList( int first, int count )
+            public List<IModel> dataList( int first, int count )
             {
-                return ProjectListPage.this.dataList( first, count );
+                List<IModel> models = new ArrayList<IModel>();
+                for( final String projectId : ProjectListPage.this.dataList( first, count ) )
+                {
+                    models.add(
+                        new CompoundPropertyModel(
+                            new LoadableDetachableModel()
+                            {
+                                public Object load()
+                                {
+                                    return getUnitOfWork().find( projectId, ProjectEntityComposite.class );
+                                }
+                            }
+                        )
+                    );
+                }
+                return models;
             }
         };
 
@@ -85,14 +97,16 @@ public class ProjectListPage extends LeftMenuNavPage
     protected int getSize()
     {
         return getAccount().projects().size();
-        // TODO migrate
-//        return getProjectService().countAll( getAccount() );
     }
 
-    protected List<Project> dataList( int first, int count )
+    protected List<String> dataList( int first, int count )
     {
-        return new ArrayList<Project>( getAccount().projects() );
-        // TODO migrate
-//        return getProjectService().findAll( getAccount(), new FindFilter( first, count ) );
+        List<String> projects = new ArrayList<String>();
+        for( Project project : getAccount().projects() )
+        {
+            projects.add( ( (Identity) project).identity().get() );
+        }
+
+        return projects.subList( first, first + count );
     }
 }

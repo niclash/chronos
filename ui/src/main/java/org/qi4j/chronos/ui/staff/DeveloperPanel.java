@@ -14,9 +14,13 @@ package org.qi4j.chronos.ui.staff;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.service.TaskService;
@@ -26,6 +30,9 @@ import org.qi4j.chronos.ui.task.RecentTaskTab;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.Task;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.Identity;
 
 public abstract class DeveloperPanel extends Panel
 {
@@ -69,9 +76,29 @@ public abstract class DeveloperPanel extends Panel
                 return getProjectService().countRecentProject( getStaff() );
             }
 
-            public List<Project> dataList( int first, int count )
+            public List<IModel> dataList( int first, int count )
             {
-                return getProjectService().getRecentProjects( getStaff(), new FindFilter( first, count ) );
+/*
+                List<IModel> models = new ArrayList<IModel>();
+                for( Project project : getAccount().projects() )
+                {
+                    final String projectId = ( (Identity) project).identity().get();
+                    models.add(
+                        new CompoundPropertyModel(
+                            new LoadableDetachableModel()
+                            {
+                                public Object load()
+                                {
+                                    return getUnitOfWork().find( projectId, ProjectEntityComposite.class );
+                                }
+                            }
+                        )
+                    );
+                }
+                return models;
+*/
+                return Collections.EMPTY_LIST;
+//                return getProjectService().getRecentProjects( getStaff(), new FindFilter( first, count ) );
             }
         };
     }
@@ -92,5 +119,7 @@ public abstract class DeveloperPanel extends Panel
         };
     }
 
+    public abstract UnitOfWork getUnitOfWork();
+    
     public abstract Staff getStaff();
 }

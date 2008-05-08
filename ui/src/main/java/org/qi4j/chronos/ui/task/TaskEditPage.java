@@ -87,13 +87,5 @@ public abstract class TaskEditPage extends TaskAddEditPage
         return getTask().user().get();
     }
 
-    private UnitOfWork getUnitOfWork()
-    {
-        UnitOfWorkFactory unitOfWorkFactory = ChronosSession.get().getUnitOfWorkFactory();
-
-        return null == unitOfWorkFactory.currentUnitOfWork() ? unitOfWorkFactory.newUnitOfWork() :
-               unitOfWorkFactory.currentUnitOfWork();
-    }
-    
     public abstract Task getTask();
 }

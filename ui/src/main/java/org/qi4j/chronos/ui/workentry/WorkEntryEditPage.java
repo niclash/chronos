@@ -88,13 +88,5 @@ public abstract class WorkEntryEditPage extends WorkEntryAddEditPage
         return "Edit Work Entry";
     }
 
-    private UnitOfWork getUnitOfWork()
-    {
-        UnitOfWorkFactory unitOfWorkFactory = ChronosSession.get().getUnitOfWorkFactory();
-
-        return null == unitOfWorkFactory.currentUnitOfWork() ? unitOfWorkFactory.newUnitOfWork() :
-               unitOfWorkFactory.currentUnitOfWork();
-    }
-
     public abstract WorkEntry getWorkEntry();
 }

@@ -1,0 +1,37 @@
+<html xmlns:wicket>
+
+<wicket:panel>
+
+    <table>
+        <tr>
+            <td align="left" valign="middle">
+                <table>
+                    <tr>
+                        <td width="50%"><strong><span wicket:id="title"/></strong></td>
+                        <td width="50%" align="right"><a wicket:id="showDetail"><span wicket:id="linkLabel"/></a></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td align="left" valign="middle">
+                <table>
+                    <tr>
+                    <wicket:container wicket:id="headers">
+                        <th><span wicket:id="header"></span></th>
+                    </wicket:container>
+                    </tr>
+                    <tr wicket:id="dataView" style="padding-top: 1px">
+                        <wicket:container wicket:id="entries">
+                        <td><span wicket:id="entry"></span></td>
+                        </wicket:container>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+    </table>
+
+</wicket:panel>
+
+</html>

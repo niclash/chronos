@@ -20,19 +20,24 @@ import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.ContactPerson;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.wicket.Page;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.IModel;
 
-public abstract class ProjectEditPage extends ProjectAddEditPage
+public class ProjectEditPage extends ProjectAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( ProjectEditPage.class );
 
-    public ProjectEditPage( Page basePage )
+    public ProjectEditPage( Page basePage, final IModel iModel )
     {
-        super( basePage );
+        super( basePage, iModel );
 
-        initData();
+        bindPropertyModel( getModel() );
+//        initData();
     }
 
     private void initData()
@@ -89,5 +94,9 @@ public abstract class ProjectEditPage extends ProjectAddEditPage
         return list;
     }
 
-    public abstract Project getProject();
+    private Project getProject()
+    {
+        return (Project) getModelObject();
+    }
+//    public abstract Project getProject();
 }

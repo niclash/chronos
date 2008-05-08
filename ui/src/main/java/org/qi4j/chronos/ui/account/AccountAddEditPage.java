@@ -13,29 +13,28 @@
 package org.qi4j.chronos.ui.account;
 
 import org.apache.wicket.Page;
-import org.apache.wicket.protocol.http.WebResponse;
+import org.apache.wicket.Localizer;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.form.Form;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.ui.address.AddressAddEditPanel;
-import org.qi4j.chronos.ui.address.NameModel;
-import org.qi4j.chronos.ui.address.CompositeModel;
+import org.qi4j.chronos.ui.common.model.NameModel;
+import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.chronos.service.account.AccountService;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkFactory;
 
 @AuthorizeInstantiation( SystemRole.SYSTEM_ADMIN )
 public abstract class AccountAddEditPage extends AddEditBasePage
 {
+    private static final String ACCOUNT_NAME_NOT_UNIQUE = "accountNameNotUnique";
     protected MaxLengthTextField nameField;
     protected MaxLengthTextField referenceField;
-
     protected AddressAddEditPanel addressAddEditPanel;
 
     public AccountAddEditPage( Page goBackPage )
@@ -47,7 +46,6 @@ public abstract class AccountAddEditPage extends AddEditBasePage
     {
         nameField = new MaxLengthTextField( "nameField", "Name", Customer.NAME_LEN );
         referenceField = new MaxLengthTextField( "referenceField", "Reference", Customer.REFERENCE_LEN );
-
         addressAddEditPanel = new AddressAddEditPanel( "addressAddEditPanel" );
 
         form.add( nameField );
@@ -58,24 +56,8 @@ public abstract class AccountAddEditPage extends AddEditBasePage
     protected void bindPropertyModel( IModel iModel )
     {
         nameField.setModel( new NameModel( iModel ) );
-        referenceField.setModel( new CompositeModel( iModel, "reference" ) );
-
-        addressAddEditPanel.bindPropertyModel( new CompositeModel( iModel, "address" ) );
-    }
-
-    protected void assignFieldValueToAccount( Account account )
-    {
-        account.name().set( nameField.getText() );
-        account.reference().set( referenceField.getText() );
-
-        addressAddEditPanel.assignFieldValueToAddress( account );
-    }
-
-    protected void assignAccountToFieldValue( Account account )
-    {
-        nameField.setText( account.name().get() );
-        referenceField.setText( account.reference().get() );
-        addressAddEditPanel.assignAddressToFieldValue( account );
+        referenceField.setModel( new CustomCompositeModel( iModel, "reference" ) );
+        addressAddEditPanel.bindPropertyModel( new CustomCompositeModel( iModel, "address" ) );
     }
 
     public final void handleSubmit()
@@ -97,6 +79,14 @@ public abstract class AccountAddEditPage extends AddEditBasePage
             isRejected = true;
         }
 
+        if( !getAccountService().isUnique( (Account) getModelObject() ) )
+        {
+            Localizer localizer = getLocalizer();
+            error( localizer.getString( ACCOUNT_NAME_NOT_UNIQUE, this, new Model( new CustomCompositeModel( getModel(), "name" ) ),
+                "Account name " + nameField.getModelObjectAsString() + " is not unique!!!" ) );
+            isRejected = true;
+        }
+        
         if( isRejected )
         {
             return;
@@ -115,40 +105,7 @@ public abstract class AccountAddEditPage extends AddEditBasePage
         return ChronosSession.get().getAccountService();
     }
 
-    /**
-     * Query the unit of work factory for existing or new unit of work.
-     * TODO kamil: might consider getting the factory from ChronosWebApp instead.
-     * @return
-     */
-    protected UnitOfWork getUnitOfWork()
-    {
-        UnitOfWorkFactory factory = ChronosSession.get().getUnitOfWorkFactory();
-
-        if( null != factory.currentUnitOfWork() && factory.currentUnitOfWork().isOpen() )
-        {
-            System.err.println( "Using existing unit of work" );
-            return factory.currentUnitOfWork();
-        }
-        else
-        {
-            System.err.println( "Got new unit of work" );
-            return factory.newUnitOfWork();
-        }
-    }
-
-    /**
-     * Reset opened unit of work.
-     */
-    protected void reset()
-    {
-        UnitOfWork unitOfWork = getUnitOfWork();
-
-        if( unitOfWork.isOpen() )
-        {
-            unitOfWork.reset();
-        }
-    }
-
+/*
     @Override public boolean isVersioned()
     {
         return false;
@@ -159,6 +116,7 @@ public abstract class AccountAddEditPage extends AddEditBasePage
         response.setHeader("Pragma", "no-cache");
         response.setHeader("Cache-Control", "no-cache, max-age=0, must-revalidate, no-store");
     }
+*/
 
     public abstract void onSubmitting();
 }

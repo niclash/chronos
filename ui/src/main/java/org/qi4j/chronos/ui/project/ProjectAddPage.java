@@ -35,8 +35,6 @@ import org.slf4j.LoggerFactory;
 
 public class ProjectAddPage extends ProjectAddEditPage
 {
-//    private @Structure UnitOfWorkFactory factory;
-    
     private final static Logger LOGGER = LoggerFactory.getLogger( ProjectAddPage.class );
 
     public ProjectAddPage( final @Uses Page basePage )
@@ -60,9 +58,6 @@ public class ProjectAddPage extends ProjectAddEditPage
             Account account = getAccount();
 
             account.projects().add( project );
-
-            // TODO migrate
-//            ChronosWebApp.getServices().getAccountService().update( account );
 
             logInfoMsg( "Project is added successfully." );
 
@@ -101,7 +96,7 @@ public class ProjectAddPage extends ProjectAddEditPage
     {
         for( Customer customer : getAccount().customers() )
         {
-            if( customerChoice.getChoice().getId().equals( ( (Identity) customer).identity().get() ) )
+            if( customerChoice.getModelObject().equals( customer ) )
             {
                 return new ArrayList<PriceRateSchedule>( customer.priceRateSchedules() );
             }

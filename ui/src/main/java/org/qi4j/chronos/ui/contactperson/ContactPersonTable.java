@@ -14,6 +14,7 @@ package org.qi4j.chronos.ui.contactperson;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
 import org.apache.wicket.Component;
 import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
 import org.apache.wicket.markup.html.basic.Label;
@@ -21,12 +22,14 @@ import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.ContactPerson;
+import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.associations.HasContactPersons;
-import org.qi4j.chronos.service.ContactPersonService;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
@@ -34,9 +37,9 @@ import org.qi4j.chronos.ui.common.action.SimpleAction;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.entity.Identity;
 
-public abstract class ContactPersonTable<T extends HasContactPersons> extends ActionTable<ContactPerson, String>
+public abstract class ContactPersonTable<T extends HasContactPersons> extends ActionTable<IModel, String>
 {
-    private ContactPersonDataProvider provider;
+    private AbstractSortableDataProvider<IModel, String> provider;
 
     public ContactPersonTable( String id )
     {
@@ -86,15 +89,54 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
         MetaDataRoleAuthorizationStrategy.authorize( component, RENDER, SystemRole.ACCOUNT_ADMIN );
     }
 
-    public AbstractSortableDataProvider<ContactPerson, String> getDetachableDataProvider()
+    public AbstractSortableDataProvider<IModel, String> getDetachableDataProvider()
     {
         if( provider == null )
         {
-            provider = new ContactPersonDataProvider()
+            provider = new AbstractSortableDataProvider<IModel, String>()
             {
-                public T getHasContactPersons()
+                public int getSize()
                 {
-                    return ContactPersonTable.this.getHasContactPersons();
+                    return getUnitOfWork().dereference( getHasContactPersons() ).contactPersons().size();
+                }
+
+                public String getId( IModel t )
+                {
+                    return ( (Identity) t.getObject()).identity().get();
+                }
+
+                public IModel load( final String s )
+                {
+                    return new CompoundPropertyModel(
+                        new LoadableDetachableModel()
+                        {
+                            public Object load()
+                            {
+                                return getUnitOfWork().find( s, ContactPersonEntityComposite.class );
+                            }
+                        }
+                    );
+                }
+
+                public List<IModel> dataList( int first, int count )
+                {
+                    List<IModel> iModels = new ArrayList<IModel>();
+                    for( final String contactPersonId : ContactPersonTable.this.dataList( first, count ) )
+                    {
+                        iModels.add(
+                            new CompoundPropertyModel(
+                                new LoadableDetachableModel()
+                                {
+                                    public Object load()
+                                    {
+                                        return getUnitOfWork().find( contactPersonId, ContactPersonEntityComposite.class);
+                                    }
+                                }
+                            )
+                        );
+                    }
+
+                    return iModels;
                 }
             };
         }
@@ -102,17 +144,18 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
         return provider;
     }
 
-    public void populateItems( Item item, ContactPerson obj )
+    public void populateItems( Item item, IModel iModel )
     {
-        final String contactPersonId = ( (Identity) obj).identity().get();
+        final ContactPerson contactPerson = (ContactPerson) iModel.getObject();
+        final String contactPersonId = ( (Identity) contactPerson).identity().get();
 
-        item.add( createDetailLink( "firstName", obj.firstName().get(), contactPersonId ) );
+        item.add( createDetailLink( "firstName", contactPerson.firstName().get(), contactPersonId ) );
 
-        item.add( createDetailLink( "lastName", obj.lastName().get(), contactPersonId ) );
+        item.add( createDetailLink( "lastName", contactPerson.lastName().get(), contactPersonId ) );
 
-        item.add( new Label( "loginId", obj.login().get().name().get() ) );
+        item.add( new Label( "loginId", contactPerson.login().get().name().get() ) );
 
-        CheckBox loginEnabled = new CheckBox( "loginEnabled", new Model( obj.login().get().isEnabled().get() ) );
+        CheckBox loginEnabled = new CheckBox( "loginEnabled", new Model( contactPerson.login().get().isEnabled().get() ) );
 
         loginEnabled.setEnabled( false );
 
@@ -123,41 +166,21 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
         item.add( editLink );
     }
 
-/*
-    private ContactPersonService getContactPersonService()
-    {
-        return ChronosWebApp.getServices().getContactPersonService();
-    }
-*/
-
     private SimpleLink createEditLink( final String contactPersonId )
     {
         return new SimpleLink( "editLink", "Edit" )
         {
             public void linkClicked()
             {
-                setResponsePage( new ContactPersonEditPage( this.getPage() )
-                {
-                    public Customer getCustomer()
+                setResponsePage(
+                    new ContactPersonEditPage( this.getPage(), contactPersonId )
                     {
-                        return ContactPersonTable.this.getCustomer();
-                    }
-
-                    public ContactPerson getContactPerson()
-                    {
-                        for( ContactPerson contactPerson : getCustomer().contactPersons() )
+                        public Customer getCustomer()
                         {
-                            if( contactPersonId.equals( contactPerson.identity().get() ) )
-                            {
-                                return contactPerson;
-                            }
+                            return ContactPersonTable.this.getCustomer();
                         }
-
-                        return null;
-                        // TODO
-//                        return getContactPersonService().get( contactPersonId );
                     }
-                } );
+                );
             }
 
             protected void authorizingLink( Link link )
@@ -173,23 +196,7 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
         {
             public void linkClicked()
             {
-                ContactPersonDetailPage detailPage = new ContactPersonDetailPage( this.getPage() )
-                {
-                    public ContactPerson getContactPerson()
-                    {
-                        for( ContactPerson contactPerson : getCustomer().contactPersons() )
-                        {
-                            if( contactPersonId.equals( contactPerson.identity().get() ) )
-                            {
-                                return contactPerson;
-                            }
-                        }
-
-                        return null;
-                        // TODO
-//                        return getContactPersonService().get( contactPersonId );
-                    }
-                };
+                ContactPersonDetailPage detailPage = new ContactPersonDetailPage( this.getPage(), contactPersonId );
 
                 setResponsePage( detailPage );
             }
@@ -201,6 +208,17 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
         return Arrays.asList( "First Name", "Last name", "Login Id", "Login Enabled", "Edit" );
     }
 
+    protected List<String> dataList( int first, int count )
+    {
+        List<String> idList = new ArrayList<String>();
+        HasContactPersons hasContactPersons = getUnitOfWork().dereference( getHasContactPersons() );
+        for( ContactPerson contactPerson : hasContactPersons.contactPersons() )
+        {
+            idList.add( ( (Identity) contactPerson).identity().get() );
+        }
+
+        return idList.subList( first, first + count );
+    }
     public abstract T getHasContactPersons();
 
     public abstract Customer getCustomer();

@@ -13,14 +13,14 @@
 package org.qi4j.chronos.ui.login;
 
 import org.qi4j.chronos.model.Login;
-import org.qi4j.chronos.model.associations.HasLogin;
 import org.qi4j.chronos.ui.common.MaxLengthPasswordField;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
+import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
+import org.apache.wicket.model.IModel;
 
 public class LoginUserAddPanel extends LoginUserAbstractPanel
 {
     private MaxLengthTextField loginIdField;
-
     private MaxLengthPasswordField passwordField;
     private MaxLengthPasswordField confirmPasswordField;
 
@@ -74,6 +74,13 @@ public class LoginUserAddPanel extends LoginUserAbstractPanel
         return isRejected;
     }
 
+    public void bindPropertyModel( IModel iModel )
+    {
+        loginIdField.setModel( new CustomCompositeModel( iModel, "name" ) );
+    }
+
+
+/*
     public void assignFieldValueToLogin( HasLogin hasLogin )
     {
         Login login = hasLogin.login().get();
@@ -86,4 +93,5 @@ public class LoginUserAddPanel extends LoginUserAbstractPanel
     {
         //printSomething here
     }
+*/
 }

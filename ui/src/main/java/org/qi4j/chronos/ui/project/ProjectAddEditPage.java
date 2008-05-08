@@ -23,7 +23,9 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
+import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.TimeRange;
 import org.qi4j.chronos.model.ProjectStatusEnum;
@@ -32,19 +34,19 @@ import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.service.ContactPersonService;
-import org.qi4j.chronos.service.CustomerService;
 import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.ui.common.model.NameModel;
+import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.common.SimpleDateField;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
+import org.qi4j.chronos.ui.common.NameChoiceRenderer;
 import org.qi4j.chronos.ui.contactperson.ContactPersonDelegator;
-import org.qi4j.chronos.ui.customer.CustomerDelegator;
 import org.qi4j.chronos.ui.pricerate.PriceRateScheduleOptionPanel;
 import org.qi4j.chronos.ui.util.ValidatorUtil;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 import org.qi4j.entity.association.Association;
 import org.qi4j.entity.association.SetAssociation;
-import org.qi4j.entity.Identity;
 
 public abstract class ProjectAddEditPage extends AddEditBasePage
 {
@@ -54,7 +56,8 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
     protected SimpleDropDownChoice<ProjectStatusEnum> statusChoice;
     protected SimpleDropDownChoice<ContactPersonDelegator> primaryContactChoice;
 
-    protected SimpleDropDownChoice<CustomerDelegator> customerChoice;
+//    protected SimpleDropDownChoice<CustomerDelegator> customerChoice;
+    protected DropDownChoice customerChoice;
 
     protected Palette contactPalette;
 
@@ -75,11 +78,18 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
         super( basePage );
     }
 
+    public ProjectAddEditPage( Page basePage, final IModel iModel )
+    {
+        super( basePage, iModel );
+    }
+
     public void initComponent( Form form )
     {
         this.form = form;
 
-        customerChoice = new SimpleDropDownChoice<CustomerDelegator>( "customerChoice", getProjectOwnerList(), true )
+        final IChoiceRenderer nameChoiceRender = new NameChoiceRenderer();
+        final List<Customer> availableCustomers = new ArrayList<Customer>( getAccount().customers() ); // TODO kamil: use query here
+        customerChoice = new DropDownChoice( "customerChoice", availableCustomers, nameChoiceRender )
         {
             protected void onSelectionChanged( Object newSelection )
             {
@@ -200,9 +210,10 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
 //        Customer projectOwner = getCustomerService().get( customerChoice.getChoice().getId() );
         Customer projectOwner = getCustomer();
 
-        List<ContactPerson> contactPersonList = getContactPersonService().findAll( projectOwner );
+//        List<ContactPerson> contactPersonList = getContactPersonService().findAll( projectOwner );
 
-        List<ContactPersonDelegator> results = constructContactPerson( contactPersonList );
+        List<ContactPersonDelegator> results = 
+            constructContactPerson( new ArrayList<ContactPerson>( projectOwner.contactPersons() ) );
 
         return results;
     }
@@ -268,6 +279,7 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
         setResponsePage( this );
     }
 
+/*
     private List<CustomerDelegator> getProjectOwnerList()
     {
         List<CustomerDelegator> delegatorList = new ArrayList<CustomerDelegator>();
@@ -282,6 +294,19 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
         }
 
         return delegatorList;
+    }
+*/
+
+    protected void bindPropertyModel( IModel iModel )
+    {
+        projectNameField.setModel( new NameModel( iModel ) );
+        formalReferenceField.setModel( new CustomCompositeModel( iModel, "reference" ) );
+        statusChoice.setModel( new CustomCompositeModel( iModel, "projectStatus" ) );
+        customerChoice.setModel( new CustomCompositeModel( iModel, "customer" ) );
+
+        CustomCompositeModel estimateModel = new CustomCompositeModel( iModel, "estimateTime" );
+        estimateStartDate.setModel( new CustomCompositeModel( estimateModel, "startTime" ) );
+        estimateEndDate.setModel( new CustomCompositeModel( estimateModel, "endTime" ) );
     }
 
     protected void assignFieldValuesToProject( Project project )
@@ -345,7 +370,7 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
         }
 
         Customer projectCustomer = project.customer().get();
-        customerChoice.setChoice( new CustomerDelegator( projectCustomer ) );
+//        customerChoice.setChoice( new CustomerDelegator( projectCustomer ) );
 
         primaryContactChoice.setNewChoices( getAvailableContactPersonChoices() );
 
@@ -380,6 +405,8 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
     */
     protected Customer getCustomer()
     {
+/*
+        System.err.println( "Customer: " + customerChoice.getChoice().getId() );
         for( Customer customer : getAccount().customers() )
         {
             if( customerChoice.getChoice().getId().equals( ( (Identity) customer).identity().get() ) )
@@ -389,6 +416,8 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
         }
 
         return null;
+*/
+        return ( (Project) getModelObject() ).customer().get();
     }
 
     public void handleSubmit()

@@ -16,12 +16,9 @@ import java.util.Date;
 import org.apache.wicket.Page;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.Comment;
-import org.qi4j.chronos.model.composites.CommentComposite;
 import org.qi4j.chronos.model.composites.CommentEntityComposite;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
-import org.qi4j.chronos.ui.wicket.bootstrap.ChronosWebApp;
 import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkFactory;
 import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.qi4j.library.framework.validation.ValidationException;
 import org.slf4j.Logger;
@@ -86,14 +83,6 @@ public abstract class CommentAddPage extends CommentAddEditPage
     public User getCommentOwner()
     {
         return ChronosSession.get().getUser();
-    }
-
-    private UnitOfWork getUnitOfWork()
-    {
-        UnitOfWorkFactory unitOfWorkFactory = ChronosSession.get().getUnitOfWorkFactory();
-
-        return null == unitOfWorkFactory.currentUnitOfWork() ? unitOfWorkFactory.newUnitOfWork() :
-               unitOfWorkFactory.currentUnitOfWork();
     }
 
     public abstract void addComment( Comment comment );

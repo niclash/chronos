@@ -10,36 +10,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.address;
+package org.qi4j.chronos.ui.account.lab;
 
-import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Name;
+import java.util.Comparator;
 
-public class NameModel implements IModel
+public class AscendingNameComparator implements Comparator<Name>
 {
-    private IModel iModel;
-//    private Name name;
-
-    public NameModel( IModel iModel )
+    public int compare( Name o1, Name o2 )
     {
-//        this.name = name;
-        this.iModel = iModel;
-    }
-
-    public Object getObject()
-    {
-        Name name = (Name) iModel.getObject();
-        return name.name().get();
-    }
-
-    public void setObject( Object object )
-    {
-        Name name = (Name) iModel.getObject();
-        name.name().set( (String) object );
-    }
-
-    public void detach()
-    {
-        iModel.detach();
+        return o1.name().get().compareTo( o2.name().get() );
     }
 }

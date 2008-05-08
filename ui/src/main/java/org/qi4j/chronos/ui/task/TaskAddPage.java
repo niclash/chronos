@@ -90,13 +90,5 @@ public abstract class TaskAddPage extends TaskAddEditPage
         return getChronosSession().getUser();
     }
 
-    private UnitOfWork getUnitOfWork()
-    {
-        UnitOfWorkFactory unitOfWorkFactory = ChronosSession.get().getUnitOfWorkFactory();
-
-        return null == unitOfWorkFactory.currentUnitOfWork() ? unitOfWorkFactory.newUnitOfWork() :
-               unitOfWorkFactory.currentUnitOfWork();
-    }
-
     public abstract Project getProject();
 }

@@ -16,9 +16,7 @@ import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInst
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.protocol.http.WebResponse;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 
 @AuthorizeInstantiation( SystemRole.SYSTEM_ADMIN )
@@ -46,16 +44,5 @@ public class AccountListPage extends LeftMenuNavPage
 
         AccountTable accountTable = new AccountTable( "accountTable" );
         add( accountTable );
-    }
-
-    @Override public boolean isVersioned()
-    {
-        return false;
-    }
-
-    @Override protected void setHeaders( WebResponse response)
-    {
-        response.setHeader("Pragma", "no-cache");
-        response.setHeader("Cache-Control", "no-cache, max-age=0, must-revalidate, no-store");
     }
 }

@@ -19,24 +19,25 @@ import java.util.List;
 import java.util.Arrays;
 import org.apache.wicket.extensions.markup.html.form.palette.Palette;
 import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePanel;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
+import org.qi4j.chronos.ui.common.SystemRoleChoiceRenderer;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
+import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
-import org.qi4j.chronos.ui.systemrole.SystemRoleDelegator;
 import org.qi4j.library.general.model.GenderType;
 
 public abstract class UserAddEditPanel extends AddEditBasePanel
 {
     private MaxLengthTextField firstNameField;
     private MaxLengthTextField lastNameField;
-    private SimpleDropDownChoice<GenderType> genderChoice;
+    private SimpleDropDownChoice genderChoice;
 
     private Palette rolePalette;
 
@@ -59,91 +60,54 @@ public abstract class UserAddEditPanel extends AddEditBasePanel
 
         firstNameField = new MaxLengthTextField( "firstNameField", "First Name", User.FIRST_NAME_LEN );
         lastNameField = new MaxLengthTextField( "lastNameField", "Last Name", User.LAST_NAME_LEN );
+        genderChoice =
+            new SimpleDropDownChoice( "genderChoice", Arrays.asList( GenderType.values() ), true );
 
-        genderChoice = new SimpleDropDownChoice<GenderType>( "genderChoice", Arrays.asList( GenderType.values() ), true );
+        IChoiceRenderer renderer = new SystemRoleChoiceRenderer();
+        List<SystemRole> selected = getSelectedRoleChoices();
+        List<SystemRole> choices = getAvailableRoleChoices();
 
-        IChoiceRenderer renderer = new ChoiceRenderer( "systemRoleName", "systemRoleName" );
-
-        List<SystemRoleDelegator> selecteds = getSelectedRoleChoices();
-        List<SystemRoleDelegator> choices = getAvailableRoleChoices();
-
-        rolePalette = new Palette( "rolePalette", new Model( (Serializable) selecteds ),
+        rolePalette = new Palette( "rolePalette", new Model( (Serializable) selected ),
                                    new Model( (Serializable) choices ), renderer, 5, false );
 
         loginUserPanel = getLoginUserAbstractPanel( "loginUserPanel" );
-
         roleContainer = new WebMarkupContainer( "roleContainer" );
-
         roleContainer.add( rolePalette );
-
         roleContainer.setVisible( !isHideRolePalette );
 
         add( firstNameField );
         add( lastNameField );
         add( genderChoice );
         add( roleContainer );
-
         add( loginUserPanel );
     }
 
-    private List<SystemRoleDelegator> getSelectedRoleChoices()
+    private List<SystemRole> getSelectedRoleChoices()
     {
         Iterator<SystemRole> roleIterator = getInitSelectedRoleList();
-
         List<SystemRole> resultList = new ArrayList<SystemRole>();
 
         while( roleIterator.hasNext() )
         {
             resultList.add( roleIterator.next() );
         }
-
-        List<SystemRoleDelegator> systemRoleDelegators = constuctRoleDelegatorList( resultList );
-
-        return systemRoleDelegators;
+        return resultList;
     }
 
-    private List<SystemRoleDelegator> constuctRoleDelegatorList( List<SystemRole> projectRoleLists )
+    private List<SystemRole> getAvailableRoleChoices()
     {
-        List<SystemRoleDelegator> systemRoleDelegators = new ArrayList<SystemRoleDelegator>();
-
-        for( SystemRole role : projectRoleLists )
-        {
-            systemRoleDelegators.add( new SystemRoleDelegator( role ) );
-        }
-
-        return systemRoleDelegators;
-    }
-
-    private List<SystemRoleDelegator> getAvailableRoleChoices()
-    {
-        // TODO kamil: make it proper
-//        List<SystemRole> systemRoleList = ChronosWebApp.getServices().
-//            getSystemRoleService().findAllStaffSystemRole();
-
-        List<SystemRole> systemRoleList = ChronosSession.get().getSystemRoleService().findAllStaffSystemRole();
-        List<SystemRoleDelegator> systemRoleDelegators = constuctRoleDelegatorList( systemRoleList );
-
-        return systemRoleDelegators;
+        return ChronosSession.get().getSystemRoleService().findAllStaffSystemRole();
     }
 
     public List<SystemRole> getSelectedRoleList()
     {
-        Iterator<SystemRoleDelegator> selectedIterator = rolePalette.getSelectedChoices();
+        Iterator<SystemRole> selectedIterator = rolePalette.getSelectedChoices();
 
         List<SystemRole> SystemRoleList = new ArrayList<SystemRole>();
 
         while( selectedIterator.hasNext() )
         {
-            SystemRoleDelegator delegator = selectedIterator.next();
-
-            // TODO kamil: make it proper
-//            SystemRole systemRole = ChronosWebApp.newInstance( SystemRoleEntityComposite.class );
-            SystemRole systemRole = ChronosSession.get().getSystemRoleService().getSystemRoleByName( delegator.getSystemRoleName() );
-
-//            systemRole.systemRoleType().set( delegator.getSystemRoleType() );
-//            systemRole.name().set( delegator.getSystemRoleName() );
-
-            SystemRoleList.add( systemRole );
+            SystemRoleList.add( selectedIterator.next() );
         }
 
         return SystemRoleList;
@@ -164,9 +128,24 @@ public abstract class UserAddEditPanel extends AddEditBasePanel
         return lastNameField;
     }
 
-    public SimpleDropDownChoice<GenderType> getGenderChoice()
+    public SimpleDropDownChoice getGenderChoice()
     {
         return genderChoice;
+    }
+
+    public void bindPropertyModel( final IModel iModel )
+    {
+        firstNameField.setModel( new CustomCompositeModel( iModel, "firstName" ) );
+        lastNameField.setModel( new CustomCompositeModel( iModel, "lastName" ) );
+        genderChoice.setModel( new CustomCompositeModel( iModel, "gender" ) );
+
+        if( null == genderChoice.getChoice() )
+        {
+            genderChoice.setChoice( GenderType.MALE );
+        }
+
+        IModel loginModel = new CustomCompositeModel( iModel, "login" );
+        loginUserPanel.bindPropertyModel( loginModel );
     }
 
     public void assignFieldValueToUser( User user )
@@ -174,8 +153,8 @@ public abstract class UserAddEditPanel extends AddEditBasePanel
         user.firstName().set( firstNameField.getText() );
         user.lastName().set( lastNameField.getText() );
 
-        GenderType genderType = GenderType.toEnum( genderChoice.getChoiceAsString() );
-        user.gender().set( genderType );
+//        GenderType genderType = GenderType.toEnum( genderChoice.getChoiceAsString() );
+//        user.gender().set( genderType );
 
         if( !isHideRolePalette )
         {
@@ -183,7 +162,7 @@ public abstract class UserAddEditPanel extends AddEditBasePanel
             user.systemRoles().addAll( roleLists );
         }
 
-        loginUserPanel.assignFieldValueToLogin( user );
+//        loginUserPanel.assignFieldValueToLogin( user );
     }
 
     public void assignUserToFieldValue( User user )
@@ -191,9 +170,9 @@ public abstract class UserAddEditPanel extends AddEditBasePanel
         firstNameField.setText( user.firstName().get() );
         lastNameField.setText( user.lastName().get() );
 
-        genderChoice.setChoice( user.gender().get() );
+//        genderChoice.setChoice( user.gender().get() );
 
-        loginUserPanel.assignLoginToFieldValue( user );
+//        loginUserPanel.assignLoginToFieldValue( user );
 
         //skip the rolePalette, as it is already done in getInitSelectedRoleList();
     }

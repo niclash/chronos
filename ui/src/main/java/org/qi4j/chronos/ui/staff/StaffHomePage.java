@@ -18,6 +18,7 @@ import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInst
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
+import org.qi4j.entity.UnitOfWork;
 
 @AuthorizeInstantiation( { SystemRole.ACCOUNT_ADMIN, SystemRole.ACCOUNT_DEVELOPER } )
 public class StaffHomePage extends LeftMenuNavPage
@@ -39,13 +40,20 @@ public class StaffHomePage extends LeftMenuNavPage
         {
             super( id );
 
-            add( new AccountAdminPanel( "staffHomePanel" )
-            {
-                public Account getAccount()
+            add(
+                new AccountAdminPanel( "staffHomePanel" )
                 {
-                    return StaffHomePage.this.getAccount();
+                    public UnitOfWork getUnitOfWork()
+                    {
+                        return StaffHomePage.this.getUnitOfWork();
+                    }
+
+                    public Account getAccount()
+                    {
+                        return StaffHomePage.this.getAccount();
+                    }
                 }
-            } );
+            );
         }
     }
 }

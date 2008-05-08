@@ -15,9 +15,13 @@ package org.qi4j.chronos.ui.pricerate;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.PriceRateSchedule;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
@@ -42,11 +46,22 @@ public class PriceRateScheduleListPage extends LeftMenuNavPage
 
         add( new FeedbackPanel( "feedbackPanel" ) );
 
-        PriceRateScheduleTable<Account> table = new PriceRateScheduleTable<Account>( "priceRateScheduleTable" )
+        final IModel iModel =
+            new CompoundPropertyModel(
+                new LoadableDetachableModel()
+                {
+                    public Object load()
+                    {
+                        return PriceRateScheduleListPage.this.getAccount();
+                    }
+                }
+            );
+
+        PriceRateScheduleTable<Account> table = new PriceRateScheduleTable<Account>( "priceRateScheduleTable", iModel )
         {
             public Account getHasPriceRateSchedules()
             {
-                return getAccount();
+                return (Account) getModelObject();
             }
         };
 
@@ -72,10 +87,5 @@ public class PriceRateScheduleListPage extends LeftMenuNavPage
 
         // TODO migrate
 //        getAccountService().update( getAccount() );
-    }
-
-    private AccountService getAccountService()
-    {
-        return ChronosWebApp.getServices().getAccountService();
     }
 }

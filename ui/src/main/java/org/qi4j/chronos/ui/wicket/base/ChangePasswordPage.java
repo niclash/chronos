@@ -20,11 +20,10 @@ import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Login;
-import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.service.user.UserService;
-import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
+import org.qi4j.chronos.model.associations.HasLogin;
 import org.qi4j.chronos.ui.common.MaxLengthPasswordField;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +32,10 @@ public abstract class ChangePasswordPage extends LeftMenuNavPage
     private final static Logger LOGGER = LoggerFactory.getLogger( ChangePasswordPage.class );
 
     private Page goBackPage;
+    private static final String UPDATE_SUCCESS = "updateSuccessful";
+    private static final String UPDATE_FAIL = "updateFailed";
+    private static final String INVALID_PASSWORD = "invalidPassword";
+    private static final String MISMATCH_PASSWORD = "mismatchPassword";
 
     public ChangePasswordPage( Page goBackPage )
     {
@@ -47,14 +50,7 @@ public abstract class ChangePasswordPage extends LeftMenuNavPage
         add( new ChangePasswordForm( "changePasswordForm" ) );
     }
 
-    public UserService getUserService()
-    {
-
-        return ( (ChronosSession) getSession() ).getUserService();
-//        return ChronosWebApp.getServices().getUserService();
-    }
-
-    public abstract User getUser();
+    public abstract HasLogin getHasLogin();
 
     private class ChangePasswordForm extends Form
     {
@@ -71,14 +67,11 @@ public abstract class ChangePasswordPage extends LeftMenuNavPage
         {
             super( id );
 
-            User user = getUser();
-
             oldPasswordField = new MaxLengthPasswordField( "oldPassword", "Old Password", Login.PASSWORD_LEN );
             newPasswordField = new MaxLengthPasswordField( "newPassword", "New Password", Login.PASSWORD_LEN );
             confirmPasswordField = new MaxLengthPasswordField( "confirmPassword", "Confirm Password", Login.PASSWORD_LEN );
 
-            loginIdLabel = new Label( "loginId", user.login().get().name().get() );
-
+            loginIdLabel = new Label( "loginId", getHasLogin().login().get().name().get() );
             submitButton = new Button( "submitButton", new Model( "Change Password" ) );
             cancelButton = new Button( "cancelButton", new Model( "Cancel" ) );
 
@@ -113,6 +106,8 @@ public abstract class ChangePasswordPage extends LeftMenuNavPage
 
         private void handleChangePassword()
         {
+            UnitOfWork unitOfWork = getUnitOfWork();
+
             boolean isRejected = false;
 
             if( oldPasswordField.checkIsEmptyOrInvalidLength() )
@@ -138,18 +133,15 @@ public abstract class ChangePasswordPage extends LeftMenuNavPage
             {
                 if( !password.equals( confirmPassword ) )
                 {
-                    error( "Please make sure that password and confirm password are matched!" );
+                    error( getString( MISMATCH_PASSWORD ) );
                     isRejected = true;
                 }
             }
 
-            UserService userService = getUserService();
-            User user = getUser();
-
-            Login userLogin = user.login().get();
+            Login userLogin = unitOfWork.dereference( getHasLogin().login().get() );
             if( oldPassword != null && !userLogin.password().get().equals( oldPassword ) )
             {
-                error( "Invalid old password!" );
+                error( getString( INVALID_PASSWORD ) );
                 isRejected = true;
             }
 
@@ -162,17 +154,23 @@ public abstract class ChangePasswordPage extends LeftMenuNavPage
 
             try
             {
-                // TODO migrate
-//                userService.update( user );
+                unitOfWork.complete();
 
-                goBackPage.info( "Password changed successfully." );
+                goBackPage.info( getString( UPDATE_SUCCESS ) );
 
                 setResponsePage( goBackPage );
             }
+            catch( UnitOfWorkCompletionException uowce )
+            {
+                error( getString( UPDATE_FAIL, new Model( uowce ) ) );
+                LOGGER.error( uowce.getLocalizedMessage(), uowce );
+
+                reset();
+            }
             catch( Exception err )
             {
-                error( err.getMessage() );
-                LOGGER.error( err.getMessage(), err );
+                error( getString( UPDATE_FAIL, new Model( err ) ) );
+                LOGGER.error( err.getLocalizedMessage(), err );
             }
         }
     }

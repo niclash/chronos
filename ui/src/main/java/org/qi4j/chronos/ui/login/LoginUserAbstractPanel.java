@@ -13,7 +13,7 @@
 package org.qi4j.chronos.ui.login;
 
 import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.model.associations.HasLogin;
+import org.apache.wicket.model.IModel;
 
 public abstract class LoginUserAbstractPanel extends Panel
 {
@@ -24,7 +24,9 @@ public abstract class LoginUserAbstractPanel extends Panel
 
     public abstract boolean checkIsNotValidated();
 
-    public abstract void assignFieldValueToLogin( HasLogin login );
+    public abstract void bindPropertyModel( IModel iModel );
 
-    public abstract void assignLoginToFieldValue( HasLogin login );
+//    public abstract void assignFieldValueToLogin( HasLogin login );
+
+//    public abstract void assignLoginToFieldValue( HasLogin login );
 }

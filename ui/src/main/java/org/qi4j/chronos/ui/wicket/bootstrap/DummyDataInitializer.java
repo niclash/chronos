@@ -111,16 +111,16 @@ final class DummyDataInitializer
         initAdmin();
         initProjectRolesAndStaff();
 
-        unitOfWork = complete( unitOfWork, unitOfWorkFactory );
+//        unitOfWork = complete( unitOfWork, unitOfWorkFactory );
         initPriceRateSchedule();
 
-        unitOfWork = complete( unitOfWork, unitOfWorkFactory );
+//        unitOfWork = complete( unitOfWork, unitOfWorkFactory );
         initCustomersAndContactPersons();
 
-        unitOfWork = complete( unitOfWork, unitOfWorkFactory );
+//        unitOfWork = complete( unitOfWork, unitOfWorkFactory );
         initProjectsTasksAndAssignees();
 
-        unitOfWork = complete( unitOfWork, unitOfWorkFactory );
+//        unitOfWork = complete( unitOfWork, unitOfWorkFactory );
         initWorkEntries();
 
         try
@@ -139,44 +139,42 @@ final class DummyDataInitializer
      */
     private void initWorkEntries()
     {
-        Calendar now = Calendar.getInstance();
-        now.add( Calendar.DATE, -13 );
-        Date createdDate = now.getTime();
-        now.add( Calendar.DATE, -4 );
-        Date startTime = now.getTime();
-        now.add( Calendar.DATE, 3 );
-        Date endTime = now.getTime();
         for( Account account : accountService.findAll() )
         {
+            Calendar now = Calendar.getInstance();
+            Date createdDate = now.getTime();
+            Date endTime = now.getTime();
+            now.add( Calendar.DATE, -30 );
+            Date startTime = now.getTime();
+
             account = unitOfWork.dereference( account );
             for( Project project : account.projects() )
             {
                 ProjectAssignee assignee = project.projectAssignees().iterator().next();
-                for( int j = 0; j < 7; j++ )
-                {
-                    WorkEntry projectWorkEntry = newWorkEntry( unitOfWork, "Project work entry", "Description",
-                                                               createdDate, startTime, endTime, assignee );
-                    for( int i = 0; i < 7; i++ )
-                    {
-                        Comment projectComment = newComment( unitOfWork, "Project work entry comment.",
-                                                             createdDate, assignee.staff().get() );
-                        projectWorkEntry.comments().add( projectComment );
-                    }
-                    project.workEntries().add( projectWorkEntry );
-                }
+                WorkEntry projectWorkEntry = newWorkEntry( unitOfWork, "Project work entry", "Description",
+                                                           createdDate, startTime, endTime, assignee );
+                Comment projectComment = newComment( unitOfWork, "Project work entry comment.",
+                                                     createdDate, assignee.staff().get() );
+                projectWorkEntry.comments().add( projectComment );
+                project.workEntries().add( projectWorkEntry );
 
-                for( Task task : project.tasks() )
+                for( int j = 0; j < 30; j++ )
                 {
-                    for( int j = 0; j < 7; j++ )
+                    now.add( Calendar.HOUR_OF_DAY, -4 );
+                    startTime = now.getTime();
+                    now.add( Calendar.HOUR_OF_DAY, 2 );
+                    endTime = now.getTime();
+                    now.add( Calendar.HOUR_OF_DAY, 2 );
+                    createdDate = now.getTime();
+                    now.add( Calendar.DATE, 1 );
+                    
+                    for( Task task : project.tasks() )
                     {
-                        WorkEntry workEntry = newWorkEntry( unitOfWork, "Work Entry 1", "Description",
+                        WorkEntry workEntry = newWorkEntry( unitOfWork, "Work Entry " + j, "Description",
                                                             createdDate, startTime, endTime, assignee );
-                        for( int i = 0; i < 7; i++ )
-                        {
-                            Comment comment = newComment( unitOfWork, "This is a comment.",
-                                                          createdDate, task.user().get() );
-                            workEntry.comments().add( comment );
-                        }
+                        Comment comment = newComment( unitOfWork, "This is a comment.",
+                                                      createdDate, task.user().get() );
+                        workEntry.comments().add( comment );
                         task.comments().add( newComment( unitOfWork, "This is a comment.",
                                                          createdDate, task.user().get() ) );
                         task.workEntries().add( workEntry );
@@ -351,24 +349,26 @@ final class DummyDataInitializer
      */
     private void initSystemRoles()
     {
-        CompositeBuilder<SystemRoleEntityComposite> systemRoleBuilder =
-            unitOfWork.newEntityBuilder( SystemRoleEntityComposite.class );
-        SystemRole adminRole = systemRoleBuilder.newInstance();
+        SystemRole adminRole =
+            unitOfWork.newEntityBuilder( SystemRole.SYSTEM_ADMIN, SystemRoleEntityComposite.class ).newInstance();
         adminRole.name().set( SystemRole.SYSTEM_ADMIN );
         adminRole.systemRoleType().set( SystemRoleTypeEnum.ADMIN );
         roleService.save( adminRole );
 
-        SystemRole accountAdmin = systemRoleBuilder.newInstance();
+        SystemRole accountAdmin =
+            unitOfWork.newEntityBuilder( SystemRole.ACCOUNT_ADMIN, SystemRoleEntityComposite.class ).newInstance();
         accountAdmin.name().set( SystemRole.ACCOUNT_ADMIN );
         accountAdmin.systemRoleType().set( SystemRoleTypeEnum.STAFF );
         roleService.save( accountAdmin );
 
-        SystemRole developer = systemRoleBuilder.newInstance();
+        SystemRole developer =
+            unitOfWork.newEntityBuilder( SystemRole.ACCOUNT_DEVELOPER, SystemRoleEntityComposite.class ).newInstance();
         developer.name().set( SystemRole.ACCOUNT_DEVELOPER );
         developer.systemRoleType().set( SystemRoleTypeEnum.STAFF );
         roleService.save( developer );
 
-        SystemRole contactPerson = systemRoleBuilder.newInstance();
+        SystemRole contactPerson =
+            unitOfWork.newEntityBuilder( SystemRole.CONTACT_PERSON, SystemRoleEntityComposite.class ).newInstance();
         contactPerson.name().set( SystemRole.CONTACT_PERSON );
         contactPerson.systemRoleType().set( SystemRoleTypeEnum.CONTACT_PERSON );
         roleService.save( contactPerson );
@@ -559,6 +559,7 @@ final class DummyDataInitializer
             unitOfWork.newEntityBuilder( CustomerEntityComposite.class );
         customerBuilder.stateOfComposite().name().set( customerName );
         customerBuilder.stateOfComposite().reference().set( reference );
+        customerBuilder.stateOfComposite().isEnabled().set( true );
         customerBuilder.stateOfComposite().address().set(
             newAddress( unitOfWork, firstLine, secondLine, cityName, stateName, countryName, zipCode ));
 

@@ -13,6 +13,7 @@
 package org.qi4j.chronos.ui.pricerate;
 
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.PriceRateSchedule;
@@ -41,7 +42,7 @@ public abstract class PriceRateScheduleTab<T extends HasPriceRateSchedules> exte
 
         public Panel getContent( String id )
         {
-            return new PriceRateScheduleTable( id )
+            return new PriceRateScheduleTable( id, new Model() )
             {
                 public HasPriceRateSchedules getHasPriceRateSchedules()
                 {

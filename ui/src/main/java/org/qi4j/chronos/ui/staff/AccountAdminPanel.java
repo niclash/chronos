@@ -18,6 +18,9 @@ import java.util.Arrays;
 import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.service.TaskService;
@@ -27,6 +30,9 @@ import org.qi4j.chronos.ui.task.RecentTaskTab;
 import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.entity.Identity;
+import org.qi4j.entity.UnitOfWork;
 
 public abstract class AccountAdminPanel extends Panel
 {
@@ -51,11 +57,6 @@ public abstract class AccountAdminPanel extends Panel
         add( tabbedPanel );
     }
 
-    private TaskService getTaskService()
-    {
-        return ChronosWebApp.getServices().getTaskService();
-    }
-
     private RecentTaskTab createRecentTaskTab()
     {
         return new RecentTaskTab( "Recent Tasks" )
@@ -76,30 +77,39 @@ public abstract class AccountAdminPanel extends Panel
         };
     }
 
-    private ProjectService getProjectService()
-    {
-        return ChronosWebApp.getServices().getProjectService();
-    }
-
     private ProjectTab createRecentProjectTab()
     {
         return new ProjectTab( "Recent Projects" )
         {
             public int getSize()
             {
-                // TODO migrate
-//                return getProjectService().countRecentProject( getAccount() );
                 return getAccount().projects().size();
             }
 
-            public List<Project> dataList( int first, int count )
+            public List<IModel> dataList( int first, int count )
             {
-                // TODO migrate
-//                return getProjectService().getRecentProjects( getAccount(), new FindFilter( first, count ) );
-                return new ArrayList<Project>( getAccount().projects() );
+                List<IModel> models = new ArrayList<IModel>();
+                for( Project project : getAccount().projects() )
+                {
+                    final String projectId = ( (Identity) project).identity().get();
+                    models.add(
+                        new CompoundPropertyModel(
+                            new LoadableDetachableModel()
+                            {
+                                public Object load()
+                                {
+                                    return getUnitOfWork().find( projectId, ProjectEntityComposite.class );
+                                }
+                            }
+                        )
+                    );
+                }
+                return models;
             }
         };
     }
 
+    public abstract UnitOfWork getUnitOfWork();
+    
     public abstract Account getAccount();
 }

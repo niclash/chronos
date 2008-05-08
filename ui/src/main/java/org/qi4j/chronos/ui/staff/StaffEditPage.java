@@ -14,9 +14,12 @@ package org.qi4j.chronos.ui.staff;
 
 import java.util.Iterator;
 import org.apache.wicket.Page;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
@@ -31,11 +34,23 @@ public abstract class StaffEditPage extends StaffAddEditPage
 
     private LoginUserEditPanel loginUserEditPanel;
 
-    public StaffEditPage( Page basePage )
+    public StaffEditPage( Page basePage, final String staffId )
     {
         super( basePage );
 
-        initData();
+        setModel(
+            new CompoundPropertyModel(
+                new LoadableDetachableModel()
+                {
+                    public Object load()
+                    {
+                        return getUnitOfWork().find( staffId, StaffEntityComposite.class );
+                    }
+                }
+            )
+        );
+        bindPropertyModel( getModel() );
+//        initData();
     }
 
     private void initData()
@@ -99,13 +114,20 @@ public abstract class StaffEditPage extends StaffAddEditPage
 
             logInfoMsg( "Staff is updated successfully." );
 
-            divertToGoBackPage();
+            super.divertToGoBackPage();
         }
         catch( Exception err )
         {
             logErrorMsg( err.getMessage() );
             LOGGER.error( err.getMessage() );
         }
+    }
+
+    @Override protected void divertToGoBackPage()
+    {
+        reset();
+
+        super.divertToGoBackPage();
     }
 
     public abstract Staff getStaff();

@@ -38,7 +38,9 @@ public interface AccountService
 
     boolean isUnique( String accountName );
 
+    boolean isUnique( Account account );
+
     int count();
 
-    void enableAccounts( Collection<Account> accounts, boolean enabled );
+    void enableAccounts( Collection<Account> accounts, boolean enable );
 }

@@ -21,15 +21,20 @@ import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.Staff;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.project.ProjectTab;
 import org.qi4j.chronos.ui.user.UserDetailPanel;
+import org.qi4j.entity.Identity;
 
 public abstract class StaffDetailPage extends LeftMenuNavPage
 {
@@ -46,11 +51,6 @@ public abstract class StaffDetailPage extends LeftMenuNavPage
     {
         add( new FeedbackPanel( "feedbackPanel" ) );
         add( new StaffDetailForm( "staffDetailForm" ) );
-    }
-
-    private ProjectService getProjectService()
-    {
-        return ChronosWebApp.getServices().getProjectService();
     }
 
     private class StaffDetailForm extends Form
@@ -80,22 +80,35 @@ public abstract class StaffDetailPage extends LeftMenuNavPage
 
             List<AbstractTab> tabs = new ArrayList<AbstractTab>();
 
-            tabs.add( new ProjectTab( "Project" )
-            {
-                public int getSize()
+            tabs.add(
+                new ProjectTab( "Project" )
                 {
-                    return getAccount().projects().size();
-                    // TODO kamil
-//                    return getProjectService().countAll( StaffDetailPage.this.getStaff() );
-                }
+                    public int getSize()
+                    {
+                        return getAccount().projects().size();
+                    }
 
-                public List<Project> dataList( int first, int count )
-                {
-                    return new ArrayList<Project>( getAccount().projects() );
-                    // TODO kamil
-//                    return getProjectService().findAll( StaffDetailPage.this.getStaff(), new FindFilter( first, count ) );
+                    public List<IModel> dataList( int first, int count )
+                    {
+                        List<IModel> models = new ArrayList<IModel>();
+                        for( final String projectId : StaffDetailPage.this.dataList( first, count ) )
+                        {
+                            models.add(
+                                new CompoundPropertyModel(
+                                    new LoadableDetachableModel()
+                                    {
+                                        public Object load()
+                                        {
+                                            return getUnitOfWork().find( projectId, ProjectEntityComposite.class );
+                                        }
+                                    }
+                                )
+                            );
+                        }
+                        return models;
+                    }
                 }
-            } );
+            );
 
             tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
 
@@ -111,6 +124,17 @@ public abstract class StaffDetailPage extends LeftMenuNavPage
             add( tabbedPanel );
             add( submitButton );
         }
+    }
+
+    protected List<String> dataList( int first, int count )
+    {
+        List<String> projects = new ArrayList<String>();
+        for( Project project : getAccount().projects() )
+        {
+            projects.add( ( (Identity) project).identity().get() );
+        }
+
+        return projects.subList( first, first + count );
     }
 
     public abstract Staff getStaff();

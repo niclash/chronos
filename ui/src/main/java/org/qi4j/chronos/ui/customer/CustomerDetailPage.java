@@ -19,26 +19,42 @@ import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.CompoundPropertyModel;
-import org.qi4j.chronos.service.CustomerService;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.ui.address.AddressDetailPanel;
-import org.qi4j.chronos.ui.common.SimpleTextField;
+import org.qi4j.chronos.ui.common.model.NameModel;
+import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
 import org.qi4j.chronos.ui.contactperson.ContactPersonTab;
 import org.qi4j.chronos.ui.pricerate.PriceRateScheduleTab;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.PriceRateSchedule;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
+import org.qi4j.composite.scope.Uses;
 
-public abstract class CustomerDetailPage extends LeftMenuNavPage
+public class CustomerDetailPage extends LeftMenuNavPage
 {
     private Page returnPage;
 
-    public CustomerDetailPage( Page returnPage )
+    public CustomerDetailPage( @Uses Page returnPage, final @Uses String customerId )
     {
         this.returnPage = returnPage;
+        setModel(
+            new CompoundPropertyModel(
+                new LoadableDetachableModel()
+                {
+                    public Object load()
+                    {
+                        return getUnitOfWork().find( customerId, CustomerEntityComposite.class );
+                    }
+                }
+            )
+        );
 
         initComponents();
     }
@@ -49,57 +65,55 @@ public abstract class CustomerDetailPage extends LeftMenuNavPage
         add( new CustomerDetailForm( "customerDetailForm" ) );
     }
 
-    public abstract Customer getCustomer();
-
     private class CustomerDetailForm extends Form
     {
         private Button submitButton;
-
-        private SimpleTextField nameField;
-        private SimpleTextField referenceField;
-
+        private TextField nameField;
+        private TextField referenceField;
         private AddressDetailPanel addressDetailPanel;
-
         private TabbedPanel ajaxTabbedPanel;
 
         public CustomerDetailForm( String id )
         {
             super( id );
 
-            Customer customer = getCustomer();
-
-            nameField = new SimpleTextField( "nameField", customer.name().get(), true );
-            referenceField = new SimpleTextField( "referenceField", customer.reference().get(), true );
-
-            addressDetailPanel = new AddressDetailPanel( "addressDetailPanel", new CompoundPropertyModel( customer.address().get() ) );   // FIXME later kamil:
+            final IModel iModel = CustomerDetailPage.this.getModel();
+            nameField = new TextField( "nameField", new NameModel( iModel ) );
+            referenceField = new TextField( "referenceField", new CustomCompositeModel( iModel, "reference" ) );
+            addressDetailPanel =
+                new AddressDetailPanel( "addressDetailPanel", new CustomCompositeModel( iModel, "address" ) );
 
             List<AbstractTab> tabs = new ArrayList<AbstractTab>();
 
-            tabs.add( new ContactPersonTab()
-            {
-                public Customer getCustomer()
+            tabs.add(
+                new ContactPersonTab()
                 {
-                    return CustomerDetailPage.this.getCustomer();
+                    public Customer getCustomer()
+                    {
+                        return (Customer) CustomerDetailPage.this.getModelObject();
+                    }
                 }
-            } );
+            );
 
-            tabs.add( new PriceRateScheduleTab<Customer>( "Standard Price Rate Schedules" )
-            {
-                public Account getAccount()
+            tabs.add(
+                new PriceRateScheduleTab<Customer>( "Standard Price Rate Schedules" )
                 {
-                    return CustomerDetailPage.this.getAccount();
-                }
+                    public Account getAccount()
+                    {
+                        return CustomerDetailPage.this.getAccount();
+                    }
 
-                public void addPriceRateSchedule( PriceRateSchedule priceRateSchedule )
-                {
-                    handleAddPriceRateSchedule( priceRateSchedule );
-                }
+                    public void addPriceRateSchedule( PriceRateSchedule priceRateSchedule )
+                    {
+                        handleAddPriceRateSchedule( priceRateSchedule );
+                    }
 
-                public Customer getHasPriceRateSchedules()
-                {
-                    return getCustomer();
+                    public Customer getHasPriceRateSchedules()
+                    {
+                        return getCustomer();
+                    }
                 }
-            } );
+            );
 
             ajaxTabbedPanel = new TabbedPanel( "ajaxTabbedPanel", tabs );
 
@@ -120,16 +134,15 @@ public abstract class CustomerDetailPage extends LeftMenuNavPage
 
         private void handleAddPriceRateSchedule( PriceRateSchedule priceRateSchedule )
         {
+            // TODO kamil: complete this
             Customer customer = getCustomer();
-
             customer.priceRateSchedules().add( priceRateSchedule );
-
-//            CustomerService service = getServices().getCustomerService();
-
-            // TODO migrate
-//            service.update( customer );
         }
+    }
 
+    protected Customer getCustomer()
+    {
+        return (Customer) getModelObject();
     }
 }
 

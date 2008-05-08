@@ -40,6 +40,10 @@ import org.qi4j.chronos.model.composites.LegalConditionEntityComposite;
 import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.model.composites.CommentEntityComposite;
+import org.qi4j.chronos.model.composites.ReportEntityComposite;
+import org.qi4j.chronos.model.composites.ReportDetailEntityComposite;
+import org.qi4j.chronos.model.composites.ReportSummaryEntityComposite;
+import org.qi4j.chronos.model.composites.AccountReportEntityComposite;
 import org.qi4j.chronos.service.systemrole.SystemRoleServiceConfiguration;
 import org.qi4j.chronos.service.systemrole.SystemRoleServiceComposite;
 import org.qi4j.chronos.service.account.AccountServiceConfiguration;
@@ -89,6 +93,11 @@ public class DomainAssembler implements Assembler
             OngoingWorkEntryEntityComposite.class,
             WorkEntryEntityComposite.class,
             CommentEntityComposite.class,
+            ReportEntityComposite.class,
+            ReportDetailEntityComposite.class,
+            ReportSummaryEntityComposite.class,
+            AccountReportEntityComposite.class,
+
 
             AccountServiceConfiguration.class,
             UserServiceConfiguration.class,

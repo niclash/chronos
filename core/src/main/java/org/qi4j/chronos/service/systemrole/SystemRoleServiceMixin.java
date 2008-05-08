@@ -42,11 +42,6 @@ public class SystemRoleServiceMixin implements SystemRoleService, Activatable
         validateNotNull( "systemRole", systemRole );
 
         config.configuration().systemRoles().add( systemRole );
-
-        if( systemRole.systemRoleType().get().equals( SystemRoleTypeEnum.STAFF ) )
-        {
-//            config.staffRoles().add( systemRole );
-        }
     }
 
     public void saveAll( Collection<SystemRole> systemRoles )
@@ -62,7 +57,10 @@ public class SystemRoleServiceMixin implements SystemRoleService, Activatable
 
         for( SystemRole role : config.configuration().systemRoles() )
         {
-            systemRoles.add( role );
+            if( role.systemRoleType().get().equals( SystemRoleTypeEnum.STAFF ) )
+            {
+                systemRoles.add( role );
+            }
         }
         return systemRoles;
     }

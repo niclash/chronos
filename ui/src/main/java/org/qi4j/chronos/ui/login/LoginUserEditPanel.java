@@ -16,10 +16,11 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.model.Model;
-import org.qi4j.chronos.model.Login;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.associations.HasLogin;
 import org.qi4j.chronos.ui.wicket.base.ChangePasswordPage;
+import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
 
 public abstract class LoginUserEditPanel extends LoginUserAbstractPanel
 {
@@ -54,7 +55,7 @@ public abstract class LoginUserEditPanel extends LoginUserAbstractPanel
                 {
                     private static final long serialVersionUID = 1L;
 
-                    public User getUser()
+                    public HasLogin getHasLogin()
                     {
                         return LoginUserEditPanel.this.getUser();
                     }
@@ -72,16 +73,9 @@ public abstract class LoginUserEditPanel extends LoginUserAbstractPanel
         return false;
     }
 
-    public void assignLoginToFieldValue( HasLogin hasLogin )
+    public void bindPropertyModel( IModel iModel )
     {
-        Login login = hasLogin.login().get();
-
-        loginIdLabel.setModel( new Model( login.name().get() ) );
-        loginEnabledCheckBox.setModel( new Model( login.isEnabled().get() ) );
-    }
-
-    public void assignFieldValueToLogin( HasLogin hasLogin )
-    {
-        hasLogin.login().get().isEnabled().set( Boolean.parseBoolean( loginEnabledCheckBox.getModelObjectAsString() ) );
+        loginIdLabel.setModel( new CustomCompositeModel( iModel, "name" ) );
+        loginEnabledCheckBox.setModel( new CustomCompositeModel( iModel, "isEnabled" ) );
     }
 }

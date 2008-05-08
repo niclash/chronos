@@ -18,6 +18,7 @@ import java.util.List;
 import java.util.Set;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Relationship;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.ContactPerson;
@@ -80,6 +81,11 @@ public abstract class RelationshipOptionPanel extends Panel
         add( newRelationshipLink );
     }
 
+    public void bindModel( IModel iModel )
+    {
+        relationshipChoice.setModel( iModel );
+    }
+
     private void addNewRelationship( Relationship relationshipComposite )
     {
         addedRelationshipList.add( relationshipComposite );
@@ -104,7 +110,10 @@ public abstract class RelationshipOptionPanel extends Panel
 //        List<Relationship> list = service.findAll( customer );
         for( ContactPerson contactPerson : customer.contactPersons() )
         {
-            relationshipSet.add( contactPerson.relationship().get().relationship().get() );
+            if( null != contactPerson.relationship().get() )
+            {
+                relationshipSet.add( contactPerson.relationship().get().relationship().get() );
+            }
         }
 /*
         for( Relationship relationship : list )

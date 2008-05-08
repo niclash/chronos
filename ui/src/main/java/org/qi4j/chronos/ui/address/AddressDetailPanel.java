@@ -15,6 +15,8 @@ package org.qi4j.chronos.ui.address;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
+import org.qi4j.chronos.ui.common.model.NameModel;
+import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
 
 public class AddressDetailPanel extends Panel
 {
@@ -35,14 +37,14 @@ public class AddressDetailPanel extends Panel
 
     private void initComponents( IModel address )
     {
-        address1Field = new TextField( "address1Field", new CompositeModel( address, "firstLine" ) );
-        address2Field = new TextField( "address2Field", new CompositeModel( address, "secondLine" ) );
-        zipcodeField = new TextField( "zipcodeField", new CompositeModel( address, "zipCode" ) );
+        address1Field = new TextField( "address1Field", new CustomCompositeModel( address, "firstLine" ) );
+        address2Field = new TextField( "address2Field", new CustomCompositeModel( address, "secondLine" ) );
+        zipcodeField = new TextField( "zipcodeField", new CustomCompositeModel( address, "zipCode" ) );
 
-        IModel city = new CompositeModel( address, "city" );
-        countryField = new TextField( "countryField", new NameModel( new CompositeModel( city, "country" ) ) );
+        IModel city = new CustomCompositeModel( address, "city" );
+        countryField = new TextField( "countryField", new NameModel( new CustomCompositeModel( city, "country" ) ) );
         cityField = new TextField( "cityField", new NameModel( city ) );
-        stateField = new TextField( "stateField", new NameModel( new CompositeModel( city, "state" ) ) );
+        stateField = new TextField( "stateField", new NameModel( new CustomCompositeModel( city, "state" ) ) );
 
         add( address1Field );
         add( address2Field );

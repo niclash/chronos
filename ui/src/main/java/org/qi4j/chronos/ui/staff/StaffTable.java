@@ -118,24 +118,26 @@ public abstract class StaffTable extends ActionTable<Staff, String>
         {
             public void linkClicked()
             {
-                setResponsePage( new StaffEditPage( (BasePage) this.getPage() )
-                {
-                    public Staff getStaff()
+                setResponsePage(
+                    new StaffEditPage( (BasePage) this.getPage(), staffId )
                     {
-                        for( Staff staff : getAccount().staffs() )
+                        public Staff getStaff()
                         {
-                            if( staffId.equals( staff.identity().get() ) )
+                            for( Staff staff : getAccount().staffs() )
                             {
-                                return staff;
+                                if( staffId.equals( staff.identity().get() ) )
+                                {
+                                    return staff;
+                                }
                             }
-                        }
 
-                        return null;
+                            return null;
 //                        return staff;
-                        // TODO migrate
+                            // TODO migrate
 //                        return getStaffService().get( staffId );
+                        }
                     }
-                } );
+                );
             }
         } );
     }

@@ -13,9 +13,12 @@
 package org.qi4j.chronos.ui.wicket.base;
 
 import java.util.Arrays;
+import java.util.List;
+import java.util.ArrayList;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.chronos.ui.SystemRoleResolver;
 import org.qi4j.chronos.ui.admin.AdminMainMenuBar;
@@ -23,6 +26,9 @@ import org.qi4j.chronos.ui.common.menu.MenuBar;
 import org.qi4j.chronos.ui.contactperson.ContactPersonMainMenuBar;
 import org.qi4j.chronos.ui.project.RecentProjectMenuBar;
 import org.qi4j.chronos.ui.staff.StaffMainMenuBar;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.entity.Identity;
 
 public abstract class LeftMenuNavPage extends TopMenuNavPage
 {
@@ -85,15 +91,5 @@ public abstract class LeftMenuNavPage extends TopMenuNavPage
                 return LeftMenuNavPage.this.getAccount();
             }
         };
-    }
-
-    protected ChronosSession getChronosSession()
-    {
-        return ChronosSession.get();
-    }
-
-    protected Account getAccount()
-    {
-        return getChronosSession().getAccount();
     }
 }

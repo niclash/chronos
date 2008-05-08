@@ -10,12 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.address;
+package org.qi4j.chronos.ui.common.model;
 
 import org.apache.wicket.model.IModel;
-import java.io.Serializable;
 
-public class CompositeModel implements IModel
+public class CustomCompositeModel implements IModel
 {
     private IModel iModel;
     private String propertyName;
@@ -23,7 +22,7 @@ public class CompositeModel implements IModel
     private static final String SET = "set";
 
 
-    public CompositeModel( IModel iModel, String propertyName )
+    public CustomCompositeModel( IModel iModel, String propertyName )
     {
         this.iModel = iModel;
         this.propertyName = propertyName;

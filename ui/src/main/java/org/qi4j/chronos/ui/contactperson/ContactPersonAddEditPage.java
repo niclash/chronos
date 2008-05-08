@@ -18,22 +18,22 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.wicket.Page;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.composites.ContactEntityComposite;
 import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.relationship.RelationshipOptionPanel;
 import org.qi4j.chronos.ui.user.UserAddEditPanel;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
-import org.qi4j.entity.association.SetAssociation;
 import org.qi4j.library.general.model.Contact;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
@@ -50,8 +50,7 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
 
     private ListView contactListView;
 
-    //TODO remove static
-    private static List<Contact> contactList;
+    private List<Contact> contactList;
 
     public ContactPersonAddEditPage( Page goBackPage )
     {
@@ -176,10 +175,18 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
         contactListView.setList( Arrays.asList( new Integer[ contactList.size() ] ) );
     }
 
+    protected void bindPropertyModel( IModel iModel )
+    {
+        userAddEditPanel.bindPropertyModel( iModel );
+        IModel relationshipModel = new CustomCompositeModel( iModel, "relationship" );
+        relationshipOptionPanel.bindModel( new CustomCompositeModel( relationshipModel, "relationship" ) );
+    }
+
+/*
+    TODO kamil: clean/remove this later 
     protected void assignContactPersonToFieldValue( ContactPerson contactPerson )
     {
         userAddEditPanel.assignUserToFieldValue( contactPerson );
-
         relationshipOptionPanel.setSelectedRelationship( contactPerson.relationship().get() );
     }
 
@@ -191,6 +198,7 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
         SetAssociation<Contact> contacts = contactPerson.contacts();
         contacts.addAll( contactList );
     }
+*/
 
     public Iterator<SystemRole> getInitSelectedRoleList()
     {

@@ -13,98 +13,123 @@
 package org.qi4j.chronos.ui.contactperson;
 
 import java.util.Iterator;
-import java.util.ArrayList;
+import java.util.Collections;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.ContactPerson;
-import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.login.LoginUserEditPanel;
 import org.qi4j.library.general.model.Contact;
+import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.qi4j.composite.scope.Uses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.apache.wicket.Page;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.Model;
 
 public abstract class ContactPersonEditPage extends ContactPersonAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( ContactPersonEditPage.class );
 
-    private LoginUserEditPanel loginUserEditPanel;
+//    private LoginUserEditPanel loginUserEditPanel;
+    private static final String SUBMIT_BUTTON = "editPageSubmitButton";
+    private static final String TITLE_LABEL = "editPageTitleLabel";
+    private static final String UPDATE_SUCCESS = "updateSuccessful";
+    private static final String UPDATE_FAIL = "updateFailed";
 
-    public ContactPersonEditPage( Page basePage )
+    public ContactPersonEditPage( @Uses Page basePage, final @Uses String contactPersonId )
     {
         super( basePage );
 
-        initData();
-    }
-
-    private void initData()
-    {
-        ContactPerson contactPerson = getContactPerson();
-
-        assignContactPersonToFieldValue( contactPerson );
-    }
-
-    public Iterator<SystemRole> getInitSelectedRoleList()
-    {
-        return getContactPerson().systemRoles().iterator();
+        setModel(
+            new CompoundPropertyModel(
+                new LoadableDetachableModel()
+                {
+                    public Object load()
+                    {
+                        return getUnitOfWork().find( contactPersonId, ContactPersonEntityComposite.class );
+                    }
+                }
+            )
+        );
+        bindPropertyModel( getModel() );
     }
 
     public void onSubmitting()
     {
-        ContactPerson contactPerson = getContactPerson();
-
-        //bp. ContactPerson has and only has one system role which is SystemRole.CONTACT_PERSON
-        //hence, we don't need to remove all system role.
-        assignFieldValueToContactPerson( contactPerson );
-
         try
         {
-// TODO replace with service           
-//            ChronosWebApp.getServices().getContactPersonService().update( contactPerson );
+            getUnitOfWork().complete();
+            logInfoMsg( getString( UPDATE_SUCCESS ) );
 
-            logInfoMsg( "Contact Person is updated successfully." );
+            super.divertToGoBackPage();
+        }
+        catch( UnitOfWorkCompletionException uowce )
+        {
+            reset();
 
-            divertToGoBackPage();
+            logErrorMsg( getString( UPDATE_FAIL, new Model( uowce ) ) );
+            LOGGER.error( uowce.getLocalizedMessage(), uowce );
         }
         catch( Exception err )
         {
-            logErrorMsg( err.getMessage() );
-            LOGGER.error( err.getMessage() );
+            logErrorMsg( getString( UPDATE_FAIL, new Model( err ) ) );
+            LOGGER.error( err.getLocalizedMessage(), err );
         }
+    }
+
+    @Override protected void divertToGoBackPage()
+    {
+        reset();
+
+        super.divertToGoBackPage();
     }
 
     public LoginUserAbstractPanel getLoginUserAbstractPanel( String id )
     {
-        if( loginUserEditPanel == null )
-        {
-            loginUserEditPanel = new LoginUserEditPanel( id )
+//        if( loginUserEditPanel == null )
+//        {
+//            loginUserEditPanel = new LoginUserEditPanel( id )
+            return new LoginUserEditPanel( id )
             {
                 public User getUser()
                 {
                     return ContactPersonEditPage.this.getContactPerson();
                 }
             };
-        }
+//        }
 
-        return loginUserEditPanel;
+//        return loginUserEditPanel;
     }
 
     public String getSubmitButtonValue()
     {
-        return "Save";
+        return getString( SUBMIT_BUTTON );
     }
 
     public String getTitleLabel()
     {
-        return "Edit Contact Person";
+        return getString( TITLE_LABEL );
     }
 
     public Iterator<Contact> getInitContactIterator()
     {
         // TODO migrate
 //        return ChronosWebApp.getServices().getContactService().findAll( getContactPerson() ).iterator();
-        return getContactPerson().contacts().iterator();
+        if( null == getContactPerson() )
+        {
+            return Collections.EMPTY_LIST.iterator();
+        }
+        else
+        {
+            return getContactPerson().contacts().iterator();
+        }
     }
 
-    public abstract ContactPerson getContactPerson();
+    public ContactPerson getContactPerson()
+    {
+        return (ContactPerson) getModelObject();
+    }
 }

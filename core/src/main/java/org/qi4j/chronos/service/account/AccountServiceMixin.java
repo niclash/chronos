@@ -179,6 +179,22 @@ public class AccountServiceMixin implements AccountService, Activatable, Seriali
         return findAccountByName( accountName ) == null;
     }
 
+    public boolean isUnique( Account account )
+    {
+        validateNotNull( "account", account );
+
+        for( Account anAccount : config.configuration().accounts() )
+        {
+            if( anAccount.name().get().equals( account.name().get() ) &&
+                !anAccount.equals( account ) )
+            {
+                return false;
+            }
+        }
+
+        return true;
+    }
+
     public int count()
     {
         return config.configuration().accounts().size();

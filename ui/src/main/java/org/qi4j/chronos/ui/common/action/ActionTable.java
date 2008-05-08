@@ -32,7 +32,11 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkFactory;
 
 //TODO bp. tidy up, code is not readable.
 public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
@@ -73,6 +77,27 @@ public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
     public ActionTable( String id, ActionBar actionBar )
     {
         super( id );
+
+        this.actionBar = actionBar;
+
+        this.actionBar.setActionTable( this );
+
+        selectedIds = new HashSet<ID>();
+
+        currBatchIds = new ArrayList<ID>();
+        currBatchCheckBoxs = new ArrayList<CheckBox>();
+
+        initComponents();
+    }
+
+    public ActionTable( String id, IModel iModel )
+    {
+        this( id, new ActionBar(), iModel );
+    }
+
+    public ActionTable( String id, ActionBar actionBar, IModel iModel )
+    {
+        super( id, iModel );
 
         this.actionBar = actionBar;
 
@@ -516,6 +541,20 @@ public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
         else
         {
             return getDetachableDataProvider();
+        }
+    }
+
+    protected UnitOfWork getUnitOfWork()
+    {
+        UnitOfWorkFactory factory = ChronosSession.get().getUnitOfWorkFactory();
+
+        if( null == factory.currentUnitOfWork() || !factory.currentUnitOfWork().isOpen() )
+        {
+            return factory.newUnitOfWork();
+        }
+        else
+        {
+            return factory.currentUnitOfWork();
         }
     }
 

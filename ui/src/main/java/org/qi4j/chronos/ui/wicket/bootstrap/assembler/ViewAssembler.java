@@ -30,6 +30,8 @@ import org.qi4j.chronos.ui.account.AccountEditPage;
 import org.qi4j.chronos.ui.account.AccountDataProvider;
 import org.qi4j.chronos.ui.project.ProjectListPage;
 import org.qi4j.chronos.ui.project.ProjectAddPage;
+import org.qi4j.chronos.ui.report.ReportMainPage;
+import org.qi4j.chronos.ui.report.DomainObjectModel;
 import org.qi4j.structure.Visibility;
 
 public class ViewAssembler implements Assembler
@@ -51,7 +53,10 @@ public class ViewAssembler implements Assembler
             StaffListPage.class,
             ProjectRoleListPage.class,
             ProjectListPage.class,
-            ProjectAddPage.class
+            ProjectAddPage.class,
+            ReportMainPage.class,
+
+            DomainObjectModel.class
         ).visibleIn( Visibility.application );
     }
 }

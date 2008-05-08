@@ -15,27 +15,30 @@ package org.qi4j.chronos.ui.project;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.Component;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.Item;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.Project;
-import org.qi4j.chronos.model.ProjectStatusEnum;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.service.ProjectService;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleAction;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.entity.Identity;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkFactory;
 
-public abstract class ProjectTable extends ActionTable<Project, String>
+public abstract class ProjectTable extends ActionTable<IModel, String>
 {
-    private ProjectDataProvider provider;
+    private AbstractSortableDataProvider<IModel, String> provider;
 
     public ProjectTable( String id )
     {
@@ -96,18 +99,36 @@ public abstract class ProjectTable extends ActionTable<Project, String>
         } );
     }
 
-    public AbstractSortableDataProvider<Project, String> getDetachableDataProvider()
+    public AbstractSortableDataProvider<IModel, String> getDetachableDataProvider()
     {
         if( provider == null )
         {
-            provider = new ProjectDataProvider()
+            provider = new AbstractSortableDataProvider<IModel, String>()
             {
                 public int getSize()
                 {
                     return ProjectTable.this.getSize();
                 }
 
-                public List<Project> dataList( int first, int count )
+                public String getId( IModel t )
+                {
+                    return ( (Identity) t.getObject()).identity().get();
+                }
+
+                public IModel load( final String s )
+                {
+                    return new CompoundPropertyModel(
+                        new LoadableDetachableModel()
+                        {
+                            public Object load()
+                            {
+                                return getUnitOfWork().find( s, ProjectEntityComposite.class );
+                            }
+                        }
+                    );
+                }
+
+                public List<IModel> dataList( int first, int count )
                 {
                     return ProjectTable.this.dataList( first, count );
                 }
@@ -117,17 +138,16 @@ public abstract class ProjectTable extends ActionTable<Project, String>
         return provider;
     }
 
-    public void populateItems( Item item, Project obj )
+    public void populateItems( Item item, IModel iModel )
     {
-        final String projectId = ( (Identity) obj).identity().get();
+        Project project = (Project) iModel.getObject();
+        final String projectId = ( (Identity) project).identity().get();
 
-        item.add( createDetailLink( "name", obj.name().get(), projectId ) );
-        item.add( createDetailLink( "formalReference", obj.reference().get(), projectId ) );
-
-        item.add( new Label( "status", obj.projectStatus().get().toString() ) );
+        item.add( createDetailLink( "name", project.name().get(), projectId ) );
+        item.add( createDetailLink( "formalReference", project.reference().get(), projectId ) );
+        item.add( new Label( "status", project.projectStatus().get().toString() ) );
 
         SimpleLink editLink = createEditLink( projectId );
-
         item.add( editLink );
     }
 
@@ -137,7 +157,18 @@ public abstract class ProjectTable extends ActionTable<Project, String>
         {
             public void linkClicked()
             {
-                ProjectEditPage editPage = new ProjectEditPage( (BasePage) this.getPage() )
+                IModel iModel = new CompoundPropertyModel(
+                    new LoadableDetachableModel()
+                    {
+                        public Object load()
+                        {
+                            return getUnitOfWork().find( projectId, ProjectEntityComposite.class );
+                        }
+                    }
+                );
+                ProjectEditPage editPage =
+                    new ProjectEditPage( (BasePage) this.getPage(), iModel );
+/*
                 {
                     public org.qi4j.chronos.model.Project getProject()
                     {
@@ -154,6 +185,7 @@ public abstract class ProjectTable extends ActionTable<Project, String>
 //                        return getProjectService().get( projectId );
                     }
                 };
+*/
 
                 setResponsePage( editPage );
             }
@@ -194,19 +226,26 @@ public abstract class ProjectTable extends ActionTable<Project, String>
         };
     }
 
-/*
-    private ProjectService getProjectService()
-    {
-        return ChronosWebApp.getServices().getProjectService();
-    }
-*/
-
     public List<String> getTableHeaderList()
     {
         return Arrays.asList( "Name", "Formal Reference", "ActivationStatus", "" );
     }
 
+    protected UnitOfWork getUnitOfWork()
+    {
+        UnitOfWorkFactory factory = ChronosSession.get().getUnitOfWorkFactory();
+
+        if( null == factory.currentUnitOfWork() || !factory.currentUnitOfWork().isOpen() )
+        {
+            return factory.newUnitOfWork();
+        }
+        else
+        {
+            return factory.currentUnitOfWork();
+        }
+    }
+
     public abstract int getSize();
 
-    public abstract List<Project> dataList( int first, int count );
+    public abstract List<IModel> dataList( int first, int count );
 }

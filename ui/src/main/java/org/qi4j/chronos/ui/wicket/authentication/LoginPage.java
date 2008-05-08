@@ -16,7 +16,6 @@ import java.io.Serializable;
 import java.util.List;
 import java.util.ArrayList;
 import org.apache.wicket.Application;
-import org.apache.wicket.Localizer;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
@@ -68,7 +67,7 @@ public class LoginPage extends BasePage
         private static final String PASSWORD_BINDING = WICKET_ID_PASSWORD;
 
         private static final String SIGN_IN_FAILED = "signInFailed";
-        private static final String SIGN_IN_FAILED_DEFAULT_MESG = "Sign in failed";
+//        private static final String SIGN_IN_FAILED_DEFAULT_MESG = "Sign in failed";
 
         private LoginForm( String aWicketId, LoginModel aLoginModel, AccountService anAccountService )
         {
@@ -80,13 +79,13 @@ public class LoginPage extends BasePage
             CompoundPropertyModel compoundPropertyModel = new CompoundPropertyModel( aLoginModel );
             setModel( compoundPropertyModel );
 
+            UnitOfWork unitOfWork = getUnitOfWork();
             // Select account
             List<Account> availableAccounts = new ArrayList <Account>();
             for( Account account : anAccountService.findAvailableAccounts() )
             {
-                availableAccounts.add( getUnitOfWork().getReference( ( (Identity) account).identity().get(), AccountEntityComposite.class ) );
+                availableAccounts.add( unitOfWork.getReference( ( (Identity) account).identity().get(), AccountEntityComposite.class ) );
             }
-//            List<Account> availableAccounts = anAccountService.findAvailableAccounts();
             NameChoiceRenderer renderer = new NameChoiceRenderer();
             accountDropDownChoice = new DropDownChoice( WICKET_ID_ACCOUNT_DROP_DOWN_CHOICE, availableAccounts, renderer );
             add( accountDropDownChoice );
@@ -126,8 +125,7 @@ public class LoginPage extends BasePage
             }
             else
             {
-                Localizer localizer = getLocalizer();
-                error( localizer.getString( SIGN_IN_FAILED, this, SIGN_IN_FAILED_DEFAULT_MESG ) );
+                error( getString( SIGN_IN_FAILED ) );
             }
         }
 

@@ -13,60 +13,78 @@
 package org.qi4j.chronos.ui.customer;
 
 import org.apache.wicket.Page;
-import org.qi4j.chronos.service.CustomerService;
-import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.model.Customer;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
+import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.qi4j.composite.scope.Uses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class CustomerEditPage extends CustomerAddEditPage
+public class CustomerEditPage extends CustomerAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( CustomerEditPage.class );
+    private static final String UPDATE_FAIL = "updateFailed";
+    private static final String UPDATE_SUCCESS = "updateSuccessful";
+    private static final String SUBMIT_BUTTON = "editPageSubmitButton";
+    private static final String TITLE_LABEL = "editPageTitleLabel";
 
-    public CustomerEditPage( Page basePage )
+    public CustomerEditPage( @Uses Page basePage, final @Uses String customerId )
     {
         super( basePage );
 
-        initData();
-    }
-
-    private void initData()
-    {
-        assignCustomerToFieldValue( getCustomer() );
+        setModel(
+            new CompoundPropertyModel(
+                new LoadableDetachableModel()
+                {
+                    public Object load()
+                    {
+                        return getUnitOfWork().find( customerId, CustomerEntityComposite.class );
+                    }
+                }
+            )
+        );
+        bindPropertyModel( getModel() );
     }
 
     public void onSubmitting()
     {
         try
         {
-            // TODO kamil
-//            CustomerService service = ChronosWebApp.getServices().getCustomerService();
-
-            Customer customer = getCustomer();
-
-            // TODO migrate
-//            service.update( customer );
-
-            logInfoMsg( "Customer is updated successfully." );
+            getUnitOfWork().complete();
+            info( getString( UPDATE_SUCCESS ) );
 
             divertToGoBackPage();
         }
-        catch( Exception err )
+        catch( UnitOfWorkCompletionException uowce )
         {
-            logErrorMsg( err.getMessage() );
+            error( getString( UPDATE_FAIL, new Model( uowce ) ) );
+            LOGGER.error( uowce.getLocalizedMessage(), uowce );
+
+            reset();
+        }
+        catch( Exception err)
+        {
+            error( getString( UPDATE_FAIL, new Model( err ) ) );
             LOGGER.error( err.getMessage(), err );
         }
     }
 
+    @Override protected void divertToGoBackPage()
+    {
+        reset();
+
+        super.divertToGoBackPage();
+    }
+
     public String getSubmitButtonValue()
     {
-        return "Save";
+        return getString( SUBMIT_BUTTON );
     }
 
     public String getTitleLabel()
     {
-        return "Edit Customer";
+        return getString( TITLE_LABEL );
     }
-
-    public abstract Customer getCustomer();
 }

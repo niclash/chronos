@@ -13,14 +13,14 @@
 package org.qi4j.chronos.ui.account;
 
 import org.apache.wicket.Page;
+import org.apache.wicket.Localizer;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 import org.qi4j.library.framework.validation.ValidationException;
 import org.qi4j.composite.scope.Uses;
-import org.qi4j.composite.scope.Structure;
-import org.qi4j.composite.scope.Service;
-import org.qi4j.entity.UnitOfWorkFactory;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
-import org.qi4j.chronos.service.account.AccountService;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.Address;
 import org.qi4j.chronos.model.City;
@@ -31,87 +31,98 @@ import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.model.composites.StateEntityComposite;
 import org.qi4j.chronos.model.composites.CityEntityComposite;
 import org.qi4j.chronos.model.composites.CountryEntityComposite;
-import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
-
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import static org.qi4j.composite.NullArgumentException.validateNotNull;
+
 
 public class AccountAddPage extends AccountAddEditPage
 {
-    transient private UnitOfWorkFactory factory;
+    private static final Logger LOGGER = LoggerFactory.getLogger( AccountAddPage.class );
+    private static final String ADD_SUCCESS = "addSuccessful";
+    private static final String ADD_FAIL = "addFailed";
+    private static final String SUBMIT_BUTTON = "addPageSubmitButton";
+    private static final String TITLE_LABEL = "addPageTitleLabel";
 
-    public AccountAddPage( @Uses Page goBackPage, final @Structure UnitOfWorkFactory factory )
+    public AccountAddPage( @Uses Page goBackPage )
     {
         super( goBackPage );
 
         validateNotNull( "goBackPage", goBackPage );
-        validateNotNull( "factory", factory );
 
-        this.factory = factory;
+        bindModel();
+    }
+
+    private void bindModel()
+    {
+        setModel(
+            new CompoundPropertyModel(
+                new LoadableDetachableModel()
+                {
+                    public Object load()
+                    {
+                        final UnitOfWork unitOfWork = getUnitOfWork();
+                        final Account account = unitOfWork.newEntityBuilder( AccountEntityComposite.class ).newInstance();
+                        final Address address = unitOfWork.newEntityBuilder( AddressEntityComposite.class ).newInstance();
+                        final City city = unitOfWork.newEntityBuilder( CityEntityComposite.class ).newInstance();
+                        final State state = unitOfWork.newEntityBuilder( StateEntityComposite.class ).newInstance();
+                        final Country country = unitOfWork.newEntityBuilder( CountryEntityComposite.class ).newInstance();
+
+                        city.state().set( state );
+                        city.country().set( country );
+                        address.city().set( city );
+
+                        account.address().set( address );
+                        account.isEnabled().set( true );
+
+                        return account;
+                    }
+                }
+            )
+        );
+
+        bindPropertyModel( getModel() );
     }
 
     public void onSubmitting()
     {
-        if( !getAccountService().isUnique( nameField.getText() ) )
-        {
-            logErrorMsg( "Account name " + nameField.getText() + " is not unique!!!" );
-
-            return;
-        }
-
-        final UnitOfWork unitOfWork = factory.newUnitOfWork();
         try
         {
-
-            Account account = unitOfWork.newEntityBuilder( AccountEntityComposite.class ).newInstance();
-            Address address = unitOfWork.newEntityBuilder( AddressEntityComposite.class ).newInstance();
-            City city = unitOfWork.newEntityBuilder( CityEntityComposite.class ).newInstance();
-            State state = unitOfWork.newEntityBuilder( StateEntityComposite.class ).newInstance();
-            Country country = unitOfWork.newEntityBuilder( CountryEntityComposite.class ).newInstance();
-
-            city.state().set( state );
-            city.country().set( country );
-            address.city().set( city );
-
-            account.address().set( address );
-            account.isEnabled().set( true );
-
-            assignFieldValueToAccount( account );
-
+            final Account account = (Account) getModelObject();
             getAccountService().add( account );
+            getUnitOfWork().complete();
+            logInfoMsg( getString( ADD_SUCCESS ) );
 
-            unitOfWork.complete();
-
-            logInfoMsg( "Account is added successfully." );
-
-            divertToGoBackPage();
+            super.divertToGoBackPage();
         }
         catch( UnitOfWorkCompletionException uowce )
         {
-            logErrorMsg( "Unable to save account!!!. " + uowce.getClass().getSimpleName() );
+            logErrorMsg( getString( ADD_FAIL, new Model( uowce ) ) );
+            LOGGER.error( uowce.getLocalizedMessage() );
 
-            if( null != unitOfWork && unitOfWork.isOpen() )
-            {
-                unitOfWork.discard();
-            }
+            reset();
         }
         catch( ValidationException validationErr )
         {
-            logErrorMsg( validationErr.getMessages() );
+            logErrorMsg( getString( ADD_FAIL, new Model( validationErr ) ) );
+            LOGGER.error( validationErr.getMessage(), validationErr );
         }
-    }
-
-    protected AccountService getAccountService()
-    {
-        return ChronosSession.get().getAccountService();
     }
 
     public String getSubmitButtonValue()
     {
-        return "Add";
+        return getString( SUBMIT_BUTTON );
     }
 
     public String getTitleLabel()
     {
-        return "New Account";
+        return getString( TITLE_LABEL );
+    }
+
+    @Override protected void divertToGoBackPage()
+    {
+        reset();
+
+        super.divertToGoBackPage();
     }
 }

@@ -1,0 +1,63 @@
+<html xmlns:wicket>
+
+<wicket:extend>
+
+    <table>
+        <tr>
+            <td align="left" valign="middle">
+                <table>
+                    <tr>
+                        <td width="50%"><strong>Report Main Page</strong></td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+
+        <tr>
+            <td width="100%"><span wicket:id="feedbackPanel">feedback messages</span>&nbsp;</td>
+        </tr>
+
+        <tr>
+            <td width="100%">
+                <form wicket:id="reportForm">
+                    <table>
+                        <tr>
+                            <td align="right">Projects</td>
+                            <td>
+                                <select wicket:id="projectDropDownChoice"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">Start Time</td>
+                            <td>
+                                <span wicket:id="startTimeDateField"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td align="right">End Time</td>
+                            <td>
+                                <span wicket:id="endTimeDateField"/>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td></td>
+                            <td>
+                                <input type="submit" name="submit" value="Report"/>
+                                <input type="reset" value="Reset"/>
+                            </td>
+                        </tr>
+
+
+                        <tr>
+                            <td width="100%" colspan="2"><span wicket:id="historyPanel">
+                                [ report history panel will be here ]</span>&nbsp;</td>
+                        </tr>
+                    </table>
+                </form>
+            </td>
+        </tr>
+
+    </table>
+</wicket:extend>
+
+</html>

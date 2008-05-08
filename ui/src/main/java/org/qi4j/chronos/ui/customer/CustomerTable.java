@@ -12,22 +12,43 @@
  */
 package org.qi4j.chronos.ui.customer;
 
-import java.util.Arrays;
 import java.util.List;
+import java.util.ArrayList;
+import java.util.Collections;
 import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.Customer;
-import org.qi4j.chronos.service.CustomerService;
-import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
+import org.qi4j.chronos.ui.common.SimpleCheckBox;
 import org.qi4j.chronos.ui.common.action.ActionTable;
-import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
+import org.qi4j.chronos.ui.common.action.SimpleAction;
 import org.qi4j.entity.Identity;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public abstract class CustomerTable extends ActionTable<Customer, String>
+public abstract class CustomerTable extends ActionTable<IModel, String>
 {
-    private CustomerDataProvider provider;
+    private final static Logger LOGGER = LoggerFactory.getLogger( CustomerTable.class );
+    private AbstractSortableDataProvider<IModel, String> provider;
+    private static final String DISABLE_ACTION = "disableAction";
+    private static final String DISABLE_SUCCESS = "disableSuccessful";
+    private static final String DISABLE_FAIL = "disableFailed";
+    private static final String ENABLE_ACTION = "enableAction";
+    private static final String ENABLE_SUCCESS = "enableSuccessful";
+    private static final String ENABLE_FAIL = "enableFailed";
+    private static final String EDIT_LINK = "editLink";
+    private static final String HEADER_NAME = "name";
+    private static final String HEADER_REFERENCE = "formalReference";
+    private static final String HEADER_ENABLED = "enabled";
+    private static final String HEADER_LAST = "last";
 
     public CustomerTable( String id )
     {
@@ -38,26 +59,97 @@ public abstract class CustomerTable extends ActionTable<Customer, String>
 
     private void addActions()
     {
-        addAction( new SimpleDeleteAction<Customer>( "Delete" )
-        {
-            public void performAction( List<Customer> customers )
+        addAction(
+            new SimpleAction<IModel>( getString( DISABLE_ACTION ) )
             {
-                getCustomerService().delete( customers );
-
-                info( "Selected customer(s) are deleted." );
+                public void performAction( List<IModel> customers )
+                {
+                    handleEnableAction( customers, false );
+                    info( getString( DISABLE_SUCCESS ) );
+                }
             }
-        } );
+        );
+
+        addAction(
+            new SimpleAction<IModel>( getString( ENABLE_ACTION ) )
+            {
+                public void performAction( List<IModel> customers )
+                {
+                    handleEnableAction( customers, true );
+                    info( getString( ENABLE_SUCCESS ) );
+                }
+            }
+        );
     }
 
-    public AbstractSortableDataProvider<Customer, String> getDetachableDataProvider()
+    private void handleEnableAction( List<IModel> customers, boolean enable )
+    {
+        UnitOfWork unitOfWork = getUnitOfWork();
+        for( IModel iModel : customers )
+        {
+            Customer customer = (Customer) iModel.getObject();
+            customer.isEnabled().set( enable );
+        }
+
+        try
+        {
+            unitOfWork.complete();
+        }
+        catch( UnitOfWorkCompletionException uowce )
+        {
+            LOGGER.error( uowce.getLocalizedMessage(), uowce );
+            error( getString( enable ? ENABLE_FAIL : DISABLE_FAIL ) );
+        }
+    }
+
+    public AbstractSortableDataProvider<IModel, String> getDetachableDataProvider()
     {
         if( provider == null )
         {
-            provider = new CustomerDataProvider()
+            provider = new AbstractSortableDataProvider<IModel, String>()
             {
-                public Account getAccount()
+                public int getSize()
                 {
-                    return CustomerTable.this.getAccount();
+                    return CustomerTable.this.getAccount().customers().size();
+                }
+
+                public String getId( IModel t )
+                {
+                    return ( (Identity) t.getObject() ).identity().get();
+                }
+
+                public IModel load( final String s )
+                {
+                    return new CompoundPropertyModel(
+                        new LoadableDetachableModel()
+                        {
+                            public Object load()
+                            {
+                                return getUnitOfWork().find( s, CustomerEntityComposite.class );
+                            }
+                        }
+                    );
+                }
+
+                public List<IModel> dataList( int first, int count )
+                {
+                    List<IModel> iModels = new ArrayList<IModel>();
+                    for( final String customerId : CustomerTable.this.dataList( first, count ) )
+                    {
+                        iModels.add(
+                            new CompoundPropertyModel(
+                                new LoadableDetachableModel()
+                                {
+                                    public Object load()
+                                    {
+                                        return getUnitOfWork().find( customerId, CustomerEntityComposite.class );
+                                    }
+                                }
+                            )
+                        );
+                    }
+
+                    return iModels;
                 }
             };
         }
@@ -67,75 +159,80 @@ public abstract class CustomerTable extends ActionTable<Customer, String>
 
     public abstract Account getAccount();
 
-    public void populateItems( Item item, Customer obj )
+    public void populateItems( Item item, IModel iModel )
     {
-        final String customerId = ( (Identity) obj).identity().get();
+        Customer customer = (Customer) iModel.getObject();
+        final String customerId = ( (Identity) customer).identity().get();
 
-        item.add( createDetailLink( "name", obj.name().get(), customerId ) );
-        item.add( createDetailLink( "formalReference", obj.reference().get(), customerId ) );
-        item.add( new SimpleLink( "editLink", "Edit" )
-        {
-            public void linkClicked()
+        item.add(
+            createDetailLink( HEADER_NAME, customer.name().get(), customer.isEnabled().get(), customerId )
+        );
+        item.add(
+            createDetailLink( HEADER_REFERENCE, customer.reference().get(), customer.isEnabled().get(), customerId )
+        );
+        item.add(
+            new SimpleCheckBox( HEADER_ENABLED, customer.isEnabled().get(), true )
+        );
+        item.add(
+            new SimpleLink( EDIT_LINK, getString( EDIT_LINK ) )
             {
-                CustomerEditPage editPage = new CustomerEditPage( this.getPage() )
+                public void linkClicked()
                 {
-                    public Customer getCustomer()
-                    {
-                        for( Customer customer : getAccount().customers() )
-                        {
-                            if( customerId.equals( ( (Identity) customer ).identity().get() ) )
-                            {
-                                return customer;
-                            }
-                        }
+                    CustomerEditPage editPage = new CustomerEditPage( this.getPage(), customerId );
 
-                        return null;
-                        // TODO kamil
-//                        return getCustomerService().get( customerId );
-                    }
-                };
-
-                setResponsePage( editPage );
+                    setResponsePage( editPage );
+                }
             }
-        } );
+        );
     }
 
-    private SimpleLink createDetailLink( String id, String displayValue, final String customerId )
+    private SimpleLink createDetailLink( final String id,
+                                         final String displayValue, final boolean enable, final String customerId )
     {
         return new SimpleLink( id, displayValue )
         {
             public void linkClicked()
             {
-                CustomerDetailPage detailPage = new CustomerDetailPage( this.getPage() )
-                {
-                    public Customer getCustomer()
-                    {
-                        for( Customer customer : getAccount().customers() )
-                        {
-                            if( customerId.equals( ( (Identity) customer ).identity().get() ) )
-                            {
-                                return customer;
-                            }
-                        }
-
-                        return null;
-                        // TODO kamil
-//                        return getCustomerService().get( customerId );
-                    }
-                };
-
+                CustomerDetailPage detailPage = new CustomerDetailPage( this.getPage(), customerId );
                 setResponsePage( detailPage );
+            }
+
+            protected void authorizingLink( Link link )
+            {
+                link.setEnabled( enable );
             }
         };
     }
 
-    private CustomerService getCustomerService()
-    {
-        return ChronosWebApp.getServices().getCustomerService();
-    }
-
     public List<String> getTableHeaderList()
     {
-        return Arrays.asList( "Name", "Formal Reference", "" );
+        return getTableHeaderList(
+            HEADER_NAME,
+            HEADER_REFERENCE,
+            HEADER_ENABLED,
+            HEADER_LAST
+        );
+    }
+
+    public List<String> getTableHeaderList( String...headers )
+    {
+        List<String> result = new ArrayList<String>();
+        for( String header : headers )
+        {
+            result.add( getString( "tableHeader." + header ) );
+        }
+
+        return Collections.unmodifiableList( result );
+    }
+
+    protected List<String> dataList( int first, int count )
+    {
+        List<String> customerIdList = new ArrayList<String>();
+        for( Customer customer : getAccount().customers() )
+        {
+            customerIdList.add( ( (Identity) customer).identity().get() );
+        }
+
+        return customerIdList.subList( first, first + count );
     }
 }

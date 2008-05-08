@@ -16,10 +16,13 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.associations.HasLogin;
 import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.wicket.authentication.LoginPage;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkFactory;
 
 public abstract class TopMenuNavPage extends BasePage
 {
@@ -56,9 +59,7 @@ public abstract class TopMenuNavPage extends BasePage
 
     private String getAccountName()
     {
-        ChronosSession chronosSession = ChronosSession.get();
-
-        Account account = chronosSession.getAccount();
+        Account account = getAccount();
 
         return account == null ? null : account.name().get();
     }
@@ -67,7 +68,7 @@ public abstract class TopMenuNavPage extends BasePage
     {
         setResponsePage( new ChangePasswordPage( this )
         {
-            public User getUser()
+            public HasLogin getHasLogin()
             {
                 return TopMenuNavPage.this.getUser();
             }
@@ -76,13 +77,55 @@ public abstract class TopMenuNavPage extends BasePage
 
     private User getUser()
     {
-        ChronosSession session = ChronosSession.get();
-
-        return session.getUser();
+        return null == getChronosSession().getUser() ?
+               null : getUnitOfWork().dereference( getChronosSession().getUser() );
     }
 
     public Services getServices()
     {
         return ChronosWebApp.getServices();
+    }
+
+    protected ChronosSession getChronosSession()
+    {
+        return ChronosSession.get();
+    }
+
+    /**
+     * Query the unit of work factory for existing or new unit of work.
+     * TODO kamil: consider retrieving the factory from ChronosWebApp instead of session.
+     * @return
+     */
+    protected UnitOfWork getUnitOfWork()
+    {
+        UnitOfWorkFactory factory = ChronosSession.get().getUnitOfWorkFactory();
+
+        if( null == factory.currentUnitOfWork() || !factory.currentUnitOfWork().isOpen() )
+        {
+            return factory.newUnitOfWork();
+        }
+        else
+        {
+            return factory.currentUnitOfWork();
+        }
+    }
+
+    /**
+     * Reset opened unit of work.
+     */
+    protected void reset()
+    {
+        UnitOfWork unitOfWork = getUnitOfWork();
+
+        if( unitOfWork.isOpen() )
+        {
+            unitOfWork.reset();
+        }
+    }
+
+    protected Account getAccount()
+    {
+        return null == getChronosSession().getAccount() ?
+               null : getUnitOfWork().dereference( getChronosSession().getAccount() );
     }
 }

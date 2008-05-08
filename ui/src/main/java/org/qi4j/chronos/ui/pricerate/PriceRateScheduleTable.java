@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.PriceRate;
 import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
@@ -32,9 +33,10 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
 {
     private PriceRateScheduleDataProvider<T> dataProvider;
 
-    public PriceRateScheduleTable( String id )
+    public PriceRateScheduleTable( String id, IModel iModel )
     {
-        super( id );
+        super( id, iModel );
+        setModel( iModel );
 
         addActions();
     }
@@ -52,13 +54,6 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
             }
         } );
     }
-
-/*
-    private PriceRateScheduleService getPriceRateScheduleService()
-    {
-        return ChronosWebApp.getServices().getPriceRateScheduleService();
-    }
-*/
 
     public AbstractSortableDataProvider<PriceRateSchedule, String> getDetachableDataProvider()
     {
@@ -122,7 +117,6 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
 
     private void handleUpdatePriceRateSchedule( PriceRateSchedule updated, String originalName )
     {
-        //TODO bp. Since i got no idea how qi4j updates ValueObject, for now, lets have a workaround solution.
         T t = getHasPriceRateSchedules();
         SetAssociation<PriceRateSchedule> priceRateSchedules = t.priceRateSchedules();
         for( PriceRateSchedule priceRateSchedule : priceRateSchedules )
@@ -142,8 +136,6 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
 
     private PriceRateSchedule getPriceRateSchedule( String name )
     {
-        // TODO migrate
-//        return getPriceRateScheduleService().get( getHasPriceRateSchedules(), name );
         for( PriceRateSchedule priceRateSchedule : getHasPriceRateSchedules().priceRateSchedules() )
         {
             if( name.equals( priceRateSchedule.name().get() ) )

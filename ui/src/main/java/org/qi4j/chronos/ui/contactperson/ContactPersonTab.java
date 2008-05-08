@@ -55,13 +55,15 @@ public abstract class ContactPersonTab extends NewLinkTab
 
         public void newLinkOnClick()
         {
-            setResponsePage( new ContactPersonAddPage(this.getPage() )
-            {
-                public Customer getCustomer()
+            setResponsePage(
+                new ContactPersonAddPage( this.getPage() )
                 {
-                    return ContactPersonTab.this.getCustomer();
+                    public Customer getCustomer()
+                    {
+                        return ContactPersonTab.this.getCustomer();
+                    }
                 }
-            } );
+            );
         }
 
         public String getNewLinkText()

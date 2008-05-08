@@ -14,18 +14,16 @@ package org.qi4j.chronos.ui.address;
 
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePanel;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
+import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
+import org.qi4j.chronos.ui.common.model.NameModel;
 import org.qi4j.chronos.model.Address;
-import org.qi4j.chronos.model.City;
-import org.qi4j.chronos.model.associations.HasAddress;
 import org.apache.wicket.model.IModel;
 
 public class AddressAddEditPanel extends AddEditBasePanel
 {
     private MaxLengthTextField address1Field;
     private MaxLengthTextField address2Field;
-
     private MaxLengthTextField zipcodeField;
-
     private MaxLengthTextField countryField;
     private MaxLengthTextField cityField;
     private MaxLengthTextField stateField;
@@ -56,15 +54,16 @@ public class AddressAddEditPanel extends AddEditBasePanel
 
     public void bindPropertyModel( IModel iModel )
     {
-        address1Field.setModel( new CompositeModel( iModel, "firstLine") );
-        address2Field.setModel( new CompositeModel( iModel, "secondLine") );
-        zipcodeField.setModel( new CompositeModel( iModel, "zipCode") );
-        IModel city = new CompositeModel( iModel, "city" );
+        address1Field.setModel( new CustomCompositeModel( iModel, "firstLine") );
+        address2Field.setModel( new CustomCompositeModel( iModel, "secondLine") );
+        zipcodeField.setModel( new CustomCompositeModel( iModel, "zipCode") );
+        IModel city = new CustomCompositeModel( iModel, "city" );
         cityField.setModel( new NameModel( city ) );
-        countryField.setModel( new NameModel( new CompositeModel( city, "country" ) ) );
-        stateField.setModel( new NameModel( new CompositeModel( city, "state" ) ) );
+        countryField.setModel( new NameModel( new CustomCompositeModel( city, "country" ) ) );
+        stateField.setModel( new NameModel( new CustomCompositeModel( city, "state" ) ) );
     }
     
+/*
     public void assignFieldValueToAddress( HasAddress hasAddress )
     {
         hasAddress.address().get().firstLine().set( address1Field.getText() );
@@ -89,6 +88,7 @@ public class AddressAddEditPanel extends AddEditBasePanel
         stateField.setText( addressCity.state().get().name().get() );
         countryField.setText( addressCity.country().get().name().get() );
     }
+*/
 
     public MaxLengthTextField getAddress1Field()
     {

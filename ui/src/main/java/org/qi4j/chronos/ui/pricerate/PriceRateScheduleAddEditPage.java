@@ -54,8 +54,7 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
 
     private SubmitLink newPriceRateLink;
 
-    //TODO remove static
-    private static List<PriceRate> priceRateList;
+    private List<PriceRate> priceRateList;
 
     private SimpleDropDownChoice<Currency> currencyChoice;
 
@@ -70,7 +69,11 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
 
     protected void hideSelectPriceRateScheduleLink()
     {
-        selectPriceRateScheduleContainer.setVisible( false );
+//        selectPriceRateScheduleContainer.setVisible( false );
+        if( selectPriceRateScheduleContainer.isVisible() )
+        {
+            selectPriceRateScheduleContainer.setVisibilityAllowed( false );
+        }
     }
 
     private int getTotalAvailablePriceRateSchedule()
@@ -216,12 +219,11 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
 
     private void addNewPriceRate()
     {
-        PriceRate priceRate = ChronosWebApp.newInstance( PriceRateEntityComposite.class );
-
+        PriceRate priceRate = getUnitOfWork().newEntityBuilder( PriceRateEntityComposite.class ).newInstance();
         priceRate.priceRateType().set( PriceRateTypeEnum.HOURLY );
 
         // TODO: migrate to new service
-        List<ProjectRole> projectRolelists = ChronosWebApp.getServices().getProjectRoleService().findAll( getAccount() );
+        List<ProjectRole> projectRolelists = new ArrayList<ProjectRole>( getAccount().projectRoles() );
 
         priceRate.projectRole().set( projectRolelists.get( 0 ) );
         priceRate.amount().set( 0L );

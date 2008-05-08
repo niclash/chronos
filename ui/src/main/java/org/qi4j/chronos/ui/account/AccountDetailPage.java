@@ -13,7 +13,6 @@
 package org.qi4j.chronos.ui.account;
 
 import org.apache.wicket.Page;
-import org.apache.wicket.protocol.http.WebResponse;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
@@ -22,16 +21,12 @@ import org.apache.wicket.model.Model;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
-import org.qi4j.chronos.model.Address;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.ui.address.AddressDetailPanel;
-import org.qi4j.chronos.ui.address.NameModel;
-import org.qi4j.chronos.ui.address.CompositeModel;
+import org.qi4j.chronos.ui.common.model.NameModel;
+import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
-import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.composite.scope.Uses;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkFactory;
 
 public class AccountDetailPage extends LeftMenuNavPage
 {
@@ -61,25 +56,6 @@ public class AccountDetailPage extends LeftMenuNavPage
         add( new AccountDetailForm( "accountDetailForm", getModel() ) );
     }
 
-    /**
-     * Query the unit of work factory for existing or new unit of work.
-     * TODO kamil: consider retrieving the factory from ChronosWebApp instead of session.
-     * @return
-     */
-    protected UnitOfWork getUnitOfWork()
-    {
-        UnitOfWorkFactory factory = ChronosSession.get().getUnitOfWorkFactory();
-
-        if( null == factory.currentUnitOfWork() || !factory.currentUnitOfWork().isOpen() )
-        {
-            return factory.newUnitOfWork();
-        }
-        else
-        {
-            return factory.currentUnitOfWork();
-        }
-    }
-
     private class AccountDetailForm extends Form
     {
         private Button goButton;
@@ -87,16 +63,13 @@ public class AccountDetailPage extends LeftMenuNavPage
         private TextField referenceField;
         private AddressDetailPanel addressDetailPanel;
 
-
         public AccountDetailForm( String id, IModel iModel )
         {
             super( id );
 
             nameField = new TextField( "nameField", new NameModel( iModel ) );
-            referenceField = new TextField( "referenceField", new CompositeModel( iModel, "reference" ) );
-
-            addressDetailPanel = new AddressDetailPanel( "addressDetailPanel", new CompositeModel( iModel, "address") );
-
+            referenceField = new TextField( "referenceField", new CustomCompositeModel( iModel, "reference" ) );
+            addressDetailPanel = new AddressDetailPanel( "addressDetailPanel", new CustomCompositeModel( iModel, "address") );
             goButton = new Button( "submitButton", new Model( "Return" ) )
             {
                 public void onSubmit()
@@ -108,19 +81,7 @@ public class AccountDetailPage extends LeftMenuNavPage
             add( nameField );
             add( referenceField );
             add( addressDetailPanel );
-
             add( goButton );
         }
-    }
-
-    @Override public boolean isVersioned()
-    {
-        return false;
-    }
-
-    @Override protected void setHeaders( WebResponse response)
-    {
-        response.setHeader("Pragma", "no-cache");
-        response.setHeader("Cache-Control", "no-cache, max-age=0, must-revalidate, no-store");
     }
 }
