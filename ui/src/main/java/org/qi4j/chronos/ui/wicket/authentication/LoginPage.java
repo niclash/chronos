@@ -103,12 +103,16 @@ public class LoginPage extends BasePage
         public final void onSubmit()
         {
             Account account = (Account) accountDropDownChoice.getModelObject();
-            LoginModel loginModel = (LoginModel) getModelObject();
+            final LoginModel loginModel = (LoginModel) getModelObject();
 
             // Sign in user
-            ChronosSession session = ChronosSession.get();
+            final ChronosSession session = ChronosSession.get();
             final UnitOfWork unitOfWork = getUnitOfWork();
-            session.setAccount( unitOfWork.dereference( account ) );
+            if( null != account )
+            {
+                account = unitOfWork.dereference( account );
+            }
+            session.setAccount( account );
             String userName = loginModel.getUserName();
             String password = loginModel.getPassword();
             boolean isSignedIn = session.signIn( userName, password );
