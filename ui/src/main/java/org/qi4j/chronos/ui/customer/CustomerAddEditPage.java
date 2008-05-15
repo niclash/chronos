@@ -13,15 +13,15 @@
 package org.qi4j.chronos.ui.customer;
 
 import org.apache.wicket.Page;
-import org.apache.wicket.model.IModel;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.address.AddressAddEditPanel;
+import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
 import org.qi4j.chronos.ui.common.model.NameModel;
-import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
@@ -82,4 +82,3 @@ public abstract class CustomerAddEditPage extends AddEditBasePage
 
     public abstract void onSubmitting();
 }
-

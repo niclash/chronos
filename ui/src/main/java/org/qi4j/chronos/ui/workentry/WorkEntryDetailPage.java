@@ -19,94 +19,94 @@ import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
-import org.qi4j.chronos.model.associations.HasComments;
 import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.model.WorkEntry;
+import org.qi4j.chronos.model.associations.HasComments;
+import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.ui.comment.CommentTab;
 import org.qi4j.chronos.ui.common.SimpleTextArea;
 import org.qi4j.chronos.ui.common.SimpleTextField;
+import org.qi4j.chronos.ui.report.AbstractReportPage;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.util.DateUtil;
+import org.qi4j.entity.Identity;
 
-public abstract class WorkEntryDetailPage extends LeftMenuNavPage
+public class WorkEntryDetailPage extends LeftMenuNavPage
 {
     private Page returnPage;
 
-    public WorkEntryDetailPage( Page returnPage )
+    public WorkEntryDetailPage( Page returnPage, final String workEntryId )
     {
         this.returnPage = returnPage;
 
+        setModel(
+            new CompoundPropertyModel(
+                new LoadableDetachableModel()
+                {
+                    public Object load()
+                    {
+                        return getUnitOfWork().find( workEntryId, WorkEntryEntityComposite.class );
+                    }
+                }
+            )
+        );
         initComponents();
     }
 
     private void initComponents()
     {
         add( new FeedbackPanel( "feedbackPanel" ) );
-        add( new WorkEntryDetailForm( "workEntryDetailForm" ) );
+        add( new WorkEntryDetailForm( "workEntryDetailForm", getModel() ) );
     }
 
     private class WorkEntryDetailForm extends Form
     {
-        private Button submitButton;
-
-        private SimpleTextField titleTextField;
-        private SimpleTextArea descriptionTextArea;
-
-        private SimpleTextField createdDateField;
-
-        private SimpleTextField startTimeFieid;
-        private SimpleTextField endTimeField;
-
-        private SimpleTextField durationField;
-
-        private TabbedPanel tabbedPanel;
-
-        public WorkEntryDetailForm( String id )
+        public WorkEntryDetailForm( String id, IModel iModel )
         {
             super( id );
 
-            initComponents();
+            initComponents( iModel );
         }
 
-        private void initComponents()
+        private void initComponents( IModel imodel )
         {
-            WorkEntry workEntry = getWorkEntry();
-
-            titleTextField = new SimpleTextField( "titleField", workEntry.title().get() );
-            descriptionTextArea = new SimpleTextArea( "descriptionTextArea", workEntry.description().get() );
-
-            createdDateField = new SimpleTextField( "createDateField", DateUtil.formatDateTime( workEntry.createdDate().get() ) );
-
-            startTimeFieid = new SimpleTextField( "startTimeField", DateUtil.formatDateTime( workEntry.startTime().get() ) );
-            endTimeField = new SimpleTextField( "endTimeField", DateUtil.formatDateTime( workEntry.endTime().get() ) );
-
-            durationField = new SimpleTextField( "durationField", "00:08:33" );//TODO fix me
+            final WorkEntry workEntry = (WorkEntry) imodel.getObject();
+            final SimpleTextField titleTextField = new SimpleTextField( "titleField", workEntry.title().get() );
+            final SimpleTextArea descriptionTextArea =
+                new SimpleTextArea( "descriptionTextArea", workEntry.description().get() );
+            final SimpleTextField createdDateField =
+                new SimpleTextField( "createDateField", DateUtil.formatDateTime( workEntry.createdDate().get() ) );
+            final SimpleTextField startTimeFieid =
+                new SimpleTextField( "startTimeField", DateUtil.formatDateTime( workEntry.startTime().get() ) );
+            final SimpleTextField endTimeField =
+                new SimpleTextField( "endTimeField", DateUtil.formatDateTime( workEntry.endTime().get() ) );
+            final SimpleTextField durationField =
+                new SimpleTextField( "durationField", AbstractReportPage.getPeriod( workEntry ).toString() );
 
             List<AbstractTab> tabs = new ArrayList<AbstractTab>();
-
             tabs.add( createCommentTab() );
 
-            tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
-
-            submitButton = new Button( "submitButton", new Model( "Return" ) )
-            {
-                public void onSubmit()
+            final TabbedPanel tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
+            final Button submitButton =
+                new Button( "submitButton", new Model( "Return" ) )
                 {
-                    setResponsePage( returnPage );
-                }
-            };
+                    public void onSubmit()
+                    {
+                        setResponsePage( returnPage );
+                    }
+                };
 
             add( titleTextField );
             add( descriptionTextArea );
-
             add( createdDateField );
             add( startTimeFieid );
             add( endTimeField );
             add( durationField );
-
             add( tabbedPanel );
             add( submitButton );
         }
@@ -115,41 +115,26 @@ public abstract class WorkEntryDetailPage extends LeftMenuNavPage
         {
             return new CommentTab( "Comment" )
             {
-                public HasComments getHasComments()
+                public List<String> dataList( int first, int count )
                 {
-                    return WorkEntryDetailPage.this.getWorkEntry();
+                    List<String> commentIdList = new ArrayList<String>();
+                    for( Comment comment : WorkEntryDetailPage.this.getHasComments().comments() )
+                    {
+                        commentIdList.add( ( (Identity) comment ).identity().get() );
+                    }
+                    return commentIdList.subList( first, first + count );
                 }
 
-                public void addComment( Comment comment )
+                public HasComments getHasComments()
                 {
-                    WorkEntryDetailPage.this.addComment( comment );
+                    return WorkEntryDetailPage.this.getHasComments();
                 }
             };
         }
-
-/*
-        protected void delegateSubmit( IFormSubmittingComponent submittingButton )
-        {
-            if( submittingButton == submitButton )
-            {
-                setResponsePage( returnPage );
-            }
-            else
-            {
-                throw new IllegalArgumentException( submittingButton + " not handled yet." );
-            }
-        }
-*/
     }
 
-    private void addComment( Comment comment )
+    protected HasComments getHasComments()
     {
-        WorkEntry workEntry = getWorkEntry();
-
-        workEntry.comments().add( comment );
-
-//        getServices().getWorkEntryService().update( workEntry );
+        return getUnitOfWork().dereference( (WorkEntry) getModelObject() );
     }
-
-    public abstract WorkEntry getWorkEntry();
 }

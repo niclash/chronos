@@ -20,105 +20,98 @@ import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
-import org.qi4j.chronos.model.User;
+import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Project;
-import org.qi4j.chronos.model.Staff;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.service.FindFilter;
-import org.qi4j.chronos.service.ProjectService;
-import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
+import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.associations.HasProjects;
+import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.ui.project.ProjectTab;
 import org.qi4j.chronos.ui.user.UserDetailPanel;
+import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.entity.Identity;
 
-public abstract class StaffDetailPage extends LeftMenuNavPage
+public class StaffDetailPage extends LeftMenuNavPage
 {
     private Page returnPage;
 
-    public StaffDetailPage( Page returnPage )
+    public StaffDetailPage( Page returnPage, final String staffId )
     {
         this.returnPage = returnPage;
 
+        setModel(
+            new CompoundPropertyModel(
+                new LoadableDetachableModel()
+                {
+                    protected Object load()
+                    {
+                        return getUnitOfWork().find( staffId, StaffEntityComposite.class );
+                    }
+                }
+            )
+        );
         initComponents();
     }
 
     private void initComponents()
     {
         add( new FeedbackPanel( "feedbackPanel" ) );
-        add( new StaffDetailForm( "staffDetailForm" ) );
+        add( new StaffDetailForm( "staffDetailForm", getModel() ) );
     }
 
     private class StaffDetailForm extends Form
     {
-        private Button submitButton;
-
-        private TabbedPanel tabbedPanel;
-
-        private UserDetailPanel userDetailPanel;
-
-        public StaffDetailForm( String id )
+        public StaffDetailForm( String id, final IModel iModel )
         {
             super( id );
 
-            initComponents();
+            initComponents( iModel );
         }
 
-        private void initComponents()
+        private void initComponents( final IModel iModel )
         {
-            userDetailPanel = new UserDetailPanel( "userDetailPanel" )
+            final UserDetailPanel userDetailPanel = new UserDetailPanel( "userDetailPanel" )
             {
                 public User getUser()
                 {
-                    return StaffDetailPage.this.getStaff();
+                    return (User) iModel.getObject();
                 }
             };
 
-            List<AbstractTab> tabs = new ArrayList<AbstractTab>();
-
+            final List<AbstractTab> tabs = new ArrayList<AbstractTab>();
             tabs.add(
                 new ProjectTab( "Project" )
                 {
+                    public HasProjects getHasProjects()
+                    {
+                        return StaffDetailPage.this.getAccount();
+                    }
+
                     public int getSize()
                     {
                         return getAccount().projects().size();
                     }
 
-                    public List<IModel> dataList( int first, int count )
+                    public List<String> dataList( int first, int count )
                     {
-                        List<IModel> models = new ArrayList<IModel>();
-                        for( final String projectId : StaffDetailPage.this.dataList( first, count ) )
-                        {
-                            models.add(
-                                new CompoundPropertyModel(
-                                    new LoadableDetachableModel()
-                                    {
-                                        public Object load()
-                                        {
-                                            return getUnitOfWork().find( projectId, ProjectEntityComposite.class );
-                                        }
-                                    }
-                                )
-                            );
-                        }
-                        return models;
+                        return StaffDetailPage.this.dataList( first, count );
                     }
                 }
             );
+            final TabbedPanel tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
 
-            tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
-
-            submitButton = new Button( "submitButton", new Model( "Return" ) )
-            {
-                public void onSubmit()
+            final Button submitButton =
+                new Button( "submitButton", new Model( "Return" ) )
                 {
-                    setResponsePage( returnPage );
-                }
-            };
+                    public void onSubmit()
+                    {
+                        reset();
+
+                        setResponsePage( returnPage );
+                    }
+                };
 
             add( userDetailPanel );
             add( tabbedPanel );
@@ -136,6 +129,4 @@ public abstract class StaffDetailPage extends LeftMenuNavPage
 
         return projects.subList( first, first + count );
     }
-
-    public abstract Staff getStaff();
 }

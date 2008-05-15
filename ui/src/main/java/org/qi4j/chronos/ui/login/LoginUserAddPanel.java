@@ -12,11 +12,11 @@
  */
 package org.qi4j.chronos.ui.login;
 
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.ui.common.MaxLengthPasswordField;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
-import org.apache.wicket.model.IModel;
 
 public class LoginUserAddPanel extends LoginUserAbstractPanel
 {
@@ -61,7 +61,6 @@ public class LoginUserAddPanel extends LoginUserAbstractPanel
 
         String password = passwordField.getText();
         String confirmPassword = confirmPasswordField.getText();
-
         if( password != null && confirmPassword != null )
         {
             if( !password.equals( confirmPassword ) )
@@ -77,21 +76,6 @@ public class LoginUserAddPanel extends LoginUserAbstractPanel
     public void bindPropertyModel( IModel iModel )
     {
         loginIdField.setModel( new CustomCompositeModel( iModel, "name" ) );
+        confirmPasswordField.setModel( new CustomCompositeModel( iModel, "password" ) );
     }
-
-
-/*
-    public void assignFieldValueToLogin( HasLogin hasLogin )
-    {
-        Login login = hasLogin.login().get();
-        login.name().set( loginIdField.getText() );
-        login.password().set( passwordField.getText() );
-        login.isEnabled().set( true );
-    }
-
-    public void assignLoginToFieldValue( HasLogin hasLogin )
-    {
-        //printSomething here
-    }
-*/
 }

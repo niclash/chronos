@@ -14,15 +14,14 @@ package org.qi4j.chronos.ui.task;
 
 import java.util.Date;
 import org.apache.wicket.Page;
-import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.model.Task;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.Task;
+import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
-import org.qi4j.chronos.service.TaskService;
-import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
-import org.qi4j.entity.UnitOfWorkFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,43 +32,55 @@ public abstract class TaskAddPage extends TaskAddEditPage
     public TaskAddPage( Page basePage )
     {
         super( basePage );
+
+        bindModel();
+    }
+
+    private void bindModel()
+    {
+        setModel(
+            new CompoundPropertyModel(
+                new LoadableDetachableModel()
+                {
+                    protected Object load()
+                    {
+                        final UnitOfWork unitOfWork = getUnitOfWork();
+                        final Task task = unitOfWork.newEntityBuilder( TaskEntityComposite.class ).newInstance();
+                        task.createdDate().set( new Date() );
+                        task.user().set( unitOfWork.dereference( TaskAddPage.this.getTaskOwner() ) );
+
+                        return task;
+                    }
+                }
+            )
+        );
+
+        bindPropertyModel( getModel() );
     }
 
     public void onSubmitting()
     {
-        // TODO kamil: add task
-        UnitOfWork unitOfWork = getUnitOfWork();
-//        TaskService taskService = getServices().getTaskService();
-
+        final UnitOfWork unitOfWork = getUnitOfWork();
         try
         {
-            Task task = unitOfWork.newEntityBuilder( TaskEntityComposite.class ).newInstance();
-
-            task.createdDate().set( new Date() );
-
-            assignFieldValueToTaskMaster( task );
-
-            getProject().tasks().add( task );
-
+            final Task task = (Task) getModelObject();
+            TaskAddPage.this.getProject().tasks().add( task );
             unitOfWork.complete();
-
             logInfoMsg( "Task is added successfully." );
 
             divertToGoBackPage();
         }
         catch( UnitOfWorkCompletionException uowce )
         {
+            unitOfWork.reset();
+
             logErrorMsg( "Unable to save task!!!" + uowce.getClass().getSimpleName() );
-
-            if( null != unitOfWork && unitOfWork.isOpen() )
-            {
-                unitOfWork.discard();
-            }
-
             LOGGER.error( uowce.getLocalizedMessage(), uowce );
         }
         catch( Exception err )
         {
+            unitOfWork.reset();
+
             logErrorMsg( err.getMessage() );
             LOGGER.error( err.getMessage(), err );
         }

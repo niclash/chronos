@@ -3,15 +3,14 @@ package org.qi4j.chronos.ui.wicket.bootstrap;
 import org.apache.wicket.IPageFactory;
 import org.apache.wicket.Page;
 import org.apache.wicket.PageParameters;
+import org.qi4j.chronos.service.account.AccountService;
+import org.qi4j.chronos.service.systemrole.SystemRoleService;
 import static org.qi4j.composite.NullArgumentException.validateNotNull;
 import org.qi4j.composite.ObjectBuilder;
 import org.qi4j.composite.ObjectBuilderFactory;
-import org.qi4j.composite.scope.Structure;
 import org.qi4j.composite.scope.Service;
+import org.qi4j.composite.scope.Structure;
 import org.qi4j.entity.UnitOfWorkFactory;
-import org.qi4j.chronos.service.account.AccountService;
-import org.qi4j.chronos.service.systemrole.SystemRoleService;
-import org.qi4j.chronos.model.Account;
 
 /**
  * @author edward.yakop@gmail.com
@@ -56,7 +55,14 @@ final class ChronosPageFactory
         
         if( null != parameters )
         {
-            builder.use( parameters.values().toArray() );
+//            if( parameters instanceof PageParameters )
+//            {
+//                builder.use( parameters );
+//            }
+//            else
+//            {
+                builder.use( parameters.values().toArray() );
+//            }
         }
 
         return builder.newInstance();

@@ -12,19 +12,16 @@
  */
 package org.qi4j.chronos.ui.project;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
+import org.apache.wicket.PageParameters;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.PageParameters;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.Project;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.model.associations.HasProjects;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
@@ -60,24 +57,14 @@ public class ProjectListPage extends LeftMenuNavPage
                 return ProjectListPage.this.getSize();
             }
 
-            public List<IModel> dataList( int first, int count )
+            public List<String> dataList( int first, int count )
             {
-                List<IModel> models = new ArrayList<IModel>();
-                for( final String projectId : ProjectListPage.this.dataList( first, count ) )
-                {
-                    models.add(
-                        new CompoundPropertyModel(
-                            new LoadableDetachableModel()
-                            {
-                                public Object load()
-                                {
-                                    return getUnitOfWork().find( projectId, ProjectEntityComposite.class );
-                                }
-                            }
-                        )
-                    );
-                }
-                return models;
+                return ProjectListPage.this.dataList( first, count );
+            }
+
+            public HasProjects getHasProjects()
+            {
+                return getUnitOfWork().dereference( ProjectListPage.this.getAccount() );
             }
         };
 

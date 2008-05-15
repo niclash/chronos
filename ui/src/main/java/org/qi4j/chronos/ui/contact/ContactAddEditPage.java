@@ -15,12 +15,11 @@ package org.qi4j.chronos.ui.contact;
 import org.apache.wicket.Page;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.form.Form;
-import org.qi4j.chronos.model.composites.ContactComposite;
-import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.ContactPerson;
-import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
+import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
+import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 import org.qi4j.library.general.model.Contact;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
@@ -51,7 +50,6 @@ public abstract class ContactAddEditPage extends AddEditBasePage
         {
             isRejected = true;
         }
-        
 
         if( isRejected )
         {
@@ -61,19 +59,11 @@ public abstract class ContactAddEditPage extends AddEditBasePage
         onSubmitting();
     }
 
-    public void assignFieldValueToContact( Contact contact )
+    protected void bindPropertyModel( IModel iModel )
     {
-        contact.contactValue().set( valueField.getText() );
-        contact.contactType().set( contactTypeField.getText() );
-    }
-
-    public void assignContactToFieldValue( Contact contact )
-    {
-        valueField.setText( contact.contactValue().get() );
-        contactTypeField.setText( contact.contactType().get() );
+        valueField.setModel( new CustomCompositeModel( iModel, "contactValue" ) );
+        contactTypeField.setModel( new CustomCompositeModel( iModel, "contactType" ) );
     }
 
     public abstract void onSubmitting();
-
-    public abstract ContactPerson getContactPerson();
 }

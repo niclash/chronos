@@ -13,66 +13,72 @@
 package org.qi4j.chronos.ui.contact;
 
 import org.apache.wicket.Page;
-import org.qi4j.chronos.service.ContactService;
-import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.library.general.model.Contact;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
+import org.qi4j.chronos.model.composites.ContactEntityComposite;
+import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class ContactEditPage extends ContactAddEditPage
+public class ContactEditPage extends ContactAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( ContactEditPage.class );
+    private static final String UPDATE_SUCCESS = "updateSuccessful";
+    private static final String UPDATE_FAIL = "updateFailed";
+    private static final String SUBMIT_BUTTON = "editPageSubmitButton";
+    private static final String TITLE_LABEL = "editPageTitleLabel";
 
-    public ContactEditPage( Page basePage )
+    public ContactEditPage( Page basePage, final String contactId )
     {
         super( basePage );
 
-        initData();
-    }
-
-    private void initData()
-    {
-        Contact contact = getContact();
-
-        assignContactToFieldValue( contact );
-    }
-
-    private ContactService getContactService()
-    {
-        return ChronosWebApp.getServices().getContactService();
+        setModel(
+            new CompoundPropertyModel(
+                new LoadableDetachableModel()
+                {
+                    protected Object load()
+                    {
+                        return getUnitOfWork().find( contactId, ContactEntityComposite.class );
+                    }
+                }
+            )
+        );
+        bindPropertyModel( getModel() );
     }
 
     public void onSubmitting()
     {
         try
         {
-            Contact toBeUpdated = getContact();
-            Contact old = getContact();
-
-            assignFieldValueToContact( toBeUpdated );
-
-            getContactService().update( getContactPerson(), old, toBeUpdated );
-
-            info( "Contact is updated." );
+            getUnitOfWork().complete();
+            logInfoMsg( getString( UPDATE_SUCCESS ) );
 
             divertToGoBackPage();
         }
-        catch( Exception err )
+        catch( UnitOfWorkCompletionException uowce )
         {
-            LOGGER.error( err.getMessage(), err );
-            err.printStackTrace();
+            reset();
+
+            logErrorMsg( getString( UPDATE_FAIL, new Model( uowce ) ) );
+            LOGGER.error( uowce.getLocalizedMessage(), uowce );
+        }
+        catch( Exception err)
+        {
+            reset();
+
+            logErrorMsg( getString( UPDATE_FAIL, new Model( err ) ) );
+            LOGGER.error( err.getLocalizedMessage(), err );
         }
     }
 
     public String getSubmitButtonValue()
     {
-        return "Save";
+        return getString( SUBMIT_BUTTON );
     }
 
     public String getTitleLabel()
     {
-        return "Edit Contact";
+        return getString( TITLE_LABEL );
     }
-
-    public abstract Contact getContact();
 }

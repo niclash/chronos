@@ -13,11 +13,12 @@
 package org.qi4j.chronos.ui.pricerate;
 
 import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.model.Model;
-import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.PriceRateSchedule;
-import org.qi4j.chronos.ui.wicket.base.BasePage;
+import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
 import org.qi4j.chronos.ui.common.NewLinkPanel;
 import org.qi4j.chronos.ui.common.tab.NewLinkTab;
 
@@ -42,7 +43,18 @@ public abstract class PriceRateScheduleTab<T extends HasPriceRateSchedules> exte
 
         public Panel getContent( String id )
         {
-            return new PriceRateScheduleTable( id, new Model() )
+            final IModel iModel =
+                new CompoundPropertyModel(
+                    new LoadableDetachableModel()
+                    {
+                        public Object load()
+                        {
+                            return PriceRateScheduleTab.this.getAccount();
+                        }
+                    }
+                );
+
+            return new PriceRateScheduleTable( id, iModel )
             {
                 public HasPriceRateSchedules getHasPriceRateSchedules()
                 {
@@ -58,11 +70,17 @@ public abstract class PriceRateScheduleTab<T extends HasPriceRateSchedules> exte
 
         public void newLinkOnClick()
         {
-            PriceRateScheduleAddPage addPage = new PriceRateScheduleAddPage( (BasePage) this.getPage() )
+            PriceRateScheduleAddPage addPage =
+                new PriceRateScheduleAddPage( PriceRateScheduleNewLinkPanel.this.getPage() )
             {
                 public void addPriceRateSchedule( PriceRateSchedule priceRateSchedule )
                 {
                     PriceRateScheduleTab.this.addPriceRateSchedule( priceRateSchedule );
+                }
+
+                public T getHasPriceRateSchedules()
+                {
+                    return PriceRateScheduleTab.this.getHasPriceRateSchedules();
                 }
             };
             setResponsePage( addPage );
@@ -80,4 +98,3 @@ public abstract class PriceRateScheduleTab<T extends HasPriceRateSchedules> exte
 
     public abstract T getHasPriceRateSchedules();
 }
-

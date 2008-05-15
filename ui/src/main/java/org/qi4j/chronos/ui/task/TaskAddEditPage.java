@@ -15,21 +15,23 @@ package org.qi4j.chronos.ui.task;
 import java.util.Arrays;
 import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Task;
-import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.TaskStatusEnum;
-import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
+import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.ui.common.MaxLengthTextArea;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.common.SimpleTextField;
+import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
+import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 
 public abstract class TaskAddEditPage extends AddEditBasePage
 {
     private MaxLengthTextField titleField;
     private MaxLengthTextArea descriptionTextArea;
     private SimpleTextField userField;
-    private SimpleDropDownChoice<TaskStatusEnum> taskStatusChoice;
+    private SimpleDropDownChoice taskStatusChoice;
 
     public TaskAddEditPage( Page basePage )
     {
@@ -43,7 +45,8 @@ public abstract class TaskAddEditPage extends AddEditBasePage
 
         userField = new SimpleTextField( "userField", getTaskOwner().fullName().get(), true );
 
-        taskStatusChoice = new SimpleDropDownChoice<TaskStatusEnum>( "taskStatusChoice", Arrays.asList( TaskStatusEnum.values() ), true );
+        taskStatusChoice =
+            new SimpleDropDownChoice( "taskStatusChoice", Arrays.asList( TaskStatusEnum.values() ), true );
 
         form.add( titleField );
         form.add( descriptionTextArea );
@@ -51,19 +54,11 @@ public abstract class TaskAddEditPage extends AddEditBasePage
         form.add( taskStatusChoice );
     }
 
-    protected void assignFieldValueToTaskMaster( Task task )
+    protected void bindPropertyModel( IModel iModel )
     {
-        task.description().set( descriptionTextArea.getText() );
-        task.title().set( titleField.getText() );
-        task.user().set( getTaskOwner() );
-        task.taskStatus().set( taskStatusChoice.getChoice() );
-    }
-
-    protected void assignTaskMasterToFieldValie( Task task )
-    {
-        descriptionTextArea.setText( task.description().get() );
-        titleField.setText( task.title().get() );
-        taskStatusChoice.setChoice( task.taskStatus().get() );
+        titleField.setModel( new CustomCompositeModel( iModel, "title" ) );
+        descriptionTextArea.setModel( new CustomCompositeModel( iModel, "description" ) );
+        taskStatusChoice.setModel( new CustomCompositeModel( iModel, "taskStatus" ) );
     }
 
     public void handleSubmit()

@@ -14,20 +14,21 @@ package org.qi4j.chronos.ui.pricerate;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.io.Serializable;
 import org.apache.wicket.Page;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.CompoundPropertyModel;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.PriceRateSchedule;
-import org.qi4j.chronos.service.PriceRateScheduleService;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
-import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.common.SimpleTextField;
-import org.qi4j.chronos.ui.util.ListUtil;
+import org.qi4j.chronos.ui.common.NameChoiceRenderer;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public abstract class PriceRateScheduleSelectionPage extends LeftMenuNavPage
@@ -49,11 +50,10 @@ public abstract class PriceRateScheduleSelectionPage extends LeftMenuNavPage
 
     private class PriceRateScheduleSelectionForm extends Form
     {
-        private SimpleDropDownChoice<String> priceRateScheduleChoice;
-
+        private DropDownChoice priceRateScheduleChoice;
         private PriceRateListView priceRateListView;
-
         private SimpleTextField currencyField;
+        private final IChoiceRenderer nameChoiceRenderer = new NameChoiceRenderer();
 
         private Button submitButton;
         private Button cancelButton;
@@ -62,34 +62,31 @@ public abstract class PriceRateScheduleSelectionPage extends LeftMenuNavPage
         {
             super( id );
 
-            intiComponents();
+            initComponents();
         }
 
-        private void intiComponents()
+        private void initComponents()
         {
-            List<String> nameList = getPriceRateScheduleNameList();
-
-            priceRateScheduleChoice = new SimpleDropDownChoice<String>( "priceRateScheduleChoice", nameList, true )
-            {
-                protected boolean wantOnSelectionChangedNotifications()
+            priceRateScheduleChoice =
+                new DropDownChoice( "priceRateScheduleChoice", getAvailablePriceRateScheduleList(), nameChoiceRenderer )
                 {
-                    return true;
-                }
+                    protected boolean wantOnSelectionChangedNotifications()
+                    {
+                        return true;
+                    }
 
-                protected void onSelectionChanged( Object newSelection )
-                {
-                    handlePriceRateSheduleChanged();
-                }
-            };
-
-            PriceRateSchedule priceRateSchedule = getSelectedPriceRateSchedule();
-
-            List<PriceRateDelegator> delegators = ListUtil.getPriceRateDelegator( priceRateSchedule );
-
-            currencyField = new SimpleTextField( "currencyField", priceRateSchedule.currency().get().getCurrencyCode() );
-
-            priceRateListView = new PriceRateListView( "priceRateListView", delegators );
-
+                    protected void onSelectionChanged( Object newSelection )
+                    {
+                        handlePriceRateSheduleChanged();
+                    }
+                };
+            priceRateScheduleChoice.setModel(
+                new Model( (Serializable) getAvailablePriceRateScheduleList().get( 0 ) ) );
+            PriceRateSchedule priceRateSchedule = (PriceRateSchedule) priceRateScheduleChoice.getModelObject();
+            currencyField =
+                new SimpleTextField( "currencyField", priceRateSchedule.currency().get().getCurrencyCode() );
+            priceRateListView =
+                new PriceRateListView( "priceRateListView", new CompoundPropertyModel( priceRateSchedule ) );
             submitButton = new Button( "submitButton", new Model( "Select" ) )
             {
                 public void onSubmit()
@@ -115,53 +112,25 @@ public abstract class PriceRateScheduleSelectionPage extends LeftMenuNavPage
 
         private void handleSelect()
         {
-            PriceRateSchedule priceRateSchedule = getSelectedPriceRateSchedule();
+            PriceRateSchedule priceRateSchedule = (PriceRateSchedule) priceRateScheduleChoice.getModelObject();
 
             handleSelectedPriceRateSchedule( priceRateSchedule );
 
             setResponsePage( basePage );
         }
 
-        private PriceRateSchedule getSelectedPriceRateSchedule()
-        {
-            String name = priceRateScheduleChoice.getChoice();
-
-            return getPriceRateScheduleService().get( getAccount(), name );
-        }
-
         private void handlePriceRateSheduleChanged()
         {
-            PriceRateSchedule priceRateSchedule = getSelectedPriceRateSchedule();
+            PriceRateSchedule priceRateSchedule = (PriceRateSchedule) priceRateScheduleChoice.getModelObject();
 
-            List<PriceRateDelegator> delegators = ListUtil.getPriceRateDelegator( priceRateSchedule );
-
-            priceRateListView.resetPriceRateList( delegators );
+            priceRateListView.resetPriceRateList( new ArrayList( priceRateSchedule.priceRates() ) );
         }
-    }
-
-    private List<String> getPriceRateScheduleNameList()
-    {
-        List<String> nameList = new ArrayList<String>();
-        List<PriceRateSchedule> list = getAvailablePriceRateScheduleList();
-
-        for( PriceRateSchedule priceRateSchedule : list )
-        {
-            nameList.add( priceRateSchedule.name().get() );
-        }
-
-        return nameList;
-    }
-
-    private PriceRateScheduleService getPriceRateScheduleService()
-    {
-        return ChronosWebApp.getServices().getPriceRateScheduleService();
     }
 
     private List<PriceRateSchedule> getAvailablePriceRateScheduleList()
     {
-        return getPriceRateScheduleService().findAll( getAccount() );
+        return new ArrayList<PriceRateSchedule>( getAccount().priceRateSchedules() );
     }
 
     public abstract void handleSelectedPriceRateSchedule( PriceRateSchedule priceRateSchedule );
-
 }

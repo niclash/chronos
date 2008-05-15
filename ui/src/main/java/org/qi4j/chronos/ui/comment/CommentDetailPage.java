@@ -16,60 +16,67 @@ import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Comment;
+import org.qi4j.chronos.model.composites.CommentEntityComposite;
 import org.qi4j.chronos.ui.common.SimpleTextArea;
 import org.qi4j.chronos.ui.common.SimpleTextField;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.util.DateUtil;
+import org.qi4j.composite.scope.Uses;
 
-public abstract class CommentDetailPage extends LeftMenuNavPage
+public class CommentDetailPage extends LeftMenuNavPage
 {
-    private Page returnPage;
+    private final Page basePage;
 
-    public CommentDetailPage( Page returnPage )
+    public CommentDetailPage( @Uses Page basePage, final @Uses String commentId )
     {
-        this.returnPage = returnPage;
+        this.basePage = basePage;
 
+        setModel(
+            new CompoundPropertyModel(
+                new LoadableDetachableModel()
+                {
+                    public Object load()
+                    {
+                        return getUnitOfWork().find( commentId, CommentEntityComposite.class );
+                    }
+                }
+            )
+        );
         initComponents();
     }
 
     private void initComponents()
     {
         add( new FeedbackPanel( "feedbackPanel" ) );
-        add( new CommentDetailForm( "commentDetailForm" ) );
+        add( new CommentDetailForm( "commentDetailForm", getModel() ) );
     }
 
     private class CommentDetailForm extends Form
     {
-        private Button submitButton;
-
-        private SimpleTextField createdDateField;
-        private SimpleTextField userField;
-        private SimpleTextArea commentTextArea;
-
-        public CommentDetailForm( String id )
+        public CommentDetailForm( String id, final IModel iModel )
         {
             super( id );
 
-            initComponents();
+            initComponents( iModel );
         }
 
-        private void initComponents()
+        private void initComponents( IModel iModel )
         {
-            Comment comment = getComment();
-
-            String createdDateString = DateUtil.formatDateTime( comment.createdDate().get() );
-            createdDateField = new SimpleTextField( "createdDateField", createdDateString );
-            userField = new SimpleTextField( "userField", comment.user().get().fullName().get() );
-
-            commentTextArea = new SimpleTextArea( "commentTextArea", comment.text().get() );
-
-            submitButton = new Button( "submitButton", new Model( "Return" ) )
+            final Comment comment = (Comment) iModel.getObject();
+            final String createdDateString = DateUtil.formatDateTime( comment.createdDate().get() );
+            final SimpleTextField createdDateField = new SimpleTextField( "createdDateField", createdDateString );
+            final SimpleTextField userField = new SimpleTextField( "userField", comment.user().get().fullName().get() );
+            final SimpleTextArea commentTextArea = new SimpleTextArea( "commentTextArea", comment.text().get() );
+            final Button submitButton = new Button( "submitButton", new Model( "Return" ) )
             {
                 public void onSubmit()
                 {
-                    setResponsePage( returnPage );
+                    setResponsePage( basePage );
                 }
             };
 
@@ -79,6 +86,4 @@ public abstract class CommentDetailPage extends LeftMenuNavPage
             add( submitButton );
         }
     }
-
-    public abstract Comment getComment();
 }

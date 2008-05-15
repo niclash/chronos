@@ -16,15 +16,15 @@ import java.util.Iterator;
 import org.apache.wicket.Page;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Staff;
-import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
-import org.qi4j.chronos.service.StaffService;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.login.LoginUserEditPanel;
-import org.qi4j.entity.association.SetAssociation;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -33,6 +33,10 @@ public abstract class StaffEditPage extends StaffAddEditPage
     private final static Logger LOGGER = LoggerFactory.getLogger( StaffEditPage.class );
 
     private LoginUserEditPanel loginUserEditPanel;
+    private static final String TITLE_LABEL = "editPageTitleLabel";
+    private static final String SUBMIT_BUTTON = "editPageSubmitButton";
+    private static final String UPDATE_SUCCESS = "updateSuccessful";
+    private static final String UPDATE_FAIL = "updateFailed";
 
     public StaffEditPage( Page basePage, final String staffId )
     {
@@ -50,24 +54,11 @@ public abstract class StaffEditPage extends StaffAddEditPage
             )
         );
         bindPropertyModel( getModel() );
-//        initData();
     }
 
-    private void initData()
-    {
-        Staff staff = getStaff();
-
-        assignStaffToFieldValue( staff );
-    }
-
-    public Iterator<SystemRole> getInitSelectedRoleList()
+    @Override public Iterator<SystemRole> getInitSelectedRoleList()
     {
         return getStaff().systemRoles().iterator();
-    }
-
-    public StaffService getStaffService()
-    {
-        return ChronosWebApp.getServices().getStaffService();
     }
 
     public LoginUserAbstractPanel getLoginUserAbstractPanel( String id )
@@ -88,48 +79,45 @@ public abstract class StaffEditPage extends StaffAddEditPage
 
     public String getSubmitButtonValue()
     {
-        return "Save";
+        return getString( SUBMIT_BUTTON );
     }
 
     public String getTitleLabel()
     {
-        return "Edit staff";
+        return getString( TITLE_LABEL );
     }
 
     public void onSubmitting()
     {
-        Staff staff = getStaff();
-
-        //TODO bp. system role is valueObject, let delete all assigned system role
-        //TODO before assigning to new system roles. Seeking for correct solution.
-        SetAssociation<SystemRole> systemRoles = staff.systemRoles();
-        systemRoles.clear();
-
-        assignFieldValueToStaff( staff );
-
+        final UnitOfWork unitOfWork = getUnitOfWork();
         try
         {
-            // TODO migrate
-//            getStaffService().update( staff );
+            final Staff staff = (Staff) getModelObject();
+            staff.systemRoles().clear();
+            for( SystemRole systemRole : getUserAddEditPanel().getSelectedRoleList() )
+            {
+                staff.systemRoles().add( systemRole );
+            }
+            unitOfWork.complete();
+            logInfoMsg( getString( UPDATE_SUCCESS ) );
 
-            logInfoMsg( "Staff is updated successfully." );
+            divertToGoBackPage();
+        }
+        catch( UnitOfWorkCompletionException uowce )
+        {
+            unitOfWork.reset();
 
-            super.divertToGoBackPage();
+            logErrorMsg( getString( UPDATE_FAIL, new Model( uowce ) ) );
+            LOGGER.error( uowce.getLocalizedMessage(), uowce );
         }
         catch( Exception err )
         {
-            logErrorMsg( err.getMessage() );
-            LOGGER.error( err.getMessage() );
+            unitOfWork.reset();
+
+            logErrorMsg( getString( UPDATE_FAIL, new Model( err ) ) );
+            LOGGER.error( err.getLocalizedMessage(), err );
         }
     }
 
-    @Override protected void divertToGoBackPage()
-    {
-        reset();
-
-        super.divertToGoBackPage();
-    }
-
     public abstract Staff getStaff();
-
 }

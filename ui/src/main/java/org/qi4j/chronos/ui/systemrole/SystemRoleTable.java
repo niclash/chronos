@@ -12,42 +12,99 @@
  */
 package org.qi4j.chronos.ui.systemrole;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.action.ActionTable;
-import org.qi4j.chronos.service.systemrole.SystemRoleService;
+import org.qi4j.entity.Identity;
 
-public class SystemRoleTable extends ActionTable<SystemRole, String>
+public abstract class SystemRoleTable extends ActionTable<IModel, String>
 {
-    private StaffSystemRoleDataProvider dataProvider;
+    private AbstractSortableDataProvider<IModel, String> dataProvider;
 
     public SystemRoleTable( String id )
     {
         super( id );
     }
 
-    public AbstractSortableDataProvider<SystemRole, String> getDetachableDataProvider()
+    public AbstractSortableDataProvider<IModel, String> getDetachableDataProvider()
     {
         if( dataProvider == null )
         {
-            dataProvider = new StaffSystemRoleDataProvider();
+            dataProvider = new AbstractSortableDataProvider<IModel, String>()
+            {
+                public int getSize()
+                {
+                    return SystemRoleTable.this.getSystemRoleIds().size();
+                }
+
+                public String getId( IModel t )
+                {
+                    return ( (Identity) t.getObject() ).identity().get();
+                }
+
+                public IModel load( final String s )
+                {
+                    return new CompoundPropertyModel(
+                        new LoadableDetachableModel()
+                        {
+                            protected Object load()
+                            {
+                                return getUnitOfWork().find( s, SystemRoleEntityComposite.class );
+                            }
+                        }
+                    );
+                }
+
+                public List<IModel> dataList( int first, int count )
+                {
+                    List<IModel> systemRoles = new ArrayList<IModel>();
+                    for( final String systemRoleId : SystemRoleTable.this.dataList( first, count ) )
+                    {
+                        systemRoles.add(
+                            new CompoundPropertyModel(
+                                new LoadableDetachableModel()
+                                {
+                                    protected Object load()
+                                    {
+                                        return getUnitOfWork().find( systemRoleId, SystemRoleEntityComposite.class );
+                                    }
+                                }
+                            )
+                        );
+                    }
+                    return systemRoles;
+                }
+            };
         }
 
         return dataProvider;
     }
 
-    public void populateItems( Item item, SystemRole obj )
+    public void populateItems( Item item, IModel iModel )
     {
-        item.add( new Label( "systemRoleName", obj.name().get() ) );
-        item.add( new Label( "systemRoleType", obj.systemRoleType().get().toString() ) );
+        SystemRole systemRole = (SystemRole) iModel.getObject();
+        item.add( new Label( "systemRoleName", systemRole.name().get() ) );
+        item.add( new Label( "systemRoleType", systemRole.systemRoleType().get().toString() ) );
     }
 
     public List<String> getTableHeaderList()
     {
         return Arrays.asList( "Name", "System Role Type" );
     }
+
+    protected List<String> dataList( int first, int count )
+    {
+        return getSystemRoleIds().subList( first, first + count );
+    }
+
+    public abstract List<String> getSystemRoleIds();
 }

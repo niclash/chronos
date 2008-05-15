@@ -15,55 +15,66 @@ package org.qi4j.chronos.ui.pricerate;
 import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.PriceRateSchedule;
+import org.qi4j.chronos.model.composites.PriceRateScheduleEntityComposite;
+import org.qi4j.chronos.ui.common.model.NameModel;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
-import org.qi4j.chronos.ui.common.SimpleTextField;
-import org.qi4j.chronos.ui.util.ListUtil;
 
-public abstract class PriceRateScheduleDetailPage extends LeftMenuNavPage
+public class PriceRateScheduleDetailPage extends LeftMenuNavPage
 {
     private Page returnBase;
 
-    public PriceRateScheduleDetailPage( Page returnBase )
+    public PriceRateScheduleDetailPage( Page returnBase, final String priceRateScheduleId )
     {
         this.returnBase = returnBase;
 
+        setModel(
+            new CompoundPropertyModel(
+                new LoadableDetachableModel()
+                {
+                    public Object load()
+                    {
+                        return getUnitOfWork().find( priceRateScheduleId, PriceRateScheduleEntityComposite.class );
+                    }
+                }
+            )
+        );
         initComponents();
     }
 
     private void initComponents()
     {
         add( new FeedbackPanel( "feedbackPanel" ) );
-        add( new PriceRateScheduleDetailForm( "priceRateScheduleDetailForm" ) );
+        add( new PriceRateScheduleDetailForm( "priceRateScheduleDetailForm", getModel() ) );
     }
 
     private class PriceRateScheduleDetailForm extends Form
     {
-        private SimpleTextField nameField;
-        private SimpleTextField currencyField;
-
+        private TextField nameField;
+        private TextField currencyField;
         private Button submitButton;
-
         private PriceRateListView priceRateListView;
 
-        public PriceRateScheduleDetailForm( String id )
+        public PriceRateScheduleDetailForm( final String id, final IModel iModel )
         {
             super( id );
 
-            initComponents();
+            initComponents( iModel );
         }
 
-        private void initComponents()
+        private void initComponents( IModel iModel )
         {
-            PriceRateSchedule priceRateSchedule = getPriceRateSchedule();
-
-            priceRateListView = new PriceRateListView( "priceRateListView", ListUtil.getPriceRateDelegator( priceRateSchedule ) );
-            currencyField = new SimpleTextField( "currencyField", priceRateSchedule.currency().get().getCurrencyCode() );
-
-            nameField = new SimpleTextField( "nameField", priceRateSchedule.name().get(), true );
-
+            final PriceRateSchedule priceRateSchedule = (PriceRateSchedule) iModel.getObject();
+            priceRateListView = new PriceRateListView( "priceRateListView", iModel );
+            currencyField =
+                new TextField( "currencyField", new Model( priceRateSchedule.currency().get().getCurrencyCode() ) );
+            nameField = new TextField( "nameField", new NameModel( iModel ) );
             submitButton = new Button( "submitButton", new Model( "Return" ) )
             {
                 public void onSubmit()
@@ -78,6 +89,4 @@ public abstract class PriceRateScheduleDetailPage extends LeftMenuNavPage
             add( priceRateListView );
         }
     }
-
-    public abstract PriceRateSchedule getPriceRateSchedule();
 }

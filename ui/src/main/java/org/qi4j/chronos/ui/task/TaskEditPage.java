@@ -13,12 +13,13 @@
 package org.qi4j.chronos.ui.task;
 
 import org.apache.wicket.Page;
-import org.qi4j.chronos.model.User;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.qi4j.chronos.model.Task;
-import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
+import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
-import org.qi4j.entity.UnitOfWorkFactory;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -26,47 +27,46 @@ public abstract class TaskEditPage extends TaskAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( TaskEditPage.class );
 
-    public TaskEditPage( Page basePage )
+    public TaskEditPage( Page basePage, final String taskId )
     {
         super( basePage );
 
-        initData();
-    }
-
-    private void initData()
-    {
-        assignTaskMasterToFieldValie( getTask() );
+        setModel(
+            new CompoundPropertyModel(
+                new LoadableDetachableModel()
+                {
+                    protected Object load()
+                    {
+                        return getUnitOfWork().find( taskId, TaskEntityComposite.class );
+                    }
+                }
+            )
+        );
+        bindPropertyModel( getModel() );
     }
 
     public void onSubmitting()
     {
-        // TODO kamil: edit task
-        UnitOfWork unitOfWork = getUnitOfWork();
-        Task taskMaster = getTask();
-
+        final UnitOfWork unitOfWork = getUnitOfWork();
         try
         {
-            assignFieldValueToTaskMaster( taskMaster );
-
+            final Task task = (Task) getModelObject();
             unitOfWork.complete();
-
             logInfoMsg( "Task is updated successfully." );
 
             divertToGoBackPage();
         }
         catch( UnitOfWorkCompletionException uowce )
         {
+            unitOfWork.reset();
+
             logErrorMsg( "Unable to update task!!!" + uowce.getClass().getSimpleName() );
-
-            if( null != unitOfWork && unitOfWork.isOpen() )
-            {
-                unitOfWork.discard();
-            }
-
             LOGGER.error( uowce.getLocalizedMessage(), uowce );
         }
         catch( Exception err )
         {
+            unitOfWork.reset();
+
             logErrorMsg( err.getMessage() );
             LOGGER.error( err.getMessage() );
         }

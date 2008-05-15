@@ -14,8 +14,12 @@ package org.qi4j.chronos.ui.comment;
 
 import java.util.Date;
 import org.apache.wicket.Page;
-import org.qi4j.chronos.model.User;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Comment;
+import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.associations.HasComments;
 import org.qi4j.chronos.model.composites.CommentEntityComposite;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.entity.UnitOfWork;
@@ -27,57 +31,78 @@ import org.slf4j.LoggerFactory;
 public abstract class CommentAddPage extends CommentAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( CommentAddPage.class );
+    private static final String ADD_SUCCESS = "addSuccessful";
+    private static final String SUBMIT_BUTTON = "addPageSubmitButton";
+    private static final String TITLE_LABEL = "addPageTitleLabel";
+    private static final String ADD_FAIL = "addFailed";
 
     public CommentAddPage( Page basePage )
     {
         super( basePage );
+
+        bindModel();
+    }
+
+    private void bindModel()
+    {
+        setModel(
+            new CompoundPropertyModel(
+                new LoadableDetachableModel()
+                {
+                    public Object load()
+                    {
+                        final UnitOfWork unitOfWork = getUnitOfWork();
+                        final Comment comment =
+                            unitOfWork.newEntityBuilder( CommentEntityComposite.class ).newInstance();
+                        final User user = unitOfWork.dereference( getCommentOwner() );
+                        comment.createdDate().set( new Date() );
+                        comment.user().set( user );
+
+                        return comment;
+                    }
+                }
+            )
+        );
+        bindPropertyModel( getModel() );
     }
 
     public void onSubmitting()
     {
-        // TODO kamil: use UnitOfWork
-        UnitOfWork unitOfWork = getUnitOfWork();
-
+        final UnitOfWork unitOfWork = getUnitOfWork();
         try
         {
-            Comment comment = unitOfWork.newEntityBuilder( CommentEntityComposite.class ).newInstance();
-            assignFieldValueToComment( comment );
-            comment.createdDate().set( new Date() );
-
-            addComment( comment );
-
+            final Comment comment = (Comment) getModelObject();
+            final HasComments hasComments = unitOfWork.dereference( getHasComments() );
+            hasComments.comments().add( comment );
             unitOfWork.complete();
-
-            logInfoMsg( "Comment is added successfully" );
+            logInfoMsg( getString( ADD_SUCCESS ) );
 
             divertToGoBackPage();
         }
         catch( UnitOfWorkCompletionException uowce )
         {
-            logErrorMsg( "Unable to save comment!!!. " + uowce.getClass().getSimpleName() );
+            unitOfWork.reset();
 
-            if( null != unitOfWork && unitOfWork.isOpen() )
-            {
-                unitOfWork.discard();
-            }
-
+            logErrorMsg( getString( ADD_FAIL, new Model( uowce ) ) );
             LOGGER.error( uowce.getLocalizedMessage(), uowce );
         }
         catch( ValidationException err)
         {
-            logErrorMsg( err.getMessage() );
-            LOGGER.error( err.getMessage(), err );
+            unitOfWork.reset();
+            
+            logErrorMsg( getString( ADD_FAIL, new Model( err ) ) );
+            LOGGER.error( err.getLocalizedMessage(), err );
         }
     }
 
     public String getSubmitButtonValue()
     {
-        return "Add";
+        return getString( SUBMIT_BUTTON );
     }
 
     public String getTitleLabel()
     {
-        return "Add Comment";
+        return getString( TITLE_LABEL );
     }
 
     public User getCommentOwner()
@@ -85,5 +110,5 @@ public abstract class CommentAddPage extends CommentAddEditPage
         return ChronosSession.get().getUser();
     }
 
-    public abstract void addComment( Comment comment );
+    public abstract HasComments getHasComments();
 }

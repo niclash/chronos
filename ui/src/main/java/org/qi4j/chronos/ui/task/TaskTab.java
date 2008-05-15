@@ -12,17 +12,14 @@
  */
 package org.qi4j.chronos.ui.task;
 
-import java.util.List;
-import java.util.Arrays;
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.service.TaskService;
-import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.ui.common.NewLinkPanel;
 import org.qi4j.chronos.ui.common.tab.NewLinkTab;
-import org.qi4j.chronos.model.Task;
-import org.qi4j.chronos.model.Project;
+import org.qi4j.entity.Identity;
 
 public abstract class TaskTab extends NewLinkTab
 {
@@ -34,11 +31,6 @@ public abstract class TaskTab extends NewLinkTab
     public NewLinkPanel getNewLinkPanel( String id )
     {
         return new TaskMasterNewLinkPanel( id );
-    }
-
-    private TaskService getTaskMasterService()
-    {
-        return ChronosWebApp.getServices().getTaskService();
     }
 
     private class TaskMasterNewLinkPanel extends NewLinkPanel
@@ -54,16 +46,17 @@ public abstract class TaskTab extends NewLinkTab
             {
                 public int getSize()
                 {
-                    // TODO kamil: migrate
-//                    return getTaskMasterService().countAll( getProject() );
-                    return getProject().tasks().size();
+                    return TaskTab.this.getProject().tasks().size();
                 }
 
-                public List<Task> dataList( int first, int count )
+                public List<String> dataList( int first, int count )
                 {
-                    // TODO kamil: migrate
-//                    return getTaskMasterService().findAll( getProject(), new FindFilter( first, count ) );
-                    return Collections.unmodifiableList( new ArrayList<Task>( getProject().tasks() ) );
+                    List<String> taskIdList = new ArrayList<String>();
+                    for( Task task : TaskTab.this.getProject().tasks() )
+                    {
+                        taskIdList.add( ( (Identity) task ).identity().get() );
+                    }
+                    return taskIdList.subList( first, first + count );
                 }
             };
         }

@@ -16,32 +16,30 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
-import org.qi4j.chronos.model.Relationship;
-import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.ContactPerson;
-import org.qi4j.chronos.service.RelationshipService;
-import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.wicket.base.BasePage;
+import org.qi4j.chronos.model.Customer;
+import org.qi4j.chronos.model.Relationship;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
+import org.qi4j.chronos.ui.wicket.base.BasePage;
+import org.qi4j.entity.Identity;
+import org.qi4j.entity.UnitOfWork;
 
 //TODO bp. code can be simplified when Relationship is serializable.
 public abstract class RelationshipOptionPanel extends Panel
 {
-    private SimpleDropDownChoice<String> relationshipChoice;
+    private SimpleDropDownChoice<Relationship> relationshipChoice;
     private SubmitLink newRelationshipLink;
-
-    private List<String> relationshipList;
-
-    private List<Relationship> addedRelationshipList;
+    private final List<Relationship> relationshipList = new ArrayList<Relationship>();
+    private final List<Relationship> addedRelationshipList = new ArrayList<Relationship>();
+    private final IChoiceRenderer relationshipChoiceRenderer = new RelationshipChoiceRenderer();
 
     public RelationshipOptionPanel( String id )
     {
         super( id );
-
-        addedRelationshipList = new ArrayList<Relationship>();
 
         initComponents();
     }
@@ -50,7 +48,8 @@ public abstract class RelationshipOptionPanel extends Panel
     {
         initRelationshipList();
 
-        relationshipChoice = new SimpleDropDownChoice<String>( "relationshipChoice", relationshipList, true );
+        relationshipChoice =
+            new SimpleDropDownChoice<Relationship>( "relationshipChoice", relationshipList, relationshipChoiceRenderer );
         newRelationshipLink = new SubmitLink( "newLink" )
         {
             public void onSubmit()
@@ -65,6 +64,11 @@ public abstract class RelationshipOptionPanel extends Panel
                     public void newRelationship( Relationship relationship )
                     {
                         RelationshipOptionPanel.this.addNewRelationship( relationship );
+                    }
+
+                    public UnitOfWork getSharedUnitOfWork()
+                    {
+                        return RelationshipOptionPanel.this.getSharedUnitOfWork();
                     }
                 };
 
@@ -86,44 +90,32 @@ public abstract class RelationshipOptionPanel extends Panel
         relationshipChoice.setModel( iModel );
     }
 
-    private void addNewRelationship( Relationship relationshipComposite )
+    private void addNewRelationship( Relationship relationship )
     {
-        addedRelationshipList.add( relationshipComposite );
-        relationshipList.add( relationshipComposite.relationship().get() );
+        addedRelationshipList.add( relationship );
+        relationshipList.add( relationship );
 
         //set newly added relationship as default value
-        relationshipChoice.setChoice( relationshipComposite.relationship().get() );
-
+        relationshipChoice.getModel().setObject( relationship );
         relationshipChoice.setVisible( true );
     }
 
+    public List<Relationship> getRelationshipList()
+    {
+        return relationshipList;
+    }
+    
     private void initRelationshipList()
     {
-        Set<String> relationshipSet = new HashSet();
-
-//        RelationshipService service = ChronosWebApp.getServices().getRelationshipService();
-
-        Customer customer = getCustomer();
-
-//        customer.contactPersons().iterator().next().relationship().get()
-
-//        List<Relationship> list = service.findAll( customer );
+        Set<Relationship> relationshipSet = new HashSet<Relationship>();
+        Customer customer = RelationshipOptionPanel.this.getCustomer();
         for( ContactPerson contactPerson : customer.contactPersons() )
         {
             if( null != contactPerson.relationship().get() )
             {
-                relationshipSet.add( contactPerson.relationship().get().relationship().get() );
+                relationshipSet.add( contactPerson.relationship().get() );
             }
         }
-/*
-        for( Relationship relationship : list )
-        {
-            relationshipSet.add( relationship.relationship().get() );
-        }
-*/
-
-        relationshipList = new ArrayList<String>();
-
         relationshipList.addAll( relationshipSet );
     }
 
@@ -140,32 +132,32 @@ public abstract class RelationshipOptionPanel extends Panel
 
     public void setSelectedRelationship( Relationship relationship )
     {
-        relationshipChoice.setChoice( relationship.relationship().get() );
+        relationshipChoice.setChoice( relationship );
     }
 
     public Relationship getSelectedRelationship()
     {
-        String choice = relationshipChoice.getChoiceAsString();
-
-        for( Relationship relationship : addedRelationshipList )
-        {
-            if( choice.equals( relationship.relationship().get() ) )
-            {
-                return relationship;
-            }
-        }
-
-//        return ChronosWebApp.getServices().getRelationshipService().get( getCustomer(), choice );
-        for( ContactPerson contactPerson : getCustomer().contactPersons() )
-        {
-            if( choice.equals( contactPerson.relationship().get().relationship().get() ) )
-            {
-                return contactPerson.relationship().get();
-            }
-        }
-
-        return null;
+        return relationshipChoice.getChoice();
     }
+
+    private class RelationshipChoiceRenderer implements IChoiceRenderer
+    {
+        private static final long serialVersionUID = 1L;
+
+        public Object getDisplayValue( Object object )
+        {
+            Relationship relationship = (Relationship) object;
+            return relationship.relationship().get();
+        }
+
+        public String getIdValue( Object object, int index )
+        {
+            Identity identity = (Identity) object;
+            return identity.identity().get();
+        }
+    }
+
+    public abstract UnitOfWork getSharedUnitOfWork();
 
     public abstract Customer getCustomer();
 }

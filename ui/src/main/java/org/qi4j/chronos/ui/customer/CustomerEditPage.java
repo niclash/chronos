@@ -59,23 +59,18 @@ public class CustomerEditPage extends CustomerAddEditPage
         }
         catch( UnitOfWorkCompletionException uowce )
         {
+            reset();
+
             error( getString( UPDATE_FAIL, new Model( uowce ) ) );
             LOGGER.error( uowce.getLocalizedMessage(), uowce );
-
-            reset();
         }
         catch( Exception err)
         {
+            reset();
+            
             error( getString( UPDATE_FAIL, new Model( err ) ) );
             LOGGER.error( err.getMessage(), err );
         }
-    }
-
-    @Override protected void divertToGoBackPage()
-    {
-        reset();
-
-        super.divertToGoBackPage();
     }
 
     public String getSubmitButtonValue()

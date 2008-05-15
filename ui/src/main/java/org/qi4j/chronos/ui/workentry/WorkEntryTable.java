@@ -12,17 +12,18 @@
  */
 package org.qi4j.chronos.ui.workentry;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.ArrayList;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
-import org.qi4j.chronos.model.associations.HasWorkEntries;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.WorkEntry;
+import org.qi4j.chronos.model.associations.HasWorkEntries;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
-import org.qi4j.chronos.service.FindFilter;
-import org.qi4j.chronos.service.WorkEntryService;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
@@ -30,10 +31,18 @@ import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.chronos.util.DateUtil;
 import org.qi4j.entity.Identity;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public abstract class WorkEntryTable extends ActionTable<WorkEntry, String>
+public abstract class WorkEntryTable extends ActionTable<IModel, String>
 {
-    private WorkEntryDataProvider provider;
+    private static final Logger LOGGER = LoggerFactory.getLogger( WorkEntryTable.class );
+    private AbstractSortableDataProvider<IModel, String> provider;
+    private static final String DELETE_ACTION = "deleteAction";
+    private static final String DELETE_SUCCESS = "deleteSuccessful";
+    private static final String DELETE_FAIL = "deleteFailed";
 
     public WorkEntryTable( String id )
     {
@@ -44,40 +53,90 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntry, String>
 
     private void initActions()
     {
-        addAction( new SimpleDeleteAction<WorkEntry>( "Delete" )
-        {
-            public void performAction( List<WorkEntry> workEntries )
+        addAction(
+            new SimpleDeleteAction<IModel>( getString( DELETE_ACTION) )
             {
-                getWorkEntryService().delete( getHasWorkEntries(), workEntries );
-
-                info( "Selected work entries are deleted." );
+                public void performAction( List<IModel> workEntries )
+                {
+                    handleDeleteAction( workEntries );
+                    info( getString( DELETE_SUCCESS ) );
+                }
             }
-        } );
+        );
     }
 
-    public AbstractSortableDataProvider<WorkEntry, String> getDetachableDataProvider()
+    private void handleDeleteAction( List<IModel> workEntries )
+    {
+        final UnitOfWork unitOfWork = getUnitOfWork();
+        try
+        {
+            HasWorkEntries hasWorkEntries = unitOfWork.dereference( WorkEntryTable.this.getHasWorkEntries() );
+            for( IModel iModel : workEntries )
+            {
+                final WorkEntry workEntry = (WorkEntry) iModel.getObject();
+                hasWorkEntries.workEntries().remove( workEntry );
+                unitOfWork.remove( workEntry );
+            }
+            unitOfWork.complete();
+        }
+        catch( UnitOfWorkCompletionException uowce )
+        {
+            unitOfWork.reset();
+
+            error( getString( DELETE_FAIL, new Model( uowce ) ) );
+            LOGGER.error( uowce.getLocalizedMessage(), uowce );
+        }
+    }
+
+    public AbstractSortableDataProvider<IModel, String> getDetachableDataProvider()
     {
         if( provider == null )
         {
-            provider = new WorkEntryDataProvider()
+            provider = new AbstractSortableDataProvider<IModel, String>()
             {
-                public List<WorkEntry> dataList( int first, int count )
-                {
-                    // TODO kamil: migrate
-//                    return getWorkEntryService().findAll( getHasWorkEntries(), new FindFilter( first, first + count ) );
-                    return new ArrayList<WorkEntry>( getHasWorkEntries().workEntries() );
-                }
-
                 public int getSize()
                 {
-                    // TODO kamil: migrate
-//                    return getWorkEntryService().countAll( getHasWorkEntries() );
-                    return getHasWorkEntries().workEntries().size();
+                    final HasWorkEntries hasWorkEntries =
+                        getUnitOfWork().dereference( WorkEntryTable.this.getHasWorkEntries() );
+                    return hasWorkEntries.workEntries().size();
                 }
 
-                public HasWorkEntries getHasWorkEntries()
+                public String getId( IModel t )
                 {
-                    return WorkEntryTable.this.getHasWorkEntries();
+                    return ( (Identity) t.getObject() ).identity().get();
+                }
+
+                public IModel load( final String workEntryId )
+                {
+                    return new CompoundPropertyModel(
+                        new LoadableDetachableModel()
+                        {
+                            protected Object load()
+                            {
+                                return getUnitOfWork().find( workEntryId, WorkEntryEntityComposite.class );
+                            }
+                        }
+                    );
+                }
+
+                public List<IModel> dataList( int first, int count )
+                {
+                    List<IModel> models = new ArrayList<IModel>();
+                    for( final String workEntryId : WorkEntryTable.this.dataList( first, count ) )
+                    {
+                        models.add(
+                            new CompoundPropertyModel(
+                                new LoadableDetachableModel()
+                                {
+                                    protected Object load()
+                                    {
+                                        return getUnitOfWork().find( workEntryId, WorkEntryEntityComposite.class );
+                                    }
+                                }
+                            )
+                        );
+                    }
+                    return models;
                 }
             };
         }
@@ -85,70 +144,34 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntry, String>
         return provider;
     }
 
-    private WorkEntryService getWorkEntryService()
+    public void populateItems( Item item, IModel iModel )
     {
-        return ChronosWebApp.getServices().getWorkEntryService();
-    }
+        final WorkEntry workEntry = (WorkEntry) iModel.getObject();
+        final String workEntryId = ( (Identity) workEntry ).identity().get();
 
-    public void populateItems( Item item, WorkEntry obj )
-    {
-        final String workEntryId = ( (WorkEntryEntityComposite) obj).identity().get();
-
-        item.add( new SimpleLink( "title", obj.title().get() )
-        {
-            public void linkClicked()
+        item.add(
+            new SimpleLink( "title", workEntry.title().get() )
             {
-                WorkEntryDetailPage detailPage = new WorkEntryDetailPage( this.getPage() )
+                public void linkClicked()
                 {
-                    public WorkEntry getWorkEntry()
-                    {
-                        // TODO kamil: migate
-//                        return getWorkEntryService().get( getHasWorkEntries(), workEntryId );
-                        for( WorkEntry workEntry : getHasWorkEntries().workEntries() )
-                        {
-                            if( workEntryId.equals( ( (Identity) workEntry).identity().get() ) )
-                            {
-                                return workEntry;
-                            }
-                        }
-
-                        return null;
-                    }
-                };
-
-                setResponsePage( detailPage );
+                    WorkEntryDetailPage detailPage = new WorkEntryDetailPage( this.getPage(), workEntryId );
+                    setResponsePage( detailPage );
+                }
             }
-        } );
-
-        item.add( new Label( "createdDate", DateUtil.formatDateTime( obj.createdDate().get() ) ) );
-        item.add( new Label( "fromTime", DateUtil.formatDateTime( obj.startTime().get() ) ) );
-        item.add( new Label( "toTime", DateUtil.formatDateTime( obj.endTime().get() ) ) );
-
-        item.add( new SimpleLink( "editLink", "Edit" )
-        {
-            public void linkClicked()
+        );
+        item.add( new Label( "createdDate", DateUtil.formatDateTime( workEntry.createdDate().get() ) ) );
+        item.add( new Label( "fromTime", DateUtil.formatDateTime( workEntry.startTime().get() ) ) );
+        item.add( new Label( "toTime", DateUtil.formatDateTime( workEntry.endTime().get() ) ) );
+        item.add(
+            new SimpleLink( "editLink", "Edit" )
             {
-                WorkEntryEditPage editPage = new WorkEntryEditPage( (BasePage) this.getPage() )
+                public void linkClicked()
                 {
-                    public WorkEntry getWorkEntry()
-                    {
-                        // TODO kamil: migrate
-//                        return getWorkEntryService().get( getHasWorkEntries(), workEntryId );
-                        for( WorkEntry workEntry : getHasWorkEntries().workEntries() )
-                        {
-                            if( workEntryId.equals( ( (Identity) workEntry).identity().get() ) )
-                            {
-                                return workEntry;
-                            }
-                        }
-
-                        return null;
-                    }
-                };
-
-                setResponsePage( editPage );
+                    WorkEntryEditPage editPage = new WorkEntryEditPage( (BasePage) this.getPage(), workEntryId );
+                    setResponsePage( editPage );
+                }
             }
-        } );
+        );
     }
 
     public List<String> getTableHeaderList()
@@ -157,4 +180,6 @@ public abstract class WorkEntryTable extends ActionTable<WorkEntry, String>
     }
 
     public abstract HasWorkEntries getHasWorkEntries();
+
+    public abstract List<String> dataList( int first, int count );
 }

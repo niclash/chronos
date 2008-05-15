@@ -12,9 +12,9 @@
  */
 package org.qi4j.chronos.ui.comment;
 
+import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.qi4j.chronos.model.associations.HasComments;
-import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.ui.common.NewLinkPanel;
 import org.qi4j.chronos.ui.common.tab.NewLinkTab;
 
@@ -41,6 +41,11 @@ public abstract class CommentTab extends NewLinkTab
         {
             return new CommentTable( id )
             {
+                public List<String> dataList( int first, int count )
+                {
+                    return CommentTab.this.dataList( first, count );
+                }
+
                 public HasComments getHasComments()
                 {
                     return CommentTab.this.getHasComments();
@@ -50,11 +55,11 @@ public abstract class CommentTab extends NewLinkTab
 
         public void newLinkOnClick()
         {
-            CommentAddPage addPage = new CommentAddPage( this.getPage() )
+            CommentAddPage addPage = new CommentAddPage( CommentNewLinkPanel.this.getPage() )
             {
-                public void addComment( Comment comment )
+                public HasComments getHasComments()
                 {
-                    CommentTab.this.addComment( comment );
+                    return CommentTab.this.getHasComments();
                 }
             };
 
@@ -67,7 +72,8 @@ public abstract class CommentTab extends NewLinkTab
         }
     }
 
-    public abstract HasComments getHasComments();
 
-    public abstract void addComment( Comment comment );
+    public abstract List<String> dataList( int first, int count );
+    
+    public abstract HasComments getHasComments();
 }

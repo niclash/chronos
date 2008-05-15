@@ -46,17 +46,17 @@ public class NumberTextField extends TextField
 
     public int getIntValue()
     {
-        return Integer.parseInt( text );
+        return Integer.parseInt( this.getModelObjectAsString() );
     }
 
     public long getLongValue()
     {
-        return Long.parseLong( text );
+        return Long.parseLong( this.getModelObjectAsString() );
     }
 
     public double getDoubleValue()
     {
-        return Double.parseDouble( text );
+        return Double.parseDouble( this.getModelObjectAsString() );
     }
 
     public void setIntValue( int intValue )
@@ -76,9 +76,9 @@ public class NumberTextField extends TextField
 
     public boolean checkIsEmptyOrNotLong()
     {
-        if( !ValidatorUtil.isEmpty( text, fieldName, this ) )
+        if( !ValidatorUtil.isEmpty( this.getModelObjectAsString(), fieldName, this ) )
         {
-            return ValidatorUtil.isNotLong( text, fieldName, this );
+            return ValidatorUtil.isNotLong( this.getModelObjectAsString(), fieldName, this );
         }
 
         return true;
@@ -86,9 +86,9 @@ public class NumberTextField extends TextField
 
     public boolean checkIsEmptyOrNotInteger()
     {
-        if( !ValidatorUtil.isEmpty( text, fieldName, this ) )
+        if( !ValidatorUtil.isEmpty( this.getModelObjectAsString(), fieldName, this ) )
         {
-            return ValidatorUtil.isNotInteger( text, fieldName, this );
+            return ValidatorUtil.isNotInteger( this.getModelObjectAsString(), fieldName, this );
         }
 
         return true;
@@ -96,9 +96,9 @@ public class NumberTextField extends TextField
 
     public boolean checkIsEmptyOrNotDouble()
     {
-        if( !ValidatorUtil.isEmpty( text, fieldName, this ) )
+        if( !ValidatorUtil.isEmpty( this.getModelObjectAsString(), fieldName, this ) )
         {
-            return ValidatorUtil.isNotDouble( text, fieldName, this );
+            return ValidatorUtil.isNotDouble( this.getModelObjectAsString(), fieldName, this );
         }
 
         return true;

@@ -12,18 +12,22 @@
  */
 package org.qi4j.chronos.ui.project;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.Component;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.Item;
-import org.qi4j.chronos.model.SystemRole;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.ProjectStatusEnum;
+import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.model.associations.HasProjects;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
@@ -31,14 +35,19 @@ import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleAction;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
-import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.entity.Identity;
 import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class ProjectTable extends ActionTable<IModel, String>
 {
+    private static final Logger LOGGER = LoggerFactory.getLogger( ProjectTable.class );
     private AbstractSortableDataProvider<IModel, String> provider;
+    private static final String DELETE_FAIL = "deleteFailed";
+    private static final String DELETE_SUCCESS = "deleteSuccessful";
+    private static final String UPDATE_FAIL = "updateFailed";
 
     public ProjectTable( String id )
     {
@@ -54,49 +63,91 @@ public abstract class ProjectTable extends ActionTable<IModel, String>
 
     private void addActions()
     {
-        addAction( new SimpleDeleteAction<Project>( "Delete" )
-        {
-            public void performAction( List<Project> projects )
+        addAction(
+            new SimpleDeleteAction<IModel>( "Delete" )
             {
-                // TODO kamil: use service
-//                getProjectService().delete( projects );
-
-                info( "Selected project(s) are deleted." );
+                public void performAction( List<IModel> projects )
+                {
+                    handleDeleteAction( projects );
+                    info( getString( DELETE_SUCCESS ) );
+                }
             }
-        } );
-
-        addAction( new SimpleAction<Project>( "Change to active status" )
-        {
-            public void performAction( List<Project> projects )
+        );
+        addAction(
+            new SimpleAction<IModel>( "Change to active status" )
             {
-                // TODO kamil: use service
-//                getProjectService().changeProjectStatus( ProjectStatusEnum.ACTIVE, projects );
-
-                info( "Selected project(s) are changed to status Active" );
+                public void performAction( List<IModel> projects )
+                {
+                    handleStatusChangeAction( projects, ProjectStatusEnum.ACTIVE );
+                    info( "Selected project(s) are changed to status Active" );
+                }
             }
-        } );
-
-        addAction( new SimpleAction<Project>( "Change to inactive status" )
-        {
-            public void performAction( List<Project> projects )
+        );
+        addAction(
+            new SimpleAction<IModel>( "Change to inactive status" )
             {
-                // TODO kamil: use service
-//                getProjectService().changeProjectStatus( ProjectStatusEnum.INACTIVE, projects );
-
-                info( "Selected project(s) are changed to inactive status" );
+                public void performAction( List<IModel> projects )
+                {
+                    handleStatusChangeAction( projects, ProjectStatusEnum.INACTIVE );
+                    info( "Selected project(s) are changed to inactive status" );
+                }
             }
-        } );
+        );
 
-        addAction( new SimpleAction<Project>( "Change to closed status " )
-        {
-            public void performAction( List<Project> projects )
+        addAction(
+            new SimpleAction<IModel>( "Change to closed status " )
             {
-                // TODO kamil: use service
-//                getProjectService().changeProjectStatus( ProjectStatusEnum.CLOSED, projects );
-
-                info( "Selected project(s) are changed to  Closed ActivationStatus" );
+                public void performAction( List<IModel> projects )
+                {
+                    handleStatusChangeAction( projects, ProjectStatusEnum.CLOSED );
+                    info( "Selected project(s) are changed to  Closed ActivationStatus" );
+                }
             }
-        } );
+        );
+    }
+
+    private void handleDeleteAction( List<IModel> projects )
+    {
+        final UnitOfWork unitOfWork = getUnitOfWork();
+        try
+        {
+            final HasProjects hasProjects = unitOfWork.dereference( getHasProjects() );
+            for( IModel iModel : projects )
+            {
+                final Project project = (Project) iModel.getObject();
+                hasProjects.projects().remove( project );
+                unitOfWork.remove( project );
+            }
+            unitOfWork.complete();
+        }
+        catch( UnitOfWorkCompletionException uowce )
+        {
+            unitOfWork.reset();
+
+            error( getString( DELETE_FAIL, new Model( uowce ) ) );
+            LOGGER.error( uowce.getLocalizedMessage(), uowce );
+        }
+    }
+
+    private void handleStatusChangeAction( List<IModel> projects, ProjectStatusEnum projectStatus )
+    {
+        final UnitOfWork unitOfWork = getUnitOfWork();
+        try
+        {
+            for( IModel iModel : projects )
+            {
+                final Project project = (Project) iModel.getObject();
+                project.projectStatus().set( projectStatus );
+            }
+            unitOfWork.complete();
+        }
+        catch( UnitOfWorkCompletionException uowce )
+        {
+            unitOfWork.reset();
+            
+            error( getString( UPDATE_FAIL, new Model( uowce ) ) );
+            LOGGER.error( uowce.getLocalizedMessage(), uowce );
+        }
     }
 
     public AbstractSortableDataProvider<IModel, String> getDetachableDataProvider()
@@ -130,7 +181,22 @@ public abstract class ProjectTable extends ActionTable<IModel, String>
 
                 public List<IModel> dataList( int first, int count )
                 {
-                    return ProjectTable.this.dataList( first, count );
+                    List<IModel> models = new ArrayList<IModel>();
+                    for( final String projectId : ProjectTable.this.dataList( first, count ) )
+                    {
+                        models.add(
+                            new CompoundPropertyModel(
+                                new LoadableDetachableModel()
+                                {
+                                    public Object load()
+                                    {
+                                        return getUnitOfWork().find( projectId, ProjectEntityComposite.class );
+                                    }
+                                }
+                            )
+                        );
+                    }
+                    return models;
                 }
             };
         }
@@ -140,53 +206,25 @@ public abstract class ProjectTable extends ActionTable<IModel, String>
 
     public void populateItems( Item item, IModel iModel )
     {
-        Project project = (Project) iModel.getObject();
+        final Project project = (Project) iModel.getObject();
         final String projectId = ( (Identity) project).identity().get();
 
         item.add( createDetailLink( "name", project.name().get(), projectId ) );
         item.add( createDetailLink( "formalReference", project.reference().get(), projectId ) );
         item.add( new Label( "status", project.projectStatus().get().toString() ) );
 
-        SimpleLink editLink = createEditLink( projectId );
+        final SimpleLink editLink = createEditLink( iModel );
         item.add( editLink );
     }
 
-    private SimpleLink createEditLink( final String projectId )
+    private SimpleLink createEditLink( final IModel iModel )
     {
         return new SimpleLink( "editLink", "Edit" )
         {
             public void linkClicked()
             {
-                IModel iModel = new CompoundPropertyModel(
-                    new LoadableDetachableModel()
-                    {
-                        public Object load()
-                        {
-                            return getUnitOfWork().find( projectId, ProjectEntityComposite.class );
-                        }
-                    }
-                );
                 ProjectEditPage editPage =
                     new ProjectEditPage( (BasePage) this.getPage(), iModel );
-/*
-                {
-                    public org.qi4j.chronos.model.Project getProject()
-                    {
-                        for( Project project : getAccount().projects() )
-                        {
-                            if( projectId.equals( ( (Identity) project).identity().get() ) )
-                            {
-                                return project;
-                            }
-                        }
-
-                        return null;
-                        // TODO
-//                        return getProjectService().get( projectId );
-                    }
-                };
-*/
-
                 setResponsePage( editPage );
             }
 
@@ -203,24 +241,7 @@ public abstract class ProjectTable extends ActionTable<IModel, String>
         {
             public void linkClicked()
             {
-                ProjectDetailPage detailPage = new ProjectDetailPage( this.getPage() )
-                {
-                    public Project getProject()
-                    {
-                        for( Project project : getAccount().projects() )
-                        {
-                            if( projectId.equals( ( (Identity) project).identity().get() ) )
-                            {
-                                return project;
-                            }
-                        }
-
-                        return null;
-                        // TODO
-//                        return getProjectService().get( projectId );
-                    }
-                };
-
+                ProjectDetailPage detailPage = new ProjectDetailPage( this.getPage(), projectId );
                 setResponsePage( detailPage );
             }
         };
@@ -231,21 +252,9 @@ public abstract class ProjectTable extends ActionTable<IModel, String>
         return Arrays.asList( "Name", "Formal Reference", "ActivationStatus", "" );
     }
 
-    protected UnitOfWork getUnitOfWork()
-    {
-        UnitOfWorkFactory factory = ChronosSession.get().getUnitOfWorkFactory();
-
-        if( null == factory.currentUnitOfWork() || !factory.currentUnitOfWork().isOpen() )
-        {
-            return factory.newUnitOfWork();
-        }
-        else
-        {
-            return factory.currentUnitOfWork();
-        }
-    }
-
     public abstract int getSize();
 
-    public abstract List<IModel> dataList( int first, int count );
+    public abstract List<String> dataList( int first, int count );
+
+    public abstract HasProjects getHasProjects();
 }

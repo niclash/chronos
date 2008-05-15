@@ -14,10 +14,10 @@ package org.qi4j.chronos.ui.staff;
 
 import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.qi4j.chronos.model.associations.HasStaffs;
 import org.qi4j.chronos.ui.common.BorderPanel;
 import org.qi4j.chronos.ui.common.BorderPanelWrapper;
 import org.qi4j.chronos.ui.common.tab.BaseTab;
-import org.qi4j.chronos.model.Staff;
 
 public abstract class StaffTab extends BaseTab
 {
@@ -39,9 +39,14 @@ public abstract class StaffTab extends BaseTab
                         return StaffTab.this.getSize();
                     }
 
-                    public List<Staff> dataList( int first, int count )
+                    public List<String> dataList( int first, int count )
                     {
                         return StaffTab.this.dataList( first, count );
+                    }
+
+                    public HasStaffs getHasStaffs()
+                    {
+                        return StaffTab.this.getHasStaffs();
                     }
                 };
 
@@ -54,5 +59,7 @@ public abstract class StaffTab extends BaseTab
 
     public abstract int getSize();
 
-    public abstract List<Staff> dataList( int first, int count );
+    public abstract List<String> dataList( int first, int count );
+
+    public abstract HasStaffs getHasStaffs();
 }

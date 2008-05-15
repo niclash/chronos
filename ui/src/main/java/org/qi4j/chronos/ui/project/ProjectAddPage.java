@@ -14,100 +14,120 @@ package org.qi4j.chronos.ui.project;
 
 import java.util.Collections;
 import java.util.Iterator;
-import java.util.List;
-import java.util.ArrayList;
 import org.apache.wicket.Page;
-import org.qi4j.chronos.service.ProjectService;
-import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.model.PriceRateSchedule;
-import org.qi4j.chronos.model.Customer;
-import org.qi4j.chronos.model.ContactPerson;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.ContactPerson;
+import org.qi4j.chronos.model.Customer;
+import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.ProjectStatusEnum;
+import org.qi4j.chronos.model.TimeRange;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.TimeRangeEntityComposite;
-import org.qi4j.composite.scope.Structure;
 import org.qi4j.composite.scope.Uses;
-import org.qi4j.entity.UnitOfWorkFactory;
-import org.qi4j.entity.Identity;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ProjectAddPage extends ProjectAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( ProjectAddPage.class );
+    private static final String ADD_FAIL = "addFailed";
+    private static final String ADD_SUCCESS = "addSuccessful";
+    private static final String SUBMIT_BUTTON = "addPageSubmitButton";
+    private static final String TITLE_LABEL = "addPageTitleLabel";
 
     public ProjectAddPage( final @Uses Page basePage )
     {
         super( basePage );
+
+        bindModel();
+    }
+
+    private void bindModel()
+    {
+        setModel(
+            new CompoundPropertyModel(
+                new LoadableDetachableModel()
+                {
+                    protected Object load()
+                    {
+                        final UnitOfWork unitOfWork = getUnitOfWork();
+                        final Project project =
+                            unitOfWork.newEntityBuilder( ProjectEntityComposite.class ).newInstance();
+                        final TimeRange actualTime =
+                            unitOfWork.newEntityBuilder( TimeRangeEntityComposite.class ).newInstance();
+                        final TimeRange estimateTime =
+                            unitOfWork.newEntityBuilder( TimeRangeEntityComposite.class ).newInstance();
+                        final Customer customer = unitOfWork.dereference( availableCustomers.get( 0 ) );
+                        final ContactPerson primaryContactPerson =
+                            unitOfWork.dereference( customer.contactPersons().iterator().next() );
+                        final PriceRateSchedule priceRateSchedule =
+                            unitOfWork.dereference( customer.priceRateSchedules().iterator().next() );
+                        project.actualTime().set( actualTime );
+                        project.estimateTime().set( estimateTime );
+                        project.customer().set( customer );
+                        project.primaryContactPerson().set( primaryContactPerson );
+                        project.priceRateSchedule().set( priceRateSchedule );
+                        project.projectStatus().set( ProjectStatusEnum.ACTIVE );
+
+                        return project;
+                    }
+                }
+            )
+        );
+        bindPropertyModel( getModel() );
     }
 
     public void onSubmitting()
     {
-        ProjectService projectService = ChronosWebApp.getServices().getProjectService();
-
-        Project project = projectService.newInstance( ProjectEntityComposite.class );
-
-        project.actualTime().set( ChronosWebApp.newInstance( TimeRangeEntityComposite.class ) );
-        project.estimateTime().set( ChronosWebApp.newInstance( TimeRangeEntityComposite.class ) );
-
+        final UnitOfWork unitOfWork = getUnitOfWork();
         try
         {
-            assignFieldValuesToProject( project );
-
-            Account account = getAccount();
-
+            final Project project = (Project) getModelObject();
+            final Account account = unitOfWork.dereference( getAccount() );
+            for( ContactPerson contactPerson : getSelectedContactPersonList() )
+            {
+                project.contactPersons().add( contactPerson );
+            }
             account.projects().add( project );
+            unitOfWork.complete();
 
-            logInfoMsg( "Project is added successfully." );
-
+            logInfoMsg( getString( ADD_SUCCESS ) );
             divertToGoBackPage();
+        }
+        catch( UnitOfWorkCompletionException uowce )
+        {
+            unitOfWork.reset();
+
+            logErrorMsg( getString( ADD_FAIL, new Model( uowce ) ) );
+            LOGGER.error( uowce.getLocalizedMessage(), uowce );
         }
         catch( Exception err )
         {
-            logErrorMsg( err.getMessage() );
-            LOGGER.error( err.getMessage(), err );
+            unitOfWork.reset();
+
+            logErrorMsg( getString( ADD_FAIL, new Model( err ) ) );
+            LOGGER.error( err.getLocalizedMessage(), err );
         }
     }
 
     public String getSubmitButtonValue()
     {
-        return "Add";
+        return getString( SUBMIT_BUTTON );
     }
 
     public String getTitleLabel()
     {
-        return "New Project";
+        return getString( TITLE_LABEL );
     }
 
     public Iterator<ContactPerson> getInitSelectedContactPersonList()
     {
         return Collections.EMPTY_LIST.iterator();
-    }
-
-    public List<PriceRateSchedule> getAvailablePriceRateSchedule()
-    {
-        return new ArrayList<PriceRateSchedule>( getAccount().priceRateSchedules() );
-            // TODO migrate
-//        return Collections.EMPTY_LIST;
-    }
-
-    public List<PriceRateSchedule> getAvailablePriceRateScheduleChoice()
-    {
-        for( Customer customer : getAccount().customers() )
-        {
-            if( customerChoice.getModelObject().equals( customer ) )
-            {
-                return new ArrayList<PriceRateSchedule>( customer.priceRateSchedules() );
-            }
-        }
-
-        return Collections.EMPTY_LIST;
-        // TODO migrate
-/*
-        Customer customer = getCustomerService().get( customerChoice.getChoice().getId() );
-
-        return ChronosWebApp.getServices().getPriceRateScheduleService().findAll( customer );
-*/
     }
 }

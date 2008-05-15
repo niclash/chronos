@@ -14,15 +14,18 @@ package org.qi4j.chronos.ui.comment;
 
 import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 import org.qi4j.chronos.ui.common.MaxLengthTextArea;
 import org.qi4j.chronos.ui.common.SimpleTextField;
+import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
+import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 
 public abstract class CommentAddEditPage extends AddEditBasePage
 {
     private MaxLengthTextArea commentTextArea;
+    private SimpleTextField userField;
 
     public CommentAddEditPage( Page goBackPage )
     {
@@ -32,22 +35,18 @@ public abstract class CommentAddEditPage extends AddEditBasePage
     public void initComponent( Form form )
     {
         commentTextArea = new MaxLengthTextArea( "commentTextArea", "Comment", Comment.COMMENT_LEN );
-
-        SimpleTextField userField = new SimpleTextField( "userField", getCommentOwner().fullName().get(), true );
+        userField = new SimpleTextField( "userField", "" );
 
         form.add( commentTextArea );
         form.add( userField );
     }
 
-    protected void assignFieldValueToComment( Comment comment )
+    protected void bindPropertyModel( IModel iModel )
     {
-        comment.text().set( commentTextArea.getText() );
-        comment.user().set( getCommentOwner() );
-    }
-
-    protected void assignCommentToFieldValue( Comment comment )
-    {
-        commentTextArea.setText( comment.text().get() );
+        final Comment comment = (Comment) iModel.getObject();
+        final User user = comment.user().get();
+        commentTextArea.setModel( new CustomCompositeModel( iModel, "text" ) );
+        userField.setText( user.fullName().get() );
     }
 
     public void handleSubmit()

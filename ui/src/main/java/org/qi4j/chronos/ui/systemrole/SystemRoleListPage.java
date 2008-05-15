@@ -12,10 +12,15 @@
  */
 package org.qi4j.chronos.ui.systemrole;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.qi4j.chronos.model.Admin;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
+import org.qi4j.entity.Identity;
+import org.qi4j.entity.UnitOfWork;
 
 @AuthorizeInstantiation( { SystemRole.SYSTEM_ADMIN, SystemRole.ACCOUNT_ADMIN } )
 public class SystemRoleListPage extends LeftMenuNavPage
@@ -29,7 +34,29 @@ public class SystemRoleListPage extends LeftMenuNavPage
     {
         add( new FeedbackPanel( "feedbackPanel" ) );
 
-        SystemRoleTable systemRoleTable = new SystemRoleTable( "systemRoleTable" );
+        SystemRoleTable systemRoleTable = new SystemRoleTable( "systemRoleTable" )
+        {
+            public List<String> getSystemRoleIds()
+            {
+                final List<SystemRole> systemRoles;
+                if( getChronosSession().getUser() instanceof Admin )
+                {
+                    systemRoles = getChronosSession().getSystemRoleService().findAll();
+                }
+                else
+                {
+                    systemRoles = getChronosSession().getSystemRoleService().findAllStaffSystemRole();
+                }
+
+                final List<String> systemRoleIds = new ArrayList<String>();
+                final UnitOfWork unitOfWork = getUnitOfWork();
+                for( SystemRole systemRole : systemRoles )
+                {
+                    systemRoleIds.add( ( (Identity) unitOfWork.dereference( systemRole ) ).identity().get() );
+                }
+                return systemRoleIds;
+            }
+        };
 
         systemRoleTable.setActionBarVisible( false );
 

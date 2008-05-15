@@ -13,60 +13,70 @@
 package org.qi4j.chronos.ui.projectrole;
 
 import org.apache.wicket.Page;
-import org.qi4j.chronos.service.ProjectRoleService;
-import org.qi4j.chronos.model.ProjectRole;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
+import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
+import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class ProjectRoleEditPage extends ProjectRoleAddEditPage
+public class ProjectRoleEditPage extends ProjectRoleAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( ProjectRoleEditPage.class );
+    private static final String UPDATE_SUCCESSS = "updateSuccessful";
+    private static final String UPDATE_FAIL = "updateFailed";
+    private static final String SUBMIT_BUTTON = "editPageSubmitButton";
+    private static final String TITLE_LABEL = "editPageTitleLabel";
 
-    public ProjectRoleEditPage( Page goBackPage )
+    public ProjectRoleEditPage( Page goBackPage, final String projectRoleId )
     {
         super( goBackPage );
 
-        initData();
-    }
+        setModel(
+            new CompoundPropertyModel(
+                new LoadableDetachableModel()
+                {
+                    protected Object load()
+                    {
+                        return getUnitOfWork().find( projectRoleId, ProjectRoleEntityComposite.class );
+                    }
+                }
+            )
+        );
 
-    private void initData()
-    {
-        assignProjectRoleToFieldValue( getProjectRole() );
+        bindPropertyModel( getModel() );
     }
 
     public String getSubmitButtonValue()
     {
-        return "Save";
+        return getString( SUBMIT_BUTTON );
     }
 
     public String getTitleLabel()
     {
-        return "Edit ProjectRole";
+        return getString( TITLE_LABEL );
     }
 
     public void onSubmitting()
     {
-        ProjectRoleService roleService = getRoleService();
-
-        ProjectRole oldProjectRole = getProjectRole();
-
-        ProjectRole toBeUpdated = getProjectRole();
-
         try
         {
-            assignProjectRoleToFieldValue( toBeUpdated );
-
-            roleService.updateProjectRole( getAccount(), oldProjectRole, toBeUpdated );
-
-            logInfoMsg( "ProjectRole is updated successfull!" );
+            getUnitOfWork().complete();
+            logInfoMsg( getString( UPDATE_SUCCESSS ) );
 
             divertToGoBackPage();
+        }
+        catch( UnitOfWorkCompletionException uowce )
+        {
+            reset();
+
+            logErrorMsg( getString( UPDATE_FAIL, new Model( uowce ) ) );
+            LOGGER.error( uowce.getLocalizedMessage(), uowce );
         }
         catch( Exception err )
         {
             LOGGER.error( err.getMessage(), err );
         }
     }
-
-    public abstract ProjectRole getProjectRole();
 }

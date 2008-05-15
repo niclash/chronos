@@ -61,16 +61,19 @@ public class MaxLengthTextArea
 
     public boolean checkIsInvalidLength()
     {
-        return ValidatorUtil.isInvalidLength( text, fieldName, maxLength, this );
+//        return ValidatorUtil.isInvalidLength( text, fieldName, maxLength, this );
+        return ValidatorUtil.isInvalidLength( this.getModelObjectAsString(), fieldName, maxLength, this );
     }
 
     public boolean checkIsEmptyOrInvalidLength()
     {
-        return ValidatorUtil.isEmptyOrInvalidLength( text, fieldName, maxLength, this );
+//        return ValidatorUtil.isEmptyOrInvalidLength( text, fieldName, maxLength, this );
+        return ValidatorUtil.isEmptyOrInvalidLength( this.getModelObjectAsString(), fieldName, maxLength, this );
     }
 
     public boolean checkIsEmpty()
     {
-        return ValidatorUtil.isEmpty( text, fieldName, this );
+//        return ValidatorUtil.isEmpty( text, fieldName, this );
+        return ValidatorUtil.isEmpty( this.getModelObjectAsString(), fieldName, this );
     }
 }

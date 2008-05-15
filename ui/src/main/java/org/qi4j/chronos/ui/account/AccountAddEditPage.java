@@ -13,21 +13,20 @@
 package org.qi4j.chronos.ui.account;
 
 import org.apache.wicket.Page;
-import org.apache.wicket.Localizer;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
+import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.service.account.AccountService;
 import org.qi4j.chronos.ui.address.AddressAddEditPanel;
-import org.qi4j.chronos.ui.common.model.NameModel;
-import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
+import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
+import org.qi4j.chronos.ui.common.model.NameModel;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
-import org.qi4j.chronos.service.account.AccountService;
 
 @AuthorizeInstantiation( SystemRole.SYSTEM_ADMIN )
 public abstract class AccountAddEditPage extends AddEditBasePage
@@ -81,8 +80,7 @@ public abstract class AccountAddEditPage extends AddEditBasePage
 
         if( !getAccountService().isUnique( (Account) getModelObject() ) )
         {
-            Localizer localizer = getLocalizer();
-            error( localizer.getString( ACCOUNT_NAME_NOT_UNIQUE, this, new Model( new CustomCompositeModel( getModel(), "name" ) ),
+            error( getString( ACCOUNT_NAME_NOT_UNIQUE, new Model( new CustomCompositeModel( getModel(), "name" ) ),
                 "Account name " + nameField.getModelObjectAsString() + " is not unique!!!" ) );
             isRejected = true;
         }
@@ -104,19 +102,6 @@ public abstract class AccountAddEditPage extends AddEditBasePage
     {
         return ChronosSession.get().getAccountService();
     }
-
-/*
-    @Override public boolean isVersioned()
-    {
-        return false;
-    }
-
-    @Override protected void setHeaders( WebResponse response)
-    {
-        response.setHeader("Pragma", "no-cache");
-        response.setHeader("Cache-Control", "no-cache, max-age=0, must-revalidate, no-store");
-    }
-*/
 
     public abstract void onSubmitting();
 }

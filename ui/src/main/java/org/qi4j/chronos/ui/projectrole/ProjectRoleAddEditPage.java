@@ -15,12 +15,14 @@ package org.qi4j.chronos.ui.projectrole;
 import org.apache.wicket.Page;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.ProjectRole;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.service.ProjectRoleService;
 import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
+import org.qi4j.chronos.ui.common.model.NameModel;
+import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public abstract class ProjectRoleAddEditPage extends AddEditBasePage
@@ -44,14 +46,9 @@ public abstract class ProjectRoleAddEditPage extends AddEditBasePage
         return ChronosWebApp.getServices().getProjectRoleService();
     }
 
-    protected void assignFieldValueToProjectRole( ProjectRole projectRole )
+    protected void bindPropertyModel( IModel iModel )
     {
-        projectRole.name().set( nameField.getText() );
-    }
-
-    protected void assignProjectRoleToFieldValue( ProjectRole projectRole )
-    {
-        nameField.setText( projectRole.name().get() );
+        nameField.setModel( new NameModel( iModel ) );
     }
 
     public final void handleSubmit()

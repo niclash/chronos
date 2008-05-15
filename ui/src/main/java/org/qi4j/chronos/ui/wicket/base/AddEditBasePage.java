@@ -18,8 +18,8 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.qi4j.library.framework.validation.ValidationMessage;
 
 public abstract class AddEditBasePage extends LeftMenuNavPage
@@ -55,9 +55,6 @@ public abstract class AddEditBasePage extends LeftMenuNavPage
 
     private class AddEditForm extends Form
     {
-        private Button submitButton;
-        private Button cancelButton;
-
         public AddEditForm( String id )
         {
             super( id );
@@ -70,25 +67,33 @@ public abstract class AddEditBasePage extends LeftMenuNavPage
             initComponent( this );
 
             String buttonValue = getSubmitButtonValue();
-            submitButton = new Button( "submitButton", new Model( buttonValue ) )
-            {
-                public void onSubmit()
+            final Button submitButton =
+                new Button( "submitButton", new Model( buttonValue ) )
                 {
-                    handleSubmit();
-                    ;
-                }
-            };
-            cancelButton = new Button( "cancelButton", new Model( "Cancel" ) )
-            {
-                public void onSubmit()
+                    public void onSubmit()
+                    {
+                        handleSubmit();
+                    }
+                };
+            final Button cancelButton =
+                new Button( "cancelButton", new Model( "Cancel" ) )
                 {
-                    divertToGoBackPage();
-                }
-            };
+                    public void onSubmit()
+                    {
+                        cancelToGoBackPage();
+                    }
+                };
 
             add( submitButton );
             add( cancelButton );
         }
+    }
+
+    protected void cancelToGoBackPage()
+    {
+        reset();
+
+        divertToGoBackPage();
     }
 
     protected void divertToGoBackPage()
@@ -127,4 +132,3 @@ public abstract class AddEditBasePage extends LeftMenuNavPage
 
     public abstract String getTitleLabel();
 }
-

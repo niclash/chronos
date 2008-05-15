@@ -17,14 +17,14 @@ import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.ui.address.AddressDetailPanel;
-import org.qi4j.chronos.ui.common.model.NameModel;
 import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
+import org.qi4j.chronos.ui.common.model.NameModel;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.composite.scope.Uses;
 
@@ -36,14 +36,15 @@ public class AccountDetailPage extends LeftMenuNavPage
     {
         this.returnPage = returnPage;
 
-        setModel( new CompoundPropertyModel(
-            new LoadableDetachableModel()
-            {
-                public Object load()
+        setModel(
+            new CompoundPropertyModel(
+                new LoadableDetachableModel()
                 {
-                    return getUnitOfWork().find( accountId, AccountEntityComposite.class );
+                    public Object load()
+                    {
+                        return getUnitOfWork().find( accountId, AccountEntityComposite.class );
+                    }
                 }
-            }
             )
         );
 

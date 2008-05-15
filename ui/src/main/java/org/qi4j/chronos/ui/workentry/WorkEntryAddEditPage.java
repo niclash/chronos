@@ -14,10 +14,12 @@ package org.qi4j.chronos.ui.workentry;
 
 import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.WorkEntry;
 import org.qi4j.chronos.ui.common.MaxLengthTextArea;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.common.SimpleDateTimeField;
+import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 
 public abstract class WorkEntryAddEditPage extends AddEditBasePage
@@ -69,20 +71,12 @@ public abstract class WorkEntryAddEditPage extends AddEditBasePage
         onSubmitting();
     }
 
-    protected void assignFieldValueToWorkEntry( WorkEntry workEntry )
+    protected void bindPropertyModel( IModel iModel )
     {
-        workEntry.title().set( titleField.getText() );
-        workEntry.description().set( descriptionTextArea.getText() );
-        workEntry.startTime().set( fromDateTimeField.getDate() );
-        workEntry.endTime().set( toDateTimeField.getDate() );
-    }
-
-    protected void assignWorkEntryToFieldValue( WorkEntry workEntry )
-    {
-        titleField.setText( workEntry.title().get() );
-        descriptionTextArea.setText( workEntry.description().get() );
-        fromDateTimeField.setDate( workEntry.startTime().get() );
-        toDateTimeField.setDate( workEntry.endTime().get() );
+        titleField.setModel( new CustomCompositeModel( iModel, "title" ) );
+        descriptionTextArea.setModel( new CustomCompositeModel( iModel, "description" ) );
+        fromDateTimeField.setModel( new CustomCompositeModel( iModel, "startTime" ) );
+        toDateTimeField.setModel( new CustomCompositeModel( iModel, "endTime" ) );
     }
 
     public abstract void onSubmitting();

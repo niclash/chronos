@@ -12,12 +12,10 @@
  */
 package org.qi4j.chronos.ui.project;
 
-import java.util.List;
 import java.util.ArrayList;
-import org.qi4j.chronos.model.Project;
+import java.util.List;
 import org.qi4j.chronos.model.Account;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.ui.common.menu.MenuBar;
 import org.qi4j.chronos.ui.common.menu.MenuItem;
 import org.qi4j.chronos.ui.common.menu.MenuLink;
@@ -37,16 +35,9 @@ public abstract class RecentProjectMenuBar extends MenuBar
 
     public MenuItem[] getMenuItemList()
     {
-//        ProjectService projectService = ChronosWebApp.getServices().getProjectService();
-
-        // TODO migrate
-//        int countAll = projectService.countAll( getAccount() );
+        // TODO kamil: fix business logic
         int countAll = getAccount().projects().size();
-        
         int toShowSize = Math.min( TOTAL_PROJECT_TO_SHOW, countAll );
-
-//        List<Project> recentProjectList = projectService.
-//            getRecentProjects( getAccount(), new FindFilter( 0, toShowSize ) );
 
         List<Project> recentProjectList = new ArrayList<Project>( getAccount().projects() );
         MenuItem[] menuItems = new MenuItem[ recentProjectList.size() ];
@@ -72,24 +63,7 @@ public abstract class RecentProjectMenuBar extends MenuBar
 
     private void showProjectDetail( final String projectId )
     {
-        ProjectDetailPage detailPage = new ProjectDetailPage( (BasePage) this.getPage() )
-        {
-            public Project getProject()
-            {
-                // TODO kamil: migrate
-//                return ChronosWebApp.getServices().getProjectService().get( projectId );
-                for( Project project : getAccount().projects() )
-                {
-                    if( projectId.equals( ( (Identity) project).identity().get() ) )
-                    {
-                        return project;
-                    }
-                }
-
-                return null;
-            }
-        };
-
+        ProjectDetailPage detailPage = new ProjectDetailPage( (BasePage) this.getPage(), projectId );
         setResponsePage( detailPage );
     }
 }

@@ -12,75 +12,79 @@
  */
 package org.qi4j.chronos.ui.wicket.bootstrap;
 
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkFactory;
-import org.qi4j.entity.UnitOfWorkCompletionException;
+import java.util.Calendar;
+import java.util.Currency;
+import java.util.Date;
+import java.util.Iterator;
+import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.AccountReport;
+import org.qi4j.chronos.model.Address;
+import org.qi4j.chronos.model.Admin;
+import org.qi4j.chronos.model.City;
+import org.qi4j.chronos.model.Comment;
+import org.qi4j.chronos.model.ContactPerson;
+import org.qi4j.chronos.model.Country;
+import org.qi4j.chronos.model.Customer;
+import org.qi4j.chronos.model.LegalCondition;
+import org.qi4j.chronos.model.Login;
+import org.qi4j.chronos.model.Money;
+import org.qi4j.chronos.model.Name;
+import org.qi4j.chronos.model.OngoingWorkEntry;
+import org.qi4j.chronos.model.PriceRate;
+import org.qi4j.chronos.model.PriceRateSchedule;
+import org.qi4j.chronos.model.PriceRateTypeEnum;
+import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.ProjectAssignee;
+import org.qi4j.chronos.model.ProjectRole;
+import org.qi4j.chronos.model.ProjectStatusEnum;
+import org.qi4j.chronos.model.Relationship;
+import org.qi4j.chronos.model.Report;
+import org.qi4j.chronos.model.Staff;
+import org.qi4j.chronos.model.State;
+import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.model.SystemRoleTypeEnum;
+import org.qi4j.chronos.model.Task;
+import org.qi4j.chronos.model.TaskStatusEnum;
+import org.qi4j.chronos.model.TimeRange;
+import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.WorkEntry;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.composites.AddressEntityComposite;
+import org.qi4j.chronos.model.composites.AdminEntityComposite;
+import org.qi4j.chronos.model.composites.CityEntityComposite;
+import org.qi4j.chronos.model.composites.CommentEntityComposite;
+import org.qi4j.chronos.model.composites.ContactEntityComposite;
+import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.model.composites.CountryEntityComposite;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
+import org.qi4j.chronos.model.composites.LegalConditionEntityComposite;
+import org.qi4j.chronos.model.composites.LoginEntityComposite;
+import org.qi4j.chronos.model.composites.MoneyEntityComposite;
+import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
+import org.qi4j.chronos.model.composites.PriceRateEntityComposite;
+import org.qi4j.chronos.model.composites.PriceRateScheduleEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
+import org.qi4j.chronos.model.composites.RelationshipEntityComposite;
+import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.composites.StateEntityComposite;
+import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.model.composites.TimeRangeEntityComposite;
+import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.service.account.AccountService;
 import org.qi4j.chronos.service.systemrole.SystemRoleService;
 import org.qi4j.chronos.service.user.UserService;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.AddressEntityComposite;
-import org.qi4j.chronos.model.composites.CityEntityComposite;
-import org.qi4j.chronos.model.composites.StateEntityComposite;
-import org.qi4j.chronos.model.composites.CountryEntityComposite;
-import org.qi4j.chronos.model.composites.LoginEntityComposite;
-import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
-import org.qi4j.chronos.model.composites.AdminEntityComposite;
-import org.qi4j.chronos.model.composites.MoneyEntityComposite;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
-import org.qi4j.chronos.model.composites.PriceRateEntityComposite;
-import org.qi4j.chronos.model.composites.PriceRateScheduleEntityComposite;
-import org.qi4j.chronos.model.composites.CustomerEntityComposite;
-import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
-import org.qi4j.chronos.model.composites.RelationshipEntityComposite;
-import org.qi4j.chronos.model.composites.ContactEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.model.composites.TimeRangeEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
-import org.qi4j.chronos.model.composites.LegalConditionEntityComposite;
-import org.qi4j.chronos.model.composites.TaskEntityComposite;
-import org.qi4j.chronos.model.composites.CommentEntityComposite;
-import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
-import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
-import org.qi4j.chronos.model.Address;
-import org.qi4j.chronos.model.City;
-import org.qi4j.chronos.model.State;
-import org.qi4j.chronos.model.Country;
-import org.qi4j.chronos.model.Login;
-import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.SystemRoleTypeEnum;
-import org.qi4j.chronos.model.Admin;
-import org.qi4j.chronos.model.Account;
-import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.model.Money;
-import org.qi4j.chronos.model.Staff;
-import org.qi4j.chronos.model.ProjectRole;
-import org.qi4j.chronos.model.PriceRate;
-import org.qi4j.chronos.model.PriceRateTypeEnum;
-import org.qi4j.chronos.model.PriceRateSchedule;
-import org.qi4j.chronos.model.Customer;
-import org.qi4j.chronos.model.ContactPerson;
-import org.qi4j.chronos.model.Relationship;
-import org.qi4j.chronos.model.Name;
-import org.qi4j.chronos.model.Project;
-import org.qi4j.chronos.model.ProjectStatusEnum;
-import org.qi4j.chronos.model.TimeRange;
-import org.qi4j.chronos.model.ProjectAssignee;
-import org.qi4j.chronos.model.Task;
-import org.qi4j.chronos.model.LegalCondition;
-import org.qi4j.chronos.model.TaskStatusEnum;
-import org.qi4j.chronos.model.Comment;
-import org.qi4j.chronos.model.WorkEntry;
-import org.qi4j.chronos.model.OngoingWorkEntry;
+import org.qi4j.chronos.util.ReportUtil;
 import org.qi4j.composite.CompositeBuilder;
-import org.qi4j.composite.scope.Structure;
 import org.qi4j.composite.scope.Service;
-import org.qi4j.library.general.model.GenderType;
+import org.qi4j.composite.scope.Structure;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.qi4j.entity.UnitOfWorkFactory;
 import org.qi4j.library.general.model.Contact;
-import java.util.Currency;
-import java.util.Calendar;
-import java.util.Date;
+import org.qi4j.library.general.model.GenderType;
 
 final class DummyDataInitializer
 {
@@ -123,6 +127,10 @@ final class DummyDataInitializer
 //        unitOfWork = complete( unitOfWork, unitOfWorkFactory );
         initWorkEntries();
 
+        unitOfWork = complete( unitOfWork, unitOfWorkFactory );
+
+        initReports();
+
         try
         {
              unitOfWork.complete();
@@ -131,6 +139,30 @@ final class DummyDataInitializer
         {
            System.err.println( uowce.getLocalizedMessage() );
            uowce.printStackTrace();
+        }
+    }
+
+    private void initReports()
+    {
+        Calendar now = Calendar.getInstance();
+        now.add(  Calendar.DATE, -3 );
+        Date endTime = now.getTime();
+        now.add( Calendar.DATE, -8 );
+        Date startTime = now.getTime();
+
+        for( Account account : accountService.findAll() )
+        {
+            account = unitOfWork.dereference( account );
+
+            final AccountReport accountReport = ReportUtil.getAccountReport( unitOfWork, account );
+            accountReport.account().set( account );
+
+            for( Project project : account.projects() )
+            {
+                Report report = ReportUtil.generateReport( unitOfWork, "Report for " + project.name().get(),
+                                                           project, startTime, endTime );
+                accountReport.reports().add( report );
+            }
         }
     }
 
@@ -201,39 +233,38 @@ final class DummyDataInitializer
         for( Account account : accountService.findAll() )
         {
             account = unitOfWork.dereference( account );
-            for( Customer customer : account.customers() )
+
+            final Customer customer = account.customers().iterator().next();
+            ContactPerson contactPerson = customer.contactPersons().iterator().next();
+            PriceRateSchedule priceRateSchedule = customer.priceRateSchedules().iterator().next();
+            Staff staff = account.staffs().iterator().next();
+            PriceRate priceRate = priceRateSchedule.priceRates().iterator().next();
+            ProjectAssignee projectAssignee = newProjectAssignee( unitOfWork, true, staff, priceRate );
+
+            Project project = newProject( unitOfWork, "Chronos Qi4J", "Chronos v0.1", ProjectStatusEnum.ACTIVE );
+            project.customer().set( customer );
+            project.primaryContactPerson().set( contactPerson );
+            project.contactPersons().addAll( customer.contactPersons() );
+            project.priceRateSchedule().set( priceRateSchedule );
+            project.estimateTime().set( newTimeRange( unitOfWork, startDate, endDate ) );
+            project.projectAssignees().add( projectAssignee );
+
+            for( int i = 0; i < 7; i++ )
             {
-                ContactPerson contactPerson = customer.contactPersons().iterator().next();
-                PriceRateSchedule priceRateSchedule = account.priceRateSchedules().iterator().next();
-                Staff staff = account.staffs().iterator().next();
-                PriceRate priceRate = priceRateSchedule.priceRates().iterator().next();
-                ProjectAssignee projectAssignee = newProjectAssignee( unitOfWork, true, staff, priceRate );
-
-                Project project = newProject( unitOfWork, "Chronos Qi4J", "Chronos v0.1", ProjectStatusEnum.ACTIVE );
-                project.customer().set( customer );
-                project.primaryContactPerson().set( contactPerson );
-                project.contactPersons().addAll( customer.contactPersons() );
-                project.priceRateSchedule().set( priceRateSchedule );
-                project.estimateTime().set( newTimeRange( unitOfWork, startDate, endDate ) );
-                project.projectAssignees().add( projectAssignee );
-
-                for( int i = 0; i < 7; i++ )
-                {
-                    Task task = newTask( unitOfWork, "Task " + i,
-                                         "Task " + i + " description", startDate, TaskStatusEnum.OPEN );
-                    task.user().set( staff );
-                    project.tasks().add( task );
-                }
-
-                for( int i = 0; i < 7; i++ )
-                {
-                    LegalCondition condition = newLegalCondition( unitOfWork, "Maintenance contract",
-                                                                  "Maintenance contract 3 years" );
-                    project.legalConditions().add( condition );
-                }
-
-                account.projects().add( project );
+                Task task = newTask( unitOfWork, "Task " + i,
+                                     "Task " + i + " description", startDate, TaskStatusEnum.OPEN );
+                task.user().set( staff );
+                project.tasks().add( task );
             }
+
+            for( int i = 0; i < 7; i++ )
+            {
+                LegalCondition condition = newLegalCondition( unitOfWork, "Maintenance contract",
+                                                              "Maintenance contract 3 years" );
+                project.legalConditions().add( condition );
+            }
+
+            account.projects().add( project );
         }
     }
 
@@ -245,6 +276,7 @@ final class DummyDataInitializer
         for( Account account : accountService.findAll() )
         {
             account = unitOfWork.dereference( account );
+            final Iterator<PriceRateSchedule> priceRateScheduleIterator = account.priceRateSchedules().iterator();
 
             ContactPerson projectManager = newContactPerson( unitOfWork, "Michael", "Lim", "michael", "michael",
                                                              GenderType.MALE, "Project Manager" );
@@ -254,10 +286,23 @@ final class DummyDataInitializer
 
             Customer customer = newCustomer( unitOfWork, "Client A", "clientA",
                                              "line 1", "line 2", "city", "state", "country", "41412" );
-            customer.priceRateSchedules().addAll( account.priceRateSchedules() );
+            customer.priceRateSchedules().add( priceRateScheduleIterator.next() );
             customer.contactPersons().add( projectManager );
 
             account.customers().add( customer );
+
+            ContactPerson projectManager2 = newContactPerson( unitOfWork, "Yada", "Yada", "yada", "yada",
+                                                             GenderType.MALE, "Manager" );
+            Contact mobile2 = newContact( unitOfWork, "Mobile", "7073247032" );
+            projectManager2.contacts().add( mobile2 );
+            projectManager2.systemRoles().add( roleService.getSystemRoleByName( SystemRole.CONTACT_PERSON ) );
+
+            Customer customer2 = newCustomer( unitOfWork, "YadaYada", "YadaYada",
+                                             "line 1", "line 2", "city", "state", "country", "41412" );
+            customer2.priceRateSchedules().add( priceRateScheduleIterator.next() );
+            customer2.contactPersons().add( projectManager2 );
+
+            account.customers().add( customer2 );
         }
     }
 
@@ -312,7 +357,7 @@ final class DummyDataInitializer
         {
             account = unitOfWork.dereference( account );
             
-            PriceRateSchedule priceRateSchedule = newPriceRateSchedule( unitOfWork, "Default" );
+            PriceRateSchedule priceRateSchedule = newPriceRateSchedule( unitOfWork, "Default A" );
             priceRateSchedule.currency().set( Currency.getInstance( "USD" ) );
 
             for( ProjectRole projectRole : account.projectRoles() )
@@ -322,6 +367,17 @@ final class DummyDataInitializer
                 priceRateSchedule.priceRates().add( priceRate );
             }
             account.priceRateSchedules().add( priceRateSchedule );
+
+            PriceRateSchedule priceRateSchedule2 = newPriceRateSchedule( unitOfWork, "Default B" );
+            priceRateSchedule2.currency().set( Currency.getInstance( "EUR" ) );
+
+            for( ProjectRole projectRole : account.projectRoles() )
+            {
+                PriceRate priceRate2 = newPriceRate( unitOfWork, 2000L, "EUR", PriceRateTypeEnum.MONTHLY );
+                priceRate2.projectRole().set( projectRole );
+                priceRateSchedule2.priceRates().add( priceRate2 );
+            }
+            account.priceRateSchedules().add( priceRateSchedule2 );
         }
     }
 

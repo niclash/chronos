@@ -13,8 +13,8 @@
 package org.qi4j.chronos.ui.wicket.authentication;
 
 import java.io.Serializable;
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import org.apache.wicket.Application;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
@@ -28,9 +28,9 @@ import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.service.account.AccountService;
+import org.qi4j.chronos.ui.common.NameChoiceRenderer;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
-import org.qi4j.chronos.ui.common.NameChoiceRenderer;
 import static org.qi4j.composite.NullArgumentException.*;
 import org.qi4j.composite.scope.Service;
 import org.qi4j.entity.Identity;
@@ -39,7 +39,6 @@ import org.qi4j.entity.UnitOfWorkFactory;
 
 public class LoginPage extends BasePage
 {
-
     private static final long serialVersionUID = 1L;
 
     private static final String WICKET_ID_FEEDBACK_PANEL = "feedbackPanel";
@@ -61,13 +60,10 @@ public class LoginPage extends BasePage
         private static final String WICKET_ID_ACCOUNT_DROP_DOWN_CHOICE = "accountDropDownChoice";
         private static final String WICKET_ID_USERNAME = "username";
         private static final String WICKET_ID_PASSWORD = "password";
-
         private DropDownChoice accountDropDownChoice;
         private static final String USER_NAME_BINDING = "userName";
         private static final String PASSWORD_BINDING = WICKET_ID_PASSWORD;
-
         private static final String SIGN_IN_FAILED = "signInFailed";
-//        private static final String SIGN_IN_FAILED_DEFAULT_MESG = "Sign in failed";
 
         private LoginForm( String aWicketId, LoginModel aLoginModel, AccountService anAccountService )
         {
@@ -84,10 +80,12 @@ public class LoginPage extends BasePage
             List<Account> availableAccounts = new ArrayList <Account>();
             for( Account account : anAccountService.findAvailableAccounts() )
             {
-                availableAccounts.add( unitOfWork.getReference( ( (Identity) account).identity().get(), AccountEntityComposite.class ) );
+                availableAccounts.add(
+                    unitOfWork.getReference( ( (Identity) account).identity().get(), AccountEntityComposite.class ) );
             }
             NameChoiceRenderer renderer = new NameChoiceRenderer();
-            accountDropDownChoice = new DropDownChoice( WICKET_ID_ACCOUNT_DROP_DOWN_CHOICE, availableAccounts, renderer );
+            accountDropDownChoice =
+                new DropDownChoice( WICKET_ID_ACCOUNT_DROP_DOWN_CHOICE, availableAccounts, renderer );
             add( accountDropDownChoice );
             accountDropDownChoice.setModel( new Model() );
 
@@ -109,10 +107,12 @@ public class LoginPage extends BasePage
 
             // Sign in user
             ChronosSession session = ChronosSession.get();
-            session.setAccount( account );
+            final UnitOfWork unitOfWork = getUnitOfWork();
+            session.setAccount( unitOfWork.dereference( account ) );
             String userName = loginModel.getUserName();
             String password = loginModel.getPassword();
             boolean isSignedIn = session.signIn( userName, password );
+            unitOfWork.reset();
 
             if( isSignedIn )
             {

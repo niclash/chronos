@@ -13,80 +13,72 @@
 package org.qi4j.chronos.ui.workentry;
 
 import org.apache.wicket.Page;
-import org.qi4j.chronos.service.WorkEntryService;
-import org.qi4j.chronos.model.WorkEntry;
-import org.qi4j.chronos.ui.wicket.bootstrap.ChronosWebApp;
-import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkFactory;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
+import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class WorkEntryEditPage extends WorkEntryAddEditPage
+public class WorkEntryEditPage extends WorkEntryAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( WorkEntryEditPage.class );
+    private static final String UPDATE_SUCCESS = "updateSuccessful";
+    private static final String UPDATE_FAIL = "updateFailed";
+    private static final String TITLE_LABEL = "editPageTitleLabel";
+    private static final String SUBMIT_BUTTON = "editPageSubmitButton";
 
-    public WorkEntryEditPage( Page basePage )
+    public WorkEntryEditPage( Page basePage, final String workEntryId )
     {
         super( basePage );
 
-        initData();
-    }
-
-    private void initData()
-    {
-        assignWorkEntryToFieldValue( getWorkEntry() );
+        setModel(
+            new CompoundPropertyModel(
+                new LoadableDetachableModel()
+                {
+                    public Object load()
+                    {
+                        return getUnitOfWork().find( workEntryId, WorkEntryEntityComposite.class );
+                    }
+                }
+            )
+        );
+        bindPropertyModel( getModel() );
     }
 
     public void onSubmitting()
     {
-        // TODO kamil: use UnitOfWork
-        UnitOfWork unitOfWork = getUnitOfWork();
-        WorkEntry workEntry = getWorkEntry();
-
         try
         {
-            assignFieldValueToWorkEntry( workEntry );
-
-//            WorkEntryService service = getServices().getWorkEntryService();
-//
-//            service.update( workEntry );
-
-            unitOfWork.complete();
-
-            logInfoMsg( "Work Entry is updated successfully." );
+            getUnitOfWork().complete();
+            logInfoMsg( getString( UPDATE_SUCCESS ) );
 
             divertToGoBackPage();
         }
         catch( UnitOfWorkCompletionException uowce )
         {
-            logErrorMsg( "Unable to update work entry!!!" + uowce.getClass().getSimpleName() );
+            reset();
 
-            if( null != unitOfWork && unitOfWork.isOpen() )
-            {
-                unitOfWork.discard();
-            }
-
+            logErrorMsg( getString( UPDATE_FAIL, new Model( uowce ) ) );
             LOGGER.error( uowce.getLocalizedMessage(), uowce );
         }
         catch( Exception err )
         {
-            logErrorMsg( err.getMessage() );
+            reset();
 
-            LOGGER.error( err.getMessage(), err );
+            logErrorMsg( getString( UPDATE_FAIL, new Model( err ) ) );
+            LOGGER.error( err.getLocalizedMessage(), err );
         }
     }
 
     public String getSubmitButtonValue()
     {
-        return "Save";
+        return getString( SUBMIT_BUTTON );
     }
 
     public String getTitleLabel()
     {
-        return "Edit Work Entry";
+        return getString( TITLE_LABEL );
     }
-
-    public abstract WorkEntry getWorkEntry();
 }

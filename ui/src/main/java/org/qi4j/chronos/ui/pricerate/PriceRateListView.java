@@ -12,37 +12,48 @@
  */
 package org.qi4j.chronos.ui.pricerate;
 
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.IModel;
+import org.qi4j.chronos.model.PriceRate;
+import org.qi4j.chronos.model.PriceRateSchedule;
 
 public class PriceRateListView extends Panel
 {
     private ListView listView;
 
-    public PriceRateListView( String id, List<PriceRateDelegator> priceRateDelegators )
+    public PriceRateListView( final String id, final IModel iModel )
     {
         super( id );
 
-        listView = new ListView( "priceRateListView", priceRateDelegators )
+        final PriceRateSchedule priceRateSchedule = (PriceRateSchedule) iModel.getObject();
+        final List<PriceRate> priceRates = new ArrayList<PriceRate>();
+        for( PriceRate priceRate : priceRateSchedule.priceRates() )
+        {
+            priceRates.add( priceRate );
+        }
+
+        listView = new ListView( "priceRateListView", priceRates )
         {
             protected void populateItem( ListItem item )
             {
-                PriceRateDelegator delegator = (PriceRateDelegator) item.getModelObject();
+                final PriceRate priceRate = (PriceRate) item.getModelObject();
 
-                item.add( new Label( "projectRole", delegator.getProjectRoleName() ) );
-                item.add( new Label( "priceRateType", delegator.getPriceRateType().toString() ) );
-                item.add( new Label( "amount", String.valueOf( delegator.getAmount() ) ) );
+                item.add( new Label( "projectRole", priceRate.projectRole().get().name().get() ) );
+                item.add( new Label( "priceRateType", priceRate.priceRateType().get().toString() ) );
+                item.add( new Label( "amount", priceRate.displayValue().get() ) );
             }
         };
 
         add( listView );
     }
 
-    public void resetPriceRateList( List<PriceRateDelegator> priceRateDelegators )
+    public void resetPriceRateList( List<PriceRate> priceRates )
     {
-        listView.setList( priceRateDelegators );
+        listView.setList( priceRates );
     }
 }

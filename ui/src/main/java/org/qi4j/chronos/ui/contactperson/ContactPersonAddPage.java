@@ -18,28 +18,28 @@ import org.apache.wicket.Page;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
-import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.ContactPerson;
+import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.Login;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.LoginEntityComposite;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.login.LoginUserAddPanel;
-import org.qi4j.library.general.model.Contact;
+import static org.qi4j.composite.NullArgumentException.*;
+import org.qi4j.composite.scope.Uses;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.qi4j.library.general.model.Contact;
+import org.qi4j.library.general.model.GenderType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.qi4j.composite.scope.Uses;
-import static org.qi4j.composite.NullArgumentException.validateNotNull;
 
 public abstract class ContactPersonAddPage extends ContactPersonAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( ContactPersonAddPage.class );
-
-//    private LoginUserAddPanel loginUserAddPanel;
+    private LoginUserAddPanel loginUserAddPanel;
     private static final String ADD_SUCCESS = "addSuccessful";
     private static final String ADD_FAIL = "addFailed";
     private static final String SUBMIT_BUTTON = "addPageSubmitButton";
@@ -62,16 +62,18 @@ public abstract class ContactPersonAddPage extends ContactPersonAddEditPage
                 {
                     public Object load()
                     {
-                        final UnitOfWork unitOfWork = getUnitOfWork();
+                        final UnitOfWork unitOfWork = ContactPersonAddPage.this.getSharedUnitOfWork();
                         final ContactPerson contactPerson =
                             unitOfWork.newEntityBuilder( ContactPersonEntityComposite.class ).newInstance();
                         final Login contactPersonLogin =
                             unitOfWork.newEntityBuilder( LoginEntityComposite.class ).newInstance();
                         final SystemRole contactPersonRole =
                             unitOfWork.find( SystemRole.CONTACT_PERSON, SystemRoleEntityComposite.class );
+                        contactPerson.gender().set( GenderType.MALE );
                         contactPersonLogin.isEnabled().set( true );
                         contactPerson.login().set( contactPersonLogin );
                         contactPerson.systemRoles().add( contactPersonRole );
+                        contactPerson.relationship().set( getRelationshipOptionPanel().getRelationshipList().get( 0 ) );
 
                         return contactPerson;
                     }
@@ -86,10 +88,16 @@ public abstract class ContactPersonAddPage extends ContactPersonAddEditPage
     {
         try
         {
-            final UnitOfWork unitOfWork = getUnitOfWork();
+            final UnitOfWork unitOfWork = ContactPersonAddPage.this.getSharedUnitOfWork();
             final Customer customer = unitOfWork.dereference( getCustomer() );
+            final ContactPerson contactPerson = (ContactPerson) getModelObject();
 
-            customer.contactPersons().add( (ContactPerson) getModelObject() );
+            for( Contact contact : contactList )
+            {
+                contactPerson.contacts().add( contact );
+            }
+
+            customer.contactPersons().add( contactPerson );
             unitOfWork.complete();
             logInfoMsg( getString( ADD_SUCCESS ) );
 
@@ -102,33 +110,21 @@ public abstract class ContactPersonAddPage extends ContactPersonAddEditPage
             logErrorMsg( getString( ADD_FAIL, new Model( uowce) ) );
             LOGGER.error( uowce.getLocalizedMessage(), uowce );
         }
-        catch( Exception
-        err)
+        catch( Exception err)
         {
             logErrorMsg( getString( ADD_FAIL, new Model( err ) ) );
             LOGGER.error( err.getLocalizedMessage(), err );
         }
     }
 
-    @Override protected void divertToGoBackPage()
-    {
-        reset();
-
-        super.divertToGoBackPage();
-    }
-
     public LoginUserAbstractPanel getLoginUserAbstractPanel( String id )
     {
-/*
-    TODO kamil: find out if this is necessary
         if( loginUserAddPanel == null )
         {
             loginUserAddPanel = new LoginUserAddPanel( id );
         }
 
         return loginUserAddPanel;
-*/
-        return new LoginUserAddPanel( id );
     }
 
     public String getSubmitButtonValue()

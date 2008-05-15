@@ -20,58 +20,45 @@ import java.util.List;
 import org.apache.wicket.Page;
 import org.apache.wicket.extensions.markup.html.form.palette.Palette;
 import org.apache.wicket.markup.html.WebMarkupContainer;
-import org.apache.wicket.markup.html.form.ChoiceRenderer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
-import org.apache.wicket.markup.html.form.DropDownChoice;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.model.IModel;
-import org.qi4j.chronos.model.Project;
-import org.qi4j.chronos.model.TimeRange;
-import org.qi4j.chronos.model.ProjectStatusEnum;
-import org.qi4j.chronos.model.PriceRateSchedule;
+import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.Customer;
-import org.qi4j.chronos.model.Account;
-import org.qi4j.chronos.service.ContactPersonService;
-import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.common.model.NameModel;
-import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
+import org.qi4j.chronos.model.PriceRateSchedule;
+import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.ProjectStatusEnum;
+import org.qi4j.chronos.ui.common.FullNameChoiceRenderer;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
+import org.qi4j.chronos.ui.common.NameChoiceRenderer;
 import org.qi4j.chronos.ui.common.SimpleDateField;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
-import org.qi4j.chronos.ui.common.NameChoiceRenderer;
-import org.qi4j.chronos.ui.contactperson.ContactPersonDelegator;
-import org.qi4j.chronos.ui.pricerate.PriceRateScheduleOptionPanel;
+import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
+import org.qi4j.chronos.ui.common.model.NameModel;
 import org.qi4j.chronos.ui.util.ValidatorUtil;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
-import org.qi4j.entity.association.Association;
-import org.qi4j.entity.association.SetAssociation;
 
 public abstract class ProjectAddEditPage extends AddEditBasePage
 {
     protected MaxLengthTextField projectNameField;
     protected MaxLengthTextField formalReferenceField;
-
-    protected SimpleDropDownChoice<ProjectStatusEnum> statusChoice;
-    protected SimpleDropDownChoice<ContactPersonDelegator> primaryContactChoice;
-
-//    protected SimpleDropDownChoice<CustomerDelegator> customerChoice;
-    protected DropDownChoice customerChoice;
-
+    protected SimpleDropDownChoice statusChoice;
+    protected SimpleDropDownChoice primaryContactChoice;
+    protected SimpleDropDownChoice customerChoice;
+    protected SimpleDropDownChoice priceRateScheduleChoice;
     protected Palette contactPalette;
-
     protected SimpleDateField estimateStartDate;
     protected SimpleDateField estimateEndDate;
-
     protected SimpleDateField actualStartDate;
     protected SimpleDateField actualEndDate;
-
     private WebMarkupContainer actualDateContainer;
-
-    private PriceRateScheduleOptionPanel priceRateScheduleOptionPanel;
-
-    private Form form;
+    private static final IChoiceRenderer nameChoiceRender = new NameChoiceRenderer();
+    private static final IChoiceRenderer fullNameChoiceRender = new FullNameChoiceRenderer();
+    protected List<Customer> availableCustomers;
+    protected List<PriceRateSchedule> availablePriceRateSchedules;
+    protected List<ContactPerson> selectedContactPersons;
+    protected List<ContactPerson> availableContactPersons;
 
     public ProjectAddEditPage( Page basePage )
     {
@@ -83,72 +70,62 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
         super( basePage, iModel );
     }
 
-    public void initComponent( Form form )
+    public void initComponent( final Form form )
     {
-        this.form = form;
-
-        final IChoiceRenderer nameChoiceRender = new NameChoiceRenderer();
-        final List<Customer> availableCustomers = new ArrayList<Customer>( getAccount().customers() ); // TODO kamil: use query here
-        customerChoice = new DropDownChoice( "customerChoice", availableCustomers, nameChoiceRender )
+        availableCustomers = new ArrayList<Customer>( getAccount().customers() );
+        customerChoice = new SimpleDropDownChoice( "customerChoice", availableCustomers, nameChoiceRender )
         {
-            protected void onSelectionChanged( Object newSelection )
+            @Override protected void onSelectionChanged( Object newSelection )
             {
-                handleProjectOwnerChanged();
+                handleProjectOwnerChanged( form );
             }
 
-            protected boolean wantOnSelectionChangedNotifications()
+            @Override protected boolean wantOnSelectionChangedNotifications()
             {
                 return true;
             }
         };
 
-        priceRateScheduleOptionPanel = new PriceRateScheduleOptionPanel( "priceRateScheduleOptionPanel" )
-        {
-            public List<PriceRateSchedule> getAvailablePriceRateSchedule()
-            {
-                return ProjectAddEditPage.this.getAvailablePriceRateScheduleChoice();
-            }
-
-            public Account getAccount()
-            {
-                return ProjectAddEditPage.this.getAccount();
-            }
-        };
+        availablePriceRateSchedules =
+            new ArrayList<PriceRateSchedule>( availableCustomers.get( 0 ).priceRateSchedules() );
+        priceRateScheduleChoice =
+            new SimpleDropDownChoice( "priceRateScheduleChoice", availablePriceRateSchedules, nameChoiceRender );
 
         projectNameField = new MaxLengthTextField( "projectName", "Project Name", Project.PROJECT_NAME_LEN );
-        formalReferenceField = new MaxLengthTextField( "projectFormalReference", "Project Formal Reference", Project.PROJECT_FORMAL_REFERENCE_LEN );
+        formalReferenceField =
+            new MaxLengthTextField( "projectFormalReference",
+                                    "Project Formal Reference", Project.PROJECT_FORMAL_REFERENCE_LEN );
 
-        statusChoice = new SimpleDropDownChoice<ProjectStatusEnum>( "statusChoice", Arrays.asList( ProjectStatusEnum.values() ), true )
+        statusChoice = new SimpleDropDownChoice( "statusChoice", Arrays.asList( ProjectStatusEnum.values() ), true )
         {
-
-            protected void onSelectionChanged( Object newSelection )
+            @Override protected void onSelectionChanged( Object newSelection )
             {
-                handleStatusChanged();
+                handleStatusChanged( (ProjectStatusEnum) newSelection );
             }
 
-            protected boolean wantOnSelectionChangedNotifications()
+            @Override protected boolean wantOnSelectionChangedNotifications()
             {
                 return true;
             }
         };
 
-        newOrReInitContactPalette();
+        newOrReInitContactPalette( form );
 
-        primaryContactChoice = new SimpleDropDownChoice<ContactPersonDelegator>( "primaryContactChoice", getAvailableContactPersonChoices(), true );
+        primaryContactChoice =
+            new SimpleDropDownChoice(
+                "primaryContactChoice", getAvailableContactPersonChoices(), fullNameChoiceRender );
 
         estimateStartDate = new SimpleDateField( "estimateStartDate" );
         estimateEndDate = new SimpleDateField( "estimateEndDate" );
-
         actualDateContainer = new WebMarkupContainer( "actualDateContainer" );
         actualDateContainer.setOutputMarkupId( true );
-
         actualStartDate = new SimpleDateField( "actualStartDate" );
         actualEndDate = new SimpleDateField( "actualEndDate" );
-
         actualDateContainer.add( actualStartDate );
         actualDateContainer.add( actualEndDate );
+        actualDateContainer.setVisible( false );
 
-        form.add( priceRateScheduleOptionPanel );
+        form.add( priceRateScheduleChoice );
         form.add( customerChoice );
         form.add( projectNameField );
         form.add( formalReferenceField );
@@ -157,145 +134,92 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
         form.add( estimateStartDate );
         form.add( estimateEndDate );
         form.add( actualDateContainer );
-
-        actualDateContainer.setVisible( false );
     }
 
-    private void handleProjectOwnerChanged()
+    private void handleProjectOwnerChanged( Form form )
     {
-        newOrReInitContactPalette();
-
+        primaryContactChoice.modelChanging();
         primaryContactChoice.setNewChoices( getAvailableContactPersonChoices() );
-
-        setResponsePage( this );
+        primaryContactChoice.modelChanged();
+        priceRateScheduleChoice.modelChanging();
+        priceRateScheduleChoice.setNewChoices( getAvailablePriceRateScheduleChoice() );
+        priceRateScheduleChoice.modelChanged();
+        newOrReInitContactPalette( form );
     }
 
-    private void newOrReInitContactPalette()
+    private void newOrReInitContactPalette( Form form )
     {
+        form.modelChanging();
         if( contactPalette != null )
         {
             form.remove( contactPalette );
         }
+        selectedContactPersons = getSelectedContactPersonChoices();
+        availableContactPersons = getAvailableContactPersonChoices();
 
-        IChoiceRenderer renderer = new ChoiceRenderer( "fullname", "fullname" );
-
-        List<ContactPersonDelegator> selecteds = getSelectedContactPersonChoices();
-        List<ContactPersonDelegator> choices = getAvailableContactPersonChoices();
-
-        contactPalette = new Palette( "contactPalette", new Model( (Serializable) selecteds ),
-                                      new Model( (Serializable) choices ), renderer, 5, false );
-
+        if( !availableContactPersons.containsAll( selectedContactPersons ) )
+        {
+            selectedContactPersons.clear();
+        }
+        
+        contactPalette =
+            new Palette( "contactPalette", new Model( (Serializable) selectedContactPersons ),
+                         new Model( (Serializable) availableContactPersons ), fullNameChoiceRender, 4, false );
         form.add( contactPalette );
+        form.modelChanged();
     }
 
-    private List<ContactPersonDelegator> getSelectedContactPersonChoices()
+    protected List<ContactPerson> getSelectedContactPersonList()
     {
-        Iterator<ContactPerson> contactPersonIterator = getInitSelectedContactPersonList();
+        Iterator<ContactPerson> contactPersonIterator = contactPalette.getSelectedChoices();
+        List<ContactPerson> contactPersonList = new ArrayList<ContactPerson>();
 
+        while( contactPersonIterator.hasNext() )
+        {
+            contactPersonList.add( contactPersonIterator.next() );
+        }
+        return contactPersonList;
+    }
+
+    private List<ContactPerson> getSelectedContactPersonChoices()
+    {
+        Iterator<ContactPerson> contactPersonIterator = ProjectAddEditPage.this.getInitSelectedContactPersonList();
         List<ContactPerson> selectedContactPerson = new ArrayList<ContactPerson>();
 
         while( contactPersonIterator.hasNext() )
         {
             selectedContactPerson.add( contactPersonIterator.next() );
         }
-
-        List<ContactPersonDelegator> systemRoleDelegators = constructContactPerson( selectedContactPerson );
-
-        return systemRoleDelegators;
+        return selectedContactPerson;
     }
 
-    private List<ContactPersonDelegator> getAvailableContactPersonChoices()
+    private List<ContactPerson> getAvailableContactPersonChoices()
     {
-        // TODO
-//        Customer projectOwner = getCustomerService().get( customerChoice.getChoice().getId() );
-        Customer projectOwner = getCustomer();
-
-//        List<ContactPerson> contactPersonList = getContactPersonService().findAll( projectOwner );
-
-        List<ContactPersonDelegator> results = 
-            constructContactPerson( new ArrayList<ContactPerson>( projectOwner.contactPersons() ) );
-
-        return results;
+        final Customer customer = (Customer) customerChoice.getModelObject();
+        return new ArrayList<ContactPerson>( customer.contactPersons() );
     }
 
-    private List<ContactPersonDelegator> constructContactPerson( List<ContactPerson> contacts )
+    private List<PriceRateSchedule> getAvailablePriceRateScheduleChoice()
     {
-        List<ContactPersonDelegator> returns = new ArrayList<ContactPersonDelegator>();
-
-        for( ContactPerson contactPerson : contacts )
-        {
-            returns.add( new ContactPersonDelegator( contactPerson ) );
-        }
-
-        return returns;
+        final Customer customer = (Customer) customerChoice.getModelObject();
+        return new ArrayList<PriceRateSchedule>( customer.priceRateSchedules() );
     }
 
-    private ContactPersonService getContactPersonService()
+    private void handleStatusChanged( ProjectStatusEnum projectStatusEnum )
     {
-        return ChronosWebApp.getServices().getContactPersonService();
-    }
-
-    private ContactPerson getPrimaryContactPerson()
-    {
-        ContactPersonDelegator selected = primaryContactChoice.getChoice();
-
-        if( selected != null )
-        {
-            return getContactPersonService().get( selected.getId() );
-        }
-        else
-        {
-            return null;
-        }
-    }
-
-    private List<ContactPerson> getSelectedContactPersons()
-    {
-        Iterator<ContactPersonDelegator> selectedIter = contactPalette.getSelectedChoices();
-
-        List<ContactPerson> resultList = new ArrayList<ContactPerson>();
-
-        while( selectedIter.hasNext() )
-        {
-            resultList.add( getContactPersonService().get( selectedIter.next().getId() ) );
-        }
-
-        return resultList;
-    }
-
-    private void handleStatusChanged()
-    {
-        ProjectStatusEnum projectStatus = statusChoice.getChoice();
-
-        if( projectStatus == ProjectStatusEnum.CLOSED )
+        if( projectStatusEnum == ProjectStatusEnum.CLOSED )
         {
             actualDateContainer.setVisible( true );
+            final IModel iModel = ProjectAddEditPage.this.getModel();
+            final CustomCompositeModel actualModel = new CustomCompositeModel( iModel, "actualTime" );
+            actualStartDate.setModel( new CustomCompositeModel( actualModel, "startTime" ) );
+            actualEndDate.setModel( new CustomCompositeModel( actualModel, "endTime" ) );
         }
         else
         {
             actualDateContainer.setVisible( false );
         }
-
-        setResponsePage( this );
     }
-
-/*
-    private List<CustomerDelegator> getProjectOwnerList()
-    {
-        List<CustomerDelegator> delegatorList = new ArrayList<CustomerDelegator>();
-
-        // TODO migrate
-//        List<Customer> customers = getCustomerService().findAll( getAccount() );
-        List<Customer> customers = new ArrayList<Customer>();
-
-        for( Customer customer : customers )
-        {
-            delegatorList.add( new CustomerDelegator( customer ) );
-        }
-
-        return delegatorList;
-    }
-*/
 
     protected void bindPropertyModel( IModel iModel )
     {
@@ -303,120 +227,24 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
         formalReferenceField.setModel( new CustomCompositeModel( iModel, "reference" ) );
         statusChoice.setModel( new CustomCompositeModel( iModel, "projectStatus" ) );
         customerChoice.setModel( new CustomCompositeModel( iModel, "customer" ) );
+        priceRateScheduleChoice.setModel( new CustomCompositeModel( iModel, "priceRateSchedule" ) );
 
         CustomCompositeModel estimateModel = new CustomCompositeModel( iModel, "estimateTime" );
         estimateStartDate.setModel( new CustomCompositeModel( estimateModel, "startTime" ) );
         estimateEndDate.setModel( new CustomCompositeModel( estimateModel, "endTime" ) );
-    }
 
-    protected void assignFieldValuesToProject( Project project )
-    {
-        project.name().set( projectNameField.getText() );
-        project.reference().set( formalReferenceField.getText() );
-
-        project.projectStatus().set( statusChoice.getChoice() );
-
-        // TODO migrate
-//        Customer customer = getCustomerService().get( customerChoice.getChoice().getId() );
-        Customer customer = getCustomer();
-
-        project.customer().set( customer );
-
-        project.primaryContactPerson().set( null );
-
-        ContactPerson primaryContactPerson = getPrimaryContactPerson();
-
-        if( primaryContactPerson != null )
-        {
-            project.primaryContactPerson().set( primaryContactPerson );
-        }
-
-        SetAssociation<ContactPerson> projectContacts = project.contactPersons();
-        projectContacts.clear();
-
-        List<ContactPerson> selectedContacts = getSelectedContactPersons();
-        projectContacts.addAll( selectedContacts );
-
-        TimeRange projectEstimateTime = project.estimateTime().get();
-        projectEstimateTime.startTime().set( estimateStartDate.getDate() );
-        projectEstimateTime.endTime().set( estimateEndDate.getDate() );
-
-        TimeRange projectActualTime = project.actualTime().get();
-        projectActualTime.startTime().set( null );
-        projectActualTime.endTime().set( null );
-
-        if( project.projectStatus().get() == ProjectStatusEnum.CLOSED )
-        {
-            projectActualTime.startTime().set( actualStartDate.getDate() );
-            projectActualTime.endTime().set( actualEndDate.getDate() );
-        }
-
-        Association<PriceRateSchedule> projectPriceRateSchedule = project.priceRateSchedule();
-        projectPriceRateSchedule.set( priceRateScheduleOptionPanel.getPriceRateSchedule() );
-    }
-
-    protected void assignProjectToFieldValues( Project project )
-    {
-        projectNameField.setText( project.name().get() );
-
-        formalReferenceField.setText( project.reference().get() );
-
-        ProjectStatusEnum projectStatus = project.projectStatus().get();
-        statusChoice.setChoice( projectStatus );
-
-        if( projectStatus == ProjectStatusEnum.CLOSED )
+        // TODO kamil: proper binding actualStartDate and actualEndDate
+        if( statusChoice.getModelObject() == ProjectStatusEnum.CLOSED )
         {
             actualDateContainer.setVisible( true );
+            CustomCompositeModel actualModel = new CustomCompositeModel( iModel, "actualTime" );
+            actualStartDate.setModel( new CustomCompositeModel( actualModel, "startTime" ) );
+            actualEndDate.setModel( new CustomCompositeModel( actualModel, "endTime" ) );
         }
-
-        Customer projectCustomer = project.customer().get();
-//        customerChoice.setChoice( new CustomerDelegator( projectCustomer ) );
-
-        primaryContactChoice.setNewChoices( getAvailableContactPersonChoices() );
-
-        ContactPerson primaryContactPerson = project.primaryContactPerson().get();
-        if( primaryContactPerson != null )
-        {
-            primaryContactChoice.setChoice( new ContactPersonDelegator( primaryContactPerson ) );
-        }
-
-        TimeRange projectEstimateTime = project.estimateTime().get();
-        estimateStartDate.setDate( projectEstimateTime.startTime().get() );
-        estimateEndDate.setDate( projectEstimateTime.startTime().get() );
-
-        TimeRange projectActualTime = project.actualTime().get();
-        actualStartDate.setDate( projectActualTime.startTime().get() );
-        actualEndDate.setDate( projectActualTime.endTime().get() );
-
-        //re-initilizae contact and priceRateSchedule values to reflect the selected projectOwner.
-        newOrReInitContactPalette();
-
-        priceRateScheduleOptionPanel.setPriceRateSchedule( project.priceRateSchedule().get() );
-
-        //TODO bp. move this to other place?
-        customerChoice.setEnabled( false );
     }
 
-    /*
-        protected CustomerService getCustomerService()
-        {
-            return ChronosWebApp.getServices().getCustomerService();
-        }
-    */
     protected Customer getCustomer()
     {
-/*
-        System.err.println( "Customer: " + customerChoice.getChoice().getId() );
-        for( Customer customer : getAccount().customers() )
-        {
-            if( customerChoice.getChoice().getId().equals( ( (Identity) customer).identity().get() ) )
-            {
-                return customer;
-            }
-        }
-
-        return null;
-*/
         return ( (Project) getModelObject() ).customer().get();
     }
 
@@ -430,11 +258,6 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
         }
 
         if( formalReferenceField.checkIsEmptyOrInvalidLength() )
-        {
-            isRejected = true;
-        }
-
-        if( priceRateScheduleOptionPanel.checkIfNotValidated() )
         {
             isRejected = true;
         }
@@ -465,7 +288,4 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
     public abstract void onSubmitting();
 
     public abstract Iterator<ContactPerson> getInitSelectedContactPersonList();
-
-    public abstract List<PriceRateSchedule> getAvailablePriceRateScheduleChoice();
 }
-

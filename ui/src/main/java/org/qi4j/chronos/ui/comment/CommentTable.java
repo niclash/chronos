@@ -12,29 +12,37 @@
  */
 package org.qi4j.chronos.ui.comment;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 import org.apache.wicket.markup.repeater.Item;
-import org.qi4j.chronos.model.associations.HasComments;
-import org.qi4j.chronos.model.User;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Comment;
-import org.qi4j.chronos.service.CommentService;
-import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
+import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.associations.HasComments;
+import org.qi4j.chronos.model.composites.CommentEntityComposite;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.util.DateUtil;
 import org.qi4j.entity.Identity;
-import org.qi4j.entity.UnitOfWorkFactory;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public abstract class CommentTable extends ActionTable<Comment, String>
+public abstract class CommentTable extends ActionTable<IModel, String>
 {
-    private CommentDataProvider dataProvider;
+    private static final Logger LOGGER = LoggerFactory.getLogger( CommentTable.class );
+    private AbstractSortableDataProvider<IModel, String> dataProvider;
+    private static final String DELETE_SUCCESS = "deleteSuccessful";
+    private static final String DELETE_ACTION = "deleteAction";
+    private static final String DELETE_FAIL = "deleteFailed";
 
     public CommentTable( String id )
     {
@@ -45,26 +53,90 @@ public abstract class CommentTable extends ActionTable<Comment, String>
 
     private void addActions()
     {
-        addAction( new SimpleDeleteAction<Comment>( "Delete" )
-        {
-            public void performAction( List<Comment> comments )
+        addAction(
+            new SimpleDeleteAction<IModel>( getString( DELETE_ACTION ) )
             {
-                // TODO kamil: migrate
-//                getCommentService().deleteComments( getHasComments(), comments );
-                handleDeleteAction( comments );
+                public void performAction( List<IModel> comments )
+                {
+                    handleDeleteAction( comments );
+                    info( getString( DELETE_SUCCESS ) );
+                }
             }
-        } );
+        );
     }
 
-    public AbstractSortableDataProvider<Comment, String> getDetachableDataProvider()
+    private void handleDeleteAction( List<IModel> comments )
+    {
+        final UnitOfWork unitOfWork = getUnitOfWork();
+        try
+        {
+            final HasComments hasComments = unitOfWork.dereference( getHasComments() );
+            for( IModel iModel : comments )
+            {
+                final Comment comment = (Comment) iModel.getObject();
+                hasComments.comments().remove( comment );
+                unitOfWork.remove( comment );
+            }
+            unitOfWork.complete();
+        }
+        catch( UnitOfWorkCompletionException uowce )
+        {
+            unitOfWork.reset();
+
+            error( getString( DELETE_FAIL, new Model( uowce ) ) );
+            LOGGER.error( uowce.getLocalizedMessage(), uowce );
+        }
+    }
+
+    public AbstractSortableDataProvider<IModel, String> getDetachableDataProvider()
     {
         if( dataProvider == null )
         {
-            dataProvider = new CommentDataProvider()
+            dataProvider = new AbstractSortableDataProvider<IModel, String>()
             {
-                public HasComments getHasComments()
+                public int getSize()
                 {
-                    return CommentTable.this.getHasComments();
+                    HasComments hasComments = getUnitOfWork().dereference( CommentTable.this.getHasComments() );
+                    return hasComments.comments().size();
+                }
+
+                public String getId( IModel t )
+                {
+                    return ( (Identity) t.getObject() ).identity().get();
+                }
+
+                public IModel load( final String s )
+                {
+                    return new CompoundPropertyModel(
+                        new LoadableDetachableModel()
+                        {
+                            protected Object load()
+                            {
+                                return getUnitOfWork().find( s, CommentEntityComposite.class );
+                            }
+                        }
+                    );
+                }
+
+                public List<IModel> dataList( int first, int count )
+                {
+                    List<IModel> models = new ArrayList <IModel>();
+                    for( final String commentId : CommentTable.this.dataList( first, count ) )
+                    {
+                        models.add(
+                            new CompoundPropertyModel(
+                                new LoadableDetachableModel()
+                                {
+                                    protected Object load()
+                                    {
+                                        return getUnitOfWork().find( commentId, CommentEntityComposite.class );
+                                    }
+                                }
+                            )
+                        );
+
+                    }
+                    return models;
                 }
             };
         }
@@ -72,17 +144,16 @@ public abstract class CommentTable extends ActionTable<Comment, String>
         return dataProvider;
     }
 
-    public void populateItems( Item item, Comment obj )
+    public void populateItems( Item item, IModel iModel )
     {
-        User user = obj.user().get();
-//        String userId = user.identity().get();
-        String commentId = ( (Identity) obj).identity().get();
+        final Comment comment = (Comment) iModel.getObject();
+        final User user = comment.user().get();
+        final String commentId = ( (Identity) comment ).identity().get();
 
-        Date createdDate = obj.createdDate().get();
+        Date createdDate = comment.createdDate().get();
         item.add( createDetailLink( "user", user.fullName().get(), commentId ) );
         item.add( createDetailLink( "createdDate", DateUtil.formatDateTime( createdDate ), commentId ) );
-        //TODO bp.  truncate comment
-        item.add( createDetailLink( "comment", obj.text().get(), commentId ) );
+        item.add( createDetailLink( "comment", comment.text().get(), commentId ) );
     }
 
     private SimpleLink createDetailLink( String id, String text, final String commentId )
@@ -91,71 +162,18 @@ public abstract class CommentTable extends ActionTable<Comment, String>
         {
             public void linkClicked()
             {
-                CommentDetailPage detailPage = new CommentDetailPage( this.getPage() )
-                {
-                    public Comment getComment()
-                    {
-                        // TODO kamil: migrate
-//                        return getCommentService().get( getHasComments(), createdDate, userId );
-                        for( Comment comment : getHasComments().comments() )
-                        {
-                            if( commentId.equals( ( (Identity) comment).identity().get() ) )
-                            {
-                                return comment;
-                            }
-                        }
-
-                        return null;
-                    }
-                };
-
+                CommentDetailPage detailPage = new CommentDetailPage( CommentTable.this.getPage(), commentId );
                 setResponsePage( detailPage );
             }
         };
-    }
-
-
-    private void handleDeleteAction( List<Comment> comments )
-    {
-        // TODO kamil: use unitOfWork
-        UnitOfWork unitOfWork = null == getUnitOfWorkFactory().currentUnitOfWork() ?
-                                getUnitOfWorkFactory().newUnitOfWork() :
-                                getUnitOfWorkFactory().currentUnitOfWork();
-
-        getHasComments().comments().removeAll( comments );
-
-        for( Comment comment : comments )
-        {
-            unitOfWork.remove( comment );
-        }
-
-        try
-        {
-            unitOfWork.complete();
-        }
-        catch( UnitOfWorkCompletionException uowce )
-        {
-            // TODO kamil: use LOGGER
-            System.err.println( uowce.getLocalizedMessage() );
-            uowce.printStackTrace();
-            error( "Unable to delete selected comment(s)!!!" );
-        }
-    }
-
-    private UnitOfWorkFactory getUnitOfWorkFactory()
-    {
-        return ChronosSession.get().getUnitOfWorkFactory();
-    }
-
-    private CommentService getCommentService()
-    {
-        return ChronosWebApp.getServices().getCommentService();
     }
 
     public List<String> getTableHeaderList()
     {
         return Arrays.asList( "User", "Created Date", "Comment" );
     }
+
+    public abstract List<String> dataList( int first, int count );
 
     public abstract HasComments getHasComments();
 }

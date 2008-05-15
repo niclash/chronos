@@ -13,12 +13,13 @@
 package org.qi4j.chronos.ui.comment;
 
 import org.apache.wicket.Page;
-import org.qi4j.chronos.model.User;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Comment;
+import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.associations.HasComments;
-import org.qi4j.chronos.service.CommentService;
-import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.entity.UnitOfWork;
+import org.qi4j.chronos.model.composites.CommentEntityComposite;
 import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.qi4j.library.framework.validation.ValidationException;
 import org.slf4j.Logger;
@@ -27,71 +28,60 @@ import org.slf4j.LoggerFactory;
 public abstract class CommentEditPage extends CommentAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( CommentEditPage.class );
+    private static final String UPDATE_FAIL = "updateFailed";
+    private static final String UPDATE_SUCCESS = "updateSuccessful";
+    private static final String SUBMIT_BUTTON = "editPageSubmitButton";
+    private static final String TITLE_LABEL = "editPageTitleLabel";
 
-    public CommentEditPage( Page basePage )
+    public CommentEditPage( Page basePage, final String commentId )
     {
         super( basePage );
 
-        initData();
-    }
-
-    private void initData()
-    {
-        Comment comment = getComment();
-
-        assignCommentToFieldValue( comment );
+        setModel(
+            new CompoundPropertyModel(
+                new LoadableDetachableModel()
+                {
+                    public Object load()
+                    {
+                        return getUnitOfWork().find( commentId, CommentEntityComposite.class );
+                    }
+                }
+            )
+        );
     }
 
     public String getSubmitButtonValue()
     {
-        return "Save";
+        return getString( SUBMIT_BUTTON );
     }
 
     public String getTitleLabel()
     {
-        return "Edit Comment";
-    }
-
-    private CommentService getCommentService()
-    {
-        return ChronosWebApp.getServices().getCommentService();
+        return getString( TITLE_LABEL );
     }
 
     public void onSubmitting()
     {
-        // TODO kamil: use unit of work
-        UnitOfWork unitOfWork = getUnitOfWork();
-
         try
         {
-            Comment comment = getComment();
-//            Comment oldComment = getComment();
-
-            assignFieldValueToComment( comment );
-
-//            getCommentService().update( getHasComments(), oldComment, comment );
-
-            unitOfWork.complete();
-
-            logInfoMsg( "Comment is updated successfully." );
+            getUnitOfWork().complete();
+            logInfoMsg( getString( UPDATE_SUCCESS ) );
 
             divertToGoBackPage();
         }
         catch( UnitOfWorkCompletionException uowce )
         {
-            logErrorMsg( "Unable to update comment!!!" + uowce.getClass().getSimpleName() );
+            reset();
 
-            if( null != unitOfWork && unitOfWork.isOpen() )
-            {
-                unitOfWork.discard();
-            }
-
+            logErrorMsg( getString( UPDATE_FAIL, new Model( uowce ) ) );
             LOGGER.error( uowce.getLocalizedMessage(), uowce );
         }
         catch( ValidationException err )
         {
-            logErrorMsg( err.getMessage() );
-            LOGGER.error( err.getMessage(), err );
+            reset();
+
+            logErrorMsg( getString( UPDATE_FAIL, new Model( err ) ) );
+            LOGGER.error( err.getLocalizedMessage(), err );
         }
     }
 
@@ -103,5 +93,4 @@ public abstract class CommentEditPage extends CommentAddEditPage
     public abstract HasComments getHasComments();
 
     public abstract Comment getComment();
-
 }

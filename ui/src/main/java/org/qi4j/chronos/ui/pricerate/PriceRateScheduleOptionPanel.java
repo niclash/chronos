@@ -12,22 +12,23 @@
  */
 package org.qi4j.chronos.ui.pricerate;
 
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.markup.html.form.SubmitLink;
+import java.util.List;
+import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.chronos.model.PriceRateSchedule;
-import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
+import org.qi4j.chronos.ui.common.NameChoiceRenderer;
+import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 
 public abstract class PriceRateScheduleOptionPanel extends Panel
 {
-    private SubmitLink newPriceRateScheduleLink;
-    private SubmitLink customizePriceRateScheduleLink;
-
-    private Label priceRateScheduleNameLabel;
-
-    //TODO bp. Remove priceRateSchedule
-    private static PriceRateSchedule priceRateSchedule;
+//    private SubmitLink newPriceRateScheduleLink;
+//    private SubmitLink customizePriceRateScheduleLink;
+//    private Label priceRateScheduleNameLabel;
+//    private PriceRateSchedule priceRateSchedule;
+    protected SimpleDropDownChoice priceRateScheduleChoice;
+    private List<PriceRateSchedule> availablePriceRateSchedules;
+    private static final IChoiceRenderer nameChoiceRenderer = new NameChoiceRenderer();
 
     public PriceRateScheduleOptionPanel( String id )
     {
@@ -38,11 +39,15 @@ public abstract class PriceRateScheduleOptionPanel extends Panel
 
     private void initComponents()
     {
-        //TODO bp. set it to null due to it is a static variable
-        priceRateSchedule = null;
+//        priceRateSchedule = null;
+        availablePriceRateSchedules = PriceRateScheduleOptionPanel.this.getAvailablePriceRateSchedules();
+        priceRateScheduleChoice =
+            new SimpleDropDownChoice( "priceRateScheduleChoice", availablePriceRateSchedules, nameChoiceRenderer );
 
+        add( priceRateScheduleChoice );
+
+/*
         priceRateScheduleNameLabel = new Label( "priceRateScheduleNameLabel", "" );
-
         newPriceRateScheduleLink = new SubmitLink( "newPriceRateScheduleLink" )
         {
             public void onSubmit()
@@ -58,18 +63,20 @@ public abstract class PriceRateScheduleOptionPanel extends Panel
                 handleCustomizePriceRateSchedule();
             }
         };
-
         priceRateScheduleNameLabel.setVisible( false );
         customizePriceRateScheduleLink.setVisible( false );
 
         add( priceRateScheduleNameLabel );
         add( newPriceRateScheduleLink );
         add( customizePriceRateScheduleLink );
+*/
     }
 
+/*
     private void handleCustomizePriceRateSchedule()
     {
-        PriceRateScheduleEditPage editPage = new PriceRateScheduleEditPage( (BasePage) this.getPage() )
+        // TODO kamil: fix the id
+        PriceRateScheduleEditPage editPage = new PriceRateScheduleEditPage( (BasePage) this.getPage(), "id" )
         {
             public PriceRateSchedule getPriceRateSchedule()
             {
@@ -99,6 +106,11 @@ public abstract class PriceRateScheduleOptionPanel extends Panel
                 PriceRateScheduleOptionPanel.this.addPriceRateSchedule( priceRateScheduleComposite );
             }
 
+            public HasPriceRateSchedules getHasPriceRateSchedules()
+            {
+                return PriceRateScheduleOptionPanel.this.getHasPriceRateSchedules();
+            }
+
             public String getSubmitButtonValue()
             {
                 return "Done";
@@ -112,27 +124,30 @@ public abstract class PriceRateScheduleOptionPanel extends Panel
     {
         setPriceRateSchedule( priceRateSchedule );
     }
+*/
 
     public boolean checkIfNotValidated()
     {
-        if( priceRateSchedule == null )
-        {
-            error( "Please create a new price Rate Schedule." );
-            return true;
-        }
+//        if( priceRateScheduleChoice.getModelObject() == null )
+//        {
+//            error( "Please create a new price Rate Schedule." );
+//            return true;
+//        }
 
         return false;
     }
 
+/*
     public void setPriceRateSchedule( PriceRateSchedule priceRateSchedule )
     {
         this.priceRateSchedule = priceRateSchedule;
-
         priceRateScheduleNameLabel.setModelObject( priceRateSchedule.name().get() );
-
         priceRateScheduleNameLabel.setVisible( true );
         customizePriceRateScheduleLink.setVisible( true );
     }
+*/
 
-    public abstract Account getAccount();
+    public abstract List<PriceRateSchedule> getAvailablePriceRateSchedules();
+
+    public abstract HasPriceRateSchedules getHasPriceRateSchedules();
 }

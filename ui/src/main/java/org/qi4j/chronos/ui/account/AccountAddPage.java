@@ -13,27 +13,26 @@
 package org.qi4j.chronos.ui.account;
 
 import org.apache.wicket.Page;
-import org.apache.wicket.Localizer;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
-import org.qi4j.library.framework.validation.ValidationException;
-import org.qi4j.composite.scope.Uses;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.Address;
 import org.qi4j.chronos.model.City;
-import org.qi4j.chronos.model.State;
 import org.qi4j.chronos.model.Country;
-import org.qi4j.chronos.model.composites.AddressEntityComposite;
+import org.qi4j.chronos.model.State;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.StateEntityComposite;
+import org.qi4j.chronos.model.composites.AddressEntityComposite;
 import org.qi4j.chronos.model.composites.CityEntityComposite;
 import org.qi4j.chronos.model.composites.CountryEntityComposite;
+import org.qi4j.chronos.model.composites.StateEntityComposite;
+import static org.qi4j.composite.NullArgumentException.*;
+import org.qi4j.composite.scope.Uses;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.qi4j.library.framework.validation.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import static org.qi4j.composite.NullArgumentException.validateNotNull;
 
 
 public class AccountAddPage extends AccountAddEditPage
@@ -86,24 +85,27 @@ public class AccountAddPage extends AccountAddEditPage
 
     public void onSubmitting()
     {
+        final UnitOfWork unitOfWork = getUnitOfWork();
         try
         {
             final Account account = (Account) getModelObject();
             getAccountService().add( account );
-            getUnitOfWork().complete();
+            unitOfWork.complete();
             logInfoMsg( getString( ADD_SUCCESS ) );
 
             super.divertToGoBackPage();
         }
         catch( UnitOfWorkCompletionException uowce )
         {
+            unitOfWork.reset();
+
             logErrorMsg( getString( ADD_FAIL, new Model( uowce ) ) );
             LOGGER.error( uowce.getLocalizedMessage() );
-
-            reset();
         }
         catch( ValidationException validationErr )
         {
+            unitOfWork.reset();
+
             logErrorMsg( getString( ADD_FAIL, new Model( validationErr ) ) );
             LOGGER.error( validationErr.getMessage(), validationErr );
         }
@@ -117,12 +119,5 @@ public class AccountAddPage extends AccountAddEditPage
     public String getTitleLabel()
     {
         return getString( TITLE_LABEL );
-    }
-
-    @Override protected void divertToGoBackPage()
-    {
-        reset();
-
-        super.divertToGoBackPage();
     }
 }

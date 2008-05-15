@@ -13,69 +13,70 @@
 package org.qi4j.chronos.ui.project;
 
 import java.util.Iterator;
-import java.util.List;
-import java.util.ArrayList;
-import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.model.Project;
-import org.qi4j.chronos.model.PriceRateSchedule;
-import org.qi4j.chronos.model.Customer;
+import org.apache.wicket.Page;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.ContactPerson;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.Project;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.apache.wicket.Page;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.IModel;
 
 public class ProjectEditPage extends ProjectAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( ProjectEditPage.class );
+    private static final String UPDATE_FAIL = "updateFailed";
+    private static final String UPDATE_SUCCESS = "updateSuccessful";
+    private static final String SUBMIT_BUTTON = "editPageSubmitButton";
+    private static final String TITLE_LABEL = "editPageTitleLabel";
 
     public ProjectEditPage( Page basePage, final IModel iModel )
     {
         super( basePage, iModel );
 
         bindPropertyModel( getModel() );
-//        initData();
-    }
-
-    private void initData()
-    {
-        assignProjectToFieldValues( getProject() );
     }
 
     public void onSubmitting()
     {
-        Project project = getProject();
-
+        final UnitOfWork unitOfWork = getUnitOfWork();
         try
         {
-            assignFieldValuesToProject( project );
-
-            // TODO migrate
-//            ChronosWebApp.getServices().getProjectService().update( project );
-
-            logInfoMsg( "Project updated successfully." );
-
+            final Project project = (Project) getModelObject();
+            project.contactPersons().clear();
+            for( ContactPerson contactPerson : getSelectedContactPersonList() )
+            {
+                project.contactPersons().add( contactPerson );
+            }
+            unitOfWork.complete();
+            logInfoMsg( getString( UPDATE_SUCCESS ) );
             divertToGoBackPage();
+        }
+        catch( UnitOfWorkCompletionException uowce )
+        {
+            unitOfWork.reset();
+
+            logErrorMsg( getString( UPDATE_FAIL, new Model( uowce ) ) );
+            LOGGER.error( uowce.getLocalizedMessage(), uowce );
         }
         catch( Exception err )
         {
-            logErrorMsg( err.getMessage() );
+            unitOfWork.reset();
 
-            LOGGER.error( err.getMessage(), err );
+            logErrorMsg( getString( UPDATE_FAIL, new Model( err ) ) );
+            LOGGER.error( err.getLocalizedMessage(), err );
         }
     }
 
     public String getSubmitButtonValue()
     {
-        return "Save";
+        return getString( SUBMIT_BUTTON );
     }
 
     public String getTitleLabel()
     {
-        return "Edit Project";
+        return getString( TITLE_LABEL );
     }
 
     public Iterator<ContactPerson> getInitSelectedContactPersonList()
@@ -83,20 +84,8 @@ public class ProjectEditPage extends ProjectAddEditPage
         return getProject().contactPersons().iterator();
     }
 
-    public List<PriceRateSchedule> getAvailablePriceRateScheduleChoice()
-    {
-//        Customer customer = getCustomerService().get( customerChoice.getChoice().getId() );
-//        List<PriceRateSchedule> list = ChronosWebApp.getServices().getPriceRateScheduleService().findAll( customer );
-        List<PriceRateSchedule> list = new ArrayList<PriceRateSchedule>();
-        list.addAll( getProject().customer().get().priceRateSchedules() );
-        list.add( getProject().priceRateSchedule().get() );
-
-        return list;
-    }
-
     private Project getProject()
     {
-        return (Project) getModelObject();
+        return getUnitOfWork().dereference( (Project) getModelObject() );
     }
-//    public abstract Project getProject();
 }

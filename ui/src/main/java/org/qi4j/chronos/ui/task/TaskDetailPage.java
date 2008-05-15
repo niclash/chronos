@@ -13,75 +13,88 @@
 package org.qi4j.chronos.ui.task;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.apache.wicket.Page;
 import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextArea;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
+import org.qi4j.chronos.model.Comment;
+import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.ProjectAssignee;
+import org.qi4j.chronos.model.Staff;
+import org.qi4j.chronos.model.Task;
+import org.qi4j.chronos.model.WorkEntry;
 import org.qi4j.chronos.model.associations.HasComments;
 import org.qi4j.chronos.model.associations.HasWorkEntries;
-import org.qi4j.chronos.model.Comment;
-import org.qi4j.chronos.model.Task;
-import org.qi4j.chronos.model.ProjectAssignee;
-import org.qi4j.chronos.model.Project;
-import org.qi4j.chronos.model.Staff;
-import org.qi4j.chronos.model.WorkEntry;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.ui.comment.CommentTab;
-import org.qi4j.chronos.ui.common.SimpleTextArea;
 import org.qi4j.chronos.ui.common.SimpleTextField;
+import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.workentry.WorkEntryTab;
 import org.qi4j.chronos.util.DateUtil;
+import org.qi4j.composite.scope.Uses;
+import org.qi4j.entity.Identity;
 
-public abstract class TaskDetailPage extends LeftMenuNavPage
+public class TaskDetailPage extends LeftMenuNavPage
 {
-    private Page basePage;
+    private final Page basePage;
 
-    public TaskDetailPage( Page basePage )
+    public TaskDetailPage( @Uses Page basePage, @Uses final String taskId )
     {
         this.basePage = basePage;
 
+        setModel(
+            new CompoundPropertyModel(
+                new LoadableDetachableModel()
+                {
+                    protected Object load()
+                    {
+                        return getUnitOfWork().find( taskId, TaskEntityComposite.class );
+                    }
+                }
+            )
+        );
         initComponents();
     }
 
     private void initComponents()
     {
         add( new FeedbackPanel( "feedbackPanel" ) );
-        add( new TaskMasterDetailForm( "taskDetailForm" ) );
+        add( new TaskMasterDetailForm( "taskDetailForm", getModel() ) );
     }
 
     private class TaskMasterDetailForm extends Form
     {
-        private Button submitButton;
-
-        private SimpleTextField userField;
-        private SimpleTextField titleField;
-        private SimpleTextField createDateField;
-        private SimpleTextArea descriptionTextArea;
-
-        private TabbedPanel tabbedPanel;
-
-        public TaskMasterDetailForm( String id )
+        public TaskMasterDetailForm( String id, IModel iModel )
         {
             super( id );
 
-            initComponents();
+            initComponents( iModel );
         }
 
-        private void initComponents()
+        private void initComponents( IModel iModel )
         {
-            Task taskMaster = getTask();
+            final Task task = (Task) iModel.getObject();
+            final String fullName = task.user().get().fullName().get();
+            final Date createdDate = task.createdDate().get();
+            final TextField userField = new SimpleTextField( "userField", fullName ); // workaround
+            final TextField titleField = new TextField( "titleField", new CustomCompositeModel( iModel, "title" ) );
+            final TextField createDateField =
+                new SimpleTextField( "createDateField", DateUtil.formatDateTime( createdDate ) ); // workaround
+            final TextArea descriptionTextArea =
+                new TextArea( "descriptionTextArea", new CustomCompositeModel( iModel, "description" ) );
 
-            userField = new SimpleTextField( "userField", taskMaster.user().get().fullName().get() );
-            titleField = new SimpleTextField( "titleField", taskMaster.title().get() );
-            createDateField = new SimpleTextField( "createDateField", DateUtil.formatDateTime( taskMaster.createdDate().get() ) );
-            descriptionTextArea = new SimpleTextArea( "descriptionTextArea", taskMaster.description().get() );
-
-            submitButton = new Button( "submitButton", new Model( "Return" ) )
+            final Button submitButton = new Button( "submitButton", new Model( "Return" ) )
             {
                 public void onSubmit()
                 {
@@ -90,11 +103,10 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
             };
 
             List<AbstractTab> tabs = new ArrayList<AbstractTab>();
-
             tabs.add( createCommentTab() );
             tabs.add( createWorkEntryTab() );
 
-            tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
+            final TabbedPanel tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
 
             add( userField );
             add( titleField );
@@ -113,6 +125,16 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
                     TaskDetailPage.this.addingWorkEntry( workEntry );
                 }
 
+                public List<String> dataList( int first, int count )
+                {
+                    List<String> workEntryIdList = new ArrayList<String>();
+                    for( WorkEntry workEntry : TaskDetailPage.this.getTask().workEntries() )
+                    {
+                        workEntryIdList.add( ( (Identity) workEntry ).identity().get() );
+                    }
+                    return workEntryIdList.subList( first, first + count );
+                }
+
                 public ProjectAssignee getProjectAssignee()
                 {
                     return TaskDetailPage.this.getProjectAssignee();
@@ -120,7 +142,7 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
 
                 public HasWorkEntries getHasWorkEntries()
                 {
-                    return getTask();
+                    return TaskDetailPage.this.getTask();
                 }
             };
         }
@@ -129,27 +151,22 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
         {
             return new CommentTab( "Comment" )
             {
+                public List<String> dataList( int first, int count )
+                {
+                    List<String> commentIdList = new ArrayList<String>();
+                    for( Comment comment : TaskDetailPage.this.getTask().comments() )
+                    {
+                        commentIdList.add( ( (Identity) comment ).identity().get() );
+                    }
+                    return commentIdList.subList( first, first + count );
+                }
+
                 public HasComments getHasComments()
                 {
                     return TaskDetailPage.this.getTask();
                 }
-
-                public void addComment( Comment comment )
-                {
-                    TaskDetailPage.this.addingComment( comment );
-                }
             };
         }
-    }
-
-    private void addingComment( Comment comment )
-    {
-        Task task = getTask();
-
-        task.comments().add( comment );
-
-        // TODO migrate
-//        getServices().getTaskService().update( task );
     }
 
     private void addingWorkEntry( WorkEntry workEntry )
@@ -200,5 +217,8 @@ public abstract class TaskDetailPage extends LeftMenuNavPage
         }
     }
 
-    public abstract Task getTask();
+    public Task getTask()
+    {
+        return getUnitOfWork().dereference( (Task) getModelObject() );
+    }
 }

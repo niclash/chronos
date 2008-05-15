@@ -15,8 +15,8 @@ package org.qi4j.chronos.ui.customer;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )

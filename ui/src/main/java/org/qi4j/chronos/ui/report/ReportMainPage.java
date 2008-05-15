@@ -12,36 +12,28 @@
  */
 package org.qi4j.chronos.ui.report;
 
-import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
-import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.markup.html.panel.EmptyPanel;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.DropDownChoice;
-import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.Component;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.behavior.IBehavior;
-import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.Project;
-import org.qi4j.chronos.model.Report;
-import org.qi4j.chronos.model.AccountReport;
-import org.qi4j.chronos.model.Account;
-import org.qi4j.chronos.model.composites.AccountReportEntityComposite;
-import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
-import org.qi4j.chronos.ui.common.SimpleDateField;
-import org.qi4j.chronos.ui.common.NameChoiceRenderer;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkCompletionException;
-import org.qi4j.entity.Identity;
-import org.qi4j.entity.EntityCompositeNotFoundException;
-import java.io.Serializable;
-import java.util.Date;
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Date;
+import java.util.List;
+import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.AccountReport;
+import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.Report;
+import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.ui.common.NameChoiceRenderer;
+import org.qi4j.chronos.ui.common.SimpleDateField;
+import org.qi4j.chronos.util.ReportUtil;
+import org.qi4j.entity.Identity;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkCompletionException;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public class ReportMainPage extends AbstractReportPage
@@ -60,9 +52,7 @@ public class ReportMainPage extends AbstractReportPage
     private class ReportForm extends Form
     {
         private final SimpleDateField startTimeDateField;
-
         private final SimpleDateField endTimeDateField;
-
         private final DropDownChoice projectDropDownChoice;
 
         public ReportForm( String id, TimeRangeModel reportmodel )
@@ -80,7 +70,8 @@ public class ReportMainPage extends AbstractReportPage
             NameChoiceRenderer nameRenderer = new NameChoiceRenderer();
             Project[] projectsArray = new Project[getAccount().projects().size()];
             projectDropDownChoice =
-                new DropDownChoice( "projectDropDownChoice", new Model(),
+                new DropDownChoice( "projectDropDownChoice",
+                                    new CompoundPropertyModel( getAccount().projects().iterator().next() ),
                                     Arrays.asList( getAccount().projects().toArray( projectsArray ) ),
                                     nameRenderer );
             add( projectDropDownChoice );
@@ -97,7 +88,7 @@ public class ReportMainPage extends AbstractReportPage
             List<String[]> entries = new ArrayList<String[]>();
 
             final Account account = unitOfWork.dereference( getAccount() );
-            final AccountReport accountReport = getAccountReport( unitOfWork, account );
+            final AccountReport accountReport = ReportUtil.getAccountReport( unitOfWork, account );
 
             for( Report report : accountReport.reports() )
             {
@@ -124,13 +115,15 @@ public class ReportMainPage extends AbstractReportPage
             UnitOfWork unitOfWork = getUnitOfWork();
             final Project project = unitOfWork.dereference( (Project) projectDropDownChoice.getModelObject() );
             final TimeRangeModel timeRangeModel = (TimeRangeModel) getModelObject();
+            final Date startTime = timeRangeModel.getStartDate();
+            final Date endTime = timeRangeModel.getEndDate();
 
-            Report report = generateReport( unitOfWork, "test", project, timeRangeModel );
+            Report report = ReportUtil.generateReport( unitOfWork, "test", project, startTime, endTime );
 
             final Account account = unitOfWork.dereference( getAccount() );
             final String reportId = ( (Identity) report).identity().get();
 
-            final AccountReport accountReport = getAccountReport( unitOfWork, account );
+            final AccountReport accountReport = ReportUtil.getAccountReport( unitOfWork, account );
             accountReport.account().set( account );
             accountReport.reports().add( report );
 

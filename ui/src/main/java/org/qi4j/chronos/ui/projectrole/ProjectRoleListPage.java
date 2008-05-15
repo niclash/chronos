@@ -12,12 +12,16 @@
  */
 package org.qi4j.chronos.ui.projectrole;
 
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
-import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.ProjectRole;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
+import org.qi4j.entity.Identity;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public class ProjectRoleListPage extends LeftMenuNavPage
@@ -29,13 +33,15 @@ public class ProjectRoleListPage extends LeftMenuNavPage
 
     private void initComponents()
     {
-        add( new Link( "newRoleLink" )
-        {
-            public void onClick()
+        add(
+            new Link( "newRoleLink" )
             {
-                setResponsePage( new ProjectRoleAddPage( ProjectRoleListPage.this ) );
+                public void onClick()
+                {
+                    setResponsePage( new ProjectRoleAddPage( ProjectRoleListPage.this ) );
+                }
             }
-        } );
+        );
 
         add( new FeedbackPanel( "feedbackPanel" ) );
 
@@ -45,9 +51,18 @@ public class ProjectRoleListPage extends LeftMenuNavPage
             {
                 return ProjectRoleListPage.this.getAccount();
             }
+
+            public List<String> dataList( int first, int count )
+            {
+                List<String> projectRoleIdList = new ArrayList<String>();
+                for( ProjectRole projectRole : ProjectRoleListPage.this.getAccount().projectRoles() )
+                {
+                    projectRoleIdList.add( ( (Identity) projectRole ).identity().get() );
+                }
+                return projectRoleIdList.subList( first, first + count );
+            }
         };
 
         add( roleTable );
     }
-    
 }

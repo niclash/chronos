@@ -14,76 +14,97 @@ package org.qi4j.chronos.ui.workentry;
 
 import java.util.Date;
 import org.apache.wicket.Page;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
-import org.qi4j.chronos.model.WorkEntry;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.ProjectAssignee;
+import org.qi4j.chronos.model.WorkEntry;
+import org.qi4j.chronos.model.associations.HasWorkEntries;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
-import org.qi4j.chronos.ui.wicket.bootstrap.ChronosWebApp;
-import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
-import org.qi4j.entity.UnitOfWorkFactory;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 public abstract class WorkEntryAddPage extends WorkEntryAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( WorkEntryAddPage.class );
+    private static final String ADD_FAIL = "addFailed";
+    private static final String ADD_SUCCESS = "addSuccessful";
+    private static final String SUBMIT_BUTTON = "addPageSubmitButton";
+    private static final String TITLE_LABEL = "addPageTitleLabel";
 
     public WorkEntryAddPage( Page basePage )
     {
         super( basePage );
+
+        bindModel();
+    }
+
+    private void bindModel()
+    {
+        setModel(
+            new CompoundPropertyModel(
+                new LoadableDetachableModel()
+                {
+                    public Object load()
+                    {
+                        final UnitOfWork unitOfWork = getUnitOfWork();
+                        final ProjectAssignee projectAssignee =
+                            unitOfWork.dereference( WorkEntryAddPage.this.getProjectAssignee() );
+                        final WorkEntry workEntry =
+                            unitOfWork.newEntityBuilder( WorkEntryEntityComposite.class ).newInstance();
+                        workEntry.createdDate().set( new Date() );
+                        workEntry.projectAssignee().set( projectAssignee );
+
+                        return workEntry;
+                    }
+                }
+            )
+        );
+        bindPropertyModel( getModel() );
     }
 
     public void onSubmitting()
     {
-//        WorkEntry workEntry = getServices().getWorkEntryService().newInstance( WorkEntryEntityComposite.class );
-        // TODO kamil: use UnitOfWork
-        UnitOfWork unitOfWork = getUnitOfWork();
-
+        final UnitOfWork unitOfWork = getUnitOfWork();
         try
         {
-            WorkEntry workEntry = unitOfWork.newEntityBuilder( WorkEntryEntityComposite.class ).newInstance();
-            workEntry.createdDate().set( new Date() );
-            assignFieldValueToWorkEntry( workEntry );
-            workEntry.projectAssignee().set( getProjectAssignee() );
-            addingWorkEntry( workEntry );
-
+            final WorkEntry workEntry = (WorkEntry) getModelObject();
+            final HasWorkEntries hasWorkEntries = unitOfWork.dereference( WorkEntryAddPage.this.getHasWorkEntries() );
+            hasWorkEntries.workEntries().add( workEntry );
             unitOfWork.complete();
-
-            logInfoMsg( "Work Entry is added successfully." );
+            logInfoMsg( getString( ADD_SUCCESS ) );
 
             divertToGoBackPage();
         }
         catch( UnitOfWorkCompletionException uowce )
         {
-            logErrorMsg( "Unable to save work entry!!!" + uowce.getClass().getSimpleName() );
+            unitOfWork.reset();
 
-            if( null != unitOfWork && unitOfWork.isOpen() )
-            {
-                unitOfWork.discard();
-            }
-
+            logErrorMsg( getString( ADD_FAIL, new Model( uowce ) ) );
             LOGGER.error( uowce.getLocalizedMessage(), uowce );
         }
         catch( Exception err )
         {
-            logErrorMsg( err.getMessage() );
+            unitOfWork.reset();
 
-            LOGGER.error( err.getMessage(), err );
+            logErrorMsg( getString( ADD_FAIL, new Model( err ) ) );
+            LOGGER.error( err.getLocalizedMessage(), err );
         }
     }
 
     public String getSubmitButtonValue()
     {
-        return "Add";
+        return getString( SUBMIT_BUTTON );
     }
 
     public String getTitleLabel()
     {
-        return "New Work Entry";
+        return getString( TITLE_LABEL );
     }
 
     public abstract ProjectAssignee getProjectAssignee();
 
-    public abstract void addingWorkEntry( WorkEntry workentry );
+    public abstract HasWorkEntries getHasWorkEntries();
 }

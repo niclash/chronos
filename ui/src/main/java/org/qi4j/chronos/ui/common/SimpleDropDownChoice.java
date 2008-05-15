@@ -14,6 +14,7 @@ package org.qi4j.chronos.ui.common;
 
 import java.util.List;
 import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.model.PropertyModel;
 
 public class SimpleDropDownChoice<T> extends DropDownChoice
@@ -23,6 +24,16 @@ public class SimpleDropDownChoice<T> extends DropDownChoice
     private T choice;
     private boolean setDefaultValue;
 
+    public SimpleDropDownChoice( String id, List<T> optionList, IChoiceRenderer renderer )
+    {
+        super( id, optionList, renderer );
+
+        setDefaultValue = true;
+        this.setModel( new PropertyModel( this, "choice" ) );
+
+        setNewChoices( optionList );
+    }
+    
     public SimpleDropDownChoice( String id, List<T> optionList, boolean isSetDefaultValue )
     {
         super( id );

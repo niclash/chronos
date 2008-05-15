@@ -12,11 +12,11 @@
  */
 package org.qi4j.chronos.ui.workentry;
 
+import java.util.List;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.model.associations.HasWorkEntries;
 import org.qi4j.chronos.model.ProjectAssignee;
-import org.qi4j.chronos.model.WorkEntry;
+import org.qi4j.chronos.model.associations.HasWorkEntries;
 import org.qi4j.chronos.ui.common.NewLinkPanel;
 import org.qi4j.chronos.ui.common.tab.NewLinkTab;
 
@@ -47,6 +47,11 @@ public abstract class WorkEntryTab extends NewLinkTab
                 {
                     return WorkEntryTab.this.getHasWorkEntries();
                 }
+
+                public List<String> dataList( int first, int count )
+                {
+                    return WorkEntryTab.this.dataList( first, count );
+                }
             };
         }
 
@@ -67,9 +72,9 @@ public abstract class WorkEntryTab extends NewLinkTab
                     return WorkEntryTab.this.getProjectAssignee();
                 }
 
-                public void addingWorkEntry( WorkEntry workentry )
+                public HasWorkEntries getHasWorkEntries()
                 {
-                    WorkEntryTab.this.addingWorkEntry( workentry );
+                    return WorkEntryTab.this.getHasWorkEntries();
                 }
             };
 
@@ -82,7 +87,7 @@ public abstract class WorkEntryTab extends NewLinkTab
         }
     }
 
-    public abstract void addingWorkEntry( WorkEntry workEntry );
+    public abstract List<String> dataList( int first, int count );
 
     public abstract ProjectAssignee getProjectAssignee();
 

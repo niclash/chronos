@@ -12,20 +12,20 @@
  */
 package org.qi4j.chronos.ui.customer;
 
-import java.util.List;
 import java.util.ArrayList;
 import java.util.Collections;
-import org.apache.wicket.markup.repeater.Item;
+import java.util.List;
 import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.model.IModel;
+import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
-import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.SimpleCheckBox;
+import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleAction;
 import org.qi4j.entity.Identity;

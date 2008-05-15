@@ -12,11 +12,15 @@
  */
 package org.qi4j.chronos.ui.contact;
 
+import java.util.ArrayList;
+import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.ui.common.BorderPanel;
 import org.qi4j.chronos.ui.common.BorderPanelWrapper;
 import org.qi4j.chronos.ui.common.tab.BaseTab;
+import org.qi4j.entity.Identity;
+import org.qi4j.library.general.model.Contact;
 
 public abstract class ContactTab extends BaseTab
 {
@@ -37,6 +41,11 @@ public abstract class ContactTab extends BaseTab
                     {
                         return ContactTab.this.getContactPerson();
                     }
+
+                    public List<String> dataList( int first, int count )
+                    {
+                        return ContactTab.this.dataList( first, count );
+                    }
                 };
 
                 return contactTable;
@@ -44,6 +53,17 @@ public abstract class ContactTab extends BaseTab
         };
 
         return wrapper;
+    }
+
+    public List<String> dataList( int first, int count )
+    {
+        List<String> contactIdList = new ArrayList<String>();
+        for( Contact contact : getContactPerson().contacts() )
+        {
+            contactIdList.add( ( (Identity) contact ).identity().get() );
+        }
+
+        return contactIdList.subList( first, first + count );
     }
 
     public abstract ContactPerson getContactPerson();

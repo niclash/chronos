@@ -13,43 +13,47 @@
 package org.qi4j.chronos.ui.relationship;
 
 import org.apache.wicket.Page;
-import org.qi4j.chronos.model.composites.RelationshipEntityComposite;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.LoadableDetachableModel;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.Relationship;
-import org.qi4j.chronos.service.RelationshipService;
-import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.model.composites.RelationshipEntityComposite;
+import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
+import org.qi4j.entity.UnitOfWork;
 
 public abstract class RelationshipAddPage extends RelationshipAddEditPage
 {
     public RelationshipAddPage( Page basePage )
     {
         super( basePage );
+
+        bindModel();
+    }
+
+    private void bindModel()
+    {
+        setModel(
+            new CompoundPropertyModel(
+                new LoadableDetachableModel()
+                {
+                    protected Object load()
+                    {
+                        final UnitOfWork unitOfWork = RelationshipAddPage.this.getSharedUnitOfWork();
+                        final Relationship relationship =
+                            unitOfWork.newEntityBuilder( RelationshipEntityComposite.class ).newInstance();
+
+                        return relationship;
+                    }
+                }
+            )
+        );
+
+        relationshipField.setModel( new CustomCompositeModel( getModel(), "relationship" ) );
     }
 
     public void onSubmitting()
     {
-        boolean isRejected = false;
-
-        String relationship = relationshipField.getText();
-
-        RelationshipService service = ChronosWebApp.getServices().getRelationshipService();
-
-        if( service.get( getCustomer(), relationship ) != null )
-        {
-            isRejected = true;
-        }
-
-        if( isRejected )
-        {
-            return;
-        }
-
-        Relationship newRelationship = ChronosWebApp.newInstance( RelationshipEntityComposite.class );
-
-        newRelationship.relationship().set( relationship );
-
-        newRelationship( newRelationship );
-
+        newRelationship( (Relationship) getModelObject() );
         divertToGoBackPage();
     }
 
@@ -62,6 +66,8 @@ public abstract class RelationshipAddPage extends RelationshipAddEditPage
     {
         return "Add Relationship";
     }
+
+    public abstract UnitOfWork getSharedUnitOfWork();
 
     public abstract Customer getCustomer();
 

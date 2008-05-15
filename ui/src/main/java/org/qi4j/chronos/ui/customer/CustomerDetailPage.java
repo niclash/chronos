@@ -21,20 +21,20 @@ import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
+import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.Customer;
+import org.qi4j.chronos.model.PriceRateSchedule;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.ui.address.AddressDetailPanel;
-import org.qi4j.chronos.ui.common.model.NameModel;
 import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
+import org.qi4j.chronos.ui.common.model.NameModel;
 import org.qi4j.chronos.ui.contactperson.ContactPersonTab;
 import org.qi4j.chronos.ui.pricerate.PriceRateScheduleTab;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
-import org.qi4j.chronos.model.Customer;
-import org.qi4j.chronos.model.Account;
-import org.qi4j.chronos.model.PriceRateSchedule;
-import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.composite.scope.Uses;
 
 public class CustomerDetailPage extends LeftMenuNavPage
@@ -110,7 +110,7 @@ public class CustomerDetailPage extends LeftMenuNavPage
 
                     public Customer getHasPriceRateSchedules()
                     {
-                        return getCustomer();
+                        return (Customer) CustomerDetailPage.this.getModelObject();
                     }
                 }
             );
@@ -145,4 +145,3 @@ public class CustomerDetailPage extends LeftMenuNavPage
         return (Customer) getModelObject();
     }
 }
-

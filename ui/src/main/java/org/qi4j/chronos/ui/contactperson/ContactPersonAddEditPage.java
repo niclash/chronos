@@ -18,39 +18,38 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 import org.apache.wicket.Page;
-import org.apache.wicket.model.IModel;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
-import org.qi4j.chronos.model.SystemRole;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Customer;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.ContactEntityComposite;
-import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
+import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.relationship.RelationshipOptionPanel;
 import org.qi4j.chronos.ui.user.UserAddEditPanel;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
+import org.qi4j.entity.UnitOfWork;
 import org.qi4j.library.general.model.Contact;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public abstract class ContactPersonAddEditPage extends AddEditBasePage
 {
     private UserAddEditPanel userAddEditPanel;
-
     private RelationshipOptionPanel relationshipOptionPanel;
-
     private List<MaxLengthTextField> contactValueFieldList;
     private List<MaxLengthTextField> contactTypeFieldList;
-
     private SubmitLink newContactLink;
-
     private ListView contactListView;
+    protected List<Contact> contactList;
+    private static final String DUPLICATE_ENTRY = "duplicateContacts";
 
-    private List<Contact> contactList;
+    private transient UnitOfWork sharedUnitOfWork;
 
     public ContactPersonAddEditPage( Page goBackPage )
     {
@@ -59,6 +58,9 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
 
     public void initComponent( Form form )
     {
+        final UnitOfWork unitOfWork = getUnitOfWork();
+        setSharedUnitOfWork( unitOfWork );
+
         contactList = getInitContactList();
 
         contactValueFieldList = new ArrayList<MaxLengthTextField>();
@@ -68,7 +70,7 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
         {
             public void onSubmit()
             {
-                handleNewContact();
+                handleNewContact( unitOfWork );
             }
         };
 
@@ -77,34 +79,29 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
             protected void populateItem( ListItem item )
             {
                 final int index = item.getIndex();
-                Contact contact = contactList.get( index );
+                final Contact contact = contactList.get( index );
 
-                MaxLengthTextField contactValueField;
-                MaxLengthTextField contactTypeField;
+                final MaxLengthTextField contactValueField;
+                final MaxLengthTextField contactTypeField;
 
-                if( contactValueFieldList.size() <= index )
-                {
-                    contactValueField = new MaxLengthTextField( "contactValueField", "Contact Value", Contact.CONTACT_VALUE_LEN );
-                    contactTypeField = new MaxLengthTextField( "contactTypeField", "Contact Type", Contact.CONTACT_TYPE_LEN );
+                contactValueField =
+                    new MaxLengthTextField( "contactValueField", "Contact Value", Contact.CONTACT_VALUE_LEN );
+                contactTypeField =
+                    new MaxLengthTextField( "contactTypeField", "Contact Type", Contact.CONTACT_TYPE_LEN );
 
-                    contactValueFieldList.add( contactValueField );
-                    contactTypeFieldList.add( contactTypeField );
+                contactValueFieldList.add( contactValueField );
+                contactTypeFieldList.add( contactTypeField );
 
-                    //init value
-                    contactValueField.setText( contact.contactValue().get() );
-                    contactTypeField.setText( contact.contactType().get() );
-                }
-                else
-                {
-                    contactValueField = contactValueFieldList.get( index );
-                    contactTypeField = contactTypeFieldList.get( index );
-                }
+                // bind model
+                final IModel iModel = new CompoundPropertyModel( contact );
+                contactValueField.setModel( new CustomCompositeModel( iModel, "contactValue" ) );
+                contactTypeField.setModel( new CustomCompositeModel( iModel, "contactType" ) );
 
                 SubmitLink deleteContact = new SubmitLink( "deleteContactLink" )
                 {
                     public void onSubmit()
                     {
-                        removeContact( index );
+                        removeContact( index, unitOfWork );
                     }
                 };
 
@@ -119,6 +116,11 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
             public Customer getCustomer()
             {
                 return ContactPersonAddEditPage.this.getCustomer();
+            }
+
+            public UnitOfWork getSharedUnitOfWork()
+            {
+                return ContactPersonAddEditPage.this.getSharedUnitOfWork();
             }
         };
 
@@ -141,64 +143,52 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
         form.add( userAddEditPanel );
     }
 
-    private void removeContact( int index )
+    private void removeContact( int index, final UnitOfWork unitOfWork )
     {
         if( contactList.size() == 0 )
         {
             return;
         }
 
-        contactList.remove( index );
-
+        final Contact contact = contactList.remove( index );
         contactTypeFieldList.remove( index );
         contactValueFieldList.remove( index );
 
-        updateContactListView();
-    }
-
-    private void handleNewContact()
-    {
-        addNewPriceRate();
+        unitOfWork.remove( contact );
 
         updateContactListView();
     }
 
-    private void addNewPriceRate()
+    private void handleNewContact( final UnitOfWork unitOfWork )
     {
-        Contact contact = ChronosWebApp.newInstance( ContactEntityComposite.class );
+        addNewContact( unitOfWork );
 
+        updateContactListView();
+    }
+
+    private void addNewContact( final UnitOfWork unitOfWork )
+    {
+        final Contact contact = unitOfWork.newEntityBuilder( ContactEntityComposite.class ).newInstance();
         contactList.add( contact );
     }
 
     private void updateContactListView()
     {
+        contactListView.modelChanging();
         contactListView.setList( Arrays.asList( new Integer[ contactList.size() ] ) );
+        contactListView.modelChanged();
     }
 
     protected void bindPropertyModel( IModel iModel )
     {
         userAddEditPanel.bindPropertyModel( iModel );
-        IModel relationshipModel = new CustomCompositeModel( iModel, "relationship" );
-        relationshipOptionPanel.bindModel( new CustomCompositeModel( relationshipModel, "relationship" ) );
+        relationshipOptionPanel.bindModel( new CustomCompositeModel( iModel, "relationship" ) );
     }
 
-/*
-    TODO kamil: clean/remove this later 
-    protected void assignContactPersonToFieldValue( ContactPerson contactPerson )
+    protected RelationshipOptionPanel getRelationshipOptionPanel()
     {
-        userAddEditPanel.assignUserToFieldValue( contactPerson );
-        relationshipOptionPanel.setSelectedRelationship( contactPerson.relationship().get() );
+        return this.relationshipOptionPanel;
     }
-
-    protected void assignFieldValueToContactPerson( ContactPerson contactPerson )
-    {
-        userAddEditPanel.assignFieldValueToUser( contactPerson );
-
-        contactPerson.relationship().set( relationshipOptionPanel.getSelectedRelationship() );
-        SetAssociation<Contact> contacts = contactPerson.contacts();
-        contacts.addAll( contactList );
-    }
-*/
 
     public Iterator<SystemRole> getInitSelectedRoleList()
     {
@@ -230,43 +220,22 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
             return;
         }
 
-        fillUpContact();
-
         onSubmitting();
-    }
-
-    private void fillUpContact()
-    {
-        int index = 0;
-
-        for( Contact contact : contactList )
-        {
-            MaxLengthTextField contactValueField = contactValueFieldList.get( index );
-            MaxLengthTextField contactTypeField = contactTypeFieldList.get( index );
-
-            contact.contactValue().set( contactValueField.getText() );
-            contact.contactType().set( contactTypeField.getText() );
-
-            index++;
-        }
     }
 
     private boolean isHasDuplicateContact()
     {
-        for( int i = 0; i < contactValueFieldList.size(); i++ )
+        for( int i = 0; i < contactList.size() - 1; i++ )
         {
-            MaxLengthTextField contactValueField = contactValueFieldList.get( i );
-            MaxLengthTextField contactTypeField = contactTypeFieldList.get( i );
+            final Contact contact = contactList.get( i );
 
-            for( int j = i + 1; j < contactValueFieldList.size(); j++ )
+            for( int j = i + 1; j < contactList.size(); j++ )
             {
-                MaxLengthTextField contactValueField2 = contactValueFieldList.get( j );
-                MaxLengthTextField contactTyoeField2 = contactTypeFieldList.get( j );
+                final Contact contactOther = contactList.get( j );
 
-                if( contactValueField.getText().equals( contactValueField2.getText() )
-                    && contactTypeField.getText().equals( contactTyoeField2.getText() ) )
+                if( isEqualValue( contact, contactOther ) )
                 {
-                    error( "Identical contact found! Please change it or remove it." );
+                    error( getString( DUPLICATE_ENTRY ) );
 
                     return true;
                 }
@@ -274,6 +243,12 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
         }
 
         return false;
+    }
+
+    private boolean isEqualValue( Contact contact, Contact contactOther )
+    {
+        return contact.contactType().get().equals( contactOther.contactType().get() ) &&
+               contact.contactValue().get().equals( contactOther.contactValue().get() );
     }
 
     private boolean areContactsNotValidated()
@@ -320,6 +295,16 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
         }
 
         return contactList;
+    }
+
+    public UnitOfWork getSharedUnitOfWork()
+    {
+        return sharedUnitOfWork;
+    }
+
+    public void setSharedUnitOfWork( UnitOfWork sharedUnitOfWork )
+    {
+        this.sharedUnitOfWork = sharedUnitOfWork;
     }
 
     public abstract Iterator<Contact> getInitContactIterator();

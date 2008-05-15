@@ -21,23 +21,22 @@ import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.BoundCompoundPropertyModel;
-import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.model.Project;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.ContactPerson;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.associations.HasProjects;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
-import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
+import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
 import org.qi4j.chronos.ui.contact.ContactTab;
 import org.qi4j.chronos.ui.project.ProjectTab;
 import org.qi4j.chronos.ui.user.UserDetailPanel;
-import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
-import org.qi4j.entity.Identity;
+import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.composite.scope.Uses;
+import org.qi4j.entity.Identity;
 
 public class ContactPersonDetailPage extends LeftMenuNavPage
 {
@@ -122,29 +121,21 @@ public class ContactPersonDetailPage extends LeftMenuNavPage
             tabs.add(
                 new ProjectTab( "Project" )
                 {
+                    // TODO kamil:
+                    // fix business logic, should only return projects that has this contact person
+                    public HasProjects getHasProjects()
+                    {
+                        return ContactPersonDetailPage.this.getAccount();
+                    }
+
                     public int getSize()
                     {
                         return getAccount().projects().size();
                     }
 
-                    public List<IModel> dataList( int first, int count )
+                    public List<String> dataList( int first, int count )
                     {
-                        List<IModel> models = new ArrayList<IModel>();
-                        for( final String projectId : ContactPersonDetailPage.this.dataList( first, count ) )
-                        {
-                            models.add(
-                                new CompoundPropertyModel(
-                                    new LoadableDetachableModel()
-                                    {
-                                        public Object load()
-                                        {
-                                            return getUnitOfWork().find( projectId, ProjectEntityComposite.class );
-                                        }
-                                    }
-                                )
-                            );
-                        }
-                        return models;
+                        return ContactPersonDetailPage.this.dataList( first, count );
                     }
                 }
             );
@@ -169,4 +160,3 @@ public class ContactPersonDetailPage extends LeftMenuNavPage
         return projects.subList( first, first + count );
     }
 }
-

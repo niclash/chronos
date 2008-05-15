@@ -12,26 +12,37 @@
  */
 package org.qi4j.chronos.ui.pricerate;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
+import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.PriceRateSchedule;
-import org.qi4j.chronos.model.PriceRate;
 import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
-import org.qi4j.chronos.service.PriceRateScheduleService;
-import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.model.composites.PriceRateScheduleEntityComposite;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
-import org.qi4j.entity.association.SetAssociation;
+import org.qi4j.entity.Identity;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> extends ActionTable<PriceRateSchedule, String>
+public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> extends ActionTable<IModel, String>
 {
-    private PriceRateScheduleDataProvider<T> dataProvider;
+    private AbstractSortableDataProvider<IModel, String> dataProvider;
+    private final static Logger LOGGER = LoggerFactory.getLogger( PriceRateScheduleTable.class );
+    private final static String DELETE_FAIL = "deleteFailed";
+    private final static String DELETE_SUCCESS = "deleteSuccessful";
+    private static final String DELETE_ACTION = "deleteAction";
 
     public PriceRateScheduleTable( String id, IModel iModel )
     {
@@ -43,27 +54,91 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
 
     private void addActions()
     {
-        addAction( new SimpleDeleteAction<PriceRateSchedule>( "Delete" )
-        {
-            public void performAction( List<PriceRateSchedule> priceRateSchedules )
+        addAction(
+            new SimpleDeleteAction<IModel>( getString( DELETE_ACTION ) )
             {
-                // TODO migrate
-//                getPriceRateScheduleService().deletePriceRateSchedule( getHasPriceRateSchedules(), priceRateSchedules );
-
-                info( "Selected price rate schedule(s) are deleted." );
+                public void performAction( List<IModel> priceRateSchedules )
+                {
+                    handleDelete( priceRateSchedules );
+                    info( getString( DELETE_SUCCESS ) );
+                }
             }
-        } );
+        );
     }
 
-    public AbstractSortableDataProvider<PriceRateSchedule, String> getDetachableDataProvider()
+    /**
+     * Delete PriceRateSchedule from HasPriceRateSchedules i.e. remove from Customer but not from Account
+     * @param iModels
+     */
+    private void handleDelete( List<IModel> iModels )
+    {
+        try
+        {
+            final UnitOfWork unitOfWork = getUnitOfWork();
+            final T hasPriceRateSchedule = unitOfWork.dereference( getHasPriceRateSchedules() );
+            for( IModel iModel : iModels )
+            {
+                final PriceRateSchedule priceRateSchedule = ( PriceRateSchedule) iModel.getObject();
+                hasPriceRateSchedule.priceRateSchedules().remove( priceRateSchedule );
+                unitOfWork.remove( priceRateSchedule );
+            }
+            unitOfWork.complete();
+        }
+        catch( UnitOfWorkCompletionException uowce )
+        {
+            LOGGER.error( uowce.getLocalizedMessage(), uowce );
+            error( getString( DELETE_FAIL, new Model( uowce ) ) );
+        }
+    }
+
+    public AbstractSortableDataProvider<IModel, String> getDetachableDataProvider()
     {
         if( dataProvider == null )
         {
-            dataProvider = new PriceRateScheduleDataProvider<T>()
+            dataProvider = new AbstractSortableDataProvider<IModel, String>()
             {
-                public T getHasPriceRateSchedules()
+                public int getSize()
                 {
-                    return PriceRateScheduleTable.this.getHasPriceRateSchedules();
+                    return PriceRateScheduleTable.this.getHasPriceRateSchedules().priceRateSchedules().size();
+                }
+
+                public String getId( IModel t )
+                {
+                    return ( (Identity) t.getObject() ).identity().get();
+                }
+
+                public IModel load( final String s )
+                {
+                    return new CompoundPropertyModel(
+                        new LoadableDetachableModel()
+                        {
+                            public Object load()
+                            {
+                                return getUnitOfWork().find( s, PriceRateScheduleEntityComposite.class );
+                            }
+                        }
+                    );
+                }
+
+                public List<IModel> dataList( int first, int count )
+                {
+                    List<IModel> priceRateSchedules = new ArrayList<IModel>();
+                    for( final String priceRateScheduleId : PriceRateScheduleTable.this.dataList( first, count ) )
+                    {
+                        priceRateSchedules.add(
+                            new CompoundPropertyModel(
+                                new LoadableDetachableModel()
+                                {
+                                    public Object load()
+                                    {
+                                        return getUnitOfWork().find(
+                                            priceRateScheduleId, PriceRateScheduleEntityComposite.class );
+                                    }
+                                }
+                            )
+                        );
+                    }
+                    return priceRateSchedules;
                 }
             };
         }
@@ -71,80 +146,35 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
         return dataProvider;
     }
 
-    public void populateItems( Item item, PriceRateSchedule obj )
+    public void populateItems( Item item, IModel iModel )
     {
-        final String priceRateScheduleName = obj.name().get();
+        final PriceRateSchedule priceRateSchedule = (PriceRateSchedule) iModel.getObject();
+        final String priceRateScheduleName = priceRateSchedule.name().get();
+        final String priceRateScheduleId = ( (Identity) priceRateSchedule ).identity().get();
 
-        item.add( new SimpleLink( "name", obj.name().get() )
-        {
-            public void linkClicked()
+        item.add(
+            new SimpleLink( "name", priceRateScheduleName )
             {
-                PriceRateScheduleDetailPage detailPage = new PriceRateScheduleDetailPage( (BasePage) this.getPage() )
+                public void linkClicked()
                 {
-                    public PriceRateSchedule getPriceRateSchedule()
-                    {
-                        return PriceRateScheduleTable.this.getPriceRateSchedule( priceRateScheduleName );
-                    }
-                };
-
-                setResponsePage( detailPage );
+                    PriceRateScheduleDetailPage detailPage =
+                        new PriceRateScheduleDetailPage( (BasePage) this.getPage(), priceRateScheduleId );
+                    setResponsePage( detailPage );
+                }
             }
-        } );
-
-        item.add( new Label( "currencyLabel", obj.currency().get().getCurrencyCode() ) );
-
-        item.add( new SimpleLink( "editLink", "Edit" )
-        {
-            public void linkClicked()
+        );
+        item.add( new Label( "currencyLabel", priceRateSchedule.currency().get().getCurrencyCode() ) );
+        item.add(
+            new SimpleLink( "editLink", "Edit" )
             {
-                PriceRateScheduleEditPage editPage = new PriceRateScheduleEditPage( (BasePage) this.getPage() )
+                public void linkClicked()
                 {
-                    public PriceRateSchedule getPriceRateSchedule()
-                    {
-                        return PriceRateScheduleTable.this.getPriceRateSchedule( priceRateScheduleName );
-                    }
-
-                    public void updatePriceRateSchedule( PriceRateSchedule priceRateScheduleComposite )
-                    {
-                        handleUpdatePriceRateSchedule( priceRateScheduleComposite, priceRateScheduleName );
-                    }
-                };
-
-                setResponsePage( editPage );
+                    PriceRateScheduleEditPage editPage =
+                        new PriceRateScheduleEditPage( (BasePage) this.getPage(), priceRateScheduleId );
+                    setResponsePage( editPage );
+                }
             }
-        } );
-    }
-
-    private void handleUpdatePriceRateSchedule( PriceRateSchedule updated, String originalName )
-    {
-        T t = getHasPriceRateSchedules();
-        SetAssociation<PriceRateSchedule> priceRateSchedules = t.priceRateSchedules();
-        for( PriceRateSchedule priceRateSchedule : priceRateSchedules )
-        {
-
-            if( priceRateSchedule.name().get().equals( originalName ) )
-            {
-                priceRateSchedule.name().set( updated.name().get() );
-                priceRateSchedule.currency().set( updated.currency().get() );
-
-                SetAssociation<PriceRate> priceRates = priceRateSchedule.priceRates();
-                priceRates.clear();
-                priceRates.addAll( updated.priceRates() );
-            }
-        }
-    }
-
-    private PriceRateSchedule getPriceRateSchedule( String name )
-    {
-        for( PriceRateSchedule priceRateSchedule : getHasPriceRateSchedules().priceRateSchedules() )
-        {
-            if( name.equals( priceRateSchedule.name().get() ) )
-            {
-                return priceRateSchedule;
-            }
-        }
-
-        return null;
+        );
     }
 
     public List<String> getTableHeaderList()
@@ -152,5 +182,17 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
         return Arrays.asList( "Name", "Currency", "" );
     }
 
+    protected List<String> dataList( int first, int count )
+    {
+        List<String> priceRateSchedules = new ArrayList<String>();
+        for( PriceRateSchedule priceRateSchedule : getHasPriceRateSchedules().priceRateSchedules() )
+        {
+            priceRateSchedules.add( ( (Identity) priceRateSchedule ).identity().get() );
+        }
+        return priceRateSchedules.subList( first, first + count );
+    }
+
     public abstract T getHasPriceRateSchedules();
+
+    public abstract Account getAccount();
 }

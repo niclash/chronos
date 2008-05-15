@@ -13,12 +13,6 @@
 package org.qi4j.chronos.ui.contact;
 
 import org.apache.wicket.Page;
-import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.model.ContactPerson;
-import org.qi4j.chronos.model.composites.ContactEntityComposite;
-import org.qi4j.chronos.service.ContactPersonService;
-import org.qi4j.entity.association.SetAssociation;
-import org.qi4j.library.general.model.Contact;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -43,22 +37,8 @@ public abstract class ContactAddPage extends ContactAddEditPage
 
     public void onSubmitting()
     {
-        Contact contact = ChronosWebApp.newInstance( ContactEntityComposite.class );
-
         try
         {
-            assignContactToFieldValue( contact );
-
-            ContactPerson contactPerson = getContactPerson();
-
-            SetAssociation<Contact> contacts = contactPerson.contacts();
-            contacts.add( contact );
-
-            ContactPersonService service = ChronosWebApp.getServices().getContactPersonService();
-
-            // TODO migrate
-//            service.update( contactPerson );
-
             logInfoMsg( "Contact is added successfully." );
 
             divertToGoBackPage();

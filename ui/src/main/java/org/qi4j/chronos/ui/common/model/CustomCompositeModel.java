@@ -25,7 +25,7 @@ public class CustomCompositeModel implements IModel
     public CustomCompositeModel( IModel iModel, String propertyName )
     {
         this.iModel = iModel;
-        this.propertyName = propertyName;
+        this.propertyName = propertyName.trim();
     }
 
     public Object getObject()

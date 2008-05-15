@@ -13,7 +13,6 @@
 package org.qi4j.chronos.ui.account;
 
 import org.apache.wicket.Page;
-import org.apache.wicket.Localizer;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
@@ -60,25 +59,18 @@ public class AccountEditPage extends AccountAddEditPage
         }
         catch( UnitOfWorkCompletionException uowce )
         {
+            reset();
+
             error( getString( UPDATE_FAIL, new Model( uowce ) ) );
             LOGGER.error( uowce.getLocalizedMessage(), uowce );
-
-            reset();
         }
         catch( Exception err )
         {
+            reset();
+
             error( getString( UPDATE_FAIL, new Model( err ) ) );
             LOGGER.error( err.getMessage(), err );
-
-            reset();
         }
-    }
-
-    @Override protected void divertToGoBackPage()
-    {
-        reset();
-        
-        super.divertToGoBackPage();
     }
 
     public String getSubmitButtonValue()

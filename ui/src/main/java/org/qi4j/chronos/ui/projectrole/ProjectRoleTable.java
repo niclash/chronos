@@ -12,23 +12,36 @@
  */
 package org.qi4j.chronos.ui.projectrole;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
-import org.qi4j.chronos.service.ProjectRoleService;
-import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.wicket.base.BasePage;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
+import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.ProjectRole;
+import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
-import org.qi4j.chronos.model.ProjectRole;
-import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.ui.wicket.base.BasePage;
+import org.qi4j.entity.Identity;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-public abstract class ProjectRoleTable extends ActionTable<ProjectRole, String>
+public abstract class ProjectRoleTable extends ActionTable<IModel, String>
 {
-    private ProjectRoleDataProvider roleDataProvider;
+    private AbstractSortableDataProvider<IModel, String> roleDataProvider;
+    private static final Logger LOGGER = LoggerFactory.getLogger( ProjectRoleTable.class );
+    private static final String DELETE_FAIL = "deleteFailed";
+    private static final String DELETE_ACTION = "deleteAction";
+    private static final String DELETE_SUCCESS = "deleteSuccessful";
 
     public ProjectRoleTable( String id )
     {
@@ -39,31 +52,87 @@ public abstract class ProjectRoleTable extends ActionTable<ProjectRole, String>
 
     private void addActions()
     {
-        addAction( new SimpleDeleteAction<ProjectRole>( "Delete" )
-        {
-            public void performAction( List<ProjectRole> projectRoles )
+        addAction(
+            new SimpleDeleteAction<IModel>( getString( DELETE_ACTION ) )
             {
-                getProjectRoleService().deleteProjectRole( getAccount(), projectRoles );
-
-                info( "Selected project role(s) are deleted." );
+                public void performAction( List<IModel> projectRoles )
+                {
+                    handleDeleteAction( projectRoles );
+                    info( getString( DELETE_SUCCESS ) );
+                }
             }
-        } );
+        );
     }
 
-    private ProjectRoleService getProjectRoleService()
+    private void handleDeleteAction( List<IModel> projectRoles )
     {
-        return ChronosWebApp.getServices().getProjectRoleService();
+        final UnitOfWork unitOfWork = getUnitOfWork();
+        try
+        {
+            final Account account = unitOfWork.dereference( getAccount() );
+            for( IModel iModel : projectRoles )
+            {
+                final ProjectRole projectRole = (ProjectRole) iModel.getObject();
+                account.projectRoles().remove( projectRole );
+            }
+            unitOfWork.complete();
+        }
+        catch( UnitOfWorkCompletionException uowce )
+        {
+            unitOfWork.reset();
+
+            error( getString( DELETE_FAIL, new Model( uowce ) ) );
+            LOGGER.error( uowce.getLocalizedMessage(), uowce );
+        }
     }
 
-    public AbstractSortableDataProvider<ProjectRole, String> getDetachableDataProvider()
+    public AbstractSortableDataProvider<IModel, String> getDetachableDataProvider()
     {
         if( roleDataProvider == null )
         {
-            roleDataProvider = new ProjectRoleDataProvider()
+            roleDataProvider = new AbstractSortableDataProvider<IModel, String>()
             {
-                public Account getAccount()
+                public int getSize()
                 {
-                    return ProjectRoleTable.this.getAccount();
+                    return ProjectRoleTable.this.getAccount().projectRoles().size();
+                }
+
+                public String getId( IModel t )
+                {
+                    return ( (Identity) t.getObject() ).identity().get();
+                }
+
+                public IModel load( final String s )
+                {
+                    return new CompoundPropertyModel(
+                        new LoadableDetachableModel()
+                        {
+                            protected Object load()
+                            {
+                                return getUnitOfWork().find( s, ProjectRoleEntityComposite.class );
+                            }
+                        }
+                    );
+                }
+
+                public List<IModel> dataList( int first, int count )
+                {
+                    List<IModel> models = new ArrayList<IModel>();
+                    for( final String projectRoleId : ProjectRoleTable.this.dataList( first, count ) )
+                    {
+                        models.add(
+                            new CompoundPropertyModel(
+                                new LoadableDetachableModel()
+                                {
+                                    protected Object load()
+                                    {
+                                        return getUnitOfWork().find( projectRoleId, ProjectRoleEntityComposite.class );
+                                    }
+                                }
+                            )
+                        );
+                    }
+                    return models;
                 }
             };
         }
@@ -71,40 +140,26 @@ public abstract class ProjectRoleTable extends ActionTable<ProjectRole, String>
         return roleDataProvider;
     }
 
-    public void populateItems( Item item, ProjectRole obj )
+    public void populateItems( Item item, IModel iModel )
     {
-        String projectRoleName = obj.name().get();
+        ProjectRole projectRole = (ProjectRole) iModel.getObject();
+        final String projectRoleName = projectRole.name().get();
+        final String projectId = ( (Identity) projectRole ).identity().get();
 
-        item.add( new Label( "roleName", obj.name().get() ) );
+        item.add( new Label( "roleName", projectRoleName ) );
 
-        SimpleLink editLink = createEditLink( projectRoleName );
-
+        SimpleLink editLink = createEditLink( projectId );
         item.add( editLink );
     }
 
-    private SimpleLink createEditLink( final String projectRoleName )
+    private SimpleLink createEditLink( final String projectRoleId )
     {
         return new SimpleLink( "editLink", "Edit" )
         {
             public void linkClicked()
             {
-                ProjectRoleEditPage roleEditPage = new ProjectRoleEditPage( getBasePage() )
-                {
-                    public ProjectRole getProjectRole()
-                    {
-                        // TODO kamil: migrate
-//                        return getProjectRoleService().get( getAccount(), projectRoleName );
-                        for( ProjectRole projectRole : getAccount().projectRoles() )
-                        {
-                            if( projectRoleName.equals( projectRole.name().get() ) )
-                            {
-                                return projectRole;
-                            }
-                        }
+                ProjectRoleEditPage roleEditPage = new ProjectRoleEditPage( getBasePage(), projectRoleId );
 
-                        return null;
-                    }
-                };
                 setResponsePage( roleEditPage );
             }
         };
@@ -121,4 +176,6 @@ public abstract class ProjectRoleTable extends ActionTable<ProjectRole, String>
     }
 
     public abstract Account getAccount();
+
+    public abstract List<String> dataList( int first, int count );
 }

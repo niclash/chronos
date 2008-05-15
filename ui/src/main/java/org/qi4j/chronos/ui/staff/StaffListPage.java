@@ -12,19 +12,18 @@
  */
 package org.qi4j.chronos.ui.staff;
 
-import java.util.List;
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Arrays;
+import java.util.List;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.Staff;
-import org.qi4j.chronos.service.FindFilter;
+import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.model.associations.HasStaffs;
 import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
+import org.qi4j.entity.Identity;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public class StaffListPage extends LeftMenuNavPage
@@ -53,9 +52,14 @@ public class StaffListPage extends LeftMenuNavPage
                 return StaffListPage.this.getSize();
             }
 
-            public List<Staff> dataList( int first, int count )
+            public List<String> dataList( int first, int count )
             {
                 return StaffListPage.this.dataList( first, count );
+            }
+
+            public HasStaffs getHasStaffs()
+            {
+                return StaffListPage.this.getAccount();
             }
         };
 
@@ -69,18 +73,16 @@ public class StaffListPage extends LeftMenuNavPage
 
     public int getSize()
     {
-        // TODO migrate
-//        return getStaffService().countAll( getAccount() );
         return getAccount().staffs().size();
     }
 
-    public List<Staff> dataList( int first, int count )
+    public List<String> dataList( int first, int count )
     {
-        return new ArrayList<Staff>( getAccount().staffs() );
-//        Staff[] staffs = new Staff[ getSize() ];
-//        return Arrays.asList( getAccount().staffs().toArray( staffs ) );
-//        return new ArrayList<Staff>(0);
-        // TODO
-//        return getStaffService().findAll( getAccount(), new FindFilter( first, count ) );
+        List<String> staffIdList = new ArrayList<String>();
+        for( final Staff staff : getAccount().staffs() )
+        {
+            staffIdList.add( ( (Identity) staff ).identity().get() );
+        }
+        return staffIdList.subList( first, first + count );
     }
 }

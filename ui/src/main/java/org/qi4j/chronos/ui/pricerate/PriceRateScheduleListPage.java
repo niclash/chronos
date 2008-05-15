@@ -15,15 +15,12 @@ package org.qi4j.chronos.ui.pricerate;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
-import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.Account;
-import org.qi4j.chronos.model.PriceRateSchedule;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.service.AccountService;
-import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
@@ -36,14 +33,15 @@ public class PriceRateScheduleListPage extends LeftMenuNavPage
 
     private void initComponents()
     {
-        add( new Link( "newPriceRateScheduleLink" )
-        {
-            public void onClick()
+        add(
+            new Link( "newPriceRateScheduleLink" )
             {
-                handleNewPriceRateSchedule();
+                public void onClick()
+                {
+                    handleNewPriceRateSchedule();
+                }
             }
-        } );
-
+        );
         add( new FeedbackPanel( "feedbackPanel" ) );
 
         final IModel iModel =
@@ -63,8 +61,12 @@ public class PriceRateScheduleListPage extends LeftMenuNavPage
             {
                 return (Account) getModelObject();
             }
-        };
 
+            public Account getAccount()
+            {
+                return (Account) getModelObject();
+            }
+        };
         add( table );
     }
 
@@ -72,20 +74,12 @@ public class PriceRateScheduleListPage extends LeftMenuNavPage
     {
         PriceRateScheduleAddPage addPage = new PriceRateScheduleAddPage( this )
         {
-            public void addPriceRateSchedule( PriceRateSchedule priceRateScheduleComposite )
+            public HasPriceRateSchedules getHasPriceRateSchedules()
             {
-                handleAddPriceRateSchedule( priceRateScheduleComposite );
+                return PriceRateScheduleListPage.this.getAccount();
             }
         };
 
         setResponsePage( addPage );
-    }
-
-    private void handleAddPriceRateSchedule( PriceRateSchedule schedule )
-    {
-        getAccount().priceRateSchedules().add( schedule );
-
-        // TODO migrate
-//        getAccountService().update( getAccount() );
     }
 }

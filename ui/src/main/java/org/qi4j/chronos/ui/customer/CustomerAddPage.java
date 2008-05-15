@@ -13,26 +13,26 @@
 package org.qi4j.chronos.ui.customer;
 
 import org.apache.wicket.Page;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Account;
-import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.Address;
 import org.qi4j.chronos.model.City;
-import org.qi4j.chronos.model.State;
 import org.qi4j.chronos.model.Country;
+import org.qi4j.chronos.model.Customer;
+import org.qi4j.chronos.model.State;
 import org.qi4j.chronos.model.composites.AddressEntityComposite;
 import org.qi4j.chronos.model.composites.CityEntityComposite;
-import org.qi4j.chronos.model.composites.StateEntityComposite;
 import org.qi4j.chronos.model.composites.CountryEntityComposite;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
-import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.qi4j.chronos.model.composites.StateEntityComposite;
+import static org.qi4j.composite.NullArgumentException.*;
+import org.qi4j.composite.scope.Uses;
 import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.qi4j.composite.scope.Uses;
-import static org.qi4j.composite.NullArgumentException.validateNotNull;
 
 
 public class CustomerAddPage extends CustomerAddEditPage
@@ -61,11 +61,14 @@ public class CustomerAddPage extends CustomerAddEditPage
                     public Object load()
                     {
                         final UnitOfWork unitOfWork = getUnitOfWork();
-                        final Customer customer = unitOfWork.newEntityBuilder( CustomerEntityComposite.class ).newInstance();
-                        final Address address = unitOfWork.newEntityBuilder( AddressEntityComposite.class ).newInstance();
+                        final Customer customer =
+                            unitOfWork.newEntityBuilder( CustomerEntityComposite.class ).newInstance();
+                        final Address address =
+                            unitOfWork.newEntityBuilder( AddressEntityComposite.class ).newInstance();
                         final City city = unitOfWork.newEntityBuilder( CityEntityComposite.class ).newInstance();
                         final State state = unitOfWork.newEntityBuilder( StateEntityComposite.class ).newInstance();
-                        final Country country = unitOfWork.newEntityBuilder( CountryEntityComposite.class ).newInstance();
+                        final Country country =
+                            unitOfWork.newEntityBuilder( CountryEntityComposite.class ).newInstance();
 
                         city.state().set( state );
                         city.country().set( country );

@@ -12,29 +12,30 @@
  */
 package org.qi4j.chronos.ui.account;
 
-import java.util.List;
-import java.util.Map;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.PageParameters;
+import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.CompoundPropertyModel;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.ProjectStatusEnum;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.chronos.service.account.AccountService;
-import org.qi4j.chronos.ui.util.ProjectUtil;
-import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleCheckBox;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleAction;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
+import org.qi4j.chronos.ui.util.ProjectUtil;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.entity.Identity;
+import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -107,16 +108,19 @@ public class AccountTable extends ActionTable<IModel, String>
 
     private void handleDeleteAction( List<IModel> iModels )
     {
+        final UnitOfWork unitOfWork = getUnitOfWork();
         try
         {
             for( IModel iModel : iModels )
             {
                 getAccountService().remove( (Account) iModel.getObject() );
             }
-            getUnitOfWork().complete();
+            unitOfWork.complete();
         }
         catch( UnitOfWorkCompletionException uowce )
         {
+            unitOfWork.reset();
+
             LOGGER.error( uowce.getLocalizedMessage(), uowce );
             error( getString( DELETE_FAIL ) );
         }
@@ -124,6 +128,7 @@ public class AccountTable extends ActionTable<IModel, String>
 
     private void handleEnableAction( List<IModel> iModels, boolean enable )
     {
+        final UnitOfWork unitOfWork = getUnitOfWork();
         try
         {
             List<Account> accounts = new ArrayList<Account>();
@@ -132,10 +137,12 @@ public class AccountTable extends ActionTable<IModel, String>
                 accounts.add( (Account) iModel.getObject() );
             }
             getAccountService().enableAccounts( accounts, enable );
-            getUnitOfWork().complete();
+            unitOfWork.complete();
         }
         catch( UnitOfWorkCompletionException uowce )
         {
+            unitOfWork.reset();
+            
             LOGGER.error( uowce.getLocalizedMessage(), uowce );
             error( getString( enable ? ENABLE_FAIL : DISABLE_FAIL ) );
         }

@@ -13,26 +13,21 @@
 package org.qi4j.chronos.ui.staff;
 
 import java.util.ArrayList;
-import java.util.List;
 import java.util.Collections;
+import java.util.List;
 import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.qi4j.chronos.service.FindFilter;
+import org.qi4j.chronos.model.Staff;
+import org.qi4j.chronos.model.Task;
+import org.qi4j.chronos.model.associations.HasProjects;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.service.TaskService;
 import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.project.ProjectTab;
 import org.qi4j.chronos.ui.task.RecentTaskTab;
-import org.qi4j.chronos.model.Project;
-import org.qi4j.chronos.model.Staff;
-import org.qi4j.chronos.model.Task;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.Identity;
+import org.qi4j.entity.UnitOfWork;
 
 public abstract class DeveloperPanel extends Panel
 {
@@ -71,12 +66,17 @@ public abstract class DeveloperPanel extends Panel
     {
         return new ProjectTab( "Recent Projects" )
         {
+            public HasProjects getHasProjects()
+            {
+                return DeveloperPanel.this.getHasProjects();
+            }
+
             public int getSize()
             {
                 return getProjectService().countRecentProject( getStaff() );
             }
 
-            public List<IModel> dataList( int first, int count )
+            public List<String> dataList( int first, int count )
             {
 /*
                 List<IModel> models = new ArrayList<IModel>();
@@ -103,6 +103,7 @@ public abstract class DeveloperPanel extends Panel
         };
     }
 
+    // TODO kamil: fix business logic
     private RecentTaskTab createRecentTaskTab()
     {
         return new RecentTaskTab( "Recent Tasks" )
@@ -112,9 +113,15 @@ public abstract class DeveloperPanel extends Panel
                 return getTaskService().countRecentTasks( getStaff() );
             }
 
-            public List<Task> dataList( int first, int count )
+            public List<String> dataList( int first, int count )
             {
-                return getTaskService().getRecentTasks( getStaff(), new FindFilter( first, count ) );
+//                return getTaskService().getRecentTasks( getStaff(), new FindFilter( first, count ) );
+                List<String> taskIdList = new ArrayList<String>();
+                for( Task task : getTaskService().getRecentTasks( getStaff() ) )
+                {
+                    taskIdList.add( ( (Identity) task ).identity().get() );
+                }
+                return taskIdList.subList( first, first + count );
             }
         };
     }
@@ -122,4 +129,6 @@ public abstract class DeveloperPanel extends Panel
     public abstract UnitOfWork getUnitOfWork();
     
     public abstract Staff getStaff();
+
+    public abstract HasProjects getHasProjects();
 }
