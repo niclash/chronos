@@ -18,8 +18,6 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.ProjectRole;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.service.ProjectRoleService;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.common.model.NameModel;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
@@ -39,11 +37,6 @@ public abstract class ProjectRoleAddEditPage extends AddEditBasePage
         nameField = new MaxLengthTextField( "nameField", "ProjectRole Name", ProjectRole.NAME_LEN );
 
         form.add( nameField );
-    }
-
-    protected ProjectRoleService getRoleService()
-    {
-        return ChronosWebApp.getServices().getProjectRoleService();
     }
 
     protected void bindPropertyModel( IModel iModel )

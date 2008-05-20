@@ -21,7 +21,6 @@ import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.associations.HasStaffs;
 import org.qi4j.chronos.service.StaffService;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.entity.Identity;
 
@@ -64,11 +63,6 @@ public class StaffListPage extends LeftMenuNavPage
         };
 
         add( staffTable );
-    }
-
-    protected StaffService getStaffService()
-    {
-        return ChronosWebApp.getServices().getStaffService();
     }
 
     public int getSize()

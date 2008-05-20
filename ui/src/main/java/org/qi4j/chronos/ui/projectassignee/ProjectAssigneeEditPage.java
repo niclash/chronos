@@ -15,7 +15,6 @@ package org.qi4j.chronos.ui.projectassignee;
 import java.util.List;
 import java.util.ArrayList;
 import org.apache.wicket.Page;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.model.ProjectAssignee;
 import org.qi4j.chronos.model.PriceRate;
 import org.slf4j.Logger;

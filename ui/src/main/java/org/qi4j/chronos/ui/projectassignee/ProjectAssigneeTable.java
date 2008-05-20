@@ -27,7 +27,6 @@ import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.service.ProjectAssigneeService;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
@@ -37,8 +36,6 @@ import org.qi4j.entity.Identity;
 
 public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssignee, String>
 {
-    private ProjectAssigneeDataProvider dataProvider;
-
     public ProjectAssigneeTable( String id )
     {
         super( id );
@@ -66,6 +63,7 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssignee, 
 
     public AbstractSortableDataProvider<ProjectAssignee, String> getDetachableDataProvider()
     {
+/*
         if( dataProvider == null )
         {
             dataProvider = new ProjectAssigneeDataProvider()
@@ -78,11 +76,13 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssignee, 
         }
 
         return dataProvider;
+*/
+        return null;
     }
 
     public void populateItems( Item item, ProjectAssignee obj )
     {
-        final String projectAssigneeId = ( (Identity) obj).identity().get();
+        final String projectAssigneeId = ( (Identity) obj ).identity().get();
 
         Staff staff = obj.staff().get();
         item.add( new Label( "firstName", staff.firstName().get() ) );
@@ -100,7 +100,8 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssignee, 
 
     private ProjectAssigneeService getProjectAssigneeService()
     {
-        return ChronosWebApp.getServices().getProjectAssigneeService();
+        //TODO
+        return null;
     }
 
     private SimpleLink createEditLink( final String projectAssigneeId )

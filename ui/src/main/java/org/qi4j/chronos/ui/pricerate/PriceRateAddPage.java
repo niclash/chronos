@@ -13,7 +13,6 @@
 package org.qi4j.chronos.ui.pricerate;
 
 import org.apache.wicket.Page;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.model.PriceRate;
 import org.qi4j.chronos.model.composites.PriceRateEntityComposite;
 import org.slf4j.Logger;
@@ -30,6 +29,7 @@ public abstract class PriceRateAddPage extends PriceRateAddEditPage
 
     public void onSubmitting()
     {
+/*
         PriceRate priceRate = ChronosWebApp.newInstance( PriceRateEntityComposite.class );
 
         try
@@ -45,6 +45,7 @@ public abstract class PriceRateAddPage extends PriceRateAddEditPage
             logErrorMsg( err.getMessage() );
             LOGGER.error( err.getMessage(), err );
         }
+*/
     }
 
     public String getSubmitButtonValue()

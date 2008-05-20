@@ -19,13 +19,11 @@ import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
+import org.qi4j.chronos.model.LegalCondition;
 import org.qi4j.chronos.service.LegalConditionService;
-import org.qi4j.chronos.ui.ChronosWebApp;
-import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.common.SimpleTextArea;
-import org.qi4j.chronos.model.composites.LegalConditionEntityComposite;
-import org.qi4j.chronos.model.LegalCondition;
+import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 
 public abstract class LegalConditionSelectionPage extends LeftMenuNavPage
 {
@@ -103,6 +101,7 @@ public abstract class LegalConditionSelectionPage extends LeftMenuNavPage
 
         private void handleSelect()
         {
+/*
             LegalCondition legalCondition = ChronosWebApp.newInstance( LegalConditionEntityComposite.class );
 
             legalCondition.name().set( legalConditionChoice.getChoice().getName() );
@@ -111,6 +110,7 @@ public abstract class LegalConditionSelectionPage extends LeftMenuNavPage
             selectedLegalCondition( legalCondition );
 
             setResponsePage( returnPage );
+*/
         }
 
         private void handleSelectionChanged()
@@ -135,7 +135,8 @@ public abstract class LegalConditionSelectionPage extends LeftMenuNavPage
 
     private LegalConditionService getLegalConditionService()
     {
-        return ChronosWebApp.getServices().getLegalConditionService();
+//        return ChronosWebApp.getServices().getLegalConditionService();
+        return null;
     }
 
     public abstract void selectedLegalCondition( LegalCondition legalCondition );

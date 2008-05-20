@@ -23,7 +23,6 @@ import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.model.associations.HasProjects;
 import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.service.TaskService;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.project.ProjectTab;
 import org.qi4j.chronos.ui.task.RecentTaskTab;
 import org.qi4j.entity.Identity;
@@ -52,16 +51,6 @@ public abstract class DeveloperPanel extends Panel
         add( tabbedPanel );
     }
 
-    private TaskService getTaskService()
-    {
-        return ChronosWebApp.getServices().getTaskService();
-    }
-
-    private ProjectService getProjectService()
-    {
-        return ChronosWebApp.getServices().getProjectService();
-    }
-
     private ProjectTab createRecentProjectTab()
     {
         return new ProjectTab( "Recent Projects" )
@@ -73,7 +62,8 @@ public abstract class DeveloperPanel extends Panel
 
             public int getSize()
             {
-                return getProjectService().countRecentProject( getStaff() );
+//                return getProjectService().countRecentProject( getStaff() );
+                return 0;
             }
 
             public List<String> dataList( int first, int count )
@@ -110,18 +100,22 @@ public abstract class DeveloperPanel extends Panel
         {
             public int getSize()
             {
-                return getTaskService().countRecentTasks( getStaff() );
+//                return getTaskService().countRecentTasks( getStaff() );
+                return 0;
             }
 
             public List<String> dataList( int first, int count )
             {
 //                return getTaskService().getRecentTasks( getStaff(), new FindFilter( first, count ) );
+/*
                 List<String> taskIdList = new ArrayList<String>();
                 for( Task task : getTaskService().getRecentTasks( getStaff() ) )
                 {
                     taskIdList.add( ( (Identity) task ).identity().get() );
                 }
                 return taskIdList.subList( first, first + count );
+*/
+                return Collections.EMPTY_LIST;
             }
         };
     }

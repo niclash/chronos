@@ -16,7 +16,6 @@ import org.apache.wicket.Page;
 import org.qi4j.chronos.model.associations.HasLegalConditions;
 import org.qi4j.chronos.model.LegalCondition;
 import org.qi4j.chronos.service.LegalConditionService;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -40,7 +39,8 @@ public abstract class LegalConditionEditPage extends LegalConditionAddEditPage
 
     private LegalConditionService getLegalConditionService()
     {
-        return ChronosWebApp.getServices().getLegalConditionService();
+//        return ChronosWebApp.getServices().getLegalConditionService();
+        return null;
     }
 
     public void onSubmitting()

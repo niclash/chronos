@@ -23,7 +23,6 @@ import org.qi4j.chronos.model.LegalCondition;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.associations.HasLegalConditions;
 import org.qi4j.chronos.service.LegalConditionService;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
@@ -31,7 +30,7 @@ import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 
 public abstract class LegalConditionTable extends ActionTable<LegalCondition, String>
 {
-    private LegalConditionDataProvider provider;
+//    private LegalConditionDataProvider provider;
 
     public LegalConditionTable( String id )
     {
@@ -56,7 +55,8 @@ public abstract class LegalConditionTable extends ActionTable<LegalCondition, St
 
     private LegalConditionService getLegalConditionService()
     {
-        return ChronosWebApp.getServices().getLegalConditionService();
+//        return ChronosWebApp.getServices().getLegalConditionService();
+        return null;
     }
 
     protected void authorizatiingActionBar( Component component )
@@ -66,6 +66,7 @@ public abstract class LegalConditionTable extends ActionTable<LegalCondition, St
 
     public AbstractSortableDataProvider<LegalCondition, String> getDetachableDataProvider()
     {
+/*
         if( provider == null )
         {
             provider = new LegalConditionDataProvider()
@@ -78,6 +79,8 @@ public abstract class LegalConditionTable extends ActionTable<LegalCondition, St
         }
 
         return provider;
+*/
+        return null;
     }
 
     public void populateItems( Item item, LegalCondition obj )

@@ -16,7 +16,6 @@ import java.util.List;
 import java.util.ArrayList;
 import org.apache.wicket.Page;
 import org.qi4j.chronos.service.ProjectAssigneeService;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.ProjectAssignee;
 import org.qi4j.chronos.model.PriceRate;
@@ -37,36 +36,36 @@ public abstract class ProjectAssigneeAddPage extends ProjectAssigneeAddEditPage
 
     public void onsubmitting()
     {
-        ProjectAssigneeService service = ChronosWebApp.getServices().getProjectAssigneeService();
-
-        try
-        {
-            ProjectAssignee projectAssignee = service.newInstance( ProjectAssigneeEntityComposite.class );
-
-            assignFieldValueToProjectAssignee( projectAssignee );
-
-            Project project = getProject();
-
-            project.projectAssignees().add( projectAssignee );
-
-            // TODO migrate
-//            ChronosWebApp.getServices().getProjectService().update( project );
-
-            logInfoMsg( "Project Assignee is added successfully." );
-
-            divertToGoBackPage();
-        }
-        catch( Exception err )
-        {
-            logErrorMsg( err.getMessage() );
-            LOGGER.error( err.getMessage(), err );
-        }
+//        ProjectAssigneeService service = ChronosWebApp.getServices().getProjectAssigneeService();
+//
+//        try
+//        {
+//            ProjectAssignee projectAssignee = service.newInstance( ProjectAssigneeEntityComposite.class );
+//
+//            assignFieldValueToProjectAssignee( projectAssignee );
+//
+//            Project project = getProject();
+//
+//            project.projectAssignees().add( projectAssignee );
+//
+//            // TODO migrate
+////            ChronosWebApp.getServices().getProjectService().update( project );
+//
+//            logInfoMsg( "Project Assignee is added successfully." );
+//
+//            divertToGoBackPage();
+//        }
+//        catch( Exception err )
+//        {
+//            logErrorMsg( err.getMessage() );
+//            LOGGER.error( err.getMessage(), err );
+//        }
     }
 
     public List<PriceRate> getAvailablePriceRates()
     {
-        return new ArrayList<PriceRate>(0);
-          // TODO migrate
+        return new ArrayList<PriceRate>( 0 );
+        // TODO migrate
 //        return ChronosWebApp.getServices().getPriceRateService().findAll( getProject().priceRateSchedule().get() );
     }
 

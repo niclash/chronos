@@ -18,7 +18,6 @@ import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
 import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.service.FindFilter;
 import org.qi4j.chronos.service.PriceRateScheduleService;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
 public abstract class PriceRateScheduleDataProvider<T extends HasPriceRateSchedules> extends AbstractSortableDataProvider<PriceRateSchedule, String>
@@ -35,7 +34,8 @@ public abstract class PriceRateScheduleDataProvider<T extends HasPriceRateSchedu
 
     private PriceRateScheduleService getPriceRateScheduleService()
     {
-        return ChronosWebApp.getServices().getPriceRateScheduleService();
+//        return ChronosWebApp.getServices().getPriceRateScheduleService();
+        return null;
     }
 
     public List<PriceRateSchedule> dataList( int first, int count )

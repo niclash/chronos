@@ -18,13 +18,11 @@ import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInst
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.model.Model;
-import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.PriceRate;
 import org.qi4j.chronos.model.PriceRateSchedule;
-import org.qi4j.chronos.model.ProjectAssignee;
-import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.Project;
-import org.qi4j.chronos.ui.ChronosWebApp;
+import org.qi4j.chronos.model.ProjectAssignee;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.pricerate.PriceRateOptionPanel;
 import org.qi4j.chronos.ui.staff.StaffDelegator;
@@ -71,7 +69,9 @@ public abstract class ProjectAssigneeAddEditPage extends AddEditBasePage
     protected void assignFieldValueToProjectAssignee( ProjectAssignee projectAssignee )
     {
         projectAssignee.priceRate().set( priceRateOptionPanel.getPriceRate() );
-        projectAssignee.staff().set( getSelectedStaff() );
+
+        //TODO
+//      projectAssignee.staff().set( getSelectedStaff() );
 
         projectAssignee.isLead().set( Boolean.parseBoolean( isLeadCheckBox.getModelObjectAsString() ) );
     }
@@ -83,11 +83,6 @@ public abstract class ProjectAssigneeAddEditPage extends AddEditBasePage
         isLeadCheckBox.setModel( new Model( projectAssignee.isLead().get() ) );
 
         staffChoice.setEnabled( false );
-    }
-
-    private Staff getSelectedStaff()
-    {
-        return ChronosWebApp.getServices().getStaffService().get( staffChoice.getChoice().getId() );
     }
 
     public void handleSubmit()

@@ -25,7 +25,6 @@ import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.associations.HasStaffs;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.service.StaffService;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleCheckBox;
 import org.qi4j.chronos.ui.common.SimpleLink;
@@ -52,7 +51,7 @@ public abstract class StaffTable extends ActionTable<IModel, String>
         {
             public void performAction( List<Staff> staffs )
             {
-                getStaffService().delete( staffs );
+//                getStaffService().delete( staffs );
 
                 info( "Selected staff(s) are deleted." );
             }
@@ -62,7 +61,7 @@ public abstract class StaffTable extends ActionTable<IModel, String>
         {
             public void performAction( List<Staff> staffs )
             {
-                getStaffService().enableLogin( false, staffs );
+//                getStaffService().enableLogin( false, staffs );
 
                 info( "Selected staff(s) are disabled login." );
             }
@@ -72,16 +71,11 @@ public abstract class StaffTable extends ActionTable<IModel, String>
         {
             public void performAction( List<Staff> staffs )
             {
-                getStaffService().enableLogin( true, staffs );
+//                getStaffService().enableLogin( true, staffs );
 
                 info( "Selected staff(s) are enabled login." );
             }
         } );
-    }
-
-    private StaffService getStaffService()
-    {
-        return ChronosWebApp.getServices().getStaffService();
     }
 
     public AbstractSortableDataProvider<IModel, String> getDetachableDataProvider()
