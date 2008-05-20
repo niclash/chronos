@@ -1058,6 +1058,7 @@
         </SOURCES>
       </library>
     </orderEntry>
+    <orderEntry type="module" module-name="qi4j-ext-quikit" />
     <orderEntryProperties />
   </component>
 </module>
