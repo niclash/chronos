@@ -20,7 +20,7 @@ import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.service.account.AccountService;
+//import org.qi4j.chronos.service.account.AccountService;
 import org.qi4j.chronos.ui.address.AddressAddEditPanel;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
@@ -78,13 +78,15 @@ public abstract class AccountAddEditPage extends AddEditBasePage
             isRejected = true;
         }
 
+/*
         if( !getAccountService().isUnique( (Account) getModelObject() ) )
         {
             error( getString( ACCOUNT_NAME_NOT_UNIQUE, new Model( new CustomCompositeModel( getModel(), "name" ) ),
                 "Account name " + nameField.getModelObjectAsString() + " is not unique!!!" ) );
             isRejected = true;
         }
-        
+*/
+
         if( isRejected )
         {
             return;
@@ -98,10 +100,12 @@ public abstract class AccountAddEditPage extends AddEditBasePage
      * TODO kamil: might consider getting the service from somewhere else, ChronosWebApp maybe?
      * @return
      */
+/*
     protected AccountService getAccountService()
     {
         return ChronosSession.get().getAccountService();
     }
+*/
 
     public abstract void onSubmitting();
 }

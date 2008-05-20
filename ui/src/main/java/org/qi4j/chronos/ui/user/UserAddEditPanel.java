@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Collections;
 import org.apache.wicket.extensions.markup.html.form.palette.Palette;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
@@ -92,7 +93,8 @@ public abstract class UserAddEditPanel extends AddEditBasePanel
 
     private List<SystemRole> getAvailableRoleChoices()
     {
-        return ChronosSession.get().getSystemRoleService().findAllStaffSystemRole();
+//        return ChronosSession.get().getSystemRoleService().findAllStaffSystemRole();
+        return Collections.EMPTY_LIST;
     }
 
     public List<SystemRole> getSelectedRoleList()

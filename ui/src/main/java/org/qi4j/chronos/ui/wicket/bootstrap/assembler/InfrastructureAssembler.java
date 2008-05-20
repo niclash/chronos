@@ -13,13 +13,13 @@
 package org.qi4j.chronos.ui.wicket.bootstrap.assembler;
 
 import org.qi4j.bootstrap.Assembler;
-import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.bootstrap.AssemblyException;
-import org.qi4j.spi.entity.UuidIdentityGeneratorService;
-import org.qi4j.entity.memory.IndexedMemoryEntityStoreService;
-import org.qi4j.entity.memory.MemoryEntityStoreService;
+import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.entity.index.rdf.RdfQueryService;
 import org.qi4j.entity.index.rdf.memory.MemoryRepositoryService;
+import org.qi4j.entity.memory.IndexedMemoryEntityStoreService;
+import org.qi4j.entity.memory.MemoryEntityStoreService;
+import org.qi4j.spi.entity.UuidIdentityGeneratorService;
 import org.qi4j.structure.Visibility;
 
 public class InfrastructureAssembler implements Assembler
@@ -28,9 +28,9 @@ public class InfrastructureAssembler implements Assembler
     {
         module.addServices(
             UuidIdentityGeneratorService.class,
-            MemoryEntityStoreService.class
-//            RdfQueryService.class,
-//            MemoryRepositoryService.class
+            RdfQueryService.class,
+            MemoryEntityStoreService.class,
+            MemoryRepositoryService.class
             ).visibleIn( Visibility.application ).instantiateOnStartup();
     }
 }

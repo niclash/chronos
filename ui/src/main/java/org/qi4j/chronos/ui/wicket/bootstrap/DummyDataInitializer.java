@@ -73,30 +73,24 @@ import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.model.composites.TimeRangeEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
-import org.qi4j.chronos.service.account.AccountService;
-import org.qi4j.chronos.service.systemrole.SystemRoleService;
-import org.qi4j.chronos.service.user.UserService;
 import org.qi4j.chronos.util.ReportUtil;
 import org.qi4j.composite.CompositeBuilder;
-import org.qi4j.composite.scope.Service;
 import org.qi4j.composite.scope.Structure;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.qi4j.entity.UnitOfWorkFactory;
 import org.qi4j.library.general.model.Contact;
 import org.qi4j.library.general.model.GenderType;
+import org.qi4j.query.QueryBuilder;
+import org.qi4j.query.QueryBuilderFactory;
+import static org.qi4j.query.QueryExpressions.eq;
+import static org.qi4j.query.QueryExpressions.or;
+import static org.qi4j.query.QueryExpressions.templateFor;
 
 final class DummyDataInitializer
 {
     private @Structure UnitOfWorkFactory unitOfWorkFactory;
 
-    private @Service SystemRoleService roleService;
-
-    private @Service UserService userService;
-
-    private @Service AccountService accountService;
-
-    private UnitOfWork unitOfWork;
 
     public DummyDataInitializer()
     {
@@ -107,50 +101,37 @@ final class DummyDataInitializer
      */
     public void initializeDummyData()
     {
-        unitOfWork = unitOfWorkFactory.newUnitOfWork();
+
         initSystemRoles();
         initAccounts();
 
-        unitOfWork = complete( unitOfWork, unitOfWorkFactory );
         initAdmin();
         initProjectRolesAndStaff();
 
-//        unitOfWork = complete( unitOfWork, unitOfWorkFactory );
         initPriceRateSchedule();
 
-//        unitOfWork = complete( unitOfWork, unitOfWorkFactory );
         initCustomersAndContactPersons();
 
-//        unitOfWork = complete( unitOfWork, unitOfWorkFactory );
         initProjectsTasksAndAssignees();
 
-//        unitOfWork = complete( unitOfWork, unitOfWorkFactory );
         initWorkEntries();
 
-        unitOfWork = complete( unitOfWork, unitOfWorkFactory );
-
         initReports();
-
-        try
-        {
-             unitOfWork.complete();
-        }
-        catch( UnitOfWorkCompletionException uowce )
-        {
-           System.err.println( uowce.getLocalizedMessage() );
-           uowce.printStackTrace();
-        }
     }
 
     private void initReports()
     {
+        UnitOfWork unitOfWork = newUnitOfWork( unitOfWorkFactory );
+
         Calendar now = Calendar.getInstance();
-        now.add(  Calendar.DATE, -3 );
+        now.add( Calendar.DATE, -3 );
         Date endTime = now.getTime();
         now.add( Calendar.DATE, -8 );
         Date startTime = now.getTime();
 
-        for( Account account : accountService.findAll() )
+        QueryBuilder<Account> queryBuilder = newAccountQueryBuilder( unitOfWork );
+
+        for( Account account : queryBuilder.newQuery() )
         {
             account = unitOfWork.dereference( account );
 
@@ -164,6 +145,15 @@ final class DummyDataInitializer
                 accountReport.reports().add( report );
             }
         }
+
+        complete( unitOfWork );
+    }
+
+    private QueryBuilder<Account> newAccountQueryBuilder( UnitOfWork unitOfWork )
+    {
+        QueryBuilderFactory queryBuilderFactory = unitOfWork.queryBuilderFactory();
+
+        return queryBuilderFactory.newQueryBuilder( Account.class );
     }
 
     /**
@@ -171,7 +161,11 @@ final class DummyDataInitializer
      */
     private void initWorkEntries()
     {
-        for( Account account : accountService.findAll() )
+        UnitOfWork unitOfWork = newUnitOfWork( unitOfWorkFactory );
+
+        QueryBuilder<Account> queryBuilder = newAccountQueryBuilder( unitOfWork );
+
+        for( Account account : queryBuilder.newQuery() )
         {
             Calendar now = Calendar.getInstance();
             Date createdDate = now.getTime();
@@ -190,7 +184,7 @@ final class DummyDataInitializer
                 projectWorkEntry.comments().add( projectComment );
                 project.workEntries().add( projectWorkEntry );
 
-                for( int j = 0; j < 30; j++ )
+                for( int j = 0; j < 2; j++ )
                 {
                     now.add( Calendar.HOUR_OF_DAY, -4 );
                     startTime = now.getTime();
@@ -199,7 +193,7 @@ final class DummyDataInitializer
                     now.add( Calendar.HOUR_OF_DAY, 2 );
                     createdDate = now.getTime();
                     now.add( Calendar.DATE, 1 );
-                    
+
                     for( Task task : project.tasks() )
                     {
                         WorkEntry workEntry = newWorkEntry( unitOfWork, "Work Entry " + j, "Description",
@@ -217,6 +211,8 @@ final class DummyDataInitializer
                 }
             }
         }
+
+        complete( unitOfWork );
     }
 
     /**
@@ -224,13 +220,17 @@ final class DummyDataInitializer
      */
     private void initProjectsTasksAndAssignees()
     {
+        UnitOfWork unitOfWork = newUnitOfWork( unitOfWorkFactory );
+
         Calendar now = Calendar.getInstance();
         now.add( Calendar.MONTH, -1 );
         Date startDate = now.getTime();
         now.add( Calendar.MONTH, 2 );
         Date endDate = now.getTime();
 
-        for( Account account : accountService.findAll() )
+        QueryBuilder<Account> queryBuilder = newAccountQueryBuilder( unitOfWork );
+
+        for( Account account : queryBuilder.newQuery() )
         {
             account = unitOfWork.dereference( account );
 
@@ -266,6 +266,8 @@ final class DummyDataInitializer
 
             account.projects().add( project );
         }
+
+        complete( unitOfWork );
     }
 
     /**
@@ -273,7 +275,11 @@ final class DummyDataInitializer
      */
     private void initCustomersAndContactPersons()
     {
-        for( Account account : accountService.findAll() )
+        UnitOfWork unitOfWork = newUnitOfWork( unitOfWorkFactory );
+
+        QueryBuilder<Account> queryBuilder = newAccountQueryBuilder( unitOfWork );
+
+        for( Account account : queryBuilder.newQuery() )
         {
             account = unitOfWork.dereference( account );
             final Iterator<PriceRateSchedule> priceRateScheduleIterator = account.priceRateSchedules().iterator();
@@ -282,7 +288,13 @@ final class DummyDataInitializer
                                                              GenderType.MALE, "Project Manager" );
             Contact mobile = newContact( unitOfWork, "Mobile", "7073247032" );
             projectManager.contacts().add( mobile );
-            projectManager.systemRoles().add( roleService.getSystemRoleByName( SystemRole.CONTACT_PERSON ) );
+
+            QueryBuilder<SystemRole> systemRoleQB = newSystemRoleQuery( unitOfWork );
+
+            SystemRole contactPersonRoleTemplate = templateFor( SystemRole.class );
+            SystemRole contactPersonRole = systemRoleQB.where( eq( contactPersonRoleTemplate.name(), SystemRole.CONTACT_PERSON)).newQuery().find();
+
+            projectManager.systemRoles().add( contactPersonRole );
 
             Customer customer = newCustomer( unitOfWork, "Client A", "clientA",
                                              "line 1", "line 2", "city", "state", "country", "41412" );
@@ -292,18 +304,20 @@ final class DummyDataInitializer
             account.customers().add( customer );
 
             ContactPerson projectManager2 = newContactPerson( unitOfWork, "Yada", "Yada", "yada", "yada",
-                                                             GenderType.MALE, "Manager" );
+                                                              GenderType.MALE, "Manager" );
             Contact mobile2 = newContact( unitOfWork, "Mobile", "7073247032" );
             projectManager2.contacts().add( mobile2 );
-            projectManager2.systemRoles().add( roleService.getSystemRoleByName( SystemRole.CONTACT_PERSON ) );
+            projectManager2.systemRoles().add( contactPersonRole );
 
             Customer customer2 = newCustomer( unitOfWork, "YadaYada", "YadaYada",
-                                             "line 1", "line 2", "city", "state", "country", "41412" );
+                                              "line 1", "line 2", "city", "state", "country", "41412" );
             customer2.priceRateSchedules().add( priceRateScheduleIterator.next() );
             customer2.contactPersons().add( projectManager2 );
 
             account.customers().add( customer2 );
         }
+
+        complete( unitOfWork );
     }
 
     /**
@@ -311,7 +325,11 @@ final class DummyDataInitializer
      */
     private void initProjectRolesAndStaff()
     {
-        for( Account account : accountService.findAll() )
+        UnitOfWork unitOfWork = newUnitOfWork( unitOfWorkFactory );
+
+        QueryBuilder<Account> queryBuilder = newAccountQueryBuilder( unitOfWork );
+
+        for( Account account : queryBuilder.newQuery() )
         {
             account = unitOfWork.dereference( account );
 
@@ -333,7 +351,16 @@ final class DummyDataInitializer
             developer.login().set( newLogin( unitOfWork, "developer", "developer" ) );
             developer.salary().set( newMoney( unitOfWork, 2000L, "USD" ) );
 
-            for( SystemRole role : roleService.findAllStaffSystemRole() )
+            QueryBuilder<SystemRole> systemRoleQB = newSystemRoleQuery( unitOfWork );
+
+            SystemRole staffRole = templateFor( SystemRole.class );
+
+            queryBuilder.where( or(
+                eq( staffRole.name(), SystemRole.ACCOUNT_ADMIN ),
+                eq( staffRole.name(), SystemRole.ACCOUNT_DEVELOPER )
+            ) );
+
+            for( SystemRole role : systemRoleQB.newQuery() )
             {
                 role = unitOfWork.dereference( role );
                 boss.systemRoles().add( role );
@@ -346,6 +373,8 @@ final class DummyDataInitializer
             account.staffs().add( boss );
             account.staffs().add( developer );
         }
+
+        complete( unitOfWork );
     }
 
     /**
@@ -353,10 +382,14 @@ final class DummyDataInitializer
      */
     private void initPriceRateSchedule()
     {
-        for( Account account : accountService.findAll() )
+        UnitOfWork unitOfWork = newUnitOfWork( unitOfWorkFactory );
+
+        QueryBuilder<Account> queryBuilder = newAccountQueryBuilder( unitOfWork );
+
+        for( Account account : queryBuilder.newQuery() )
         {
             account = unitOfWork.dereference( account );
-            
+
             PriceRateSchedule priceRateSchedule = newPriceRateSchedule( unitOfWork, "Default A" );
             priceRateSchedule.currency().set( Currency.getInstance( "USD" ) );
 
@@ -379,13 +412,18 @@ final class DummyDataInitializer
             }
             account.priceRateSchedules().add( priceRateSchedule2 );
         }
+
+        complete( unitOfWork );
     }
 
     /**
      * Creates 2 default accounts.
      */
+
     private void initAccounts()
     {
+        UnitOfWork unitOfWork = newUnitOfWork( unitOfWorkFactory );
+
         Address address = newAddress( unitOfWork, "AbcMixin Road", "Way Centre", "KL",
                                       "Wilayah Persekutuan", "Malaysia", "12345" );
         Account jayway = newAccount( unitOfWork, "Jayway Malaysia", "Jayway Malaysia Sdn. Bhd." );
@@ -396,8 +434,7 @@ final class DummyDataInitializer
         Account testCorp = newAccount( unitOfWork, "Test Corp", "Test Corporation" );
         testCorp.address().set( address );
 
-        accountService.add( jayway );
-        accountService.add( testCorp );
+        complete( unitOfWork );
     }
 
     /**
@@ -405,29 +442,29 @@ final class DummyDataInitializer
      */
     private void initSystemRoles()
     {
+        UnitOfWork unitOfWork = newUnitOfWork( unitOfWorkFactory );
+
         SystemRole adminRole =
             unitOfWork.newEntityBuilder( SystemRole.SYSTEM_ADMIN, SystemRoleEntityComposite.class ).newInstance();
         adminRole.name().set( SystemRole.SYSTEM_ADMIN );
         adminRole.systemRoleType().set( SystemRoleTypeEnum.ADMIN );
-        roleService.save( adminRole );
 
         SystemRole accountAdmin =
             unitOfWork.newEntityBuilder( SystemRole.ACCOUNT_ADMIN, SystemRoleEntityComposite.class ).newInstance();
         accountAdmin.name().set( SystemRole.ACCOUNT_ADMIN );
         accountAdmin.systemRoleType().set( SystemRoleTypeEnum.STAFF );
-        roleService.save( accountAdmin );
 
         SystemRole developer =
             unitOfWork.newEntityBuilder( SystemRole.ACCOUNT_DEVELOPER, SystemRoleEntityComposite.class ).newInstance();
         developer.name().set( SystemRole.ACCOUNT_DEVELOPER );
         developer.systemRoleType().set( SystemRoleTypeEnum.STAFF );
-        roleService.save( developer );
 
         SystemRole contactPerson =
             unitOfWork.newEntityBuilder( SystemRole.CONTACT_PERSON, SystemRoleEntityComposite.class ).newInstance();
         contactPerson.name().set( SystemRole.CONTACT_PERSON );
         contactPerson.systemRoleType().set( SystemRoleTypeEnum.CONTACT_PERSON );
-        roleService.save( contactPerson );
+
+        complete( unitOfWork );
     }
 
     /**
@@ -435,17 +472,29 @@ final class DummyDataInitializer
      */
     private void initAdmin()
     {
+        UnitOfWork unitOfWork = newUnitOfWork( unitOfWorkFactory );
+
         Login adminLogin = newLogin( unitOfWork, "admin", "admin" );
         Admin adminUser = newUser( unitOfWork, AdminEntityComposite.class, "System",
                                    "Administrator", GenderType.MALE );
         adminUser.login().set( adminLogin );
 
-        for( SystemRole role : roleService.findAll() )
+        QueryBuilder<SystemRole> queryBuilder = newSystemRoleQuery( unitOfWork );
+        for( SystemRole role : queryBuilder.newQuery() )
         {
             adminUser.systemRoles().add( unitOfWork.dereference( role ) );
         }
-        userService.addAdmin( adminUser );
+
+        complete( unitOfWork );
     }
+
+    private QueryBuilder<SystemRole> newSystemRoleQuery( UnitOfWork unitOfWork )
+    {
+        QueryBuilderFactory queryBuilderFactory = unitOfWork.queryBuilderFactory();
+
+        return queryBuilderFactory.newQueryBuilder( SystemRole.class );
+    }
+
 
     /**
      * Compares a given Name composite with a text. Returns true if text equals name.
@@ -459,12 +508,11 @@ final class DummyDataInitializer
         return text.equals( name.name().get() );
     }
 
-    protected static final UnitOfWork complete( UnitOfWork unitOfWork, UnitOfWorkFactory unitOfWorkFactory )
+    protected static final void complete( UnitOfWork unitOfWork)
     {
         try
         {
             unitOfWork.complete();
-            unitOfWork = unitOfWorkFactory.newUnitOfWork();
         }
         catch( UnitOfWorkCompletionException uofwce )
         {
@@ -473,12 +521,16 @@ final class DummyDataInitializer
 
             unitOfWork.reset();
         }
+    }
 
-        return unitOfWork;
+    protected static final UnitOfWork newUnitOfWork(UnitOfWorkFactory unitOfWorkFactory)
+    {
+        return unitOfWorkFactory.newUnitOfWork();
     }
 
     protected static Login newLogin( UnitOfWork unitOfWork, String username, String password )
     {
+
         CompositeBuilder<LoginEntityComposite> loginBuilder = unitOfWork.newEntityBuilder( LoginEntityComposite.class );
         loginBuilder.stateOfComposite().name().set( username );
         loginBuilder.stateOfComposite().password().set( password );
@@ -509,7 +561,7 @@ final class DummyDataInitializer
         accountBuilder.stateOfComposite().reference().set( reference );
         accountBuilder.stateOfComposite().address().set(
             newAddress( unitOfWork, firstLine, secondLine, cityName, stateName,
-                                                                     countryName, zipCode ) );
+                        countryName, zipCode ) );
 
         return accountBuilder.newInstance();
     }
@@ -536,7 +588,7 @@ final class DummyDataInitializer
         addressBuilder.stateOfComposite().zipCode().set( zipCode );
         addressBuilder.stateOfComposite().city().set(
             newCity( unitOfWork, cityName, newState( unitOfWork, stateName ),
-                                                               newCountry( unitOfWork, countryName ) ) );
+                     newCountry( unitOfWork, countryName ) ) );
 
         return addressBuilder.newInstance();
     }
@@ -596,12 +648,12 @@ final class DummyDataInitializer
     }
 
     protected static PriceRate newPriceRate( UnitOfWork unitOfWork, Long amount, String currencyCode,
-                                      PriceRateTypeEnum priceRateTypeEnum )
+                                             PriceRateTypeEnum priceRateTypeEnum )
     {
         CompositeBuilder<PriceRateEntityComposite> priceRateBuilder =
             unitOfWork.newEntityBuilder( PriceRateEntityComposite.class );
         priceRateBuilder.stateOfComposite().amount().set( amount );
-        priceRateBuilder.stateOfComposite().currency().set( Currency.getInstance(currencyCode) );
+        priceRateBuilder.stateOfComposite().currency().set( Currency.getInstance( currencyCode ) );
         priceRateBuilder.stateOfComposite().priceRateType().set( priceRateTypeEnum );
 
         return priceRateBuilder.newInstance();
@@ -609,7 +661,7 @@ final class DummyDataInitializer
 
     protected static Customer newCustomer( UnitOfWork unitOfWork, String customerName,
                                            String reference, String firstLine, String secondLine,
-                                    String cityName, String stateName, String countryName, String zipCode )
+                                           String cityName, String stateName, String countryName, String zipCode )
     {
         CompositeBuilder<CustomerEntityComposite> customerBuilder =
             unitOfWork.newEntityBuilder( CustomerEntityComposite.class );
@@ -617,7 +669,7 @@ final class DummyDataInitializer
         customerBuilder.stateOfComposite().reference().set( reference );
         customerBuilder.stateOfComposite().isEnabled().set( true );
         customerBuilder.stateOfComposite().address().set(
-            newAddress( unitOfWork, firstLine, secondLine, cityName, stateName, countryName, zipCode ));
+            newAddress( unitOfWork, firstLine, secondLine, cityName, stateName, countryName, zipCode ) );
 
         return customerBuilder.newInstance();
     }

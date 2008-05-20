@@ -27,7 +27,6 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.service.account.AccountService;
 import org.qi4j.chronos.ui.common.NameChoiceRenderer;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
@@ -44,13 +43,12 @@ public class LoginPage extends BasePage
     private static final String WICKET_ID_FEEDBACK_PANEL = "feedbackPanel";
     private static final String WICKET_ID_LOGIN_FORM = "loginForm";
 
-    public LoginPage( @Service AccountService anAccountService )
+    public LoginPage( )
         throws IllegalArgumentException
     {
-        validateNotNull( "anAccountService", anAccountService );
-
         add( new FeedbackPanel( WICKET_ID_FEEDBACK_PANEL ) );
-        add( new LoginForm( WICKET_ID_LOGIN_FORM, new LoginModel(), anAccountService ) );
+
+        add( new LoginForm( WICKET_ID_LOGIN_FORM, new LoginModel() ) );
     }
 
     private static class LoginForm extends Form
@@ -65,12 +63,12 @@ public class LoginPage extends BasePage
         private static final String PASSWORD_BINDING = WICKET_ID_PASSWORD;
         private static final String SIGN_IN_FAILED = "signInFailed";
 
-        private LoginForm( String aWicketId, LoginModel aLoginModel, AccountService anAccountService )
+
+        private LoginForm( String aWicketId, LoginModel aLoginModel )
         {
             super( aWicketId );
 
             validateNotNull( "aLoginModel", aLoginModel );
-            validateNotNull( "anAccountService", anAccountService );
 
             CompoundPropertyModel compoundPropertyModel = new CompoundPropertyModel( aLoginModel );
             setModel( compoundPropertyModel );
@@ -78,11 +76,11 @@ public class LoginPage extends BasePage
             UnitOfWork unitOfWork = getUnitOfWork();
             // Select account
             List<Account> availableAccounts = new ArrayList <Account>();
-            for( Account account : anAccountService.findAvailableAccounts() )
-            {
-                availableAccounts.add(
-                    unitOfWork.getReference( ( (Identity) account).identity().get(), AccountEntityComposite.class ) );
-            }
+//            for( Account account : anAccountService.findAvailableAccounts() )
+//            {
+//                availableAccounts.add(
+//                    unitOfWork.getReference( ( (Identity) account).identity().get(), AccountEntityComposite.class ) );
+//            }
             NameChoiceRenderer renderer = new NameChoiceRenderer();
             accountDropDownChoice =
                 new DropDownChoice( WICKET_ID_ACCOUNT_DROP_DOWN_CHOICE, availableAccounts, renderer );

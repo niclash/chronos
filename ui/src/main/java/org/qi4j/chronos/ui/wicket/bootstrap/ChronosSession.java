@@ -21,13 +21,7 @@ import org.apache.wicket.authorization.strategies.role.Roles;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.service.AggregatedService;
-import org.qi4j.chronos.service.account.AccountService;
-import org.qi4j.chronos.service.authentication.AuthenticationService;
-import org.qi4j.chronos.service.systemrole.SystemRoleService;
-import org.qi4j.chronos.service.user.UserService;
 import org.qi4j.chronos.ui.SystemRoleResolver;
-import org.qi4j.composite.scope.Service;
 import org.qi4j.composite.scope.Structure;
 import org.qi4j.composite.scope.Uses;
 import org.qi4j.entity.UnitOfWorkFactory;
@@ -41,16 +35,6 @@ import org.qi4j.entity.UnitOfWorkFactory;
 public final class ChronosSession extends AuthenticatedWebSession
 {
     private static final long serialVersionUID = 1L;
-
-    private @Service AuthenticationService authenticationService;
-
-    private @Service AccountService accountService;
-
-    private @Service UserService userService;
-
-    private @Service AggregatedService aggregatedService;
-
-    private @Service SystemRoleService systemRoleService;
 
     private @Structure UnitOfWorkFactory factory;
 
@@ -83,7 +67,8 @@ public final class ChronosSession extends AuthenticatedWebSession
             return false;
         }
 
-        User user = authenticationService.authenticate( account, aUserName, aPassword );
+//        User user = authenticationService.authenticate( account, aUserName, aPassword );
+        User user = null;
 
         if( user != null )
         {
@@ -95,6 +80,16 @@ public final class ChronosSession extends AuthenticatedWebSession
         }
 
         return false;
+    }
+
+    public UnitOfWorkFactory getUnitOfWorkFactory()
+    {
+        return factory;
+    }
+
+    public SystemRoleResolver getSystemRoleResolver()
+    {
+        return roleResolver;
     }
 
     public User getUser()
@@ -115,36 +110,6 @@ public final class ChronosSession extends AuthenticatedWebSession
     public Account getAccount()
     {
         return this.account;
-    }
-
-    public AccountService getAccountService()
-    {
-        return accountService;
-    }
-
-    public UserService getUserService()
-    {
-        return userService;
-    }
-
-    public SystemRoleResolver getSystemRoleResolver()
-    {
-        return roleResolver;
-    }
-
-    public SystemRoleService getSystemRoleService()
-    {
-        return systemRoleService;
-    }
-
-    public UnitOfWorkFactory getUnitOfWorkFactory()
-    {
-        return factory;
-    }
-
-    public AggregatedService getService()
-    {
-        return aggregatedService;
     }
 
     public boolean isSignIn()

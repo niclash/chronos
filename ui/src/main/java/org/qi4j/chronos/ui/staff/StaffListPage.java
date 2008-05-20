@@ -20,7 +20,6 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.associations.HasStaffs;
-import org.qi4j.chronos.service.StaffService;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.entity.Identity;
 

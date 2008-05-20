@@ -13,52 +13,37 @@
 package org.qi4j.chronos.ui.wicket.bootstrap.assembler;
 
 import org.qi4j.bootstrap.Assembler;
-import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.bootstrap.AssemblyException;
-import org.qi4j.chronos.model.composites.AdminEntityComposite;
-import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
-import org.qi4j.chronos.model.composites.LoginEntityComposite;
+import org.qi4j.bootstrap.ModuleAssembly;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.composites.AccountReportEntityComposite;
 import org.qi4j.chronos.model.composites.AddressEntityComposite;
+import org.qi4j.chronos.model.composites.AdminEntityComposite;
 import org.qi4j.chronos.model.composites.CityEntityComposite;
-import org.qi4j.chronos.model.composites.StateEntityComposite;
+import org.qi4j.chronos.model.composites.CommentEntityComposite;
+import org.qi4j.chronos.model.composites.ContactEntityComposite;
+import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.CountryEntityComposite;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
+import org.qi4j.chronos.model.composites.LegalConditionEntityComposite;
+import org.qi4j.chronos.model.composites.LoginEntityComposite;
 import org.qi4j.chronos.model.composites.MoneyEntityComposite;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
-import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
+import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
 import org.qi4j.chronos.model.composites.PriceRateEntityComposite;
 import org.qi4j.chronos.model.composites.PriceRateScheduleEntityComposite;
-import org.qi4j.chronos.model.composites.CustomerEntityComposite;
-import org.qi4j.chronos.model.composites.ContactEntityComposite;
-import org.qi4j.chronos.model.composites.RelationshipEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
-import org.qi4j.chronos.model.composites.TimeRangeEntityComposite;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.LegalConditionEntityComposite;
-import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
-import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
-import org.qi4j.chronos.model.composites.CommentEntityComposite;
-import org.qi4j.chronos.model.composites.ReportEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
+import org.qi4j.chronos.model.composites.RelationshipEntityComposite;
 import org.qi4j.chronos.model.composites.ReportDetailEntityComposite;
+import org.qi4j.chronos.model.composites.ReportEntityComposite;
 import org.qi4j.chronos.model.composites.ReportSummaryEntityComposite;
-import org.qi4j.chronos.model.composites.AccountReportEntityComposite;
-import org.qi4j.chronos.service.systemrole.SystemRoleServiceConfiguration;
-import org.qi4j.chronos.service.systemrole.SystemRoleServiceComposite;
-import org.qi4j.chronos.service.account.AccountServiceConfiguration;
-import org.qi4j.chronos.service.account.AccountServiceComposite;
-import org.qi4j.chronos.service.user.UserServiceConfiguration;
-import org.qi4j.chronos.service.user.UserServiceComposite;
-import org.qi4j.chronos.service.lab.AdminServiceComposite;
-import org.qi4j.chronos.service.lab.LoginServiceComposite;
-import org.qi4j.chronos.service.customer.CustomerServiceComposite;
-import org.qi4j.chronos.service.task.TaskServiceComposite;
-import org.qi4j.chronos.service.project.ProjectServiceComposite;
-import org.qi4j.chronos.service.project.ProjectServiceConfiguration;
-import org.qi4j.chronos.service.relationship.RelationshipServiceComposite;
-import org.qi4j.chronos.service.authentication.AuthenticationServiceComposite;
-import org.qi4j.chronos.service.AggregatedServiceComposite;
+import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.composites.StateEntityComposite;
+import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.model.composites.TimeRangeEntityComposite;
+import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.structure.Visibility;
 
 public class DomainAssembler implements Assembler
@@ -75,7 +60,6 @@ public class DomainAssembler implements Assembler
             CountryEntityComposite.class,
             MoneyEntityComposite.class,
             StaffEntityComposite.class,
-            SystemRoleServiceConfiguration.class,
             SystemRoleEntityComposite.class,
             ProjectRoleEntityComposite.class,
             PriceRateEntityComposite.class,
@@ -96,26 +80,7 @@ public class DomainAssembler implements Assembler
             ReportEntityComposite.class,
             ReportDetailEntityComposite.class,
             ReportSummaryEntityComposite.class,
-            AccountReportEntityComposite.class,
-
-
-            AccountServiceConfiguration.class,
-            UserServiceConfiguration.class,
-            ProjectServiceConfiguration.class
+            AccountReportEntityComposite.class
         ).visibleIn( Visibility.application );
-        module.addServices(
-            AccountServiceComposite.class,
-            AdminServiceComposite.class,
-            LoginServiceComposite.class,
-            UserServiceComposite.class,
-
-            CustomerServiceComposite.class,
-            TaskServiceComposite.class,
-            ProjectServiceComposite.class,
-            SystemRoleServiceComposite.class,
-            RelationshipServiceComposite.class,
-            AuthenticationServiceComposite.class,
-            AggregatedServiceComposite.class
-        ).visibleIn( Visibility.application ).instantiateOnStartup();
     }
 }

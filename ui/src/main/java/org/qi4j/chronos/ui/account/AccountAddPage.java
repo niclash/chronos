@@ -89,7 +89,7 @@ public class AccountAddPage extends AccountAddEditPage
         try
         {
             final Account account = (Account) getModelObject();
-            getAccountService().add( account );
+//            getAccountService().add( account );
             unitOfWork.complete();
             logInfoMsg( getString( ADD_SUCCESS ) );
 

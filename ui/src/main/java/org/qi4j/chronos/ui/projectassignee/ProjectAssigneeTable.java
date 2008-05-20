@@ -26,7 +26,6 @@ import org.qi4j.chronos.model.ProjectAssignee;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.PriceRateSchedule;
-import org.qi4j.chronos.service.ProjectAssigneeService;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
@@ -49,7 +48,7 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssignee, 
         {
             public void performAction( List<ProjectAssignee> projectAsssignees )
             {
-                getProjectAssigneeService().delete( projectAsssignees );
+//                getProjectAssigneeService().delete( projectAsssignees );
 
                 info( "Selected project assignee(s) are deleted." );
             }
@@ -98,12 +97,6 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssignee, 
         item.add( editLink );
     }
 
-    private ProjectAssigneeService getProjectAssigneeService()
-    {
-        //TODO
-        return null;
-    }
-
     private SimpleLink createEditLink( final String projectAssigneeId )
     {
         return new SimpleLink( "editLink", "Edit" )
@@ -114,7 +107,8 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssignee, 
                 {
                     public ProjectAssignee getProjectAssignee()
                     {
-                        return getProjectAssigneeService().get( projectAssigneeId );
+//                        return getProjectAssigneeService().get( projectAssigneeId );
+                        return null;
                     }
 
                     public PriceRateSchedule getPriceRateSchedule()

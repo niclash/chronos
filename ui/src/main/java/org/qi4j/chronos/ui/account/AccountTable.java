@@ -25,7 +25,6 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.ProjectStatusEnum;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.service.account.AccountService;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleCheckBox;
 import org.qi4j.chronos.ui.common.SimpleLink;
@@ -113,7 +112,7 @@ public class AccountTable extends ActionTable<IModel, String>
         {
             for( IModel iModel : iModels )
             {
-                getAccountService().remove( (Account) iModel.getObject() );
+//                getAccountService().remove( (Account) iModel.getObject() );
             }
             unitOfWork.complete();
         }
@@ -136,7 +135,7 @@ public class AccountTable extends ActionTable<IModel, String>
             {
                 accounts.add( (Account) iModel.getObject() );
             }
-            getAccountService().enableAccounts( accounts, enable );
+//            getAccountService().enableAccounts( accounts, enable );
             unitOfWork.complete();
         }
         catch( UnitOfWorkCompletionException uowce )
@@ -156,12 +155,14 @@ public class AccountTable extends ActionTable<IModel, String>
             {
                 public int getSize()
                 {
-                    return getAccountService().count();
+//                    return getAccountService().count();
+                    return 0;
                 }
 
                 public String getId( IModel t )
                 {
-                    return getAccountService().getId( (Account) t.getObject() );
+//                    return getAccountService().getId( (Account) t.getObject() );
+                    return null;
                 }
 
                 public IModel load( final String s )
@@ -202,18 +203,22 @@ public class AccountTable extends ActionTable<IModel, String>
         return dataProvider;
     }
 
+/*
     private static AccountService getAccountService()
     {
         return ChronosSession.get().getAccountService();
     }
+*/
 
     private static List<String> getAccountIds()
     {
         List<String> list = new ArrayList<String>();
+/*
         for( Account account : getAccountService().findAll() )
         {
             list.add( ( (Identity) account).identity().get() );
         }
+*/
 
         return list;
     }

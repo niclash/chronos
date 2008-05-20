@@ -12,6 +12,7 @@ import org.qi4j.structure.Visibility;
 
 import static org.qi4j.chronos.ui.wicket.bootstrap.Constants.MODULE_NAME_WICKET_BOOTSTRAP;
 import static org.qi4j.composite.NullArgumentException.validateNotNull;
+import org.qi4j.entity.memory.MemoryEntityStoreService;
 
 /**
  * @author edward.yakop@gmail.com
@@ -38,6 +39,7 @@ public final class WicketBootstrapModuleInitializer
                 Qi4jObjectStreamFactory.class,
                 DummyDataInitializer.class
             ).visibleIn( Visibility.application );
+
             moduleAssembly.addAssembler( new InfrastructureAssembler() );
             moduleAssembly.addAssembler( new DomainAssembler() );
             moduleAssembly.addAssembler( new ViewAssembler() );

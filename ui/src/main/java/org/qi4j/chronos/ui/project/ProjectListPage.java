@@ -22,7 +22,6 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.associations.HasProjects;
-import org.qi4j.chronos.service.ProjectService;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.entity.Identity;
 

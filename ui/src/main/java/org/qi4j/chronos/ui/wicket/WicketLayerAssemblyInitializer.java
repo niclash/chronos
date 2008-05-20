@@ -35,6 +35,7 @@ public final class WicketLayerAssemblyInitializer
 
         LayerAssembly wicketLayerAssembly = anApplicationAssembly.newLayerAssembly();
         wicketLayerAssembly.setName( LAYER_NAME_WICKET );
+
         addWicketBootstrapModule( wicketLayerAssembly );
         addWicketAuthenticationModule( wicketLayerAssembly );
     }

@@ -14,13 +14,13 @@ package org.qi4j.chronos.ui.legalcondition;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.LegalCondition;
-import org.qi4j.chronos.service.LegalConditionService;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.common.SimpleTextArea;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
@@ -121,8 +121,9 @@ public abstract class LegalConditionSelectionPage extends LeftMenuNavPage
 
     private List<LegalConditionDelegator> getAvailableLegalCondition()
     {
-        List<LegalCondition> list = getLegalConditionService().findAll( getAccount() );
+//        List<LegalCondition> list = getLegalConditionService().findAll( getAccount() );
 
+/*
         List<LegalConditionDelegator> resultList = new ArrayList<LegalConditionDelegator>();
 
         for( LegalCondition legalCondition : list )
@@ -131,12 +132,8 @@ public abstract class LegalConditionSelectionPage extends LeftMenuNavPage
         }
 
         return resultList;
-    }
-
-    private LegalConditionService getLegalConditionService()
-    {
-//        return ChronosWebApp.getServices().getLegalConditionService();
-        return null;
+*/
+        return Collections.EMPTY_LIST;
     }
 
     public abstract void selectedLegalCondition( LegalCondition legalCondition );

@@ -21,8 +21,6 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.model.associations.HasProjects;
-import org.qi4j.chronos.service.ProjectService;
-import org.qi4j.chronos.service.TaskService;
 import org.qi4j.chronos.ui.project.ProjectTab;
 import org.qi4j.chronos.ui.task.RecentTaskTab;
 import org.qi4j.entity.Identity;

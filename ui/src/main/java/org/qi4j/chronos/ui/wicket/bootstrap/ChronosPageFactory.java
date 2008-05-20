@@ -3,12 +3,9 @@ package org.qi4j.chronos.ui.wicket.bootstrap;
 import org.apache.wicket.IPageFactory;
 import org.apache.wicket.Page;
 import org.apache.wicket.PageParameters;
-import org.qi4j.chronos.service.account.AccountService;
-import org.qi4j.chronos.service.systemrole.SystemRoleService;
 import static org.qi4j.composite.NullArgumentException.validateNotNull;
 import org.qi4j.composite.ObjectBuilder;
 import org.qi4j.composite.ObjectBuilderFactory;
-import org.qi4j.composite.scope.Service;
 import org.qi4j.composite.scope.Structure;
 import org.qi4j.entity.UnitOfWorkFactory;
 
@@ -22,10 +19,6 @@ final class ChronosPageFactory
 
     private @Structure UnitOfWorkFactory factory;
 
-    private @Service AccountService accountService;
-
-    private @Service SystemRoleService systemRoleService;
-
     public ChronosPageFactory( @Structure ObjectBuilderFactory anObjectBuilderFactory )
         throws IllegalArgumentException
     {
@@ -37,11 +30,7 @@ final class ChronosPageFactory
     @SuppressWarnings( "unchecked" )
     public final Page newPage( Class pageClass )
     {
-        validateNotNull( "accountService", accountService );
-        validateNotNull( "factory", factory );
-        
         ObjectBuilder<Page> builder = objectBuilderFactory.newObjectBuilder( pageClass );
-        builder.use( factory, accountService, systemRoleService );
 
         return builder.newInstance();
     }
@@ -49,20 +38,11 @@ final class ChronosPageFactory
     public final Page newPage( Class pageClass, PageParameters parameters )
     {
         // TODO: EFY: We don't have a way to pass page parameters yet.
-//        return newPage( pageClass );
         ObjectBuilder<Page> builder = objectBuilderFactory.newObjectBuilder( pageClass );
-        builder.use( factory, accountService );
         
         if( null != parameters )
         {
-//            if( parameters instanceof PageParameters )
-//            {
-//                builder.use( parameters );
-//            }
-//            else
-//            {
-                builder.use( parameters.values().toArray() );
-//            }
+                builder.use( parameters );
         }
 
         return builder.newInstance();

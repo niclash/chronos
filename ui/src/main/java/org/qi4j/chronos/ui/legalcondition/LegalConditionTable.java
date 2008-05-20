@@ -22,7 +22,6 @@ import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.LegalCondition;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.associations.HasLegalConditions;
-import org.qi4j.chronos.service.LegalConditionService;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
@@ -51,12 +50,6 @@ public abstract class LegalConditionTable extends ActionTable<LegalCondition, St
                 info( "Selected legal condition(s) are deleted." );
             }
         } );
-    }
-
-    private LegalConditionService getLegalConditionService()
-    {
-//        return ChronosWebApp.getServices().getLegalConditionService();
-        return null;
     }
 
     protected void authorizatiingActionBar( Component component )

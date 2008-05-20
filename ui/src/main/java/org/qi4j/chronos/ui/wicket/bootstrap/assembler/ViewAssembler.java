@@ -27,7 +27,6 @@ import org.qi4j.chronos.ui.account.AccountListPage;
 import org.qi4j.chronos.ui.account.AccountAddPage;
 import org.qi4j.chronos.ui.account.AccountDetailPage;
 import org.qi4j.chronos.ui.account.AccountEditPage;
-import org.qi4j.chronos.ui.account.AccountDataProvider;
 import org.qi4j.chronos.ui.project.ProjectListPage;
 import org.qi4j.chronos.ui.project.ProjectAddPage;
 import org.qi4j.chronos.ui.report.ReportMainPage;
@@ -48,7 +47,6 @@ public class ViewAssembler implements Assembler
             AccountAddPage.class,
             AccountDetailPage.class,
             AccountEditPage.class,
-            AccountDataProvider.class,
             SystemRoleListPage.class,
             PriceRateScheduleListPage.class,
             CustomerListPage.class,

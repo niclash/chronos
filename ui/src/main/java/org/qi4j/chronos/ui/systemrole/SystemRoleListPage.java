@@ -14,6 +14,7 @@ package org.qi4j.chronos.ui.systemrole;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Collections;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.qi4j.chronos.model.Admin;
@@ -38,6 +39,7 @@ public class SystemRoleListPage extends LeftMenuNavPage
         {
             public List<String> getSystemRoleIds()
             {
+/*
                 final List<SystemRole> systemRoles;
                 if( getChronosSession().getUser() instanceof Admin )
                 {
@@ -55,6 +57,8 @@ public class SystemRoleListPage extends LeftMenuNavPage
                     systemRoleIds.add( ( (Identity) unitOfWork.dereference( systemRole ) ).identity().get() );
                 }
                 return systemRoleIds;
+*/
+                return Collections.EMPTY_LIST;
             }
         };
 
