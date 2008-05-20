@@ -26,7 +26,6 @@ import org.qi4j.chronos.model.TaskStatusEnum;
 import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
 import org.qi4j.chronos.model.associations.HasPriceRates;
 import org.qi4j.chronos.model.associations.HasStaffs;
-import org.qi4j.chronos.ui.ChronosWebApp;
 import org.qi4j.chronos.ui.pricerate.PriceRateDelegator;
 import org.qi4j.chronos.ui.projectrole.ProjectRoleDelegator;
 import org.qi4j.chronos.ui.staff.StaffDelegator;
