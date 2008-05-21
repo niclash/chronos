@@ -249,21 +249,29 @@
             <attribute name="method" value="5" />
             <attribute name="URI" value="/WEB-INF/lib/qi4j-ext-quikit-0.2.0-SNAPSHOT.jar" />
           </containerElement>
-          <containerElement type="library" name="org.apache.wicket:wicket:1.4.0-m1" level="module">
+          <containerElement type="library" name="org.apache.wicket:wicket:1.4-m1" level="module">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/wicket-1.4.0-m1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/wicket-1.4-m1.jar" />
           </containerElement>
-          <containerElement type="library" name="org.apache.wicket:wicket-extensions:1.4.0-m1" level="module">
+          <containerElement type="library" name="org.apache.wicket:wicket-extensions:1.4-m1" level="module">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/wicket-extensions-1.4.0-m1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/wicket-extensions-1.4-m1.jar" />
           </containerElement>
-          <containerElement type="library" name="org.apache.wicket:wicket-auth-roles:1.4.0-m1" level="module">
+          <containerElement type="library" name="commons-collections:commons-collections:3.2" level="module">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/wicket-auth-roles-1.4.0-m1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/commons-collections-3.2.jar" />
           </containerElement>
-          <containerElement type="library" name="org.apache.wicket:wicket-datetime:1.4.0-m1" level="module">
+          <containerElement type="library" name="org.apache.wicket:wicket-auth-roles:1.4-m1" level="module">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/wicket-datetime-1.4.0-m1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/wicket-auth-roles-1.4-m1.jar" />
+          </containerElement>
+          <containerElement type="library" name="org.apache.wicket:wicket-datetime:1.4-m1" level="module">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/wicket-datetime-1.4-m1.jar" />
+          </containerElement>
+          <containerElement type="library" name="joda-time:joda-time:1.4" level="module">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/joda-time-1.4.jar" />
           </containerElement>
           <containerElement type="module" name="qi4j-app-chronos-ui">
             <attribute name="method" value="1" />
@@ -924,15 +932,15 @@
     <orderEntry type="module" module-name="qi4j-app-chronos-core" exported="" />
     <orderEntry type="module" module-name="qi4j-ext-quikit" exported="" />
     <orderEntry type="module-library" exported="">
-      <library name="org.apache.wicket:wicket:1.4.0-m1">
+      <library name="org.apache.wicket:wicket:1.4-m1">
         <CLASSES>
-          <root url="jar://$M2_REPO$/org/apache/wicket/wicket/1.4.0-m1/wicket-1.4.0-m1.jar!/" />
+          <root url="jar://$M2_REPO$/org/apache/wicket/wicket/1.4-m1/wicket-1.4-m1.jar!/" />
         </CLASSES>
         <JAVADOC>
-          <root url="jar://$M2_REPO$/org/apache/wicket/wicket/1.4.0-m1/wicket-1.4.0-m1-javadoc.jar!/" />
+          <root url="jar://$M2_REPO$/org/apache/wicket/wicket/1.4-m1/wicket-1.4-m1-javadoc.jar!/" />
         </JAVADOC>
         <SOURCES>
-          <root url="jar://$M2_REPO$/org/apache/wicket/wicket/1.4.0-m1/wicket-1.4.0-m1-sources.jar!/" />
+          <root url="jar://$M2_REPO$/org/apache/wicket/wicket/1.4-m1/wicket-1.4-m1-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -989,41 +997,67 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="org.apache.wicket:wicket-extensions:1.4.0-m1">
+      <library name="org.apache.wicket:wicket-extensions:1.4-m1">
         <CLASSES>
-          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-extensions/1.4.0-m1/wicket-extensions-1.4.0-m1.jar!/" />
+          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-extensions/1.4-m1/wicket-extensions-1.4-m1.jar!/" />
         </CLASSES>
         <JAVADOC>
-          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-extensions/1.4.0-m1/wicket-extensions-1.4.0-m1-javadoc.jar!/" />
+          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-extensions/1.4-m1/wicket-extensions-1.4-m1-javadoc.jar!/" />
         </JAVADOC>
         <SOURCES>
-          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-extensions/1.4.0-m1/wicket-extensions-1.4.0-m1-sources.jar!/" />
+          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-extensions/1.4-m1/wicket-extensions-1.4-m1-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="org.apache.wicket:wicket-auth-roles:1.4.0-m1">
+      <library name="commons-collections:commons-collections:3.2">
         <CLASSES>
-          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-auth-roles/1.4.0-m1/wicket-auth-roles-1.4.0-m1.jar!/" />
+          <root url="jar://$M2_REPO$/commons-collections/commons-collections/3.2/commons-collections-3.2.jar!/" />
         </CLASSES>
         <JAVADOC>
-          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-auth-roles/1.4.0-m1/wicket-auth-roles-1.4.0-m1-javadoc.jar!/" />
+          <root url="jar://$M2_REPO$/commons-collections/commons-collections/3.2/commons-collections-3.2-javadoc.jar!/" />
         </JAVADOC>
         <SOURCES>
-          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-auth-roles/1.4.0-m1/wicket-auth-roles-1.4.0-m1-sources.jar!/" />
+          <root url="jar://$M2_REPO$/commons-collections/commons-collections/3.2/commons-collections-3.2-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="org.apache.wicket:wicket-datetime:1.4.0-m1">
+      <library name="org.apache.wicket:wicket-auth-roles:1.4-m1">
         <CLASSES>
-          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-datetime/1.4.0-m1/wicket-datetime-1.4.0-m1.jar!/" />
+          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-auth-roles/1.4-m1/wicket-auth-roles-1.4-m1.jar!/" />
         </CLASSES>
         <JAVADOC>
-          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-datetime/1.4.0-m1/wicket-datetime-1.4.0-m1-javadoc.jar!/" />
+          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-auth-roles/1.4-m1/wicket-auth-roles-1.4-m1-javadoc.jar!/" />
         </JAVADOC>
         <SOURCES>
-          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-datetime/1.4.0-m1/wicket-datetime-1.4.0-m1-sources.jar!/" />
+          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-auth-roles/1.4-m1/wicket-auth-roles-1.4-m1-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="org.apache.wicket:wicket-datetime:1.4-m1">
+        <CLASSES>
+          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-datetime/1.4-m1/wicket-datetime-1.4-m1.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-datetime/1.4-m1/wicket-datetime-1.4-m1-javadoc.jar!/" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-datetime/1.4-m1/wicket-datetime-1.4-m1-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="joda-time:joda-time:1.4">
+        <CLASSES>
+          <root url="jar://$M2_REPO$/joda-time/joda-time/1.4/joda-time-1.4.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$M2_REPO$/joda-time/joda-time/1.4/joda-time-1.4-javadoc.jar!/" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$M2_REPO$/joda-time/joda-time/1.4/joda-time-1.4-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
