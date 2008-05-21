@@ -11,6 +11,10 @@
   <name>Qi4J Apps Chronos - UI</name>
   <version>0.2.0-SNAPSHOT</version>
   <packaging>war</packaging>
+
+  <properties>
+    <version.wicket>1.4.0-m1</version.wicket>
+  </properties>
   <build>
     <resources>
       <resource>
@@ -107,18 +111,22 @@
     <dependency>
       <groupId>org.apache.wicket</groupId>
       <artifactId>wicket</artifactId>
+      <version>${version.wicket}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.wicket</groupId>
       <artifactId>wicket-extensions</artifactId>
+      <version>${version.wicket}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.wicket</groupId>
       <artifactId>wicket-auth-roles</artifactId>
+      <version>${version.wicket}</version>
     </dependency>
     <dependency>
       <groupId>org.apache.wicket</groupId>
       <artifactId>wicket-datetime</artifactId>
+      <version>${version.wicket}</version>
     </dependency>
     <dependency>
       <groupId>org.slf4j</groupId>
