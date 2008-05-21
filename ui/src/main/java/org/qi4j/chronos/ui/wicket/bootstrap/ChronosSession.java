@@ -22,9 +22,13 @@ import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.ui.SystemRoleResolver;
+import org.qi4j.chronos.service.UserService;
+import org.qi4j.chronos.service.UserAuthenticationFailException;
 import org.qi4j.composite.scope.Structure;
 import org.qi4j.composite.scope.Uses;
+import org.qi4j.composite.scope.Service;
 import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.entity.UnitOfWork;
 
 /**
  * TODO: Refactor this
@@ -36,7 +40,9 @@ public final class ChronosSession extends AuthenticatedWebSession
 {
     private static final long serialVersionUID = 1L;
 
-    private @Structure UnitOfWorkFactory factory;
+    private @Structure UnitOfWorkFactory unitOfWorkFactory;
+
+    private @Service UserService userService;
 
     private SystemRoleResolver roleResolver;
 
@@ -67,24 +73,27 @@ public final class ChronosSession extends AuthenticatedWebSession
             return false;
         }
 
-//        User user = authenticationService.authenticate( account, aUserName, aPassword );
-        User user = null;
-
-        if( user != null )
+        try
         {
+            User user = userService.authenticate( account, aUserName, aPassword );
+
             this.user = user;
             this.userId = user.identity().get();
+
             this.roleResolver = new SystemRoleResolver( user );
 
             return true;
         }
+        catch( UserAuthenticationFailException e )
+        {
+            return false;
 
-        return false;
+        }
     }
 
     public UnitOfWorkFactory getUnitOfWorkFactory()
     {
-        return factory;
+        return unitOfWorkFactory;
     }
 
     public SystemRoleResolver getSystemRoleResolver()
@@ -121,4 +130,5 @@ public final class ChronosSession extends AuthenticatedWebSession
     {
         return roleResolver.getRoles();
     }
+
 }

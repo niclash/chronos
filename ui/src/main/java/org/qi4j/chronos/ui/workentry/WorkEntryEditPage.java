@@ -52,6 +52,7 @@ public class WorkEntryEditPage extends WorkEntryAddEditPage
         try
         {
             getUnitOfWork().complete();
+
             logInfoMsg( getString( UPDATE_SUCCESS ) );
 
             divertToGoBackPage();

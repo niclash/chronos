@@ -16,6 +16,7 @@ import java.util.Calendar;
 import java.util.Currency;
 import java.util.Date;
 import java.util.Iterator;
+import java.util.List;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.AccountReport;
 import org.qi4j.chronos.model.Address;
@@ -74,8 +75,10 @@ import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.model.composites.TimeRangeEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.util.ReportUtil;
+import org.qi4j.chronos.service.AccountService;
 import org.qi4j.composite.CompositeBuilder;
 import org.qi4j.composite.scope.Structure;
+import org.qi4j.composite.scope.Service;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.qi4j.entity.UnitOfWorkFactory;
@@ -90,6 +93,8 @@ import static org.qi4j.query.QueryExpressions.templateFor;
 final class DummyDataInitializer
 {
     private @Structure UnitOfWorkFactory unitOfWorkFactory;
+
+    private @Service AccountService accountService;
 
 
     public DummyDataInitializer()
@@ -116,12 +121,13 @@ final class DummyDataInitializer
 
         initWorkEntries();
 
-        initReports();
+//        initReports();
     }
 
     private void initReports()
     {
         UnitOfWork unitOfWork = newUnitOfWork( unitOfWorkFactory );
+        List<Account> accounts = accountService.findAllAccounts();
 
         Calendar now = Calendar.getInstance();
         now.add( Calendar.DATE, -3 );
@@ -129,9 +135,7 @@ final class DummyDataInitializer
         now.add( Calendar.DATE, -8 );
         Date startTime = now.getTime();
 
-        QueryBuilder<Account> queryBuilder = newAccountQueryBuilder( unitOfWork );
-
-        for( Account account : queryBuilder.newQuery() )
+        for( Account account : accounts )
         {
             account = unitOfWork.dereference( account );
 
@@ -149,12 +153,6 @@ final class DummyDataInitializer
         complete( unitOfWork );
     }
 
-    private QueryBuilder<Account> newAccountQueryBuilder( UnitOfWork unitOfWork )
-    {
-        QueryBuilderFactory queryBuilderFactory = unitOfWork.queryBuilderFactory();
-
-        return queryBuilderFactory.newQueryBuilder( Account.class );
-    }
 
     /**
      * Creates work entry per projects and tasks.
@@ -163,9 +161,9 @@ final class DummyDataInitializer
     {
         UnitOfWork unitOfWork = newUnitOfWork( unitOfWorkFactory );
 
-        QueryBuilder<Account> queryBuilder = newAccountQueryBuilder( unitOfWork );
+        List<Account> accounts = accountService.findAllAccounts();
 
-        for( Account account : queryBuilder.newQuery() )
+        for( Account account : accounts )
         {
             Calendar now = Calendar.getInstance();
             Date createdDate = now.getTime();
@@ -184,7 +182,7 @@ final class DummyDataInitializer
                 projectWorkEntry.comments().add( projectComment );
                 project.workEntries().add( projectWorkEntry );
 
-                for( int j = 0; j < 2; j++ )
+                for( int j = 0; j < 1; j++ )
                 {
                     now.add( Calendar.HOUR_OF_DAY, -4 );
                     startTime = now.getTime();
@@ -220,7 +218,10 @@ final class DummyDataInitializer
      */
     private void initProjectsTasksAndAssignees()
     {
+
         UnitOfWork unitOfWork = newUnitOfWork( unitOfWorkFactory );
+
+        List<Account> accounts = accountService.findAllAccounts();
 
         Calendar now = Calendar.getInstance();
         now.add( Calendar.MONTH, -1 );
@@ -228,9 +229,8 @@ final class DummyDataInitializer
         now.add( Calendar.MONTH, 2 );
         Date endDate = now.getTime();
 
-        QueryBuilder<Account> queryBuilder = newAccountQueryBuilder( unitOfWork );
 
-        for( Account account : queryBuilder.newQuery() )
+        for( Account account : accounts )
         {
             account = unitOfWork.dereference( account );
 
@@ -276,10 +276,9 @@ final class DummyDataInitializer
     private void initCustomersAndContactPersons()
     {
         UnitOfWork unitOfWork = newUnitOfWork( unitOfWorkFactory );
+        List<Account> accounts = accountService.findAllAccounts();
 
-        QueryBuilder<Account> queryBuilder = newAccountQueryBuilder( unitOfWork );
-
-        for( Account account : queryBuilder.newQuery() )
+        for( Account account : accounts )
         {
             account = unitOfWork.dereference( account );
             final Iterator<PriceRateSchedule> priceRateScheduleIterator = account.priceRateSchedules().iterator();
@@ -292,7 +291,7 @@ final class DummyDataInitializer
             QueryBuilder<SystemRole> systemRoleQB = newSystemRoleQuery( unitOfWork );
 
             SystemRole contactPersonRoleTemplate = templateFor( SystemRole.class );
-            SystemRole contactPersonRole = systemRoleQB.where( eq( contactPersonRoleTemplate.name(), SystemRole.CONTACT_PERSON)).newQuery().find();
+            SystemRole contactPersonRole = systemRoleQB.where( eq( contactPersonRoleTemplate.name(), SystemRole.CONTACT_PERSON ) ).newQuery().find();
 
             projectManager.systemRoles().add( contactPersonRole );
 
@@ -327,13 +326,13 @@ final class DummyDataInitializer
     {
         UnitOfWork unitOfWork = newUnitOfWork( unitOfWorkFactory );
 
-        QueryBuilder<Account> queryBuilder = newAccountQueryBuilder( unitOfWork );
+        List<Account> accounts = accountService.findAllAccounts();
 
-        for( Account account : queryBuilder.newQuery() )
+        for( Account account : accounts )
         {
+            // Creating and adding project roles
             account = unitOfWork.dereference( account );
 
-            // Creating and adding project roles
             ProjectRole programmerRole = newProjectRole( unitOfWork, "Programmer" );
             ProjectRole consultantRole = newProjectRole( unitOfWork, "Consultant" );
             ProjectRole projectManagerRole = newProjectRole( unitOfWork, "Project Manager" );
@@ -355,7 +354,9 @@ final class DummyDataInitializer
 
             SystemRole staffRole = templateFor( SystemRole.class );
 
-            queryBuilder.where( or(
+            QueryBuilder<SystemRole> systemRoleQueryBuilder = unitOfWork.queryBuilderFactory().newQueryBuilder( SystemRole.class );
+
+            systemRoleQueryBuilder.where( or(
                 eq( staffRole.name(), SystemRole.ACCOUNT_ADMIN ),
                 eq( staffRole.name(), SystemRole.ACCOUNT_DEVELOPER )
             ) );
@@ -384,9 +385,9 @@ final class DummyDataInitializer
     {
         UnitOfWork unitOfWork = newUnitOfWork( unitOfWorkFactory );
 
-        QueryBuilder<Account> queryBuilder = newAccountQueryBuilder( unitOfWork );
+        List<Account> accounts = accountService.findAllAccounts();
 
-        for( Account account : queryBuilder.newQuery() )
+        for( Account account : accounts )
         {
             account = unitOfWork.dereference( account );
 
@@ -508,7 +509,7 @@ final class DummyDataInitializer
         return text.equals( name.name().get() );
     }
 
-    protected static final void complete( UnitOfWork unitOfWork)
+    protected static final void complete( UnitOfWork unitOfWork )
     {
         try
         {
@@ -523,7 +524,7 @@ final class DummyDataInitializer
         }
     }
 
-    protected static final UnitOfWork newUnitOfWork(UnitOfWorkFactory unitOfWorkFactory)
+    protected static final UnitOfWork newUnitOfWork( UnitOfWorkFactory unitOfWorkFactory )
     {
         return unitOfWorkFactory.newUnitOfWork();
     }

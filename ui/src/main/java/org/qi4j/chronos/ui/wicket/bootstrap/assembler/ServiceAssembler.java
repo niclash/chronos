@@ -15,21 +15,14 @@ package org.qi4j.chronos.ui.wicket.bootstrap.assembler;
 import org.qi4j.bootstrap.Assembler;
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.ModuleAssembly;
-import org.qi4j.entity.index.rdf.RdfQueryService;
-import org.qi4j.entity.index.rdf.memory.MemoryRepositoryService;
-import org.qi4j.entity.memory.IndexedMemoryEntityStoreService;
-import org.qi4j.spi.entity.UuidIdentityGeneratorService;
+import org.qi4j.chronos.service.AccountService;
+import org.qi4j.chronos.service.UserService;
 import org.qi4j.structure.Visibility;
 
-public class InfrastructureAssembler implements Assembler
+public class ServiceAssembler implements Assembler
 {
     public void assemble( ModuleAssembly module ) throws AssemblyException
     {
-        module.addServices(
-            UuidIdentityGeneratorService.class,
-            RdfQueryService.class,
-            IndexedMemoryEntityStoreService.class,
-            MemoryRepositoryService.class
-        ).visibleIn( Visibility.application ).instantiateOnStartup();
+        module.addServices( AccountService.class, UserService.class ).visibleIn( Visibility.application );
     }
 }

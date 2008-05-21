@@ -19,7 +19,6 @@ import org.qi4j.composite.Concerns;
 import org.qi4j.entity.EntityComposite;
 import org.qi4j.library.framework.validation.Validatable;
 
-//@Concerns( { AccountValidatableConcern.class } )     FIXME
 public interface AccountEntityComposite extends Account, EntityComposite
 {
 }

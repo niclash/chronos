@@ -18,9 +18,6 @@ import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.associations.HasLogin;
 import org.qi4j.chronos.ui.wicket.authentication.LoginPage;
-import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkFactory;
 
 public abstract class TopMenuNavPage extends BasePage
 {
@@ -55,6 +52,12 @@ public abstract class TopMenuNavPage extends BasePage
         } );
     }
 
+    private User getUser()
+    {
+        return null == getChronosSession().getUser() ?
+               null : getUnitOfWork().dereference( getChronosSession().getUser() );
+    }
+
     private String getAccountName()
     {
         Account account = getAccount();
@@ -73,52 +76,5 @@ public abstract class TopMenuNavPage extends BasePage
         } );
     }
 
-    private User getUser()
-    {
-        return null == getChronosSession().getUser() ?
-               null : getUnitOfWork().dereference( getChronosSession().getUser() );
-    }
 
-    protected ChronosSession getChronosSession()
-    {
-        return ChronosSession.get();
-    }
-
-    /**
-     * Query the unit of work factory for existing or new unit of work.
-     * TODO kamil: consider retrieving the factory from ChronosWebApp instead of session.
-     * @return
-     */
-    protected UnitOfWork getUnitOfWork()
-    {
-        UnitOfWorkFactory factory = ChronosSession.get().getUnitOfWorkFactory();
-
-        if( null == factory.currentUnitOfWork() || !factory.currentUnitOfWork().isOpen() )
-        {
-            return factory.newUnitOfWork();
-        }
-        else
-        {
-            return factory.currentUnitOfWork();
-        }
-    }
-
-    /**
-     * Reset opened unit of work.
-     */
-    protected void reset()
-    {
-        UnitOfWork unitOfWork = getUnitOfWork();
-
-        if( unitOfWork.isOpen() )
-        {
-            unitOfWork.reset();
-        }
-    }
-
-    protected Account getAccount()
-    {
-        return null == getChronosSession().getAccount() ?
-               null : getUnitOfWork().dereference( getChronosSession().getAccount() );
-    }
 }

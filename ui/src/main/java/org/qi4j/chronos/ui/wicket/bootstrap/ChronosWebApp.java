@@ -21,7 +21,7 @@ import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.markup.html.WebPage;
 import org.apache.wicket.settings.IApplicationSettings;
 import org.apache.wicket.settings.ISessionSettings;
-import static org.apache.wicket.util.lang.Objects.*;
+import static org.apache.wicket.util.lang.Objects.setObjectStreamFactory;
 import org.qi4j.chronos.model.Admin;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.ui.admin.AdminHomePage;
