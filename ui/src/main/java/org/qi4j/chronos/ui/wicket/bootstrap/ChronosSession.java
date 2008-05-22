@@ -15,6 +15,7 @@ package org.qi4j.chronos.ui.wicket.bootstrap;
 
 import org.apache.wicket.Request;
 import org.apache.wicket.Session;
+import org.apache.wicket.WicketRuntimeException;
 import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authorization.strategies.role.Roles;
 import org.qi4j.chronos.model.Account;
@@ -26,6 +27,8 @@ import org.qi4j.chronos.ui.SystemRoleResolver;
 import org.qi4j.composite.scope.Service;
 import org.qi4j.composite.scope.Structure;
 import org.qi4j.composite.scope.Uses;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.qi4j.entity.UnitOfWorkFactory;
 
 /**
@@ -39,15 +42,14 @@ public final class ChronosSession extends AuthenticatedWebSession
     private static final long serialVersionUID = 1L;
 
     private @Structure UnitOfWorkFactory unitOfWorkFactory;
+    private UnitOfWork currentUnitOfWork;
+    private boolean isCompleteUnitOfWork;
 
     private @Service UserService userService;
-
     private SystemRoleResolver roleResolver;
 
     private String userId;
-
     private Account account;
-
     private User user;
 
     public ChronosSession( @Uses Request request )
@@ -55,6 +57,7 @@ public final class ChronosSession extends AuthenticatedWebSession
         super( request );
 
         userId = null;
+        currentUnitOfWork = null;
     }
 
     public static ChronosSession get()
@@ -127,4 +130,71 @@ public final class ChronosSession extends AuthenticatedWebSession
         return roleResolver.getRoles();
     }
 
+    /**
+     * Mark to close the root unit of work at the end of web request.
+     *
+     * @since 0.2.0
+     */
+    public final void completeUnitOfWork()
+    {
+        isCompleteUnitOfWork = true;
+    }
+
+    /**
+     * Bootstrap the unit of work management.
+     *
+     * @since 0.2.0
+     */
+    @Override
+    protected final void attach()
+    {
+        super.attach();
+
+        if( currentUnitOfWork == null )
+        {
+            currentUnitOfWork = unitOfWorkFactory.newUnitOfWork();
+            isCompleteUnitOfWork = false;
+        }
+        else
+        {
+            currentUnitOfWork.resume();
+        }
+    }
+
+    /**
+     * Handles the completion of unit of work if required.
+     *
+     * @since 0.2.0
+     */
+    @Override
+    protected final void detach()
+    {
+        if( isCompleteUnitOfWork )
+        {
+            try
+            {
+                currentUnitOfWork.complete();
+
+            }
+            catch( UnitOfWorkCompletionException e )
+            {
+                // By default discard it.
+                currentUnitOfWork.discard();
+
+                // TODO Log
+                throw new WicketRuntimeException( e );
+            }
+            finally
+            {
+                currentUnitOfWork = null;
+                isCompleteUnitOfWork = false;
+            }
+        }
+        else
+        {
+            currentUnitOfWork.pause();
+        }
+
+        super.detach();
+    }
 }

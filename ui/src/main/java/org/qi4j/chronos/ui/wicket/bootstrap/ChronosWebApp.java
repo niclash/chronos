@@ -74,15 +74,6 @@ public final class ChronosWebApp extends AuthenticatedWebApplication
         return ChronosSession.class;
     }
 
-    @Override
-    public RequestCycle newRequestCycle( Request request, Response response )
-    {
-        ObjectBuilder<ChronosWebRequestCycle> builder =
-            objectBuilderFactory.newObjectBuilder( ChronosWebRequestCycle.class );
-        builder.use( this, request, response );
-        return builder.newInstance();
-    }
-
     /**
      * Instantiate chronos session.
      *

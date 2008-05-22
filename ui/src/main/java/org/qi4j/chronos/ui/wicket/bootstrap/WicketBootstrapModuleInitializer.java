@@ -36,8 +36,7 @@ public final class WicketBootstrapModuleInitializer
                 ChronosSession.class,
                 LoginPage.class,
                 Qi4jObjectStreamFactory.class,
-                DummyDataInitializer.class,
-                ChronosWebRequestCycle.class
+                DummyDataInitializer.class
             ).visibleIn( application );
 
             moduleAssembly.addAssembler( new InfrastructureAssembler() );
