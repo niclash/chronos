@@ -14,6 +14,7 @@
 package org.qi4j.chronos.ui.wicket.bootstrap;
 
 import org.apache.wicket.Request;
+import org.apache.wicket.RequestCycle;
 import org.apache.wicket.Response;
 import org.apache.wicket.Session;
 import org.apache.wicket.authentication.AuthenticatedWebApplication;
@@ -24,6 +25,7 @@ import org.apache.wicket.settings.ISessionSettings;
 import static org.apache.wicket.util.lang.Objects.setObjectStreamFactory;
 import org.qi4j.chronos.model.Admin;
 import org.qi4j.chronos.model.Staff;
+import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.ui.admin.AdminHomePage;
 import org.qi4j.chronos.ui.contactperson.ContactPersonHomePage;
 import org.qi4j.chronos.ui.staff.StaffHomePage;
@@ -66,9 +68,19 @@ public final class ChronosWebApp extends AuthenticatedWebApplication
         setObjectStreamFactory( objectStreamFactory );
     }
 
+    @Override
     protected Class<? extends AuthenticatedWebSession> getWebSessionClass()
     {
         return ChronosSession.class;
+    }
+
+    @Override
+    public RequestCycle newRequestCycle( Request request, Response response )
+    {
+        ObjectBuilder<ChronosWebRequestCycle> builder =
+            objectBuilderFactory.newObjectBuilder( ChronosWebRequestCycle.class );
+        builder.use( this, request, response );
+        return builder.newInstance();
     }
 
     /**
@@ -83,7 +95,7 @@ public final class ChronosWebApp extends AuthenticatedWebApplication
     public final Session newSession( Request request, Response response )
     {
         ObjectBuilder<ChronosSession> builder = objectBuilderFactory.newObjectBuilder( ChronosSession.class );
-        builder.use( this, request, response );
+        builder.use( request, response );
         return builder.newInstance();
     }
 
@@ -92,12 +104,14 @@ public final class ChronosWebApp extends AuthenticatedWebApplication
      *
      * @return The sign in page.
      */
+    @Override
     protected final Class<? extends WebPage> getSignInPageClass()
     {
         return LoginPage.class;
     }
 
-    public final Class getHomePage()
+    @Override
+    public final Class<? extends WebPage> getHomePage()
     {
         ChronosSession session = ChronosSession.get();
         if( !session.isSignIn() )
@@ -106,11 +120,12 @@ public final class ChronosWebApp extends AuthenticatedWebApplication
         }
         else
         {
-            if( session.getUser() instanceof Admin )
+            User user = session.getUser();
+            if( user instanceof Admin )
             {
                 return AdminHomePage.class;
             }
-            else if( session.getUser() instanceof Staff )
+            else if( user instanceof Staff )
             {
                 return StaffHomePage.class;
             }

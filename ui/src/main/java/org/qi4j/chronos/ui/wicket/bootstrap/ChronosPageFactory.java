@@ -3,6 +3,8 @@ package org.qi4j.chronos.ui.wicket.bootstrap;
 import org.apache.wicket.IPageFactory;
 import org.apache.wicket.Page;
 import org.apache.wicket.PageParameters;
+import static org.apache.wicket.PageParameters.NULL;
+import org.apache.wicket.WicketRuntimeException;
 import static org.qi4j.composite.NullArgumentException.validateNotNull;
 import org.qi4j.composite.ObjectBuilder;
 import org.qi4j.composite.ObjectBuilderFactory;
@@ -11,6 +13,7 @@ import org.qi4j.entity.UnitOfWorkFactory;
 
 /**
  * @author edward.yakop@gmail.com
+ * @since 0.1.0
  */
 final class ChronosPageFactory
     implements IPageFactory
@@ -27,24 +30,47 @@ final class ChronosPageFactory
         objectBuilderFactory = anObjectBuilderFactory;
     }
 
-    @SuppressWarnings( "unchecked" )
-    public final Page newPage( Class pageClass )
+    /**
+     * Creates a new page using a page class.
+     *
+     * @param pageClass The page class to instantiate.
+     * @return The page.
+     * @throws WicketRuntimeException Thrown if the page cannot be constructed
+     * @since 0.1.0
+     */
+    public final Page newPage( Class<? extends Page> pageClass )
     {
-        ObjectBuilder<Page> builder = objectBuilderFactory.newObjectBuilder( pageClass );
-
-        return builder.newInstance();
+        return newPage( pageClass, NULL );
     }
 
-    public final Page newPage( Class pageClass, PageParameters parameters )
+    /**
+     * Creates a new Page, passing PageParameters to the Page constructor if such a constructor
+     * exists. If no such constructor exists and the parameters argument is null or empty, then any
+     * available default constructor will be used.
+     *
+     * @param pageClass  The class of Page to create.
+     * @param parameters Any parameters to pass to the Page's constructor.
+     * @return The new page.
+     * @throws WicketRuntimeException Thrown if the page cannot be constructed.
+     * @since 0.1.0
+     */
+    public final Page newPage( Class<? extends Page> pageClass, PageParameters parameters )
     {
-        // TODO: EFY: We don't have a way to pass page parameters yet.
-        ObjectBuilder<Page> builder = objectBuilderFactory.newObjectBuilder( pageClass );
-        
-        if( null != parameters )
+        ObjectBuilder<? extends Page> builder = objectBuilderFactory.newObjectBuilder( pageClass );
+        if( parameters == null )
         {
-                builder.use( parameters );
+            parameters = NULL;
         }
+        builder.use( parameters );
 
-        return builder.newInstance();
+        try
+        {
+            return builder.newInstance();
+        }
+        catch( Throwable e )
+        {
+            String msg = "Fail to instantiate Page [" + pageClass.getName() + "] with parameter [" + parameters + "].";
+            throw new WicketRuntimeException( msg, e );
+        }
     }
 }

@@ -45,6 +45,7 @@ import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.model.composites.TimeRangeEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.structure.Visibility;
+import static org.qi4j.structure.Visibility.*;
 
 public class DomainAssembler implements Assembler
 {
@@ -81,6 +82,6 @@ public class DomainAssembler implements Assembler
             ReportDetailEntityComposite.class,
             ReportSummaryEntityComposite.class,
             AccountReportEntityComposite.class
-        ).visibleIn( Visibility.application );
+        ).visibleIn( application );
     }
 }

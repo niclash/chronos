@@ -15,20 +15,18 @@ package org.qi4j.chronos.ui.wicket.bootstrap;
 
 import org.apache.wicket.Request;
 import org.apache.wicket.Session;
-import org.apache.wicket.authentication.AuthenticatedWebApplication;
 import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authorization.strategies.role.Roles;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.ui.SystemRoleResolver;
-import org.qi4j.chronos.service.UserService;
 import org.qi4j.chronos.service.UserAuthenticationFailException;
+import org.qi4j.chronos.service.UserService;
+import org.qi4j.chronos.ui.SystemRoleResolver;
+import org.qi4j.composite.scope.Service;
 import org.qi4j.composite.scope.Structure;
 import org.qi4j.composite.scope.Uses;
-import org.qi4j.composite.scope.Service;
 import org.qi4j.entity.UnitOfWorkFactory;
-import org.qi4j.entity.UnitOfWork;
 
 /**
  * TODO: Refactor this
@@ -52,11 +50,9 @@ public final class ChronosSession extends AuthenticatedWebSession
 
     private User user;
 
-    public ChronosSession(
-        @Uses AuthenticatedWebApplication app,
-        @Uses Request request )
+    public ChronosSession( @Uses Request request )
     {
-        super( app, request );
+        super( request );
 
         userId = null;
     }

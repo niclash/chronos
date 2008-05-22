@@ -25,6 +25,7 @@ public final class WicketLayerAssemblyInitializer
      *
      * @param anApplicationAssembly The application assembly. This argument must not be {@code null}.
      * @throws IllegalArgumentException Thrown if the specified {@code anApplicationAssembly} argument is {@code null}.
+     * @throws AssemblyException        Thrown if assembly fails.
      * @since 0.1.0
      */
     public static void addWicketLayerAssembly( ApplicationAssembly anApplicationAssembly )

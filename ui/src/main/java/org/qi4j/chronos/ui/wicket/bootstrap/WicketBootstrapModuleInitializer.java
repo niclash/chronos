@@ -11,7 +11,7 @@ import org.qi4j.chronos.ui.wicket.bootstrap.assembler.ServiceAssembler;
 import org.qi4j.chronos.ui.wicket.bootstrap.assembler.ViewAssembler;
 import org.qi4j.chronos.ui.wicket.bootstrap.serialization.Qi4jObjectStreamFactory;
 import static org.qi4j.composite.NullArgumentException.validateNotNull;
-import org.qi4j.structure.Visibility;
+import static org.qi4j.structure.Visibility.application;
 
 /**
  * @author edward.yakop@gmail.com
@@ -36,8 +36,9 @@ public final class WicketBootstrapModuleInitializer
                 ChronosSession.class,
                 LoginPage.class,
                 Qi4jObjectStreamFactory.class,
-                DummyDataInitializer.class
-            ).visibleIn( Visibility.application );
+                DummyDataInitializer.class,
+                ChronosWebRequestCycle.class
+            ).visibleIn( application );
 
             moduleAssembly.addAssembler( new InfrastructureAssembler() );
             moduleAssembly.addAssembler( new DomainAssembler() );
