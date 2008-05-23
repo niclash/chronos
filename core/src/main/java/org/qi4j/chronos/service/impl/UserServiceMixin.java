@@ -24,6 +24,7 @@ import org.qi4j.chronos.model.associations.HasLogin;
 import org.qi4j.chronos.service.UserAuthenticationFailException;
 import org.qi4j.chronos.service.UserService;
 import org.qi4j.entity.UnitOfWork;
+import org.qi4j.library.framework.validation.ValidationException;
 import org.qi4j.query.Query;
 import org.qi4j.query.QueryBuilder;
 import org.qi4j.query.QueryBuilderFactory;
@@ -34,7 +35,19 @@ import org.qi4j.query.grammar.Conjunction;
 
 public abstract class UserServiceMixin extends AbstractServiceMixin implements UserService
 {
+    private static final long serialVersionUID = 1L;
+
     //TODO user encode password
+
+    public void changePassword( User user, String oldPassword, String password ) throws ValidationException
+    {
+        if( !user.login().get().password().get().equals( oldPassword ) )
+        {
+            throw new ValidationException( "The old password is incorrect!" );
+        }
+
+        user.login().get().password().set( password );
+    }
 
     public User authenticate( final Account account, final String userName, final String password )
         throws UserAuthenticationFailException

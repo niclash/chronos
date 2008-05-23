@@ -27,6 +27,7 @@ import org.qi4j.composite.scope.Service;
 import org.qi4j.composite.scope.Structure;
 import org.qi4j.composite.scope.Uses;
 import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.service.ServiceFinder;
 
 /**
  * TODO: Refactor this
@@ -39,6 +40,9 @@ public final class ChronosSession extends AuthenticatedWebSession
     private static final long serialVersionUID = 1L;
 
     private @Service UserService userService;
+
+    private @Structure ServiceFinder serviceFinder;
+
     private SystemRoleResolver roleResolver;
 
     private String userId;
@@ -83,7 +87,6 @@ public final class ChronosSession extends AuthenticatedWebSession
 
         }
     }
-
 
     public SystemRoleResolver getSystemRoleResolver()
     {
@@ -134,12 +137,19 @@ public final class ChronosSession extends AuthenticatedWebSession
     {
         ChronosUnitOfWorkManager.set( unitOfWorkManager );
 
+        ChronosServiceFinderHelper helper = new ChronosServiceFinderHelper( serviceFinder );
+
+        ChronosServiceFinderHelper.set( helper );
+
         super.attach();
     }
 
     protected void detach()
     {
         ChronosUnitOfWorkManager.set( null );
+
+        ChronosServiceFinderHelper.set( null );
+
         super.detach();
     }
 }

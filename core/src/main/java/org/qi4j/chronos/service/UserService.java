@@ -14,9 +14,9 @@ package org.qi4j.chronos.service;
 
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.User;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.service.ServiceComposite;
 import org.qi4j.composite.Mixins;
+import org.qi4j.library.framework.validation.ValidationException;
+import org.qi4j.service.ServiceComposite;
 
 @Mixins( org.qi4j.chronos.service.impl.UserServiceMixin.class )
 public interface UserService extends ServiceComposite
@@ -33,4 +33,14 @@ public interface UserService extends ServiceComposite
      *          - thrown if user can't be authenticated.
      */
     User authenticate( Account account, String userName, String password ) throws UserAuthenticationFailException;
+
+    /**
+     * Change user's password.
+     *
+     * @param user
+     * @param oldPassword the old password
+     * @param password    the new password
+     * @throws ValidationException thrown if the user's password doesn't match witht the oldPassword
+     */
+    void changePassword( User user, String oldPassword, String password ) throws ValidationException;
 }

@@ -104,6 +104,7 @@ public final class ChronosWebApp extends AuthenticatedWebApplication
     public final Class<? extends WebPage> getHomePage()
     {
         ChronosSession session = ChronosSession.get();
+        
         if( !session.isSignIn() )
         {
             return LoginPage.class;
@@ -111,6 +112,7 @@ public final class ChronosWebApp extends AuthenticatedWebApplication
         else
         {
             User user = session.getUser();
+
             if( user instanceof Admin )
             {
                 return AdminHomePage.class;

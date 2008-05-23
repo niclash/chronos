@@ -28,11 +28,13 @@ public class ChronosUnitOfWorkManager
     private UnitOfWorkFactory unitOfWorkFactory;
 
     private UnitOfWork currentUnitOfWork;
+
     private long version;
 
     static void set( ChronosUnitOfWorkManager unitOfWorkManager )
     {
         ChronosUnitOfWorkManager prevUnitOfWorkManager = current.get();
+
         if( prevUnitOfWorkManager != null )
         {
             prevUnitOfWorkManager.detach();
@@ -73,17 +75,42 @@ public class ChronosUnitOfWorkManager
         currentUnitOfWork.pause();
     }
 
-
+    /**
+     * Return the current UnitOfWork.
+     *
+     * @return the current UnitOfWork
+     */
     public UnitOfWork getCurrentUnitOfWork()
     {
         return currentUnitOfWork;
     }
 
+    /**
+     * Return the current version of {@link UnitOfWork}. The current version of {@link UnitOfWork} may be used to
+     * determine if an entity already detached. An entity is considered detached, when its
+     * UnitOfWork already been closed when it needs to re-associate another UnitOfWork before it
+     * can be accessed.
+     *
+     * {@see class ChronosDetachableModel}
+     *
+     * @return the current version.
+     */
     public long getVersion()
     {
         return version;
     }
 
+    /**
+     * Complete current UnitOfWork.
+     *
+     * If there is an {@link UnitOfWorkCompletionException} being thrown, you are required to
+     * use {@link #discardCurrentUnitOfWork() method, instead of invoking unitOfWork.complete() directly.
+     *
+     * A new UnitOfWork will be created automatically on complete to enable entities hold
+     * in {@link org.qi4j.chronos.ui.wicket.base.ChronosDetachableModel} re-associate to newly created UnitOfWork.
+     *
+     * @throws UnitOfWorkCompletionException
+     */
     public void completeCurrentUnitOfWork()
         throws UnitOfWorkCompletionException
     {
@@ -91,6 +118,12 @@ public class ChronosUnitOfWorkManager
         setUpNewUnitOfWork();
     }
 
+    /**
+     * Discard current UnitOfWork.
+     *
+     * A new UnitOfWork will be created automatically on discard to enable entities hold
+     * in {@link org.qi4j.chronos.ui.wicket.base.ChronosDetachableModel} re-associate to newly created UnitOfWork.
+     */
     public void discardCurrentUnitOfWork()
     {
         currentUnitOfWork.discard();

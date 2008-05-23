@@ -15,12 +15,11 @@ package org.qi4j.chronos.ui.login;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.form.SubmitLink;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.model.associations.HasLogin;
-import org.qi4j.chronos.ui.wicket.base.ChangePasswordPage;
 import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
+import org.qi4j.chronos.ui.wicket.base.ChangePasswordPage;
 
 public abstract class LoginUserEditPanel extends LoginUserAbstractPanel
 {
@@ -51,16 +50,7 @@ public abstract class LoginUserEditPanel extends LoginUserAbstractPanel
 
             public void onSubmit()
             {
-                ChangePasswordPage changePasswordPage = new ChangePasswordPage( LoginUserEditPanel.this.getPage() )
-                {
-                    private static final long serialVersionUID = 1L;
-
-                    public HasLogin getHasLogin()
-                    {
-                        return LoginUserEditPanel.this.getUser();
-                    }
-                };
-
+                ChangePasswordPage changePasswordPage = new ChangePasswordPage( LoginUserEditPanel.this.getPage() );
                 LoginUserEditPanel.this.setResponsePage( changePasswordPage );
             }
         };

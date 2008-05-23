@@ -16,11 +16,12 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.model.associations.HasLogin;
 import org.qi4j.chronos.ui.wicket.authentication.LoginPage;
 
 public abstract class TopMenuNavPage extends BasePage
 {
+    private static final long serialVersionUID = 1L;
+
     public TopMenuNavPage()
     {
         initComponents();
@@ -66,14 +67,6 @@ public abstract class TopMenuNavPage extends BasePage
 
     private void handleChangePassword()
     {
-        setResponsePage( new ChangePasswordPage( this )
-        {
-            public HasLogin getHasLogin()
-            {
-                return TopMenuNavPage.this.getUser();
-            }
-        } );
+        setResponsePage( new ChangePasswordPage( this ) );
     }
-
-
 }

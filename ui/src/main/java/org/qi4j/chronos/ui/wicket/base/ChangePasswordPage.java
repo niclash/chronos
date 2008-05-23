@@ -12,29 +12,33 @@
  */
 package org.qi4j.chronos.ui.wicket.base;
 
+import java.io.Serializable;
 import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
+import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.qi4j.chronos.model.Login;
-import org.qi4j.chronos.model.associations.HasLogin;
-import org.qi4j.chronos.ui.common.MaxLengthPasswordField;
+import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.service.UserService;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosServiceFinderHelper;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
+import org.qi4j.library.framework.validation.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class ChangePasswordPage extends LeftMenuNavPage
+public final class ChangePasswordPage extends LeftMenuNavPage
 {
+    private static final long serialVersionUID = 1L;
+
     private final static Logger LOGGER = LoggerFactory.getLogger( ChangePasswordPage.class );
 
     private Page goBackPage;
-    private static final String UPDATE_SUCCESS = "updateSuccessful";
-    private static final String UPDATE_FAIL = "updateFailed";
-    private static final String INVALID_PASSWORD = "invalidPassword";
-    private static final String MISMATCH_PASSWORD = "mismatchPassword";
 
     public ChangePasswordPage( Page goBackPage )
     {
@@ -46,33 +50,44 @@ public abstract class ChangePasswordPage extends LeftMenuNavPage
     private void initComponents()
     {
         add( new FeedbackPanel( "feedbackPanel" ) );
-        add( new ChangePasswordForm( "changePasswordForm" ) );
+        add( new ChangePasswordForm( "changePasswordForm", new ChangePasswordModel() ) );
     }
 
-    public abstract HasLogin getHasLogin();
-
-    private class ChangePasswordForm extends Form
+    private class ChangePasswordForm extends Form<ChangePasswordModel>
     {
-        private MaxLengthPasswordField oldPasswordField;
-        private MaxLengthPasswordField newPasswordField;
-        private MaxLengthPasswordField confirmPasswordField;
+        private static final long serialVersionUID = 1L;
 
         private Button submitButton;
+
         private Button cancelButton;
 
-        private Label loginIdLabel;
-
-        public ChangePasswordForm( String id )
+        public ChangePasswordForm( String id, ChangePasswordModel changePasswordModel )
         {
             super( id );
 
-            oldPasswordField = new MaxLengthPasswordField( "oldPassword", "Old Password", Login.PASSWORD_LEN );
-            newPasswordField = new MaxLengthPasswordField( "newPassword", "New Password", Login.PASSWORD_LEN );
-            confirmPasswordField = new MaxLengthPasswordField( "confirmPassword", "Confirm Password", Login.PASSWORD_LEN );
+            CompoundPropertyModel<ChangePasswordModel> model =
+                new CompoundPropertyModel<ChangePasswordModel>( changePasswordModel );
 
-            loginIdLabel = new Label( "loginId", getHasLogin().login().get().name().get() );
-            submitButton = new Button( "submitButton", new Model( "Change Password" ) );
-            cancelButton = new Button( "cancelButton", new Model( "Cancel" ) );
+            setModel( model );
+
+            PasswordTextField oldPasswordField = new PasswordTextField( "oldPassword" );
+            IModel<String> oldPasswordModel = model.bind( "oldPassword" );
+            oldPasswordField.setModel( oldPasswordModel );
+
+            PasswordTextField newPasswordField = new PasswordTextField( "newPassword" );
+            IModel<String> newPasswordModel = model.bind( "newPassword" );
+            newPasswordField.setModel( newPasswordModel );
+
+            PasswordTextField confirmPasswordField = new PasswordTextField( "confirmPassword" );
+            IModel<String> confirmPasswordModel = model.bind( "confirmPassword" );
+            confirmPasswordField.setModel( confirmPasswordModel );
+
+            User user = ChronosSession.get().getUser();
+
+            Label<String> loginIdLabel = new Label<String>( "loginId", user.login().get().name().get() );
+
+            submitButton = new Button<String>( "submitButton", new Model<String>( "Change Password" ) );
+            cancelButton = new Button<String>( "cancelButton", new Model<String>( "Cancel" ) );
 
             oldPasswordField.setRequired( false );
             newPasswordField.setRequired( false );
@@ -105,65 +120,107 @@ public abstract class ChangePasswordPage extends LeftMenuNavPage
 
         private void handleChangePassword()
         {
+            ChangePasswordModel changePasswordModel = getModelObject();
 
-            boolean isRejected = false;
+            StringBuilder errorMsgBuilder = new StringBuilder();
 
-            if( oldPasswordField.checkIsEmptyOrInvalidLength() )
+            String oldPassword = changePasswordModel.getOldPassword();
+            String newPassword = changePasswordModel.getNewPassword();
+            String confirmPassword = changePasswordModel.getConfirmPassword();
+
+            if( oldPassword == null )
             {
-                isRejected = true;
+                errorMsgBuilder.append( "Old password is required. \n" );
             }
 
-            if( newPasswordField.checkIsEmptyOrInvalidLength() )
+            if( newPassword == null )
             {
-                isRejected = true;
+                errorMsgBuilder.append( "New password is required. \n" );
             }
 
-            if( confirmPasswordField.checkIsEmptyOrInvalidLength() )
+            if( confirmPassword == null )
             {
-                isRejected = true;
+                errorMsgBuilder.append( "Confirm password is required. \n" );
             }
 
-            String oldPassword = oldPasswordField.getText();
-            String password = newPasswordField.getText();
-            String confirmPassword = confirmPasswordField.getText();
-
-            if( password != null && confirmPassword != null )
+            if( newPassword != null && confirmPassword != null && !( newPassword.equals( confirmPassword ) ) )
             {
-                if( !password.equals( confirmPassword ) )
-                {
-                    error( getString( MISMATCH_PASSWORD ) );
-                    isRejected = true;
-                }
+                errorMsgBuilder.append( "New password and confirm password is not matched!." );
             }
 
-            Login userLogin = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( getHasLogin().login().get() );
-            if( oldPassword != null && !userLogin.password().get().equals( oldPassword ) )
+            if( errorMsgBuilder.length() != 0 )
             {
-                error( getString( INVALID_PASSWORD ) );
-                isRejected = true;
-            }
-
-            if( isRejected )
-            {
+                error( errorMsgBuilder.toString() );
                 return;
             }
 
-            userLogin.password().set( password );
-
             try
             {
+                User user = ChronosSession.get().getUser();
+
+                UserService userService = ChronosServiceFinderHelper.get().findService( UserService.class );
+
+                userService.changePassword( user, oldPassword, newPassword );
+
                 ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
 
-                goBackPage.info( getString( UPDATE_SUCCESS ) );
+                goBackPage.info( "Password was changed successfully." );
 
                 setResponsePage( goBackPage );
+            }
+            catch( ValidationException err )
+            {
+                error( err.toString() );
             }
             catch( Exception err )
             {
                 ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
-                error( getString( UPDATE_FAIL, new Model( err ) ) );
+
+                error( "Fail to update password" );
+
                 LOGGER.error( err.getLocalizedMessage(), err );
             }
+        }
+    }
+
+    private final static class ChangePasswordModel implements Serializable
+    {
+        private static final long serialVersionUID = 1L;
+
+        private String oldPassword;
+
+        private String newPassword;
+
+        private String confirmPassword;
+
+        public String getOldPassword()
+        {
+            return oldPassword;
+        }
+
+        public void setOldPassword( String oldPassword )
+        {
+            this.oldPassword = oldPassword;
+        }
+
+        public String getNewPassword()
+        {
+            return newPassword;
+        }
+
+        public void setNewPassword( String newPassword )
+        {
+            this.newPassword = newPassword;
+        }
+
+        public String getConfirmPassword()
+        {
+            return confirmPassword;
+        }
+
+        public void setConfirmPassword( String confirmPassword )
+        {
+            this.confirmPassword = confirmPassword;
         }
     }
 }

@@ -15,9 +15,15 @@ import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.EntityComposite;
 import org.qi4j.entity.UnitOfWork;
 
+/**
+ * @author Lan Boon Ping
+ */
 public class ChronosDetachableModel<T> extends AbstractReadOnlyModel<T>
 {
-    private Class entityType;
+    private static final long serialVersionUID = 1L;
+
+    private Class<T> entityType;
+
     private String identity;
 
     private transient T entity;
@@ -43,7 +49,7 @@ public class ChronosDetachableModel<T> extends AbstractReadOnlyModel<T>
 
         EntityComposite entityComposite = (EntityComposite) entity;
 
-        entityType = entityComposite.type();
+        entityType = (Class<T>) entityComposite.type();
         identity = entityComposite.identity().get();
     }
 
@@ -53,17 +59,17 @@ public class ChronosDetachableModel<T> extends AbstractReadOnlyModel<T>
 
         if( !attached )
         {
-            entity = (T) unitOfWork.getReference( identity, entityType );
+            entity = unitOfWork.getReference( identity, entityType );
 
             attached = true;
         }
         else
         {
-            //model holding a detached entity which is not synchronized with the current unit of work.
-            //let re-attach it to current unit of work
+            //model holding a detached entity which is not associated with the current unit of work.
+            //let re-associate it to current unit of work
             if( unitOfWorkVersion != ChronosUnitOfWorkManager.get().getVersion() )
             {
-                entity = (T) unitOfWork.getReference( identity, entityType );
+                entity = unitOfWork.getReference( identity, entityType );
             }
         }
 

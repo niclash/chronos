@@ -24,7 +24,6 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
@@ -49,17 +48,16 @@ public class LoginPage extends BasePage
         add( new LoginForm( WICKET_ID_LOGIN_FORM, new LoginModel(), accountService ) );
     }
 
-    private class LoginForm extends Form
+    private class LoginForm extends Form<LoginModel>
     {
         private static final long serialVersionUID = 1L;
 
         private static final String WICKET_ID_ACCOUNT_DROP_DOWN_CHOICE = "accountDropDownChoice";
+
         private static final String WICKET_ID_USERNAME = "username";
         private static final String WICKET_ID_PASSWORD = "password";
-        private DropDownChoice accountDropDownChoice;
-        private static final String USER_NAME_BINDING = "userName";
-        private static final String PASSWORD_BINDING = WICKET_ID_PASSWORD;
-        private static final String SIGN_IN_FAILED = "signInFailed";
+
+        private DropDownChoice<ChronosDetachableModel<Account>> accountDropDownChoice;
 
         private LoginForm( String aWicketId, LoginModel aLoginModel, AccountService accountService )
         {
@@ -67,56 +65,43 @@ public class LoginPage extends BasePage
 
             validateNotNull( "aLoginModel", aLoginModel );
 
-            CompoundPropertyModel compoundPropertyModel = new CompoundPropertyModel( aLoginModel );
+            CompoundPropertyModel<LoginModel> compoundPropertyModel = new CompoundPropertyModel<LoginModel>( aLoginModel );
             setModel( compoundPropertyModel );
 
-            // Select account
             List<Account> availableAccounts = accountService.findAllAccounts();
-            List<ChronosDetachableModel<Account>> accountDetachableModels = new ArrayList<ChronosDetachableModel<Account>>();
+            List<ChronosDetachableModel<Account>> accountModels = new ArrayList<ChronosDetachableModel<Account>>();
 
             for( Account account : availableAccounts )
             {
-                accountDetachableModels.add( new ChronosDetachableModel<Account>( account ) );
+                accountModels.add( new ChronosDetachableModel<Account>( account ) );
             }
 
-            accountDropDownChoice =
-                new DropDownChoice( WICKET_ID_ACCOUNT_DROP_DOWN_CHOICE, accountDetachableModels, new IChoiceRenderer()
-                {
-                    public Object getDisplayValue( Object object )
-                    {
-                        ChronosDetachableModel<Account> chronosDetachableModel = (ChronosDetachableModel<Account>) object;
+            //account
+            accountDropDownChoice = new DropDownChoice<ChronosDetachableModel<Account>>(
+                WICKET_ID_ACCOUNT_DROP_DOWN_CHOICE, accountModels, new AccountDropDownChoiceRenderer() );
 
-                        return chronosDetachableModel.getObject().name().get();
-                    }
+            IModel<ChronosDetachableModel<Account>> accountModel = compoundPropertyModel.bind( "account" );
+            accountDropDownChoice.setModel( accountModel );
 
-                    public String getIdValue( Object object, int index )
-                    {
-                        ChronosDetachableModel<Account> chronosDetachableModel = (ChronosDetachableModel<Account>) object;
-
-                        return ( (Identity) chronosDetachableModel.getObject() ).identity().get();
-                    }
-                } );
             add( accountDropDownChoice );
-            accountDropDownChoice.setModel( new Model() );
 
             // username
-            IModel userNameModel = compoundPropertyModel.bind( USER_NAME_BINDING );
-            TextField username = new TextField( WICKET_ID_USERNAME, userNameModel );
+            IModel<String> userNameModel = compoundPropertyModel.bind( "userName" );
+            TextField<String> username = new TextField<String>( WICKET_ID_USERNAME, userNameModel );
             add( username );
 
             // password
-            IModel passwordModel = compoundPropertyModel.bind( PASSWORD_BINDING );
+            IModel<String> passwordModel = compoundPropertyModel.bind( "password" );
             PasswordTextField password = new PasswordTextField( WICKET_ID_PASSWORD, passwordModel );
             add( password );
         }
 
         public final void onSubmit()
         {
-            ChronosDetachableModel<Account> accountDetachableModel = (ChronosDetachableModel<Account>) accountDropDownChoice.getModelObject();
+            ChronosDetachableModel<Account> accountDetachableModel = accountDropDownChoice.getModelObject();
 
-            final LoginModel loginModel = (LoginModel) getModelObject();
+            final LoginModel loginModel = getModelObject();
 
-            // Sign in user
             final ChronosSession session = ChronosSession.get();
 
             session.setAccount( accountDetachableModel.getObject() );
@@ -135,8 +120,23 @@ public class LoginPage extends BasePage
             }
             else
             {
-                error( getString( SIGN_IN_FAILED ) );
+                error( "Invalid username or password" );
             }
+        }
+    }
+
+    private static final class AccountDropDownChoiceRenderer implements IChoiceRenderer<ChronosDetachableModel<Account>>
+    {
+        private static final long serialVersionUID = 1L;
+
+        public Object getDisplayValue( ChronosDetachableModel<Account> object )
+        {
+            return object.getObject().name().get();
+        }
+
+        public String getIdValue( ChronosDetachableModel<Account> object, int index )
+        {
+            return ( (Identity) object.getObject() ).identity().get();
         }
     }
 
@@ -147,6 +147,18 @@ public class LoginPage extends BasePage
 
         private String userName;
         private String password;
+
+        private ChronosDetachableModel<Account> account;
+
+        public ChronosDetachableModel<Account> getAccount()
+        {
+            return account;
+        }
+
+        public void setAccount( ChronosDetachableModel<Account> account )
+        {
+            this.account = account;
+        }
 
         public final String getPassword()
         {
