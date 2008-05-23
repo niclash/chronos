@@ -30,6 +30,7 @@ import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.Identity;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
@@ -74,18 +75,18 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
     {
         try
         {
-            final UnitOfWork unitOfWork = getUnitOfWork();
-            final T hasPriceRateSchedule = unitOfWork.dereference( getHasPriceRateSchedules() );
+            final T hasPriceRateSchedule = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( getHasPriceRateSchedules() );
             for( IModel iModel : iModels )
             {
                 final PriceRateSchedule priceRateSchedule = ( PriceRateSchedule) iModel.getObject();
                 hasPriceRateSchedule.priceRateSchedules().remove( priceRateSchedule );
-                unitOfWork.remove( priceRateSchedule );
+                ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().remove( priceRateSchedule );
             }
-            unitOfWork.complete();
+            ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
         }
         catch( UnitOfWorkCompletionException uowce )
         {
+            ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
             LOGGER.error( uowce.getLocalizedMessage(), uowce );
             error( getString( DELETE_FAIL, new Model( uowce ) ) );
         }
@@ -114,7 +115,7 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
                         {
                             public Object load()
                             {
-                                return getUnitOfWork().find( s, PriceRateScheduleEntityComposite.class );
+                                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, PriceRateScheduleEntityComposite.class );
                             }
                         }
                     );
@@ -131,7 +132,7 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
                                 {
                                     public Object load()
                                     {
-                                        return getUnitOfWork().find(
+                                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find(
                                             priceRateScheduleId, PriceRateScheduleEntityComposite.class );
                                     }
                                 }

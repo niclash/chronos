@@ -35,6 +35,7 @@ import org.qi4j.chronos.ui.contact.ContactTab;
 import org.qi4j.chronos.ui.project.ProjectTab;
 import org.qi4j.chronos.ui.user.UserDetailPanel;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.composite.scope.Uses;
 import org.qi4j.entity.Identity;
 
@@ -52,7 +53,7 @@ public class ContactPersonDetailPage extends LeftMenuNavPage
                 {
                     public Object load()
                     {
-                        return getUnitOfWork().find( contactPersonId, ContactPersonEntityComposite.class );
+                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( contactPersonId, ContactPersonEntityComposite.class );
                     }
                 }
             )

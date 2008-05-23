@@ -26,11 +26,9 @@ import org.qi4j.chronos.model.composites.MoneyEntityComposite;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.login.LoginUserAddPanel;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.chronos.util.CurrencyUtil;
-import static org.qi4j.composite.NullArgumentException.*;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkCompletionException;
-import org.qi4j.library.framework.validation.ValidationException;
+import static org.qi4j.composite.NullArgumentException.validateNotNull;
 import org.qi4j.library.general.model.GenderType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -61,15 +59,14 @@ public class StaffAddPage extends StaffAddEditPage
                 {
                     public Object load()
                     {
-                        final UnitOfWork unitOfWork = getUnitOfWork();
                         final Staff staff =
-                            unitOfWork.newEntityBuilder( StaffEntityComposite.class ).newInstance();
+                            ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().newEntityBuilder( StaffEntityComposite.class ).newInstance();
                         staff.gender().set( GenderType.MALE );
                         final Login staffLogin =
-                            unitOfWork.newEntityBuilder( LoginEntityComposite.class ).newInstance();
+                            ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().newEntityBuilder( LoginEntityComposite.class ).newInstance();
                         staffLogin.isEnabled().set( true );
                         final Money staffSalary =
-                            unitOfWork.newEntityBuilder( MoneyEntityComposite.class ).newInstance();
+                            ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().newEntityBuilder( MoneyEntityComposite.class ).newInstance();
                         staffSalary.currency().set( CurrencyUtil.getDefaultCurrency() );
                         staff.login().set( staffLogin );
                         staff.salary().set( staffSalary );
@@ -105,33 +102,26 @@ public class StaffAddPage extends StaffAddEditPage
 
     public void onSubmitting()
     {
-        final UnitOfWork unitOfWork = getUnitOfWork();
         try
         {
             final Staff staff = (Staff) getModelObject();
             final Account account = getAccount();
+
             for( SystemRole systemRole : getUserAddEditPanel().getSelectedRoleList() )
             {
                 staff.systemRoles().add( systemRole );
             }
             account.staffs().add( staff );
-            unitOfWork.complete();
+            ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
             logInfoMsg( getString( ADD_SUCCESS ) );
 
             divertToGoBackPage();
         }
-        catch( UnitOfWorkCompletionException uowce )
+        catch( Exception err )
         {
-            unitOfWork.reset();
+            ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
-            logErrorMsg( getString( ADD_FAIL, new Model( uowce ) ) );
-            LOGGER.error( uowce.getLocalizedMessage(), uowce );
-        }
-        catch( ValidationException err )
-        {
-            unitOfWork.reset();
-
-            logErrorMsg( getString( ADD_FAIL, new Model( err) ) );
+            logErrorMsg( getString( ADD_FAIL, new Model( err ) ) );
             LOGGER.error( err.getLocalizedMessage(), err );
         }
     }

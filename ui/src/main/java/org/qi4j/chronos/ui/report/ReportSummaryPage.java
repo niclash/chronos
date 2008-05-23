@@ -12,23 +12,24 @@
  */
 package org.qi4j.chronos.ui.report;
 
-import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
-import org.qi4j.chronos.model.composites.ReportEntityComposite;
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.wicket.Page;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.Button;
+import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
+import org.joda.time.Period;
 import org.qi4j.chronos.model.Report;
 import org.qi4j.chronos.model.ReportDetail;
-import org.apache.wicket.Page;
-import org.apache.wicket.model.Model;
-import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.Button;
-import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.markup.html.link.Link;
-import org.apache.wicket.markup.html.basic.Label;
-import org.joda.time.Period;
-import java.util.List;
-import java.util.ArrayList;
+import org.qi4j.chronos.model.composites.ReportEntityComposite;
+import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 
 public class ReportSummaryPage extends AbstractReportPage
 {
@@ -42,9 +43,9 @@ public class ReportSummaryPage extends AbstractReportPage
         {
             protected Object load()
             {
-                return getUnitOfWork().find( reportId, ReportEntityComposite.class );
+                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( reportId, ReportEntityComposite.class );
             }
-        });
+        } );
         setModel( reportModel );
         initComponents();
     }
@@ -77,16 +78,16 @@ public class ReportSummaryPage extends AbstractReportPage
         for( ReportDetail reportDetail : report.reportSummary().get().reportDetails() )
         {
             Period period = calculatePeriod( reportDetail );
-            list.add( new String[] { reportDetail.staff().get().fullName().get(), "" + period.getHours() } );
+            list.add( new String[]{ reportDetail.staff().get().fullName().get(), "" + period.getHours() } );
         }
-        
+
         final Label label = new Label( "linkLabel", "[ show detail ]" );
         final Link showDetail = new Link( "showDetail" )
         {
             public final void onClick()
             {
 //                detailPanel.setVisible( !detailPanel.isVisible() );
-                if ( label.getModelObjectAsString().equals( "[ show detail ]" ) )
+                if( label.getModelObjectAsString().equals( "[ show detail ]" ) )
                 {
                     label.setModelObject( "[ hide detail ]" );
                 }

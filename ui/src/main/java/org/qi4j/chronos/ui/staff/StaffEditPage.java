@@ -23,6 +23,7 @@ import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.login.LoginUserEditPanel;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
@@ -48,7 +49,7 @@ public abstract class StaffEditPage extends StaffAddEditPage
                 {
                     public Object load()
                     {
-                        return getUnitOfWork().find( staffId, StaffEntityComposite.class );
+                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( staffId, StaffEntityComposite.class );
                     }
                 }
             )
@@ -89,7 +90,6 @@ public abstract class StaffEditPage extends StaffAddEditPage
 
     public void onSubmitting()
     {
-        final UnitOfWork unitOfWork = getUnitOfWork();
         try
         {
             final Staff staff = (Staff) getModelObject();
@@ -98,24 +98,17 @@ public abstract class StaffEditPage extends StaffAddEditPage
             {
                 staff.systemRoles().add( systemRole );
             }
-            unitOfWork.complete();
+            ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
             logInfoMsg( getString( UPDATE_SUCCESS ) );
 
             divertToGoBackPage();
         }
-        catch( UnitOfWorkCompletionException uowce )
+        catch( Exception uowce )
         {
-            unitOfWork.reset();
+            ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
             logErrorMsg( getString( UPDATE_FAIL, new Model( uowce ) ) );
             LOGGER.error( uowce.getLocalizedMessage(), uowce );
-        }
-        catch( Exception err )
-        {
-            unitOfWork.reset();
-
-            logErrorMsg( getString( UPDATE_FAIL, new Model( err ) ) );
-            LOGGER.error( err.getLocalizedMessage(), err );
         }
     }
 

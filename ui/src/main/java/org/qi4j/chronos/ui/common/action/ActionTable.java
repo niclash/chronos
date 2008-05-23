@@ -544,20 +544,6 @@ public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
         }
     }
 
-    protected UnitOfWork getUnitOfWork()
-    {
-        UnitOfWorkFactory factory = ChronosSession.get().getUnitOfWorkFactory();
-
-        if( null == factory.currentUnitOfWork() || !factory.currentUnitOfWork().isOpen() )
-        {
-            return factory.newUnitOfWork();
-        }
-        else
-        {
-            return factory.currentUnitOfWork();
-        }
-    }
-
     public abstract AbstractSortableDataProvider<ITEM, ID> getDetachableDataProvider();
 
     public abstract void populateItems( Item item, ITEM obj );

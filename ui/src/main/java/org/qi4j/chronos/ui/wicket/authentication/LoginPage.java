@@ -13,10 +13,12 @@
 package org.qi4j.chronos.ui.wicket.authentication;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.Application;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
@@ -25,12 +27,12 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.service.AccountService;
-import org.qi4j.chronos.ui.common.NameChoiceRenderer;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
+import org.qi4j.chronos.ui.wicket.base.ChronosDetachableModel;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import static org.qi4j.composite.NullArgumentException.validateNotNull;
 import org.qi4j.composite.scope.Service;
-import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.Identity;
 
 public class LoginPage extends BasePage
 {
@@ -38,7 +40,6 @@ public class LoginPage extends BasePage
 
     private static final String WICKET_ID_FEEDBACK_PANEL = "feedbackPanel";
     private static final String WICKET_ID_LOGIN_FORM = "loginForm";
-
 
     public LoginPage( @Service AccountService accountService )
         throws IllegalArgumentException
@@ -69,14 +70,32 @@ public class LoginPage extends BasePage
             CompoundPropertyModel compoundPropertyModel = new CompoundPropertyModel( aLoginModel );
             setModel( compoundPropertyModel );
 
-            getUnitOfWork();
-
             // Select account
             List<Account> availableAccounts = accountService.findAllAccounts();
+            List<ChronosDetachableModel<Account>> accountDetachableModels = new ArrayList<ChronosDetachableModel<Account>>();
 
-            NameChoiceRenderer renderer = new NameChoiceRenderer();
+            for( Account account : availableAccounts )
+            {
+                accountDetachableModels.add( new ChronosDetachableModel<Account>( account ) );
+            }
+
             accountDropDownChoice =
-                new DropDownChoice( WICKET_ID_ACCOUNT_DROP_DOWN_CHOICE, availableAccounts, renderer );
+                new DropDownChoice( WICKET_ID_ACCOUNT_DROP_DOWN_CHOICE, accountDetachableModels, new IChoiceRenderer()
+                {
+                    public Object getDisplayValue( Object object )
+                    {
+                        ChronosDetachableModel<Account> chronosDetachableModel = (ChronosDetachableModel<Account>) object;
+
+                        return chronosDetachableModel.getObject().name().get();
+                    }
+
+                    public String getIdValue( Object object, int index )
+                    {
+                        ChronosDetachableModel<Account> chronosDetachableModel = (ChronosDetachableModel<Account>) object;
+
+                        return ( (Identity) chronosDetachableModel.getObject() ).identity().get();
+                    }
+                } );
             add( accountDropDownChoice );
             accountDropDownChoice.setModel( new Model() );
 
@@ -93,21 +112,14 @@ public class LoginPage extends BasePage
 
         public final void onSubmit()
         {
-            Account account = (Account) accountDropDownChoice.getModelObject();
+            ChronosDetachableModel<Account> accountDetachableModel = (ChronosDetachableModel<Account>) accountDropDownChoice.getModelObject();
+
             final LoginModel loginModel = (LoginModel) getModelObject();
 
             // Sign in user
             final ChronosSession session = ChronosSession.get();
 
-            final UnitOfWork unitOfWork = getUnitOfWork();
-
-            //if user logged in using account [System], the account wil be null.
-            if( null != account )
-            {
-                account = unitOfWork.dereference( account );
-            }
-
-            session.setAccount( account );
+            session.setAccount( accountDetachableModel.getObject() );
 
             String userName = loginModel.getUserName();
             String password = loginModel.getPassword();
@@ -118,8 +130,7 @@ public class LoginPage extends BasePage
                 if( !continueToOriginalDestination() )
                 {
                     Application application = getApplication();
-                    Class homePage = application.getHomePage();
-                    setResponsePage( newPage( homePage, null ) );
+                    setResponsePage( application.getHomePage() );
                 }
             }
             else
@@ -127,7 +138,6 @@ public class LoginPage extends BasePage
                 error( getString( SIGN_IN_FAILED ) );
             }
         }
-
     }
 
     private static final class LoginModel

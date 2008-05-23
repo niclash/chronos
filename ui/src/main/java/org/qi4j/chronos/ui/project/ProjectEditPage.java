@@ -18,6 +18,7 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
@@ -40,7 +41,8 @@ public class ProjectEditPage extends ProjectAddEditPage
 
     public void onSubmitting()
     {
-        final UnitOfWork unitOfWork = getUnitOfWork();
+        final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
+
         try
         {
             final Project project = (Project) getModelObject();
@@ -49,7 +51,9 @@ public class ProjectEditPage extends ProjectAddEditPage
             {
                 project.contactPersons().add( contactPerson );
             }
-            unitOfWork.complete();
+
+            ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
+
             logInfoMsg( getString( UPDATE_SUCCESS ) );
             divertToGoBackPage();
         }
@@ -86,6 +90,6 @@ public class ProjectEditPage extends ProjectAddEditPage
 
     private Project getProject()
     {
-        return getUnitOfWork().dereference( (Project) getModelObject() );
+        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( (Project) getModelObject() );
     }
 }

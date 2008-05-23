@@ -27,10 +27,10 @@ import org.qi4j.chronos.model.composites.CityEntityComposite;
 import org.qi4j.chronos.model.composites.CountryEntityComposite;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.model.composites.StateEntityComposite;
-import static org.qi4j.composite.NullArgumentException.*;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
+import static org.qi4j.composite.NullArgumentException.validateNotNull;
 import org.qi4j.composite.scope.Uses;
 import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -60,7 +60,7 @@ public class CustomerAddPage extends CustomerAddEditPage
                 {
                     public Object load()
                     {
-                        final UnitOfWork unitOfWork = getUnitOfWork();
+                        final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
                         final Customer customer =
                             unitOfWork.newEntityBuilder( CustomerEntityComposite.class ).newInstance();
                         final Address address =
@@ -94,20 +94,16 @@ public class CustomerAddPage extends CustomerAddEditPage
             final Account account = getAccount();
             account.customers().add( customer );
 
-            getUnitOfWork().complete();
+            ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
             logInfoMsg( getString( ADD_SUCCESS ) );
 
             divertToGoBackPage();
         }
-        catch( UnitOfWorkCompletionException uowce )
-        {
-            error( getString( ADD_FAIL, new Model( uowce ) ) );
-            LOGGER.error( uowce.getLocalizedMessage(), uowce );
 
-            reset();
-        }
-        catch( Exception err)
+        catch( Exception err )
         {
+            ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
+
             error( getString( ADD_FAIL, new Model( err ) ) );
             LOGGER.error( err.getMessage(), err );
         }

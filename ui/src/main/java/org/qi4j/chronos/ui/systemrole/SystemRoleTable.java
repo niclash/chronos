@@ -24,6 +24,7 @@ import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.action.ActionTable;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.Identity;
 
 public abstract class SystemRoleTable extends ActionTable<IModel, String>
@@ -58,7 +59,7 @@ public abstract class SystemRoleTable extends ActionTable<IModel, String>
                         {
                             protected Object load()
                             {
-                                return getUnitOfWork().find( s, SystemRoleEntityComposite.class );
+                                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, SystemRoleEntityComposite.class );
                             }
                         }
                     );
@@ -75,7 +76,7 @@ public abstract class SystemRoleTable extends ActionTable<IModel, String>
                                 {
                                     protected Object load()
                                     {
-                                        return getUnitOfWork().find( systemRoleId, SystemRoleEntityComposite.class );
+                                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( systemRoleId, SystemRoleEntityComposite.class );
                                     }
                                 }
                             )

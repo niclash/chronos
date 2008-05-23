@@ -27,10 +27,10 @@ import org.qi4j.chronos.model.composites.LoginEntityComposite;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.login.LoginUserAddPanel;
-import static org.qi4j.composite.NullArgumentException.*;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
+import static org.qi4j.composite.NullArgumentException.validateNotNull;
 import org.qi4j.composite.scope.Uses;
 import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.qi4j.library.general.model.Contact;
 import org.qi4j.library.general.model.GenderType;
 import org.slf4j.Logger;
@@ -62,7 +62,7 @@ public abstract class ContactPersonAddPage extends ContactPersonAddEditPage
                 {
                     public Object load()
                     {
-                        final UnitOfWork unitOfWork = ContactPersonAddPage.this.getSharedUnitOfWork();
+                        final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
                         final ContactPerson contactPerson =
                             unitOfWork.newEntityBuilder( ContactPersonEntityComposite.class ).newInstance();
                         final Login contactPersonLogin =
@@ -88,7 +88,7 @@ public abstract class ContactPersonAddPage extends ContactPersonAddEditPage
     {
         try
         {
-            final UnitOfWork unitOfWork = ContactPersonAddPage.this.getSharedUnitOfWork();
+            final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
             final Customer customer = unitOfWork.dereference( getCustomer() );
             final ContactPerson contactPerson = (ContactPerson) getModelObject();
 
@@ -98,20 +98,17 @@ public abstract class ContactPersonAddPage extends ContactPersonAddEditPage
             }
 
             customer.contactPersons().add( contactPerson );
-            unitOfWork.complete();
+
+            ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
+
             logInfoMsg( getString( ADD_SUCCESS ) );
 
             super.divertToGoBackPage();
         }
-        catch( UnitOfWorkCompletionException uowce )
+        catch( Exception err )
         {
-            reset();
+            ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
-            logErrorMsg( getString( ADD_FAIL, new Model( uowce) ) );
-            LOGGER.error( uowce.getLocalizedMessage(), uowce );
-        }
-        catch( Exception err)
-        {
             logErrorMsg( getString( ADD_FAIL, new Model( err ) ) );
             LOGGER.error( err.getLocalizedMessage(), err );
         }

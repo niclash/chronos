@@ -101,8 +101,6 @@ public abstract class AccountAdminPanel extends Panel
         }
         return projectIdList.subList( first, first + count );
     }
-
-    public abstract UnitOfWork getUnitOfWork();
     
     public abstract Account getAccount();
 }

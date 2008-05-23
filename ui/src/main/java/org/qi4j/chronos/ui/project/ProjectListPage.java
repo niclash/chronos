@@ -23,6 +23,7 @@ import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.associations.HasProjects;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.Identity;
 
 @AuthorizeInstantiation( { SystemRole.ACCOUNT_ADMIN, SystemRole.ACCOUNT_DEVELOPER } )
@@ -62,7 +63,7 @@ public class ProjectListPage extends LeftMenuNavPage
 
             public HasProjects getHasProjects()
             {
-                return getUnitOfWork().dereference( ProjectListPage.this.getAccount() );
+                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( ProjectListPage.this.getAccount() );
             }
         };
 

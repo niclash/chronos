@@ -21,8 +21,7 @@ import org.qi4j.chronos.model.ProjectAssignee;
 import org.qi4j.chronos.model.WorkEntry;
 import org.qi4j.chronos.model.associations.HasWorkEntries;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -49,11 +48,10 @@ public abstract class WorkEntryAddPage extends WorkEntryAddEditPage
                 {
                     public Object load()
                     {
-                        final UnitOfWork unitOfWork = getUnitOfWork();
                         final ProjectAssignee projectAssignee =
-                            unitOfWork.dereference( WorkEntryAddPage.this.getProjectAssignee() );
+                            ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( WorkEntryAddPage.this.getProjectAssignee() );
                         final WorkEntry workEntry =
-                            unitOfWork.newEntityBuilder( WorkEntryEntityComposite.class ).newInstance();
+                            ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().newEntityBuilder( WorkEntryEntityComposite.class ).newInstance();
                         workEntry.createdDate().set( new Date() );
                         workEntry.projectAssignee().set( projectAssignee );
 
@@ -67,27 +65,19 @@ public abstract class WorkEntryAddPage extends WorkEntryAddEditPage
 
     public void onSubmitting()
     {
-        final UnitOfWork unitOfWork = getUnitOfWork();
         try
         {
             final WorkEntry workEntry = (WorkEntry) getModelObject();
-            final HasWorkEntries hasWorkEntries = unitOfWork.dereference( WorkEntryAddPage.this.getHasWorkEntries() );
+            final HasWorkEntries hasWorkEntries = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( WorkEntryAddPage.this.getHasWorkEntries() );
             hasWorkEntries.workEntries().add( workEntry );
-            unitOfWork.complete();
+            ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
             logInfoMsg( getString( ADD_SUCCESS ) );
 
             divertToGoBackPage();
         }
-        catch( UnitOfWorkCompletionException uowce )
-        {
-            unitOfWork.reset();
-
-            logErrorMsg( getString( ADD_FAIL, new Model( uowce ) ) );
-            LOGGER.error( uowce.getLocalizedMessage(), uowce );
-        }
         catch( Exception err )
         {
-            unitOfWork.reset();
+            ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
             logErrorMsg( getString( ADD_FAIL, new Model( err ) ) );
             LOGGER.error( err.getLocalizedMessage(), err );

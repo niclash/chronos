@@ -34,6 +34,7 @@ import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.relationship.RelationshipOptionPanel;
 import org.qi4j.chronos.ui.user.UserAddEditPanel;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.library.general.model.Contact;
 
@@ -49,7 +50,6 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
     protected List<Contact> contactList;
     private static final String DUPLICATE_ENTRY = "duplicateContacts";
 
-    private transient UnitOfWork sharedUnitOfWork;
 
     public ContactPersonAddEditPage( Page goBackPage )
     {
@@ -58,9 +58,6 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
 
     public void initComponent( Form form )
     {
-        final UnitOfWork unitOfWork = getUnitOfWork();
-        setSharedUnitOfWork( unitOfWork );
-
         contactList = getInitContactList();
 
         contactValueFieldList = new ArrayList<MaxLengthTextField>();
@@ -70,7 +67,7 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
         {
             public void onSubmit()
             {
-                handleNewContact( unitOfWork );
+                handleNewContact(  );
             }
         };
 
@@ -101,7 +98,7 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
                 {
                     public void onSubmit()
                     {
-                        removeContact( index, unitOfWork );
+                        removeContact( index);
                     }
                 };
 
@@ -116,11 +113,6 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
             public Customer getCustomer()
             {
                 return ContactPersonAddEditPage.this.getCustomer();
-            }
-
-            public UnitOfWork getSharedUnitOfWork()
-            {
-                return ContactPersonAddEditPage.this.getSharedUnitOfWork();
             }
         };
 
@@ -143,7 +135,7 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
         form.add( userAddEditPanel );
     }
 
-    private void removeContact( int index, final UnitOfWork unitOfWork )
+    private void removeContact( int index )
     {
         if( contactList.size() == 0 )
         {
@@ -154,21 +146,21 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
         contactTypeFieldList.remove( index );
         contactValueFieldList.remove( index );
 
-        unitOfWork.remove( contact );
+        ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().remove( contact );
 
         updateContactListView();
     }
 
-    private void handleNewContact( final UnitOfWork unitOfWork )
+    private void handleNewContact(  )
     {
-        addNewContact( unitOfWork );
+        addNewContact( );
 
         updateContactListView();
     }
 
-    private void addNewContact( final UnitOfWork unitOfWork )
+    private void addNewContact( )
     {
-        final Contact contact = unitOfWork.newEntityBuilder( ContactEntityComposite.class ).newInstance();
+        final Contact contact = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().newEntityBuilder( ContactEntityComposite.class ).newInstance();
         contactList.add( contact );
     }
 
@@ -295,16 +287,6 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
         }
 
         return contactList;
-    }
-
-    public UnitOfWork getSharedUnitOfWork()
-    {
-        return sharedUnitOfWork;
-    }
-
-    public void setSharedUnitOfWork( UnitOfWork sharedUnitOfWork )
-    {
-        this.sharedUnitOfWork = sharedUnitOfWork;
     }
 
     public abstract Iterator<Contact> getInitContactIterator();

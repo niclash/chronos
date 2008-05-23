@@ -35,6 +35,7 @@ import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleAction;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.Identity;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
@@ -98,7 +99,7 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
 
     private void handleEnableAction( List<IModel> contactPersons, boolean enable )
     {
-        final UnitOfWork unitOfWork = getUnitOfWork();
+        final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
         try
         {
             for( IModel iModel : contactPersons )
@@ -106,11 +107,12 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
                 final ContactPerson contactPerson = (ContactPerson) iModel.getObject();
                 contactPerson.login().get().isEnabled().set( enable );
             }
-            unitOfWork.complete();
+
+            ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
         }
         catch( UnitOfWorkCompletionException uowce )
         {
-            unitOfWork.reset();
+            ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
             error( getString( enable ? ENABLE_FAIL : DISABLE_FAIL, new Model( uowce ) ) );
             LOGGER.error( uowce.getLocalizedMessage(), uowce );
@@ -120,7 +122,7 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
     // might not be a good idea to have delete action
     private void handleDeleteAction( List<IModel> contactPersons )
     {
-        final UnitOfWork unitOfWork = getUnitOfWork();
+        final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
         try
         {
             final Customer customer = unitOfWork.dereference( ContactPersonTable.this.getCustomer() );
@@ -140,11 +142,11 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
 */
                 unitOfWork.remove( contactPerson );
             }
-            unitOfWork.complete();
+            ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
         }
         catch( UnitOfWorkCompletionException uowce )
         {
-            unitOfWork.reset();
+            ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
             error( getString( DELETE_FAIL, new Model( uowce ) ) );
             LOGGER.error( uowce.getLocalizedMessage(), uowce );
@@ -164,7 +166,7 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
             {
                 public int getSize()
                 {
-                    return getUnitOfWork().dereference( getHasContactPersons() ).contactPersons().size();
+                    return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( getHasContactPersons() ).contactPersons().size();
                 }
 
                 public String getId( IModel t )
@@ -179,7 +181,7 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
                         {
                             public Object load()
                             {
-                                return getUnitOfWork().find( s, ContactPersonEntityComposite.class );
+                                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, ContactPersonEntityComposite.class );
                             }
                         }
                     );
@@ -196,7 +198,7 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
                                 {
                                     public Object load()
                                     {
-                                        return getUnitOfWork().find(
+                                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find(
                                             contactPersonId, ContactPersonEntityComposite.class);
                                     }
                                 }
@@ -280,7 +282,7 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
     protected List<String> dataList( int first, int count )
     {
         List<String> idList = new ArrayList<String>();
-        HasContactPersons hasContactPersons = getUnitOfWork().dereference( getHasContactPersons() );
+        HasContactPersons hasContactPersons = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( getHasContactPersons() );
         for( ContactPerson contactPerson : hasContactPersons.contactPersons() )
         {
             idList.add( contactPerson.identity().get() );

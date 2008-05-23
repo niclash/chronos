@@ -20,6 +20,7 @@ import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.associations.HasComments;
 import org.qi4j.chronos.model.composites.CommentEntityComposite;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.qi4j.library.framework.validation.ValidationException;
 import org.slf4j.Logger;
@@ -43,7 +44,7 @@ public abstract class CommentEditPage extends CommentAddEditPage
                 {
                     public Object load()
                     {
-                        return getUnitOfWork().find( commentId, CommentEntityComposite.class );
+                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( commentId, CommentEntityComposite.class );
                     }
                 }
             )
@@ -64,21 +65,15 @@ public abstract class CommentEditPage extends CommentAddEditPage
     {
         try
         {
-            getUnitOfWork().complete();
+            ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
+
             logInfoMsg( getString( UPDATE_SUCCESS ) );
 
             divertToGoBackPage();
         }
-        catch( UnitOfWorkCompletionException uowce )
+        catch( UnitOfWorkCompletionException err )
         {
-            reset();
-
-            logErrorMsg( getString( UPDATE_FAIL, new Model( uowce ) ) );
-            LOGGER.error( uowce.getLocalizedMessage(), uowce );
-        }
-        catch( ValidationException err )
-        {
-            reset();
+            ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
             logErrorMsg( getString( UPDATE_FAIL, new Model( err ) ) );
             LOGGER.error( err.getLocalizedMessage(), err );

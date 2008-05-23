@@ -22,6 +22,7 @@ import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
 import org.qi4j.chronos.ui.login.LoginUserEditPanel;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.composite.scope.Uses;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
@@ -49,7 +50,7 @@ public abstract class ContactPersonEditPage extends ContactPersonAddEditPage
                 {
                     public Object load()
                     {
-                        return getSharedUnitOfWork().find( contactPersonId, ContactPersonEntityComposite.class );
+                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( contactPersonId, ContactPersonEntityComposite.class );
                     }
                 }
             )
@@ -59,7 +60,7 @@ public abstract class ContactPersonEditPage extends ContactPersonAddEditPage
 
     public void onSubmitting()
     {
-        final UnitOfWork unitOfWork = ContactPersonEditPage.this.getSharedUnitOfWork();
+        final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
         try
         {
             final ContactPerson contactPerson = (ContactPerson) getModelObject();
@@ -69,21 +70,14 @@ public abstract class ContactPersonEditPage extends ContactPersonAddEditPage
             {
                 contactPerson.contacts().add( contact );
             }
-            unitOfWork.complete();
+            ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
             logInfoMsg( getString( UPDATE_SUCCESS ) );
 
             divertToGoBackPage();
         }
-        catch( UnitOfWorkCompletionException uowce )
-        {
-            unitOfWork.reset();
-
-            logErrorMsg( getString( UPDATE_FAIL, new Model( uowce ) ) );
-            LOGGER.error( uowce.getLocalizedMessage(), uowce );
-        }
         catch( Exception err )
         {
-            unitOfWork.reset();
+            ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
             logErrorMsg( getString( UPDATE_FAIL, new Model( err ) ) );
             LOGGER.error( err.getLocalizedMessage(), err );

@@ -27,6 +27,7 @@ import org.qi4j.chronos.model.ProjectStatusEnum;
 import org.qi4j.chronos.model.TimeRange;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
 import org.qi4j.chronos.model.composites.TimeRangeEntityComposite;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.composite.scope.Uses;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
@@ -56,7 +57,8 @@ public class ProjectAddPage extends ProjectAddEditPage
                 {
                     protected Object load()
                     {
-                        final UnitOfWork unitOfWork = getUnitOfWork();
+                        final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
+
                         final Project project =
                             unitOfWork.newEntityBuilder( ProjectEntityComposite.class ).newInstance();
                         final TimeRange actualTime =
@@ -85,7 +87,7 @@ public class ProjectAddPage extends ProjectAddEditPage
 
     public void onSubmitting()
     {
-        final UnitOfWork unitOfWork = getUnitOfWork();
+        final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
         try
         {
             final Project project = (Project) getModelObject();
@@ -95,21 +97,14 @@ public class ProjectAddPage extends ProjectAddEditPage
                 project.contactPersons().add( contactPerson );
             }
             account.projects().add( project );
-            unitOfWork.complete();
+            ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
 
             logInfoMsg( getString( ADD_SUCCESS ) );
             divertToGoBackPage();
         }
-        catch( UnitOfWorkCompletionException uowce )
-        {
-            unitOfWork.reset();
-
-            logErrorMsg( getString( ADD_FAIL, new Model( uowce ) ) );
-            LOGGER.error( uowce.getLocalizedMessage(), uowce );
-        }
         catch( Exception err )
         {
-            unitOfWork.reset();
+            ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
             logErrorMsg( getString( ADD_FAIL, new Model( err ) ) );
             LOGGER.error( err.getLocalizedMessage(), err );

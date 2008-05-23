@@ -44,6 +44,7 @@ import org.qi4j.chronos.ui.pricerate.PriceRateTab;
 import org.qi4j.chronos.ui.projectassignee.ProjectAssigneeTab;
 import org.qi4j.chronos.ui.task.TaskTab;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.chronos.ui.workentry.WorkEntryTab;
 import org.qi4j.chronos.util.DateUtil;
 import org.qi4j.entity.Identity;
@@ -62,7 +63,7 @@ public class ProjectDetailPage extends LeftMenuNavPage
                 {
                     protected Object load()
                     {
-                        return getUnitOfWork().find( projectId, ProjectEntityComposite.class );
+                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( projectId, ProjectEntityComposite.class );
                     }
                 }
             )
@@ -290,6 +291,6 @@ public class ProjectDetailPage extends LeftMenuNavPage
 
     public Project getProject()
     {
-        return getUnitOfWork().dereference( (Project) getModelObject() );
+        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( (Project) getModelObject() );
     }
 }

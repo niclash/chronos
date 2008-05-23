@@ -31,6 +31,7 @@ import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.ui.project.ProjectTab;
 import org.qi4j.chronos.ui.user.UserDetailPanel;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.Identity;
 
 public class StaffDetailPage extends LeftMenuNavPage
@@ -47,7 +48,7 @@ public class StaffDetailPage extends LeftMenuNavPage
                 {
                     protected Object load()
                     {
-                        return getUnitOfWork().find( staffId, StaffEntityComposite.class );
+                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( staffId, StaffEntityComposite.class );
                     }
                 }
             )
@@ -107,7 +108,7 @@ public class StaffDetailPage extends LeftMenuNavPage
                 {
                     public void onSubmit()
                     {
-                        reset();
+//                        reset();
 
                         setResponsePage( returnPage );
                     }

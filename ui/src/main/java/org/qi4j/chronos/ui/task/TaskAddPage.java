@@ -20,6 +20,7 @@ import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
@@ -44,10 +45,9 @@ public abstract class TaskAddPage extends TaskAddEditPage
                 {
                     protected Object load()
                     {
-                        final UnitOfWork unitOfWork = getUnitOfWork();
-                        final Task task = unitOfWork.newEntityBuilder( TaskEntityComposite.class ).newInstance();
+                        final Task task = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().newEntityBuilder( TaskEntityComposite.class ).newInstance();
                         task.createdDate().set( new Date() );
-                        task.user().set( unitOfWork.dereference( TaskAddPage.this.getTaskOwner() ) );
+                        task.user().set( ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( TaskAddPage.this.getTaskOwner() ) );
 
                         return task;
                     }
@@ -60,26 +60,18 @@ public abstract class TaskAddPage extends TaskAddEditPage
 
     public void onSubmitting()
     {
-        final UnitOfWork unitOfWork = getUnitOfWork();
         try
         {
             final Task task = (Task) getModelObject();
             TaskAddPage.this.getProject().tasks().add( task );
-            unitOfWork.complete();
+            ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
             logInfoMsg( "Task is added successfully." );
 
             divertToGoBackPage();
         }
-        catch( UnitOfWorkCompletionException uowce )
-        {
-            unitOfWork.reset();
-
-            logErrorMsg( "Unable to save task!!!" + uowce.getClass().getSimpleName() );
-            LOGGER.error( uowce.getLocalizedMessage(), uowce );
-        }
         catch( Exception err )
         {
-            unitOfWork.reset();
+            ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
             logErrorMsg( err.getMessage() );
             LOGGER.error( err.getMessage(), err );

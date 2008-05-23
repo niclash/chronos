@@ -15,12 +15,11 @@ package org.qi4j.chronos.ui.projectrole;
 import org.apache.wicket.Page;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.ProjectRole;
 import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -47,7 +46,8 @@ public class ProjectRoleAddPage extends ProjectRoleAddEditPage
                 {
                     protected Object load()
                     {
-                        final UnitOfWork unitOfWork = getUnitOfWork();
+                        final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
+
                         final ProjectRole projectRole =
                             unitOfWork.newEntityBuilder( ProjectRoleEntityComposite.class ).newInstance();
 
@@ -61,27 +61,19 @@ public class ProjectRoleAddPage extends ProjectRoleAddEditPage
 
     public void onSubmitting()
     {
-        final UnitOfWork unitOfWork = getUnitOfWork();
         try
         {
             final ProjectRole projectRole = (ProjectRole) getModelObject();
             final Account account = getAccount();
             account.projectRoles().add( projectRole );
-            unitOfWork.complete();
+            ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
 
             logInfoMsg( getString( ADD_SUCCESS ) );
             divertToGoBackPage();
         }
-        catch( UnitOfWorkCompletionException uowce )
-        {
-            unitOfWork.reset();
-
-            logErrorMsg( getString( ADD_FAIL, new Model( uowce ) ) );
-            LOGGER.error( uowce.getLocalizedMessage(), uowce );
-        }
         catch( Exception err )
         {
-            unitOfWork.reset();
+            ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
             logErrorMsg( err.getMessage() );
             LOGGER.error( err.getMessage(), err );

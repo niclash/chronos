@@ -26,6 +26,7 @@ import org.qi4j.chronos.model.composites.AddressEntityComposite;
 import org.qi4j.chronos.model.composites.CityEntityComposite;
 import org.qi4j.chronos.model.composites.CountryEntityComposite;
 import org.qi4j.chronos.model.composites.StateEntityComposite;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import static org.qi4j.composite.NullArgumentException.*;
 import org.qi4j.composite.scope.Uses;
 import org.qi4j.entity.UnitOfWork;
@@ -60,7 +61,8 @@ public class AccountAddPage extends AccountAddEditPage
                 {
                     public Object load()
                     {
-                        final UnitOfWork unitOfWork = getUnitOfWork();
+                        final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
+
                         final Account account = unitOfWork.newEntityBuilder( AccountEntityComposite.class ).newInstance();
                         final Address address = unitOfWork.newEntityBuilder( AddressEntityComposite.class ).newInstance();
                         final City city = unitOfWork.newEntityBuilder( CityEntityComposite.class ).newInstance();
@@ -85,29 +87,25 @@ public class AccountAddPage extends AccountAddEditPage
 
     public void onSubmitting()
     {
-        final UnitOfWork unitOfWork = getUnitOfWork();
+        final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
+
         try
         {
             final Account account = (Account) getModelObject();
 //            getAccountService().add( account );
-            unitOfWork.complete();
+
+            ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
+            
             logInfoMsg( getString( ADD_SUCCESS ) );
 
             super.divertToGoBackPage();
         }
         catch( UnitOfWorkCompletionException uowce )
         {
-            unitOfWork.reset();
+            ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
             logErrorMsg( getString( ADD_FAIL, new Model( uowce ) ) );
             LOGGER.error( uowce.getLocalizedMessage() );
-        }
-        catch( ValidationException validationErr )
-        {
-            unitOfWork.reset();
-
-            logErrorMsg( getString( ADD_FAIL, new Model( validationErr ) ) );
-            LOGGER.error( validationErr.getMessage(), validationErr );
         }
     }
 

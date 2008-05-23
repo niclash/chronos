@@ -41,8 +41,8 @@ import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
 import org.qi4j.chronos.ui.common.model.GenericCustomCompositeModel;
 import org.qi4j.chronos.ui.common.model.NameModel;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.chronos.util.CurrencyUtil;
-import org.qi4j.entity.UnitOfWork;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
@@ -111,7 +111,7 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
         {
             public void onSubmit()
             {
-                handleNewPriceRate( getSharedUnitOfWork() );
+                handleNewPriceRate( );
             }
         };
 
@@ -191,16 +191,16 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
         updatePriceRateListView();
     }
 
-    private void handleNewPriceRate( final UnitOfWork unitOfWork )
+    private void handleNewPriceRate(  )
     {
-        addNewPriceRate( unitOfWork );
+        addNewPriceRate( );
 
         updatePriceRateListView();
     }
 
-    protected void addNewPriceRate( final UnitOfWork unitofWork )
+    protected void addNewPriceRate( )
     {
-        PriceRate priceRate = unitofWork.newEntityBuilder( PriceRateEntityComposite.class ).newInstance();
+        PriceRate priceRate = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().newEntityBuilder( PriceRateEntityComposite.class ).newInstance();
         priceRate.priceRateType().set( PriceRateTypeEnum.HOURLY );
 
         priceRate.projectRole().set( getAccount().projectRoles().iterator().next() );
@@ -328,6 +328,4 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
     public abstract Iterator<PriceRate> getInitPriceRateIterator();
 
     public abstract void onSubmitting();
-
-    public abstract UnitOfWork getSharedUnitOfWork();
 }

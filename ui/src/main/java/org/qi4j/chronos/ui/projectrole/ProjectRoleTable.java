@@ -29,6 +29,7 @@ import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.Identity;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
@@ -66,7 +67,8 @@ public abstract class ProjectRoleTable extends ActionTable<IModel, String>
 
     private void handleDeleteAction( List<IModel> projectRoles )
     {
-        final UnitOfWork unitOfWork = getUnitOfWork();
+        final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
+
         try
         {
             final Account account = unitOfWork.dereference( getAccount() );
@@ -75,11 +77,12 @@ public abstract class ProjectRoleTable extends ActionTable<IModel, String>
                 final ProjectRole projectRole = (ProjectRole) iModel.getObject();
                 account.projectRoles().remove( projectRole );
             }
-            unitOfWork.complete();
+
+            ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
         }
         catch( UnitOfWorkCompletionException uowce )
         {
-            unitOfWork.reset();
+            ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
             error( getString( DELETE_FAIL, new Model( uowce ) ) );
             LOGGER.error( uowce.getLocalizedMessage(), uowce );
@@ -109,7 +112,7 @@ public abstract class ProjectRoleTable extends ActionTable<IModel, String>
                         {
                             protected Object load()
                             {
-                                return getUnitOfWork().find( s, ProjectRoleEntityComposite.class );
+                                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, ProjectRoleEntityComposite.class );
                             }
                         }
                     );
@@ -126,7 +129,7 @@ public abstract class ProjectRoleTable extends ActionTable<IModel, String>
                                 {
                                     protected Object load()
                                     {
-                                        return getUnitOfWork().find( projectRoleId, ProjectRoleEntityComposite.class );
+                                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( projectRoleId, ProjectRoleEntityComposite.class );
                                     }
                                 }
                             )

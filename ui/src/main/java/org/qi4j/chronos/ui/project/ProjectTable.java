@@ -35,6 +35,7 @@ import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleAction;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.Identity;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
@@ -108,7 +109,8 @@ public abstract class ProjectTable extends ActionTable<IModel, String>
 
     private void handleDeleteAction( List<IModel> projects )
     {
-        final UnitOfWork unitOfWork = getUnitOfWork();
+        final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
+
         try
         {
             final HasProjects hasProjects = unitOfWork.dereference( getHasProjects() );
@@ -118,11 +120,11 @@ public abstract class ProjectTable extends ActionTable<IModel, String>
                 hasProjects.projects().remove( project );
                 unitOfWork.remove( project );
             }
-            unitOfWork.complete();
+            ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
         }
         catch( UnitOfWorkCompletionException uowce )
         {
-            unitOfWork.reset();
+            ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
             error( getString( DELETE_FAIL, new Model( uowce ) ) );
             LOGGER.error( uowce.getLocalizedMessage(), uowce );
@@ -131,7 +133,7 @@ public abstract class ProjectTable extends ActionTable<IModel, String>
 
     private void handleStatusChangeAction( List<IModel> projects, ProjectStatusEnum projectStatus )
     {
-        final UnitOfWork unitOfWork = getUnitOfWork();
+        final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
         try
         {
             for( IModel iModel : projects )
@@ -143,7 +145,7 @@ public abstract class ProjectTable extends ActionTable<IModel, String>
         }
         catch( UnitOfWorkCompletionException uowce )
         {
-            unitOfWork.reset();
+            ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
             
             error( getString( UPDATE_FAIL, new Model( uowce ) ) );
             LOGGER.error( uowce.getLocalizedMessage(), uowce );
@@ -173,7 +175,7 @@ public abstract class ProjectTable extends ActionTable<IModel, String>
                         {
                             public Object load()
                             {
-                                return getUnitOfWork().find( s, ProjectEntityComposite.class );
+                                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, ProjectEntityComposite.class );
                             }
                         }
                     );
@@ -190,7 +192,7 @@ public abstract class ProjectTable extends ActionTable<IModel, String>
                                 {
                                     public Object load()
                                     {
-                                        return getUnitOfWork().find( projectId, ProjectEntityComposite.class );
+                                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( projectId, ProjectEntityComposite.class );
                                     }
                                 }
                             )

@@ -54,8 +54,7 @@ public abstract class TopMenuNavPage extends BasePage
 
     private User getUser()
     {
-        return null == getChronosSession().getUser() ?
-               null : getUnitOfWork().dereference( getChronosSession().getUser() );
+        return getChronosSession().getUser();
     }
 
     private String getAccountName()

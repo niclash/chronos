@@ -91,7 +91,7 @@ public abstract class AddEditBasePage extends LeftMenuNavPage
 
     protected void cancelToGoBackPage()
     {
-        reset();
+//        reset();
 
         divertToGoBackPage();
     }

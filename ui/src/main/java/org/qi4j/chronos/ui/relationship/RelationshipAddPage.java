@@ -19,6 +19,7 @@ import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.Relationship;
 import org.qi4j.chronos.model.composites.RelationshipEntityComposite;
 import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.UnitOfWork;
 
 public abstract class RelationshipAddPage extends RelationshipAddEditPage
@@ -38,9 +39,8 @@ public abstract class RelationshipAddPage extends RelationshipAddEditPage
                 {
                     protected Object load()
                     {
-                        final UnitOfWork unitOfWork = RelationshipAddPage.this.getSharedUnitOfWork();
                         final Relationship relationship =
-                            unitOfWork.newEntityBuilder( RelationshipEntityComposite.class ).newInstance();
+                            ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().newEntityBuilder( RelationshipEntityComposite.class ).newInstance();
 
                         return relationship;
                     }
@@ -66,8 +66,6 @@ public abstract class RelationshipAddPage extends RelationshipAddEditPage
     {
         return "Add Relationship";
     }
-
-    public abstract UnitOfWork getSharedUnitOfWork();
 
     public abstract Customer getCustomer();
 

@@ -30,6 +30,7 @@ import org.qi4j.chronos.model.Report;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.common.NameChoiceRenderer;
 import org.qi4j.chronos.ui.common.SimpleDateField;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.chronos.util.ReportUtil;
 import org.qi4j.entity.Identity;
 import org.qi4j.entity.UnitOfWork;
@@ -83,7 +84,7 @@ public class ReportMainPage extends AbstractReportPage
             historyPanel.setHeaders( "Reports" );
             add( historyPanel );
 
-            UnitOfWork unitOfWork = getUnitOfWork();
+            UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
 
             List<String[]> entries = new ArrayList<String[]>();
 
@@ -106,13 +107,12 @@ public class ReportMainPage extends AbstractReportPage
             historyPanel.add( hidden );
             
             historyPanel.initComponents();
-
-            unitOfWork.reset();
         }
 
         protected void onSubmit()
         {
-            UnitOfWork unitOfWork = getUnitOfWork();
+            UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
+
             final Project project = unitOfWork.dereference( (Project) projectDropDownChoice.getModelObject() );
             final TimeRangeModel timeRangeModel = (TimeRangeModel) getModelObject();
             final Date startTime = timeRangeModel.getStartDate();
@@ -129,7 +129,7 @@ public class ReportMainPage extends AbstractReportPage
 
             try
             {
-                unitOfWork.complete();
+                ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
             }
             catch( UnitOfWorkCompletionException uowce )
             {

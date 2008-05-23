@@ -35,6 +35,7 @@ import org.qi4j.chronos.ui.common.model.NameModel;
 import org.qi4j.chronos.ui.contactperson.ContactPersonTab;
 import org.qi4j.chronos.ui.pricerate.PriceRateScheduleTab;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.composite.scope.Uses;
 
 public class CustomerDetailPage extends LeftMenuNavPage
@@ -50,7 +51,7 @@ public class CustomerDetailPage extends LeftMenuNavPage
                 {
                     public Object load()
                     {
-                        return getUnitOfWork().find( customerId, CustomerEntityComposite.class );
+                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( customerId, CustomerEntityComposite.class );
                     }
                 }
             )

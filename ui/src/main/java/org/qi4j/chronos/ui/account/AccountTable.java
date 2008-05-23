@@ -33,6 +33,7 @@ import org.qi4j.chronos.ui.common.action.SimpleAction;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.ui.util.ProjectUtil;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.Identity;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
@@ -107,18 +108,18 @@ public class AccountTable extends ActionTable<IModel, String>
 
     private void handleDeleteAction( List<IModel> iModels )
     {
-        final UnitOfWork unitOfWork = getUnitOfWork();
+        final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
         try
         {
             for( IModel iModel : iModels )
             {
 //                getAccountService().remove( (Account) iModel.getObject() );
             }
-            unitOfWork.complete();
+            ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
         }
         catch( UnitOfWorkCompletionException uowce )
         {
-            unitOfWork.reset();
+            ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
             LOGGER.error( uowce.getLocalizedMessage(), uowce );
             error( getString( DELETE_FAIL ) );
@@ -127,7 +128,7 @@ public class AccountTable extends ActionTable<IModel, String>
 
     private void handleEnableAction( List<IModel> iModels, boolean enable )
     {
-        final UnitOfWork unitOfWork = getUnitOfWork();
+        final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
         try
         {
             List<Account> accounts = new ArrayList<Account>();
@@ -136,11 +137,11 @@ public class AccountTable extends ActionTable<IModel, String>
                 accounts.add( (Account) iModel.getObject() );
             }
 //            getAccountService().enableAccounts( accounts, enable );
-            unitOfWork.complete();
+            ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
         }
         catch( UnitOfWorkCompletionException uowce )
         {
-            unitOfWork.reset();
+            ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
             
             LOGGER.error( uowce.getLocalizedMessage(), uowce );
             error( getString( enable ? ENABLE_FAIL : DISABLE_FAIL ) );
@@ -172,7 +173,7 @@ public class AccountTable extends ActionTable<IModel, String>
                         {
                             public Object load()
                             {
-                                return getUnitOfWork().find( s, AccountEntityComposite.class );
+                                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, AccountEntityComposite.class );
                             }
                         }
                     );
@@ -189,7 +190,7 @@ public class AccountTable extends ActionTable<IModel, String>
                                 {
                                     public Object load()
                                     {
-                                        return getUnitOfWork().find( accountId, AccountEntityComposite.class );
+                                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( accountId, AccountEntityComposite.class );
                                     }
                                 }
                             )

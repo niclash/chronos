@@ -65,11 +65,6 @@ public abstract class RelationshipOptionPanel extends Panel
                     {
                         RelationshipOptionPanel.this.addNewRelationship( relationship );
                     }
-
-                    public UnitOfWork getSharedUnitOfWork()
-                    {
-                        return RelationshipOptionPanel.this.getSharedUnitOfWork();
-                    }
                 };
 
                 setResponsePage( addPage );
@@ -156,8 +151,6 @@ public abstract class RelationshipOptionPanel extends Panel
             return identity.identity().get();
         }
     }
-
-    public abstract UnitOfWork getSharedUnitOfWork();
 
     public abstract Customer getCustomer();
 }

@@ -40,6 +40,7 @@ import org.qi4j.chronos.ui.comment.CommentTab;
 import org.qi4j.chronos.ui.common.SimpleTextField;
 import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.chronos.ui.workentry.WorkEntryTab;
 import org.qi4j.chronos.util.DateUtil;
 import org.qi4j.composite.scope.Uses;
@@ -59,7 +60,7 @@ public class TaskDetailPage extends LeftMenuNavPage
                 {
                     protected Object load()
                     {
-                        return getUnitOfWork().find( taskId, TaskEntityComposite.class );
+                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( taskId, TaskEntityComposite.class );
                     }
                 }
             )
@@ -219,6 +220,6 @@ public class TaskDetailPage extends LeftMenuNavPage
 
     public Task getTask()
     {
-        return getUnitOfWork().dereference( (Task) getModelObject() );
+        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( (Task) getModelObject() );
     }
 }

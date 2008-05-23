@@ -22,9 +22,9 @@ import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.associations.HasComments;
 import org.qi4j.chronos.model.composites.CommentEntityComposite;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
-import org.qi4j.library.framework.validation.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -51,7 +51,8 @@ public abstract class CommentAddPage extends CommentAddEditPage
                 {
                     public Object load()
                     {
-                        final UnitOfWork unitOfWork = getUnitOfWork();
+                        final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
+                        
                         final Comment comment =
                             unitOfWork.newEntityBuilder( CommentEntityComposite.class ).newInstance();
                         final User user = unitOfWork.dereference( getCommentOwner() );
@@ -68,30 +69,25 @@ public abstract class CommentAddPage extends CommentAddEditPage
 
     public void onSubmitting()
     {
-        final UnitOfWork unitOfWork = getUnitOfWork();
+        final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
         try
         {
             final Comment comment = (Comment) getModelObject();
             final HasComments hasComments = unitOfWork.dereference( getHasComments() );
             hasComments.comments().add( comment );
-            unitOfWork.complete();
+
+            ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
+
             logInfoMsg( getString( ADD_SUCCESS ) );
 
             divertToGoBackPage();
         }
         catch( UnitOfWorkCompletionException uowce )
         {
-            unitOfWork.reset();
+            ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
             logErrorMsg( getString( ADD_FAIL, new Model( uowce ) ) );
             LOGGER.error( uowce.getLocalizedMessage(), uowce );
-        }
-        catch( ValidationException err)
-        {
-            unitOfWork.reset();
-            
-            logErrorMsg( getString( ADD_FAIL, new Model( err ) ) );
-            LOGGER.error( err.getLocalizedMessage(), err );
         }
     }
 

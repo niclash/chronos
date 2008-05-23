@@ -26,6 +26,7 @@ import org.qi4j.chronos.ui.address.AddressDetailPanel;
 import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
 import org.qi4j.chronos.ui.common.model.NameModel;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.composite.scope.Uses;
 
 public class AccountDetailPage extends LeftMenuNavPage
@@ -42,7 +43,7 @@ public class AccountDetailPage extends LeftMenuNavPage
                 {
                     public Object load()
                     {
-                        return getUnitOfWork().find( accountId, AccountEntityComposite.class );
+                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( accountId, AccountEntityComposite.class );
                     }
                 }
             )

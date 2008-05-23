@@ -32,6 +32,7 @@ import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.Identity;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
@@ -69,7 +70,7 @@ public abstract class ContactTable extends ActionTable<IModel, String>
 
     private void handleDeleteAction( final List<IModel> contacts )
     {
-        final UnitOfWork unitOfWork = getUnitOfWork();
+        final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
         try
         {
             final ContactPerson contactPerson = unitOfWork.dereference( getContactPerson() );
@@ -79,11 +80,12 @@ public abstract class ContactTable extends ActionTable<IModel, String>
                 contactPerson.contacts().remove( contact );
                 unitOfWork.remove( contact );
             }
-            unitOfWork.complete();
+
+            ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
         }
         catch( UnitOfWorkCompletionException uowce )
         {
-            unitOfWork.reset();
+            ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
             error( getString( DELETE_FAIL, new Model( uowce ) ) );
             LOGGER.error( uowce.getLocalizedMessage(), uowce );
@@ -111,7 +113,7 @@ public abstract class ContactTable extends ActionTable<IModel, String>
                     {
                         protected Object load()
                         {
-                            return getUnitOfWork().find( s, ContactEntityComposite.class );
+                            return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, ContactEntityComposite.class );
                         }
                     }
                 );
@@ -128,7 +130,7 @@ public abstract class ContactTable extends ActionTable<IModel, String>
                             {
                                 protected Object load()
                                 {
-                                    return getUnitOfWork().find( contactId, ContactEntityComposite.class );
+                                    return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( contactId, ContactEntityComposite.class );
                                 }
                             }
                         )
@@ -143,11 +145,11 @@ public abstract class ContactTable extends ActionTable<IModel, String>
     {
         MetaDataRoleAuthorizationStrategy.authorize( component, RENDER, SystemRole.ACCOUNT_ADMIN );
     }
-    
+
     public void populateItems( Item item, IModel iModel )
     {
         final Contact contact = (Contact) iModel.getObject();
-        final String contactId = ( (Identity) contact).identity().get();
+        final String contactId = ( (Identity) contact ).identity().get();
 
         item.add( new Label( "contact", contact.contactValue().get() ) );
         item.add( new Label( "contactType", contact.contactType().get() ) );

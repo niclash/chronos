@@ -14,7 +14,6 @@
 package org.qi4j.chronos.ui.wicket.bootstrap;
 
 import org.apache.wicket.Request;
-import org.apache.wicket.RequestCycle;
 import org.apache.wicket.Response;
 import org.apache.wicket.Session;
 import org.apache.wicket.authentication.AuthenticatedWebApplication;

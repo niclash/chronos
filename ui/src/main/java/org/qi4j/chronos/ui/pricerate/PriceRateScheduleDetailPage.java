@@ -25,6 +25,7 @@ import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.composites.PriceRateScheduleEntityComposite;
 import org.qi4j.chronos.ui.common.model.NameModel;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 
 public class PriceRateScheduleDetailPage extends LeftMenuNavPage
 {
@@ -40,7 +41,7 @@ public class PriceRateScheduleDetailPage extends LeftMenuNavPage
                 {
                     public Object load()
                     {
-                        return getUnitOfWork().find( priceRateScheduleId, PriceRateScheduleEntityComposite.class );
+                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( priceRateScheduleId, PriceRateScheduleEntityComposite.class );
                     }
                 }
             )

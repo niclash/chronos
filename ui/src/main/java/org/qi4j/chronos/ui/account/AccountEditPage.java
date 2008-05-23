@@ -17,6 +17,7 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.composite.scope.Uses;
 import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
@@ -40,7 +41,7 @@ public class AccountEditPage extends AccountAddEditPage
                 {
                     public Object load()
                     {
-                        return getUnitOfWork().find( accountId, AccountEntityComposite.class );
+                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( accountId, AccountEntityComposite.class );
                     }
                 }
             )
@@ -52,21 +53,15 @@ public class AccountEditPage extends AccountAddEditPage
     {
         try
         {
-            getUnitOfWork().complete();
+            ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
+
             logInfoMsg( getString( UPDATE_SUCCESS ) );
 
             super.divertToGoBackPage();
         }
-        catch( UnitOfWorkCompletionException uowce )
-        {
-            reset();
-
-            error( getString( UPDATE_FAIL, new Model( uowce ) ) );
-            LOGGER.error( uowce.getLocalizedMessage(), uowce );
-        }
         catch( Exception err )
         {
-            reset();
+            ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
             error( getString( UPDATE_FAIL, new Model( err ) ) );
             LOGGER.error( err.getMessage(), err );

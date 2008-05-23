@@ -29,6 +29,7 @@ import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.chronos.util.DateUtil;
 import org.qi4j.entity.Identity;
 import org.qi4j.entity.UnitOfWork;
@@ -67,7 +68,7 @@ public abstract class CommentTable extends ActionTable<IModel, String>
 
     private void handleDeleteAction( List<IModel> comments )
     {
-        final UnitOfWork unitOfWork = getUnitOfWork();
+        final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
         try
         {
             final HasComments hasComments = unitOfWork.dereference( getHasComments() );
@@ -77,11 +78,12 @@ public abstract class CommentTable extends ActionTable<IModel, String>
                 hasComments.comments().remove( comment );
                 unitOfWork.remove( comment );
             }
-            unitOfWork.complete();
+
+            ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
         }
         catch( UnitOfWorkCompletionException uowce )
         {
-            unitOfWork.reset();
+            ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
             error( getString( DELETE_FAIL, new Model( uowce ) ) );
             LOGGER.error( uowce.getLocalizedMessage(), uowce );
@@ -96,7 +98,7 @@ public abstract class CommentTable extends ActionTable<IModel, String>
             {
                 public int getSize()
                 {
-                    HasComments hasComments = getUnitOfWork().dereference( CommentTable.this.getHasComments() );
+                    HasComments hasComments = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( CommentTable.this.getHasComments() );
                     return hasComments.comments().size();
                 }
 
@@ -112,7 +114,7 @@ public abstract class CommentTable extends ActionTable<IModel, String>
                         {
                             protected Object load()
                             {
-                                return getUnitOfWork().find( s, CommentEntityComposite.class );
+                                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, CommentEntityComposite.class );
                             }
                         }
                     );
@@ -129,7 +131,7 @@ public abstract class CommentTable extends ActionTable<IModel, String>
                                 {
                                     protected Object load()
                                     {
-                                        return getUnitOfWork().find( commentId, CommentEntityComposite.class );
+                                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( commentId, CommentEntityComposite.class );
                                     }
                                 }
                             )

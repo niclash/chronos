@@ -31,6 +31,7 @@ import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleAction;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.Identity;
 
 public abstract class StaffTable extends ActionTable<IModel, String>
@@ -100,7 +101,7 @@ public abstract class StaffTable extends ActionTable<IModel, String>
                         {
                             protected Object load()
                             {
-                                return getUnitOfWork().find( s, StaffEntityComposite.class );
+                                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, StaffEntityComposite.class );
                             }
                         }
                     );
@@ -117,7 +118,7 @@ public abstract class StaffTable extends ActionTable<IModel, String>
                                 {
                                     protected Object load()
                                     {
-                                        return getUnitOfWork().find( staffId, StaffEntityComposite.class );
+                                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( staffId, StaffEntityComposite.class );
                                     }
                                 }
                             )

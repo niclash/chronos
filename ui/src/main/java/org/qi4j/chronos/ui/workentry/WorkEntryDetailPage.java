@@ -33,6 +33,7 @@ import org.qi4j.chronos.ui.common.SimpleTextArea;
 import org.qi4j.chronos.ui.common.SimpleTextField;
 import org.qi4j.chronos.ui.report.AbstractReportPage;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.chronos.util.DateUtil;
 import org.qi4j.entity.Identity;
 
@@ -50,7 +51,7 @@ public class WorkEntryDetailPage extends LeftMenuNavPage
                 {
                     public Object load()
                     {
-                        return getUnitOfWork().find( workEntryId, WorkEntryEntityComposite.class );
+                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( workEntryId, WorkEntryEntityComposite.class );
                     }
                 }
             )
@@ -135,6 +136,6 @@ public class WorkEntryDetailPage extends LeftMenuNavPage
 
     protected HasComments getHasComments()
     {
-        return getUnitOfWork().dereference( (WorkEntry) getModelObject() );
+        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( (WorkEntry) getModelObject() );
     }
 }

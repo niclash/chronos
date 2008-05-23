@@ -17,7 +17,7 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
-import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +39,7 @@ public class WorkEntryEditPage extends WorkEntryAddEditPage
                 {
                     public Object load()
                     {
-                        return getUnitOfWork().find( workEntryId, WorkEntryEntityComposite.class );
+                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( workEntryId, WorkEntryEntityComposite.class );
                     }
                 }
             )
@@ -51,22 +51,15 @@ public class WorkEntryEditPage extends WorkEntryAddEditPage
     {
         try
         {
-            getUnitOfWork().complete();
+            ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
 
             logInfoMsg( getString( UPDATE_SUCCESS ) );
 
             divertToGoBackPage();
         }
-        catch( UnitOfWorkCompletionException uowce )
-        {
-            reset();
-
-            logErrorMsg( getString( UPDATE_FAIL, new Model( uowce ) ) );
-            LOGGER.error( uowce.getLocalizedMessage(), uowce );
-        }
         catch( Exception err )
         {
-            reset();
+            ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
             logErrorMsg( getString( UPDATE_FAIL, new Model( err ) ) );
             LOGGER.error( err.getLocalizedMessage(), err );

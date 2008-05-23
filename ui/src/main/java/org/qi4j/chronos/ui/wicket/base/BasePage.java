@@ -15,11 +15,10 @@ package org.qi4j.chronos.ui.wicket.base;
 import org.apache.wicket.markup.html.WebPage;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkFactory;
 
 public abstract class BasePage extends WebPage
 {
+    private static final long serialVersionUID = 1L;
 
     public BasePage()
     {
@@ -30,42 +29,9 @@ public abstract class BasePage extends WebPage
         return ChronosSession.get();
     }
 
-    /**
-     * Query the unit of work factory for existing or new unit of work.
-     * TODO kamil: consider retrieving the factory from ChronosWebApp instead of session.
-     *
-     * @return
-     */
-    protected UnitOfWork getUnitOfWork()
-    {
-        UnitOfWorkFactory factory = ChronosSession.get().getUnitOfWorkFactory();
-
-        if( null == factory.currentUnitOfWork() || !factory.currentUnitOfWork().isOpen() )
-        {
-            return factory.newUnitOfWork();
-        }
-        else
-        {
-            return factory.currentUnitOfWork();
-        }
-    }
-
-    /**
-     * Reset opened unit of work.
-     */
-    protected void reset()
-    {
-        UnitOfWork unitOfWork = getUnitOfWork();
-
-        if( unitOfWork.isOpen() )
-        {
-            unitOfWork.reset();
-        }
-    }
-
     protected Account getAccount()
     {
-        return null == getChronosSession().getAccount() ?
-               null : getUnitOfWork().dereference( getChronosSession().getAccount() );
+        return getChronosSession().getAccount();
     }
+
 }

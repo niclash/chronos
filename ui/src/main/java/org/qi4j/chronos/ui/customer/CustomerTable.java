@@ -28,6 +28,7 @@ import org.qi4j.chronos.ui.common.SimpleCheckBox;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleAction;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.Identity;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
@@ -84,7 +85,6 @@ public abstract class CustomerTable extends ActionTable<IModel, String>
 
     private void handleEnableAction( List<IModel> customers, boolean enable )
     {
-        UnitOfWork unitOfWork = getUnitOfWork();
         for( IModel iModel : customers )
         {
             Customer customer = (Customer) iModel.getObject();
@@ -93,10 +93,12 @@ public abstract class CustomerTable extends ActionTable<IModel, String>
 
         try
         {
-            unitOfWork.complete();
+            ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
         }
         catch( UnitOfWorkCompletionException uowce )
         {
+            ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
+
             LOGGER.error( uowce.getLocalizedMessage(), uowce );
             error( getString( enable ? ENABLE_FAIL : DISABLE_FAIL ) );
         }
@@ -125,7 +127,7 @@ public abstract class CustomerTable extends ActionTable<IModel, String>
                         {
                             public Object load()
                             {
-                                return getUnitOfWork().find( s, CustomerEntityComposite.class );
+                                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, CustomerEntityComposite.class );
                             }
                         }
                     );
@@ -142,7 +144,7 @@ public abstract class CustomerTable extends ActionTable<IModel, String>
                                 {
                                     public Object load()
                                     {
-                                        return getUnitOfWork().find( customerId, CustomerEntityComposite.class );
+                                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( customerId, CustomerEntityComposite.class );
                                     }
                                 }
                             )

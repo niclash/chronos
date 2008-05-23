@@ -18,8 +18,7 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -37,7 +36,7 @@ public abstract class TaskEditPage extends TaskAddEditPage
                 {
                     protected Object load()
                     {
-                        return getUnitOfWork().find( taskId, TaskEntityComposite.class );
+                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( taskId, TaskEntityComposite.class );
                     }
                 }
             )
@@ -47,25 +46,17 @@ public abstract class TaskEditPage extends TaskAddEditPage
 
     public void onSubmitting()
     {
-        final UnitOfWork unitOfWork = getUnitOfWork();
         try
         {
             final Task task = (Task) getModelObject();
-            unitOfWork.complete();
+            ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
             logInfoMsg( "Task is updated successfully." );
 
             divertToGoBackPage();
         }
-        catch( UnitOfWorkCompletionException uowce )
-        {
-            unitOfWork.reset();
-
-            logErrorMsg( "Unable to update task!!!" + uowce.getClass().getSimpleName() );
-            LOGGER.error( uowce.getLocalizedMessage(), uowce );
-        }
         catch( Exception err )
         {
-            unitOfWork.reset();
+            ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
             logErrorMsg( err.getMessage() );
             LOGGER.error( err.getMessage() );

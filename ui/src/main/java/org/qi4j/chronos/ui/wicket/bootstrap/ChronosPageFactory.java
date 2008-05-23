@@ -57,11 +57,11 @@ final class ChronosPageFactory
     public final Page newPage( Class<? extends Page> pageClass, PageParameters parameters )
     {
         ObjectBuilder<? extends Page> builder = objectBuilderFactory.newObjectBuilder( pageClass );
-        if( parameters == null )
+
+        if( parameters != null )
         {
-            parameters = NULL;
+            builder.use( parameters );
         }
-        builder.use( parameters );
 
         try
         {

@@ -25,6 +25,7 @@ import org.qi4j.chronos.model.composites.CommentEntityComposite;
 import org.qi4j.chronos.ui.common.SimpleTextArea;
 import org.qi4j.chronos.ui.common.SimpleTextField;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.chronos.util.DateUtil;
 import org.qi4j.composite.scope.Uses;
 
@@ -42,7 +43,7 @@ public class CommentDetailPage extends LeftMenuNavPage
                 {
                     public Object load()
                     {
-                        return getUnitOfWork().find( commentId, CommentEntityComposite.class );
+                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( commentId, CommentEntityComposite.class );
                     }
                 }
             )

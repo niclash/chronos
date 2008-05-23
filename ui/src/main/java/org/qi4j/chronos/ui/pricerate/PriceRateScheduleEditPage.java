@@ -17,9 +17,10 @@ import org.apache.wicket.Page;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
-import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.PriceRate;
+import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.composites.PriceRateScheduleEntityComposite;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
@@ -32,26 +33,23 @@ public class PriceRateScheduleEditPage extends PriceRateScheduleAddEditPage
     private static final String SUBMIT_BUTTON = "editPageSubmitButton";
     private static final String UPDATE_SUCCESS = "updateSuccessful";
     private static final String UPDATE_FAIL = "updateFailed";
-    private transient UnitOfWork sharedUnitOfWork;
 
     public PriceRateScheduleEditPage( Page basePage, final String priceRateScheduleId )
     {
         super( basePage );
 
-        final UnitOfWork unitOfWork = getUnitOfWork();
         setModel(
             new CompoundPropertyModel(
                 new LoadableDetachableModel()
                 {
                     public Object load()
                     {
-                        return unitOfWork.find( priceRateScheduleId, PriceRateScheduleEntityComposite.class );
+                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( priceRateScheduleId, PriceRateScheduleEntityComposite.class );
                     }
                 }
             )
         );
 
-        setSharedUnitOfWork( unitOfWork );
         hideSelectPriceRateScheduleLink();
         bindPropertyModel( getModel() );
     }
@@ -68,7 +66,7 @@ public class PriceRateScheduleEditPage extends PriceRateScheduleAddEditPage
 
     public void onSubmitting()
     {
-        final UnitOfWork unitOfWork = getSharedUnitOfWork();
+        final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
         try
         {
             final PriceRateSchedule priceRateSchedule = (PriceRateSchedule) getModelObject();
@@ -79,37 +77,21 @@ public class PriceRateScheduleEditPage extends PriceRateScheduleAddEditPage
                 priceRate.currency().set( priceRateSchedule.currency().get() );
                 priceRateSchedule.priceRates().add( priceRate );
             }
-            unitOfWork.complete();
+
+            ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
 
             logInfoMsg( getString( UPDATE_SUCCESS ) );
             divertToGoBackPage();
         }
-        catch( UnitOfWorkCompletionException uowce )
+        catch( Exception err )
         {
-            unitOfWork.reset();
+            ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
-            logErrorMsg( getString( UPDATE_FAIL, new Model( uowce ) ) );
-            LOGGER.error( uowce.getLocalizedMessage(), uowce );
-        }
-        catch( Exception err)
-        {
-            unitOfWork.reset();
-            
             logErrorMsg( getString( UPDATE_FAIL, new Model( err ) ) );
             LOGGER.error( err.getLocalizedMessage(), err );
         }
     }
 
-    public void setSharedUnitOfWork( final UnitOfWork unitOfWork )
-    {
-        this.sharedUnitOfWork = unitOfWork;
-    }
-
-    public UnitOfWork getSharedUnitOfWork()
-    {
-        return this.sharedUnitOfWork;
-    }
-    
     public Iterator<PriceRate> getInitPriceRateIterator()
     {
         return getPriceRateSchedule().priceRates().iterator();
@@ -117,6 +99,6 @@ public class PriceRateScheduleEditPage extends PriceRateScheduleAddEditPage
 
     public PriceRateSchedule getPriceRateSchedule()
     {
-        return getUnitOfWork().dereference( (PriceRateSchedule) getModelObject() );
+        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( (PriceRateSchedule) getModelObject() );
     }
 }

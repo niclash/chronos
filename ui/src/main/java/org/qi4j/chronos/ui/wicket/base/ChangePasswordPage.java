@@ -22,8 +22,7 @@ import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.model.associations.HasLogin;
 import org.qi4j.chronos.ui.common.MaxLengthPasswordField;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -106,7 +105,6 @@ public abstract class ChangePasswordPage extends LeftMenuNavPage
 
         private void handleChangePassword()
         {
-            UnitOfWork unitOfWork = getUnitOfWork();
 
             boolean isRejected = false;
 
@@ -138,7 +136,7 @@ public abstract class ChangePasswordPage extends LeftMenuNavPage
                 }
             }
 
-            Login userLogin = unitOfWork.dereference( getHasLogin().login().get() );
+            Login userLogin = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( getHasLogin().login().get() );
             if( oldPassword != null && !userLogin.password().get().equals( oldPassword ) )
             {
                 error( getString( INVALID_PASSWORD ) );
@@ -154,21 +152,15 @@ public abstract class ChangePasswordPage extends LeftMenuNavPage
 
             try
             {
-                unitOfWork.complete();
+                ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
 
                 goBackPage.info( getString( UPDATE_SUCCESS ) );
 
                 setResponsePage( goBackPage );
             }
-            catch( UnitOfWorkCompletionException uowce )
-            {
-                error( getString( UPDATE_FAIL, new Model( uowce ) ) );
-                LOGGER.error( uowce.getLocalizedMessage(), uowce );
-
-                reset();
-            }
             catch( Exception err )
             {
+                ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
                 error( getString( UPDATE_FAIL, new Model( err ) ) );
                 LOGGER.error( err.getLocalizedMessage(), err );
             }

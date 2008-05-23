@@ -29,9 +29,9 @@ import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.chronos.util.DateUtil;
 import org.qi4j.entity.Identity;
-import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -54,7 +54,7 @@ public abstract class WorkEntryTable extends ActionTable<IModel, String>
     private void initActions()
     {
         addAction(
-            new SimpleDeleteAction<IModel>( getString( DELETE_ACTION) )
+            new SimpleDeleteAction<IModel>( getString( DELETE_ACTION ) )
             {
                 public void performAction( List<IModel> workEntries )
                 {
@@ -67,21 +67,20 @@ public abstract class WorkEntryTable extends ActionTable<IModel, String>
 
     private void handleDeleteAction( List<IModel> workEntries )
     {
-        final UnitOfWork unitOfWork = getUnitOfWork();
         try
         {
-            HasWorkEntries hasWorkEntries = unitOfWork.dereference( WorkEntryTable.this.getHasWorkEntries() );
+            HasWorkEntries hasWorkEntries = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( WorkEntryTable.this.getHasWorkEntries() );
             for( IModel iModel : workEntries )
             {
                 final WorkEntry workEntry = (WorkEntry) iModel.getObject();
                 hasWorkEntries.workEntries().remove( workEntry );
-                unitOfWork.remove( workEntry );
+                ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().remove( workEntry );
             }
-            unitOfWork.complete();
+            ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
         }
         catch( UnitOfWorkCompletionException uowce )
         {
-            unitOfWork.reset();
+            ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
             error( getString( DELETE_FAIL, new Model( uowce ) ) );
             LOGGER.error( uowce.getLocalizedMessage(), uowce );
@@ -97,7 +96,7 @@ public abstract class WorkEntryTable extends ActionTable<IModel, String>
                 public int getSize()
                 {
                     final HasWorkEntries hasWorkEntries =
-                        getUnitOfWork().dereference( WorkEntryTable.this.getHasWorkEntries() );
+                        ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( WorkEntryTable.this.getHasWorkEntries() );
                     return hasWorkEntries.workEntries().size();
                 }
 
@@ -113,7 +112,7 @@ public abstract class WorkEntryTable extends ActionTable<IModel, String>
                         {
                             protected Object load()
                             {
-                                return getUnitOfWork().find( workEntryId, WorkEntryEntityComposite.class );
+                                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( workEntryId, WorkEntryEntityComposite.class );
                             }
                         }
                     );
@@ -130,7 +129,7 @@ public abstract class WorkEntryTable extends ActionTable<IModel, String>
                                 {
                                     protected Object load()
                                     {
-                                        return getUnitOfWork().find( workEntryId, WorkEntryEntityComposite.class );
+                                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( workEntryId, WorkEntryEntityComposite.class );
                                     }
                                 }
                             )

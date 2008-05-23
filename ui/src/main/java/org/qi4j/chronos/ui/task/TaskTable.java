@@ -30,9 +30,9 @@ import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.chronos.util.DateUtil;
 import org.qi4j.entity.Identity;
-import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -68,7 +68,6 @@ public abstract class TaskTable extends ActionTable<IModel, String>
 
     private void handleDeleteAction( List<IModel> tasks )
     {
-        final UnitOfWork unitOfWork = getUnitOfWork();
         Account account = ChronosSession.get().getAccount();
 
         for( Project project : account.projects() )
@@ -81,16 +80,16 @@ public abstract class TaskTable extends ActionTable<IModel, String>
 
         for( IModel iModel : tasks )
         {
-            unitOfWork.remove( iModel.getObject() );
+            ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().remove( iModel.getObject() );
         }
 
         try
         {
-            unitOfWork.complete();
+            ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
         }
         catch( UnitOfWorkCompletionException uowce )
         {
-            unitOfWork.reset();
+            ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
             error( getString( DELETE_FAIL ) );
             LOGGER.error( uowce.getLocalizedMessage(), uowce );
@@ -120,7 +119,7 @@ public abstract class TaskTable extends ActionTable<IModel, String>
                         {
                             protected Object load()
                             {
-                                return getUnitOfWork().find( s, TaskEntityComposite.class );
+                                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, TaskEntityComposite.class );
                             }
                         }
                     );
@@ -137,7 +136,7 @@ public abstract class TaskTable extends ActionTable<IModel, String>
                                 {
                                     protected Object load()
                                     {
-                                        return getUnitOfWork().find( taskId, TaskEntityComposite.class );
+                                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( taskId, TaskEntityComposite.class );
                                     }
                                 }
                             )
@@ -154,7 +153,7 @@ public abstract class TaskTable extends ActionTable<IModel, String>
     public void populateItems( final Item item, final IModel iModel )
     {
         final Task task = (Task) iModel.getObject();
-        final String id = ( (Identity) task).identity().get();
+        final String id = ( (Identity) task ).identity().get();
 
         item.add(
             new SimpleLink( "title", task.title().get() )

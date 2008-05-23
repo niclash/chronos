@@ -17,7 +17,7 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
-import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -39,7 +39,7 @@ public class ProjectRoleEditPage extends ProjectRoleAddEditPage
                 {
                     protected Object load()
                     {
-                        return getUnitOfWork().find( projectRoleId, ProjectRoleEntityComposite.class );
+                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( projectRoleId, ProjectRoleEntityComposite.class );
                     }
                 }
             )
@@ -62,21 +62,17 @@ public class ProjectRoleEditPage extends ProjectRoleAddEditPage
     {
         try
         {
-            getUnitOfWork().complete();
+            ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
             logInfoMsg( getString( UPDATE_SUCCESSS ) );
 
             divertToGoBackPage();
         }
-        catch( UnitOfWorkCompletionException uowce )
-        {
-            reset();
-
-            logErrorMsg( getString( UPDATE_FAIL, new Model( uowce ) ) );
-            LOGGER.error( uowce.getLocalizedMessage(), uowce );
-        }
         catch( Exception err )
         {
-            LOGGER.error( err.getMessage(), err );
+            ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
+
+            logErrorMsg( getString( UPDATE_FAIL, new Model( err ) ) );
+            LOGGER.error( err.getLocalizedMessage(), err );
         }
     }
 }
