@@ -36,7 +36,6 @@ public class CustomerEditPage extends CustomerAddEditPage
         super( basePage );
 
         setModel(
-            new CompoundPropertyModel(
                 new LoadableDetachableModel()
                 {
                     public Object load()
@@ -44,7 +43,6 @@ public class CustomerEditPage extends CustomerAddEditPage
                         return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( customerId, CustomerEntityComposite.class );
                     }
                 }
-            )
         );
         bindPropertyModel( getModel() );
     }

@@ -12,134 +12,93 @@
  */
 package org.qi4j.chronos.ui.customer;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.wicket.Page;
-import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
-import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
-import org.apache.wicket.markup.html.form.Button;
-import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
-import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.PriceRateSchedule;
-import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.ui.address.AddressDetailPanel;
-import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
-import org.qi4j.chronos.ui.common.model.NameModel;
-import org.qi4j.chronos.ui.contactperson.ContactPersonTab;
-import org.qi4j.chronos.ui.pricerate.PriceRateScheduleTab;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
-import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import org.qi4j.composite.scope.Uses;
+import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 
 public class CustomerDetailPage extends LeftMenuNavPage
 {
-    private Page returnPage;
+    private static final long serialVersionUID = 1L;
 
-    public CustomerDetailPage( @Uses Page returnPage, final @Uses String customerId )
-    {
-        this.returnPage = returnPage;
-        setModel(
-            new CompoundPropertyModel(
-                new LoadableDetachableModel()
-                {
-                    public Object load()
-                    {
-                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( customerId, CustomerEntityComposite.class );
-                    }
-                }
-            )
-        );
-
-        initComponents();
-    }
-
-    private void initComponents()
+    public CustomerDetailPage( final Page returnPage, final IModel<Customer> customerModel )
     {
         add( new FeedbackPanel( "feedbackPanel" ) );
-        add( new CustomerDetailForm( "customerDetailForm" ) );
-    }
 
-    private class CustomerDetailForm extends Form
-    {
-        private Button submitButton;
-        private TextField nameField;
-        private TextField referenceField;
-        private AddressDetailPanel addressDetailPanel;
-        private TabbedPanel ajaxTabbedPanel;
+        ChronosCompoundPropertyModel model = new ChronosCompoundPropertyModel( customerModel );
 
-        public CustomerDetailForm( String id )
+        setModel( model );
+
+        TextField nameField = new TextField( "nameField", model.bind( "name" ) );
+        TextField referenceField = new TextField( "referenceField", model.bind( "reference" ) );
+
+        AddressDetailPanel addressDetailPanel = new AddressDetailPanel( "addressDetailPanel", model.bind( "address" ) );
+
+//            List<AbstractTab> tabs = new ArrayList<AbstractTab>();
+//
+//            tabs.add(
+//                new ContactPersonTab()
+//                {
+//                    public Customer getCustomer()
+//                    {
+//                        return (Customer) CustomerDetailPage.this.getModelObject();
+//                    }
+//                }
+//            );
+//
+//            tabs.add(
+//                new PriceRateScheduleTab<Customer>( "Standard Price Rate Schedules" )
+//                {
+//                    public Account getAccount()
+//                    {
+//                        return CustomerDetailPage.this.getAccount();
+//                    }
+//
+//                    public void addPriceRateSchedule( PriceRateSchedule priceRateSchedule )
+//                    {
+//                        handleAddPriceRateSchedule( priceRateSchedule );
+//                    }
+//
+//                    public Customer getHasPriceRateSchedules()
+//                    {
+//                        return (Customer) CustomerDetailPage.this.getModelObject();
+//                    }
+//                }
+//            );
+//
+//            ajaxTabbedPanel = new TabbedPanel( "ajaxTabbedPanel", tabs );
+
+        Link goBackLink = new Link( "goBackLink" )
         {
-            super( id );
+            private static final long serialVersionUID = 1L;
 
-            final IModel iModel = CustomerDetailPage.this.getModel();
-            nameField = new TextField( "nameField", new NameModel( iModel ) );
-            referenceField = new TextField( "referenceField", new CustomCompositeModel( iModel, "reference" ) );
-            addressDetailPanel =
-                new AddressDetailPanel( "addressDetailPanel", new CustomCompositeModel( iModel, "address" ) );
-
-            List<AbstractTab> tabs = new ArrayList<AbstractTab>();
-
-            tabs.add(
-                new ContactPersonTab()
-                {
-                    public Customer getCustomer()
-                    {
-                        return (Customer) CustomerDetailPage.this.getModelObject();
-                    }
-                }
-            );
-
-            tabs.add(
-                new PriceRateScheduleTab<Customer>( "Standard Price Rate Schedules" )
-                {
-                    public Account getAccount()
-                    {
-                        return CustomerDetailPage.this.getAccount();
-                    }
-
-                    public void addPriceRateSchedule( PriceRateSchedule priceRateSchedule )
-                    {
-                        handleAddPriceRateSchedule( priceRateSchedule );
-                    }
-
-                    public Customer getHasPriceRateSchedules()
-                    {
-                        return (Customer) CustomerDetailPage.this.getModelObject();
-                    }
-                }
-            );
-
-            ajaxTabbedPanel = new TabbedPanel( "ajaxTabbedPanel", tabs );
-
-            submitButton = new Button( "submitButton", new Model( "Return" ) )
+            public void onClick()
             {
-                public void onSubmit()
-                {
-                    setResponsePage( returnPage );
-                }
-            };
+                setResponsePage( returnPage );
+            }
+        };
 
-            add( nameField );
-            add( referenceField );
-            add( addressDetailPanel );
-            add( ajaxTabbedPanel );
-            add( submitButton );
-        }
-
-        private void handleAddPriceRateSchedule( PriceRateSchedule priceRateSchedule )
-        {
-            // TODO kamil: complete this
-            Customer customer = getCustomer();
-            customer.priceRateSchedules().add( priceRateSchedule );
-        }
+        add( nameField );
+        add( referenceField );
+        add( addressDetailPanel );
+//            add( ajaxTabbedPanel );
+        add( goBackLink );
     }
+
+
+    private void handleAddPriceRateSchedule( PriceRateSchedule priceRateSchedule )
+    {
+        // TODO kamil: complete this
+        Customer customer = getCustomer();
+        customer.priceRateSchedules().add( priceRateSchedule );
+    }
+
 
     protected Customer getCustomer()
     {

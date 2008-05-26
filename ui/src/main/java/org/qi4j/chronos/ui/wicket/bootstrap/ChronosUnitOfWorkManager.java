@@ -107,7 +107,7 @@ public class ChronosUnitOfWorkManager
      * use {@link #discardCurrentUnitOfWork() method, instead of invoking unitOfWork.complete() directly.
      *
      * A new UnitOfWork will be created automatically on complete to enable entities hold
-     * in {@link org.qi4j.chronos.ui.wicket.base.ChronosDetachableModel} re-associate to newly created UnitOfWork.
+     * in {@link org.qi4j.chronos.ui.wicket.model.ChronosDetachableModel } re-associate to newly created UnitOfWork.
      *
      * @throws UnitOfWorkCompletionException
      */
@@ -122,7 +122,7 @@ public class ChronosUnitOfWorkManager
      * Discard current UnitOfWork.
      *
      * A new UnitOfWork will be created automatically on discard to enable entities hold
-     * in {@link org.qi4j.chronos.ui.wicket.base.ChronosDetachableModel} re-associate to newly created UnitOfWork.
+     * in {@link org.qi4j.chronos.ui.wicket.model.ChronosDetachableModel} re-associate to newly created UnitOfWork.
      */
     public void discardCurrentUnitOfWork()
     {

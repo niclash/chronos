@@ -17,41 +17,39 @@
 
         <tr>
             <td>
-                <form wicket:id="customerDetailForm">
-                    <table>
-                        <tr>
-                            <td>
-                                <table>
-                                    <tr>
-                                        <td align="right">Name</td>
-                                        <td><input type="text" wicket:id="nameField" class="readOnlyTextStyle"
-                                                   style="width: 350"/></td>
-                                    </tr>
+                <table>
+                    <tr>
+                        <td>
+                            <table>
+                                <tr>
+                                    <td align="right">Name</td>
+                                    <td><input type="text" wicket:id="nameField" class="readOnlyTextStyle"
+                                               style="width: 350"/></td>
+                                </tr>
 
-                                    <tr>
-                                        <td align="right">Reference</td>
-                                        <td><input type="text" wicket:id="referenceField" class="readOnlyTextStyle"
-                                                   style="width: 350"/></td>
-                                    </tr>
+                                <tr>
+                                    <td align="right">Reference</td>
+                                    <td><input type="text" wicket:id="referenceField" class="readOnlyTextStyle"
+                                               style="width: 350"/></td>
+                                </tr>
 
-                                    <span wicket:id="addressDetailPanel"></span>
-                                </table>
-                            </td>
-                        </tr>
+                                <span wicket:id="addressDetailPanel"></span>
+                            </table>
+                        </td>
+                    </tr>
 
-                        <tr>
-                            <td>
-                                <div wicket:id="ajaxTabbedPanel" class="tabpanel"></div>
-                            </td>
-                        </tr>
+                    <tr>
+                        <td>
+                            <!--<div wicket:id="ajaxTabbedPanel" class="tabpanel"></div>-->
+                        </td>
+                    </tr>
 
-                        <tr>
-                            <td align="center">
-                                <input type="submit" wicket:id="submitButton"/>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
+                    <tr>
+                        <td align="center">
+                            <a wicket:id="goBackLink">Go Back</a>
+                        </td>
+                    </tr>
+                </table>
             </td>
         </tr>
     </table>

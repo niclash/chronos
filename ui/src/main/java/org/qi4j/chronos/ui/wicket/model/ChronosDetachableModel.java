@@ -8,9 +8,9 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.wicket.base;
+package org.qi4j.chronos.ui.wicket.model;
 
-import org.apache.wicket.model.AbstractReadOnlyModel;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.EntityComposite;
 import org.qi4j.entity.UnitOfWork;
@@ -18,7 +18,7 @@ import org.qi4j.entity.UnitOfWork;
 /**
  * @author Lan Boon Ping
  */
-public class ChronosDetachableModel<T> extends AbstractReadOnlyModel<T>
+public class ChronosDetachableModel<T> implements IModel<T>
 {
     private static final long serialVersionUID = 1L;
 
@@ -32,28 +32,33 @@ public class ChronosDetachableModel<T> extends AbstractReadOnlyModel<T>
 
     private long unitOfWorkVersion;
 
-    public ChronosDetachableModel( T entity )
+    public ChronosDetachableModel( T object )
     {
-        if( entity == null )
+        if( object == null )
         {
-            throw new IllegalArgumentException( "[entity] must not be null" );
+            throw new IllegalArgumentException( "[object] must not be null." );
         }
 
-        if( !( entity instanceof EntityComposite ) )
+        if( !( object instanceof EntityComposite ) )
         {
-            throw new IllegalArgumentException( "[entity] must be type of ." );
+            throw new IllegalArgumentException( "[object] must be type of EntityComposite." );
         }
 
-        attached = true;
-        this.entity = entity;
+        setEntity( object );
+    }
 
-        EntityComposite entityComposite = (EntityComposite) entity;
+    private void setEntity( T object )
+    {
+        EntityComposite entityComposite = (EntityComposite) object;
 
         entityType = (Class<T>) entityComposite.type();
         identity = entityComposite.identity().get();
+
+        attached = true;
+        this.entity = object;
     }
 
-    public T getObject()
+    public final T getObject()
     {
         UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
 
@@ -76,6 +81,16 @@ public class ChronosDetachableModel<T> extends AbstractReadOnlyModel<T>
         unitOfWorkVersion = ChronosUnitOfWorkManager.get().getVersion();
 
         return entity;
+    }
+
+    public void setObject( T object )
+    {
+        if( !( entity instanceof EntityComposite ) )
+        {
+            throw new IllegalArgumentException( "[object] must be type of EntityComposite." );
+        }
+
+        setEntity( entity );
     }
 
     public void detach()

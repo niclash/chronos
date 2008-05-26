@@ -12,17 +12,18 @@
  */
 package org.qi4j.chronos.ui.address;
 
-import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
-import org.qi4j.chronos.ui.common.model.NameModel;
-import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
+import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 
 public class AddressDetailPanel extends Panel
 {
-    private TextField address1Field;
-    private TextField address2Field;
+    private static final long serialVersionUID = 1L;
 
+    private TextField address1Field;
+
+    private TextField address2Field;
     private TextField zipcodeField;
     private TextField countryField;
     private TextField cityField;
@@ -32,19 +33,16 @@ public class AddressDetailPanel extends Panel
     {
         super( id );
 
-        initComponents( address );
-    }
+        ChronosCompoundPropertyModel model = new ChronosCompoundPropertyModel( address );
+        setModel( model );
 
-    private void initComponents( IModel address )
-    {
-        address1Field = new TextField( "address1Field", new CustomCompositeModel( address, "firstLine" ) );
-        address2Field = new TextField( "address2Field", new CustomCompositeModel( address, "secondLine" ) );
-        zipcodeField = new TextField( "zipcodeField", new CustomCompositeModel( address, "zipCode" ) );
+        address1Field = new TextField<String>( "address1Field", model.bind( "firstLine" ) );
 
-        IModel city = new CustomCompositeModel( address, "city" );
-        countryField = new TextField( "countryField", new NameModel( new CustomCompositeModel( city, "country" ) ) );
-        cityField = new TextField( "cityField", new NameModel( city ) );
-        stateField = new TextField( "stateField", new NameModel( new CustomCompositeModel( city, "state" ) ) );
+        address2Field = new TextField( "address2Field", model.bind( "secondLine" ) );
+        zipcodeField = new TextField( "zipcodeField", model.bind( "zipCode" ) );
+        countryField = new TextField( "countryField", model.bind( "city.country.name" ) );
+        cityField = new TextField( "cityField", model.bind( "city.name" ) );
+        stateField = new TextField( "stateField", model.bind( "city.state.name" ) );
 
         add( address1Field );
         add( address2Field );
@@ -53,5 +51,6 @@ public class AddressDetailPanel extends Panel
         add( cityField );
         add( stateField );
     }
+
 }
 

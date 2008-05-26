@@ -40,7 +40,7 @@ public interface UserService extends ServiceComposite
      * @param user
      * @param oldPassword the old password
      * @param password    the new password
-     * @throws ValidationException thrown if the user's password doesn't match witht the oldPassword
+     * @throws ValidationException thrown if the user's password doesn't match with the oldPassword
      */
     void changePassword( User user, String oldPassword, String password ) throws ValidationException;
 }

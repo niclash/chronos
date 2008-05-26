@@ -29,8 +29,8 @@ import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleAction;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
+import org.qi4j.chronos.ui.wicket.model.ChronosDetachableModel;
 import org.qi4j.entity.Identity;
-import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -164,13 +164,16 @@ public abstract class CustomerTable extends ActionTable<IModel, String>
     public void populateItems( Item item, IModel iModel )
     {
         Customer customer = (Customer) iModel.getObject();
-        final String customerId = ( (Identity) customer).identity().get();
+
+        final String customerId = ( (Identity) customer ).identity().get();
+
+        ChronosDetachableModel<Customer> customerModel = new ChronosDetachableModel<Customer>( customer );
 
         item.add(
-            createDetailLink( HEADER_NAME, customer.name().get(), customer.isEnabled().get(), customerId )
+            createDetailLink( HEADER_NAME, customer.name().get(), customer.isEnabled().get(), customerModel )
         );
         item.add(
-            createDetailLink( HEADER_REFERENCE, customer.reference().get(), customer.isEnabled().get(), customerId )
+            createDetailLink( HEADER_REFERENCE, customer.reference().get(), customer.isEnabled().get(), customerModel )
         );
         item.add(
             new SimpleCheckBox( HEADER_ENABLED, customer.isEnabled().get(), true )
@@ -189,13 +192,13 @@ public abstract class CustomerTable extends ActionTable<IModel, String>
     }
 
     private SimpleLink createDetailLink( final String id,
-                                         final String displayValue, final boolean enable, final String customerId )
+                                         final String displayValue, final boolean enable, final IModel<Customer> customerIModel )
     {
         return new SimpleLink( id, displayValue )
         {
             public void linkClicked()
             {
-                CustomerDetailPage detailPage = new CustomerDetailPage( this.getPage(), customerId );
+                CustomerDetailPage detailPage = new CustomerDetailPage( this.getPage(), customerIModel );
                 setResponsePage( detailPage );
             }
 
@@ -216,7 +219,7 @@ public abstract class CustomerTable extends ActionTable<IModel, String>
         );
     }
 
-    public List<String> getTableHeaderList( String...headers )
+    public List<String> getTableHeaderList( String... headers )
     {
         List<String> result = new ArrayList<String>();
         for( String header : headers )
@@ -232,7 +235,7 @@ public abstract class CustomerTable extends ActionTable<IModel, String>
         List<String> customerIdList = new ArrayList<String>();
         for( Customer customer : getAccount().customers() )
         {
-            customerIdList.add( ( (Identity) customer).identity().get() );
+            customerIdList.add( ( (Identity) customer ).identity().get() );
         }
 
         return customerIdList.subList( first, first + count );

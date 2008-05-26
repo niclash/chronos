@@ -36,6 +36,7 @@ import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleAction;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
+import org.qi4j.chronos.ui.wicket.model.ChronosDetachableModel;
 import org.qi4j.entity.Identity;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
@@ -166,25 +167,17 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
             {
                 public int getSize()
                 {
-                    return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( getHasContactPersons() ).contactPersons().size();
+                    return getHasContactPersons().contactPersons().size();
                 }
 
                 public String getId( IModel t )
                 {
-                    return ( (Identity) t.getObject()).identity().get();
+                    return ( (Identity) t.getObject() ).identity().get();
                 }
 
                 public IModel load( final String s )
                 {
-                    return new CompoundPropertyModel(
-                        new LoadableDetachableModel()
-                        {
-                            public Object load()
-                            {
-                                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, ContactPersonEntityComposite.class );
-                            }
-                        }
-                    );
+                    return new ChronosDetachableModel( ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, ContactPersonEntityComposite.class ) );
                 }
 
                 public List<IModel> dataList( int first, int count )
@@ -192,18 +185,7 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
                     List<IModel> iModels = new ArrayList<IModel>();
                     for( final String contactPersonId : ContactPersonTable.this.dataList( first, count ) )
                     {
-                        iModels.add(
-                            new CompoundPropertyModel(
-                                new LoadableDetachableModel()
-                                {
-                                    public Object load()
-                                    {
-                                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find(
-                                            contactPersonId, ContactPersonEntityComposite.class);
-                                    }
-                                }
-                            )
-                        );
+                        iModels.add( new ChronosDetachableModel( ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( contactPersonId, ContactPersonEntityComposite.class ) ) );
                     }
 
                     return iModels;
@@ -290,6 +272,7 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
 
         return idList.subList( first, first + count );
     }
+
     public abstract T getHasContactPersons();
 
     public abstract Customer getCustomer();

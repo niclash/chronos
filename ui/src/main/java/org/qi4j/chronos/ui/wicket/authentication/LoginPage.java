@@ -27,7 +27,7 @@ import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
-import org.qi4j.chronos.ui.wicket.base.ChronosDetachableModel;
+import org.qi4j.chronos.ui.wicket.model.ChronosDetachableModel;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import static org.qi4j.composite.NullArgumentException.validateNotNull;
 import org.qi4j.composite.scope.Service;
