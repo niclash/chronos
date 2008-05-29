@@ -8,9 +8,9 @@ import org.qi4j.bootstrap.ApplicationAssembly;
 import org.qi4j.bootstrap.ApplicationAssemblyFactory;
 import org.qi4j.bootstrap.ApplicationFactory;
 import org.qi4j.bootstrap.AssemblyException;
-import static org.qi4j.chronos.ui.wicket.Constants.*;
-import static org.qi4j.chronos.ui.wicket.WicketLayerAssemblyInitializer.*;
-import static org.qi4j.chronos.ui.wicket.bootstrap.Constants.*;
+import static org.qi4j.chronos.ui.wicket.Constants.LAYER_NAME_WICKET;
+import static org.qi4j.chronos.ui.wicket.WicketLayerAssemblyInitializer.addWicketLayerAssembly;
+import static org.qi4j.chronos.ui.wicket.bootstrap.Constants.MODULE_NAME_WICKET_BOOTSTRAP;
 import org.qi4j.composite.ObjectBuilder;
 import org.qi4j.composite.ObjectBuilderFactory;
 import org.qi4j.runtime.Energy4Java;
@@ -46,7 +46,7 @@ public final class ChronosWebAppFactory
         ModuleInstance bootstrapModule = getBootstrapModule( wicketLayer );
 
         // Initialize dummy data
-        ObjectBuilderFactory builderFactory = bootstrapModule.getStructureContext().getObjectBuilderFactory();
+        ObjectBuilderFactory builderFactory = bootstrapModule.structureContext().getObjectBuilderFactory();
         ObjectBuilder<DummyDataInitializer> initializerBuilder = builderFactory.newObjectBuilder( DummyDataInitializer.class );
         initializerBuilder.newInstance().initializeDummyData();
 
@@ -96,7 +96,7 @@ public final class ChronosWebAppFactory
         ModuleInstance instance = null;
         for( ModuleInstance moduleInstance : moduleInstances )
         {
-            ModuleContext moduleContext = moduleInstance.getModuleContext();
+            ModuleContext moduleContext = moduleInstance.moduleContext();
             ModuleBinding moduleBinding = moduleContext.getModuleBinding();
             ModuleResolution moduleResolution = moduleBinding.getModuleResolution();
             ModuleModel moduleModel = moduleResolution.getModuleModel();
