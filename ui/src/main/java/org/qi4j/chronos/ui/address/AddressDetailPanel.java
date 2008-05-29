@@ -15,42 +15,35 @@ package org.qi4j.chronos.ui.address;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
+import org.qi4j.chronos.model.Address;
 import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 
-public class AddressDetailPanel extends Panel
+public class AddressDetailPanel extends Panel<IModel<Address>>
 {
     private static final long serialVersionUID = 1L;
 
-    private TextField address1Field;
-
-    private TextField address2Field;
-    private TextField zipcodeField;
-    private TextField countryField;
-    private TextField cityField;
-    private TextField stateField;
-
-    public AddressDetailPanel( String id, IModel address )
+    public AddressDetailPanel( String id, IModel<Address> address )
     {
         super( id );
 
-        ChronosCompoundPropertyModel model = new ChronosCompoundPropertyModel( address );
+        ChronosCompoundPropertyModel<IModel<Address>> model = new
+            ChronosCompoundPropertyModel<IModel<Address>>( address );
+
         setModel( model );
 
-        address1Field = new TextField<String>( "address1Field", model.bind( "firstLine" ) );
+        TextField<String> firstLineField = new TextField<String>( "firstLine" );
+        TextField<String> secondLineField = new TextField<String>( "secondLine" );
+        TextField<String> zipCodeField = new TextField<String>( "zipCode" );
+        TextField<String> countryField = new TextField<String>( "city.country.name" );
+        TextField<String> cityField = new TextField<String>( "city.name" );
+        TextField<String> stateField = new TextField<String>( "city.state.name" );
 
-        address2Field = new TextField( "address2Field", model.bind( "secondLine" ) );
-        zipcodeField = new TextField( "zipcodeField", model.bind( "zipCode" ) );
-        countryField = new TextField( "countryField", model.bind( "city.country.name" ) );
-        cityField = new TextField( "cityField", model.bind( "city.name" ) );
-        stateField = new TextField( "stateField", model.bind( "city.state.name" ) );
-
-        add( address1Field );
-        add( address2Field );
-        add( zipcodeField );
+        add( firstLineField );
+        add( secondLineField );
+        add( zipCodeField );
         add( countryField );
         add( cityField );
         add( stateField );
     }
-
 }
 

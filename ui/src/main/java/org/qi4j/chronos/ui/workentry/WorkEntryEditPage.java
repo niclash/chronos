@@ -13,47 +13,30 @@
 package org.qi4j.chronos.ui.workentry;
 
 import org.apache.wicket.Page;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
-import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.apache.wicket.model.IModel;
+import org.qi4j.chronos.model.WorkEntry;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class WorkEntryEditPage extends WorkEntryAddEditPage
 {
+    private static final long serialVersionUID = 1L;
+
     private final static Logger LOGGER = LoggerFactory.getLogger( WorkEntryEditPage.class );
-    private static final String UPDATE_SUCCESS = "updateSuccessful";
-    private static final String UPDATE_FAIL = "updateFailed";
-    private static final String TITLE_LABEL = "editPageTitleLabel";
-    private static final String SUBMIT_BUTTON = "editPageSubmitButton";
 
-    public WorkEntryEditPage( Page basePage, final String workEntryId )
+    public WorkEntryEditPage( Page basePage, IModel<WorkEntry> workEntry )
     {
-        super( basePage );
-
-        setModel(
-            new CompoundPropertyModel(
-                new LoadableDetachableModel()
-                {
-                    public Object load()
-                    {
-                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( workEntryId, WorkEntryEntityComposite.class );
-                    }
-                }
-            )
-        );
-        bindPropertyModel( getModel() );
+        super( basePage, workEntry );
     }
 
-    public void onSubmitting()
+    public void onSubmitting( IModel<WorkEntry> workEntry )
     {
         try
         {
             ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
 
-            logInfoMsg( getString( UPDATE_SUCCESS ) );
+            logInfoMsg( "WorkEntry was saved successfully." );
 
             divertToGoBackPage();
         }
@@ -61,18 +44,19 @@ public class WorkEntryEditPage extends WorkEntryAddEditPage
         {
             ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
-            logErrorMsg( getString( UPDATE_FAIL, new Model( err ) ) );
+            logErrorMsg( "Fail to update workEntry" );
+
             LOGGER.error( err.getLocalizedMessage(), err );
         }
     }
 
     public String getSubmitButtonValue()
     {
-        return getString( SUBMIT_BUTTON );
+        return "Save";
     }
 
     public String getTitleLabel()
     {
-        return getString( TITLE_LABEL );
+        return "Edit WorkEntry";
     }
 }

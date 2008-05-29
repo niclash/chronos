@@ -13,49 +13,31 @@
 package org.qi4j.chronos.ui.account;
 
 import org.apache.wicket.Page;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.apache.wicket.model.IModel;
+import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.composite.scope.Uses;
-import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class AccountEditPage extends AccountAddEditPage
 {
+    private static final long serialVersionUID = 1L;
+
     private static final Logger LOGGER = LoggerFactory.getLogger( AccountEditPage.class );
-    private static final String UPDATE_SUCCESS = "updateSuccessful";
-    private static final String UPDATE_FAIL = "updateFailed";
-    private static final String SUBMIT_BUTTON = "editPageSubmitButton";
-    private static final String TITLE_LABEL = "editPageTitleLabel";
 
-    public AccountEditPage( final @Uses Page goBackPage, final @Uses String accountId )
+    public AccountEditPage( @Uses Page goBackPage, @Uses IModel<Account> accountModel )
     {
-        super( goBackPage );
-
-        setModel(
-            new CompoundPropertyModel(
-                new LoadableDetachableModel()
-                {
-                    public Object load()
-                    {
-                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( accountId, AccountEntityComposite.class );
-                    }
-                }
-            )
-        );
-        bindPropertyModel( getModel() );
+        super( goBackPage, accountModel );
     }
 
-    public void onSubmitting()
+    public void onSubmitting( IModel<Account> account )
     {
         try
         {
             ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
 
-            logInfoMsg( getString( UPDATE_SUCCESS ) );
+            logInfoMsg( "Account was edited successfully." );
 
             super.divertToGoBackPage();
         }
@@ -63,18 +45,18 @@ public class AccountEditPage extends AccountAddEditPage
         {
             ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
-            error( getString( UPDATE_FAIL, new Model( err ) ) );
+            error( "Fail to save account." );
             LOGGER.error( err.getMessage(), err );
         }
     }
 
     public String getSubmitButtonValue()
     {
-        return getString( SUBMIT_BUTTON );
+        return "Save";
     }
 
     public String getTitleLabel()
     {
-        return getString( TITLE_LABEL );
+        return "Edit Account";
     }
 }

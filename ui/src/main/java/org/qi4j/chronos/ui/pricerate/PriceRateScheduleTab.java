@@ -70,6 +70,7 @@ public abstract class PriceRateScheduleTab<T extends HasPriceRateSchedules> exte
 
         public void newLinkOnClick()
         {
+/*
             PriceRateScheduleAddPage addPage =
                 new PriceRateScheduleAddPage( PriceRateScheduleNewLinkPanel.this.getPage() )
             {
@@ -84,6 +85,7 @@ public abstract class PriceRateScheduleTab<T extends HasPriceRateSchedules> exte
                 }
             };
             setResponsePage( addPage );
+*/
         }
 
         public String getNewLinkText()

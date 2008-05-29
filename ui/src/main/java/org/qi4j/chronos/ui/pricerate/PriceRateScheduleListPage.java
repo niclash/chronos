@@ -72,6 +72,7 @@ public class PriceRateScheduleListPage extends LeftMenuNavPage
 
     private void handleNewPriceRateSchedule()
     {
+/*
         PriceRateScheduleAddPage addPage = new PriceRateScheduleAddPage( this )
         {
             public HasPriceRateSchedules getHasPriceRateSchedules()
@@ -81,5 +82,6 @@ public class PriceRateScheduleListPage extends LeftMenuNavPage
         };
 
         setResponsePage( addPage );
+*/
     }
 }

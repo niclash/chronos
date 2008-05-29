@@ -15,51 +15,33 @@ package org.qi4j.chronos.ui.projectrole;
 import org.apache.wicket.Page;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.ProjectRole;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.ui.common.MaxLengthTextField;
-import org.qi4j.chronos.ui.common.model.NameModel;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
-public abstract class ProjectRoleAddEditPage extends AddEditBasePage
+public abstract class ProjectRoleAddEditPage extends AddEditBasePage<ProjectRole>
 {
-    private MaxLengthTextField nameField;
+    private static final long serialVersionUID = 1L;
 
-    public ProjectRoleAddEditPage( Page goBackPage )
+    public ProjectRoleAddEditPage( Page goBackPage, IModel<ProjectRole> model )
     {
-        super( goBackPage );
+        super( goBackPage, model );
     }
 
-    public final void initComponent( Form form )
+    public final void initComponent( Form<ProjectRole> form )
     {
-        nameField = new MaxLengthTextField( "nameField", "ProjectRole Name", ProjectRole.NAME_LEN );
+        TextField nameField = new TextField( "name" );
 
         form.add( nameField );
     }
 
-    protected void bindPropertyModel( IModel iModel )
+    public final void handleSubmitClicked( IModel<ProjectRole> model )
     {
-        nameField.setModel( new NameModel( iModel ) );
+        onSubmitting( model );
     }
 
-    public final void handleSubmit()
-    {
-        boolean isRejected = false;
-
-        if( nameField.checkIsEmptyOrInvalidLength() )
-        {
-            isRejected = true;
-        }
-
-        if( isRejected )
-        {
-            return;
-        }
-
-        onSubmitting();
-    }
-
-    public abstract void onSubmitting();
+    public abstract void onSubmitting( IModel<ProjectRole> model );
 }

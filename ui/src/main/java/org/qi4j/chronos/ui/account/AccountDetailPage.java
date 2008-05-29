@@ -14,76 +14,48 @@ package org.qi4j.chronos.ui.account;
 
 import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.form.Button;
-import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.Address;
 import org.qi4j.chronos.ui.address.AddressDetailPanel;
-import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
-import org.qi4j.chronos.ui.common.model.NameModel;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
-import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
+import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 import org.qi4j.composite.scope.Uses;
 
 public class AccountDetailPage extends LeftMenuNavPage
 {
-    private Page returnPage;
+    private static final long serialVersionUID = 1L;
 
-    public AccountDetailPage( @Uses Page returnPage, final @Uses String accountId )
-    {
-        this.returnPage = returnPage;
-
-        setModel(
-            new CompoundPropertyModel(
-                new LoadableDetachableModel()
-                {
-                    public Object load()
-                    {
-                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( accountId, AccountEntityComposite.class );
-                    }
-                }
-            )
-        );
-
-        initComponents();
-    }
-
-    private void initComponents()
+    public AccountDetailPage( final @Uses Page returnPage, @Uses IModel<Account> accountModel )
     {
         add( new FeedbackPanel( "feedbackPanel" ) );
-        add( new AccountDetailForm( "accountDetailForm", getModel() ) );
-    }
 
-    private class AccountDetailForm extends Form
-    {
-        private Button goButton;
-        private TextField nameField;
-        private TextField referenceField;
-        private AddressDetailPanel addressDetailPanel;
+        ChronosCompoundPropertyModel model = new ChronosCompoundPropertyModel( accountModel );
+        setModel( model );
 
-        public AccountDetailForm( String id, IModel iModel )
+        TextField nameField = new TextField( "name" );
+        TextField referenceField = new TextField( "reference" );
+
+        IModel<Address> addressIModel = model.bind( "address" );
+
+        AddressDetailPanel addressDetailPanel = new AddressDetailPanel( "address", addressIModel );
+
+        Button<String> goButton = new Button<String>( "submitButton", new Model<String>( "Return" ) )
         {
-            super( id );
+            private static final long serialVersionUID = 1L;
 
-            nameField = new TextField( "nameField", new NameModel( iModel ) );
-            referenceField = new TextField( "referenceField", new CustomCompositeModel( iModel, "reference" ) );
-            addressDetailPanel = new AddressDetailPanel( "addressDetailPanel", new CustomCompositeModel( iModel, "address") );
-            goButton = new Button( "submitButton", new Model( "Return" ) )
+            public void onSubmit()
             {
-                public void onSubmit()
-                {
-                    setResponsePage( returnPage );
-                }
-            };
+                setResponsePage( returnPage );
+            }
+        };
 
-            add( nameField );
-            add( referenceField );
-            add( addressDetailPanel );
-            add( goButton );
-        }
+        add( nameField );
+        add( referenceField );
+        add( addressDetailPanel );
+        add( goButton );
     }
 }

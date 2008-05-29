@@ -12,51 +12,36 @@
  */
 package org.qi4j.chronos.ui.user;
 
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.model.associations.HasLogin;
-import org.qi4j.chronos.ui.common.SimpleTextField;
-import org.qi4j.chronos.ui.login.LoginUserDetailPanel;
+import org.qi4j.chronos.ui.login.UserLoginDetailPanel;
+import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 
-public abstract class UserDetailPanel extends Panel
+public final class UserDetailPanel extends Panel<IModel<User>>
 {
-    private SimpleTextField firstNameField;
-    private SimpleTextField lastNameField;
+    private static final long serialVersionUID = 1L;
 
-    private SimpleTextField genderField;
-
-    private LoginUserDetailPanel loginUserDetailPanel;
-
-    public UserDetailPanel( String id )
+    public UserDetailPanel( String id, IModel<User> user )
     {
         super( id );
 
-        initComponents();
-    }
+        ChronosCompoundPropertyModel<IModel<User>> model = new ChronosCompoundPropertyModel<IModel<User>>( user );
+        setModel( model );
 
-    private void initComponents()
-    {
-        User user = getUser();
+        TextField firstNameField = new TextField( "firstName" );
+        TextField lastNameField = new TextField( "lastName" );
+        TextField genderField = new TextField( "gender" );
 
-        firstNameField = new SimpleTextField( "firstNameField", user.firstName().get() );
-        lastNameField = new SimpleTextField( "lastNameField", user.lastName().get() );
+        IModel<Login> loginModel = model.bind( "login" );
 
-        genderField = new SimpleTextField( "genderField", user.gender().get().toString() );
-
-        loginUserDetailPanel = new LoginUserDetailPanel( "loginUserDetailPanel" )
-        {
-            public HasLogin getLogin()
-            {
-                return UserDetailPanel.this.getUser();
-            }
-        };
+        UserLoginDetailPanel userLoginDetailPanel = new UserLoginDetailPanel( "loginUserDetailPanel", loginModel );
 
         add( firstNameField );
         add( lastNameField );
         add( genderField );
-        add( loginUserDetailPanel );
+        add( userLoginDetailPanel );
     }
-
-    public abstract User getUser();
 }

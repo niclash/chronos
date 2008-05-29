@@ -13,52 +13,34 @@
 package org.qi4j.chronos.ui.comment;
 
 import org.apache.wicket.Page;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.associations.HasComments;
-import org.qi4j.chronos.model.composites.CommentEntityComposite;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.UnitOfWorkCompletionException;
-import org.qi4j.library.framework.validation.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class CommentEditPage extends CommentAddEditPage
 {
+    private static final long serialVersionUID = 1L;
+
     private final static Logger LOGGER = LoggerFactory.getLogger( CommentEditPage.class );
-    private static final String UPDATE_FAIL = "updateFailed";
-    private static final String UPDATE_SUCCESS = "updateSuccessful";
-    private static final String SUBMIT_BUTTON = "editPageSubmitButton";
-    private static final String TITLE_LABEL = "editPageTitleLabel";
 
-    public CommentEditPage( Page basePage, final String commentId )
+    public CommentEditPage( Page basePage, IModel<Comment> comment )
     {
-        super( basePage );
-
-        setModel(
-            new CompoundPropertyModel(
-                new LoadableDetachableModel()
-                {
-                    public Object load()
-                    {
-                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( commentId, CommentEntityComposite.class );
-                    }
-                }
-            )
-        );
+        super( basePage, comment );
     }
 
     public String getSubmitButtonValue()
     {
-        return getString( SUBMIT_BUTTON );
+        return "Save";
     }
 
     public String getTitleLabel()
     {
-        return getString( TITLE_LABEL );
+        return "Edit Comment";
     }
 
     public void onSubmitting()
@@ -67,7 +49,7 @@ public abstract class CommentEditPage extends CommentAddEditPage
         {
             ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
 
-            logInfoMsg( getString( UPDATE_SUCCESS ) );
+            logInfoMsg( "Comment was edited successfully." );
 
             divertToGoBackPage();
         }
@@ -75,7 +57,8 @@ public abstract class CommentEditPage extends CommentAddEditPage
         {
             ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
-            logErrorMsg( getString( UPDATE_FAIL, new Model( err ) ) );
+            logErrorMsg( "Fail to save comment" );
+
             LOGGER.error( err.getLocalizedMessage(), err );
         }
     }

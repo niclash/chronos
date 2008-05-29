@@ -15,44 +15,32 @@ package org.qi4j.chronos.ui.relationship;
 import org.apache.wicket.Page;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Relationship;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
-import org.qi4j.chronos.ui.common.MaxLengthTextField;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
-public abstract class RelationshipAddEditPage extends AddEditBasePage
+public abstract class RelationshipAddEditPage extends AddEditBasePage<Relationship>
 {
-    protected MaxLengthTextField relationshipField;
+    private static final long serialVersionUID = 1L;
 
-    public RelationshipAddEditPage( Page goBackPage )
+    public RelationshipAddEditPage( Page goBackPage, IModel<Relationship> model )
     {
-        super( goBackPage );
+        super( goBackPage, model );
     }
 
-    public void initComponent( Form form )
+    public void initComponent( Form<Relationship> form )
     {
-        relationshipField = new MaxLengthTextField( "relationshipField", "Relationship",
-                                                    Relationship.RELATIONSHIP_LEN );
+        TextField relationshipField = new TextField( "relationship" );
         form.add( relationshipField );
     }
 
-    public void handleSubmit()
+    public void handleSubmitClicked( IModel<Relationship> model )
     {
-        boolean isRejected = false;
-
-        if( relationshipField.checkIsEmptyOrInvalidLength() )
-        {
-            isRejected = true;
-        }
-
-        if( isRejected )
-        {
-            return;
-        }
-
-        onSubmitting();
+        onSubmitting( model );
     }
 
-    public abstract void onSubmitting();
+    public abstract void onSubmitting( IModel<Relationship> model );
 }

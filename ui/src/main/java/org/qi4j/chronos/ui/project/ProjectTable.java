@@ -36,6 +36,7 @@ import org.qi4j.chronos.ui.common.action.SimpleAction;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
+import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 import org.qi4j.entity.Identity;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
@@ -113,7 +114,7 @@ public abstract class ProjectTable extends ActionTable<IModel, String>
 
         try
         {
-            final HasProjects hasProjects = unitOfWork.dereference( getHasProjects() );
+            final HasProjects hasProjects = getHasProjectsModel().getObject();
             for( IModel iModel : projects )
             {
                 final Project project = (Project) iModel.getObject();
@@ -146,7 +147,7 @@ public abstract class ProjectTable extends ActionTable<IModel, String>
         catch( UnitOfWorkCompletionException uowce )
         {
             ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
-            
+
             error( getString( UPDATE_FAIL, new Model( uowce ) ) );
             LOGGER.error( uowce.getLocalizedMessage(), uowce );
         }
@@ -184,19 +185,9 @@ public abstract class ProjectTable extends ActionTable<IModel, String>
                 public List<IModel> dataList( int first, int count )
                 {
                     List<IModel> models = new ArrayList<IModel>();
-                    for( final String projectId : ProjectTable.this.dataList( first, count ) )
+                    for( Project project : ProjectTable.this.dataList( first, count ) )
                     {
-                        models.add(
-                            new CompoundPropertyModel(
-                                new LoadableDetachableModel()
-                                {
-                                    public Object load()
-                                    {
-                                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( projectId, ProjectEntityComposite.class );
-                                    }
-                                }
-                            )
-                        );
+                        models.add( new ChronosCompoundPropertyModel<Project>( project ) );
                     }
                     return models;
                 }
@@ -225,9 +216,9 @@ public abstract class ProjectTable extends ActionTable<IModel, String>
         {
             public void linkClicked()
             {
-                ProjectEditPage editPage =
-                    new ProjectEditPage( (BasePage) this.getPage(), iModel );
-                setResponsePage( editPage );
+//                ProjectEditPage editPage =
+//                    new ProjectEditPage( (BasePage) this.getPage(), iModel );
+//                setResponsePage( editPage );
             }
 
             protected void authorizingLink( Link link )
@@ -256,7 +247,15 @@ public abstract class ProjectTable extends ActionTable<IModel, String>
 
     public abstract int getSize();
 
-    public abstract List<String> dataList( int first, int count );
+    public List<Project> dataList( int first, int count )
+    {
+        List<Project> projects = new ArrayList<Project>();
+        for( Project project : ProjectTable.this.getHasProjectsModel().getObject().projects() )
+        {
+            projects.add( project );
+        }
+        return projects.subList( first, first + count );
+    }
 
-    public abstract HasProjects getHasProjects();
+    public abstract IModel<HasProjects> getHasProjectsModel();
 }

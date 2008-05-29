@@ -13,89 +13,36 @@
 package org.qi4j.chronos.ui.customer;
 
 import org.apache.wicket.Page;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Account;
-import org.qi4j.chronos.model.Address;
-import org.qi4j.chronos.model.City;
-import org.qi4j.chronos.model.Country;
 import org.qi4j.chronos.model.Customer;
-import org.qi4j.chronos.model.State;
-import org.qi4j.chronos.model.composites.AddressEntityComposite;
-import org.qi4j.chronos.model.composites.CityEntityComposite;
-import org.qi4j.chronos.model.composites.CountryEntityComposite;
-import org.qi4j.chronos.model.composites.CustomerEntityComposite;
-import org.qi4j.chronos.model.composites.StateEntityComposite;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import static org.qi4j.composite.NullArgumentException.validateNotNull;
-import org.qi4j.composite.scope.Uses;
-import org.qi4j.entity.UnitOfWork;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 
 public class CustomerAddPage extends CustomerAddEditPage
 {
+    private static final long serialVersionUID = 1L;
+
     private final static Logger LOGGER = LoggerFactory.getLogger( CustomerAddPage.class );
-    private static final String ADD_SUCCESS = "addSuccessful";
-    private static final String ADD_FAIL = "addFailed";
-    private static final String SUBMIT_BUTTON = "addPageSubmitButton";
-    private static final String TITLE_LABEL = "addPageTitleLabel";
 
-    public CustomerAddPage( @Uses Page basePage )
+    public CustomerAddPage( Page basePage, IModel<Customer> model )
     {
-        super( basePage );
-
-        validateNotNull( "basePage", basePage );
-
-        bindModel();
+        super( basePage, model );
     }
 
-    private void bindModel()
-    {
-        setModel(
-            new CompoundPropertyModel(
-                new LoadableDetachableModel()
-                {
-                    public Object load()
-                    {
-                        final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
-                        final Customer customer =
-                            unitOfWork.newEntityBuilder( CustomerEntityComposite.class ).newInstance();
-                        final Address address =
-                            unitOfWork.newEntityBuilder( AddressEntityComposite.class ).newInstance();
-                        final City city = unitOfWork.newEntityBuilder( CityEntityComposite.class ).newInstance();
-                        final State state = unitOfWork.newEntityBuilder( StateEntityComposite.class ).newInstance();
-                        final Country country =
-                            unitOfWork.newEntityBuilder( CountryEntityComposite.class ).newInstance();
-
-                        city.state().set( state );
-                        city.country().set( country );
-                        address.city().set( city );
-
-                        customer.address().set( address );
-                        customer.isEnabled().set( true );
-
-                        return customer;
-                    }
-                }
-            )
-        );
-
-        bindPropertyModel( getModel() );
-    }
-
-    public void onSubmitting()
+    public void onSubmitting( IModel<Customer> model )
     {
         try
         {
-            final Customer customer = (Customer) getModelObject();
+            final Customer customer = model.getObject();
+
             final Account account = getAccount();
             account.customers().add( customer );
 
             ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
-            logInfoMsg( getString( ADD_SUCCESS ) );
+            logInfoMsg( "Customer is added successfully." );
 
             divertToGoBackPage();
         }
@@ -104,18 +51,18 @@ public class CustomerAddPage extends CustomerAddEditPage
         {
             ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
-            error( getString( ADD_FAIL, new Model( err ) ) );
+            error( "Fail to add customer" );
             LOGGER.error( err.getMessage(), err );
         }
     }
 
     public String getSubmitButtonValue()
     {
-        return getString( SUBMIT_BUTTON );
+        return "Add";
     }
 
     public String getTitleLabel()
     {
-        return getString( TITLE_LABEL );
+        return "Add Customer";
     }
 }

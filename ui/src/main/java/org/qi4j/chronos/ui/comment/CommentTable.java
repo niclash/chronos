@@ -122,7 +122,7 @@ public abstract class CommentTable extends ActionTable<IModel, String>
 
                 public List<IModel> dataList( int first, int count )
                 {
-                    List<IModel> models = new ArrayList <IModel>();
+                    List<IModel> models = new ArrayList<IModel>();
                     for( final String commentId : CommentTable.this.dataList( first, count ) )
                     {
                         models.add(
@@ -164,8 +164,9 @@ public abstract class CommentTable extends ActionTable<IModel, String>
         {
             public void linkClicked()
             {
-                CommentDetailPage detailPage = new CommentDetailPage( CommentTable.this.getPage(), commentId );
-                setResponsePage( detailPage );
+                //TODO
+//                CommentDetailPage detailPage = new CommentDetailPage( CommentTable.this.getPage(), commentId );
+//                setResponsePage( detailPage );
             }
         };
     }

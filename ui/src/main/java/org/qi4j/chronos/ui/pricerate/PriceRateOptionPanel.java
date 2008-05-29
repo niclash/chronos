@@ -66,6 +66,7 @@ public abstract class PriceRateOptionPanel extends Panel
 
     private void handleNewPriceRate()
     {
+/*
         PriceRateAddPage addPage = new PriceRateAddPage( (BasePage) this.getPage() )
         {
             public void addPriceRate( PriceRate priceRate )
@@ -85,6 +86,7 @@ public abstract class PriceRateOptionPanel extends Panel
         };
 
         setResponsePage( addPage );
+*/
     }
 
     private void addPriceRate( PriceRate priceRate )
@@ -94,6 +96,7 @@ public abstract class PriceRateOptionPanel extends Panel
 
     private void handleCustomizePriceRate()
     {
+/*
         PriceRateEditPage editPage = new PriceRateEditPage( (BasePage) this.getPage() )
         {
             public PriceRate getPriceRate()
@@ -113,6 +116,7 @@ public abstract class PriceRateOptionPanel extends Panel
         };
 
         setResponsePage( editPage );
+*/
     }
 
     private void updatePriceRate( PriceRate priceRate )

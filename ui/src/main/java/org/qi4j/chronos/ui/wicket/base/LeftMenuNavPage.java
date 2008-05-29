@@ -93,9 +93,9 @@ public abstract class LeftMenuNavPage extends TopMenuNavPage
         return false;
     }
 
-    @Override protected void setHeaders( WebResponse response)
+    @Override protected void setHeaders( WebResponse response )
     {
-        response.setHeader("Pragma", "no-cache");
-        response.setHeader("Cache-Control", "no-cache, max-age=0, must-revalidate, no-store");
+        response.setHeader( "Pragma", "no-cache" );
+        response.setHeader( "Cache-Control", "no-cache, max-age=0, must-revalidate, no-store" );
     }
 }

@@ -12,28 +12,25 @@
  */
 package org.qi4j.chronos.ui.projectassignee;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import org.apache.wicket.Page;
-import org.qi4j.chronos.model.ProjectAssignee;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.PriceRate;
+import org.qi4j.chronos.model.ProjectAssignee;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class ProjectAssigneeEditPage extends ProjectAssigneeAddEditPage
 {
+    private static final long serialVersionUID = 1L;
+
     private final static Logger LOGGER = LoggerFactory.getLogger( ProjectAssigneeEditPage.class );
 
-    public ProjectAssigneeEditPage( Page basePage )
+    public ProjectAssigneeEditPage( Page basePage, IModel<ProjectAssignee> projectAssignee )
     {
-        super( basePage );
+        super( basePage, projectAssignee );
 
-        initData();
-    }
-
-    private void initData()
-    {
-        assignProjectAssigneeToFieldValue( getProjectAssignee() );
     }
 
     public String getSubmitButtonValue()
@@ -52,7 +49,6 @@ public abstract class ProjectAssigneeEditPage extends ProjectAssigneeAddEditPage
 
         try
         {
-            assignFieldValueToProjectAssignee( projectAssignee );
 
             // TODO migrate
 //            ChronosWebApp.getServices().getProjectAssigneeService().update( projectAssignee );

@@ -13,35 +13,30 @@
 package org.qi4j.chronos.ui.workentry;
 
 import org.apache.wicket.Page;
+import org.apache.wicket.extensions.yui.calendar.DateTimeField;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.RequiredTextField;
+import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.WorkEntry;
-import org.qi4j.chronos.ui.common.MaxLengthTextArea;
-import org.qi4j.chronos.ui.common.MaxLengthTextField;
-import org.qi4j.chronos.ui.common.SimpleDateTimeField;
-import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 
-public abstract class WorkEntryAddEditPage extends AddEditBasePage
+public abstract class WorkEntryAddEditPage extends AddEditBasePage<WorkEntry>
 {
-    private MaxLengthTextField titleField;
-    private MaxLengthTextArea descriptionTextArea;
+    private static final long serialVersionUID = 1L;
 
-    private SimpleDateTimeField fromDateTimeField;
-    private SimpleDateTimeField toDateTimeField;
-
-    public WorkEntryAddEditPage( Page basePage )
+    public WorkEntryAddEditPage( Page basePage, IModel<WorkEntry> workEntry )
     {
-        super( basePage );
+        super( basePage, workEntry );
     }
 
-    public void initComponent( Form form )
+    public void initComponent( Form<WorkEntry> form )
     {
-        titleField = new MaxLengthTextField( "titleField", "Title", WorkEntry.TITLE_LEN );
-        descriptionTextArea = new MaxLengthTextArea( "descriptionTextArea", "Description", WorkEntry.DESCRIPTION_LEN );
+        RequiredTextField titleField = new RequiredTextField( "title" );
+        TextArea descriptionTextArea = new TextArea( "description" );
 
-        fromDateTimeField = new SimpleDateTimeField( "fromDateTimeField" );
-        toDateTimeField = new SimpleDateTimeField( "toDateTimeField" );
+        DateTimeField fromDateTimeField = new DateTimeField( "startTime" );
+        DateTimeField toDateTimeField = new DateTimeField( "endTime" );
 
         form.add( titleField );
         form.add( descriptionTextArea );
@@ -49,35 +44,10 @@ public abstract class WorkEntryAddEditPage extends AddEditBasePage
         form.add( toDateTimeField );
     }
 
-    public void handleSubmit()
+    public void handleSubmitClicked( IModel<WorkEntry> model )
     {
-        boolean isRejected = false;
-
-        if( titleField.checkIsEmptyOrInvalidLength() )
-        {
-            isRejected = true;
-        }
-
-        if( descriptionTextArea.checkIsEmptyOrInvalidLength() )
-        {
-            isRejected = true;
-        }
-
-        if( isRejected )
-        {
-            return;
-        }
-
-        onSubmitting();
+        onSubmitting( model );
     }
 
-    protected void bindPropertyModel( IModel iModel )
-    {
-        titleField.setModel( new CustomCompositeModel( iModel, "title" ) );
-        descriptionTextArea.setModel( new CustomCompositeModel( iModel, "description" ) );
-        fromDateTimeField.setModel( new CustomCompositeModel( iModel, "startTime" ) );
-        toDateTimeField.setModel( new CustomCompositeModel( iModel, "endTime" ) );
-    }
-
-    public abstract void onSubmitting();
+    public abstract void onSubmitting( IModel<WorkEntry> model );
 }

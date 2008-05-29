@@ -12,27 +12,27 @@
  */
 package org.qi4j.chronos.ui.account;
 
+import org.apache.wicket.PageParameters;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.PageParameters;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 
 @AuthorizeInstantiation( SystemRole.SYSTEM_ADMIN )
 public class AccountListPage extends LeftMenuNavPage
 {
-    public AccountListPage()
-    {
-        initComponents();
-    }
+    private static final long serialVersionUID = 1L;
 
-    private void initComponents()
+    public AccountListPage()
     {
         add( new Link( "newAccountLink" )
         {
+            private static final long serialVersionUID = 1L;
+
             public void onClick()
             {
+                //TODO accountAddPage
                 final PageParameters param = new PageParameters();
                 param.put( AccountListPage.class, AccountListPage.this );
 
@@ -45,4 +45,5 @@ public class AccountListPage extends LeftMenuNavPage
         AccountTable accountTable = new AccountTable( "accountTable" );
         add( accountTable );
     }
+
 }

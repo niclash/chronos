@@ -14,59 +14,42 @@ package org.qi4j.chronos.ui.comment;
 
 import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextArea;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.ui.common.MaxLengthTextArea;
-import org.qi4j.chronos.ui.common.SimpleTextField;
-import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
+import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 
-public abstract class CommentAddEditPage extends AddEditBasePage
+public abstract class CommentAddEditPage extends AddEditBasePage<Comment>
 {
-    private MaxLengthTextArea commentTextArea;
-    private SimpleTextField userField;
+    private static final long serialVersionUID = 1L;
 
-    public CommentAddEditPage( Page goBackPage )
+
+    public CommentAddEditPage( Page goBackPage, IModel<Comment> commentModel )
     {
-        super( goBackPage );
+        super( goBackPage, commentModel );
     }
 
-    public void initComponent( Form form )
+    public void initComponent( Form<Comment> form )
     {
-        commentTextArea = new MaxLengthTextArea( "commentTextArea", "Comment", Comment.COMMENT_LEN );
-        userField = new SimpleTextField( "userField", "" );
+        TextArea commentTextArea = new TextArea( "text" );
+
+        ChronosCompoundPropertyModel<Comment> model = (ChronosCompoundPropertyModel<Comment>) form.getModel();
+
+        TextField user = new TextField( "user", model.bind( "user.fullname" ) );
 
         form.add( commentTextArea );
-        form.add( userField );
+        form.add( user );
     }
 
-    protected void bindPropertyModel( IModel iModel )
+    public void handleSubmitClicked( IModel<Comment> comment )
     {
-        final Comment comment = (Comment) iModel.getObject();
-        final User user = comment.user().get();
-        commentTextArea.setModel( new CustomCompositeModel( iModel, "text" ) );
-        userField.setText( user.fullName().get() );
-    }
-
-    public void handleSubmit()
-    {
-        boolean isRejected = false;
-
-        if( commentTextArea.checkIsEmptyOrInvalidLength() )
-        {
-            isRejected = true;
-        }
-
-        if( isRejected )
-        {
-            return;
-        }
-
-        onSubmitting();
+        onSubmitting( comment );
     }
 
     public abstract User getCommentOwner();
 
-    public abstract void onSubmitting();
+    public abstract void onSubmitting( IModel<Comment> comment );
 }

@@ -12,56 +12,49 @@
  */
 package org.qi4j.chronos.ui.workentry;
 
-import java.util.Date;
 import org.apache.wicket.Page;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.ProjectAssignee;
 import org.qi4j.chronos.model.WorkEntry;
 import org.qi4j.chronos.model.associations.HasWorkEntries;
-import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class WorkEntryAddPage extends WorkEntryAddEditPage
 {
+    private static final long serialVersionUID = 1L;
+
     private final static Logger LOGGER = LoggerFactory.getLogger( WorkEntryAddPage.class );
-    private static final String ADD_FAIL = "addFailed";
-    private static final String ADD_SUCCESS = "addSuccessful";
-    private static final String SUBMIT_BUTTON = "addPageSubmitButton";
-    private static final String TITLE_LABEL = "addPageTitleLabel";
 
-    public WorkEntryAddPage( Page basePage )
+    public WorkEntryAddPage( Page basePage, IModel<WorkEntry> workEntry )
     {
-        super( basePage );
+        super( basePage, workEntry );
 
-        bindModel();
     }
-
-    private void bindModel()
-    {
-        setModel(
-            new CompoundPropertyModel(
-                new LoadableDetachableModel()
-                {
-                    public Object load()
-                    {
-                        final ProjectAssignee projectAssignee =
-                            ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( WorkEntryAddPage.this.getProjectAssignee() );
-                        final WorkEntry workEntry =
-                            ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().newEntityBuilder( WorkEntryEntityComposite.class ).newInstance();
-                        workEntry.createdDate().set( new Date() );
-                        workEntry.projectAssignee().set( projectAssignee );
-
-                        return workEntry;
-                    }
-                }
-            )
-        );
-        bindPropertyModel( getModel() );
-    }
+//
+//    private void bindModel()
+//    {
+//        setModel(
+//            new CompoundPropertyModel(
+//                new LoadableDetachableModel()
+//                {
+//                    public Object load()
+//                    {
+//                        final ProjectAssignee projectAssignee =
+//                            ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( WorkEntryAddPage.this.getProjectAssignee() );
+//                        final WorkEntry workEntry =
+//                            ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().newEntityBuilder( WorkEntryEntityComposite.class ).newInstance();
+//                        workEntry.createdDate().set( new Date() );
+//                        workEntry.projectAssignee().set( projectAssignee );
+//
+//                        return workEntry;
+//                    }
+//                }
+//            )
+//        );
+//        bindPropertyModel( getModel() );
+//    }
 
     public void onSubmitting()
     {
@@ -71,7 +64,8 @@ public abstract class WorkEntryAddPage extends WorkEntryAddEditPage
             final HasWorkEntries hasWorkEntries = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( WorkEntryAddPage.this.getHasWorkEntries() );
             hasWorkEntries.workEntries().add( workEntry );
             ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
-            logInfoMsg( getString( ADD_SUCCESS ) );
+
+            logInfoMsg( "Work Entry was added successfully." );
 
             divertToGoBackPage();
         }
@@ -79,19 +73,20 @@ public abstract class WorkEntryAddPage extends WorkEntryAddEditPage
         {
             ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
-            logErrorMsg( getString( ADD_FAIL, new Model( err ) ) );
+            logErrorMsg( "Fail to create new WorkEntry" );
+
             LOGGER.error( err.getLocalizedMessage(), err );
         }
     }
 
     public String getSubmitButtonValue()
     {
-        return getString( SUBMIT_BUTTON );
+        return "Add";
     }
 
     public String getTitleLabel()
     {
-        return getString( TITLE_LABEL );
+        return "New WorkEntry";
     }
 
     public abstract ProjectAssignee getProjectAssignee();

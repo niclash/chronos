@@ -13,27 +13,25 @@
 package org.qi4j.chronos.ui.legalcondition;
 
 import org.apache.wicket.Page;
-import org.qi4j.chronos.model.associations.HasLegalConditions;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.LegalCondition;
+import org.qi4j.chronos.model.associations.HasLegalConditions;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class LegalConditionEditPage extends LegalConditionAddEditPage
 {
+    private static final long serialVersionUID = 1L;
+
     private final static Logger LOGGER = LoggerFactory.getLogger( LegalConditionEditPage.class );
 
-    public LegalConditionEditPage( Page goBackPage )
+    public LegalConditionEditPage( Page goBackPage, IModel<LegalCondition> legalCondition )
     {
-        super( goBackPage );
+        super( goBackPage, legalCondition );
 
         hideSelectionLegalConditionLink();
 
-        initData();
-    }
 
-    private void initData()
-    {
-        assignLegalConditionToFieldValue( getLegalCondition() );
     }
 
     public void onSubmitting()
@@ -42,8 +40,6 @@ public abstract class LegalConditionEditPage extends LegalConditionAddEditPage
         {
             LegalCondition toBeUpdated = getLegalCondition();
             LegalCondition old = getLegalCondition();
-
-            assignFieldValueToLegalCondition( toBeUpdated );
 
 //            getLegalConditionService().updateLegalCondition( getHasLegalConditions(), old, toBeUpdated );
 

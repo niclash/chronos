@@ -13,7 +13,7 @@
 package org.qi4j.chronos.ui.legalcondition;
 
 import org.apache.wicket.Page;
-import org.qi4j.chronos.model.composites.LegalConditionComposite;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.LegalCondition;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -21,10 +21,11 @@ import org.slf4j.LoggerFactory;
 public abstract class LegalConditionAddPage extends LegalConditionAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( LegalConditionAddPage.class );
+    private static final long serialVersionUID = 1L;
 
-    public LegalConditionAddPage( Page goBackPage )
+    public LegalConditionAddPage( Page goBackPage, IModel<LegalCondition> legalCondition )
     {
-        super( goBackPage );
+        super( goBackPage, legalCondition );
     }
 
     public String getSubmitButtonValue()
@@ -39,7 +40,7 @@ public abstract class LegalConditionAddPage extends LegalConditionAddEditPage
 
     public void onSubmitting()
     {
-     /*   LegalConditionComposite legalCondition = ChronosWebApp.newInstance( LegalConditionComposite.class );
+        /*   LegalConditionComposite legalCondition = ChronosWebApp.newInstance( LegalConditionComposite.class );
 
         try
         {

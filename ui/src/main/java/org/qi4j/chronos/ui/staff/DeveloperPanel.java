@@ -18,6 +18,7 @@ import java.util.List;
 import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.model.associations.HasProjects;
@@ -53,40 +54,14 @@ public abstract class DeveloperPanel extends Panel
     {
         return new ProjectTab( "Recent Projects" )
         {
-            public HasProjects getHasProjects()
+            public IModel<HasProjects> getHasProjectsModel()
             {
-                return DeveloperPanel.this.getHasProjects();
+                return DeveloperPanel.this.getHasProjectsModel();
             }
 
             public int getSize()
             {
-//                return getProjectService().countRecentProject( getStaff() );
-                return 0;
-            }
-
-            public List<String> dataList( int first, int count )
-            {
-/*
-                List<IModel> models = new ArrayList<IModel>();
-                for( Project project : getAccount().projects() )
-                {
-                    final String projectId = ( (Identity) project).identity().get();
-                    models.add(
-                        new CompoundPropertyModel(
-                            new LoadableDetachableModel()
-                            {
-                                public Object load()
-                                {
-                                    return getUnitOfWork().find( projectId, ProjectEntityComposite.class );
-                                }
-                            }
-                        )
-                    );
-                }
-                return models;
-*/
-                return Collections.EMPTY_LIST;
-//                return getProjectService().getRecentProjects( getStaff(), new FindFilter( first, count ) );
+                return DeveloperPanel.this.getHasProjectsModel().getObject().projects().size();
             }
         };
     }
@@ -122,5 +97,5 @@ public abstract class DeveloperPanel extends Panel
     
     public abstract Staff getStaff();
 
-    public abstract HasProjects getHasProjects();
+    public abstract IModel<HasProjects> getHasProjectsModel();
 }

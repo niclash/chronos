@@ -13,6 +13,7 @@
 package org.qi4j.chronos.ui.pricerate;
 
 import org.apache.wicket.Page;
+import org.apache.wicket.model.IModel;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.qi4j.chronos.model.PriceRate;
@@ -21,20 +22,21 @@ public abstract class PriceRateEditPage extends PriceRateAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( PriceRateEditPage.class );
 
-    public PriceRateEditPage( Page goBackPage )
+    public PriceRateEditPage( Page goBackPage, IModel<PriceRate> priceRateModel )
     {
-        super( goBackPage );
+        super( goBackPage, priceRateModel );
 
         hidePriceRateSelectionLink();
 
-        initData();
+//        initData();
     }
 
-    private void initData()
-    {
-        assignPriceRateToFieldValue( getPriceRate() );
-    }
+//    private void initData()
+//    {
+//        assignPriceRateToFieldValue( getPriceRate() );
+//    }
 
+/*
     public void onSubmitting()
     {
         PriceRate priceRate = getPriceRate();
@@ -55,6 +57,7 @@ public abstract class PriceRateEditPage extends PriceRateAddEditPage
             LOGGER.error( err.getMessage(), err );
         }
     }
+*/
 
     public String getSubmitButtonValue()
     {

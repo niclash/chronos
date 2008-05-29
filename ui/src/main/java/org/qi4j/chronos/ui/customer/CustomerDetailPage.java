@@ -17,6 +17,7 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
+import org.qi4j.chronos.model.Address;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.ui.address.AddressDetailPanel;
@@ -35,10 +36,11 @@ public class CustomerDetailPage extends LeftMenuNavPage
 
         setModel( model );
 
-        TextField nameField = new TextField( "nameField", model.bind( "name" ) );
-        TextField referenceField = new TextField( "referenceField", model.bind( "reference" ) );
+        TextField nameField = new TextField( "name" );
+        TextField referenceField = new TextField( "reference" );
 
-        AddressDetailPanel addressDetailPanel = new AddressDetailPanel( "addressDetailPanel", model.bind( "address" ) );
+        IModel<Address> addressModel = model.bind( "address" );
+        AddressDetailPanel addressDetailPanel = new AddressDetailPanel( "addressDetailPanel", addressModel );
 
 //            List<AbstractTab> tabs = new ArrayList<AbstractTab>();
 //
@@ -92,12 +94,14 @@ public class CustomerDetailPage extends LeftMenuNavPage
     }
 
 
+/*
     private void handleAddPriceRateSchedule( PriceRateSchedule priceRateSchedule )
     {
         // TODO kamil: complete this
         Customer customer = getCustomer();
         customer.priceRateSchedules().add( priceRateSchedule );
     }
+*/
 
 
     protected Customer getCustomer()

@@ -4,6 +4,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import org.apache.wicket.WicketRuntimeException;
 import org.qi4j.entity.association.Association;
+import org.qi4j.property.ImmutableProperty;
 import org.qi4j.property.Property;
 
 /**
@@ -86,26 +87,30 @@ public final class ChronosPropertyResolver
 
                 if( target != null && ( target instanceof Property || target instanceof Association ) )
                 {
+                    Method setter = null;
+
+                    if( !( target instanceof ImmutableProperty ) )
+                    {
+                        setter = target.getClass().getMethod( "set", Object.class );
+                    }
+
                     Method getter = target.getClass().getMethod( "get" );
-                    Method setter = target.getClass().getMethod( "set", Object.class );
 
                     return new ObjectAndSetterGetter( target, getter, setter );
                 }
             }
             catch( IllegalAccessException e )
             {
-                //TODO
-                e.printStackTrace();
+                throw new WicketRuntimeException( "Error property calling method: " + method + " on object: " + object, e );
             }
             catch( InvocationTargetException e )
             {
-                //TODO
-                e.printStackTrace();
+                throw new WicketRuntimeException( "Error property calling method: " + method + " on object: " + object, e );
             }
         }
         catch( NoSuchMethodException e )
         {
-            //ignore
+            throw new WicketRuntimeException( "Cannot find method corresponding to " + expression );
         }
 
         return null;
@@ -177,17 +182,21 @@ public final class ChronosPropertyResolver
 
         public void setValue( Object newValue )
         {
-            try
+            if( setter != null )
             {
-                setter.invoke( target, newValue );
-            }
-            catch( IllegalAccessException e )
-            {
-                throw new WicketRuntimeException( e.getMessage(), e );
-            }
-            catch( InvocationTargetException e )
-            {
-                throw new WicketRuntimeException( e.getMessage(), e );
+
+                try
+                {
+                    setter.invoke( target, newValue );
+                }
+                catch( IllegalAccessException e )
+                {
+                    throw new WicketRuntimeException( e.getMessage(), e );
+                }
+                catch( InvocationTargetException e )
+                {
+                    throw new WicketRuntimeException( e.getMessage(), e );
+                }
             }
         }
     }

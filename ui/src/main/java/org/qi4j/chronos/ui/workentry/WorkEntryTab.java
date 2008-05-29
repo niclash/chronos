@@ -65,20 +65,21 @@ public abstract class WorkEntryTab extends NewLinkTab
 
         public void newLinkOnClick()
         {
-            WorkEntryAddPage addPage = new WorkEntryAddPage( this.getPage() )
-            {
-                public ProjectAssignee getProjectAssignee()
-                {
-                    return WorkEntryTab.this.getProjectAssignee();
-                }
-
-                public HasWorkEntries getHasWorkEntries()
-                {
-                    return WorkEntryTab.this.getHasWorkEntries();
-                }
-            };
-
-            setResponsePage( addPage );
+            //TODO
+//            WorkEntryAddPage addPage = new WorkEntryAddPage( this.getPage() )
+//            {
+//                public ProjectAssignee getProjectAssignee()
+//                {
+//                    return WorkEntryTab.this.getProjectAssignee();
+//                }
+//
+//                public HasWorkEntries getHasWorkEntries()
+//                {
+//                    return WorkEntryTab.this.getHasWorkEntries();
+//                }
+//            };
+//
+//            setResponsePage( addPage );
         }
 
         public String getNewLinkText()

@@ -39,7 +39,7 @@ public class ProjectEditPage extends ProjectAddEditPage
         bindPropertyModel( getModel() );
     }
 
-    public void onSubmitting()
+    protected void handleSubmitClicked( IModel iModel )
     {
         final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
 

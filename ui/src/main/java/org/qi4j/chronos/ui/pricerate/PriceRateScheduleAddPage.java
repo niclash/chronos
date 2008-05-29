@@ -15,16 +15,12 @@ package org.qi4j.chronos.ui.pricerate;
 import java.util.Collections;
 import java.util.Iterator;
 import org.apache.wicket.Page;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.PriceRate;
 import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
-import org.qi4j.chronos.model.composites.PriceRateScheduleEntityComposite;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import org.qi4j.chronos.util.CurrencyUtil;
 import org.qi4j.entity.UnitOfWork;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,18 +28,15 @@ import org.slf4j.LoggerFactory;
 public abstract class PriceRateScheduleAddPage extends PriceRateScheduleAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( PriceRateScheduleAddPage.class );
-    private static final String ADD_FAIL = "addFailed";
-    private static final String ADD_SUCCESS = "addSuccessful";
-    private static final String SUBMIT_BUTTON = "addPageSubmitButton";
-    private static final String TITLE_LABEL = "addPageTitleLabel";
 
-    public PriceRateScheduleAddPage( Page goBackPage )
+    public PriceRateScheduleAddPage( Page goBackPage, IModel<PriceRateSchedule> priceRateScheduleModel )
     {
-        super( goBackPage );
-
-        bindModel();
+        super( goBackPage, priceRateScheduleModel );
+        addNewPriceRate();
+        updatePriceRateListView();
     }
 
+/*
     private void bindModel()
     {
         setModel(
@@ -63,21 +56,20 @@ public abstract class PriceRateScheduleAddPage extends PriceRateScheduleAddEditP
         );
 
         bindPropertyModel( getModel() );
-        addNewPriceRate();
-        updatePriceRateListView();
     }
+*/
 
     public String getSubmitButtonValue()
     {
-        return getString( SUBMIT_BUTTON );
+        return "Add";
     }
 
     public String getTitleLabel()
     {
-        return getString( TITLE_LABEL );
+        return "Add Price Rate Schedule";
     }
 
-    public void onSubmitting()
+    protected void handleSubmitClicked( IModel iModel )
     {
         final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
         try
@@ -97,14 +89,14 @@ public abstract class PriceRateScheduleAddPage extends PriceRateScheduleAddEditP
 
             ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
 
-            logInfoMsg( getString( ADD_SUCCESS ) );
+            logInfoMsg( "Success" );
             divertToGoBackPage();
         }
         catch( Exception err )
         {
             ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
-            logErrorMsg( getString( ADD_FAIL, new Model( err ) ) );
+            logErrorMsg( "error " + err.getMessage() );
             LOGGER.error( err.getLocalizedMessage(), err );
         }
     }

@@ -13,151 +13,80 @@
 package org.qi4j.chronos.ui.contactperson;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 import org.apache.wicket.Page;
 import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
-import org.apache.wicket.markup.html.form.Button;
-import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.model.BoundCompoundPropertyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.Project;
-import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.associations.HasProjects;
-import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
-import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
-import org.qi4j.chronos.ui.contact.ContactTab;
 import org.qi4j.chronos.ui.project.ProjectTab;
 import org.qi4j.chronos.ui.user.UserDetailPanel;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
-import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
+import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 import org.qi4j.composite.scope.Uses;
-import org.qi4j.entity.Identity;
 
 public class ContactPersonDetailPage extends LeftMenuNavPage
 {
     private Page basePage;
 
-    public ContactPersonDetailPage( @Uses Page basePage, final @Uses String contactPersonId )
+    public ContactPersonDetailPage( final @Uses Page basePage, IModel<ContactPerson> contactPersonModel )
     {
         this.basePage = basePage;
+        ChronosCompoundPropertyModel model = new ChronosCompoundPropertyModel( contactPersonModel );
+        setModel( model );
 
-        setModel(
-            new BoundCompoundPropertyModel(
-                new LoadableDetachableModel()
-                {
-                    public Object load()
-                    {
-                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( contactPersonId, ContactPersonEntityComposite.class );
-                    }
-                }
-            )
-        );
-
-        initComponents();
-    }
-
-    private void initComponents()
-    {
         add( new FeedbackPanel( "feedbackPanel" ) );
-        add( new ContactPersonDetailForm( "contactPersonDetailForm", getModel() ) );
-    }
 
-    private class ContactPersonDetailForm extends Form
-    {
-        private UserDetailPanel userDetailPanel;
-
-        private TextField relationshipField;
-
-        private Button submitButton;
-
-        private TabbedPanel tabbedPanel;
-
-        public ContactPersonDetailForm( String id, final IModel iModel )
+        TextField relationshipField = new TextField( "relationship.relationship" );
+        UserDetailPanel userDetailPanel = new UserDetailPanel( "userDetailPanel", model );
+        Link goBackLink = new Link( "goBackLink" )
         {
-            super( id );
-
-            initComponents( iModel );
-        }
-
-        private void initComponents(final IModel iModel )
-        {
-            IModel relationshipModel = new CustomCompositeModel( iModel, "relationship" );
-            relationshipField =
-                new TextField( "relationshipField", new CustomCompositeModel( relationshipModel, "relationship" ) );
-
-            userDetailPanel = new UserDetailPanel( "userDetailPanel" )
+            public void onClick()
             {
-                public User getUser()
+                setResponsePage( basePage );
+            }
+        };
+
+        List<AbstractTab> tabs = new ArrayList<AbstractTab>();
+
+/*
+        tabs.add(
+            new ContactTab()
+            {
+                public ContactPerson getContactPerson()
                 {
                     return (ContactPerson) iModel.getObject();
                 }
-            };
+            }
+        );
+*/
 
-            submitButton = new Button( "submitButton", new Model( "Return" ) )
+        tabs.add(
+            new ProjectTab( "Project" )
             {
-                public void onSubmit()
+                public IModel<HasProjects> getHasProjectsModel()
                 {
-                    setResponsePage( basePage );
+                    return new ChronosCompoundPropertyModel<HasProjects>( ContactPersonDetailPage.this.getAccount() );
                 }
-            };
 
-            List<AbstractTab> tabs = new ArrayList<AbstractTab>();
-
-            tabs.add(
-                new ContactTab()
+                public int getSize()
                 {
-                    public ContactPerson getContactPerson()
-                    {
-                        return (ContactPerson) iModel.getObject();
-                    }
+                    return getAccount().projects().size();
                 }
-            );
+            }
+        );
 
-            tabs.add(
-                new ProjectTab( "Project" )
-                {
-                    // TODO kamil:
-                    // fix business logic, should only return projects that has this contact person
-                    public HasProjects getHasProjects()
-                    {
-                        return ContactPersonDetailPage.this.getAccount();
-                    }
+        TabbedPanel tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
 
-                    public int getSize()
-                    {
-                        return getAccount().projects().size();
-                    }
-
-                    public List<String> dataList( int first, int count )
-                    {
-                        return ContactPersonDetailPage.this.dataList( first, count );
-                    }
-                }
-            );
-
-            tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
-
-            add( tabbedPanel );
-            add( relationshipField );
-            add( userDetailPanel );
-            add( submitButton );
-        }
-    }
-
-    protected List<String> dataList( int first, int count )
-    {
-        List<String> projects = new ArrayList<String>();
-        for( Project project : getAccount().projects() )
-        {
-            projects.add( ( (Identity) project).identity().get() );
-        }
-
-        return projects.subList( first, first + count );
+        add( tabbedPanel );
+        add( relationshipField );
+        add( userDetailPanel );
+        add( goBackLink );
     }
 }

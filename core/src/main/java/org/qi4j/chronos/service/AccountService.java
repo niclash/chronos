@@ -22,4 +22,6 @@ import org.qi4j.entity.UnitOfWork;
 public interface AccountService extends ServiceComposite
 {
     List<Account> findAllAccounts();
+
+    Account newAccount();
 }

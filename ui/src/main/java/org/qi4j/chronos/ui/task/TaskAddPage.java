@@ -12,51 +12,46 @@
  */
 package org.qi4j.chronos.ui.task;
 
-import java.util.Date;
 import org.apache.wicket.Page;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class TaskAddPage extends TaskAddEditPage
 {
+    private static final long serialVersionUID = 1L;
+
     private final static Logger LOGGER = LoggerFactory.getLogger( TaskAddPage.class );
 
-    public TaskAddPage( Page basePage )
+    public TaskAddPage( Page basePage, IModel<Task> task )
     {
-        super( basePage );
-
-        bindModel();
+        super( basePage, task );
     }
 
-    private void bindModel()
-    {
-        setModel(
-            new CompoundPropertyModel(
-                new LoadableDetachableModel()
-                {
-                    protected Object load()
-                    {
-                        final Task task = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().newEntityBuilder( TaskEntityComposite.class ).newInstance();
-                        task.createdDate().set( new Date() );
-                        task.user().set( ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( TaskAddPage.this.getTaskOwner() ) );
-
-                        return task;
-                    }
-                }
-            )
-        );
-
-        bindPropertyModel( getModel() );
-    }
+//    private void bindModel()
+//    {
+//        setModel(
+//            new CompoundPropertyModel(
+//                new LoadableDetachableModel()
+//                {
+//                    protected Object load()
+//                    {
+//                        final Task task = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().newEntityBuilder( TaskEntityComposite.class ).newInstance();
+//                        task.createdDate().set( new Date() );
+//                        task.user().set( ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( TaskAddPage.this.getTaskOwner() ) );
+//
+//                        return task;
+//                    }
+//                }
+//            )
+//        );
+//
+//        bindPropertyModel( getModel() );
+//    }
 
     public void onSubmitting()
     {

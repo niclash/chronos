@@ -170,9 +170,11 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
             {
                 public void linkClicked()
                 {
+/*
                     PriceRateScheduleEditPage editPage =
                         new PriceRateScheduleEditPage( (BasePage) this.getPage(), priceRateScheduleId );
                     setResponsePage( editPage );
+*/
                 }
             }
         );

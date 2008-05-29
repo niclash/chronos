@@ -14,78 +14,54 @@ package org.qi4j.chronos.ui.staff;
 
 import java.util.Iterator;
 import org.apache.wicket.Page;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
-import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
-import org.qi4j.chronos.ui.login.LoginUserEditPanel;
+import org.qi4j.chronos.model.Login;
+import org.qi4j.chronos.ui.login.AbstractUserLoginPanel;
+import org.qi4j.chronos.ui.login.UserLoginEditPanel;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class StaffEditPage extends StaffAddEditPage
 {
+    private static final long serialVersionUID = 1L;
+
     private final static Logger LOGGER = LoggerFactory.getLogger( StaffEditPage.class );
 
-    private LoginUserEditPanel loginUserEditPanel;
-    private static final String TITLE_LABEL = "editPageTitleLabel";
-    private static final String SUBMIT_BUTTON = "editPageSubmitButton";
-    private static final String UPDATE_SUCCESS = "updateSuccessful";
-    private static final String UPDATE_FAIL = "updateFailed";
+    private UserLoginEditPanel userLoginEditPanel;
 
-    public StaffEditPage( Page basePage, final String staffId )
+    public StaffEditPage( Page basePage, IModel<Staff> staffModel )
     {
-        super( basePage );
-
-        setModel(
-            new CompoundPropertyModel(
-                new LoadableDetachableModel()
-                {
-                    public Object load()
-                    {
-                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( staffId, StaffEntityComposite.class );
-                    }
-                }
-            )
-        );
-        bindPropertyModel( getModel() );
+        super( basePage, staffModel );
     }
 
-    @Override public Iterator<SystemRole> getInitSelectedRoleList()
+    @Override
+    public Iterator<SystemRole> getInitSelectedRoleList()
     {
         return getStaff().systemRoles().iterator();
     }
 
-    public LoginUserAbstractPanel getLoginUserAbstractPanel( String id )
+    public AbstractUserLoginPanel getLoginUserAbstractPanel( String id, IModel<Login> loginModel )
     {
-        if( loginUserEditPanel == null )
+        if( userLoginEditPanel == null )
         {
-            loginUserEditPanel = new LoginUserEditPanel( id )
-            {
-                public User getUser()
-                {
-                    return StaffEditPage.this.getStaff();
-                }
-            };
+            userLoginEditPanel = new UserLoginEditPanel( id, loginModel );
         }
 
-        return loginUserEditPanel;
+        return userLoginEditPanel;
     }
 
     public String getSubmitButtonValue()
     {
-        return getString( SUBMIT_BUTTON );
+        return "Save";
     }
 
     public String getTitleLabel()
     {
-        return getString( TITLE_LABEL );
+        return "Edit Staff";
     }
 
     public void onSubmitting()
@@ -99,7 +75,7 @@ public abstract class StaffEditPage extends StaffAddEditPage
                 staff.systemRoles().add( systemRole );
             }
             ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
-            logInfoMsg( getString( UPDATE_SUCCESS ) );
+            logInfoMsg( "Staff was saved successfully." );
 
             divertToGoBackPage();
         }
@@ -107,7 +83,7 @@ public abstract class StaffEditPage extends StaffAddEditPage
         {
             ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
-            logErrorMsg( getString( UPDATE_FAIL, new Model( uowce ) ) );
+            logErrorMsg( "Fail to save staff." );
             LOGGER.error( uowce.getLocalizedMessage(), uowce );
         }
     }

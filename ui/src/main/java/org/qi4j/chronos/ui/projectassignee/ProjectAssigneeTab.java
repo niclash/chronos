@@ -57,15 +57,15 @@ public abstract class ProjectAssigneeTab extends NewLinkTab
 
         public void newLinkOnClick()
         {
-            ProjectAssigneeAddPage addPage = new ProjectAssigneeAddPage( this.getPage() )
-            {
-                public Project getProject()
-                {
-                    return ProjectAssigneeTab.this.getProject();
-                }
-            };
-
-            setResponsePage( addPage );
+//            ProjectAssigneeAddPage addPage = new ProjectAssigneeAddPage( this.getPage() )
+//            {
+//                public Project getProject()
+//                {
+//                    return ProjectAssigneeTab.this.getProject();
+//                }
+//            };
+//
+//            setResponsePage( addPage );
         }
 
         public String getNewLinkText()

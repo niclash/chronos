@@ -24,11 +24,11 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
 import org.joda.time.Period;
 import org.qi4j.chronos.model.Report;
 import org.qi4j.chronos.model.ReportDetail;
 import org.qi4j.chronos.model.composites.ReportEntityComposite;
-import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 
 public class ReportSummaryPage extends AbstractReportPage
@@ -66,7 +66,7 @@ public class ReportSummaryPage extends AbstractReportPage
         add( goBackLink );
 */
 
-        add( new Label( "title", new CustomCompositeModel( getModel(), "displayValue" ) ) );
+        add( new Label( "title", new PropertyModel( getModel(), "displayValue" ) ) );
 
         Report report = (Report) getModelObject();
 //        add( new Label( "title", report.displayValue().get() ) );

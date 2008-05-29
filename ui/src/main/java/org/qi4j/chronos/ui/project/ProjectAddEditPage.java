@@ -60,11 +60,6 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
     protected List<ContactPerson> selectedContactPersons;
     protected List<ContactPerson> availableContactPersons;
 
-    public ProjectAddEditPage( Page basePage )
-    {
-        super( basePage );
-    }
-
     public ProjectAddEditPage( Page basePage, final IModel iModel )
     {
         super( basePage, iModel );
@@ -161,7 +156,7 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
         {
             selectedContactPersons.clear();
         }
-        
+
         contactPalette =
             new Palette( "contactPalette", new Model( (Serializable) selectedContactPersons ),
                          new Model( (Serializable) availableContactPersons ), fullNameChoiceRender, 4, false );
@@ -248,7 +243,8 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
         return ( (Project) getModelObject() ).customer().get();
     }
 
-    public void handleSubmit()
+/*
+    public void handleSubmitClicked()
     {
         boolean isRejected = false;
 
@@ -284,8 +280,9 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
 
         onSubmitting();
     }
+*/
 
-    public abstract void onSubmitting();
+//    public abstract void onSubmitting();
 
     public abstract Iterator<ContactPerson> getInitSelectedContactPersonList();
 }

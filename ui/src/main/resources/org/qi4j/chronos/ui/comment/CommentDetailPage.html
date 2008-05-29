@@ -18,31 +18,29 @@
 
         <tr>
             <td>
-                <form wicket:id="commentDetailForm">
-                    <table>
-                        <tr>
-                            <td align="right">User</td>
-                            <td><input type="text" wicket:id="userField" class="readOnlyTextStyle" style="width: 350"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="right">Created Date</td>
-                            <td><input type="text" wicket:id="createdDateField" class="readOnlyTextStyle"
-                                       style="width: 350"/>
-                            </td>
-                        </tr>
-                        <tr>
-                            <td align="right">Comment</td>
-                            <td><textarea wicket:id="commentTextArea" rows="5" class="readOnlyTextStyle"
-                                          style="width: 350"></textarea></td>
-                        </tr>
-                        <tr>
-                            <td colspan="4" align="center">
-                                <input type="submit" wicket:id="submitButton"/>
-                            </td>
-                        </tr>
-                    </table>
-                </form>
+                <table>
+                    <tr>
+                        <td align="right">User</td>
+                        <td><input type="text" wicket:id="user" class="readOnlyTextStyle" style="width: 350"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">Created Date</td>
+                        <td><input type="text" wicket:id="createdDate" class="readOnlyTextStyle"
+                                   style="width: 350"/>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td align="right">Comment</td>
+                        <td><textarea wicket:id="text" rows="5" class="readOnlyTextStyle"
+                                      style="width: 350"></textarea></td>
+                    </tr>
+                    <tr>
+                        <td colspan="4" align="center">
+                            <input type="submit" wicket:id="submitButton"/>
+                        </td>
+                    </tr>
+                </table>
             </td>
         </tr>
     </table>

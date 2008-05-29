@@ -161,9 +161,9 @@ public abstract class ProjectRoleTable extends ActionTable<IModel, String>
         {
             public void linkClicked()
             {
-                ProjectRoleEditPage roleEditPage = new ProjectRoleEditPage( getBasePage(), projectRoleId );
-
-                setResponsePage( roleEditPage );
+//                ProjectRoleEditPage roleEditPage = new ProjectRoleEditPage( getBasePage(), projectRoleId );
+//
+//                setResponsePage( roleEditPage );
             }
         };
     }

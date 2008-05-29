@@ -21,9 +21,7 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.Customer;
@@ -36,7 +34,7 @@ import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleAction;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import org.qi4j.chronos.ui.wicket.model.ChronosDetachableModel;
+import org.qi4j.chronos.ui.wicket.model.ChronosEntityModel;
 import org.qi4j.entity.Identity;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
@@ -177,7 +175,7 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
 
                 public IModel load( final String s )
                 {
-                    return new ChronosDetachableModel( ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, ContactPersonEntityComposite.class ) );
+                    return new ChronosEntityModel( ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, ContactPersonEntityComposite.class ) );
                 }
 
                 public List<IModel> dataList( int first, int count )
@@ -185,7 +183,7 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
                     List<IModel> iModels = new ArrayList<IModel>();
                     for( final String contactPersonId : ContactPersonTable.this.dataList( first, count ) )
                     {
-                        iModels.add( new ChronosDetachableModel( ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( contactPersonId, ContactPersonEntityComposite.class ) ) );
+                        iModels.add( new ChronosEntityModel( ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( contactPersonId, ContactPersonEntityComposite.class ) ) );
                     }
 
                     return iModels;
@@ -220,8 +218,9 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
         {
             public void linkClicked()
             {
+/*
                 setResponsePage(
-                    new ContactPersonEditPage( this.getPage(), contactPersonId )
+                    new ContactPersonEditPage( this.getPage(), iModel )
                     {
                         public Customer getCustomer()
                         {
@@ -234,6 +233,7 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
                         }
                     }
                 );
+*/
             }
 
             protected void authorizingLink( Link link )
@@ -249,9 +249,11 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
         {
             public void linkClicked()
             {
+/*
                 ContactPersonDetailPage detailPage = new ContactPersonDetailPage( this.getPage(), contactPersonId );
 
                 setResponsePage( detailPage );
+*/
             }
         };
     }

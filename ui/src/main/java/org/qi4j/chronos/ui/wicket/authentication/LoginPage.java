@@ -27,7 +27,7 @@ import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
-import org.qi4j.chronos.ui.wicket.model.ChronosDetachableModel;
+import org.qi4j.chronos.ui.wicket.model.ChronosEntityModel;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import static org.qi4j.composite.NullArgumentException.validateNotNull;
 import org.qi4j.composite.scope.Service;
@@ -57,7 +57,7 @@ public class LoginPage extends BasePage
         private static final String WICKET_ID_USERNAME = "username";
         private static final String WICKET_ID_PASSWORD = "password";
 
-        private DropDownChoice<ChronosDetachableModel<Account>> accountDropDownChoice;
+        private DropDownChoice<ChronosEntityModel<Account>> accountDropDownChoice;
 
         private LoginForm( String aWicketId, LoginModel aLoginModel, AccountService accountService )
         {
@@ -69,18 +69,18 @@ public class LoginPage extends BasePage
             setModel( compoundPropertyModel );
 
             List<Account> availableAccounts = accountService.findAllAccounts();
-            List<ChronosDetachableModel<Account>> accountModels = new ArrayList<ChronosDetachableModel<Account>>();
+            List<ChronosEntityModel<Account>> accountModels = new ArrayList<ChronosEntityModel<Account>>();
 
             for( Account account : availableAccounts )
             {
-                accountModels.add( new ChronosDetachableModel<Account>( account ) );
+                accountModels.add( new ChronosEntityModel<Account>( account ) );
             }
 
             //account
-            accountDropDownChoice = new DropDownChoice<ChronosDetachableModel<Account>>(
+            accountDropDownChoice = new DropDownChoice<ChronosEntityModel<Account>>(
                 WICKET_ID_ACCOUNT_DROP_DOWN_CHOICE, accountModels, new AccountDropDownChoiceRenderer() );
 
-            IModel<ChronosDetachableModel<Account>> accountModel = compoundPropertyModel.bind( "account" );
+            IModel<ChronosEntityModel<Account>> accountModel = compoundPropertyModel.bind( "account" );
             accountDropDownChoice.setModel( accountModel );
 
             add( accountDropDownChoice );
@@ -98,13 +98,13 @@ public class LoginPage extends BasePage
 
         public final void onSubmit()
         {
-            ChronosDetachableModel<Account> accountDetachableModel = accountDropDownChoice.getModelObject();
+            ChronosEntityModel<Account> accountEntityModel = accountDropDownChoice.getModelObject();
 
             final LoginModel loginModel = getModelObject();
 
             final ChronosSession session = ChronosSession.get();
 
-            session.setAccount( accountDetachableModel.getObject() );
+            session.setAccount( accountEntityModel == null ? null : accountEntityModel.getObject() );
 
             String userName = loginModel.getUserName();
             String password = loginModel.getPassword();
@@ -125,16 +125,16 @@ public class LoginPage extends BasePage
         }
     }
 
-    private static final class AccountDropDownChoiceRenderer implements IChoiceRenderer<ChronosDetachableModel<Account>>
+    private static final class AccountDropDownChoiceRenderer implements IChoiceRenderer<ChronosEntityModel<Account>>
     {
         private static final long serialVersionUID = 1L;
 
-        public Object getDisplayValue( ChronosDetachableModel<Account> object )
+        public Object getDisplayValue( ChronosEntityModel<Account> object )
         {
             return object.getObject().name().get();
         }
 
-        public String getIdValue( ChronosDetachableModel<Account> object, int index )
+        public String getIdValue( ChronosEntityModel<Account> object, int index )
         {
             return ( (Identity) object.getObject() ).identity().get();
         }
@@ -148,14 +148,14 @@ public class LoginPage extends BasePage
         private String userName;
         private String password;
 
-        private ChronosDetachableModel<Account> account;
+        private ChronosEntityModel<Account> account;
 
-        public ChronosDetachableModel<Account> getAccount()
+        public ChronosEntityModel<Account> getAccount()
         {
             return account;
         }
 
-        public void setAccount( ChronosDetachableModel<Account> account )
+        public void setAccount( ChronosEntityModel<Account> account )
         {
             this.account = account;
         }

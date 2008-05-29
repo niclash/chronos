@@ -30,7 +30,6 @@ import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleAction;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
-import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.Identity;
 
@@ -149,15 +148,16 @@ public abstract class StaffTable extends ActionTable<IModel, String>
             {
                 public void linkClicked()
                 {
-                    setResponsePage(
-                        new StaffEditPage( (BasePage) this.getPage(), staffId )
-                        {
-                            public Staff getStaff()
-                            {
-                                return staff;
-                            }
-                        }
-                    );
+                    //TODO
+//                    setResponsePage(
+//                        new StaffEditPage( (BasePage) this.getPage(), staffId )
+//                        {
+//                            public Staff getStaff()
+//                            {
+//                                return staff;
+//                            }
+//                        }
+//                    );
                 }
             }
         );
@@ -169,9 +169,11 @@ public abstract class StaffTable extends ActionTable<IModel, String>
         {
             public void linkClicked()
             {
-                StaffDetailPage detailPage = new StaffDetailPage( (BasePage) this.getPage(), staffId );
+/*
+                StaffDetailPage detailPage = new StaffDetailPage( this.getPage(), staffId );
 
                 setResponsePage( detailPage );
+*/
             }
         };
     }

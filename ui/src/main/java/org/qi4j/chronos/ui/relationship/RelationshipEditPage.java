@@ -13,15 +13,19 @@
 package org.qi4j.chronos.ui.relationship;
 
 import org.apache.wicket.Page;
+import org.apache.wicket.model.IModel;
+import org.qi4j.chronos.model.Relationship;
 
 public class RelationshipEditPage extends RelationshipAddEditPage
 {
-    public RelationshipEditPage( Page goBackPage )
+    private static final long serialVersionUID = 1L;
+
+    public RelationshipEditPage( Page goBackPage, IModel<Relationship> model )
     {
-        super( goBackPage );
+        super( goBackPage, model );
     }
 
-    public void onSubmitting()
+    public void onSubmitting( IModel<Relationship> model )
     {
         //TODO
     }

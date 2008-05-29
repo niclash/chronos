@@ -15,6 +15,7 @@ package org.qi4j.chronos.ui.project;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
 import org.apache.wicket.markup.html.link.Link;
@@ -24,6 +25,7 @@ import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.associations.HasProjects;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
+import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 import org.qi4j.entity.Identity;
 
 @AuthorizeInstantiation( { SystemRole.ACCOUNT_ADMIN, SystemRole.ACCOUNT_DEVELOPER } )
@@ -43,7 +45,7 @@ public class ProjectListPage extends LeftMenuNavPage
                 PageParameters param = new PageParameters();
                 param.put( ProjectListPage.class, ProjectListPage.this );
 
-                setResponsePage( newPage( ProjectAddPage.class, param ) );
+//                setResponsePage( newPage( ProjectAddPage.class, param ) );
             }
         };
 
@@ -56,14 +58,9 @@ public class ProjectListPage extends LeftMenuNavPage
                 return ProjectListPage.this.getSize();
             }
 
-            public List<String> dataList( int first, int count )
+            public IModel<HasProjects> getHasProjectsModel()
             {
-                return ProjectListPage.this.dataList( first, count );
-            }
-
-            public HasProjects getHasProjects()
-            {
-                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( ProjectListPage.this.getAccount() );
+                return new ChronosCompoundPropertyModel<HasProjects>( ProjectListPage.this.getAccount() );
             }
         };
 

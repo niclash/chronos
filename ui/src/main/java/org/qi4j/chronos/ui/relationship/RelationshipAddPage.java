@@ -13,42 +13,17 @@
 package org.qi4j.chronos.ui.relationship;
 
 import org.apache.wicket.Page;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.Relationship;
-import org.qi4j.chronos.model.composites.RelationshipEntityComposite;
-import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
-import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import org.qi4j.entity.UnitOfWork;
 
 public abstract class RelationshipAddPage extends RelationshipAddEditPage
 {
-    public RelationshipAddPage( Page basePage )
+    private static final long serialVersionUID = 1L;
+
+    public RelationshipAddPage( Page basePage, IModel<Relationship> model )
     {
-        super( basePage );
-
-        bindModel();
-    }
-
-    private void bindModel()
-    {
-        setModel(
-            new CompoundPropertyModel(
-                new LoadableDetachableModel()
-                {
-                    protected Object load()
-                    {
-                        final Relationship relationship =
-                            ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().newEntityBuilder( RelationshipEntityComposite.class ).newInstance();
-
-                        return relationship;
-                    }
-                }
-            )
-        );
-
-        relationshipField.setModel( new CustomCompositeModel( getModel(), "relationship" ) );
+        super( basePage, model );
     }
 
     public void onSubmitting()

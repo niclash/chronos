@@ -13,57 +13,39 @@
 package org.qi4j.chronos.ui.projectrole;
 
 import org.apache.wicket.Page;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
-import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
+import org.apache.wicket.model.IModel;
+import org.qi4j.chronos.model.ProjectRole;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ProjectRoleEditPage extends ProjectRoleAddEditPage
 {
+    private static final long serialVersionUID = 1L;
+
     private final static Logger LOGGER = LoggerFactory.getLogger( ProjectRoleEditPage.class );
-    private static final String UPDATE_SUCCESSS = "updateSuccessful";
-    private static final String UPDATE_FAIL = "updateFailed";
-    private static final String SUBMIT_BUTTON = "editPageSubmitButton";
-    private static final String TITLE_LABEL = "editPageTitleLabel";
 
-    public ProjectRoleEditPage( Page goBackPage, final String projectRoleId )
+    public ProjectRoleEditPage( Page goBackPage, IModel<ProjectRole> model )
     {
-        super( goBackPage );
-
-        setModel(
-            new CompoundPropertyModel(
-                new LoadableDetachableModel()
-                {
-                    protected Object load()
-                    {
-                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( projectRoleId, ProjectRoleEntityComposite.class );
-                    }
-                }
-            )
-        );
-
-        bindPropertyModel( getModel() );
+        super( goBackPage, model );
     }
 
     public String getSubmitButtonValue()
     {
-        return getString( SUBMIT_BUTTON );
+        return "Save";
     }
 
     public String getTitleLabel()
     {
-        return getString( TITLE_LABEL );
+        return "Edit Project Role";
     }
 
-    public void onSubmitting()
+    public void onSubmitting( IModel<ProjectRole> model )
     {
         try
         {
             ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
-            logInfoMsg( getString( UPDATE_SUCCESSS ) );
+            logInfoMsg( "Project Role was saved successfully." );
 
             divertToGoBackPage();
         }
@@ -71,7 +53,8 @@ public class ProjectRoleEditPage extends ProjectRoleAddEditPage
         {
             ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
-            logErrorMsg( getString( UPDATE_FAIL, new Model( err ) ) );
+            logErrorMsg( "Fail to save project role." );
+
             LOGGER.error( err.getLocalizedMessage(), err );
         }
     }

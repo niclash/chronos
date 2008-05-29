@@ -55,6 +55,7 @@ public abstract class ContactPersonTab extends NewLinkTab
 
         public void newLinkOnClick()
         {
+/*
             setResponsePage(
                 new ContactPersonAddPage( this.getPage() )
                 {
@@ -64,6 +65,7 @@ public abstract class ContactPersonTab extends NewLinkTab
                     }
                 }
             );
+*/
         }
 
         public String getNewLinkText()

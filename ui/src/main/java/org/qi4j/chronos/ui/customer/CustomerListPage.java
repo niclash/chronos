@@ -15,9 +15,12 @@ package org.qi4j.chronos.ui.customer;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.model.associations.HasCustomers;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
+import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public class CustomerListPage extends LeftMenuNavPage
@@ -34,15 +37,21 @@ public class CustomerListPage extends LeftMenuNavPage
         {
             public void onClick()
             {
-                setResponsePage( new CustomerAddPage( CustomerListPage.this ) );
+//                setResponsePage( new CustomerAddPage( CustomerListPage.this ) );
             }
-        } );
+        }
+        );
 
         CustomerTable customerTable = new CustomerTable( "customerTable" )
         {
             public Account getAccount()
             {
                 return CustomerListPage.this.getAccount();
+            }
+
+            public IModel<HasCustomers> getHasCustomersModel()
+            {
+                return new ChronosCompoundPropertyModel<HasCustomers>( CustomerListPage.this.getAccount() );
             }
         };
 

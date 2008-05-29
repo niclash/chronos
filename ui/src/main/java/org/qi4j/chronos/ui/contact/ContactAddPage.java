@@ -13,6 +13,8 @@
 package org.qi4j.chronos.ui.contact;
 
 import org.apache.wicket.Page;
+import org.apache.wicket.model.IModel;
+import org.qi4j.library.general.model.Contact;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
@@ -20,9 +22,11 @@ public abstract class ContactAddPage extends ContactAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( ContactAddPage.class );
 
-    public ContactAddPage( Page basePage )
+    private static final long serialVersionUID = 1L;
+
+    public ContactAddPage( Page basePage, IModel<Contact> contact)
     {
-        super( basePage );
+        super( basePage, contact );
     }
 
     public String getSubmitButtonValue()

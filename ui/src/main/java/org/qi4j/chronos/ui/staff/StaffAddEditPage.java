@@ -17,35 +17,36 @@ import java.util.Iterator;
 import java.util.List;
 import org.apache.wicket.Page;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
+import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
+import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.ui.common.NumberTextField;
-import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
-import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
-import org.qi4j.chronos.ui.common.model.GenericCustomCompositeModel;
-import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
+import org.qi4j.chronos.ui.login.AbstractUserLoginPanel;
 import org.qi4j.chronos.ui.user.UserAddEditPanel;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 import org.qi4j.chronos.util.CurrencyUtil;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
-public abstract class StaffAddEditPage extends AddEditBasePage
+public abstract class StaffAddEditPage extends AddEditBasePage<Staff>
 {
-    private NumberTextField salaryAmountField;
-    private SimpleDropDownChoice salaryCurrencyField;
-    private UserAddEditPanel userAddEditPanel;
+    private static final long serialVersionUID = 1L;
 
-    public StaffAddEditPage( Page basePage )
+    private UserAddEditPanel<Staff> userAddEditPanel;
+
+    public StaffAddEditPage( Page basePage, IModel<Staff> staff )
     {
-        super( basePage );
+        super( basePage, staff );
     }
 
-    public void initComponent( Form form )
+    public void initComponent( Form<Staff> form )
     {
-        userAddEditPanel = new UserAddEditPanel( "userAddEditPanel" )
+        userAddEditPanel = new UserAddEditPanel<Staff>( "userAddEditPanel", form.getModel() )
         {
-            public LoginUserAbstractPanel getLoginUserAbstractPanel( String id )
+            private static final long serialVersionUID = 1L;
+
+            public AbstractUserLoginPanel getLoginUserAbstractPanel( String id )
             {
                 return StaffAddEditPage.this.getLoginUserAbstractPanel( id );
             }
@@ -56,27 +57,15 @@ public abstract class StaffAddEditPage extends AddEditBasePage
             }
         };
 
-        salaryAmountField = new NumberTextField( "salaryAmountField", "Salary" );
-        salaryCurrencyField =
-            new SimpleDropDownChoice( "salaryCurrencyChoice",
-            CurrencyUtil.getCurrencyList(), true );
+        TextField salaryAmountField = new TextField( "salary" );
+        DropDownChoice salaryCurrencyField =
+            new DropDownChoice( "salaryCurrencyChoice", CurrencyUtil.getCurrencyList() );
 
         form.add( salaryCurrencyField );
         form.add( salaryAmountField );
-        form.add( userAddEditPanel );
-
-        salaryAmountField.setIntValue( 0 );
     }
 
-    protected void bindPropertyModel( IModel iModel )
-    {
-        userAddEditPanel.bindPropertyModel( iModel );
-        IModel salaryModel = new CustomCompositeModel( iModel, "salary" );
-        salaryCurrencyField.setModel( new CustomCompositeModel( salaryModel, "currency" ) );
-        salaryAmountField.setModel( new GenericCustomCompositeModel<Long>( salaryModel, "amount" ) );
-    }
-
-    protected UserAddEditPanel getUserAddEditPanel()
+    protected UserAddEditPanel<Staff> getUserAddEditPanel()
     {
         return this.userAddEditPanel;
     }
@@ -87,29 +76,12 @@ public abstract class StaffAddEditPage extends AddEditBasePage
         return systemRoles.iterator();
     }
 
-    public final void handleSubmit()
+    public final void handleSubmitClicked( IModel<Staff> model )
     {
-        boolean isRejected = false;
-
-        if( salaryAmountField.checkIsEmptyOrNotLong() )
-        {
-            isRejected = true;
-        }
-
-        if( userAddEditPanel.checkIsNotValidated() )
-        {
-            isRejected = true;
-        }
-
-        if( isRejected )
-        {
-            return;
-        }
-
-        onSubmitting();
+        onSubmitting( model );
     }
 
-    public abstract void onSubmitting();
+    protected abstract void onSubmitting( IModel<Staff> model );
 
-    public abstract LoginUserAbstractPanel getLoginUserAbstractPanel( String id );
+    protected abstract AbstractUserLoginPanel getLoginUserAbstractPanel( String id );
 }

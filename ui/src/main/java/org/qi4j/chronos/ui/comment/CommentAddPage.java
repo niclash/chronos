@@ -12,15 +12,11 @@
  */
 package org.qi4j.chronos.ui.comment;
 
-import java.util.Date;
 import org.apache.wicket.Page;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.associations.HasComments;
-import org.qi4j.chronos.model.composites.CommentEntityComposite;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.UnitOfWork;
@@ -30,55 +26,50 @@ import org.slf4j.LoggerFactory;
 
 public abstract class CommentAddPage extends CommentAddEditPage
 {
+    private static final long serialVersionUID = 1L;
+
     private final static Logger LOGGER = LoggerFactory.getLogger( CommentAddPage.class );
-    private static final String ADD_SUCCESS = "addSuccessful";
-    private static final String SUBMIT_BUTTON = "addPageSubmitButton";
-    private static final String TITLE_LABEL = "addPageTitleLabel";
-    private static final String ADD_FAIL = "addFailed";
 
-    public CommentAddPage( Page basePage )
+    public CommentAddPage( Page basePage, IModel<Comment> comment )
     {
-        super( basePage );
-
-        bindModel();
+        super( basePage, comment );
     }
 
-    private void bindModel()
-    {
-        setModel(
-            new CompoundPropertyModel(
-                new LoadableDetachableModel()
-                {
-                    public Object load()
-                    {
-                        final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
-                        
-                        final Comment comment =
-                            unitOfWork.newEntityBuilder( CommentEntityComposite.class ).newInstance();
-                        final User user = unitOfWork.dereference( getCommentOwner() );
-                        comment.createdDate().set( new Date() );
-                        comment.user().set( user );
+//    private void bindModel()
+//    {
+//        setModel(
+//            new CompoundPropertyModel(
+//                new LoadableDetachableModel()
+//                {
+//                    public Object load()
+//                    {
+//                        final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
+//
+//                        final Comment comment =
+//                            unitOfWork.newEntityBuilder( CommentEntityComposite.class ).newInstance();
+//                        final User user = unitOfWork.dereference( getCommentOwner() );
+//                        comment.createdDate().set( new Date() );
+//                        comment.user().set( user );
+//
+//                        return comment;
+//                    }
+//                }
+//            )
+//        );
+//    }
 
-                        return comment;
-                    }
-                }
-            )
-        );
-        bindPropertyModel( getModel() );
-    }
-
-    public void onSubmitting()
+    public void onSubmitting( IModel<Comment> model )
     {
         final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
         try
         {
-            final Comment comment = (Comment) getModelObject();
+            final Comment comment = model.getObject();
             final HasComments hasComments = unitOfWork.dereference( getHasComments() );
             hasComments.comments().add( comment );
 
             ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
 
-            logInfoMsg( getString( ADD_SUCCESS ) );
+            logInfoMsg( "Comment was added successfully." );
 
             divertToGoBackPage();
         }
@@ -86,19 +77,19 @@ public abstract class CommentAddPage extends CommentAddEditPage
         {
             ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
-            logErrorMsg( getString( ADD_FAIL, new Model( uowce ) ) );
+            logErrorMsg( "Fail to add new comment" );
             LOGGER.error( uowce.getLocalizedMessage(), uowce );
         }
     }
 
     public String getSubmitButtonValue()
     {
-        return getString( SUBMIT_BUTTON );
+        return "Add";
     }
 
     public String getTitleLabel()
     {
-        return getString( TITLE_LABEL );
+        return "New Comment";
     }
 
     public User getCommentOwner()

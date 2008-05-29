@@ -21,20 +21,20 @@ import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.Model;
-import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.ProjectAssignee;
 import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.ProjectAssignee;
 import org.qi4j.chronos.model.Staff;
-import org.qi4j.chronos.model.PriceRateSchedule;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
-import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.entity.Identity;
 
 public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssignee, String>
 {
+    private static final long serialVersionUID = 1L;
+
     public ProjectAssigneeTable( String id )
     {
         super( id );
@@ -103,26 +103,26 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssignee, 
         {
             public void linkClicked()
             {
-                ProjectAssigneeEditPage editPage = new ProjectAssigneeEditPage( (BasePage) this.getPage() )
-                {
-                    public ProjectAssignee getProjectAssignee()
-                    {
-//                        return getProjectAssigneeService().get( projectAssigneeId );
-                        return null;
-                    }
-
-                    public PriceRateSchedule getPriceRateSchedule()
-                    {
-                        return getProject().priceRateSchedule().get();
-                    }
-
-                    public Project getProject()
-                    {
-                        return ProjectAssigneeTable.this.getProject();
-                    }
-                };
-
-                setResponsePage( editPage );
+//                ProjectAssigneeEditPage editPage = new ProjectAssigneeEditPage( (BasePage) this.getPage() )
+//                {
+//                    public ProjectAssignee getProjectAssignee()
+//                    {
+////                        return getProjectAssigneeService().get( projectAssigneeId );
+//                        return null;
+//                    }
+//
+//                    public PriceRateSchedule getPriceRateSchedule()
+//                    {
+//                        return getProject().priceRateSchedule().get();
+//                    }
+//
+//                    public Project getProject()
+//                    {
+//                        return ProjectAssigneeTable.this.getProject();
+//                    }
+//                };
+//
+//                setResponsePage( editPage );
             }
 
             protected void authorizingLink( Link link )

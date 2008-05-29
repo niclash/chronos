@@ -31,6 +31,13 @@ public class ChronosUnitOfWorkManager
 
     private long version;
 
+    public enum Policy
+    {
+        DISACRD_ON_END_REQUEST, DO_NOTHING_ON_END_REQUEST, RESET_ON_END_REQUEST
+    }
+
+    private Policy policy;
+
     static void set( ChronosUnitOfWorkManager unitOfWorkManager )
     {
         ChronosUnitOfWorkManager prevUnitOfWorkManager = current.get();
@@ -59,20 +66,46 @@ public class ChronosUnitOfWorkManager
         setUpNewUnitOfWork();
     }
 
+    public void setPolicy( Policy policy )
+    {
+        this.policy = policy;
+    }
+
+
     private void setUpNewUnitOfWork()
     {
         currentUnitOfWork = unitOfWorkFactory.newUnitOfWork();
         version++;
+        policy = Policy.DO_NOTHING_ON_END_REQUEST;
     }
 
     private void attach()
     {
-        currentUnitOfWork.resume();
+        if( currentUnitOfWork == null )
+        {
+            setUpNewUnitOfWork();
+        }
+        else
+        {
+            currentUnitOfWork.resume();
+        }
     }
 
     private void detach()
     {
-        currentUnitOfWork.pause();
+        if( policy == Policy.DISACRD_ON_END_REQUEST )
+        {
+            currentUnitOfWork.discard();
+            currentUnitOfWork = null;
+        }
+        else if( policy == Policy.RESET_ON_END_REQUEST )
+        {
+            currentUnitOfWork.reset();
+        }
+        else
+        {
+            currentUnitOfWork.pause();
+        }
     }
 
     /**
@@ -91,7 +124,7 @@ public class ChronosUnitOfWorkManager
      * UnitOfWork already been closed when it needs to re-associate another UnitOfWork before it
      * can be accessed.
      *
-     * {@see class ChronosDetachableModel}
+     * {@see class ChronosEntityModel}
      *
      * @return the current version.
      */
@@ -107,7 +140,7 @@ public class ChronosUnitOfWorkManager
      * use {@link #discardCurrentUnitOfWork() method, instead of invoking unitOfWork.complete() directly.
      *
      * A new UnitOfWork will be created automatically on complete to enable entities hold
-     * in {@link org.qi4j.chronos.ui.wicket.model.ChronosDetachableModel } re-associate to newly created UnitOfWork.
+     * in {@link org.qi4j.chronos.ui.wicket.model.ChronosEntityModel } re-associate to newly created UnitOfWork.
      *
      * @throws UnitOfWorkCompletionException
      */
@@ -122,7 +155,7 @@ public class ChronosUnitOfWorkManager
      * Discard current UnitOfWork.
      *
      * A new UnitOfWork will be created automatically on discard to enable entities hold
-     * in {@link org.qi4j.chronos.ui.wicket.model.ChronosDetachableModel} re-associate to newly created UnitOfWork.
+     * in {@link org.qi4j.chronos.ui.wicket.model.ChronosEntityModel} re-associate to newly created UnitOfWork.
      */
     public void discardCurrentUnitOfWork()
     {

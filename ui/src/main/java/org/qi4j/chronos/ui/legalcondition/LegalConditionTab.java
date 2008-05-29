@@ -15,12 +15,10 @@ package org.qi4j.chronos.ui.legalcondition;
 import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.LegalCondition;
 import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.common.NewLinkPanel;
 import org.qi4j.chronos.ui.common.tab.NewLinkTab;
-import org.qi4j.entity.association.SetAssociation;
 
 public abstract class LegalConditionTab extends NewLinkTab
 {
@@ -59,20 +57,21 @@ public abstract class LegalConditionTab extends NewLinkTab
 
         public void newLinkOnClick()
         {
-            LegalConditionAddPage addPage = new LegalConditionAddPage( this.getPage() )
-            {
-                public void addLegalCondition( LegalCondition legalCondition )
-                {
-                    Project project = getProject();
-                    SetAssociation<LegalCondition> legalConditions = project.legalConditions();
-                    legalConditions.add( legalCondition );
-
-                    // TODO migrate
-//                    getServices().getProjectService().update( project );
-                }
-            };
-
-            setResponsePage( addPage );
+            //TODO
+//            LegalConditionAddPage addPage = new LegalConditionAddPage( this.getPage() )
+//            {
+//                public void addLegalCondition( LegalCondition legalCondition )
+//                {
+//                    Project project = getProject();
+//                    SetAssociation<LegalCondition> legalConditions = project.legalConditions();
+//                    legalConditions.add( legalCondition );
+//
+//                    // TODO migrate
+////                    getServices().getProjectService().update( project );
+//                }
+//            };
+//
+//            setResponsePage( addPage );
         }
 
         public String getNewLinkText()

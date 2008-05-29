@@ -17,24 +17,22 @@ import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInst
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.SubmitLink;
+import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.LegalCondition;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
-import org.qi4j.chronos.ui.common.MaxLengthTextArea;
-import org.qi4j.chronos.ui.common.MaxLengthTextField;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
-public abstract class LegalConditionAddEditPage extends AddEditBasePage
+public abstract class LegalConditionAddEditPage extends AddEditBasePage<LegalCondition>
 {
-    private MaxLengthTextField nameField;
-    private MaxLengthTextArea descField;
+    private static final long serialVersionUID = 1L;
 
-    private SubmitLink selectLegalConditionLink;
     private WebMarkupContainer selectLegalConditionContainer;
 
-    public LegalConditionAddEditPage( Page goBackPage )
+    public LegalConditionAddEditPage( Page goBackPage, IModel<LegalCondition> model )
     {
-        super( goBackPage );
+        super( goBackPage, model );
     }
 
     protected void hideSelectionLegalConditionLink()
@@ -44,7 +42,7 @@ public abstract class LegalConditionAddEditPage extends AddEditBasePage
 
     public void initComponent( Form form )
     {
-        selectLegalConditionLink = new SubmitLink( "selectLegalConditionLink" )
+        SubmitLink selectLegalConditionLink = new SubmitLink( "selectLegalConditionLink" )
         {
             public void onSubmit()
             {
@@ -62,10 +60,8 @@ public abstract class LegalConditionAddEditPage extends AddEditBasePage
             selectLegalConditionContainer.setVisible( false );
         }
 
-        nameField = new MaxLengthTextField( "nameField", "Legal Condition Name",
-                                            LegalCondition.NAME_LEN );
-        descField = new MaxLengthTextArea( "descTextArea", "Legal Condition Description",
-                                           LegalCondition.DESC_LEN );
+        TextField nameField = new TextField( "name" );
+        TextField descField = new TextField( "description" );
 
         form.add( selectLegalConditionContainer );
         form.add( nameField );
@@ -78,43 +74,15 @@ public abstract class LegalConditionAddEditPage extends AddEditBasePage
         {
             public void selectedLegalCondition( LegalCondition legalCondition )
             {
-                assignLegalConditionToFieldValue( legalCondition );
+//                assignLegalConditionToFieldValue( legalCondition );
             }
         };
 
         setResponsePage( page );
     }
 
-    protected void assignFieldValueToLegalCondition( LegalCondition legalCondition )
+    public void handleSubmitClicked()
     {
-        legalCondition.name().set( nameField.getText() );
-        legalCondition.description().set( descField.getText() );
-    }
-
-    protected void assignLegalConditionToFieldValue( LegalCondition legalCondition )
-    {
-        nameField.setText( legalCondition.name().get() );
-        descField.setText( legalCondition.description().get() );
-    }
-
-    public void handleSubmit()
-    {
-        boolean isRejected = false;
-
-        if( nameField.checkIsEmptyOrInvalidLength() )
-        {
-            isRejected = true;
-        }
-
-        if( descField.checkIsEmptyOrInvalidLength() )
-        {
-            isRejected = true;
-        }
-
-        if( isRejected )
-        {
-            return;
-        }
 
         onSubmitting();
     }

@@ -42,9 +42,9 @@ public abstract class PriceRateAddEditPage extends AddEditBasePage
     private SubmitLink selectPriceRateLink;
     private WebMarkupContainer selectPriceRateContainer;
 
-    public PriceRateAddEditPage( Page goBackPage )
+    public PriceRateAddEditPage( Page goBackPage, IModel<PriceRate> priceRateModel )
     {
-        super( goBackPage );
+        super( goBackPage, priceRateModel );
     }
 
     protected void hidePriceRateSelectionLink()
@@ -133,7 +133,7 @@ public abstract class PriceRateAddEditPage extends AddEditBasePage
         return null;
     }
 
-    public final void handleSubmit()
+    public final void handleSubmitClicked()
     {
         boolean isRejected = false;
 

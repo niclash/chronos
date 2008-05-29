@@ -13,66 +13,49 @@
 package org.qi4j.chronos.ui.contact;
 
 import org.apache.wicket.Page;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
-import org.qi4j.chronos.model.composites.ContactEntityComposite;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.qi4j.library.general.model.Contact;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ContactEditPage extends ContactAddEditPage
 {
+    private static final long serialVersionUID = 1L;
+
     private final static Logger LOGGER = LoggerFactory.getLogger( ContactEditPage.class );
-    private static final String UPDATE_SUCCESS = "updateSuccessful";
-    private static final String UPDATE_FAIL = "updateFailed";
-    private static final String SUBMIT_BUTTON = "editPageSubmitButton";
-    private static final String TITLE_LABEL = "editPageTitleLabel";
 
-    public ContactEditPage( Page basePage, final String contactId )
+    public ContactEditPage( Page basePage, IModel<Contact> contact )
     {
-        super( basePage );
-
-        setModel(
-            new CompoundPropertyModel(
-                new LoadableDetachableModel()
-                {
-                    protected Object load()
-                    {
-                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( contactId, ContactEntityComposite.class );
-                    }
-                }
-            )
-        );
-        bindPropertyModel( getModel() );
+        super( basePage, contact );
     }
 
-    public void onSubmitting()
+    public void onSubmitting( IModel<Contact> contact )
     {
         try
         {
             ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
-            logInfoMsg( getString( UPDATE_SUCCESS ) );
+            logInfoMsg( "Contact was saved successfully." );
 
             divertToGoBackPage();
         }
-        catch( Exception err)
+        catch( Exception err )
         {
             ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
-            logErrorMsg( getString( UPDATE_FAIL, new Model( err ) ) );
+            logErrorMsg( err.getMessage() );
+
             LOGGER.error( err.getLocalizedMessage(), err );
         }
     }
 
     public String getSubmitButtonValue()
     {
-        return getString( SUBMIT_BUTTON );
+        return "Save";
     }
 
     public String getTitleLabel()
     {
-        return getString( TITLE_LABEL );
+        return "Edit Contact";
     }
 }

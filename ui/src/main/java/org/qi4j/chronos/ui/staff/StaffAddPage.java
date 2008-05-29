@@ -13,99 +13,88 @@
 package org.qi4j.chronos.ui.staff;
 
 import org.apache.wicket.Page;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Account;
-import org.qi4j.chronos.model.Login;
-import org.qi4j.chronos.model.Money;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.composites.LoginEntityComposite;
-import org.qi4j.chronos.model.composites.MoneyEntityComposite;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
-import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
-import org.qi4j.chronos.ui.login.LoginUserAddPanel;
+import org.qi4j.chronos.ui.login.AbstractUserLoginPanel;
+import org.qi4j.chronos.ui.login.UserLoginAddPanel;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import org.qi4j.chronos.util.CurrencyUtil;
-import static org.qi4j.composite.NullArgumentException.validateNotNull;
-import org.qi4j.library.general.model.GenderType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class StaffAddPage extends StaffAddEditPage
 {
+    private static final long serialVersionUID = 1L;
+
     private static final Logger LOGGER = LoggerFactory.getLogger( StaffAddPage.class );
-    private LoginUserAddPanel loginUserAddPanel;
-    private static final String ADD_FAIL = "addFailed";
-    private static final String ADD_SUCCESS = "addSuccessful";
-    private static final String SUBMIT_BUTTON = "addPageSubmitButton";
-    private static final String TITLE_LABEL = "addPageTitleLabel";
+    private UserLoginAddPanel userLoginAddPanel;
 
-    public StaffAddPage( Page basePage )
+    public StaffAddPage( Page basePage, IModel<Staff> staff )
     {
-        super( basePage );
-
-        validateNotNull( "basePage", basePage );
-
-        bindModel();
-    }
-
-    private void bindModel()
-    {
-        setModel(
-            new CompoundPropertyModel(
-                new LoadableDetachableModel()
-                {
-                    public Object load()
-                    {
-                        final Staff staff =
-                            ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().newEntityBuilder( StaffEntityComposite.class ).newInstance();
-                        staff.gender().set( GenderType.MALE );
-                        final Login staffLogin =
-                            ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().newEntityBuilder( LoginEntityComposite.class ).newInstance();
-                        staffLogin.isEnabled().set( true );
-                        final Money staffSalary =
-                            ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().newEntityBuilder( MoneyEntityComposite.class ).newInstance();
-                        staffSalary.currency().set( CurrencyUtil.getDefaultCurrency() );
-                        staff.login().set( staffLogin );
-                        staff.salary().set( staffSalary );
-
-                        return staff;
-                    }
-                }
-            )
-        );
-
-        bindPropertyModel( getModel() );
-    }
-
-    public LoginUserAbstractPanel getLoginUserAbstractPanel( String id )
-    {
-        if( loginUserAddPanel == null )
-        {
-            loginUserAddPanel = new LoginUserAddPanel( id );
-        }
-
-        return loginUserAddPanel;
-    }
-
-    public String getSubmitButtonValue()
-    {
-        return getString( SUBMIT_BUTTON );
-    }
-
-    public String getTitleLabel()
-    {
-        return getString( TITLE_LABEL );
+        super( basePage, staff );
     }
 
     public void onSubmitting()
     {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+//    private void bindModel()
+//    {
+//        setModel(
+//            new CompoundPropertyModel(
+//                new LoadableDetachableModel()
+//                {
+//                    public Object load()
+//                    {
+//                        final Staff staff =
+//                            ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().newEntityBuilder( StaffEntityComposite.class ).newInstance();
+//                        staff.gender().set( GenderType.MALE );
+//                        final Login staffLogin =
+//                            ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().newEntityBuilder( LoginEntityComposite.class ).newInstance();
+//                        staffLogin.isEnabled().set( true );
+//                        final Money staffSalary =
+//                            ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().newEntityBuilder( MoneyEntityComposite.class ).newInstance();
+//                        staffSalary.currency().set( CurrencyUtil.getDefaultCurrency() );
+//                        staff.login().set( staffLogin );
+//                        staff.salary().set( staffSalary );
+//
+//                        return staff;
+//                    }
+//                }
+//            )
+//        );
+//
+//        bindPropertyModel( getModel() );
+//    }
+
+    public AbstractUserLoginPanel getLoginUserAbstractPanel( String id )
+    {
+        if( userLoginAddPanel == null )
+        {
+            userLoginAddPanel = new UserLoginAddPanel( id );
+        }
+
+        return userLoginAddPanel;
+    }
+
+    public String getSubmitButtonValue()
+    {
+        return "Add";
+    }
+
+    public String getTitleLabel()
+    {
+        return "New Staff";
+    }
+
+    public void onSubmitting( IModel<Staff> model )
+    {
         try
         {
-            final Staff staff = (Staff) getModelObject();
-            final Account account = getAccount();
+            Staff staff = model.getObject();
+            Account account = getAccount();
 
             for( SystemRole systemRole : getUserAddEditPanel().getSelectedRoleList() )
             {
@@ -113,7 +102,7 @@ public class StaffAddPage extends StaffAddEditPage
             }
             account.staffs().add( staff );
             ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
-            logInfoMsg( getString( ADD_SUCCESS ) );
+            logInfoMsg( "Staff was added successfully." );
 
             divertToGoBackPage();
         }
@@ -121,7 +110,7 @@ public class StaffAddPage extends StaffAddEditPage
         {
             ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
-            logErrorMsg( getString( ADD_FAIL, new Model( err ) ) );
+            logErrorMsg( "Fail to add new staff." );
             LOGGER.error( err.getLocalizedMessage(), err );
         }
     }

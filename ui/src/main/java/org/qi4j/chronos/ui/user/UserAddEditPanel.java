@@ -15,60 +15,60 @@ package org.qi4j.chronos.ui.user;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
-import java.util.Collections;
 import org.apache.wicket.extensions.markup.html.form.palette.Palette;
 import org.apache.wicket.markup.html.WebMarkupContainer;
+import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
+import org.apache.wicket.markup.html.form.TextField;
+import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.ui.common.MaxLengthTextField;
-import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.common.SystemRoleChoiceRenderer;
-import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
-import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
-import org.qi4j.chronos.ui.wicket.base.AddEditBasePanel;
-import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
+import org.qi4j.chronos.ui.login.AbstractUserLoginPanel;
+import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 import org.qi4j.library.general.model.GenderType;
 
-public abstract class UserAddEditPanel extends AddEditBasePanel
+public abstract class UserAddEditPanel<T extends User> extends Panel<T>
 {
-    private MaxLengthTextField firstNameField;
-    private MaxLengthTextField lastNameField;
-    private SimpleDropDownChoice genderChoice;
+    private static final long serialVersionUID = 1L;
+
     private Palette rolePalette;
     private boolean isHideRolePalette;
-    private LoginUserAbstractPanel loginUserPanel;
-    private WebMarkupContainer roleContainer;
+    private AbstractUserLoginPanel userLoginPanel;
 
-    public UserAddEditPanel( String id )
+    public UserAddEditPanel( String id, IModel<T> user )
     {
-        this( id, false );
+        this( id, user, false );
     }
 
-    public UserAddEditPanel( String id, boolean isHideRolePalette )
+    public UserAddEditPanel( String id, IModel<T> user, boolean isHideRolePalette )
     {
         super( id );
 
+        ChronosCompoundPropertyModel model = new ChronosCompoundPropertyModel( user );
+        setModel( model );
+
         this.isHideRolePalette = isHideRolePalette;
 
-        firstNameField = new MaxLengthTextField( "firstNameField", "First Name", User.FIRST_NAME_LEN );
-        lastNameField = new MaxLengthTextField( "lastNameField", "Last Name", User.LAST_NAME_LEN );
-        genderChoice =
-            new SimpleDropDownChoice( "genderChoice", Arrays.asList( GenderType.values() ), true );
+        TextField firstNameField = new TextField( "firstName" );
+        TextField lastNameField = new TextField( "lastName" );
+        DropDownChoice genderChoice = new DropDownChoice( "gender", Arrays.asList( GenderType.values() ) );
 
         IChoiceRenderer renderer = new SystemRoleChoiceRenderer();
+
         final List<SystemRole> selected = getSelectedRoleChoices();
         final List<SystemRole> choices = getAvailableRoleChoices();
 
         rolePalette = new Palette( "rolePalette", new Model( (Serializable) selected ),
                                    new Model( (Serializable) choices ), renderer, 4, false );
 
-        loginUserPanel = getLoginUserAbstractPanel( "loginUserPanel" );
-        roleContainer = new WebMarkupContainer( "roleContainer" );
+        userLoginPanel = getLoginUserAbstractPanel( "userLoginPanel" );
+        WebMarkupContainer roleContainer = new WebMarkupContainer( "roleContainer" );
         roleContainer.add( rolePalette );
         roleContainer.setVisible( !isHideRolePalette );
 
@@ -76,7 +76,7 @@ public abstract class UserAddEditPanel extends AddEditBasePanel
         add( lastNameField );
         add( genderChoice );
         add( roleContainer );
-        add( loginUserPanel );
+        add( userLoginPanel );
     }
 
     private List<SystemRole> getSelectedRoleChoices()
@@ -114,60 +114,19 @@ public abstract class UserAddEditPanel extends AddEditBasePanel
         return rolePalette;
     }
 
-    public MaxLengthTextField getFirstNameField()
+
+    public void validateProperty( StringBuilder strBuilder )
     {
-        return firstNameField;
-    }
-
-    public MaxLengthTextField getLastNameField()
-    {
-        return lastNameField;
-    }
-
-    public SimpleDropDownChoice getGenderChoice()
-    {
-        return genderChoice;
-    }
-
-    public void bindPropertyModel( final IModel iModel )
-    {
-        firstNameField.setModel( new CustomCompositeModel( iModel, "firstName" ) );
-        lastNameField.setModel( new CustomCompositeModel( iModel, "lastName" ) );
-        genderChoice.setModel( new CustomCompositeModel( iModel, "gender" ) );
-
-        IModel loginModel = new CustomCompositeModel( iModel, "login" );
-        loginUserPanel.bindPropertyModel( loginModel );
-    }
-
-    public boolean checkIsNotValidated()
-    {
-        boolean isRejected = false;
-
-        if( firstNameField.checkIsEmptyOrInvalidLength() )
-        {
-            isRejected = true;
-        }
-
-        if( lastNameField.checkIsEmptyOrInvalidLength() )
-        {
-            isRejected = true;
-        }
 
         if( !isHideRolePalette && getSelectedRoleList().size() == 0 )
         {
-            error( "Please make at least one system role is selected!" );
-            isRejected = true;
+            strBuilder.append( "Please make at least one system role is selected!\n" );
         }
 
-        if( loginUserPanel.checkIsNotValidated() )
-        {
-            isRejected = true;
-        }
-
-        return isRejected;
+        userLoginPanel.validateProperty( strBuilder );
     }
 
     protected abstract Iterator<SystemRole> getInitSelectedRoleList();
 
-    public abstract LoginUserAbstractPanel getLoginUserAbstractPanel( String id );
+    public abstract AbstractUserLoginPanel getLoginUserAbstractPanel( String id );
 }

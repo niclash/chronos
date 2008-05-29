@@ -18,10 +18,9 @@ import org.apache.wicket.Component;
 import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.Item;
-import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.LegalCondition;
 import org.qi4j.chronos.model.Project;
-import org.qi4j.chronos.model.associations.HasLegalConditions;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
@@ -109,22 +108,23 @@ public abstract class LegalConditionTable extends ActionTable<LegalCondition, St
         {
             public void linkClicked()
             {
-                LegalConditionEditPage editPage = new LegalConditionEditPage( this.getPage() )
-                {
-                    public LegalCondition getLegalCondition()
-                    {
-                        // TODO kamil: migrate
-//                        return getLegalConditionService().get( getProject(), legalConditionName );
-                        return LegalConditionTable.this.getLegalCondition( legalConditionName );
-                    }
-
-                    public HasLegalConditions getHasLegalConditions()
-                    {
-                        return LegalConditionTable.this.getProject();
-                    }
-                };
-
-                setResponsePage( editPage );
+                //TODO
+//                LegalConditionEditPage editPage = new LegalConditionEditPage( this.getPage() )
+//                {
+//                    public LegalCondition getLegalCondition()
+//                    {
+//                        // TODO kamil: migrate
+////                        return getLegalConditionService().get( getProject(), legalConditionName );
+//                        return LegalConditionTable.this.getLegalCondition( legalConditionName );
+//                    }
+//
+//                    public HasLegalConditions getHasLegalConditions()
+//                    {
+//                        return LegalConditionTable.this.getProject();
+//                    }
+//                };
+//
+//                setResponsePage( editPage );
             }
 
             protected void authorizingLink( Link link )

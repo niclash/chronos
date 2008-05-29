@@ -17,12 +17,14 @@ import java.util.List;
 import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.model.associations.HasProjects;
 import org.qi4j.chronos.ui.project.ProjectTab;
 import org.qi4j.chronos.ui.task.RecentTaskTab;
+import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 import org.qi4j.entity.Identity;
 import org.qi4j.entity.UnitOfWork;
 
@@ -75,19 +77,14 @@ public abstract class AccountAdminPanel extends Panel
     {
         return new ProjectTab( "Recent Projects" )
         {
-            public HasProjects getHasProjects()
+            public IModel<HasProjects> getHasProjectsModel()
             {
-                return AccountAdminPanel.this.getAccount();
+                return new ChronosCompoundPropertyModel<HasProjects>( AccountAdminPanel.this.getAccount() );
             }
 
             public int getSize()
             {
                 return getAccount().projects().size();
-            }
-
-            public List<String> dataList( int first, int count )
-            {
-                return AccountAdminPanel.this.dataList( first, count );
             }
         };
     }

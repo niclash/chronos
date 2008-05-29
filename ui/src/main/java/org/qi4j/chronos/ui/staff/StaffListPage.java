@@ -37,7 +37,7 @@ public class StaffListPage extends LeftMenuNavPage
         {
             public void onClick()
             {
-                setResponsePage( new StaffAddPage( StaffListPage.this ) );
+//                setResponsePage( new StaffAddPage( StaffListPage.this ) );
             }
         } );
 

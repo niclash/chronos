@@ -14,30 +14,22 @@ package org.qi4j.chronos.ui.pricerate;
 
 import java.util.Iterator;
 import org.apache.wicket.Page;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.PriceRate;
 import org.qi4j.chronos.model.PriceRateSchedule;
-import org.qi4j.chronos.model.composites.PriceRateScheduleEntityComposite;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class PriceRateScheduleEditPage extends PriceRateScheduleAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( PriceRateScheduleEditPage.class );
-    private static final String TITLE_LABEL = "editPageTitleLabel";
-    private static final String SUBMIT_BUTTON = "editPageSubmitButton";
-    private static final String UPDATE_SUCCESS = "updateSuccessful";
-    private static final String UPDATE_FAIL = "updateFailed";
 
-    public PriceRateScheduleEditPage( Page basePage, final String priceRateScheduleId )
+    public PriceRateScheduleEditPage( Page basePage, final IModel<PriceRateSchedule> priceRateScheduleModel )
     {
-        super( basePage );
+        super( basePage, priceRateScheduleModel );
 
+/*
         setModel(
             new CompoundPropertyModel(
                 new LoadableDetachableModel()
@@ -50,22 +42,14 @@ public class PriceRateScheduleEditPage extends PriceRateScheduleAddEditPage
             )
         );
 
-        hideSelectPriceRateScheduleLink();
         bindPropertyModel( getModel() );
+*/
+        hideSelectPriceRateScheduleLink();
     }
 
-    public String getSubmitButtonValue()
+    protected void handleSubmitClicked( IModel iModel )
     {
-        return getString( SUBMIT_BUTTON );
-    }
-
-    public String getTitleLabel()
-    {
-        return getString( TITLE_LABEL );
-    }
-
-    public void onSubmitting()
-    {
+/*
         final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
         try
         {
@@ -80,16 +64,27 @@ public class PriceRateScheduleEditPage extends PriceRateScheduleAddEditPage
 
             ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
 
-            logInfoMsg( getString( UPDATE_SUCCESS ) );
+            logInfoMsg( "Success" );
             divertToGoBackPage();
         }
         catch( Exception err )
         {
             ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
-            logErrorMsg( getString( UPDATE_FAIL, new Model( err ) ) );
+            logErrorMsg( "error " + err.getMessage() );
             LOGGER.error( err.getLocalizedMessage(), err );
         }
+*/
+    }
+
+    public String getSubmitButtonValue()
+    {
+        return "Save";
+    }
+
+    public String getTitleLabel()
+    {
+        return "Edit Project";
     }
 
     public Iterator<PriceRate> getInitPriceRateIterator()

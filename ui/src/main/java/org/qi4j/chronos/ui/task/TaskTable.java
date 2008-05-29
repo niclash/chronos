@@ -28,7 +28,6 @@ import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
-import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.chronos.util.DateUtil;
@@ -179,21 +178,23 @@ public abstract class TaskTable extends ActionTable<IModel, String>
 
     private void handleViewDetail( final String taskId )
     {
-        TaskDetailPage detailPage = new TaskDetailPage( (BasePage) this.getPage(), taskId );
-        setResponsePage( detailPage );
+        //TODO
+//        TaskDetailPage detailPage = new TaskDetailPage( (BasePage) this.getPage(), taskId );
+//        setResponsePage( detailPage );
     }
 
     private void handleEdit( final String id, final IModel iModel )
     {
-        TaskEditPage editPage = new TaskEditPage( (BasePage) this.getPage(), id )
-        {
-            public Task getTask()
-            {
-                return (Task) iModel.getObject();
-            }
-        };
-
-        setResponsePage( editPage );
+        //TODO
+//        TaskEditPage editPage = new TaskEditPage( (BasePage) this.getPage(), id )
+//        {
+//            public Task getTask()
+//            {
+//                return (Task) iModel.getObject();
+//            }
+//        };
+//
+//        setResponsePage( editPage );
     }
 
     public List<String> getTableHeaderList()

@@ -15,97 +15,39 @@ package org.qi4j.chronos.ui.account;
 import org.apache.wicket.Page;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Account;
-import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.SystemRole;
-//import org.qi4j.chronos.service.account.AccountService;
 import org.qi4j.chronos.ui.address.AddressAddEditPanel;
-import org.qi4j.chronos.ui.common.MaxLengthTextField;
-import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
-import org.qi4j.chronos.ui.common.model.NameModel;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
-import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 
 @AuthorizeInstantiation( SystemRole.SYSTEM_ADMIN )
-public abstract class AccountAddEditPage extends AddEditBasePage
+public abstract class AccountAddEditPage extends AddEditBasePage<Account>
 {
-    private static final String ACCOUNT_NAME_NOT_UNIQUE = "accountNameNotUnique";
-    protected MaxLengthTextField nameField;
-    protected MaxLengthTextField referenceField;
-    protected AddressAddEditPanel addressAddEditPanel;
+    private static final long serialVersionUID = 1L;
 
-    public AccountAddEditPage( Page goBackPage )
+    public AccountAddEditPage( Page goBackPage, IModel<Account> accountModel )
     {
-        super( goBackPage );
+        super( goBackPage, accountModel );
     }
 
     public final void initComponent( Form form )
     {
-        nameField = new MaxLengthTextField( "nameField", "Name", Customer.NAME_LEN );
-        referenceField = new MaxLengthTextField( "referenceField", "Reference", Customer.REFERENCE_LEN );
-        addressAddEditPanel = new AddressAddEditPanel( "addressAddEditPanel" );
+        RequiredTextField name = new RequiredTextField( "name" );
+        RequiredTextField reference = new RequiredTextField( "reference" );
 
-        form.add( nameField );
-        form.add( referenceField );
-        form.add( addressAddEditPanel );
+        AddressAddEditPanel address = new AddressAddEditPanel( "address" );
+
+        form.add( name );
+        form.add( reference );
+        form.add( address );
     }
 
-    protected void bindPropertyModel( IModel iModel )
+    public final void handleSubmitClicked( IModel<Account> accountIModel )
     {
-        nameField.setModel( new NameModel( iModel ) );
-        referenceField.setModel( new CustomCompositeModel( iModel, "reference" ) );
-        addressAddEditPanel.bindPropertyModel( new CustomCompositeModel( iModel, "address" ) );
+        onSubmitting( accountIModel );
     }
 
-    public final void handleSubmit()
-    {
-        boolean isRejected = false;
-
-        if( nameField.checkIsEmptyOrInvalidLength() )
-        {
-            isRejected = true;
-        }
-
-        if( referenceField.checkIsEmptyOrInvalidLength() )
-        {
-            isRejected = true;
-        }
-
-        if( addressAddEditPanel.checkIsNotValidated() )
-        {
-            isRejected = true;
-        }
-
-/*
-        if( !getAccountService().isUnique( (Account) getModelObject() ) )
-        {
-            error( getString( ACCOUNT_NAME_NOT_UNIQUE, new Model( new CustomCompositeModel( getModel(), "name" ) ),
-                "Account name " + nameField.getModelObjectAsString() + " is not unique!!!" ) );
-            isRejected = true;
-        }
-*/
-
-        if( isRejected )
-        {
-            return;
-        }
-
-        onSubmitting();
-    }
-
-    /**
-     * Query the account service.
-     * TODO kamil: might consider getting the service from somewhere else, ChronosWebApp maybe?
-     * @return
-     */
-/*
-    protected AccountService getAccountService()
-    {
-        return ChronosSession.get().getAccountService();
-    }
-*/
-
-    public abstract void onSubmitting();
+    public abstract void onSubmitting( IModel<Account> accountIModel );
 }

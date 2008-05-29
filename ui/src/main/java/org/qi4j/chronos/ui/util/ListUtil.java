@@ -15,20 +15,20 @@ package org.qi4j.chronos.ui.util;
 import java.util.ArrayList;
 import java.util.Currency;
 import java.util.List;
-import org.qi4j.chronos.model.PriceRateSchedule;
-import org.qi4j.chronos.model.Staff;
-import org.qi4j.chronos.model.PriceRate;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Account;
-import org.qi4j.chronos.model.ProjectRole;
+import org.qi4j.chronos.model.PriceRate;
+import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.PriceRateTypeEnum;
+import org.qi4j.chronos.model.ProjectRole;
 import org.qi4j.chronos.model.ProjectStatusEnum;
-import org.qi4j.chronos.model.TaskStatusEnum;
+import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
 import org.qi4j.chronos.model.associations.HasPriceRates;
 import org.qi4j.chronos.model.associations.HasStaffs;
 import org.qi4j.chronos.ui.pricerate.PriceRateDelegator;
 import org.qi4j.chronos.ui.projectrole.ProjectRoleDelegator;
-import org.qi4j.chronos.ui.staff.StaffDelegator;
+import org.qi4j.chronos.ui.wicket.model.ChronosEntityModel;
 import org.qi4j.chronos.util.CurrencyUtil;
 import org.qi4j.entity.association.SetAssociation;
 import org.qi4j.library.general.model.GenderType;
@@ -49,14 +49,14 @@ public final class ListUtil
     }
 
 
-    public static List<StaffDelegator> getStaffDelegator( HasStaffs hasStaffs )
+    public static List<IModel<Staff>> getStaffDelegator( HasStaffs hasStaffs )
     {
-        List<StaffDelegator> staffDelegatorList = new ArrayList<StaffDelegator>();
+        List<IModel<Staff>> staffDelegatorList = new ArrayList<IModel<Staff>>();
 
         SetAssociation<Staff> staffs = hasStaffs.staffs();
         for( Staff staffEntityComposite : staffs )
         {
-            staffDelegatorList.add( new StaffDelegator( staffEntityComposite ) );
+            staffDelegatorList.add( new ChronosEntityModel<Staff>( staffEntityComposite ) );
         }
 
         return staffDelegatorList;

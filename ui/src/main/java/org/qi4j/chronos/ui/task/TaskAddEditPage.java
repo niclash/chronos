@@ -14,39 +14,40 @@ package org.qi4j.chronos.ui.task;
 
 import java.util.Arrays;
 import org.apache.wicket.Page;
+import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.RequiredTextField;
+import org.apache.wicket.markup.html.form.TextArea;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.model.TaskStatusEnum;
 import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.ui.common.MaxLengthTextArea;
-import org.qi4j.chronos.ui.common.MaxLengthTextField;
-import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
-import org.qi4j.chronos.ui.common.SimpleTextField;
-import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
+import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 
-public abstract class TaskAddEditPage extends AddEditBasePage
+public abstract class TaskAddEditPage extends AddEditBasePage<Task>
 {
-    private MaxLengthTextField titleField;
-    private MaxLengthTextArea descriptionTextArea;
-    private SimpleTextField userField;
-    private SimpleDropDownChoice taskStatusChoice;
+    private static final long serialVersionUID = 1L;
 
-    public TaskAddEditPage( Page basePage )
+    public TaskAddEditPage( Page basePage, IModel<Task> task )
     {
-        super( basePage );
+        super( basePage, task );
     }
 
-    public void initComponent( Form form )
+    public void initComponent( Form<Task> form )
     {
-        titleField = new MaxLengthTextField( "titleField", "Title", Task.TITLE_LEN );
-        descriptionTextArea = new MaxLengthTextArea( "descriptionTextArea", "Description", Task.DESCRIPTION_LEN );
+        RequiredTextField titleField = new RequiredTextField( "title" );
+        TextArea descriptionTextArea = new TextArea( "description" );
 
-        userField = new SimpleTextField( "userField", getTaskOwner().fullName().get(), true );
+        TextField userField = new TextField( "user" );
 
-        taskStatusChoice =
-            new SimpleDropDownChoice( "taskStatusChoice", Arrays.asList( TaskStatusEnum.values() ), true );
+        ChronosCompoundPropertyModel model = (ChronosCompoundPropertyModel) form.getModel();
+
+        DropDownChoice taskStatusChoice = new DropDownChoice( "taskStatusChoice", Arrays.asList( TaskStatusEnum.values() ) );
+
+        taskStatusChoice.setModel( model.bind( "taskStatus" ) );
+        userField.setModel( model.bind( "user.fullName" ) );
 
         form.add( titleField );
         form.add( descriptionTextArea );
@@ -54,36 +55,12 @@ public abstract class TaskAddEditPage extends AddEditBasePage
         form.add( taskStatusChoice );
     }
 
-    protected void bindPropertyModel( IModel iModel )
+    public void handleSubmitClicked( IModel<Task> task )
     {
-        titleField.setModel( new CustomCompositeModel( iModel, "title" ) );
-        descriptionTextArea.setModel( new CustomCompositeModel( iModel, "description" ) );
-        taskStatusChoice.setModel( new CustomCompositeModel( iModel, "taskStatus" ) );
-    }
-
-    public void handleSubmit()
-    {
-        boolean isRejected = false;
-
-        if( titleField.checkIsEmptyOrInvalidLength() )
-        {
-            isRejected = true;
-        }
-
-        if( descriptionTextArea.checkIsInvalidLength() )
-        {
-            isRejected = true;
-        }
-
-        if( isRejected )
-        {
-            return;
-        }
-
-        onSubmitting();
+        onSubmitting( task );
     }
 
     public abstract User getTaskOwner();
 
-    public abstract void onSubmitting();
+    public abstract void onSubmitting( IModel<Task> task );
 }

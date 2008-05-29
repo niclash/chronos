@@ -13,15 +13,15 @@
 package org.qi4j.chronos.ui.customer;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.Customer;
+import org.qi4j.chronos.model.associations.HasCustomers;
 import org.qi4j.chronos.model.composites.CustomerEntityComposite;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleCheckBox;
@@ -29,27 +29,16 @@ import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleAction;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import org.qi4j.chronos.ui.wicket.model.ChronosDetachableModel;
+import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
+import org.qi4j.chronos.ui.wicket.model.ChronosEntityModel;
 import org.qi4j.entity.Identity;
-import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class CustomerTable extends ActionTable<IModel, String>
+public abstract class CustomerTable extends ActionTable<IModel<Customer>, String>
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( CustomerTable.class );
-    private AbstractSortableDataProvider<IModel, String> provider;
-    private static final String DISABLE_ACTION = "disableAction";
-    private static final String DISABLE_SUCCESS = "disableSuccessful";
-    private static final String DISABLE_FAIL = "disableFailed";
-    private static final String ENABLE_ACTION = "enableAction";
-    private static final String ENABLE_SUCCESS = "enableSuccessful";
-    private static final String ENABLE_FAIL = "enableFailed";
-    private static final String EDIT_LINK = "editLink";
-    private static final String HEADER_NAME = "name";
-    private static final String HEADER_REFERENCE = "formalReference";
-    private static final String HEADER_ENABLED = "enabled";
-    private static final String HEADER_LAST = "last";
+    private AbstractSortableDataProvider<IModel<Customer>, String> provider;
 
     public CustomerTable( String id )
     {
@@ -61,33 +50,33 @@ public abstract class CustomerTable extends ActionTable<IModel, String>
     private void addActions()
     {
         addAction(
-            new SimpleAction<IModel>( getString( DISABLE_ACTION ) )
+            new SimpleAction<IModel<Customer>>( "Disable" )
             {
-                public void performAction( List<IModel> customers )
+                public void performAction( List<IModel<Customer>> customers )
                 {
                     handleEnableAction( customers, false );
-                    info( getString( DISABLE_SUCCESS ) );
+                    info( "The selected customer(s) is disabled successfully." );
                 }
             }
         );
 
         addAction(
-            new SimpleAction<IModel>( getString( ENABLE_ACTION ) )
+            new SimpleAction<IModel<Customer>>( "Enable" )
             {
-                public void performAction( List<IModel> customers )
+                public void performAction( List<IModel<Customer>> customers )
                 {
                     handleEnableAction( customers, true );
-                    info( getString( ENABLE_SUCCESS ) );
+                    info( "The selected customer(s) is disabled successfully." );
                 }
             }
         );
     }
 
-    private void handleEnableAction( List<IModel> customers, boolean enable )
+    private void handleEnableAction( List<IModel<Customer>> customers, boolean enable )
     {
-        for( IModel iModel : customers )
+        for( IModel<Customer> iModel : customers )
         {
-            Customer customer = (Customer) iModel.getObject();
+            Customer customer = iModel.getObject();
             customer.isEnabled().set( enable );
         }
 
@@ -95,63 +84,47 @@ public abstract class CustomerTable extends ActionTable<IModel, String>
         {
             ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
         }
-        catch( UnitOfWorkCompletionException uowce )
+        catch( Exception ex )
         {
             ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
-            LOGGER.error( uowce.getLocalizedMessage(), uowce );
-            error( getString( enable ? ENABLE_FAIL : DISABLE_FAIL ) );
+            LOGGER.error( ex.getMessage(), ex );
+            error( "Unable to " + ( enable ? "enable" : "disable" ) + " selected customer(s)." );
         }
     }
 
-    public AbstractSortableDataProvider<IModel, String> getDetachableDataProvider()
+    public AbstractSortableDataProvider<IModel<Customer>, String> getDetachableDataProvider()
     {
         if( provider == null )
         {
-            provider = new AbstractSortableDataProvider<IModel, String>()
+            provider = new AbstractSortableDataProvider<IModel<Customer>, String>()
             {
                 public int getSize()
                 {
-                    return CustomerTable.this.getAccount().customers().size();
+                    return CustomerTable.this.getHasCustomersModel().getObject().customers().size();
                 }
 
-                public String getId( IModel t )
+                public String getId( IModel<Customer> customerModel )
                 {
-                    return ( (Identity) t.getObject() ).identity().get();
+                    return ( (Identity) customerModel.getObject() ).identity().get();
                 }
 
-                public IModel load( final String s )
+                public IModel<Customer> load( final String identityId )
                 {
-                    return new CompoundPropertyModel(
-                        new LoadableDetachableModel()
-                        {
-                            public Object load()
-                            {
-                                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, CustomerEntityComposite.class );
-                            }
-                        }
+                    return new ChronosCompoundPropertyModel<Customer>(
+                                ChronosUnitOfWorkManager.get().getCurrentUnitOfWork()
+                                    .find( identityId, CustomerEntityComposite.class )
                     );
                 }
 
-                public List<IModel> dataList( int first, int count )
+                public List<IModel<Customer>> dataList( int first, int count )
                 {
-                    List<IModel> iModels = new ArrayList<IModel>();
-                    for( final String customerId : CustomerTable.this.dataList( first, count ) )
+                    List<IModel<Customer>> customerModels = new ArrayList<IModel<Customer>>();
+                    for( Customer customer : CustomerTable.this.dataList( first, count ) )
                     {
-                        iModels.add(
-                            new CompoundPropertyModel(
-                                new LoadableDetachableModel()
-                                {
-                                    public Object load()
-                                    {
-                                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( customerId, CustomerEntityComposite.class );
-                                    }
-                                }
-                            )
-                        );
+                        customerModels.add( new ChronosCompoundPropertyModel<Customer>( customer ) );
                     }
-
-                    return iModels;
+                    return customerModels;
                 }
             };
         }
@@ -161,29 +134,20 @@ public abstract class CustomerTable extends ActionTable<IModel, String>
 
     public abstract Account getAccount();
 
-    public void populateItems( Item item, IModel iModel )
+    public void populateItems( Item item, IModel<Customer> iModel )
     {
-        Customer customer = (Customer) iModel.getObject();
-
-        final String customerId = ( (Identity) customer ).identity().get();
-
-        ChronosDetachableModel<Customer> customerModel = new ChronosDetachableModel<Customer>( customer );
-
+        Customer customer = iModel.getObject();
+        final ChronosEntityModel<Customer> customerModel = new ChronosEntityModel<Customer>( customer );
+        item.add( createDetailLink( "name", customer.name().get(), customer.isEnabled().get(), customerModel ) );
+        item.add( createDetailLink( "reference", customer.reference().get(),
+                                    customer.isEnabled().get(), customerModel ) );
+        item.add( new SimpleCheckBox( "enabled", customer.isEnabled().get(), true ) );
         item.add(
-            createDetailLink( HEADER_NAME, customer.name().get(), customer.isEnabled().get(), customerModel )
-        );
-        item.add(
-            createDetailLink( HEADER_REFERENCE, customer.reference().get(), customer.isEnabled().get(), customerModel )
-        );
-        item.add(
-            new SimpleCheckBox( HEADER_ENABLED, customer.isEnabled().get(), true )
-        );
-        item.add(
-            new SimpleLink( EDIT_LINK, getString( EDIT_LINK ) )
+            new SimpleLink( "editLink", "Edit" )
             {
                 public void linkClicked()
                 {
-                    CustomerEditPage editPage = new CustomerEditPage( this.getPage(), customerId );
+                    CustomerEditPage editPage = new CustomerEditPage( this.getPage(), customerModel );
 
                     setResponsePage( editPage );
                 }
@@ -191,8 +155,8 @@ public abstract class CustomerTable extends ActionTable<IModel, String>
         );
     }
 
-    private SimpleLink createDetailLink( final String id,
-                                         final String displayValue, final boolean enable, final IModel<Customer> customerIModel )
+    private SimpleLink createDetailLink( final String id, final String displayValue,
+                                         final boolean enable, final IModel<Customer> customerIModel )
     {
         return new SimpleLink( id, displayValue )
         {
@@ -211,12 +175,7 @@ public abstract class CustomerTable extends ActionTable<IModel, String>
 
     public List<String> getTableHeaderList()
     {
-        return getTableHeaderList(
-            HEADER_NAME,
-            HEADER_REFERENCE,
-            HEADER_ENABLED,
-            HEADER_LAST
-        );
+        return Arrays.asList( "Name", "Reference", "Enabled", "Edit" );
     }
 
     public List<String> getTableHeaderList( String... headers )
@@ -230,14 +189,16 @@ public abstract class CustomerTable extends ActionTable<IModel, String>
         return Collections.unmodifiableList( result );
     }
 
-    protected List<String> dataList( int first, int count )
+    protected List<Customer> dataList( int first, int count )
     {
-        List<String> customerIdList = new ArrayList<String>();
+        List<Customer> customers = new ArrayList<Customer>();
         for( Customer customer : getAccount().customers() )
         {
-            customerIdList.add( ( (Identity) customer ).identity().get() );
+            customers.add( customer );
         }
 
-        return customerIdList.subList( first, first + count );
+        return customers.subList( first, first + count );
     }
+
+    public abstract IModel<HasCustomers> getHasCustomersModel();
 }

@@ -63,15 +63,16 @@ public abstract class TaskTab extends NewLinkTab
 
         public void newLinkOnClick()
         {
-            TaskAddPage addPage = new TaskAddPage( this.getPage() )
-            {
-                public Project getProject()
-                {
-                    return TaskTab.this.getProject();
-                }
-            };
-            
-            setResponsePage( addPage );
+            //TODO
+//            TaskAddPage addPage = new TaskAddPage( this.getPage() )
+//            {
+//                public Project getProject()
+//                {
+//                    return TaskTab.this.getProject();
+//                }
+//            };
+//
+//            setResponsePage( addPage );
         }
 
 

@@ -26,21 +26,24 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.associations.HasProjects;
 import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.ui.project.ProjectTab;
 import org.qi4j.chronos.ui.user.UserDetailPanel;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
+import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 import org.qi4j.entity.Identity;
 
 public class StaffDetailPage extends LeftMenuNavPage
 {
     private Page returnPage;
 
-    public StaffDetailPage( Page returnPage, final String staffId )
+    public StaffDetailPage( Page returnPage, final IModel<Staff> staffModel )
     {
         this.returnPage = returnPage;
+/*
 
         setModel(
             new CompoundPropertyModel(
@@ -53,6 +56,7 @@ public class StaffDetailPage extends LeftMenuNavPage
                 }
             )
         );
+*/
         initComponents();
     }
 
@@ -73,31 +77,20 @@ public class StaffDetailPage extends LeftMenuNavPage
 
         private void initComponents( final IModel iModel )
         {
-            final UserDetailPanel userDetailPanel = new UserDetailPanel( "userDetailPanel" )
-            {
-                public User getUser()
-                {
-                    return (User) iModel.getObject();
-                }
-            };
+            UserDetailPanel userDetailPanel = new UserDetailPanel( "userDetailPanel", iModel );
 
             final List<AbstractTab> tabs = new ArrayList<AbstractTab>();
             tabs.add(
                 new ProjectTab( "Project" )
                 {
-                    public HasProjects getHasProjects()
+                    public IModel<HasProjects> getHasProjectsModel()
                     {
-                        return StaffDetailPage.this.getAccount();
+                        return new ChronosCompoundPropertyModel<HasProjects>( StaffDetailPage.this.getAccount() );
                     }
 
                     public int getSize()
                     {
                         return getAccount().projects().size();
-                    }
-
-                    public List<String> dataList( int first, int count )
-                    {
-                        return StaffDetailPage.this.dataList( first, count );
                     }
                 }
             );
@@ -120,12 +113,12 @@ public class StaffDetailPage extends LeftMenuNavPage
         }
     }
 
-    protected List<String> dataList( int first, int count )
+    protected List<IModel<Project>> dataList( int first, int count )
     {
-        List<String> projects = new ArrayList<String>();
+        List<IModel<Project>> projects = new ArrayList<IModel<Project>>();
         for( Project project : getAccount().projects() )
         {
-            projects.add( ( (Identity) project).identity().get() );
+            projects.add( new ChronosCompoundPropertyModel<Project>( project ) );
         }
 
         return projects.subList( first, first + count );

@@ -12,6 +12,8 @@ package org.qi4j.chronos.ui.wicket.model;
 
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.IWrapModel;
+import org.apache.wicket.Component;
 import org.qi4j.entity.Entity;
 
 /**
@@ -23,11 +25,45 @@ public class ChronosCompoundPropertyModel<T> extends CompoundPropertyModel<T>
 
     public ChronosCompoundPropertyModel( T object )
     {
-        super( object instanceof Entity ? new ChronosDetachableModel<T>( object ) : object );
+        super( object instanceof Entity ? new ChronosEntityModel<T>( object ) : object );
     }
 
     public final <P> IModel<P> bind( String property )
     {
         return new ChronosPropertyModel<P>( this, property );
+    }
+
+    public final <C> IWrapModel<C> wrapOnInheritance( Component<C> component )
+    {
+        return new ChronosAttachedCompoundPropertyModel<C>( component );
+    }
+
+    private class ChronosAttachedCompoundPropertyModel<C> extends AbstractChronosPropertyModel<C>
+        implements IWrapModel<C>
+    {
+        private static final long serialVersionUID = 1L;
+        private final Component<C> owner;
+
+        public ChronosAttachedCompoundPropertyModel( Component<C> owner )
+        {
+            super( ChronosCompoundPropertyModel.this );
+            this.owner = owner;
+        }
+
+        public IModel<?> getWrappedModel()
+        {
+            return ChronosCompoundPropertyModel.this;
+        }
+
+        @Override protected String propertyExpression()
+        {
+            return ChronosCompoundPropertyModel.this.propertyExpression( owner );
+        }
+
+        @Override public void detach()
+        {
+            super.detach();
+            ChronosCompoundPropertyModel.this.detach();
+        }
     }
 }

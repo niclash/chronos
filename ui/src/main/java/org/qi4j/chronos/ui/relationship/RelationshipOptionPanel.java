@@ -24,9 +24,7 @@ import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.Relationship;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
-import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.entity.Identity;
-import org.qi4j.entity.UnitOfWork;
 
 //TODO bp. code can be simplified when Relationship is serializable.
 public abstract class RelationshipOptionPanel extends Panel
@@ -54,20 +52,21 @@ public abstract class RelationshipOptionPanel extends Panel
         {
             public void onSubmit()
             {
-                RelationshipAddPage addPage = new RelationshipAddPage( (BasePage) this.getPage() )
-                {
-                    public Customer getCustomer()
-                    {
-                        return RelationshipOptionPanel.this.getCustomer();
-                    }
-
-                    public void newRelationship( Relationship relationship )
-                    {
-                        RelationshipOptionPanel.this.addNewRelationship( relationship );
-                    }
-                };
-
-                setResponsePage( addPage );
+                //TODO
+//                RelationshipAddPage addPage = new RelationshipAddPage( (BasePage) this.getPage() )
+//                {
+//                    public Customer getCustomer()
+//                    {
+//                        return RelationshipOptionPanel.this.getCustomer();
+//                    }
+//
+//                    public void newRelationship( Relationship relationship )
+//                    {
+//                        RelationshipOptionPanel.this.addNewRelationship( relationship );
+//                    }
+//                };
+//
+//                setResponsePage( addPage );
             }
         };
 
@@ -99,7 +98,7 @@ public abstract class RelationshipOptionPanel extends Panel
     {
         return relationshipList;
     }
-    
+
     private void initRelationshipList()
     {
         Set<Relationship> relationshipSet = new HashSet<Relationship>();

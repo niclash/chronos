@@ -12,28 +12,23 @@
  */
 package org.qi4j.chronos.ui.projectassignee;
 
-import java.util.List;
 import java.util.ArrayList;
+import java.util.List;
 import org.apache.wicket.Page;
-import org.qi4j.chronos.model.Project;
-import org.qi4j.chronos.model.ProjectAssignee;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.PriceRate;
-import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import org.qi4j.chronos.model.ProjectAssignee;
 
 public abstract class ProjectAssigneeAddPage extends ProjectAssigneeAddEditPage
 {
     private static final long serialVersionUID = 1L;
 
-    private final static Logger LOGGER = LoggerFactory.getLogger( ProjectAssigneeAddPage.class );
-
-    public ProjectAssigneeAddPage( Page basePage )
+    public ProjectAssigneeAddPage( Page basePage, IModel<ProjectAssignee> model )
     {
-        super( basePage );
+        super( basePage, model );
     }
 
-    public void onsubmitting()
+    public void onsubmitting( IModel<ProjectAssignee> model )
     {
 //        ProjectAssigneeService service = ChronosWebApp.getServices().getProjectAssigneeService();
 //

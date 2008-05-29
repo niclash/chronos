@@ -28,7 +28,6 @@ import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
-import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.chronos.util.DateUtil;
 import org.qi4j.entity.Identity;
@@ -166,8 +165,9 @@ public abstract class WorkEntryTable extends ActionTable<IModel, String>
             {
                 public void linkClicked()
                 {
-                    WorkEntryEditPage editPage = new WorkEntryEditPage( (BasePage) this.getPage(), workEntryId );
-                    setResponsePage( editPage );
+                    //TODO
+//                    WorkEntryEditPage editPage = new WorkEntryEditPage( (BasePage) this.getPage(), workEntryId );
+//                    setResponsePage( editPage );
                 }
             }
         );

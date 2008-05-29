@@ -15,40 +15,28 @@ package org.qi4j.chronos.ui.project;
 import java.util.Collections;
 import java.util.Iterator;
 import org.apache.wicket.Page;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.ContactPerson;
-import org.qi4j.chronos.model.Customer;
-import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.Project;
-import org.qi4j.chronos.model.ProjectStatusEnum;
-import org.qi4j.chronos.model.TimeRange;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.model.composites.TimeRangeEntityComposite;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.composite.scope.Uses;
 import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ProjectAddPage extends ProjectAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( ProjectAddPage.class );
-    private static final String ADD_FAIL = "addFailed";
-    private static final String ADD_SUCCESS = "addSuccessful";
-    private static final String SUBMIT_BUTTON = "addPageSubmitButton";
-    private static final String TITLE_LABEL = "addPageTitleLabel";
 
-    public ProjectAddPage( final @Uses Page basePage )
+    public ProjectAddPage( final @Uses Page basePage, @Uses IModel<Project> projectModel )
     {
-        super( basePage );
+        super( basePage, projectModel );
 
-        bindModel();
+//        bindModel();
     }
 
+/*
     private void bindModel()
     {
         setModel(
@@ -84,8 +72,9 @@ public class ProjectAddPage extends ProjectAddEditPage
         );
         bindPropertyModel( getModel() );
     }
+*/
 
-    public void onSubmitting()
+    protected void handleSubmitClicked( IModel iModel )
     {
         final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
         try
@@ -99,26 +88,26 @@ public class ProjectAddPage extends ProjectAddEditPage
             account.projects().add( project );
             ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
 
-            logInfoMsg( getString( ADD_SUCCESS ) );
+            logInfoMsg( "Success" );
             divertToGoBackPage();
         }
         catch( Exception err )
         {
             ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
-            logErrorMsg( getString( ADD_FAIL, new Model( err ) ) );
+            logErrorMsg( "error " + err.getMessage() );
             LOGGER.error( err.getLocalizedMessage(), err );
         }
     }
 
     public String getSubmitButtonValue()
     {
-        return getString( SUBMIT_BUTTON );
+        return "Add";
     }
 
     public String getTitleLabel()
     {
-        return getString( TITLE_LABEL );
+        return "Add Project";
     }
 
     public Iterator<ContactPerson> getInitSelectedContactPersonList()

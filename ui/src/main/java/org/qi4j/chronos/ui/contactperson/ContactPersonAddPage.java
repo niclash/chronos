@@ -18,6 +18,7 @@ import org.apache.wicket.Page;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.Login;
@@ -25,8 +26,8 @@ import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
 import org.qi4j.chronos.model.composites.LoginEntityComposite;
 import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
-import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
-import org.qi4j.chronos.ui.login.LoginUserAddPanel;
+import org.qi4j.chronos.ui.login.AbstractUserLoginPanel;
+import org.qi4j.chronos.ui.login.UserLoginAddPanel;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import static org.qi4j.composite.NullArgumentException.validateNotNull;
 import org.qi4j.composite.scope.Uses;
@@ -39,52 +40,56 @@ import org.slf4j.LoggerFactory;
 public abstract class ContactPersonAddPage extends ContactPersonAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( ContactPersonAddPage.class );
-    private LoginUserAddPanel loginUserAddPanel;
+    private UserLoginAddPanel userLoginAddPanel;
     private static final String ADD_SUCCESS = "addSuccessful";
     private static final String ADD_FAIL = "addFailed";
     private static final String SUBMIT_BUTTON = "addPageSubmitButton";
     private static final String TITLE_LABEL = "addPageTitleLabel";
 
-    public ContactPersonAddPage( @Uses Page basePage )
+    public ContactPersonAddPage( @Uses Page basePage, @Uses IModel<ContactPerson> contactPersonModel )
     {
-        super( basePage );
+        super( basePage, contactPersonModel );
 
+/*
         validateNotNull( "basePage", basePage );
 
         bindModel();
+*/
     }
 
-    private void bindModel()
-    {
-        setModel(
-            new CompoundPropertyModel(
-                new LoadableDetachableModel()
-                {
-                    public Object load()
+    /*
+        private void bindModel()
+        {
+            setModel(
+                new CompoundPropertyModel(
+                    new LoadableDetachableModel()
                     {
-                        final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
-                        final ContactPerson contactPerson =
-                            unitOfWork.newEntityBuilder( ContactPersonEntityComposite.class ).newInstance();
-                        final Login contactPersonLogin =
-                            unitOfWork.newEntityBuilder( LoginEntityComposite.class ).newInstance();
-                        final SystemRole contactPersonRole =
-                            unitOfWork.find( SystemRole.CONTACT_PERSON, SystemRoleEntityComposite.class );
-                        contactPerson.gender().set( GenderType.MALE );
-                        contactPersonLogin.isEnabled().set( true );
-                        contactPerson.login().set( contactPersonLogin );
-                        contactPerson.systemRoles().add( contactPersonRole );
-                        contactPerson.relationship().set( getRelationshipOptionPanel().getRelationshipList().get( 0 ) );
+                        public Object load()
+                        {
+                            final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
+                            final ContactPerson contactPerson =
+                                unitOfWork.newEntityBuilder( ContactPersonEntityComposite.class ).newInstance();
+                            final Login contactPersonLogin =
+                                unitOfWork.newEntityBuilder( LoginEntityComposite.class ).newInstance();
+                            final SystemRole contactPersonRole =
+                                unitOfWork.find( SystemRole.CONTACT_PERSON, SystemRoleEntityComposite.class );
+                            contactPerson.gender().set( GenderType.MALE );
+                            contactPersonLogin.isEnabled().set( true );
+                            contactPerson.login().set( contactPersonLogin );
+                            contactPerson.systemRoles().add( contactPersonRole );
+                            contactPerson.relationship().set( getRelationshipOptionPanel().getRelationshipList().get( 0 ) );
 
-                        return contactPerson;
+                            return contactPerson;
+                        }
                     }
-                }
-            )
-        );
+                )
+            );
 
-        bindPropertyModel( getModel() );
-    }
-
-    public void onSubmitting()
+            bindPropertyModel( getModel() );
+        }
+    */
+    
+    protected void handleSubmitClicked( IModel iModel )
     {
         try
         {
@@ -112,16 +117,17 @@ public abstract class ContactPersonAddPage extends ContactPersonAddEditPage
             logErrorMsg( getString( ADD_FAIL, new Model( err ) ) );
             LOGGER.error( err.getLocalizedMessage(), err );
         }
+
     }
 
-    public LoginUserAbstractPanel getLoginUserAbstractPanel( String id )
+    public AbstractUserLoginPanel getLoginUserAbstractPanel( String id )
     {
-        if( loginUserAddPanel == null )
+        if( userLoginAddPanel == null )
         {
-            loginUserAddPanel = new LoginUserAddPanel( id );
+            userLoginAddPanel = new UserLoginAddPanel( id );
         }
 
-        return loginUserAddPanel;
+        return userLoginAddPanel;
     }
 
     public String getSubmitButtonValue()

@@ -18,16 +18,14 @@
 
         <tr>
             <td>
-                <form wicket:id="contactPersonDetailForm">
+                <!--<form wicket:id="contactPersonDetailForm">-->
                     <table>
                         <span wicket:id="userDetailPanel"></span>
-
                         <tr>
                             <td align="right">Relationship</td>
-                            <td colspan="3"><input type="text" wicket:id="relationshipField" class="readOnlyTextStyle"
+                            <td colspan="3"><input type="text" wicket:id="relationship.relationship" class="readOnlyTextStyle"
                                                    style="width: 350"/></td>
                         </tr>
-
                         <tr>
                             <td colspan="4">
                                 <div wicket:id="tabbedPanel" class="tabpanel"></div>
@@ -35,11 +33,11 @@
                         </tr>
                         <tr>
                             <td colspan="4" align="center">
-                                <input type="submit" wicket:id="submitButton"/>
+                                <a wicket:id="goBackLink">Go Back</a>
                             </td>
                         </tr>
                     </table>
-                </form>
+                <!--</form>-->
             </td>
         </tr>
     </table>

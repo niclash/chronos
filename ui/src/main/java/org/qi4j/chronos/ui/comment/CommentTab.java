@@ -55,7 +55,8 @@ public abstract class CommentTab extends NewLinkTab
 
         public void newLinkOnClick()
         {
-            CommentAddPage addPage = new CommentAddPage( CommentNewLinkPanel.this.getPage() )
+            //TODO
+            CommentAddPage addPage = new CommentAddPage( CommentNewLinkPanel.this.getPage(), null )
             {
                 public HasComments getHasComments()
                 {
@@ -74,6 +75,6 @@ public abstract class CommentTab extends NewLinkTab
 
 
     public abstract List<String> dataList( int first, int count );
-    
+
     public abstract HasComments getHasComments();
 }

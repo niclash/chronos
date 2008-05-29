@@ -61,9 +61,9 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
     final IChoiceRenderer nameChoiceRenderer = new NameChoiceRenderer();
     private static final String DUPLICATE_ENTRY = "duplicateEntry";
 
-    public PriceRateScheduleAddEditPage( Page goBackPage )
+    public PriceRateScheduleAddEditPage( Page goBackPage, IModel<PriceRateSchedule> priceRateScheduleModel )
     {
-        super( goBackPage );
+        super( goBackPage, priceRateScheduleModel );
     }
 
     protected void hideSelectPriceRateScheduleLink()
@@ -233,7 +233,7 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
         priceRateListView.modelChanged();
     }
 
-    public final void handleSubmit()
+    public final void handleSubmitClicked()
     {
         boolean isRejected = false;
 
@@ -260,8 +260,6 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
         {
             return;
         }
-
-        onSubmitting();
     }
 
     private boolean isInvalidPriceRate()
@@ -326,6 +324,4 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
 
 
     public abstract Iterator<PriceRate> getInitPriceRateIterator();
-
-    public abstract void onSubmitting();
 }

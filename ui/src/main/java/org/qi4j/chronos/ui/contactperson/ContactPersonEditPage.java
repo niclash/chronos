@@ -17,15 +17,16 @@ import org.apache.wicket.Page;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
-import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
-import org.qi4j.chronos.ui.login.LoginUserEditPanel;
+import org.qi4j.chronos.ui.login.AbstractUserLoginPanel;
+import org.qi4j.chronos.ui.login.UserLoginEditPanel;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.composite.scope.Uses;
 import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.qi4j.library.general.model.Contact;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -34,16 +35,17 @@ public abstract class ContactPersonEditPage extends ContactPersonAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( ContactPersonEditPage.class );
 
-    private LoginUserEditPanel loginUserEditPanel;
+    private UserLoginEditPanel userLoginEditPanel;
     private static final String SUBMIT_BUTTON = "editPageSubmitButton";
     private static final String TITLE_LABEL = "editPageTitleLabel";
     private static final String UPDATE_SUCCESS = "updateSuccessful";
     private static final String UPDATE_FAIL = "updateFailed";
 
-    public ContactPersonEditPage( @Uses Page basePage, final @Uses String contactPersonId )
+    public ContactPersonEditPage( @Uses Page basePage, final @Uses IModel<ContactPerson> contactPersonModel )
     {
-        super( basePage );
+        super( basePage, contactPersonModel );
 
+/*
         setModel(
             new CompoundPropertyModel(
                 new LoadableDetachableModel()
@@ -55,7 +57,7 @@ public abstract class ContactPersonEditPage extends ContactPersonAddEditPage
                 }
             )
         );
-        bindPropertyModel( getModel() );
+*/
     }
 
     public void onSubmitting()
@@ -84,20 +86,14 @@ public abstract class ContactPersonEditPage extends ContactPersonAddEditPage
         }
     }
 
-    public LoginUserAbstractPanel getLoginUserAbstractPanel( String id )
+    public AbstractUserLoginPanel getLoginUserAbstractPanel( String id, IModel<Login> loginModel )
     {
-        if( loginUserEditPanel == null )
+        if( userLoginEditPanel == null )
         {
-            loginUserEditPanel = new LoginUserEditPanel( id )
-            {
-                public User getUser()
-                {
-                    return ContactPersonEditPage.this.getContactPerson();
-                }
-            };
+            userLoginEditPanel = new UserLoginEditPanel( id, loginModel );
         }
 
-        return loginUserEditPanel;
+        return userLoginEditPanel;
     }
 
     public String getSubmitButtonValue()

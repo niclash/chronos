@@ -13,42 +13,29 @@
 package org.qi4j.chronos.ui.task;
 
 import org.apache.wicket.Page;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class TaskEditPage extends TaskAddEditPage
 {
+    private static final long serialVersionUID = 1L;
+
     private final static Logger LOGGER = LoggerFactory.getLogger( TaskEditPage.class );
 
-    public TaskEditPage( Page basePage, final String taskId )
+    public TaskEditPage( Page basePage, IModel<Task> task )
     {
-        super( basePage );
-
-        setModel(
-            new CompoundPropertyModel(
-                new LoadableDetachableModel()
-                {
-                    protected Object load()
-                    {
-                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( taskId, TaskEntityComposite.class );
-                    }
-                }
-            )
-        );
-        bindPropertyModel( getModel() );
+        super( basePage, task );
     }
 
-    public void onSubmitting()
+    public void onSubmitting( IModel<Task> model )
     {
         try
         {
-            final Task task = (Task) getModelObject();
+            final Task task = model.getObject();
             ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
             logInfoMsg( "Task is updated successfully." );
 

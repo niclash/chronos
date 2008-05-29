@@ -13,7 +13,6 @@
 package org.qi4j.chronos.ui.task;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import org.apache.wicket.Page;
 import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
@@ -23,9 +22,7 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.model.Project;
@@ -35,65 +32,41 @@ import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.model.WorkEntry;
 import org.qi4j.chronos.model.associations.HasComments;
 import org.qi4j.chronos.model.associations.HasWorkEntries;
-import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.ui.comment.CommentTab;
-import org.qi4j.chronos.ui.common.SimpleTextField;
-import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
+import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 import org.qi4j.chronos.ui.workentry.WorkEntryTab;
-import org.qi4j.chronos.util.DateUtil;
-import org.qi4j.composite.scope.Uses;
 import org.qi4j.entity.Identity;
 
 public class TaskDetailPage extends LeftMenuNavPage
 {
-    private final Page basePage;
+    private static final long serialVersionUID = 1L;
 
-    public TaskDetailPage( @Uses Page basePage, @Uses final String taskId )
+    private Page basePage;
+
+    public TaskDetailPage( final Page basePage, IModel<Task> task )
     {
         this.basePage = basePage;
 
-        setModel(
-            new CompoundPropertyModel(
-                new LoadableDetachableModel()
-                {
-                    protected Object load()
-                    {
-                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( taskId, TaskEntityComposite.class );
-                    }
-                }
-            )
-        );
-        initComponents();
-    }
-
-    private void initComponents()
-    {
         add( new FeedbackPanel( "feedbackPanel" ) );
-        add( new TaskMasterDetailForm( "taskDetailForm", getModel() ) );
+        add( new TaskMasterDetailForm( "taskDetailForm", task ) );
     }
 
     private class TaskMasterDetailForm extends Form
     {
-        public TaskMasterDetailForm( String id, IModel iModel )
+        private static final long serialVersionUID = 1L;
+
+        public TaskMasterDetailForm( String id, IModel<Task> task )
         {
             super( id );
 
-            initComponents( iModel );
-        }
+            ChronosCompoundPropertyModel model = new ChronosCompoundPropertyModel( task );
 
-        private void initComponents( IModel iModel )
-        {
-            final Task task = (Task) iModel.getObject();
-            final String fullName = task.user().get().fullName().get();
-            final Date createdDate = task.createdDate().get();
-            final TextField userField = new SimpleTextField( "userField", fullName ); // workaround
-            final TextField titleField = new TextField( "titleField", new CustomCompositeModel( iModel, "title" ) );
-            final TextField createDateField =
-                new SimpleTextField( "createDateField", DateUtil.formatDateTime( createdDate ) ); // workaround
-            final TextArea descriptionTextArea =
-                new TextArea( "descriptionTextArea", new CustomCompositeModel( iModel, "description" ) );
+            TextField userField = new TextField( "userField", model.bind( "user.fullName" ) );
+            TextField titleField = new TextField( "title" );
+            TextField createDateField = new TextField( "createDate" );
+            TextArea descriptionTextArea = new TextArea( "description" );
 
             final Button submitButton = new Button( "submitButton", new Model( "Return" ) )
             {
@@ -107,7 +80,7 @@ public class TaskDetailPage extends LeftMenuNavPage
             tabs.add( createCommentTab() );
             tabs.add( createWorkEntryTab() );
 
-            final TabbedPanel tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
+            TabbedPanel tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
 
             add( userField );
             add( titleField );
@@ -185,7 +158,6 @@ public class TaskDetailPage extends LeftMenuNavPage
     private ProjectAssignee getProjectAssignee()
     {
         //TODO bp. This may return null if current user is Customer or ACCOUNT_ADMIN.
-        //TODO got better way to handle this?
         if( getChronosSession().isStaff() )
         {
 /*

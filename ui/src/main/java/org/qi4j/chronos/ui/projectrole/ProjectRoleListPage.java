@@ -38,7 +38,7 @@ public class ProjectRoleListPage extends LeftMenuNavPage
             {
                 public void onClick()
                 {
-                    setResponsePage( new ProjectRoleAddPage( ProjectRoleListPage.this ) );
+//                    setResponsePage( new ProjectRoleAddPage( ProjectRoleListPage.this ) );
                 }
             }
         );

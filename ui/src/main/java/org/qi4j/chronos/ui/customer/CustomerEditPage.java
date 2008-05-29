@@ -13,65 +13,49 @@
 package org.qi4j.chronos.ui.customer;
 
 import org.apache.wicket.Page;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
-import org.qi4j.chronos.model.composites.CustomerEntityComposite;
+import org.apache.wicket.model.IModel;
+import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import org.qi4j.entity.UnitOfWorkCompletionException;
-import org.qi4j.composite.scope.Uses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class CustomerEditPage extends CustomerAddEditPage
 {
+    private static final long serialVersionUID = 1L;
+
     private final static Logger LOGGER = LoggerFactory.getLogger( CustomerEditPage.class );
-    private static final String UPDATE_FAIL = "updateFailed";
-    private static final String UPDATE_SUCCESS = "updateSuccessful";
-    private static final String SUBMIT_BUTTON = "editPageSubmitButton";
-    private static final String TITLE_LABEL = "editPageTitleLabel";
 
-    public CustomerEditPage( @Uses Page basePage, final @Uses String customerId )
+    public CustomerEditPage( Page basePage, IModel<Customer> customer )
     {
-        super( basePage );
-
-        setModel(
-                new LoadableDetachableModel()
-                {
-                    public Object load()
-                    {
-                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( customerId, CustomerEntityComposite.class );
-                    }
-                }
-        );
-        bindPropertyModel( getModel() );
+        super( basePage, customer );
     }
 
-    public void onSubmitting()
+    public void onSubmitting( IModel<Customer> model )
     {
         try
         {
             ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
-            info( getString( UPDATE_SUCCESS ) );
+
+            logInfoMsg( "Customer was saved successfully." );
 
             divertToGoBackPage();
         }
-        catch( Exception err)
+        catch( Exception err )
         {
             ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
-            
-            error( getString( UPDATE_FAIL, new Model( err ) ) );
+
+            error( "Fail to save customer." );
             LOGGER.error( err.getMessage(), err );
         }
     }
 
     public String getSubmitButtonValue()
     {
-        return getString( SUBMIT_BUTTON );
+        return "Save";
     }
 
     public String getTitleLabel()
     {
-        return getString( TITLE_LABEL );
+        return "Edit Customer";
     }
 }

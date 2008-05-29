@@ -16,40 +16,41 @@ import java.util.List;
 import org.apache.wicket.Page;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.form.CheckBox;
+import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.model.Model;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.PriceRate;
 import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.ProjectAssignee;
+import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.pricerate.PriceRateOptionPanel;
-import org.qi4j.chronos.ui.staff.StaffDelegator;
 import org.qi4j.chronos.ui.util.ListUtil;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
-public abstract class ProjectAssigneeAddEditPage extends AddEditBasePage
+public abstract class ProjectAssigneeAddEditPage extends AddEditBasePage<ProjectAssignee>
 {
-    private SimpleDropDownChoice<StaffDelegator> staffChoice;
-    private CheckBox isLeadCheckBox;
+    private static final long serialVersionUID = 1L;
+
     private PriceRateOptionPanel priceRateOptionPanel;
 
-    public ProjectAssigneeAddEditPage( Page basePage )
+    public ProjectAssigneeAddEditPage( Page basePage, IModel<ProjectAssignee> projectAssignee )
     {
-        super( basePage );
+        super( basePage, projectAssignee );
     }
 
-    public void initComponent( Form form )
+    public void initComponent( Form<ProjectAssignee> form )
     {
-        staffChoice = new SimpleDropDownChoice<StaffDelegator>( "staffChoice",
-                                                                ListUtil.getStaffDelegator( getAccount() ), true );
+        DropDownChoice<IModel<Staff>> staffChoice = new DropDownChoice<IModel<Staff>>( "staff", ListUtil.getStaffDelegator( getAccount() ) );
 
-        isLeadCheckBox = new CheckBox( "isLeadCheckBox", new Model( false ) );
+        CheckBox isLeadCheckBox = new CheckBox( "isLead" );
 
         priceRateOptionPanel = new PriceRateOptionPanel( "priceRateOptionPanel" )
         {
+            private static final long serialVersionUID = 1L;
+
             public List<PriceRate> getAvailablePriceRates()
             {
                 return ProjectAssigneeAddEditPage.this.getAvailablePriceRates();
@@ -66,31 +67,12 @@ public abstract class ProjectAssigneeAddEditPage extends AddEditBasePage
         form.add( priceRateOptionPanel );
     }
 
-    protected void assignFieldValueToProjectAssignee( ProjectAssignee projectAssignee )
+    public void handleSubmitClicked( IModel<ProjectAssignee> projectAssignee )
     {
-        projectAssignee.priceRate().set( priceRateOptionPanel.getPriceRate() );
-
-        //TODO
-//      projectAssignee.staff().set( getSelectedStaff() );
-
-        projectAssignee.isLead().set( Boolean.parseBoolean( isLeadCheckBox.getModelObjectAsString() ) );
+        onsubmitting( projectAssignee );
     }
 
-    protected void assignProjectAssigneeToFieldValue( ProjectAssignee projectAssignee )
-    {
-        priceRateOptionPanel.setPriceRate( projectAssignee.priceRate().get() );
-        staffChoice.setChoice( new StaffDelegator( projectAssignee.staff().get() ) );
-        isLeadCheckBox.setModel( new Model( projectAssignee.isLead().get() ) );
-
-        staffChoice.setEnabled( false );
-    }
-
-    public void handleSubmit()
-    {
-        onsubmitting();
-    }
-
-    public abstract void onsubmitting();
+    public abstract void onsubmitting( IModel<ProjectAssignee> projectAssignee );
 
     public abstract List<PriceRate> getAvailablePriceRates();
 

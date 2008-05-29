@@ -15,70 +15,38 @@ package org.qi4j.chronos.ui.customer;
 import org.apache.wicket.Page;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.address.AddressAddEditPanel;
-import org.qi4j.chronos.ui.common.MaxLengthTextField;
-import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
-import org.qi4j.chronos.ui.common.model.NameModel;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
-public abstract class CustomerAddEditPage extends AddEditBasePage
+public abstract class CustomerAddEditPage extends AddEditBasePage<Customer>
 {
-    protected MaxLengthTextField nameField;
-    protected MaxLengthTextField referenceField;
-    protected AddressAddEditPanel addressAddEditPanel;
+    private static final long serialVersionUID = 1L;
 
-    public CustomerAddEditPage( Page goBackPage )
+    public CustomerAddEditPage( Page goBackPage, IModel<Customer> model )
     {
-        super( goBackPage );
+        super( goBackPage, model );
     }
 
     public final void initComponent( Form form )
     {
-        nameField = new MaxLengthTextField( "nameField", "Name", Customer.NAME_LEN );
-        referenceField = new MaxLengthTextField( "referenceField", "Reference", Customer.REFERENCE_LEN );
-        addressAddEditPanel = new AddressAddEditPanel( "addressAddEditPanel" );
+        RequiredTextField name = new RequiredTextField( "name" );
+        RequiredTextField reference = new RequiredTextField( "reference" );
+        AddressAddEditPanel address = new AddressAddEditPanel( "address" );
 
-        form.add( nameField );
-        form.add( referenceField );
-        form.add( addressAddEditPanel );
+        form.add( name );
+        form.add( reference );
+        form.add( address );
     }
 
-    protected void bindPropertyModel( IModel iModel )
+    public final void handleSubmitClicked( IModel<Customer> model )
     {
-        nameField.setModel( new NameModel( iModel ) );
-        referenceField.setModel( new CustomCompositeModel( iModel, "reference" ) );
-        addressAddEditPanel.bindPropertyModel( new CustomCompositeModel( iModel, "address" ) );
+        onSubmitting(model);
     }
 
-    public final void handleSubmit()
-    {
-        boolean isRejected = false;
-
-        if( nameField.checkIsEmptyOrInvalidLength() )
-        {
-            isRejected = true;
-        }
-
-        if( referenceField.checkIsEmptyOrInvalidLength() )
-        {
-            isRejected = true;
-        }
-
-        if( addressAddEditPanel.checkIsNotValidated() )
-        {
-            isRejected = true;
-        }
-        if( isRejected )
-        {
-            return;
-        }
-
-        onSubmitting();
-    }
-
-    public abstract void onSubmitting();
+    public abstract void onSubmitting(IModel<Customer> model);
 }

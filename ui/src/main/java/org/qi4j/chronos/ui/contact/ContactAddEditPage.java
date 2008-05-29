@@ -15,55 +15,35 @@ package org.qi4j.chronos.ui.contact;
 import org.apache.wicket.Page;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.ui.common.MaxLengthTextField;
-import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 import org.qi4j.library.general.model.Contact;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
-public abstract class ContactAddEditPage extends AddEditBasePage
+public abstract class ContactAddEditPage extends AddEditBasePage<Contact>
 {
-    private MaxLengthTextField valueField;
-    private MaxLengthTextField contactTypeField;
+    private static final long serialVersionUID = 1L;
 
-    public ContactAddEditPage( Page basePage )
+    public ContactAddEditPage( Page basePage, IModel<Contact> contact )
     {
-        super( basePage );
+        super( basePage, contact );
     }
 
-    public void initComponent( Form form )
+    public void initComponent( Form<Contact> form )
     {
-        valueField = new MaxLengthTextField( "valueField", "Value", Contact.CONTACT_VALUE_LEN );
-        contactTypeField = new MaxLengthTextField( "contactTypeField", "Contact Type", Contact.CONTACT_TYPE_LEN );
+        RequiredTextField valueField = new RequiredTextField( "contactValue" );
+        RequiredTextField contactTypeField = new RequiredTextField( "contactType" );
 
         form.add( valueField );
         form.add( contactTypeField );
     }
 
-    public void handleSubmit()
+    public void handleSubmitClicked( IModel<Contact> model )
     {
-        boolean isRejected = false;
-
-        if( valueField.checkIsEmptyOrInvalidLength() )
-        {
-            isRejected = true;
-        }
-
-        if( isRejected )
-        {
-            return;
-        }
-
-        onSubmitting();
+        onSubmitting( model );
     }
 
-    protected void bindPropertyModel( IModel iModel )
-    {
-        valueField.setModel( new CustomCompositeModel( iModel, "contactValue" ) );
-        contactTypeField.setModel( new CustomCompositeModel( iModel, "contactType" ) );
-    }
-
-    public abstract void onSubmitting();
+    public abstract void onSubmitting( IModel<Contact> model );
 }

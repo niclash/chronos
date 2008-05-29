@@ -13,62 +13,56 @@
 package org.qi4j.chronos.ui.projectrole;
 
 import org.apache.wicket.Page;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.ProjectRole;
-import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import org.qi4j.entity.UnitOfWork;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public class ProjectRoleAddPage extends ProjectRoleAddEditPage
 {
+    private static final long serialVersionUID = 1L;
+
+
     private final static Logger LOGGER = LoggerFactory.getLogger( ProjectRoleAddPage.class );
-    private static final String ADD_FAIL = "addFailed";
-    private static final String SUBMIT_BUTTON = "addPageSubmitButton";
-    private static final String TITLE_LABEL = "addPageTitleLabel";
-    private static final String ADD_SUCCESS = "addSuccessful";
 
-    public ProjectRoleAddPage( Page goBackpage )
+    public ProjectRoleAddPage( Page goBackpage, IModel<ProjectRole> model )
     {
-        super( goBackpage );
-
-        bindModel();
+        super( goBackpage, model );
     }
 
-    private void bindModel()
-    {
-        setModel(
-            new CompoundPropertyModel(
-                new LoadableDetachableModel()
-                {
-                    protected Object load()
-                    {
-                        final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
+//    private void bindModel()
+//    {
+//        setModel(
+//            new CompoundPropertyModel(
+//                new LoadableDetachableModel()
+//                {
+//                    protected Object load()
+//                    {
+//                        final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
+//
+//                        final ProjectRole projectRole =
+//                            unitOfWork.newEntityBuilder( ProjectRoleEntityComposite.class ).newInstance();
+//
+//                        return projectRole;
+//                    }
+//                }
+//            )
+//        );
+//        bindPropertyModel( getModel() );
+//    }
 
-                        final ProjectRole projectRole =
-                            unitOfWork.newEntityBuilder( ProjectRoleEntityComposite.class ).newInstance();
-
-                        return projectRole;
-                    }
-                }
-            )
-        );
-        bindPropertyModel( getModel() );
-    }
-
-    public void onSubmitting()
+    public void onSubmitting( IModel<ProjectRole> model )
     {
         try
         {
-            final ProjectRole projectRole = (ProjectRole) getModelObject();
+            final ProjectRole projectRole = model.getObject();
             final Account account = getAccount();
             account.projectRoles().add( projectRole );
             ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
 
-            logInfoMsg( getString( ADD_SUCCESS ) );
+            logInfoMsg( "Project Role was added successfully." );
             divertToGoBackPage();
         }
         catch( Exception err )
@@ -82,11 +76,11 @@ public class ProjectRoleAddPage extends ProjectRoleAddEditPage
 
     public String getSubmitButtonValue()
     {
-        return getString( SUBMIT_BUTTON );
+        return "Add";
     }
 
     public String getTitleLabel()
     {
-        return getString( TITLE_LABEL );
+        return "New Project Role";
     }
 }

@@ -27,15 +27,15 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.composites.ContactEntityComposite;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
-import org.qi4j.chronos.ui.login.LoginUserAbstractPanel;
+import org.qi4j.chronos.ui.login.AbstractUserLoginPanel;
 import org.qi4j.chronos.ui.relationship.RelationshipOptionPanel;
 import org.qi4j.chronos.ui.user.UserAddEditPanel;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import org.qi4j.entity.UnitOfWork;
 import org.qi4j.library.general.model.Contact;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
@@ -50,10 +50,9 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
     protected List<Contact> contactList;
     private static final String DUPLICATE_ENTRY = "duplicateContacts";
 
-
-    public ContactPersonAddEditPage( Page goBackPage )
+    public ContactPersonAddEditPage( Page goBackPage, IModel<ContactPerson> contactPersonModel )
     {
-        super( goBackPage );
+        super( goBackPage, contactPersonModel );
     }
 
     public void initComponent( Form form )
@@ -67,7 +66,7 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
         {
             public void onSubmit()
             {
-                handleNewContact(  );
+                handleNewContact();
             }
         };
 
@@ -98,7 +97,7 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
                 {
                     public void onSubmit()
                     {
-                        removeContact( index);
+                        removeContact( index );
                     }
                 };
 
@@ -116,9 +115,9 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
             }
         };
 
-        userAddEditPanel = new UserAddEditPanel( "userAddEditPanel", true )
+        userAddEditPanel = new UserAddEditPanel( "userAddEditPanel", form.getModel(), true )
         {
-            public LoginUserAbstractPanel getLoginUserAbstractPanel( String id )
+            public AbstractUserLoginPanel getLoginUserAbstractPanel( String id )
             {
                 return ContactPersonAddEditPage.this.getLoginUserAbstractPanel( id );
             }
@@ -151,14 +150,14 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
         updateContactListView();
     }
 
-    private void handleNewContact(  )
+    private void handleNewContact()
     {
-        addNewContact( );
+        addNewContact();
 
         updateContactListView();
     }
 
-    private void addNewContact( )
+    private void addNewContact()
     {
         final Contact contact = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().newEntityBuilder( ContactEntityComposite.class ).newInstance();
         contactList.add( contact );
@@ -167,14 +166,8 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
     private void updateContactListView()
     {
         contactListView.modelChanging();
-        contactListView.setList( Arrays.asList( new Integer[ contactList.size() ] ) );
+        contactListView.setList( Arrays.asList( new Integer[contactList.size()] ) );
         contactListView.modelChanged();
-    }
-
-    protected void bindPropertyModel( IModel iModel )
-    {
-        userAddEditPanel.bindPropertyModel( iModel );
-        relationshipOptionPanel.bindModel( new CustomCompositeModel( iModel, "relationship" ) );
     }
 
     protected RelationshipOptionPanel getRelationshipOptionPanel()
@@ -188,15 +181,11 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
         return emptyList.iterator();
     }
 
-    public void handleSubmit()
+    public void handleSubmitClicked()
     {
         boolean isRejected = false;
 
-        if( userAddEditPanel.checkIsNotValidated() )
-        {
-            isRejected = true;
-        }
-
+/*
         if( relationshipOptionPanel.checkIfNotValidated() )
         {
             isRejected = true;
@@ -211,6 +200,7 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
         {
             return;
         }
+*/
 
         onSubmitting();
     }
@@ -243,6 +233,7 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
                contact.contactValue().get().equals( contactOther.contactValue().get() );
     }
 
+/*
     private boolean areContactsNotValidated()
     {
         int index = 0;
@@ -274,6 +265,7 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
 
         return isInvalidContactType || isInvalidContactValue;
     }
+*/
 
     private List<Contact> getInitContactList()
     {
@@ -295,5 +287,5 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
 
     public abstract void onSubmitting();
 
-    public abstract LoginUserAbstractPanel getLoginUserAbstractPanel( String id );
+    public abstract AbstractUserLoginPanel getLoginUserAbstractPanel( String id );
 }

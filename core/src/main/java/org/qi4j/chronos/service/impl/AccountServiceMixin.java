@@ -15,17 +15,28 @@ package org.qi4j.chronos.service.impl;
 import java.util.ArrayList;
 import java.util.List;
 import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.Address;
+import org.qi4j.chronos.model.City;
+import org.qi4j.chronos.model.Country;
+import org.qi4j.chronos.model.State;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.chronos.model.composites.AddressEntityComposite;
+import org.qi4j.chronos.model.composites.CityEntityComposite;
+import org.qi4j.chronos.model.composites.CountryEntityComposite;
+import org.qi4j.chronos.model.composites.StateEntityComposite;
 import org.qi4j.chronos.service.AccountService;
-import org.qi4j.query.QueryBuilderFactory;
 import org.qi4j.entity.UnitOfWork;
+import org.qi4j.query.QueryBuilderFactory;
 
 public abstract class AccountServiceMixin extends AbstractServiceMixin
     implements AccountService
 {
+    private static final long serialVersionUID = 1L;
+
     public List<Account> findAllAccounts()
     {
         UnitOfWork unitOfWork = getUnitOfWork();
-        
+
         QueryBuilderFactory queryBuilderFactory = unitOfWork.queryBuilderFactory();
 
         List<Account> accounts = new ArrayList<Account>();
@@ -38,4 +49,23 @@ public abstract class AccountServiceMixin extends AbstractServiceMixin
         return accounts;
     }
 
+    public Account newAccount()
+    {
+        UnitOfWork unitOfWork = getUnitOfWork();
+
+        Account account = unitOfWork.newEntityBuilder( AccountEntityComposite.class ).newInstance();
+        Address address = unitOfWork.newEntityBuilder( AddressEntityComposite.class ).newInstance();
+        City city = unitOfWork.newEntityBuilder( CityEntityComposite.class ).newInstance();
+        State state = unitOfWork.newEntityBuilder( StateEntityComposite.class ).newInstance();
+        Country country = unitOfWork.newEntityBuilder( CountryEntityComposite.class ).newInstance();
+
+        city.state().set( state );
+        city.country().set( country );
+        address.city().set( city );
+
+        account.address().set( address );
+        account.isEnabled().set( true );
+
+        return account;
+    }
 }

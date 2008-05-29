@@ -20,79 +20,73 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
+import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 import org.qi4j.library.framework.validation.ValidationMessage;
 
-public abstract class AddEditBasePage extends LeftMenuNavPage
+public abstract class AddEditBasePage<T> extends LeftMenuNavPage
 {
+    private static final long serialVersionUID = 1L;
+
     private Page goBackPage;
 
-    public AddEditBasePage( final Page goBackPage )
+    public AddEditBasePage( final Page goBackPage, IModel<T> model )
     {
         this.goBackPage = goBackPage;
 
-        initComponents();
+        ChronosUnitOfWorkManager.get().setPolicy( ChronosUnitOfWorkManager.Policy.RESET_ON_END_REQUEST );
 
-        final String titleLabel = getTitleLabel();
-        add( new Label( "titleLabel", titleLabel ) );
-    }
-
-    public AddEditBasePage( final Page goBackPage, IModel iModel )
-    {
-        setModel( iModel );
-        this.goBackPage = goBackPage;
-
-        initComponents();
-
-        final String titleLabel = getTitleLabel();
-        add( new Label( "titleLabel", titleLabel ) );
-    }
-
-    private void initComponents()
-    {
+        Form<T>  addEditForm = new AddEditForm( "addEditForm", model );
         add( new FeedbackPanel( "feedbackPanel" ) );
-        add( new AddEditForm( "addEditForm" ) );
+        add( addEditForm );
+
+        String titleLabel = getTitleLabel();
+        add( new Label( "titleLabel", titleLabel ) );
+
+        initComponent( addEditForm );
     }
 
-    private class AddEditForm extends Form
+    private class AddEditForm extends Form<T>
     {
-        public AddEditForm( String id )
-        {
-            super( id );
+        private static final long serialVersionUID = 1L;
 
-            initComponents();
-        }
-
-        private void initComponents()
+        public AddEditForm( String id, IModel<T> model )
         {
-            initComponent( this );
+            super( id, new ChronosCompoundPropertyModel<T>( model.getObject() ) );
 
             String buttonValue = getSubmitButtonValue();
-            final Button submitButton =
-                new Button( "submitButton", new Model( buttonValue ) )
+
+            Button<String> submitButton =
+                new Button<String>( "submitButton", new Model<String>( buttonValue ) )
                 {
+                    private static final long serialVersionUID = 1L;
+
                     public void onSubmit()
                     {
-                        handleSubmit();
+                        handleSubmitClicked( AddEditForm.this.getModel() );
                     }
                 };
-            final Button cancelButton =
-                new Button( "cancelButton", new Model( "Cancel" ) )
+
+            Button<String> cancelButton =
+                new Button<String>( "cancelButton", new Model<String>( "Cancel" ) )
                 {
+                    private static final long serialVersionUID = 1L;
+
                     public void onSubmit()
                     {
-                        cancelToGoBackPage();
+                        handleCancelClicked();
                     }
                 };
+
+            cancelButton.setDefaultFormProcessing( false );
 
             add( submitButton );
             add( cancelButton );
         }
     }
 
-    protected void cancelToGoBackPage()
+    protected void handleCancelClicked()
     {
-//        reset();
-
         divertToGoBackPage();
     }
 
@@ -101,22 +95,22 @@ public abstract class AddEditBasePage extends LeftMenuNavPage
         setResponsePage( goBackPage );
     }
 
-    protected Page getGoBackPage()
+    protected final Page getGoBackPage()
     {
         return goBackPage;
     }
 
-    protected void logInfoMsg( String msg )
+    protected final void logInfoMsg( String msg )
     {
         goBackPage.info( msg );
     }
 
-    protected void logErrorMsg( String msg )
+    protected final void logErrorMsg( String msg )
     {
         goBackPage.error( msg );
     }
 
-    protected void logErrorMsg( List<ValidationMessage> msgs )
+    protected final void logErrorMsg( List<ValidationMessage> msgs )
     {
         for( ValidationMessage msg : msgs )
         {
@@ -124,11 +118,11 @@ public abstract class AddEditBasePage extends LeftMenuNavPage
         }
     }
 
-    public abstract void initComponent( Form form );
+    protected abstract void initComponent( Form<T> form );
 
-    public abstract void handleSubmit();
+    protected abstract void handleSubmitClicked( IModel<T> model );
 
-    public abstract String getSubmitButtonValue();
+    protected abstract String getSubmitButtonValue();
 
-    public abstract String getTitleLabel();
+    protected abstract String getTitleLabel();
 }

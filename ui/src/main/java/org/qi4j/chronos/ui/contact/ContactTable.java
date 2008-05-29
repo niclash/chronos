@@ -31,7 +31,6 @@ import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
-import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.Identity;
 import org.qi4j.entity.UnitOfWork;
@@ -165,9 +164,10 @@ public abstract class ContactTable extends ActionTable<IModel, String>
         {
             public void linkClicked()
             {
-                ContactEditPage editPage = new ContactEditPage( (BasePage) this.getPage(), contactId );
-
-                setResponsePage( editPage );
+                //TODO
+//                ContactEditPage editPage = new ContactEditPage( (BasePage) this.getPage(), contactId );
+//
+//                setResponsePage( editPage );
             }
 
             protected void authorizingLink( Link link )
