@@ -14,16 +14,9 @@ package org.qi4j.chronos.ui.contactperson;
 
 import java.util.Iterator;
 import org.apache.wicket.Page;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.ContactPerson;
-import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.model.Login;
-import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
-import org.qi4j.chronos.ui.login.AbstractUserLoginPanel;
-import org.qi4j.chronos.ui.login.UserLoginEditPanel;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.composite.scope.Uses;
 import org.qi4j.entity.UnitOfWork;
@@ -35,7 +28,6 @@ public abstract class ContactPersonEditPage extends ContactPersonAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( ContactPersonEditPage.class );
 
-    private UserLoginEditPanel userLoginEditPanel;
     private static final String SUBMIT_BUTTON = "editPageSubmitButton";
     private static final String TITLE_LABEL = "editPageTitleLabel";
     private static final String UPDATE_SUCCESS = "updateSuccessful";
@@ -86,6 +78,7 @@ public abstract class ContactPersonEditPage extends ContactPersonAddEditPage
         }
     }
 
+/*
     public AbstractUserLoginPanel getLoginUserAbstractPanel( String id, IModel<Login> loginModel )
     {
         if( userLoginEditPanel == null )
@@ -95,6 +88,7 @@ public abstract class ContactPersonEditPage extends ContactPersonAddEditPage
 
         return userLoginEditPanel;
     }
+*/
 
     public String getSubmitButtonValue()
     {

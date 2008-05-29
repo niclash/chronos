@@ -23,7 +23,6 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.ui.login.AbstractUserLoginPanel;
 import org.qi4j.chronos.ui.user.UserAddEditPanel;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 import org.qi4j.chronos.util.CurrencyUtil;
@@ -46,10 +45,12 @@ public abstract class StaffAddEditPage extends AddEditBasePage<Staff>
         {
             private static final long serialVersionUID = 1L;
 
+/*
             public AbstractUserLoginPanel getLoginUserAbstractPanel( String id )
             {
                 return StaffAddEditPage.this.getLoginUserAbstractPanel( id );
             }
+*/
 
             public Iterator<SystemRole> getInitSelectedRoleList()
             {
@@ -83,5 +84,5 @@ public abstract class StaffAddEditPage extends AddEditBasePage<Staff>
 
     protected abstract void onSubmitting( IModel<Staff> model );
 
-    protected abstract AbstractUserLoginPanel getLoginUserAbstractPanel( String id );
+//    protected abstract AbstractUserLoginPanel getLoginUserAbstractPanel( String id );
 }

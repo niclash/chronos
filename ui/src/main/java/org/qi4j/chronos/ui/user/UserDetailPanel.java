@@ -17,7 +17,7 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.ui.login.UserLoginDetailPanel;
+//import org.qi4j.chronos.ui.login.UserLoginDetailPanel;
 import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 
 public final class UserDetailPanel extends Panel<IModel<User>>
@@ -37,11 +37,11 @@ public final class UserDetailPanel extends Panel<IModel<User>>
 
         IModel<Login> loginModel = model.bind( "login" );
 
-        UserLoginDetailPanel userLoginDetailPanel = new UserLoginDetailPanel( "loginUserDetailPanel", loginModel );
+//        UserLoginDetailPanel userLoginDetailPanel = new UserLoginDetailPanel( "loginUserDetailPanel", loginModel );
 
         add( firstNameField );
         add( lastNameField );
         add( genderField );
-        add( userLoginDetailPanel );
+//        add( userLoginDetailPanel );
     }
 }

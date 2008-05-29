@@ -15,32 +15,20 @@ package org.qi4j.chronos.ui.contactperson;
 import java.util.Collections;
 import java.util.Iterator;
 import org.apache.wicket.Page;
-import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.Customer;
-import org.qi4j.chronos.model.Login;
-import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
-import org.qi4j.chronos.model.composites.LoginEntityComposite;
-import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
-import org.qi4j.chronos.ui.login.AbstractUserLoginPanel;
-import org.qi4j.chronos.ui.login.UserLoginAddPanel;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import static org.qi4j.composite.NullArgumentException.validateNotNull;
 import org.qi4j.composite.scope.Uses;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.library.general.model.Contact;
-import org.qi4j.library.general.model.GenderType;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class ContactPersonAddPage extends ContactPersonAddEditPage
 {
     private final static Logger LOGGER = LoggerFactory.getLogger( ContactPersonAddPage.class );
-    private UserLoginAddPanel userLoginAddPanel;
     private static final String ADD_SUCCESS = "addSuccessful";
     private static final String ADD_FAIL = "addFailed";
     private static final String SUBMIT_BUTTON = "addPageSubmitButton";
@@ -120,6 +108,7 @@ public abstract class ContactPersonAddPage extends ContactPersonAddEditPage
 
     }
 
+/*
     public AbstractUserLoginPanel getLoginUserAbstractPanel( String id )
     {
         if( userLoginAddPanel == null )
@@ -129,6 +118,7 @@ public abstract class ContactPersonAddPage extends ContactPersonAddEditPage
 
         return userLoginAddPanel;
     }
+*/
 
     public String getSubmitButtonValue()
     {

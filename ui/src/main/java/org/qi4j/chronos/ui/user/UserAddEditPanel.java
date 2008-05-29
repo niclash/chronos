@@ -29,7 +29,6 @@ import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.ui.common.SystemRoleChoiceRenderer;
-import org.qi4j.chronos.ui.login.AbstractUserLoginPanel;
 import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 import org.qi4j.library.general.model.GenderType;
 
@@ -39,7 +38,6 @@ public abstract class UserAddEditPanel<T extends User> extends Panel<T>
 
     private Palette rolePalette;
     private boolean isHideRolePalette;
-    private AbstractUserLoginPanel userLoginPanel;
 
     public UserAddEditPanel( String id, IModel<T> user )
     {
@@ -67,7 +65,7 @@ public abstract class UserAddEditPanel<T extends User> extends Panel<T>
         rolePalette = new Palette( "rolePalette", new Model( (Serializable) selected ),
                                    new Model( (Serializable) choices ), renderer, 4, false );
 
-        userLoginPanel = getLoginUserAbstractPanel( "userLoginPanel" );
+//        userLoginPanel = getLoginUserAbstractPanel( "userLoginPanel" );
         WebMarkupContainer roleContainer = new WebMarkupContainer( "roleContainer" );
         roleContainer.add( rolePalette );
         roleContainer.setVisible( !isHideRolePalette );
@@ -76,7 +74,7 @@ public abstract class UserAddEditPanel<T extends User> extends Panel<T>
         add( lastNameField );
         add( genderChoice );
         add( roleContainer );
-        add( userLoginPanel );
+//        add( userLoginPanel );
     }
 
     private List<SystemRole> getSelectedRoleChoices()
@@ -123,10 +121,10 @@ public abstract class UserAddEditPanel<T extends User> extends Panel<T>
             strBuilder.append( "Please make at least one system role is selected!\n" );
         }
 
-        userLoginPanel.validateProperty( strBuilder );
+//        userLoginPanel.validateProperty( strBuilder );
     }
 
     protected abstract Iterator<SystemRole> getInitSelectedRoleList();
 
-    public abstract AbstractUserLoginPanel getLoginUserAbstractPanel( String id );
+//    public abstract AbstractUserLoginPanel getLoginUserAbstractPanel( String id );
 }

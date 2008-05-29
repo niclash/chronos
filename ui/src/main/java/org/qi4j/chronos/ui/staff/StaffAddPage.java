@@ -17,8 +17,6 @@ import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.ui.login.AbstractUserLoginPanel;
-import org.qi4j.chronos.ui.login.UserLoginAddPanel;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -28,7 +26,6 @@ public class StaffAddPage extends StaffAddEditPage
     private static final long serialVersionUID = 1L;
 
     private static final Logger LOGGER = LoggerFactory.getLogger( StaffAddPage.class );
-    private UserLoginAddPanel userLoginAddPanel;
 
     public StaffAddPage( Page basePage, IModel<Staff> staff )
     {
@@ -69,6 +66,7 @@ public class StaffAddPage extends StaffAddEditPage
 //        bindPropertyModel( getModel() );
 //    }
 
+/*
     public AbstractUserLoginPanel getLoginUserAbstractPanel( String id )
     {
         if( userLoginAddPanel == null )
@@ -78,6 +76,7 @@ public class StaffAddPage extends StaffAddEditPage
 
         return userLoginAddPanel;
     }
+*/
 
     public String getSubmitButtonValue()
     {

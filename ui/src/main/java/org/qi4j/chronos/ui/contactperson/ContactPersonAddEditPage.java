@@ -31,7 +31,6 @@ import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.composites.ContactEntityComposite;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
-import org.qi4j.chronos.ui.login.AbstractUserLoginPanel;
 import org.qi4j.chronos.ui.relationship.RelationshipOptionPanel;
 import org.qi4j.chronos.ui.user.UserAddEditPanel;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
@@ -117,10 +116,12 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
 
         userAddEditPanel = new UserAddEditPanel( "userAddEditPanel", form.getModel(), true )
         {
+/*
             public AbstractUserLoginPanel getLoginUserAbstractPanel( String id )
             {
                 return ContactPersonAddEditPage.this.getLoginUserAbstractPanel( id );
             }
+*/
 
             public Iterator<SystemRole> getInitSelectedRoleList()
             {
@@ -287,5 +288,5 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
 
     public abstract void onSubmitting();
 
-    public abstract AbstractUserLoginPanel getLoginUserAbstractPanel( String id );
+//    public abstract AbstractUserLoginPanel getLoginUserAbstractPanel( String id );
 }
