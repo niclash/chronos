@@ -13,7 +13,6 @@
 package org.qi4j.chronos.ui.contactperson;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import org.apache.wicket.Page;
 import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
@@ -23,13 +22,12 @@ import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.ContactPerson;
-import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.associations.HasProjects;
 import org.qi4j.chronos.ui.project.ProjectTab;
 import org.qi4j.chronos.ui.user.UserDetailPanel;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
-import org.qi4j.composite.scope.Uses;
+import org.qi4j.injection.scope.Uses;
 
 public class ContactPersonDetailPage extends LeftMenuNavPage
 {

@@ -23,10 +23,10 @@ import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.service.UserAuthenticationFailException;
 import org.qi4j.chronos.service.UserService;
 import org.qi4j.chronos.ui.SystemRoleResolver;
-import org.qi4j.composite.scope.Service;
-import org.qi4j.composite.scope.Structure;
-import org.qi4j.composite.scope.Uses;
 import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.injection.scope.Service;
+import org.qi4j.injection.scope.Structure;
+import org.qi4j.injection.scope.Uses;
 import org.qi4j.service.ServiceFinder;
 
 /**

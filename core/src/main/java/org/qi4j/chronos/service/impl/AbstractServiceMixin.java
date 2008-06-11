@@ -12,9 +12,9 @@
  */
 package org.qi4j.chronos.service.impl;
 
-import org.qi4j.entity.UnitOfWorkFactory;
 import org.qi4j.entity.UnitOfWork;
-import org.qi4j.composite.scope.Structure;
+import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.injection.scope.Structure;
 
 public class AbstractServiceMixin
 {

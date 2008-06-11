@@ -16,7 +16,7 @@ package org.qi4j.chronos.model.associations;
 import java.io.Serializable;
 import org.qi4j.chronos.model.ProjectStatusEnum;
 import org.qi4j.composite.Mixins;
-import org.qi4j.composite.scope.PropertyField;
+import org.qi4j.injection.scope.PropertyField;
 import org.qi4j.property.Property;
 
 /**

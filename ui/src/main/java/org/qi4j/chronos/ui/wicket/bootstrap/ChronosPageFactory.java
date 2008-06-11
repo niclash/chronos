@@ -6,8 +6,8 @@ import org.apache.wicket.PageParameters;
 import static org.apache.wicket.PageParameters.NULL;
 import org.apache.wicket.WicketRuntimeException;
 import static org.qi4j.composite.NullArgumentException.validateNotNull;
-import org.qi4j.composite.scope.Structure;
 import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.injection.scope.Structure;
 import org.qi4j.object.ObjectBuilder;
 import org.qi4j.object.ObjectBuilderFactory;
 

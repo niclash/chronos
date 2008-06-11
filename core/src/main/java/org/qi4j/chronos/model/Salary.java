@@ -7,14 +7,13 @@
  */
 package org.qi4j.chronos.model;
 
-import org.qi4j.property.Property;
-import org.qi4j.property.ComputedPropertyInstance;
-import org.qi4j.library.general.model.Descriptor;
+import org.qi4j.composite.Mixins;
+import org.qi4j.injection.scope.PropertyField;
 import org.qi4j.library.general.model.Amount;
 import org.qi4j.library.general.model.Currency;
-import org.qi4j.composite.Mixins;
-import org.qi4j.composite.scope.This;
-import org.qi4j.composite.scope.PropertyField;
+import org.qi4j.library.general.model.Descriptor;
+import org.qi4j.property.ComputedPropertyInstance;
+import org.qi4j.property.Property;
 
 @Mixins( Salary.DescriptorMixin.class )
 public interface Salary extends Amount<Long>, Currency, Descriptor
@@ -27,7 +26,7 @@ public interface Salary extends Amount<Long>, Currency, Descriptor
 
         public Property<String> displayValue()
         {
-            return new ComputedPropertyInstance<String> ( displayValue )
+            return new ComputedPropertyInstance<String>( displayValue )
             {
                 private String m_displayValue = salary.currency().get().getSymbol() + salary.amount().get().toString();
 

@@ -27,11 +27,11 @@ import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
-import org.qi4j.chronos.ui.wicket.model.ChronosEntityModel;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
+import org.qi4j.chronos.ui.wicket.model.ChronosEntityModel;
 import static org.qi4j.composite.NullArgumentException.validateNotNull;
-import org.qi4j.composite.scope.Service;
 import org.qi4j.entity.Identity;
+import org.qi4j.injection.scope.Service;
 
 public class LoginPage extends BasePage
 {

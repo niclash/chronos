@@ -20,8 +20,8 @@ import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import org.qi4j.composite.scope.Uses;
 import org.qi4j.entity.UnitOfWork;
+import org.qi4j.injection.scope.Uses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

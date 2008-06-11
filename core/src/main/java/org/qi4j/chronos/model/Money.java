@@ -6,14 +6,13 @@
  */
 package org.qi4j.chronos.model;
 
-import org.qi4j.library.general.model.Currency;
-import org.qi4j.library.general.model.Amount;
+import java.text.NumberFormat;
 import org.qi4j.composite.Mixins;
-import org.qi4j.composite.scope.This;
-import org.qi4j.composite.scope.PropertyField;
+import org.qi4j.injection.scope.PropertyField;
+import org.qi4j.library.general.model.Amount;
+import org.qi4j.library.general.model.Currency;
 import org.qi4j.property.ComputedPropertyInstance;
 import org.qi4j.property.ImmutableProperty;
-import java.text.NumberFormat;
 
 @Mixins( Money.DescriptorMixin.class )
 public interface Money extends Currency, Amount<Long>, Descriptor

@@ -13,10 +13,9 @@
 package org.qi4j.chronos.model;
 
 import org.qi4j.chronos.model.associations.HasCity;
-import org.qi4j.composite.scope.This;
-import org.qi4j.composite.scope.PropertyField;
 import org.qi4j.composite.Mixins;
-import org.qi4j.property.Property;
+import org.qi4j.injection.scope.PropertyField;
+import org.qi4j.injection.scope.This;
 import org.qi4j.property.ComputedPropertyInstance;
 import org.qi4j.property.ImmutableProperty;
 
@@ -48,13 +47,13 @@ public interface Address extends Descriptor, AddressLine, ZipCode, HasCity
             {
 
                 private String m_displayValue = address.firstLine().get() + "\n" + address.secondLine().get() + "\n" +
-                           address.city().get().name().get() + "\n" +
-                           address.zipCode().get() + ", " + address.city().get().state().get().name().get() + ", " +
-                           address.city().get().country().get().name().get();
+                                                address.city().get().name().get() + "\n" +
+                                                address.zipCode().get() + ", " + address.city().get().state().get().name().get() + ", " +
+                                                address.city().get().country().get().name().get();
 
                 public String get()
                 {
-                    return m_displayValue; 
+                    return m_displayValue;
                 }
             };
         }

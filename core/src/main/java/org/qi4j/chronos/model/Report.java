@@ -12,16 +12,15 @@
  */
 package org.qi4j.chronos.model;
 
+import java.text.DateFormat;
 import org.qi4j.chronos.model.associations.HasProject;
 import org.qi4j.chronos.model.associations.HasReportSummary;
 import org.qi4j.chronos.model.composites.ReportEntityComposite;
 import org.qi4j.composite.Mixins;
-import org.qi4j.composite.scope.This;
-import org.qi4j.property.ImmutableProperty;
 import org.qi4j.property.ComputedPropertyInstance;
-import org.qi4j.property.PropertyInfo;
 import org.qi4j.property.GenericPropertyInfo;
-import java.text.DateFormat;
+import org.qi4j.property.ImmutableProperty;
+import org.qi4j.property.PropertyInfo;
 
 @Mixins( Report.DescriptorMixin.class )
 public interface Report extends Descriptor, Name, TimeRange, HasProject, HasReportSummary
@@ -51,8 +50,8 @@ public interface Report extends Descriptor, Name, TimeRange, HasProject, HasRepo
             return new ComputedPropertyInstance<String>( DISPLAY_VALUE )
             {
                 private String m_displayValue = "Project Report: " + report.project().get().name().get() + " from " +
-                      DateFormat.getDateInstance().format( report.startTime().get() ) + " to " +
-                      DateFormat.getDateInstance().format( report.endTime().get() );
+                                                DateFormat.getDateInstance().format( report.startTime().get() ) + " to " +
+                                                DateFormat.getDateInstance().format( report.endTime().get() );
 
                 public String get()
                 {

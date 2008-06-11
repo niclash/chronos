@@ -12,12 +12,11 @@
  */
 package org.qi4j.chronos.model.validations;
 
-import org.qi4j.chronos.model.Project;
-import org.qi4j.chronos.model.TimeRange;
 import org.qi4j.chronos.model.PriceRateSchedule;
+import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.ProjectStatusEnum;
+import org.qi4j.chronos.model.TimeRange;
 import org.qi4j.chronos.util.ValidatorUtil;
-import org.qi4j.composite.scope.This;
 import org.qi4j.entity.association.Association;
 import org.qi4j.library.framework.validation.AbstractValidatableConcern;
 import org.qi4j.library.framework.validation.Validator;

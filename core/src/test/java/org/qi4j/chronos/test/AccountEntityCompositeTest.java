@@ -7,18 +7,14 @@
  */
 package org.qi4j.chronos.test;
 
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.Account;
-import org.qi4j.bootstrap.ModuleAssembly;
-import org.qi4j.bootstrap.AssemblyException;
-import org.qi4j.entity.EntityCompositeNotFoundException;
-import org.qi4j.spi.entity.EntityNotFoundException;
-import org.junit.Test;
-import org.junit.Before;
-import org.junit.After;
-
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
+import org.junit.Before;
+import org.junit.Test;
+import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.entity.EntityCompositeNotFoundException;
+import org.qi4j.spi.entity.EntityNotFoundException;
 
 public class AccountEntityCompositeTest extends AbstractEntityCompositeTest<AccountEntityComposite>
 {
@@ -35,7 +31,7 @@ public class AccountEntityCompositeTest extends AbstractEntityCompositeTest<Acco
         account.name().set( "test" );
         account.reference().set( "test" );
         account.isEnabled().set( true );
-        String id = ( (AccountEntityComposite) account).identity().get();
+        String id = ( (AccountEntityComposite) account ).identity().get();
         unitOfWork.complete();
 
         unitOfWork = unitOfWorkFactory.newUnitOfWork();
@@ -54,7 +50,7 @@ public class AccountEntityCompositeTest extends AbstractEntityCompositeTest<Acco
         account.name().set( "test" );
         account.reference().set( "test" );
         account.isEnabled().set( true );
-        String id = ( (AccountEntityComposite) account).identity().get();
+        String id = ( (AccountEntityComposite) account ).identity().get();
         unitOfWork.complete();
 
         unitOfWork = unitOfWorkFactory.newUnitOfWork();

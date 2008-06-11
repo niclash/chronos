@@ -12,14 +12,14 @@
  */
 package org.qi4j.chronos.ui.report;
 
-import org.qi4j.entity.Identity;
-import org.qi4j.entity.UnitOfWorkFactory;
-import org.qi4j.entity.UnitOfWork;
-import static org.qi4j.composite.NullArgumentException.validateNotNull;
-import org.qi4j.composite.scope.Structure;
-import org.qi4j.composite.scope.Uses;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.util.lang.Objects;
+import static org.qi4j.composite.NullArgumentException.validateNotNull;
+import org.qi4j.entity.Identity;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.injection.scope.Structure;
+import org.qi4j.injection.scope.Uses;
 
 public class DomainObjectModel<T extends Identity> extends LoadableDetachableModel
 {
@@ -55,12 +55,12 @@ public class DomainObjectModel<T extends Identity> extends LoadableDetachableMod
 
     @Override public int hashCode()
     {
-        return Objects.hashCode( new Object[] { getObject() } );
+        return Objects.hashCode( new Object[]{ getObject() } );
     }
 
     @Override protected Object load()
     {
-         return getUnitOfWork().find( id, domainClass );
+        return getUnitOfWork().find( id, domainClass );
 //        return null;
     }
 
