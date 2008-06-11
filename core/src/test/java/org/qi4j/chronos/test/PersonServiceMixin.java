@@ -15,9 +15,9 @@ package org.qi4j.chronos.test;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.qi4j.composite.CompositeBuilder;
 import static org.qi4j.composite.NullArgumentException.validateNotNull;
 import org.qi4j.entity.UnitOfWork;
+import org.qi4j.injection.scope.This;
 import org.qi4j.service.Activatable;
 import org.qi4j.service.Configuration;
 
@@ -75,8 +75,7 @@ public class PersonServiceMixin implements PersonService, Activatable
     {
         validateNotNull( "unitOfWork", unitOfWork );
 
-        CompositeBuilder<PersonEntity> compositeBuilder = unitOfWork.newEntityBuilder( PersonEntity.class );
-        return compositeBuilder.newInstance();
+        return unitOfWork.newEntity( PersonEntity.class );
     }
 
     public void activate() throws Exception

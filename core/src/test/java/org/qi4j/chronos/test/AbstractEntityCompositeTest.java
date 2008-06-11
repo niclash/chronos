@@ -12,23 +12,17 @@
  */
 package org.qi4j.chronos.test;
 
-import org.qi4j.entity.EntityComposite;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.memory.MemoryEntityStoreService;
-import org.qi4j.test.AbstractQi4jTest;
-import org.qi4j.bootstrap.ModuleAssembly;
-import org.qi4j.bootstrap.AssemblyException;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.composite.CompositeBuilder;
-import org.qi4j.spi.entity.UuidIdentityGeneratorService;
-import org.junit.Before;
 import org.junit.After;
-import org.junit.BeforeClass;
-import org.junit.AfterClass;
+import org.junit.Before;
+import org.qi4j.bootstrap.AssemblyException;
+import org.qi4j.bootstrap.ModuleAssembly;
+import org.qi4j.chronos.model.composites.AccountEntityComposite;
+import org.qi4j.entity.EntityBuilder;
+import org.qi4j.entity.EntityComposite;
 
 public abstract class AbstractEntityCompositeTest<T extends EntityComposite> extends AbstractCommonTest
 {
-    protected CompositeBuilder<T> compositeBuilder;
+    protected EntityBuilder<T> compositeBuilder;
 
     protected Class<T> clazz;
 
@@ -42,7 +36,7 @@ public abstract class AbstractEntityCompositeTest<T extends EntityComposite> ext
     @After @Override public void tearDown() throws Exception
     {
         compositeBuilder = null;
-        
+
         super.tearDown();
     }
 

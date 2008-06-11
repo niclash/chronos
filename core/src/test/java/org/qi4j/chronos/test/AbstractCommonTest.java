@@ -12,79 +12,79 @@
  */
 package org.qi4j.chronos.test;
 
-import org.qi4j.test.AbstractQi4jTest;
-import org.qi4j.chronos.model.Customer;
-import org.qi4j.chronos.model.PriceRate;
-import org.qi4j.chronos.model.PriceRateTypeEnum;
-import org.qi4j.chronos.model.PriceRateSchedule;
-import org.qi4j.chronos.model.ContactPerson;
-import org.qi4j.chronos.model.SystemRoleTypeEnum;
-import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.Relationship;
-import org.qi4j.chronos.model.ProjectRole;
-import org.qi4j.chronos.model.Address;
-import org.qi4j.chronos.model.Country;
-import org.qi4j.chronos.model.State;
-import org.qi4j.chronos.model.City;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Calendar;
+import java.util.Currency;
+import java.util.Date;
+import java.util.List;
+import org.junit.After;
+import org.junit.AfterClass;
+import org.junit.Before;
+import org.junit.BeforeClass;
+import org.qi4j.bootstrap.AssemblyException;
+import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.chronos.model.Account;
-import org.qi4j.chronos.model.Staff;
-import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.Address;
+import org.qi4j.chronos.model.City;
+import org.qi4j.chronos.model.Comment;
+import org.qi4j.chronos.model.ContactPerson;
+import org.qi4j.chronos.model.Country;
+import org.qi4j.chronos.model.Customer;
+import org.qi4j.chronos.model.LegalCondition;
 import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.model.Money;
-import org.qi4j.chronos.model.TimeRange;
-import org.qi4j.chronos.model.LegalCondition;
-import org.qi4j.chronos.model.ProjectAssignee;
 import org.qi4j.chronos.model.OngoingWorkEntry;
-import org.qi4j.chronos.model.Comment;
-import org.qi4j.chronos.model.WorkEntry;
+import org.qi4j.chronos.model.PriceRate;
+import org.qi4j.chronos.model.PriceRateSchedule;
+import org.qi4j.chronos.model.PriceRateTypeEnum;
+import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.ProjectAssignee;
+import org.qi4j.chronos.model.ProjectRole;
+import org.qi4j.chronos.model.ProjectStatusEnum;
+import org.qi4j.chronos.model.Relationship;
+import org.qi4j.chronos.model.Staff;
+import org.qi4j.chronos.model.State;
+import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.model.SystemRoleTypeEnum;
 import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.model.TaskStatusEnum;
-import org.qi4j.chronos.model.Project;
-import org.qi4j.chronos.model.ProjectStatusEnum;
-import org.qi4j.chronos.model.composites.CustomerEntityComposite;
-import org.qi4j.chronos.model.composites.PriceRateScheduleEntityComposite;
-import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
-import org.qi4j.chronos.model.composites.RelationshipEntityComposite;
-import org.qi4j.chronos.model.composites.ContactEntityComposite;
-import org.qi4j.chronos.model.composites.PriceRateEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
-import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
-import org.qi4j.chronos.model.composites.CountryEntityComposite;
-import org.qi4j.chronos.model.composites.StateEntityComposite;
-import org.qi4j.chronos.model.composites.CityEntityComposite;
-import org.qi4j.chronos.model.composites.AddressEntityComposite;
+import org.qi4j.chronos.model.TimeRange;
+import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.model.WorkEntry;
 import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
-import org.qi4j.chronos.model.composites.MoneyEntityComposite;
-import org.qi4j.chronos.model.composites.LoginEntityComposite;
+import org.qi4j.chronos.model.composites.AddressEntityComposite;
 import org.qi4j.chronos.model.composites.AdminEntityComposite;
-import org.qi4j.chronos.model.composites.TimeRangeEntityComposite;
-import org.qi4j.chronos.model.composites.LegalConditionEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
-import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
+import org.qi4j.chronos.model.composites.CityEntityComposite;
 import org.qi4j.chronos.model.composites.CommentEntityComposite;
-import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
-import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.model.composites.ContactEntityComposite;
+import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.model.composites.CountryEntityComposite;
+import org.qi4j.chronos.model.composites.CustomerEntityComposite;
+import org.qi4j.chronos.model.composites.LegalConditionEntityComposite;
+import org.qi4j.chronos.model.composites.LoginEntityComposite;
+import org.qi4j.chronos.model.composites.MoneyEntityComposite;
+import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
+import org.qi4j.chronos.model.composites.PriceRateEntityComposite;
+import org.qi4j.chronos.model.composites.PriceRateScheduleEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
 import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.library.general.model.GenderType;
-import org.qi4j.library.general.model.Contact;
+import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
+import org.qi4j.chronos.model.composites.RelationshipEntityComposite;
+import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.composites.StateEntityComposite;
+import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
+import org.qi4j.chronos.model.composites.TaskEntityComposite;
+import org.qi4j.chronos.model.composites.TimeRangeEntityComposite;
+import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.entity.EntityBuilder;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.qi4j.entity.memory.MemoryEntityStoreService;
-import org.qi4j.bootstrap.ModuleAssembly;
-import org.qi4j.bootstrap.AssemblyException;
+import org.qi4j.library.general.model.Contact;
+import org.qi4j.library.general.model.GenderType;
 import org.qi4j.spi.entity.UuidIdentityGeneratorService;
-import org.qi4j.composite.CompositeBuilder;
-import org.junit.BeforeClass;
-import org.junit.AfterClass;
-import org.junit.Before;
-import org.junit.After;
-import java.util.List;
-import java.util.ArrayList;
-import java.util.Currency;
-import java.util.Arrays;
-import java.util.Date;
-import java.util.Calendar;
+import org.qi4j.test.AbstractQi4jTest;
 
 /**
  * Created by IntelliJ IDEA.
@@ -133,7 +133,7 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
         print( null, null, null );
     }
 
-    protected static void print( String...headers )
+    protected static void print( String... headers )
     {
         if( headers != null )
         {
@@ -208,7 +208,7 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
             PriceRateSchedule priceRateSchedule = customer.priceRateSchedules().iterator().next();
             Project project = newProject( "Project 1", "p1", ProjectStatusEnum.ACTIVE, customer,
                                           contactPerson, priceRateSchedule,
-                                          newTimeRange( startDate, endDate) );
+                                          newTimeRange( startDate, endDate ) );
             projects.add( project );
         }
 
@@ -278,9 +278,9 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
         Staff boss = newStaff( "The", "Boss", "boss", "boss",
                                GenderType.MALE, 8000L, "EUR", staffSystemRoles );
         Staff developerA = newStaff( "The", "Developer 1", "developer1", "developer2",
-                                    GenderType.MALE, 1800L, "EUR", staffSystemRoles[0] );
+                                     GenderType.MALE, 1800L, "EUR", staffSystemRoles[ 0 ] );
         Staff developerB = newStaff( "The", "Developer 2", "developer2", "developer2",
-                                    GenderType.FEMALE, 1800L, "EUR", staffSystemRoles[0] );
+                                     GenderType.FEMALE, 1800L, "EUR", staffSystemRoles[ 0 ] );
 
         staffs.add( boss );
         staffs.add( developerA );
@@ -298,10 +298,10 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
                                     String cityName, String stateName, String countryName, String zipCode,
                                     String priceRateScheme )
     {
-        CompositeBuilder<CustomerEntityComposite> customerBuilder = unitOfWork.newEntityBuilder( CustomerEntityComposite.class );
+        EntityBuilder<CustomerEntityComposite> customerBuilder = unitOfWork.newEntityBuilder( CustomerEntityComposite.class );
         customerBuilder.stateOfComposite().name().set( customerName );
         customerBuilder.stateOfComposite().reference().set( reference );
-        customerBuilder.stateOfComposite().address().set( newAddress( firstLine, secondLine, cityName, stateName, countryName, zipCode ));
+        customerBuilder.stateOfComposite().address().set( newAddress( firstLine, secondLine, cityName, stateName, countryName, zipCode ) );
 
         Customer customer = customerBuilder.newInstance();
         customer.priceRateSchedules().add( newPriceRateSchedule( priceRateScheme ) );
@@ -312,7 +312,7 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
 
     protected PriceRateSchedule newPriceRateSchedule( String reference )
     {
-        CompositeBuilder<PriceRateScheduleEntityComposite> priceRateScheduleBuilder = unitOfWork.newEntityBuilder( PriceRateScheduleEntityComposite.class );
+        EntityBuilder<PriceRateScheduleEntityComposite> priceRateScheduleBuilder = unitOfWork.newEntityBuilder( PriceRateScheduleEntityComposite.class );
         priceRateScheduleBuilder.stateOfComposite().name().set( reference );
 
         PriceRateSchedule priceRateSchedule = priceRateScheduleBuilder.newInstance();
@@ -322,9 +322,9 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
     }
 
     protected ContactPerson newContactPerson( String firstName, String lastName, String username, String password,
-                            GenderType genderType, String relationshipName )
+                                              GenderType genderType, String relationshipName )
     {
-        CompositeBuilder<ContactPersonEntityComposite> contactPersonBuilder = unitOfWork.newEntityBuilder( ContactPersonEntityComposite.class );
+        EntityBuilder<ContactPersonEntityComposite> contactPersonBuilder = unitOfWork.newEntityBuilder( ContactPersonEntityComposite.class );
         contactPersonBuilder.stateOfComposite().firstName().set( firstName );
         contactPersonBuilder.stateOfComposite().lastName().set( lastName );
         contactPersonBuilder.stateOfComposite().gender().set( genderType );
@@ -343,7 +343,7 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
 
     protected Relationship newRelationship( String relationshipName )
     {
-        CompositeBuilder<RelationshipEntityComposite> relationshipBuilder = unitOfWork.newEntityBuilder( RelationshipEntityComposite.class );
+        EntityBuilder<RelationshipEntityComposite> relationshipBuilder = unitOfWork.newEntityBuilder( RelationshipEntityComposite.class );
         relationshipBuilder.stateOfComposite().relationship().set( relationshipName );
 
         return relationshipBuilder.newInstance();
@@ -351,7 +351,7 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
 
     protected Contact newContact( String contactType, String contactValue )
     {
-        CompositeBuilder<ContactEntityComposite> contactBuilder = unitOfWork.newEntityBuilder( ContactEntityComposite.class );
+        EntityBuilder<ContactEntityComposite> contactBuilder = unitOfWork.newEntityBuilder( ContactEntityComposite.class );
         contactBuilder.stateOfComposite().contactType().set( contactType );
         contactBuilder.stateOfComposite().contactValue().set( contactValue );
 
@@ -361,10 +361,10 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
     protected PriceRate newPriceRate( Long amount, String currencyCode,
                                       PriceRateTypeEnum priceRateTypeEnum, String projectRoleName )
     {
-        CompositeBuilder<PriceRateEntityComposite> priceRateBuilder = unitOfWork.newEntityBuilder( PriceRateEntityComposite.class );
+        EntityBuilder<PriceRateEntityComposite> priceRateBuilder = unitOfWork.newEntityBuilder( PriceRateEntityComposite.class );
         priceRateBuilder.stateOfComposite().amount().set( amount );
-        priceRateBuilder.stateOfComposite().currency().set( Currency.getInstance(currencyCode) );
-        priceRateBuilder.stateOfComposite().projectRole().set( newProjectRole( projectRoleName ));
+        priceRateBuilder.stateOfComposite().currency().set( Currency.getInstance( currencyCode ) );
+        priceRateBuilder.stateOfComposite().projectRole().set( newProjectRole( projectRoleName ) );
         priceRateBuilder.stateOfComposite().priceRateType().set( priceRateTypeEnum );
 
         return priceRateBuilder.newInstance();
@@ -372,7 +372,7 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
 
     protected ProjectRole newProjectRole( String projectRoleName )
     {
-        CompositeBuilder<ProjectRoleEntityComposite> projectRoleBuilder = unitOfWork.newEntityBuilder( ProjectRoleEntityComposite.class );
+        EntityBuilder<ProjectRoleEntityComposite> projectRoleBuilder = unitOfWork.newEntityBuilder( ProjectRoleEntityComposite.class );
         projectRoleBuilder.stateOfComposite().name().set( projectRoleName );
 
         return projectRoleBuilder.newInstance();
@@ -380,7 +380,7 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
 
     protected SystemRole newSystemRole( SystemRoleTypeEnum systemRoleTypeEnum, String systemRoleType )
     {
-        CompositeBuilder<SystemRoleEntityComposite> systemRoleBuilder = unitOfWork.newEntityBuilder( SystemRoleEntityComposite.class );
+        EntityBuilder<SystemRoleEntityComposite> systemRoleBuilder = unitOfWork.newEntityBuilder( SystemRoleEntityComposite.class );
         systemRoleBuilder.stateOfComposite().systemRoleType().set( systemRoleTypeEnum );
         systemRoleBuilder.stateOfComposite().name().set( systemRoleType );
 
@@ -390,7 +390,7 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
     protected Address newAddress( String firstLine, String secondLine, String cityName,
                                   String stateName, String countryName, String zipCode )
     {
-        CompositeBuilder<AddressEntityComposite> addressBuilder = unitOfWork.newEntityBuilder( AddressEntityComposite.class );
+        EntityBuilder<AddressEntityComposite> addressBuilder = unitOfWork.newEntityBuilder( AddressEntityComposite.class );
         addressBuilder.stateOfComposite().firstLine().set( firstLine );
         addressBuilder.stateOfComposite().secondLine().set( secondLine );
         addressBuilder.stateOfComposite().zipCode().set( zipCode );
@@ -401,7 +401,7 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
 
     protected City newCity( String cityName, State state, Country country )
     {
-        CompositeBuilder<CityEntityComposite> cityBuilder = unitOfWork.newEntityBuilder( CityEntityComposite.class );
+        EntityBuilder<CityEntityComposite> cityBuilder = unitOfWork.newEntityBuilder( CityEntityComposite.class );
         cityBuilder.stateOfComposite().name().set( cityName );
         cityBuilder.stateOfComposite().state().set( state );
         cityBuilder.stateOfComposite().country().set( country );
@@ -411,7 +411,7 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
 
     protected State newState( String stateName )
     {
-        CompositeBuilder<StateEntityComposite> stateBuilder = unitOfWork.newEntityBuilder( StateEntityComposite.class );
+        EntityBuilder<StateEntityComposite> stateBuilder = unitOfWork.newEntityBuilder( StateEntityComposite.class );
         stateBuilder.stateOfComposite().name().set( stateName );
 
         return stateBuilder.newInstance();
@@ -419,7 +419,7 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
 
     protected Country newCountry( String countryName )
     {
-        CompositeBuilder<CountryEntityComposite> countryBuilder = unitOfWork.newEntityBuilder( CountryEntityComposite.class );
+        EntityBuilder<CountryEntityComposite> countryBuilder = unitOfWork.newEntityBuilder( CountryEntityComposite.class );
         countryBuilder.stateOfComposite().name().set( countryName );
 
         return countryBuilder.newInstance();
@@ -433,7 +433,7 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
     protected Account newAccount( String name, String reference, String firstLine, String secondLine, String cityName,
                                   String stateName, String countryName, String zipCode )
     {
-        CompositeBuilder<AccountEntityComposite> accountBuilder = unitOfWork.newEntityBuilder( AccountEntityComposite.class );
+        EntityBuilder<AccountEntityComposite> accountBuilder = unitOfWork.newEntityBuilder( AccountEntityComposite.class );
         accountBuilder.stateOfComposite().isEnabled().set( true );
         accountBuilder.stateOfComposite().name().set( name );
         accountBuilder.stateOfComposite().reference().set( reference );
@@ -444,10 +444,10 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
     }
 
     protected Staff newStaff( String firstName, String lastName, String username, String password,
-                            GenderType genderType, Long salaryAmount, String currencyCode,
-                            SystemRole...systemRoles )
+                              GenderType genderType, Long salaryAmount, String currencyCode,
+                              SystemRole... systemRoles )
     {
-        CompositeBuilder<StaffEntityComposite> staffBuilder = unitOfWork.newEntityBuilder( StaffEntityComposite.class );
+        EntityBuilder<StaffEntityComposite> staffBuilder = unitOfWork.newEntityBuilder( StaffEntityComposite.class );
         staffBuilder.stateOfComposite().firstName().set( firstName );
         staffBuilder.stateOfComposite().lastName().set( lastName );
         staffBuilder.stateOfComposite().gender().set( genderType );
@@ -476,7 +476,7 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
 
     protected Money newMoney( Long amount, String currencyCode )
     {
-        CompositeBuilder<MoneyEntityComposite> money = unitOfWork.newEntityBuilder( MoneyEntityComposite.class );
+        EntityBuilder<MoneyEntityComposite> money = unitOfWork.newEntityBuilder( MoneyEntityComposite.class );
         money.stateOfComposite().amount().set( amount );
         money.stateOfComposite().currency().set( Currency.getInstance( currencyCode ) );
 
@@ -485,7 +485,7 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
 
     protected Login newLogin( String username, String password )
     {
-        CompositeBuilder<LoginEntityComposite> loginBuilder = unitOfWork.newEntityBuilder( LoginEntityComposite.class );
+        EntityBuilder<LoginEntityComposite> loginBuilder = unitOfWork.newEntityBuilder( LoginEntityComposite.class );
         loginBuilder.stateOfComposite().name().set( username );
         loginBuilder.stateOfComposite().password().set( password );
         loginBuilder.stateOfComposite().isEnabled().set( true );
@@ -495,7 +495,7 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
 
     protected TimeRange newTimeRange( Date startDate, Date endDate )
     {
-        CompositeBuilder<TimeRangeEntityComposite> timeRangeBuilder = unitOfWork.newEntityBuilder( TimeRangeEntityComposite.class );
+        EntityBuilder<TimeRangeEntityComposite> timeRangeBuilder = unitOfWork.newEntityBuilder( TimeRangeEntityComposite.class );
         timeRangeBuilder.stateOfComposite().startTime().set( startDate );
         timeRangeBuilder.stateOfComposite().endTime().set( endDate );
 
@@ -504,7 +504,7 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
 
     protected LegalCondition newLegalCondition( String value, String description )
     {
-        CompositeBuilder<LegalConditionEntityComposite> legalConditionBuilder = unitOfWork.newEntityBuilder( LegalConditionEntityComposite.class );
+        EntityBuilder<LegalConditionEntityComposite> legalConditionBuilder = unitOfWork.newEntityBuilder( LegalConditionEntityComposite.class );
         legalConditionBuilder.stateOfComposite().name().set( value );
         legalConditionBuilder.stateOfComposite().description().set( description );
 
@@ -513,7 +513,7 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
 
     protected ProjectAssignee newProjectAssignee( boolean isLead, Staff staff, PriceRate priceRate )
     {
-        CompositeBuilder<ProjectAssigneeEntityComposite> projectAssigneeBuilder = unitOfWork.newEntityBuilder( ProjectAssigneeEntityComposite.class );
+        EntityBuilder<ProjectAssigneeEntityComposite> projectAssigneeBuilder = unitOfWork.newEntityBuilder( ProjectAssigneeEntityComposite.class );
         projectAssigneeBuilder.stateOfComposite().isLead().set( isLead );
         projectAssigneeBuilder.stateOfComposite().staff().set( staff );
         projectAssigneeBuilder.stateOfComposite().priceRate().set( priceRate );
@@ -523,7 +523,7 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
 
     protected OngoingWorkEntry newOngoingWorkEntry( Date createdDate, ProjectAssignee projectAssignee )
     {
-        CompositeBuilder<OngoingWorkEntryEntityComposite> ongoingWorkEntryBuilder = unitOfWork.newEntityBuilder( OngoingWorkEntryEntityComposite.class );
+        EntityBuilder<OngoingWorkEntryEntityComposite> ongoingWorkEntryBuilder = unitOfWork.newEntityBuilder( OngoingWorkEntryEntityComposite.class );
         ongoingWorkEntryBuilder.stateOfComposite().createdDate().set( createdDate );
         ongoingWorkEntryBuilder.stateOfComposite().projectAssignee().set( projectAssignee );
 
@@ -532,7 +532,7 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
 
     protected Comment newComment( String comment, Date createdDate, User user )
     {
-        CompositeBuilder<CommentEntityComposite> commentBuilder = unitOfWork.newEntityBuilder( CommentEntityComposite.class );
+        EntityBuilder<CommentEntityComposite> commentBuilder = unitOfWork.newEntityBuilder( CommentEntityComposite.class );
         commentBuilder.stateOfComposite().text().set( comment );
         commentBuilder.stateOfComposite().createdDate().set( createdDate );
         commentBuilder.stateOfComposite().user().set( user );
@@ -542,7 +542,7 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
 
     protected WorkEntry newWorkEntry( String title, String description, Date createdDate, TimeRange timeRange, ProjectAssignee projectAssignee )
     {
-        CompositeBuilder<WorkEntryEntityComposite> workEntryBuilder = unitOfWork.newEntityBuilder( WorkEntryEntityComposite.class );
+        EntityBuilder<WorkEntryEntityComposite> workEntryBuilder = unitOfWork.newEntityBuilder( WorkEntryEntityComposite.class );
         workEntryBuilder.stateOfComposite().title().set( title );
         workEntryBuilder.stateOfComposite().description().set( description );
         workEntryBuilder.stateOfComposite().createdDate().set( createdDate );
@@ -553,9 +553,9 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
         return workEntryBuilder.newInstance();
     }
 
-    protected Task newTask( String title, String description, Date createdDate, TaskStatusEnum taskStatus, User user  )
+    protected Task newTask( String title, String description, Date createdDate, TaskStatusEnum taskStatus, User user )
     {
-        CompositeBuilder<TaskEntityComposite> taskBuilder = unitOfWork.newEntityBuilder( TaskEntityComposite.class );
+        EntityBuilder<TaskEntityComposite> taskBuilder = unitOfWork.newEntityBuilder( TaskEntityComposite.class );
         taskBuilder.stateOfComposite().title().set( title );
         taskBuilder.stateOfComposite().description().set( description );
         taskBuilder.stateOfComposite().createdDate().set( createdDate );
@@ -569,7 +569,7 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
                                   Customer customer, ContactPerson primaryPerson, PriceRateSchedule priceRateSchedule,
                                   TimeRange estimate )
     {
-        CompositeBuilder<ProjectEntityComposite> projectBuilder = unitOfWork.newEntityBuilder( ProjectEntityComposite.class );
+        EntityBuilder<ProjectEntityComposite> projectBuilder = unitOfWork.newEntityBuilder( ProjectEntityComposite.class );
         projectBuilder.stateOfComposite().name().set( projectName );
         projectBuilder.stateOfComposite().reference().set( formalReference );
         projectBuilder.stateOfComposite().projectStatus().set( projectStatus );
@@ -580,7 +580,7 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
 
         return projectBuilder.newInstance();
     }
-    
+
     protected UnitOfWork complete( UnitOfWork unitOfWork ) throws UnitOfWorkCompletionException
     {
         unitOfWork.complete();

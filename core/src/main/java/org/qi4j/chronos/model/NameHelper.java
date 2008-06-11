@@ -14,6 +14,7 @@ package org.qi4j.chronos.model;
 
 import java.util.Collection;
 import org.qi4j.composite.Mixins;
+import org.qi4j.injection.scope.This;
 
 @Mixins( NameHelper.NameHelperMixin.class )
 public interface NameHelper

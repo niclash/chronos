@@ -12,24 +12,19 @@
  */
 package org.qi4j.chronos.test;
 
-import org.junit.Test;
-import org.junit.After;
 import org.junit.Before;
-import org.qi4j.bootstrap.ModuleAssembly;
+import org.junit.Test;
 import org.qi4j.bootstrap.AssemblyException;
-import org.qi4j.entity.UnitOfWork;
+import org.qi4j.bootstrap.ModuleAssembly;
+import org.qi4j.entity.EntityBuilder;
 import org.qi4j.entity.Identity;
-import org.qi4j.entity.memory.MemoryEntityStoreService;
-import org.qi4j.spi.entity.UuidIdentityGeneratorService;
-import org.qi4j.service.ServiceComposite;
-import org.qi4j.composite.CompositeBuilder;
 
 public class ProductEntityCompositeTest extends AbstractEntityCompositeTest<ProductEntityComposite>
 {
     @Before @Override public void setUp() throws Exception
     {
         this.clazz = ProductEntityComposite.class;
-        
+
         super.setUp();
     }
 
@@ -41,19 +36,19 @@ public class ProductEntityCompositeTest extends AbstractEntityCompositeTest<Prod
 
     @Test public void testA() throws Exception
     {
-        CompositeBuilder<ItemComposite> builder = unitOfWork.newEntityBuilder( ItemComposite.class );
+        EntityBuilder<ItemComposite> builder = unitOfWork.newEntityBuilder( ItemComposite.class );
         ItemComposite item = builder.newInstance();
         item.name().set( "test" );
 
-        CompositeBuilder<ProductEntityComposite> build = unitOfWork.newEntityBuilder( ProductEntityComposite.class );
+        EntityBuilder<ProductEntityComposite> build = unitOfWork.newEntityBuilder( ProductEntityComposite.class );
         ProductEntityComposite product = build.newInstance();
         product.item().set( item );
-        String ID = ((Identity) product).identity().get();
+        String ID = ( (Identity) product ).identity().get();
         unitOfWork.complete();
 
         unitOfWork = unitOfWorkFactory.newUnitOfWork();
 
-        ProductEntityComposite p  = unitOfWork.find( ID, ProductEntityComposite.class );
+        ProductEntityComposite p = unitOfWork.find( ID, ProductEntityComposite.class );
 
         System.out.println( p.item().get().name().get() );
     }

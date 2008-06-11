@@ -9,6 +9,7 @@ package org.qi4j.chronos.model;
 import java.text.NumberFormat;
 import org.qi4j.composite.Mixins;
 import org.qi4j.injection.scope.PropertyField;
+import org.qi4j.injection.scope.This;
 import org.qi4j.library.general.model.Amount;
 import org.qi4j.library.general.model.Currency;
 import org.qi4j.property.ComputedPropertyInstance;

@@ -13,6 +13,7 @@
 package org.qi4j.chronos.model.validations;
 
 import static org.qi4j.chronos.util.ValidatorUtil.isEmptyOrInvalidLength;
+import org.qi4j.injection.scope.This;
 import org.qi4j.library.framework.validation.AbstractValidatableConcern;
 import org.qi4j.library.framework.validation.Validator;
 import org.qi4j.library.general.model.Contact;

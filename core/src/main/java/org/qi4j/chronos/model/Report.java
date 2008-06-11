@@ -17,6 +17,7 @@ import org.qi4j.chronos.model.associations.HasProject;
 import org.qi4j.chronos.model.associations.HasReportSummary;
 import org.qi4j.chronos.model.composites.ReportEntityComposite;
 import org.qi4j.composite.Mixins;
+import org.qi4j.injection.scope.This;
 import org.qi4j.property.ComputedPropertyInstance;
 import org.qi4j.property.GenericPropertyInfo;
 import org.qi4j.property.ImmutableProperty;
