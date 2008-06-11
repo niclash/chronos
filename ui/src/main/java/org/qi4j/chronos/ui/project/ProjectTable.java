@@ -34,7 +34,6 @@ import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleAction;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
-import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 import org.qi4j.entity.Identity;
@@ -166,7 +165,7 @@ public abstract class ProjectTable extends ActionTable<IModel, String>
 
                 public String getId( IModel t )
                 {
-                    return ( (Identity) t.getObject()).identity().get();
+                    return ( (Identity) t.getObject() ).identity().get();
                 }
 
                 public IModel load( final String s )
@@ -200,7 +199,7 @@ public abstract class ProjectTable extends ActionTable<IModel, String>
     public void populateItems( Item item, IModel iModel )
     {
         final Project project = (Project) iModel.getObject();
-        final String projectId = ( (Identity) project).identity().get();
+        final String projectId = ( (Identity) project ).identity().get();
 
         item.add( createDetailLink( "name", project.name().get(), projectId ) );
         item.add( createDetailLink( "formalReference", project.reference().get(), projectId ) );
