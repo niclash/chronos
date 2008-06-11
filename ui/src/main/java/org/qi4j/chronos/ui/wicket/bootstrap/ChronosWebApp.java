@@ -30,9 +30,9 @@ import org.qi4j.chronos.ui.contactperson.ContactPersonHomePage;
 import org.qi4j.chronos.ui.staff.StaffHomePage;
 import org.qi4j.chronos.ui.wicket.authentication.LoginPage;
 import org.qi4j.chronos.ui.wicket.bootstrap.serialization.Qi4jObjectStreamFactory;
-import org.qi4j.composite.ObjectBuilder;
-import org.qi4j.composite.ObjectBuilderFactory;
 import org.qi4j.composite.scope.Structure;
+import org.qi4j.object.ObjectBuilder;
+import org.qi4j.object.ObjectBuilderFactory;
 
 /**
  * @author Lan Boon Ping
@@ -104,7 +104,7 @@ public final class ChronosWebApp extends AuthenticatedWebApplication
     public final Class<? extends WebPage> getHomePage()
     {
         ChronosSession session = ChronosSession.get();
-        
+
         if( !session.isSignIn() )
         {
             return LoginPage.class;

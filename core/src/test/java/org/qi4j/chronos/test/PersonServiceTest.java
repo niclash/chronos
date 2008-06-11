@@ -12,15 +12,16 @@
  */
 package org.qi4j.chronos.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 import org.junit.Before;
 import org.junit.Test;
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.ModuleAssembly;
-import org.qi4j.composite.ObjectBuilder;
 import org.qi4j.entity.EntityCompositeNotFoundException;
 import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.qi4j.entity.memory.MemoryEntityStoreService;
+import org.qi4j.object.ObjectBuilder;
 import org.qi4j.spi.entity.UuidIdentityGeneratorService;
 
 public class PersonServiceTest extends AbstractEntityCompositeTest<PersonEntity>
