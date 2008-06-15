@@ -24,18 +24,13 @@ import org.qi4j.entity.memory.MemoryEntityStoreService;
 import org.qi4j.object.ObjectBuilder;
 import org.qi4j.spi.entity.UuidIdentityGeneratorService;
 
-public class PersonServiceTest extends AbstractEntityCompositeTest<PersonEntity>
+public class PersonServiceTest extends AbstractCommonTest
 {
-    @Before @Override public void setUp() throws Exception
-    {
-        this.clazz = PersonEntity.class;
-        super.setUp();
-    }
-
     @Override public void assemble( ModuleAssembly module ) throws AssemblyException
     {
         module.addObjects( Items.class );
-        module.addComposites( PersonEntity.class, PersonServiceConfiguration.class, ItemCompositeToo.class );
+        module.addEntities( PersonEntity.class, PersonServiceConfiguration.class);
+        module.addComposites( ItemCompositeToo.class );
         module.addServices( PersonServiceComposite.class, UuidIdentityGeneratorService.class, MemoryEntityStoreService.class );
     }
 

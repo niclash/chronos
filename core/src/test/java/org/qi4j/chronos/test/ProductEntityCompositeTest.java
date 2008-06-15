@@ -19,19 +19,13 @@ import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.entity.EntityBuilder;
 import org.qi4j.entity.Identity;
 
-public class ProductEntityCompositeTest extends AbstractEntityCompositeTest<ProductEntityComposite>
+public class ProductEntityCompositeTest extends AbstractCommonTest
 {
-    @Before @Override public void setUp() throws Exception
-    {
-        this.clazz = ProductEntityComposite.class;
-
-        super.setUp();
-    }
-
-    @Override public void assemble( ModuleAssembly assembler ) throws AssemblyException
+    @Override
+    public void assemble( ModuleAssembly assembler ) throws AssemblyException
     {
         super.assemble( assembler );
-        assembler.addComposites( ProductEntityComposite.class, ItemComposite.class );
+        assembler.addEntities( ProductEntityComposite.class, ItemComposite.class );
     }
 
     @Test public void testA() throws Exception

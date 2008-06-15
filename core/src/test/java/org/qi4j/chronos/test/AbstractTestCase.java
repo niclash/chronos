@@ -7,7 +7,8 @@ import java.util.Map;
 
 import org.junit.After;
 import org.junit.Before;
-import static org.junit.Assert.assertEquals;import static org.junit.Assert.assertNotSame;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotSame;
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.composite.Composite;
@@ -22,8 +23,7 @@ import org.qi4j.chronos.test.util.SomeObjects;
 import org.qi4j.property.ImmutableProperty;
 
 @SuppressWarnings( "hiding" )
-public abstract class AbstractTestCase<T extends Composite> extends
-		AbstractQi4jTest
+public abstract class AbstractTestCase<T extends Composite> extends AbstractQi4jTest
 {
 
     protected final String PROPERTIES_OF_COMPOSITE = "stateOfComposite";
@@ -35,43 +35,44 @@ public abstract class AbstractTestCase<T extends Composite> extends
     protected final String GET_NAME = "name";
 
     protected Comp<T> comp;
-    
+
     protected ValueObjectUtil<T> vo;
 
-	protected CompositeBuilder<? extends T> builder;
+    protected CompositeBuilder<? extends T> builder;
 
-	protected T t;
+    protected T t;
 
-	@Before
-	@Override
-	public void setUp() throws Exception
+    @Before
+    @Override
+    public void setUp() throws Exception
     {
-		super.setUp();
-	}
+        super.setUp();
+    }
 
-	@After
-	@Override
-	public void tearDown() throws Exception
+    @After
+    @Override
+    public void tearDown() throws Exception
     {
-		super.tearDown();
-	}
+        super.tearDown();
+    }
 
-	public void assemble( ModuleAssembly assembler ) throws AssemblyException
+    public void assemble( ModuleAssembly assembler )
+        throws AssemblyException
     {
-		assembler.addComposites(
+        assembler.addEntities(
             MockLegalConditionComposite.class,
             MockPriceRateComposite.class,
             MockProjectRoleComposite.class
-            );
-	}
+        );
+    }
 
-	protected abstract void init();
+    protected abstract void init();
 
-	protected void print( String...headers )
+    protected void print( String... headers )
     {
         if( headers != null )
         {
-            for( String header: headers )
+            for( String header : headers )
             {
                 log( header );
             }
@@ -93,7 +94,7 @@ public abstract class AbstractTestCase<T extends Composite> extends
             }
         }
 //		log( vo.toString( t ) );
-	}
+    }
 
     protected <K extends Composite> K newInstance( Class<K> clazz, Comp comp )
     {
@@ -130,7 +131,7 @@ public abstract class AbstractTestCase<T extends Composite> extends
             e5.printStackTrace();
         }
 
-        if( b!= null )
+        if( b != null )
         {
             Map<String, SomeObjects> map = comp.getValue();
             for( String method : map.keySet() )
@@ -142,7 +143,7 @@ public abstract class AbstractTestCase<T extends Composite> extends
                     obj.getClass().getMethod( SET, cl ).setAccessible( true );
                     obj.getClass().getMethod( SET, cl ).invoke( obj, map.get( method ).getValue() );
                 }
-                catch( Exception e)
+                catch( Exception e )
                 {
                     err( e.getLocalizedMessage() );
                     e.printStackTrace();
@@ -153,49 +154,55 @@ public abstract class AbstractTestCase<T extends Composite> extends
         return compositeBuilder.newInstance();
     }
 
-    protected <K extends Composite> K newInstance( Class<K> clazz, String[] methods, Object[] values)
+    protected <K extends Composite> K newInstance( Class<K> clazz, String[] methods, Object[] values )
     {
-		CompositeBuilder<K> aBuilder = compositeBuilderFactory.newCompositeBuilder( clazz );
-		K b = null;
-		try
-		{
-			b = (K) aBuilder.getClass().getMethod( PROPERTIES_OF_COMPOSITE ).invoke( aBuilder );
-		} catch (IllegalArgumentException e1)
-		{
-			e1.printStackTrace();
-		} catch (SecurityException e1)
-		{
-			e1.printStackTrace();
-		} catch (IllegalAccessException e1)
-		{
-			e1.printStackTrace();
-		} catch (InvocationTargetException e1)
-		{
-			e1.printStackTrace();
-		} catch (NoSuchMethodException e1)
-		{
-			e1.printStackTrace();
-		}
+        CompositeBuilder<K> aBuilder = compositeBuilderFactory.newCompositeBuilder( clazz );
+        K b = null;
+        try
+        {
+            b = (K) aBuilder.getClass().getMethod( PROPERTIES_OF_COMPOSITE ).invoke( aBuilder );
+        }
+        catch( IllegalArgumentException e1 )
+        {
+            e1.printStackTrace();
+        }
+        catch( SecurityException e1 )
+        {
+            e1.printStackTrace();
+        }
+        catch( IllegalAccessException e1 )
+        {
+            e1.printStackTrace();
+        }
+        catch( InvocationTargetException e1 )
+        {
+            e1.printStackTrace();
+        }
+        catch( NoSuchMethodException e1 )
+        {
+            e1.printStackTrace();
+        }
 
-		if( b != null)
-		{
-			for (int i = 0; i < min(methods.length, values.length); i++)
-			{
-				try
-				{
-					Object obj = clazz.getMethod(methods[i]).invoke(b);
-					Class cl = obj.getClass().getMethod("get").getReturnType();
-					obj.getClass().getMethod("set", cl).setAccessible(true);
-					obj.getClass().getMethod("set", cl).invoke(obj, values[i]);
-				} catch (Exception e)
-				{
-					err( e.getLocalizedMessage() );
-					e.printStackTrace();
-				}
-			}
-		}
-		return aBuilder.newInstance();
-	}
+        if( b != null )
+        {
+            for( int i = 0; i < min( methods.length, values.length ); i++ )
+            {
+                try
+                {
+                    Object obj = clazz.getMethod( methods[ i ] ).invoke( b );
+                    Class cl = obj.getClass().getMethod( "get" ).getReturnType();
+                    obj.getClass().getMethod( "set", cl ).setAccessible( true );
+                    obj.getClass().getMethod( "set", cl ).invoke( obj, values[ i ] );
+                }
+                catch( Exception e )
+                {
+                    err( e.getLocalizedMessage() );
+                    e.printStackTrace();
+                }
+            }
+        }
+        return aBuilder.newInstance();
+    }
 
     protected void update()
     {

@@ -16,18 +16,11 @@ import org.qi4j.chronos.model.composites.AccountEntityComposite;
 import org.qi4j.entity.EntityCompositeNotFoundException;
 import org.qi4j.spi.entity.EntityNotFoundException;
 
-public class AccountEntityCompositeTest extends AbstractEntityCompositeTest<AccountEntityComposite>
+public class AccountEntityCompositeTest extends AbstractCommonTest
 {
-    @Before @Override public void setUp() throws Exception
-    {
-        this.clazz = AccountEntityComposite.class;
-
-        super.setUp();
-    }
-
     @Test public void createTest() throws Exception
     {
-        Account account = compositeBuilder.newInstance();
+        Account account = unitOfWork.newEntity( Account.class );
         account.name().set( "test" );
         account.reference().set( "test" );
         account.isEnabled().set( true );
@@ -39,14 +32,14 @@ public class AccountEntityCompositeTest extends AbstractEntityCompositeTest<Acco
 
         assertEquals( "Name not equals to test!!!", "test", byRef.name().get() );
 
-        Account byId = unitOfWork.find( id, clazz );
+        Account byId = unitOfWork.find( id, Account.class );
 
         assertEquals( "Name not equals to test!!!", "test", byId.name().get() );
     }
 
     @Test public void deleteTest() throws Exception
     {
-        Account account = compositeBuilder.newInstance();
+        Account account = unitOfWork.newEntity( Account.class );
         account.name().set( "test" );
         account.reference().set( "test" );
         account.isEnabled().set( true );
@@ -64,7 +57,7 @@ public class AccountEntityCompositeTest extends AbstractEntityCompositeTest<Acco
 
         try
         {
-            Account byId = unitOfWork.find( id, clazz );
+            Account byId = unitOfWork.find( id, Account.class );
             fail( "This should not happen!!! Entity has been deleted.." );
         }
         catch( EntityCompositeNotFoundException enfe )

@@ -86,12 +86,6 @@ import org.qi4j.library.general.model.GenderType;
 import org.qi4j.spi.entity.UuidIdentityGeneratorService;
 import org.qi4j.test.AbstractQi4jTest;
 
-/**
- * Created by IntelliJ IDEA.
- * User: kamil
- * Date: Apr 12, 2008
- * Time: 11:38:56 PM
- */
 public abstract class AbstractCommonTest extends AbstractQi4jTest
 {
 
@@ -99,27 +93,25 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
 
     protected final SystemRole[] staffSystemRoles = new SystemRole[2];
 
-    @Before @Override public void setUp() throws Exception
+    @Before
+    @Override
+    public void setUp()
+        throws Exception
     {
         super.setUp();
 
         unitOfWork = unitOfWorkFactory.newUnitOfWork();
     }
 
-    @After @Override public void tearDown() throws Exception
+    @After
+    @Override
+    public void tearDown()
+        throws Exception
     {
         if( unitOfWork != null && unitOfWork.isOpen() )
         {
             unitOfWork.discard();
         }
-
-        if( unitOfWorkFactory.currentUnitOfWork() != null && unitOfWorkFactory.currentUnitOfWork().isOpen() )
-        {
-            unitOfWork = unitOfWorkFactory.currentUnitOfWork();
-            unitOfWork.discard();
-        }
-        unitOfWork = null;
-
         super.tearDown();
     }
 
@@ -163,7 +155,7 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
 
     public void assemble( ModuleAssembly module ) throws AssemblyException
     {
-        module.addComposites(
+        module.addEntities(
             AccountEntityComposite.class,
             AddressEntityComposite.class,
             AdminEntityComposite.class,
