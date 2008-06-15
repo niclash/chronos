@@ -29,6 +29,14 @@
             <attribute name="method" value="5" />
             <attribute name="URI" value="/WEB-INF/lib/qi4j-core-runtime-0.3-SNAPSHOT.jar" />
           </containerElement>
+          <containerElement type="module" name="qi4j-core-spi">
+            <attribute name="method" value="5" />
+            <attribute name="URI" value="/WEB-INF/lib/qi4j-core-spi-0.3-SNAPSHOT.jar" />
+          </containerElement>
+          <containerElement type="library" name="cglib:cglib-nodep:2.1_3" level="module">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/cglib-nodep-2.1_3.jar" />
+          </containerElement>
           <containerElement type="module" name="qi4j-core-bootstrap">
             <attribute name="method" value="5" />
             <attribute name="URI" value="/WEB-INF/lib/qi4j-core-bootstrap-0.3-SNAPSHOT.jar" />
@@ -106,13 +114,42 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/resources" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/target/classes" />
+      <excludeFolder url="file://$MODULE_DIR$/target/test-classes" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="qi4j-core-api" exported="" />
     <orderEntry type="module" module-name="qi4j-core-runtime" exported="" />
+    <orderEntry type="module" module-name="qi4j-core-spi" exported="" />
+    <orderEntry type="module-library" exported="">
+      <library name="cglib:cglib-nodep:2.1_3">
+        <CLASSES>
+          <root url="jar://$M2_REPO$/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$M2_REPO$/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3-javadoc.jar!/" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$M2_REPO$/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
     <orderEntry type="module" module-name="qi4j-core-bootstrap" exported="" />
     <orderEntry type="module" module-name="qi4j-core-testsupport" exported="" />
+    <orderEntry type="module-library">
+      <library name="junit:junit:4.4">
+        <CLASSES>
+          <root url="jar://$M2_REPO$/junit/junit/4.4/junit-4.4.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$M2_REPO$/junit/junit/4.4/junit-4.4-javadoc.jar!/" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$M2_REPO$/junit/junit/4.4/junit-4.4-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
     <orderEntry type="module" module-name="qi4j-lib-general" exported="" />
     <orderEntry type="module" module-name="qi4j-ext-entitystore-quick" exported="" />
     <orderEntry type="module" module-name="qi4j-ext-indexing-rdf" exported="" />
@@ -128,19 +165,6 @@
         </JAVADOC>
         <SOURCES>
           <root url="jar://$M2_REPO$/javax/servlet/servlet-api/2.4/servlet-api-2.4-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="junit:junit:4.4">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/junit/junit/4.4/junit-4.4.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/junit/junit/4.4/junit-4.4-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/junit/junit/4.4/junit-4.4-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
