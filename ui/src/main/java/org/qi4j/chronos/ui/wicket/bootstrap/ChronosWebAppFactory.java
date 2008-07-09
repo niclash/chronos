@@ -6,6 +6,8 @@ import org.apache.wicket.protocol.http.WicketFilter;
 import org.qi4j.bootstrap.ApplicationAssembly;
 import org.qi4j.bootstrap.ApplicationFactory;
 import org.qi4j.bootstrap.AssemblyException;
+import org.qi4j.runtime.bootstrap.ApplicationAssemblyImpl;
+import org.qi4j.runtime.bootstrap.ApplicationFactoryImpl;
 import static org.qi4j.chronos.ui.wicket.Constants.LAYER_NAME_WICKET;
 import static org.qi4j.chronos.ui.wicket.WicketLayerAssemblyInitializer.addWicketLayerAssembly;
 import static org.qi4j.chronos.ui.wicket.bootstrap.Constants.MODULE_NAME_WICKET_BOOTSTRAP;
@@ -57,11 +59,10 @@ public final class ChronosWebAppFactory
         throws AssemblyException
 
     {
-        ApplicationFactory appFactory = new ApplicationFactory();
-        ApplicationAssembly chronosAppAssembly = new ApplicationAssembly();
-        addWicketLayerAssembly( chronosAppAssembly );
 
-        Application app = appFactory.newApplication( chronosAppAssembly );
-        return app;
+        ApplicationFactory appFactory = new ApplicationFactoryImpl();
+        ApplicationAssembly chronosAppAssembly = new ApplicationAssemblyImpl();
+        addWicketLayerAssembly( chronosAppAssembly );
+        return appFactory.newApplication( chronosAppAssembly );
     }
 }
