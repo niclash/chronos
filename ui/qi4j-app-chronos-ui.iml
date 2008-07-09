@@ -53,9 +53,9 @@
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/jta-1.1.jar" />
           </containerElement>
-          <containerElement type="library" name="jgraph:jgraph:5.8.3.1" level="module">
+          <containerElement type="library" name="org.prefuse:prefuse:beta-20060220" level="module">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/jgraph-5.8.3.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/prefuse-beta-20060220.jar" />
           </containerElement>
           <containerElement type="module" name="qi4j-ext-entitystore-quick">
             <attribute name="method" value="5" />
@@ -295,7 +295,9 @@
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/resources" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/target/classes" />
+      <excludeFolder url="file://$MODULE_DIR$/target/qi4j-app-chronos-ui-0.3-SNAPSHOT" />
       <excludeFolder url="file://$MODULE_DIR$/target/test-classes" />
+      <excludeFolder url="file://$MODULE_DIR$/target/war" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -346,15 +348,15 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="jgraph:jgraph:5.8.3.1">
+      <library name="org.prefuse:prefuse:beta-20060220">
         <CLASSES>
-          <root url="jar://$M2_REPO$/jgraph/jgraph/5.8.3.1/jgraph-5.8.3.1.jar!/" />
+          <root url="jar://$M2_REPO$/org/prefuse/prefuse/beta-20060220/prefuse-beta-20060220.jar!/" />
         </CLASSES>
         <JAVADOC>
-          <root url="jar://$M2_REPO$/jgraph/jgraph/5.8.3.1/jgraph-5.8.3.1-javadoc.jar!/" />
+          <root url="jar://$M2_REPO$/org/prefuse/prefuse/beta-20060220/prefuse-beta-20060220-javadoc.jar!/" />
         </JAVADOC>
         <SOURCES>
-          <root url="jar://$M2_REPO$/jgraph/jgraph/5.8.3.1/jgraph-5.8.3.1-sources.jar!/" />
+          <root url="jar://$M2_REPO$/org/prefuse/prefuse/beta-20060220/prefuse-beta-20060220-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
