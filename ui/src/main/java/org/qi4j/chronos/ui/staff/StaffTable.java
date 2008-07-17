@@ -23,7 +23,7 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.qi4j.chronos.model.Money;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.associations.HasStaffs;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
+import org.qi4j.chronos.model.composites.StaffEntity;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleCheckBox;
 import org.qi4j.chronos.ui.common.SimpleLink;
@@ -35,6 +35,8 @@ import org.qi4j.entity.Identity;
 
 public abstract class StaffTable extends ActionTable<IModel, String>
 {
+    private static final long serialVersionUID = 1L;
+
     private AbstractSortableDataProvider<IModel, String> dataProvider;
 
     public StaffTable( String id )
@@ -100,7 +102,7 @@ public abstract class StaffTable extends ActionTable<IModel, String>
                         {
                             protected Object load()
                             {
-                                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, StaffEntityComposite.class );
+                                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, StaffEntity.class );
                             }
                         }
                     );
@@ -117,7 +119,7 @@ public abstract class StaffTable extends ActionTable<IModel, String>
                                 {
                                     protected Object load()
                                     {
-                                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( staffId, StaffEntityComposite.class );
+                                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( staffId, StaffEntity.class );
                                     }
                                 }
                             )

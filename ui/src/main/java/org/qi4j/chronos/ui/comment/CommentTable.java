@@ -24,7 +24,7 @@ import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.associations.HasComments;
-import org.qi4j.chronos.model.composites.CommentEntityComposite;
+import org.qi4j.chronos.model.composites.CommentEntity;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
@@ -114,7 +114,7 @@ public abstract class CommentTable extends ActionTable<IModel, String>
                         {
                             protected Object load()
                             {
-                                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, CommentEntityComposite.class );
+                                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, CommentEntity.class );
                             }
                         }
                     );
@@ -131,7 +131,7 @@ public abstract class CommentTable extends ActionTable<IModel, String>
                                 {
                                     protected Object load()
                                     {
-                                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( commentId, CommentEntityComposite.class );
+                                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( commentId, CommentEntity.class );
                                     }
                                 }
                             )

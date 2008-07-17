@@ -1,5 +1,4 @@
 /*
- * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -13,9 +12,9 @@
  */
 package org.qi4j.chronos.model.composites;
 
-import org.qi4j.chronos.model.Comment;
+import org.qi4j.chronos.model.Admin;
 import org.qi4j.entity.EntityComposite;
 
-public interface CommentEntityComposite extends Comment, EntityComposite
+public interface AdminEntity extends Admin, EntityComposite
 {
 }

@@ -14,11 +14,11 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.ModuleAssembly;
-import org.qi4j.chronos.model.composites.AddressEntityComposite;
-import org.qi4j.chronos.model.composites.CityEntityComposite;
-import org.qi4j.chronos.model.composites.CountryEntityComposite;
-import org.qi4j.chronos.model.composites.CustomerEntityComposite;
-import org.qi4j.chronos.model.composites.StateEntityComposite;
+import org.qi4j.chronos.model.composites.AddressEntity;
+import org.qi4j.chronos.model.composites.CityEntity;
+import org.qi4j.chronos.model.composites.CountryEntity;
+import org.qi4j.chronos.model.composites.CustomerEntity;
+import org.qi4j.chronos.model.composites.StateEntity;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.qi4j.entity.memory.MemoryEntityStoreService;
@@ -32,11 +32,11 @@ public class ChronosPropertyResolverTest extends AbstractQi4jTest
 {
     public void assemble( ModuleAssembly module ) throws AssemblyException
     {
-        module.addEntities( CustomerEntityComposite.class );
-        module.addEntities( AddressEntityComposite.class );
-        module.addEntities( CityEntityComposite.class );
-        module.addEntities( StateEntityComposite.class );
-        module.addEntities( CountryEntityComposite.class );
+        module.addEntities( CustomerEntity.class );
+        module.addEntities( AddressEntity.class );
+        module.addEntities( CityEntity.class );
+        module.addEntities( StateEntity.class );
+        module.addEntities( CountryEntity.class );
 
         module.addServices( UuidIdentityGeneratorService.class, MemoryEntityStoreService.class );
     }
@@ -45,7 +45,7 @@ public class ChronosPropertyResolverTest extends AbstractQi4jTest
     public void testEntitySimpleProperty() throws UnitOfWorkCompletionException
     {
         UnitOfWork uow = unitOfWorkFactory.newUnitOfWork();
-        CustomerEntityComposite customer = uow.newEntity( CustomerEntityComposite.class );
+        CustomerEntity customer = uow.newEntity( CustomerEntity.class );
         customer.name().set( "Microsoft" );
         Assert.assertEquals( "Microsoft", ChronosPropertyResolver.getValue( "name", customer ) );
         ChronosPropertyResolver.setValue( "name", customer, "Yahoo" );
@@ -57,23 +57,23 @@ public class ChronosPropertyResolverTest extends AbstractQi4jTest
     public void testEntityChainedProperty() throws UnitOfWorkCompletionException
     {
         UnitOfWork uow = unitOfWorkFactory.newUnitOfWork();
-        CityEntityComposite city = uow.newEntity( CityEntityComposite.class );
+        CityEntity city = uow.newEntity( CityEntity.class );
         city.name().set( "KL" );
 
-        CountryEntityComposite country = uow.newEntity( CountryEntityComposite.class );
+        CountryEntity country = uow.newEntity( CountryEntity.class );
         country.name().set( "Malaysia" );
 
-        StateEntityComposite state = uow.newEntity( StateEntityComposite.class );
+        StateEntity state = uow.newEntity( StateEntity.class );
         state.name().set( "Wilayah" );
 
         city.state().set( state );
         city.country().set( country );
 
-        AddressEntityComposite address = uow.newEntity( AddressEntityComposite.class );
+        AddressEntity address = uow.newEntity( AddressEntity.class );
         address.firstLine().set( "B-7-4 Megan Avenue" );
         address.city().set( city );
 
-        CustomerEntityComposite customer = uow.newEntity( CustomerEntityComposite.class );
+        CustomerEntity customer = uow.newEntity( CustomerEntity.class );
         customer.name().set( "Microsoft" );
         customer.address().set( address );
 
@@ -107,7 +107,7 @@ public class ChronosPropertyResolverTest extends AbstractQi4jTest
         throws UnitOfWorkCompletionException
     {
         UnitOfWork uow = unitOfWorkFactory.newUnitOfWork();
-        CustomerEntityComposite customer = uow.newEntity( CustomerEntityComposite.class );
+        CustomerEntity customer = uow.newEntity( CustomerEntity.class );
 
         try
         {

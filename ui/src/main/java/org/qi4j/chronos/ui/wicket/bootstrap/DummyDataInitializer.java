@@ -49,31 +49,30 @@ import org.qi4j.chronos.model.TaskStatusEnum;
 import org.qi4j.chronos.model.TimeRange;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.WorkEntry;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.AddressEntityComposite;
-import org.qi4j.chronos.model.composites.AdminEntityComposite;
-import org.qi4j.chronos.model.composites.CityEntityComposite;
-import org.qi4j.chronos.model.composites.CommentEntityComposite;
-import org.qi4j.chronos.model.composites.ContactEntityComposite;
-import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
-import org.qi4j.chronos.model.composites.CountryEntityComposite;
-import org.qi4j.chronos.model.composites.CustomerEntityComposite;
-import org.qi4j.chronos.model.composites.LegalConditionEntityComposite;
-import org.qi4j.chronos.model.composites.LoginEntityComposite;
-import org.qi4j.chronos.model.composites.MoneyEntityComposite;
-import org.qi4j.chronos.model.composites.OngoingWorkEntryEntityComposite;
-import org.qi4j.chronos.model.composites.PriceRateEntityComposite;
-import org.qi4j.chronos.model.composites.PriceRateScheduleEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectAssigneeEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
-import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
-import org.qi4j.chronos.model.composites.RelationshipEntityComposite;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
-import org.qi4j.chronos.model.composites.StateEntityComposite;
-import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
-import org.qi4j.chronos.model.composites.TaskEntityComposite;
-import org.qi4j.chronos.model.composites.TimeRangeEntityComposite;
-import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.chronos.model.composites.AccountEntity;
+import org.qi4j.chronos.model.composites.AddressEntity;
+import org.qi4j.chronos.model.composites.AdminEntity;
+import org.qi4j.chronos.model.composites.CityEntity;
+import org.qi4j.chronos.model.composites.CommentEntity;
+import org.qi4j.chronos.model.composites.ContactEntity;
+import org.qi4j.chronos.model.composites.CountryEntity;
+import org.qi4j.chronos.model.composites.CustomerEntity;
+import org.qi4j.chronos.model.composites.LegalConditionEntity;
+import org.qi4j.chronos.model.composites.LoginEntity;
+import org.qi4j.chronos.model.composites.MoneyEntity;
+import org.qi4j.chronos.model.composites.OngoinWorkEntryEntity;
+import org.qi4j.chronos.model.composites.PriceRateEntity;
+import org.qi4j.chronos.model.composites.PriceRateScheduleEntity;
+import org.qi4j.chronos.model.composites.ProjectAssigneeEntity;
+import org.qi4j.chronos.model.composites.ProjectEntity;
+import org.qi4j.chronos.model.composites.ProjectRoleEntity;
+import org.qi4j.chronos.model.composites.RelationshipEntity;
+import org.qi4j.chronos.model.composites.StaffEntity;
+import org.qi4j.chronos.model.composites.StateEntity;
+import org.qi4j.chronos.model.composites.SystemRoleEntity;
+import org.qi4j.chronos.model.composites.TaskEntity;
+import org.qi4j.chronos.model.composites.TimeRangeEntity;
+import org.qi4j.chronos.model.composites.WorkEntryEntity;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.util.ReportUtil;
 import org.qi4j.entity.EntityBuilder;
@@ -342,11 +341,11 @@ final class DummyDataInitializer
             account.projectRoles().add( projectManagerRole );
 
             // Creating and adding staffs
-            Staff boss = newUser( unitOfWork, StaffEntityComposite.class, "The", "Boss", GenderType.MALE );
+            Staff boss = newUser( unitOfWork, StaffEntity.class, "The", "Boss", GenderType.MALE );
             boss.login().set( newLogin( unitOfWork, "boss", "boss" ) );
             boss.salary().set( newMoney( unitOfWork, 8000L, "USD" ) );
 
-            Staff developer = newUser( unitOfWork, StaffEntityComposite.class, "The", "Developer", GenderType.MALE );
+            Staff developer = newUser( unitOfWork, StaffEntity.class, "The", "Developer", GenderType.MALE );
             developer.login().set( newLogin( unitOfWork, "developer", "developer" ) );
             developer.salary().set( newMoney( unitOfWork, 2000L, "USD" ) );
 
@@ -446,22 +445,22 @@ final class DummyDataInitializer
         UnitOfWork unitOfWork = newUnitOfWork( unitOfWorkFactory );
 
         SystemRole adminRole =
-            unitOfWork.newEntityBuilder( SystemRole.SYSTEM_ADMIN, SystemRoleEntityComposite.class ).newInstance();
+            unitOfWork.newEntityBuilder( SystemRole.SYSTEM_ADMIN, SystemRoleEntity.class ).newInstance();
         adminRole.name().set( SystemRole.SYSTEM_ADMIN );
         adminRole.systemRoleType().set( SystemRoleTypeEnum.ADMIN );
 
         SystemRole accountAdmin =
-            unitOfWork.newEntityBuilder( SystemRole.ACCOUNT_ADMIN, SystemRoleEntityComposite.class ).newInstance();
+            unitOfWork.newEntityBuilder( SystemRole.ACCOUNT_ADMIN, SystemRoleEntity.class ).newInstance();
         accountAdmin.name().set( SystemRole.ACCOUNT_ADMIN );
         accountAdmin.systemRoleType().set( SystemRoleTypeEnum.STAFF );
 
         SystemRole developer =
-            unitOfWork.newEntityBuilder( SystemRole.ACCOUNT_DEVELOPER, SystemRoleEntityComposite.class ).newInstance();
+            unitOfWork.newEntityBuilder( SystemRole.ACCOUNT_DEVELOPER, SystemRoleEntity.class ).newInstance();
         developer.name().set( SystemRole.ACCOUNT_DEVELOPER );
         developer.systemRoleType().set( SystemRoleTypeEnum.STAFF );
 
         SystemRole contactPerson =
-            unitOfWork.newEntityBuilder( SystemRole.CONTACT_PERSON, SystemRoleEntityComposite.class ).newInstance();
+            unitOfWork.newEntityBuilder( SystemRole.CONTACT_PERSON, SystemRoleEntity.class ).newInstance();
         contactPerson.name().set( SystemRole.CONTACT_PERSON );
         contactPerson.systemRoleType().set( SystemRoleTypeEnum.CONTACT_PERSON );
 
@@ -476,7 +475,7 @@ final class DummyDataInitializer
         UnitOfWork unitOfWork = newUnitOfWork( unitOfWorkFactory );
 
         Login adminLogin = newLogin( unitOfWork, "admin", "admin" );
-        Admin adminUser = newUser( unitOfWork, AdminEntityComposite.class, "System",
+        Admin adminUser = newUser( unitOfWork, AdminEntity.class, "System",
                                    "Administrator", GenderType.MALE );
         adminUser.login().set( adminLogin );
 
@@ -532,7 +531,7 @@ final class DummyDataInitializer
     protected static Login newLogin( UnitOfWork unitOfWork, String username, String password )
     {
 
-        EntityBuilder<LoginEntityComposite> loginBuilder = unitOfWork.newEntityBuilder( LoginEntityComposite.class );
+        EntityBuilder<LoginEntity> loginBuilder = unitOfWork.newEntityBuilder( LoginEntity.class );
         loginBuilder.stateOfComposite().name().set( username );
         loginBuilder.stateOfComposite().password().set( password );
         loginBuilder.stateOfComposite().isEnabled().set( true );
@@ -555,8 +554,8 @@ final class DummyDataInitializer
                                          String firstLine, String secondLine, String cityName,
                                          String stateName, String countryName, String zipCode )
     {
-        EntityBuilder<AccountEntityComposite> accountBuilder =
-            unitOfWork.newEntityBuilder( AccountEntityComposite.class );
+        EntityBuilder<AccountEntity> accountBuilder =
+            unitOfWork.newEntityBuilder( AccountEntity.class );
         accountBuilder.stateOfComposite().isEnabled().set( true );
         accountBuilder.stateOfComposite().name().set( name );
         accountBuilder.stateOfComposite().reference().set( reference );
@@ -569,8 +568,8 @@ final class DummyDataInitializer
 
     protected static Account newAccount( UnitOfWork unitOfWork, String name, String reference )
     {
-        EntityBuilder<AccountEntityComposite> accountBuilder =
-            unitOfWork.newEntityBuilder( AccountEntityComposite.class );
+        EntityBuilder<AccountEntity> accountBuilder =
+            unitOfWork.newEntityBuilder( AccountEntity.class );
         accountBuilder.stateOfComposite().isEnabled().set( true );
         accountBuilder.stateOfComposite().name().set( name );
         accountBuilder.stateOfComposite().reference().set( reference );
@@ -582,8 +581,8 @@ final class DummyDataInitializer
                                                String secondLine, String cityName,
                                                String stateName, String countryName, String zipCode )
     {
-        EntityBuilder<AddressEntityComposite> addressBuilder =
-            unitOfWork.newEntityBuilder( AddressEntityComposite.class );
+        EntityBuilder<AddressEntity> addressBuilder =
+            unitOfWork.newEntityBuilder( AddressEntity.class );
         addressBuilder.stateOfComposite().firstLine().set( firstLine );
         addressBuilder.stateOfComposite().secondLine().set( secondLine );
         addressBuilder.stateOfComposite().zipCode().set( zipCode );
@@ -596,7 +595,7 @@ final class DummyDataInitializer
 
     protected static City newCity( UnitOfWork unitOfWork, String cityName, State state, Country country )
     {
-        EntityBuilder<CityEntityComposite> cityBuilder = unitOfWork.newEntityBuilder( CityEntityComposite.class );
+        EntityBuilder<CityEntity> cityBuilder = unitOfWork.newEntityBuilder( CityEntity.class );
         cityBuilder.stateOfComposite().name().set( cityName );
         cityBuilder.stateOfComposite().state().set( state );
         cityBuilder.stateOfComposite().country().set( country );
@@ -606,7 +605,7 @@ final class DummyDataInitializer
 
     protected static State newState( UnitOfWork unitOfWork, String stateName )
     {
-        EntityBuilder<StateEntityComposite> stateBuilder = unitOfWork.newEntityBuilder( StateEntityComposite.class );
+        EntityBuilder<StateEntity> stateBuilder = unitOfWork.newEntityBuilder( StateEntity.class );
         stateBuilder.stateOfComposite().name().set( stateName );
 
         return stateBuilder.newInstance();
@@ -614,8 +613,8 @@ final class DummyDataInitializer
 
     protected static Country newCountry( UnitOfWork unitOfWork, String countryName )
     {
-        EntityBuilder<CountryEntityComposite> countryBuilder =
-            unitOfWork.newEntityBuilder( CountryEntityComposite.class );
+        EntityBuilder<CountryEntity> countryBuilder =
+            unitOfWork.newEntityBuilder( CountryEntity.class );
         countryBuilder.stateOfComposite().name().set( countryName );
 
         return countryBuilder.newInstance();
@@ -623,7 +622,7 @@ final class DummyDataInitializer
 
     protected static Money newMoney( UnitOfWork unitOfWork, Long amount, String currencyCode )
     {
-        EntityBuilder<MoneyEntityComposite> money = unitOfWork.newEntityBuilder( MoneyEntityComposite.class );
+        EntityBuilder<MoneyEntity> money = unitOfWork.newEntityBuilder( MoneyEntity.class );
         money.stateOfComposite().amount().set( amount );
         money.stateOfComposite().currency().set( Currency.getInstance( currencyCode ) );
 
@@ -632,8 +631,8 @@ final class DummyDataInitializer
 
     protected static ProjectRole newProjectRole( UnitOfWork unitOfWork, String projectRoleName )
     {
-        EntityBuilder<ProjectRoleEntityComposite> projectRoleBuilder =
-            unitOfWork.newEntityBuilder( ProjectRoleEntityComposite.class );
+        EntityBuilder<ProjectRoleEntity> projectRoleBuilder =
+            unitOfWork.newEntityBuilder( ProjectRoleEntity.class );
         projectRoleBuilder.stateOfComposite().name().set( projectRoleName );
 
         return projectRoleBuilder.newInstance();
@@ -641,8 +640,8 @@ final class DummyDataInitializer
 
     protected static PriceRateSchedule newPriceRateSchedule( UnitOfWork unitOfWork, String reference )
     {
-        EntityBuilder<PriceRateScheduleEntityComposite> priceRateScheduleBuilder =
-            unitOfWork.newEntityBuilder( PriceRateScheduleEntityComposite.class );
+        EntityBuilder<PriceRateScheduleEntity> priceRateScheduleBuilder =
+            unitOfWork.newEntityBuilder( PriceRateScheduleEntity.class );
         priceRateScheduleBuilder.stateOfComposite().name().set( reference );
 
         return priceRateScheduleBuilder.newInstance();
@@ -651,8 +650,8 @@ final class DummyDataInitializer
     protected static PriceRate newPriceRate( UnitOfWork unitOfWork, Long amount, String currencyCode,
                                              PriceRateTypeEnum priceRateTypeEnum )
     {
-        EntityBuilder<PriceRateEntityComposite> priceRateBuilder =
-            unitOfWork.newEntityBuilder( PriceRateEntityComposite.class );
+        EntityBuilder<PriceRateEntity> priceRateBuilder =
+            unitOfWork.newEntityBuilder( PriceRateEntity.class );
         priceRateBuilder.stateOfComposite().amount().set( amount );
         priceRateBuilder.stateOfComposite().currency().set( Currency.getInstance( currencyCode ) );
         priceRateBuilder.stateOfComposite().priceRateType().set( priceRateTypeEnum );
@@ -664,8 +663,8 @@ final class DummyDataInitializer
                                            String reference, String firstLine, String secondLine,
                                            String cityName, String stateName, String countryName, String zipCode )
     {
-        EntityBuilder<CustomerEntityComposite> customerBuilder =
-            unitOfWork.newEntityBuilder( CustomerEntityComposite.class );
+        EntityBuilder<CustomerEntity> customerBuilder =
+            unitOfWork.newEntityBuilder( CustomerEntity.class );
         customerBuilder.stateOfComposite().name().set( customerName );
         customerBuilder.stateOfComposite().reference().set( reference );
         customerBuilder.stateOfComposite().isEnabled().set( true );
@@ -679,8 +678,7 @@ final class DummyDataInitializer
                                                      String lastName, String username, String password,
                                                      GenderType genderType, String relationshipName )
     {
-        EntityBuilder<ContactPersonEntityComposite> contactPersonBuilder =
-            unitOfWork.newEntityBuilder( ContactPersonEntityComposite.class );
+        EntityBuilder<ContactPerson> contactPersonBuilder = unitOfWork.newEntityBuilder( ContactPerson.class );
         contactPersonBuilder.stateOfComposite().firstName().set( firstName );
         contactPersonBuilder.stateOfComposite().lastName().set( lastName );
         contactPersonBuilder.stateOfComposite().gender().set( genderType );
@@ -692,8 +690,8 @@ final class DummyDataInitializer
 
     protected static Relationship newRelationship( UnitOfWork unitOfWork, String relationshipName )
     {
-        EntityBuilder<RelationshipEntityComposite> relationshipBuilder =
-            unitOfWork.newEntityBuilder( RelationshipEntityComposite.class );
+        EntityBuilder<RelationshipEntity> relationshipBuilder =
+            unitOfWork.newEntityBuilder( RelationshipEntity.class );
         relationshipBuilder.stateOfComposite().relationship().set( relationshipName );
 
         return relationshipBuilder.newInstance();
@@ -701,8 +699,8 @@ final class DummyDataInitializer
 
     protected static Contact newContact( UnitOfWork unitOfWork, String contactType, String contactValue )
     {
-        EntityBuilder<ContactEntityComposite> contactBuilder =
-            unitOfWork.newEntityBuilder( ContactEntityComposite.class );
+        EntityBuilder<ContactEntity> contactBuilder =
+            unitOfWork.newEntityBuilder( ContactEntity.class );
         contactBuilder.stateOfComposite().contactType().set( contactType );
         contactBuilder.stateOfComposite().contactValue().set( contactValue );
 
@@ -712,8 +710,8 @@ final class DummyDataInitializer
     protected static Project newProject( UnitOfWork unitOfWork, String projectName,
                                          String formalReference, ProjectStatusEnum projectStatus )
     {
-        EntityBuilder<ProjectEntityComposite> projectBuilder =
-            unitOfWork.newEntityBuilder( ProjectEntityComposite.class );
+        EntityBuilder<ProjectEntity> projectBuilder =
+            unitOfWork.newEntityBuilder( ProjectEntity.class );
         projectBuilder.stateOfComposite().name().set( projectName );
         projectBuilder.stateOfComposite().reference().set( formalReference );
         projectBuilder.stateOfComposite().projectStatus().set( projectStatus );
@@ -723,8 +721,8 @@ final class DummyDataInitializer
 
     protected static TimeRange newTimeRange( UnitOfWork unitOfWork, Date startDate, Date endDate )
     {
-        EntityBuilder<TimeRangeEntityComposite> timeRangeBuilder =
-            unitOfWork.newEntityBuilder( TimeRangeEntityComposite.class );
+        EntityBuilder<TimeRangeEntity> timeRangeBuilder =
+            unitOfWork.newEntityBuilder( TimeRangeEntity.class );
         timeRangeBuilder.stateOfComposite().startTime().set( startDate );
         timeRangeBuilder.stateOfComposite().endTime().set( endDate );
 
@@ -734,8 +732,8 @@ final class DummyDataInitializer
     protected static ProjectAssignee newProjectAssignee( UnitOfWork unitOfWork, boolean isLead,
                                                          Staff staff, PriceRate priceRate )
     {
-        EntityBuilder<ProjectAssigneeEntityComposite> projectAssigneeBuilder =
-            unitOfWork.newEntityBuilder( ProjectAssigneeEntityComposite.class );
+        EntityBuilder<ProjectAssigneeEntity> projectAssigneeBuilder =
+            unitOfWork.newEntityBuilder( ProjectAssigneeEntity.class );
         projectAssigneeBuilder.stateOfComposite().isLead().set( isLead );
         projectAssigneeBuilder.stateOfComposite().staff().set( staff );
         projectAssigneeBuilder.stateOfComposite().priceRate().set( priceRate );
@@ -745,8 +743,8 @@ final class DummyDataInitializer
 
     protected static LegalCondition newLegalCondition( UnitOfWork unitOfWork, String value, String description )
     {
-        EntityBuilder<LegalConditionEntityComposite> legalConditionBuilder =
-            unitOfWork.newEntityBuilder( LegalConditionEntityComposite.class );
+        EntityBuilder<LegalConditionEntity> legalConditionBuilder =
+            unitOfWork.newEntityBuilder( LegalConditionEntity.class );
         legalConditionBuilder.stateOfComposite().name().set( value );
         legalConditionBuilder.stateOfComposite().description().set( description );
 
@@ -756,7 +754,7 @@ final class DummyDataInitializer
     protected static Task newTask( UnitOfWork unitOfWork, String title, String description,
                                    Date createdDate, TaskStatusEnum taskStatus )
     {
-        EntityBuilder<TaskEntityComposite> taskBuilder = unitOfWork.newEntityBuilder( TaskEntityComposite.class );
+        EntityBuilder<TaskEntity> taskBuilder = unitOfWork.newEntityBuilder( TaskEntity.class );
         taskBuilder.stateOfComposite().title().set( title );
         taskBuilder.stateOfComposite().description().set( description );
         taskBuilder.stateOfComposite().createdDate().set( createdDate );
@@ -767,8 +765,8 @@ final class DummyDataInitializer
 
     protected static Comment newComment( UnitOfWork unitOfWork, String comment, Date createdDate, User user )
     {
-        EntityBuilder<CommentEntityComposite> commentBuilder =
-            unitOfWork.newEntityBuilder( CommentEntityComposite.class );
+        EntityBuilder<CommentEntity> commentBuilder =
+            unitOfWork.newEntityBuilder( CommentEntity.class );
         commentBuilder.stateOfComposite().text().set( comment );
         commentBuilder.stateOfComposite().createdDate().set( createdDate );
         commentBuilder.stateOfComposite().user().set( user );
@@ -779,8 +777,8 @@ final class DummyDataInitializer
     protected static WorkEntry newWorkEntry( UnitOfWork unitOfWork, String title, String description, Date createdDate,
                                              Date startTime, Date endTime, ProjectAssignee projectAssignee )
     {
-        EntityBuilder<WorkEntryEntityComposite> workEntryBuilder =
-            unitOfWork.newEntityBuilder( WorkEntryEntityComposite.class );
+        EntityBuilder<WorkEntryEntity> workEntryBuilder =
+            unitOfWork.newEntityBuilder( WorkEntryEntity.class );
         workEntryBuilder.stateOfComposite().title().set( title );
         workEntryBuilder.stateOfComposite().description().set( description );
         workEntryBuilder.stateOfComposite().createdDate().set( createdDate );
@@ -794,8 +792,8 @@ final class DummyDataInitializer
     protected static OngoingWorkEntry newOngoingWorkEntry( UnitOfWork unitOfWork,
                                                            Date createdDate, ProjectAssignee projectAssignee )
     {
-        EntityBuilder<OngoingWorkEntryEntityComposite> ongoingWorkEntryBuilder =
-            unitOfWork.newEntityBuilder( OngoingWorkEntryEntityComposite.class );
+        EntityBuilder<OngoinWorkEntryEntity> ongoingWorkEntryBuilder =
+            unitOfWork.newEntityBuilder( OngoinWorkEntryEntity.class );
         ongoingWorkEntryBuilder.stateOfComposite().createdDate().set( createdDate );
         ongoingWorkEntryBuilder.stateOfComposite().projectAssignee().set( projectAssignee );
 

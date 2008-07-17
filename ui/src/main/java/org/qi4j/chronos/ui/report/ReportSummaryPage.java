@@ -28,7 +28,7 @@ import org.apache.wicket.model.PropertyModel;
 import org.joda.time.Period;
 import org.qi4j.chronos.model.Report;
 import org.qi4j.chronos.model.ReportDetail;
-import org.qi4j.chronos.model.composites.ReportEntityComposite;
+import org.qi4j.chronos.model.composites.ReportEntity;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 
 public class ReportSummaryPage extends AbstractReportPage
@@ -43,7 +43,7 @@ public class ReportSummaryPage extends AbstractReportPage
         {
             protected Object load()
             {
-                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( reportId, ReportEntityComposite.class );
+                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( reportId, ReportEntity.class );
             }
         } );
         setDefaultModel( reportModel );

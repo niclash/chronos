@@ -14,6 +14,7 @@ package org.qi4j.chronos.model;
 
 import org.qi4j.chronos.model.associations.HasContacts;
 import org.qi4j.chronos.model.associations.HasRelationship;
+import org.qi4j.entity.Identity;
 
 public interface ContactPerson extends User, HasRelationship, HasContacts
 {

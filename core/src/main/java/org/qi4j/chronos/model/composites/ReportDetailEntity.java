@@ -1,6 +1,5 @@
 /*
- * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
- * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
+ * Copyright (c) 2008, Muhd Kamil Mohd Baki. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,9 +12,9 @@
  */
 package org.qi4j.chronos.model.composites;
 
-import org.qi4j.chronos.model.PriceRateSchedule;
+import org.qi4j.chronos.model.ReportDetail;
 import org.qi4j.entity.EntityComposite;
 
-public interface PriceRateScheduleEntityComposite extends PriceRateSchedule, EntityComposite
+public interface ReportDetailEntity extends ReportDetail, EntityComposite
 {
 }

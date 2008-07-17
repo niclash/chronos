@@ -12,9 +12,9 @@
  */
 package org.qi4j.chronos.model.composites;
 
-import org.qi4j.chronos.model.Report;
 import org.qi4j.entity.EntityComposite;
+import org.qi4j.chronos.model.AccountReport;
 
-public interface ReportEntityComposite extends Report, EntityComposite
+public interface AccountReportEntity extends EntityComposite, AccountReport
 {
 }

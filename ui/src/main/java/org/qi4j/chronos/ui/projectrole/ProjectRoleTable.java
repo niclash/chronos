@@ -23,7 +23,7 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.ProjectRole;
-import org.qi4j.chronos.model.composites.ProjectRoleEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectRoleEntity;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
@@ -112,7 +112,7 @@ public abstract class ProjectRoleTable extends ActionTable<IModel, String>
                         {
                             protected Object load()
                             {
-                                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, ProjectRoleEntityComposite.class );
+                                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, ProjectRoleEntity.class );
                             }
                         }
                     );
@@ -129,7 +129,7 @@ public abstract class ProjectRoleTable extends ActionTable<IModel, String>
                                 {
                                     protected Object load()
                                     {
-                                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( projectRoleId, ProjectRoleEntityComposite.class );
+                                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( projectRoleId, ProjectRoleEntity.class );
                                     }
                                 }
                             )

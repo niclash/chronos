@@ -27,7 +27,7 @@ import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.associations.HasContactPersons;
-import org.qi4j.chronos.model.composites.ContactPersonEntityComposite;
+import org.qi4j.chronos.model.composites.ContactPersonEntity;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
@@ -175,7 +175,7 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
 
                 public IModel load( final String s )
                 {
-                    return new ChronosEntityModel( ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, ContactPersonEntityComposite.class ) );
+                    return new ChronosEntityModel( ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, ContactPersonEntity.class ) );
                 }
 
                 public List<IModel> dataList( int first, int count )
@@ -183,7 +183,7 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
                     List<IModel> iModels = new ArrayList<IModel>();
                     for( final String contactPersonId : ContactPersonTable.this.dataList( first, count ) )
                     {
-                        iModels.add( new ChronosEntityModel( ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( contactPersonId, ContactPersonEntityComposite.class ) ) );
+                        iModels.add( new ChronosEntityModel( ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( contactPersonId, ContactPersonEntity.class ) ) );
                     }
 
                     return iModels;

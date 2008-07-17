@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
+ * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,9 +12,9 @@
  */
 package org.qi4j.chronos.model.composites;
 
-import org.qi4j.chronos.model.Task;
+import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.entity.EntityComposite;
 
-public interface TaskEntityComposite extends Task, EntityComposite
+public interface ContactPersonEntity extends ContactPerson, EntityComposite
 {
 }

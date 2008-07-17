@@ -28,7 +28,7 @@ import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.ProjectStatusEnum;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.associations.HasProjects;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectEntity;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
@@ -175,7 +175,7 @@ public abstract class ProjectTable extends ActionTable<IModel, String>
                         {
                             public Object load()
                             {
-                                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, ProjectEntityComposite.class );
+                                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, ProjectEntity.class );
                             }
                         }
                     );

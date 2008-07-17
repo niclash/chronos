@@ -1,5 +1,6 @@
 /*
  * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
+ * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,9 +13,13 @@
  */
 package org.qi4j.chronos.model.composites;
 
-import org.qi4j.chronos.model.Customer;
+import org.qi4j.chronos.model.Account;
+import org.qi4j.chronos.model.validations.AccountValidatableConcern;
+import org.qi4j.composite.Concerns;
 import org.qi4j.entity.EntityComposite;
+import org.qi4j.library.framework.validation.Validatable;
 
-public interface CustomerEntityComposite extends Customer, EntityComposite
+public interface AccountEntity extends Account, EntityComposite
 {
 }
+

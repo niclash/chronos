@@ -27,7 +27,7 @@ import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.model.WorkEntry;
 import org.qi4j.chronos.model.associations.HasComments;
-import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
+import org.qi4j.chronos.model.composites.WorkEntryEntity;
 import org.qi4j.chronos.ui.comment.CommentTab;
 import org.qi4j.chronos.ui.common.SimpleTextArea;
 import org.qi4j.chronos.ui.common.SimpleTextField;
@@ -51,7 +51,7 @@ public class WorkEntryDetailPage extends LeftMenuNavPage
                 {
                     public Object load()
                     {
-                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( workEntryId, WorkEntryEntityComposite.class );
+                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( workEntryId, WorkEntryEntity.class );
                     }
                 }
             )

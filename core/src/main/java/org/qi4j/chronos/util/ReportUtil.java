@@ -22,10 +22,10 @@ import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.model.WorkEntry;
 import org.qi4j.chronos.model.associations.HasTasks;
-import org.qi4j.chronos.model.composites.AccountReportEntityComposite;
-import org.qi4j.chronos.model.composites.ReportDetailEntityComposite;
-import org.qi4j.chronos.model.composites.ReportEntityComposite;
-import org.qi4j.chronos.model.composites.ReportSummaryEntityComposite;
+import org.qi4j.chronos.model.composites.AccountReportEntity;
+import org.qi4j.chronos.model.composites.ReportDetailEntity;
+import org.qi4j.chronos.model.composites.ReportEntity;
+import org.qi4j.chronos.model.composites.ReportSummaryEntity;
 import org.qi4j.entity.EntityCompositeNotFoundException;
 import org.qi4j.entity.Identity;
 import org.qi4j.entity.UnitOfWork;
@@ -35,12 +35,12 @@ public final class ReportUtil
     public static Report generateReport( UnitOfWork unitOfWork, String name, HasTasks hasTasks,
                                          Date filterStartDate, Date filterEndDate )
     {
-        Report report = unitOfWork.newEntityBuilder( ReportEntityComposite.class ).newInstance();
+        Report report = unitOfWork.newEntityBuilder( ReportEntity.class ).newInstance();
         report.startTime().set( filterStartDate );
         report.endTime().set( filterEndDate );
         report.name().set( name );
 
-        ReportSummary summary = unitOfWork.newEntityBuilder( ReportSummaryEntityComposite.class ).newInstance();
+        ReportSummary summary = unitOfWork.newEntityBuilder( ReportSummaryEntity.class ).newInstance();
         report.reportSummary().set( summary );
 
         for( Task task : hasTasks.tasks() )
@@ -66,7 +66,7 @@ public final class ReportUtil
                     if( !exists )
                     {
                         ReportDetail reportDetail = unitOfWork.
-                            newEntityBuilder( ReportDetailEntityComposite.class ).newInstance();
+                            newEntityBuilder( ReportDetailEntity.class ).newInstance();
                         reportDetail.staff().set( staff );
                         reportDetail.workEntries().add( workEntry );
                         summary.reportDetails().add( reportDetail );
@@ -84,13 +84,13 @@ public final class ReportUtil
         try
         {
             return unitOfWork.find( accountId,
-                                    AccountReportEntityComposite.class );
+                                    AccountReportEntity.class );
         }
         catch( EntityCompositeNotFoundException ecnfe )
         {
             // expected
         }
         return unitOfWork.
-                newEntityBuilder( accountId, AccountReportEntityComposite.class ).newInstance();
+                newEntityBuilder( accountId, AccountReportEntity.class ).newInstance();
     }
 }

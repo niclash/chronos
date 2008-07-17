@@ -32,6 +32,6 @@ import org.qi4j.entity.EntityComposite;
  * <ol>Projects that this staff is working on
  * </li>
  */
-public interface StaffEntityComposite extends Staff, EntityComposite
+public interface StaffEntity extends Staff, EntityComposite
 {
 }

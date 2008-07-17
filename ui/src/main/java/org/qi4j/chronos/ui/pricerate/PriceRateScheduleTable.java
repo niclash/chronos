@@ -24,7 +24,7 @@ import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
-import org.qi4j.chronos.model.composites.PriceRateScheduleEntityComposite;
+import org.qi4j.chronos.model.composites.PriceRateScheduleEntity;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
@@ -115,7 +115,7 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
                         {
                             public Object load()
                             {
-                                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, PriceRateScheduleEntityComposite.class );
+                                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, PriceRateScheduleEntity.class );
                             }
                         }
                     );
@@ -133,7 +133,7 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
                                     public Object load()
                                     {
                                         return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find(
-                                            priceRateScheduleId, PriceRateScheduleEntityComposite.class );
+                                            priceRateScheduleId, PriceRateScheduleEntity.class );
                                     }
                                 }
                             )

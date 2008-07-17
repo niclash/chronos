@@ -22,7 +22,7 @@ import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.associations.HasCustomers;
-import org.qi4j.chronos.model.composites.CustomerEntityComposite;
+import org.qi4j.chronos.model.composites.CustomerEntity;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleCheckBox;
 import org.qi4j.chronos.ui.common.SimpleLink;
@@ -113,7 +113,7 @@ public abstract class CustomerTable extends ActionTable<IModel<Customer>, String
                 {
                     return new ChronosCompoundPropertyModel<Customer>(
                                 ChronosUnitOfWorkManager.get().getCurrentUnitOfWork()
-                                    .find( identityId, CustomerEntityComposite.class )
+                                    .find( identityId, CustomerEntity.class )
                     );
                 }
 

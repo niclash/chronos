@@ -12,15 +12,9 @@
  */
 package org.qi4j.chronos.model.composites;
 
+import org.qi4j.chronos.model.Report;
 import org.qi4j.entity.EntityComposite;
-import org.qi4j.chronos.model.State;
 
-/**
- * Created by IntelliJ IDEA.
- * User: kamil
- * Date: Apr 13, 2008
- * Time: 5:01:43 AM
- */
-public interface StateEntityComposite extends EntityComposite, State
+public interface ReportEntity extends Report, EntityComposite
 {
 }

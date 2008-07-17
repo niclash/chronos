@@ -12,8 +12,8 @@
  */
 package org.qi4j.chronos.model.composites;
 
-import org.qi4j.entity.EntityComposite;
 import org.qi4j.chronos.model.City;
+import org.qi4j.entity.EntityComposite;
 
 /**
  * Created by IntelliJ IDEA.
@@ -21,6 +21,6 @@ import org.qi4j.chronos.model.City;
  * Date: Apr 13, 2008
  * Time: 5:00:53 AM
  */
-public interface CityEntityComposite extends EntityComposite, City
+public interface CityEntity extends City, EntityComposite
 {
 }

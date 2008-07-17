@@ -31,7 +31,7 @@ import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.PriceRateTypeEnum;
 import org.qi4j.chronos.model.ProjectRole;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.composites.PriceRateEntityComposite;
+import org.qi4j.chronos.model.composites.PriceRateEntity;
 import org.qi4j.chronos.ui.common.CurrencyChoiceRenderer;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.common.NameChoiceRenderer;
@@ -200,7 +200,7 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
 
     protected void addNewPriceRate( )
     {
-        PriceRate priceRate = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().newEntityBuilder( PriceRateEntityComposite.class ).newInstance();
+        PriceRate priceRate = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().newEntityBuilder( PriceRateEntity.class ).newInstance();
         priceRate.priceRateType().set( PriceRateTypeEnum.HOURLY );
 
         priceRate.projectRole().set( getAccount().projectRoles().iterator().next() );

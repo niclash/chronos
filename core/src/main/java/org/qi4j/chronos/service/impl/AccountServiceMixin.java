@@ -19,11 +19,11 @@ import org.qi4j.chronos.model.Address;
 import org.qi4j.chronos.model.City;
 import org.qi4j.chronos.model.Country;
 import org.qi4j.chronos.model.State;
-import org.qi4j.chronos.model.composites.AccountEntityComposite;
-import org.qi4j.chronos.model.composites.AddressEntityComposite;
-import org.qi4j.chronos.model.composites.CityEntityComposite;
-import org.qi4j.chronos.model.composites.CountryEntityComposite;
-import org.qi4j.chronos.model.composites.StateEntityComposite;
+import org.qi4j.chronos.model.composites.AccountEntity;
+import org.qi4j.chronos.model.composites.AddressEntity;
+import org.qi4j.chronos.model.composites.CityEntity;
+import org.qi4j.chronos.model.composites.CountryEntity;
+import org.qi4j.chronos.model.composites.StateEntity;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.query.QueryBuilderFactory;
@@ -53,11 +53,11 @@ public abstract class AccountServiceMixin extends AbstractServiceMixin
     {
         UnitOfWork unitOfWork = getUnitOfWork();
 
-        Account account = unitOfWork.newEntityBuilder( AccountEntityComposite.class ).newInstance();
-        Address address = unitOfWork.newEntityBuilder( AddressEntityComposite.class ).newInstance();
-        City city = unitOfWork.newEntityBuilder( CityEntityComposite.class ).newInstance();
-        State state = unitOfWork.newEntityBuilder( StateEntityComposite.class ).newInstance();
-        Country country = unitOfWork.newEntityBuilder( CountryEntityComposite.class ).newInstance();
+        Account account = unitOfWork.newEntityBuilder( AccountEntity.class ).newInstance();
+        Address address = unitOfWork.newEntityBuilder( AddressEntity.class ).newInstance();
+        City city = unitOfWork.newEntityBuilder( CityEntity.class ).newInstance();
+        State state = unitOfWork.newEntityBuilder( StateEntity.class ).newInstance();
+        Country country = unitOfWork.newEntityBuilder( CountryEntity.class ).newInstance();
 
         city.state().set( state );
         city.country().set( country );

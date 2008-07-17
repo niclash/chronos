@@ -21,7 +21,7 @@ import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
+import org.qi4j.chronos.model.composites.SystemRoleEntity;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
@@ -59,7 +59,7 @@ public abstract class SystemRoleTable extends ActionTable<IModel, String>
                         {
                             protected Object load()
                             {
-                                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, SystemRoleEntityComposite.class );
+                                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, SystemRoleEntity.class );
                             }
                         }
                     );
@@ -76,7 +76,7 @@ public abstract class SystemRoleTable extends ActionTable<IModel, String>
                                 {
                                     protected Object load()
                                     {
-                                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( systemRoleId, SystemRoleEntityComposite.class );
+                                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( systemRoleId, SystemRoleEntity.class );
                                     }
                                 }
                             )

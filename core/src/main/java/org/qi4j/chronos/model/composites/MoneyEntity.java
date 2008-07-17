@@ -1,6 +1,5 @@
 /*
- * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
- * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
+ * Copyright (c) 2008, Muhd Kamil Mohd Baki. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -13,16 +12,15 @@
  */
 package org.qi4j.chronos.model.composites;
 
-import org.qi4j.chronos.model.Login;
-import org.qi4j.composite.Composite;
+import org.qi4j.chronos.model.Money;
 import org.qi4j.entity.EntityComposite;
-//import org.qi4j.chronos.model.modifiers.RequiredFieldsValidationModifier;
-
 
 /**
- * Validatable login composite.
- * <p/>
+ * Created by IntelliJ IDEA.
+ * User: kamil
+ * Date: Apr 12, 2008
+ * Time: 8:05:45 PM
  */
-public interface LoginEntityComposite extends Login, EntityComposite
+public interface MoneyEntity extends EntityComposite, Money
 {
 }

@@ -15,7 +15,7 @@ package org.qi4j.chronos.model;
 import java.text.DateFormat;
 import org.qi4j.chronos.model.associations.HasProject;
 import org.qi4j.chronos.model.associations.HasReportSummary;
-import org.qi4j.chronos.model.composites.ReportEntityComposite;
+import org.qi4j.chronos.model.composites.ReportEntity;
 import org.qi4j.composite.Mixins;
 import org.qi4j.injection.scope.This;
 import org.qi4j.property.ComputedPropertyInstance;
@@ -35,7 +35,7 @@ public interface Report extends Descriptor, Name, TimeRange, HasProject, HasRepo
             try
             {
                 DISPLAY_VALUE =
-                    new GenericPropertyInfo( ReportEntityComposite.class.getMethod( "displayValue" ) );
+                    new GenericPropertyInfo( ReportEntity.class.getMethod( "displayValue" ) );
             }
             catch( NoSuchMethodException nsme )
             {

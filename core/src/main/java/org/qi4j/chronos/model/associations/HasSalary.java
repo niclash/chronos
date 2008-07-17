@@ -14,7 +14,6 @@
 package org.qi4j.chronos.model.associations;
 
 import org.qi4j.entity.association.Association;
-import org.qi4j.chronos.model.composites.MoneyEntityComposite;
 import org.qi4j.chronos.model.Money;
 
 /**

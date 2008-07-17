@@ -28,7 +28,7 @@ import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.composites.ContactEntityComposite;
+import org.qi4j.chronos.model.composites.ContactEntity;
 import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
 import org.qi4j.chronos.ui.relationship.RelationshipOptionPanel;
@@ -160,7 +160,7 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
 
     private void addNewContact()
     {
-        final Contact contact = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().newEntityBuilder( ContactEntityComposite.class ).newInstance();
+        final Contact contact = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().newEntityBuilder( ContactEntity.class ).newInstance();
         contactList.add( contact );
     }
 

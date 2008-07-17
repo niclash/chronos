@@ -13,9 +13,9 @@
  */
 package org.qi4j.chronos.model.composites;
 
-import org.qi4j.chronos.model.TimeRange;
+import org.qi4j.chronos.model.Comment;
 import org.qi4j.entity.EntityComposite;
 
-public interface TimeRangeEntityComposite extends TimeRange, EntityComposite
+public interface CommentEntity extends Comment, EntityComposite
 {
 }

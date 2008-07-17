@@ -26,7 +26,7 @@ import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.composites.ContactEntityComposite;
+import org.qi4j.chronos.model.composites.ContactEntity;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
@@ -112,7 +112,7 @@ public abstract class ContactTable extends ActionTable<IModel, String>
                     {
                         protected Object load()
                         {
-                            return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, ContactEntityComposite.class );
+                            return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, ContactEntity.class );
                         }
                     }
                 );
@@ -129,7 +129,7 @@ public abstract class ContactTable extends ActionTable<IModel, String>
                             {
                                 protected Object load()
                                 {
-                                    return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( contactId, ContactEntityComposite.class );
+                                    return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( contactId, ContactEntity.class );
                                 }
                             }
                         )

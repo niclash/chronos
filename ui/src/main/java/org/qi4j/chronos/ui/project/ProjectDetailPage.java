@@ -36,7 +36,7 @@ import org.qi4j.chronos.model.TimeRange;
 import org.qi4j.chronos.model.WorkEntry;
 import org.qi4j.chronos.model.associations.HasContactPersons;
 import org.qi4j.chronos.model.associations.HasWorkEntries;
-import org.qi4j.chronos.model.composites.ProjectEntityComposite;
+import org.qi4j.chronos.model.composites.ProjectEntity;
 import org.qi4j.chronos.ui.common.SimpleTextField;
 import org.qi4j.chronos.ui.contactperson.ContactPersonTable;
 import org.qi4j.chronos.ui.legalcondition.LegalConditionTab;
@@ -63,7 +63,7 @@ public class ProjectDetailPage extends LeftMenuNavPage
                 {
                     protected Object load()
                     {
-                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( projectId, ProjectEntityComposite.class );
+                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( projectId, ProjectEntity.class );
                     }
                 }
             )
