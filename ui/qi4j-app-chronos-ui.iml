@@ -237,13 +237,9 @@
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/openrdf-sail-nativerdf-2.0.1.jar" />
           </containerElement>
-          <containerElement type="library" name="org.slf4j:slf4j-log4j12:1.4.2" level="module">
+          <containerElement type="library" name="org.slf4j:slf4j-simple:1.4.2" level="module">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/slf4j-log4j12-1.4.2.jar" />
-          </containerElement>
-          <containerElement type="library" name="log4j:log4j:1.2.14" level="module">
-            <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/log4j-1.2.14.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/slf4j-simple-1.4.2.jar" />
           </containerElement>
           <containerElement type="module" name="qi4j-app-chronos-core">
             <attribute name="method" value="5" />
@@ -277,6 +273,10 @@
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/joda-time-1.4.jar" />
           </containerElement>
+          <containerElement type="library" name="log4j:log4j:1.2.14" level="module">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/log4j-1.2.14.jar" />
+          </containerElement>
           <containerElement type="module" name="qi4j-app-chronos-ui">
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/classes" />
@@ -294,11 +294,7 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/resources" isTestSource="true" />
-      <excludeFolder url="file://$MODULE_DIR$/target/classes" />
       <excludeFolder url="file://$MODULE_DIR$/target/dependency-maven-plugin-markers" />
-      <excludeFolder url="file://$MODULE_DIR$/target/qi4j-app-chronos-ui-0.3-SNAPSHOT" />
-      <excludeFolder url="file://$MODULE_DIR$/target/test-classes" />
-      <excludeFolder url="file://$MODULE_DIR$/target/war" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
@@ -923,28 +919,15 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library" exported="">
-      <library name="org.slf4j:slf4j-log4j12:1.4.2">
+      <library name="org.slf4j:slf4j-simple:1.4.2">
         <CLASSES>
-          <root url="jar://$M2_REPO$/org/slf4j/slf4j-log4j12/1.4.2/slf4j-log4j12-1.4.2.jar!/" />
+          <root url="jar://$M2_REPO$/org/slf4j/slf4j-simple/1.4.2/slf4j-simple-1.4.2.jar!/" />
         </CLASSES>
         <JAVADOC>
-          <root url="jar://$M2_REPO$/org/slf4j/slf4j-log4j12/1.4.2/slf4j-log4j12-1.4.2-javadoc.jar!/" />
+          <root url="jar://$M2_REPO$/org/slf4j/slf4j-simple/1.4.2/slf4j-simple-1.4.2-javadoc.jar!/" />
         </JAVADOC>
         <SOURCES>
-          <root url="jar://$M2_REPO$/org/slf4j/slf4j-log4j12/1.4.2/slf4j-log4j12-1.4.2-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="log4j:log4j:1.2.14">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/log4j/log4j/1.2.14/log4j-1.2.14.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/log4j/log4j/1.2.14/log4j-1.2.14-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/log4j/log4j/1.2.14/log4j-1.2.14-sources.jar!/" />
+          <root url="jar://$M2_REPO$/org/slf4j/slf4j-simple/1.4.2/slf4j-simple-1.4.2-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -977,41 +960,41 @@
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="org.mortbay.jetty:jetty:6.1.9">
+      <library name="org.mortbay.jetty:jetty:6.1.11">
         <CLASSES>
-          <root url="jar://$M2_REPO$/org/mortbay/jetty/jetty/6.1.9/jetty-6.1.9.jar!/" />
+          <root url="jar://$M2_REPO$/org/mortbay/jetty/jetty/6.1.11/jetty-6.1.11.jar!/" />
         </CLASSES>
         <JAVADOC>
-          <root url="jar://$M2_REPO$/org/mortbay/jetty/jetty/6.1.9/jetty-6.1.9-javadoc.jar!/" />
+          <root url="jar://$M2_REPO$/org/mortbay/jetty/jetty/6.1.11/jetty-6.1.11-javadoc.jar!/" />
         </JAVADOC>
         <SOURCES>
-          <root url="jar://$M2_REPO$/org/mortbay/jetty/jetty/6.1.9/jetty-6.1.9-sources.jar!/" />
+          <root url="jar://$M2_REPO$/org/mortbay/jetty/jetty/6.1.11/jetty-6.1.11-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="org.mortbay.jetty:jetty-util:6.1.9">
+      <library name="org.mortbay.jetty:jetty-util:6.1.11">
         <CLASSES>
-          <root url="jar://$M2_REPO$/org/mortbay/jetty/jetty-util/6.1.9/jetty-util-6.1.9.jar!/" />
+          <root url="jar://$M2_REPO$/org/mortbay/jetty/jetty-util/6.1.11/jetty-util-6.1.11.jar!/" />
         </CLASSES>
         <JAVADOC>
-          <root url="jar://$M2_REPO$/org/mortbay/jetty/jetty-util/6.1.9/jetty-util-6.1.9-javadoc.jar!/" />
+          <root url="jar://$M2_REPO$/org/mortbay/jetty/jetty-util/6.1.11/jetty-util-6.1.11-javadoc.jar!/" />
         </JAVADOC>
         <SOURCES>
-          <root url="jar://$M2_REPO$/org/mortbay/jetty/jetty-util/6.1.9/jetty-util-6.1.9-sources.jar!/" />
+          <root url="jar://$M2_REPO$/org/mortbay/jetty/jetty-util/6.1.11/jetty-util-6.1.11-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
     <orderEntry type="module-library">
-      <library name="org.mortbay.jetty:servlet-api-2.5:6.1.9">
+      <library name="org.mortbay.jetty:servlet-api-2.5:6.1.11">
         <CLASSES>
-          <root url="jar://$M2_REPO$/org/mortbay/jetty/servlet-api-2.5/6.1.9/servlet-api-2.5-6.1.9.jar!/" />
+          <root url="jar://$M2_REPO$/org/mortbay/jetty/servlet-api-2.5/6.1.11/servlet-api-2.5-6.1.11.jar!/" />
         </CLASSES>
         <JAVADOC>
-          <root url="jar://$M2_REPO$/org/mortbay/jetty/servlet-api-2.5/6.1.9/servlet-api-2.5-6.1.9-javadoc.jar!/" />
+          <root url="jar://$M2_REPO$/org/mortbay/jetty/servlet-api-2.5/6.1.11/servlet-api-2.5-6.1.11-javadoc.jar!/" />
         </JAVADOC>
         <SOURCES>
-          <root url="jar://$M2_REPO$/org/mortbay/jetty/servlet-api-2.5/6.1.9/servlet-api-2.5-6.1.9-sources.jar!/" />
+          <root url="jar://$M2_REPO$/org/mortbay/jetty/servlet-api-2.5/6.1.11/servlet-api-2.5-6.1.11-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
@@ -1077,6 +1060,19 @@
         </JAVADOC>
         <SOURCES>
           <root url="jar://$M2_REPO$/joda-time/joda-time/1.4/joda-time-1.4-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
+    <orderEntry type="module-library" exported="">
+      <library name="log4j:log4j:1.2.14">
+        <CLASSES>
+          <root url="jar://$M2_REPO$/log4j/log4j/1.2.14/log4j-1.2.14.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$M2_REPO$/log4j/log4j/1.2.14/log4j-1.2.14-javadoc.jar!/" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$M2_REPO$/log4j/log4j/1.2.14/log4j-1.2.14-sources.jar!/" />
         </SOURCES>
       </library>
     </orderEntry>
