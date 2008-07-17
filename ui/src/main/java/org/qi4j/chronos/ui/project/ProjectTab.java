@@ -12,11 +12,9 @@
  */
 package org.qi4j.chronos.ui.project;
 
-import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.associations.HasProjects;
-import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.ui.common.BorderPanel;
 import org.qi4j.chronos.ui.common.BorderPanelWrapper;
 import org.qi4j.chronos.ui.common.tab.BaseTab;

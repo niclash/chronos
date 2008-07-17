@@ -12,8 +12,8 @@
  */
 package org.qi4j.chronos.ui.common;
 
-import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import java.util.Currency;
+import org.apache.wicket.markup.html.form.IChoiceRenderer;
 
 public class CurrencyChoiceRenderer implements IChoiceRenderer
 {

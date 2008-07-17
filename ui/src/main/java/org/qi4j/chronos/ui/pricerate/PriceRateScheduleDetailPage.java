@@ -29,13 +29,15 @@ import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 
 public class PriceRateScheduleDetailPage extends LeftMenuNavPage
 {
+    private static final long serialVersionUID = 1L;
+
     private Page returnBase;
 
     public PriceRateScheduleDetailPage( Page returnBase, final String priceRateScheduleId )
     {
         this.returnBase = returnBase;
 
-        setModel(
+        setDefaultModel(
             new CompoundPropertyModel(
                 new LoadableDetachableModel()
                 {
@@ -52,7 +54,7 @@ public class PriceRateScheduleDetailPage extends LeftMenuNavPage
     private void initComponents()
     {
         add( new FeedbackPanel( "feedbackPanel" ) );
-        add( new PriceRateScheduleDetailForm( "priceRateScheduleDetailForm", getModel() ) );
+        add( new PriceRateScheduleDetailForm( "priceRateScheduleDetailForm", getDefaultModel() ) );
     }
 
     private class PriceRateScheduleDetailForm extends Form

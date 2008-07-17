@@ -3,10 +3,9 @@ package org.qi4j.chronos.ui.wicket.authentication;
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.LayerAssembly;
 import org.qi4j.bootstrap.ModuleAssembly;
-import org.qi4j.structure.Visibility;
-
 import static org.qi4j.chronos.ui.wicket.authentication.Constants.MODULE_NAME_WICKET_AUTHENTICATION;
 import static org.qi4j.composite.NullArgumentException.validateNotNull;
+import org.qi4j.structure.Visibility;
 
 /**
  * {@code WicketAuthenticationModuleInitializer} initialize wicket authentication module.

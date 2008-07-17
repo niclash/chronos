@@ -94,6 +94,6 @@ public class PriceRateScheduleEditPage extends PriceRateScheduleAddEditPage
 
     public PriceRateSchedule getPriceRateSchedule()
     {
-        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( (PriceRateSchedule) getModelObject() );
+        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( (PriceRateSchedule) getDefaultModelObject() );
     }
 }

@@ -57,7 +57,7 @@ public abstract class TaskAddPage extends TaskAddEditPage
     {
         try
         {
-            final Task task = (Task) getModelObject();
+            final Task task = (Task) getDefaultModelObject();
             TaskAddPage.this.getProject().tasks().add( task );
             ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
             logInfoMsg( "Task is added successfully." );

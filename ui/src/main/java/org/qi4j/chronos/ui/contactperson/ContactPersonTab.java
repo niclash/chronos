@@ -13,8 +13,8 @@
 package org.qi4j.chronos.ui.contactperson;
 
 import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.model.associations.HasContactPersons;
 import org.qi4j.chronos.model.Customer;
+import org.qi4j.chronos.model.associations.HasContactPersons;
 import org.qi4j.chronos.ui.common.NewLinkPanel;
 import org.qi4j.chronos.ui.common.tab.NewLinkTab;
 

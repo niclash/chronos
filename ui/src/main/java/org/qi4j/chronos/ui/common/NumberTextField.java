@@ -46,17 +46,17 @@ public class NumberTextField extends TextField
 
     public int getIntValue()
     {
-        return Integer.parseInt( this.getModelObjectAsString() );
+        return Integer.parseInt( this.getDefaultModelObjectAsString() );
     }
 
     public long getLongValue()
     {
-        return Long.parseLong( this.getModelObjectAsString() );
+        return Long.parseLong( this.getDefaultModelObjectAsString() );
     }
 
     public double getDoubleValue()
     {
-        return Double.parseDouble( this.getModelObjectAsString() );
+        return Double.parseDouble( this.getDefaultModelObjectAsString() );
     }
 
     public void setIntValue( int intValue )
@@ -76,9 +76,9 @@ public class NumberTextField extends TextField
 
     public boolean checkIsEmptyOrNotLong()
     {
-        if( !ValidatorUtil.isEmpty( this.getModelObjectAsString(), fieldName, this ) )
+        if( !ValidatorUtil.isEmpty( this.getDefaultModelObjectAsString(), fieldName, this ) )
         {
-            return ValidatorUtil.isNotLong( this.getModelObjectAsString(), fieldName, this );
+            return ValidatorUtil.isNotLong( this.getDefaultModelObjectAsString(), fieldName, this );
         }
 
         return true;
@@ -86,9 +86,9 @@ public class NumberTextField extends TextField
 
     public boolean checkIsEmptyOrNotInteger()
     {
-        if( !ValidatorUtil.isEmpty( this.getModelObjectAsString(), fieldName, this ) )
+        if( !ValidatorUtil.isEmpty( this.getDefaultModelObjectAsString(), fieldName, this ) )
         {
-            return ValidatorUtil.isNotInteger( this.getModelObjectAsString(), fieldName, this );
+            return ValidatorUtil.isNotInteger( this.getDefaultModelObjectAsString(), fieldName, this );
         }
 
         return true;
@@ -96,9 +96,9 @@ public class NumberTextField extends TextField
 
     public boolean checkIsEmptyOrNotDouble()
     {
-        if( !ValidatorUtil.isEmpty( this.getModelObjectAsString(), fieldName, this ) )
+        if( !ValidatorUtil.isEmpty( this.getDefaultModelObjectAsString(), fieldName, this ) )
         {
-            return ValidatorUtil.isNotDouble( this.getModelObjectAsString(), fieldName, this );
+            return ValidatorUtil.isNotDouble( this.getDefaultModelObjectAsString(), fieldName, this );
         }
 
         return true;

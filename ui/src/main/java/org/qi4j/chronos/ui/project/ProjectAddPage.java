@@ -79,7 +79,7 @@ public class ProjectAddPage extends ProjectAddEditPage
         final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
         try
         {
-            final Project project = (Project) getModelObject();
+            final Project project = (Project) getDefaultModelObject();
             final Account account = unitOfWork.dereference( getAccount() );
             for( ContactPerson contactPerson : getSelectedContactPersonList() )
             {

@@ -15,7 +15,6 @@ package org.qi4j.chronos.ui.pricerate;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.SubmitLink;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.chronos.model.PriceRate;
 import org.qi4j.chronos.model.PriceRateSchedule;
 
@@ -151,7 +150,7 @@ public abstract class PriceRateOptionPanel extends Panel
             .append( " - " )
             .append( String.valueOf( priceRate.amount().get() ) );
 
-        priceRateDetailLabel.setModelObject( builder.toString() );
+        priceRateDetailLabel.setDefaultModelObject( builder.toString() );
 
         priceRateDetailLabel.setVisible( true );
         customizePriceRateLink.setVisible( true );

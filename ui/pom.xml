@@ -12,8 +12,9 @@
   <packaging>war</packaging>
 
   <properties>
-    <version.wicket>1.4-m1</version.wicket>
+    <version.wicket>1.4-m3</version.wicket>
   </properties>
+
   <build>
     <resources>
       <resource>

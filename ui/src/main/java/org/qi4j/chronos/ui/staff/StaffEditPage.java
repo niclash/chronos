@@ -17,8 +17,6 @@ import org.apache.wicket.Page;
 import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -66,7 +64,7 @@ public abstract class StaffEditPage extends StaffAddEditPage
     {
         try
         {
-            final Staff staff = (Staff) getModelObject();
+            final Staff staff = (Staff) getDefaultModelObject();
             staff.systemRoles().clear();
             for( SystemRole systemRole : getUserAddEditPanel().getSelectedRoleList() )
             {

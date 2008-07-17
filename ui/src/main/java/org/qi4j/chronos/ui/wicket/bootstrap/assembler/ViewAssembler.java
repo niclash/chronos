@@ -20,7 +20,6 @@ import org.qi4j.chronos.ui.account.AccountDetailPage;
 import org.qi4j.chronos.ui.account.AccountEditPage;
 import org.qi4j.chronos.ui.account.AccountListPage;
 import org.qi4j.chronos.ui.admin.AdminHomePage;
-import org.qi4j.chronos.ui.comment.CommentDetailPage;
 import org.qi4j.chronos.ui.contactperson.ContactPersonHomePage;
 import org.qi4j.chronos.ui.customer.CustomerListPage;
 import org.qi4j.chronos.ui.pricerate.PriceRateScheduleListPage;
@@ -32,7 +31,6 @@ import org.qi4j.chronos.ui.report.ReportMainPage;
 import org.qi4j.chronos.ui.staff.StaffHomePage;
 import org.qi4j.chronos.ui.staff.StaffListPage;
 import org.qi4j.chronos.ui.systemrole.SystemRoleListPage;
-import org.qi4j.chronos.ui.task.TaskDetailPage;
 import org.qi4j.structure.Visibility;
 
 public class ViewAssembler implements Assembler

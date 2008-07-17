@@ -46,7 +46,7 @@ public class ReportSummaryPage extends AbstractReportPage
                 return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( reportId, ReportEntityComposite.class );
             }
         } );
-        setModel( reportModel );
+        setDefaultModel( reportModel );
         initComponents();
     }
 
@@ -66,9 +66,9 @@ public class ReportSummaryPage extends AbstractReportPage
         add( goBackLink );
 */
 
-        add( new Label( "title", new PropertyModel( getModel(), "displayValue" ) ) );
+        add( new Label( "title", new PropertyModel( getDefaultModel(), "displayValue" ) ) );
 
-        Report report = (Report) getModelObject();
+        Report report = (Report) getDefaultModelObject();
 //        add( new Label( "title", report.displayValue().get() ) );
         SimplePanel result = new SimplePanel( "summaryPanel" );
         result.setTitle( report.name().get() );
@@ -87,13 +87,13 @@ public class ReportSummaryPage extends AbstractReportPage
             public final void onClick()
             {
 //                detailPanel.setVisible( !detailPanel.isVisible() );
-                if( label.getModelObjectAsString().equals( "[ show detail ]" ) )
+                if( label.getDefaultModelObjectAsString().equals( "[ show detail ]" ) )
                 {
-                    label.setModelObject( "[ hide detail ]" );
+                    label.setDefaultModelObject( "[ hide detail ]" );
                 }
                 else
                 {
-                    label.setModelObject( "[ show detail ]" );
+                    label.setDefaultModelObject( "[ show detail ]" );
                 }
             }
         };

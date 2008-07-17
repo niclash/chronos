@@ -36,7 +36,6 @@ import org.qi4j.chronos.ui.common.SimpleDateField;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
 import org.qi4j.chronos.ui.common.model.NameModel;
-import org.qi4j.chronos.ui.util.ValidatorUtil;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 
 public abstract class ProjectAddEditPage extends AddEditBasePage
@@ -205,7 +204,7 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
         if( projectStatusEnum == ProjectStatusEnum.CLOSED )
         {
             actualDateContainer.setVisible( true );
-            final IModel iModel = ProjectAddEditPage.this.getModel();
+            final IModel iModel = ProjectAddEditPage.this.getDefaultModel();
             final CustomCompositeModel actualModel = new CustomCompositeModel( iModel, "actualTime" );
             actualStartDate.setModel( new CustomCompositeModel( actualModel, "startTime" ) );
             actualEndDate.setModel( new CustomCompositeModel( actualModel, "endTime" ) );
@@ -240,7 +239,7 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
 
     protected Customer getCustomer()
     {
-        return ( (Project) getModelObject() ).customer().get();
+        return ( (Project) getDefaultModelObject() ).customer().get();
     }
 
 /*

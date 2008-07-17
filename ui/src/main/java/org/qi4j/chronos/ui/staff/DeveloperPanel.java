@@ -15,16 +15,14 @@ package org.qi4j.chronos.ui.staff;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
-import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
+import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Staff;
-import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.model.associations.HasProjects;
 import org.qi4j.chronos.ui.project.ProjectTab;
 import org.qi4j.chronos.ui.task.RecentTaskTab;
-import org.qi4j.entity.Identity;
 import org.qi4j.entity.UnitOfWork;
 
 public abstract class DeveloperPanel extends Panel
@@ -40,7 +38,7 @@ public abstract class DeveloperPanel extends Panel
 
     private void initComponents()
     {
-        List<AbstractTab> tabs = new ArrayList<AbstractTab>();
+        List<ITab> tabs = new ArrayList<ITab>();
 
         tabs.add( createRecentTaskTab() );
         tabs.add( createRecentProjectTab() );
@@ -94,7 +92,7 @@ public abstract class DeveloperPanel extends Panel
     }
 
     public abstract UnitOfWork getUnitOfWork();
-    
+
     public abstract Staff getStaff();
 
     public abstract IModel<HasProjects> getHasProjectsModel();

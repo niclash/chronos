@@ -32,7 +32,6 @@ import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.Identity;
-import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -48,7 +47,7 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
     public PriceRateScheduleTable( String id, IModel iModel )
     {
         super( id, iModel );
-        setModel( iModel );
+        setDefaultModel( iModel );
 
         addActions();
     }
@@ -69,6 +68,7 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
 
     /**
      * Delete PriceRateSchedule from HasPriceRateSchedules i.e. remove from Customer but not from Account
+     *
      * @param iModels
      */
     private void handleDelete( List<IModel> iModels )
@@ -78,7 +78,7 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
             final T hasPriceRateSchedule = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( getHasPriceRateSchedules() );
             for( IModel iModel : iModels )
             {
-                final PriceRateSchedule priceRateSchedule = ( PriceRateSchedule) iModel.getObject();
+                final PriceRateSchedule priceRateSchedule = (PriceRateSchedule) iModel.getObject();
                 hasPriceRateSchedule.priceRateSchedules().remove( priceRateSchedule );
                 ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().remove( priceRateSchedule );
             }

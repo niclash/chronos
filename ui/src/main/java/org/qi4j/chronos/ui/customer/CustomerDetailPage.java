@@ -19,7 +19,6 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Address;
 import org.qi4j.chronos.model.Customer;
-import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.ui.address.AddressDetailPanel;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
@@ -34,7 +33,7 @@ public class CustomerDetailPage extends LeftMenuNavPage
 
         ChronosCompoundPropertyModel model = new ChronosCompoundPropertyModel( customerModel );
 
-        setModel( model );
+        setDefaultModel( model );
 
         TextField nameField = new TextField( "name" );
         TextField referenceField = new TextField( "reference" );
@@ -106,6 +105,6 @@ public class CustomerDetailPage extends LeftMenuNavPage
 
     protected Customer getCustomer()
     {
-        return (Customer) getModelObject();
+        return (Customer) getDefaultModelObject();
     }
 }

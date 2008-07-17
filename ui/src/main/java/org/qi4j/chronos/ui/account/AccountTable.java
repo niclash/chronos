@@ -16,6 +16,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Map;
+import org.apache.wicket.Page;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
@@ -32,7 +33,6 @@ import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.SimpleAction;
 import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
 import org.qi4j.chronos.ui.util.ProjectUtil;
-import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.Identity;
 import org.qi4j.entity.UnitOfWork;
@@ -142,7 +142,7 @@ public class AccountTable extends ActionTable<IModel, String>
         catch( UnitOfWorkCompletionException uowce )
         {
             ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
-            
+
             LOGGER.error( uowce.getLocalizedMessage(), uowce );
             error( getString( enable ? ENABLE_FAIL : DISABLE_FAIL ) );
         }
@@ -266,15 +266,18 @@ public class AccountTable extends ActionTable<IModel, String>
 
     /**
      * Generate PageParameters to be used in Page constructor.
-     * 
+     *
      * @param iModel
      * @return
      */
     private PageParameters getPageParameters( final IModel iModel )
     {
         final PageParameters params = new PageParameters();
-        params.put( this.getPage().getClass(), this.getPage() );
-        params.put( String.class, ( (Identity) iModel.getObject() ).identity().get() );
+        Page page = this.getPage();
+        Class<? extends Page> pageClass = page.getClass();
+        String pageClassName = pageClass.getName();
+        params.put( pageClassName, page );
+        params.put( String.class.getName(), ( (Identity) iModel.getObject() ).identity().get() );
 
         return params;
     }
@@ -285,7 +288,7 @@ public class AccountTable extends ActionTable<IModel, String>
             HEADER_NAME,
             HEADER_REFERENCE,
             HEADER_ENABLED,
-            HEADER_PROJECT, 
+            HEADER_PROJECT,
             HEADER_ACTIVE,
             HEADER_INACTIVE,
             HEADER_CLOSED,
@@ -293,7 +296,7 @@ public class AccountTable extends ActionTable<IModel, String>
         );
     }
 
-    public List<String> getTableHeaderList( String...headers )
+    public List<String> getTableHeaderList( String... headers )
     {
         List<String> result = new ArrayList<String>();
         for( String header : headers )

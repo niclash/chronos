@@ -17,10 +17,9 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.model.User;
-//import org.qi4j.chronos.ui.login.UserLoginDetailPanel;
 import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 
-public final class UserDetailPanel extends Panel<IModel<User>>
+public final class UserDetailPanel extends Panel
 {
     private static final long serialVersionUID = 1L;
 
@@ -29,7 +28,7 @@ public final class UserDetailPanel extends Panel<IModel<User>>
         super( id );
 
         ChronosCompoundPropertyModel<IModel<User>> model = new ChronosCompoundPropertyModel<IModel<User>>( user );
-        setModel( model );
+        setDefaultModel( model );
 
         TextField firstNameField = new TextField( "firstName" );
         TextField lastNameField = new TextField( "lastName" );

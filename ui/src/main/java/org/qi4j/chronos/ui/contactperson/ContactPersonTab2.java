@@ -13,9 +13,9 @@
 package org.qi4j.chronos.ui.contactperson;
 
 import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.model.associations.HasContactPersons;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.associations.HasContactPersons;
 import org.qi4j.chronos.ui.common.BorderPanel;
 import org.qi4j.chronos.ui.common.BorderPanelWrapper;
 import org.qi4j.chronos.ui.common.tab.BaseTab;

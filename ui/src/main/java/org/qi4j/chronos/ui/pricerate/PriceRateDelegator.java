@@ -13,10 +13,8 @@
 package org.qi4j.chronos.ui.pricerate;
 
 import java.io.Serializable;
-import org.qi4j.chronos.model.PriceRateType;
 import org.qi4j.chronos.model.PriceRate;
 import org.qi4j.chronos.model.PriceRateTypeEnum;
-import org.qi4j.chronos.model.composites.PriceRateComposite;
 import org.qi4j.entity.Identity;
 
 //TODO bp. We may don't need this when we can make priceRateComposite serilizable.

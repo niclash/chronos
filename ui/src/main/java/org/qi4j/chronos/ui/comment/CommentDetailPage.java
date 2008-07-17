@@ -30,8 +30,7 @@ public class CommentDetailPage extends LeftMenuNavPage
     public CommentDetailPage( final Page basePage, IModel<Comment> comment )
     {
         ChronosCompoundPropertyModel model = new ChronosCompoundPropertyModel( comment );
-
-        setModel( model );
+        setDefaultModel( model );
 
         add( new FeedbackPanel( "feedbackPanel" ) );
 
@@ -39,7 +38,7 @@ public class CommentDetailPage extends LeftMenuNavPage
         final TextField userField = new TextField( "user", model.bind( "user.fullName" ) );
         final TextArea commentTextArea = new TextArea( "text" );
 
-        final Button<String> submitButton = new Button<String>( "submitButton", new Model( "Return" ) )
+        final Button submitButton = new Button( "submitButton", new Model( "Return" ) )
         {
             private static final long serialVersionUID = 1L;
 

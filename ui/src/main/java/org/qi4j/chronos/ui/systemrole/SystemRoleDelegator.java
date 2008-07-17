@@ -13,8 +13,8 @@
 package org.qi4j.chronos.ui.systemrole;
 
 import java.io.Serializable;
-import org.qi4j.chronos.model.SystemRoleTypeEnum;
 import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.model.SystemRoleTypeEnum;
 
 
 //TODO bp. we dun need this when we have ValueComposite

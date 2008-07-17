@@ -12,11 +12,11 @@
  */
 package org.qi4j.chronos.ui.projectassignee;
 
-import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
-import org.qi4j.chronos.model.SystemRole;
+import org.apache.wicket.markup.html.link.Link;
+import org.apache.wicket.markup.html.panel.Panel;
 import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.common.NewLinkPanel;
 import org.qi4j.chronos.ui.common.tab.NewLinkTab;
 

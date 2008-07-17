@@ -10,10 +10,10 @@
  */
 package org.qi4j.chronos.ui.wicket.model;
 
+import org.apache.wicket.Component;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.IWrapModel;
-import org.apache.wicket.Component;
 import org.qi4j.entity.Entity;
 
 /**
@@ -28,12 +28,14 @@ public class ChronosCompoundPropertyModel<T> extends CompoundPropertyModel<T>
         super( object instanceof Entity ? new ChronosEntityModel<T>( object ) : object );
     }
 
+    @Override
     public final <P> IModel<P> bind( String property )
     {
         return new ChronosPropertyModel<P>( this, property );
     }
 
-    public final <C> IWrapModel<C> wrapOnInheritance( Component<C> component )
+    @Override
+    public final <C> IWrapModel<C> wrapOnInheritance( Component component )
     {
         return new ChronosAttachedCompoundPropertyModel<C>( component );
     }
@@ -42,9 +44,9 @@ public class ChronosCompoundPropertyModel<T> extends CompoundPropertyModel<T>
         implements IWrapModel<C>
     {
         private static final long serialVersionUID = 1L;
-        private final Component<C> owner;
+        private final Component owner;
 
-        public ChronosAttachedCompoundPropertyModel( Component<C> owner )
+        public ChronosAttachedCompoundPropertyModel( Component owner )
         {
             super( ChronosCompoundPropertyModel.this );
             this.owner = owner;

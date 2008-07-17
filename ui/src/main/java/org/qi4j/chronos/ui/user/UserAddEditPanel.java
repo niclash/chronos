@@ -32,7 +32,7 @@ import org.qi4j.chronos.ui.common.SystemRoleChoiceRenderer;
 import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 import org.qi4j.library.general.model.GenderType;
 
-public abstract class UserAddEditPanel<T extends User> extends Panel<T>
+public abstract class UserAddEditPanel<T extends User> extends Panel
 {
     private static final long serialVersionUID = 1L;
 
@@ -49,7 +49,7 @@ public abstract class UserAddEditPanel<T extends User> extends Panel<T>
         super( id );
 
         ChronosCompoundPropertyModel model = new ChronosCompoundPropertyModel( user );
-        setModel( model );
+        setDefaultModel( model );
 
         this.isHideRolePalette = isHideRolePalette;
 

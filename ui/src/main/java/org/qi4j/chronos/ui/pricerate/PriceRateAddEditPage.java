@@ -15,22 +15,22 @@ package org.qi4j.chronos.ui.pricerate;
 import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.Page;
-import org.apache.wicket.model.IModel;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.SubmitLink;
-import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.PriceRateTypeEnum;
-import org.qi4j.chronos.model.ProjectRole;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.PriceRate;
 import org.qi4j.chronos.model.PriceRateSchedule;
-import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
-import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
+import org.qi4j.chronos.model.PriceRateTypeEnum;
+import org.qi4j.chronos.model.ProjectRole;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.common.NumberTextField;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
+import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
 import org.qi4j.chronos.ui.projectrole.ProjectRoleDelegator;
 import org.qi4j.chronos.ui.util.ListUtil;
+import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public abstract class PriceRateAddEditPage extends AddEditBasePage

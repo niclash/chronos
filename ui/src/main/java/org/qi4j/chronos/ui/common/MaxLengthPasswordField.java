@@ -58,7 +58,7 @@ public class MaxLengthPasswordField extends PasswordTextField
     public boolean checkIsEmptyOrInvalidLength()
     {
 //        return ValidatorUtil.isEmptyOrInvalidLength( text, fieldName, maxLength, this );
-        return ValidatorUtil.isEmptyOrInvalidLength( this.getModelObjectAsString(), fieldName, maxLength, this );
+        return ValidatorUtil.isEmptyOrInvalidLength( this.getDefaultModelObjectAsString(), fieldName, maxLength, this );
     }
 }
 

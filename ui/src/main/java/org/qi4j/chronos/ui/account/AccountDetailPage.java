@@ -34,7 +34,7 @@ public class AccountDetailPage extends LeftMenuNavPage
         add( new FeedbackPanel( "feedbackPanel" ) );
 
         ChronosCompoundPropertyModel model = new ChronosCompoundPropertyModel( accountModel );
-        setModel( model );
+        setDefaultModel( model );
 
         TextField nameField = new TextField( "name" );
         TextField referenceField = new TextField( "reference" );
@@ -43,7 +43,7 @@ public class AccountDetailPage extends LeftMenuNavPage
 
         AddressDetailPanel addressDetailPanel = new AddressDetailPanel( "address", addressIModel );
 
-        Button<String> goButton = new Button<String>( "submitButton", new Model<String>( "Return" ) )
+        Button goButton = new Button( "submitButton", new Model<String>( "Return" ) )
         {
             private static final long serialVersionUID = 1L;
 

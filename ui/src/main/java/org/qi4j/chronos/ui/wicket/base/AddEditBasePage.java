@@ -36,7 +36,7 @@ public abstract class AddEditBasePage<T> extends LeftMenuNavPage
 
         ChronosUnitOfWorkManager.get().setPolicy( ChronosUnitOfWorkManager.Policy.RESET_ON_END_REQUEST );
 
-        Form<T>  addEditForm = new AddEditForm( "addEditForm", model );
+        Form<T> addEditForm = new AddEditForm( "addEditForm", model );
         add( new FeedbackPanel( "feedbackPanel" ) );
         add( addEditForm );
 
@@ -56,27 +56,27 @@ public abstract class AddEditBasePage<T> extends LeftMenuNavPage
 
             String buttonValue = getSubmitButtonValue();
 
-            Button<String> submitButton =
-                new Button<String>( "submitButton", new Model<String>( buttonValue ) )
+            Button submitButton = new Button( "submitButton", new Model<String>( buttonValue ) )
+            {
+                private static final long serialVersionUID = 1L;
+
+                @Override
+                public final void onSubmit()
                 {
-                    private static final long serialVersionUID = 1L;
+                    handleSubmitClicked( AddEditForm.this.getModel() );
+                }
+            };
 
-                    public void onSubmit()
-                    {
-                        handleSubmitClicked( AddEditForm.this.getModel() );
-                    }
-                };
+            Button cancelButton = new Button( "cancelButton", new Model<String>( "Cancel" ) )
+            {
+                private static final long serialVersionUID = 1L;
 
-            Button<String> cancelButton =
-                new Button<String>( "cancelButton", new Model<String>( "Cancel" ) )
+                @Override
+                public final void onSubmit()
                 {
-                    private static final long serialVersionUID = 1L;
-
-                    public void onSubmit()
-                    {
-                        handleCancelClicked();
-                    }
-                };
+                    handleCancelClicked();
+                }
+            };
 
             cancelButton.setDefaultFormProcessing( false );
 

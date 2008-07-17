@@ -44,8 +44,7 @@ import org.qi4j.chronos.model.composites.SystemRoleEntityComposite;
 import org.qi4j.chronos.model.composites.TaskEntityComposite;
 import org.qi4j.chronos.model.composites.TimeRangeEntityComposite;
 import org.qi4j.chronos.model.composites.WorkEntryEntityComposite;
-import org.qi4j.structure.Visibility;
-import static org.qi4j.structure.Visibility.*;
+import static org.qi4j.structure.Visibility.application;
 
 public class DomainAssembler implements Assembler
 {

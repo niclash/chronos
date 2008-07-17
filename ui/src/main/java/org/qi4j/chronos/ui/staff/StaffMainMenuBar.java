@@ -16,7 +16,6 @@ import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.chronos.ui.SystemRoleResolver;
 import org.qi4j.chronos.ui.common.menu.MenuBar;
 import org.qi4j.chronos.ui.common.menu.MenuItem;
@@ -26,6 +25,7 @@ import org.qi4j.chronos.ui.project.ProjectListPage;
 import org.qi4j.chronos.ui.projectrole.ProjectRoleListPage;
 import org.qi4j.chronos.ui.report.ReportMainPage;
 import org.qi4j.chronos.ui.systemrole.SystemRoleListPage;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 
 @AuthorizeInstantiation( { SystemRole.ACCOUNT_ADMIN, SystemRole.ACCOUNT_DEVELOPER } )
 public class StaffMainMenuBar extends MenuBar

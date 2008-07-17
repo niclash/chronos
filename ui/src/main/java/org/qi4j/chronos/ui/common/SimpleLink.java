@@ -60,7 +60,7 @@ public abstract class SimpleLink extends Panel
 
     public void setText( String text )
     {
-        label.setModelObject( text );
+        label.setDefaultModelObject( text );
     }
 
     public void addAttributeModifierToLink( AttributeModifier attributeModifier )

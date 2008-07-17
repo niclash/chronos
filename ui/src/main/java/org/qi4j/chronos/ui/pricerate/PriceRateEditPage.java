@@ -14,9 +14,9 @@ package org.qi4j.chronos.ui.pricerate;
 
 import org.apache.wicket.Page;
 import org.apache.wicket.model.IModel;
+import org.qi4j.chronos.model.PriceRate;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.qi4j.chronos.model.PriceRate;
 
 public abstract class PriceRateEditPage extends PriceRateAddEditPage
 {

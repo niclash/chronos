@@ -83,7 +83,7 @@ public abstract class ContactPersonAddPage extends ContactPersonAddEditPage
         {
             final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
             final Customer customer = unitOfWork.dereference( getCustomer() );
-            final ContactPerson contactPerson = (ContactPerson) getModelObject();
+            final ContactPerson contactPerson = (ContactPerson) getDefaultModelObject();
 
             for( Contact contact : contactList )
             {

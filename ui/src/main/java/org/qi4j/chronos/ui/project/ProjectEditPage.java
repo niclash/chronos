@@ -36,7 +36,7 @@ public class ProjectEditPage extends ProjectAddEditPage
     {
         super( basePage, iModel );
 
-        bindPropertyModel( getModel() );
+        bindPropertyModel( getDefaultModel() );
     }
 
     protected void handleSubmitClicked( IModel iModel )
@@ -45,7 +45,7 @@ public class ProjectEditPage extends ProjectAddEditPage
 
         try
         {
-            final Project project = (Project) getModelObject();
+            final Project project = (Project) getDefaultModelObject();
             project.contactPersons().clear();
             for( ContactPerson contactPerson : getSelectedContactPersonList() )
             {
@@ -90,6 +90,6 @@ public class ProjectEditPage extends ProjectAddEditPage
 
     private Project getProject()
     {
-        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( (Project) getModelObject() );
+        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( (Project) getDefaultModelObject() );
     }
 }

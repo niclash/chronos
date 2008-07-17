@@ -38,7 +38,7 @@ final class ChronosPageFactory
      * @throws WicketRuntimeException Thrown if the page cannot be constructed
      * @since 0.1.0
      */
-    public final Page newPage( Class<? extends Page> pageClass )
+    public final <C extends Page> Page newPage( final Class<C> pageClass )
     {
         return newPage( pageClass, NULL );
     }
@@ -54,7 +54,7 @@ final class ChronosPageFactory
      * @throws WicketRuntimeException Thrown if the page cannot be constructed.
      * @since 0.1.0
      */
-    public final Page newPage( Class<? extends Page> pageClass, PageParameters parameters )
+    public <C extends Page> Page newPage( final Class<C> pageClass, final PageParameters parameters )
     {
         ObjectBuilder<? extends Page> builder = objectBuilderFactory.newObjectBuilder( pageClass );
 

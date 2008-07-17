@@ -15,7 +15,7 @@ package org.qi4j.chronos.ui.project;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.Page;
-import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
+import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Button;
@@ -57,7 +57,7 @@ public class ProjectDetailPage extends LeftMenuNavPage
     {
         this.returnPage = returnPage;
 
-        setModel(
+        setDefaultModel(
             new CompoundPropertyModel(
                 new LoadableDetachableModel()
                 {
@@ -74,7 +74,7 @@ public class ProjectDetailPage extends LeftMenuNavPage
     private void initComponents()
     {
         add( new FeedbackPanel( "feedbackPanel" ) );
-        add( new ProjectDetailForm( "projectDetailForm", getModel() ) );
+        add( new ProjectDetailForm( "projectDetailForm", getDefaultModel() ) );
     }
 
     private class ProjectDetailForm extends Form
@@ -125,7 +125,7 @@ public class ProjectDetailPage extends LeftMenuNavPage
 
                 if( null != projectActualTime.endTime().get() )
                 {
-                    actualEndTime =  DateUtil.formatDate( projectActualTime.endTime().get() );
+                    actualEndTime = DateUtil.formatDate( projectActualTime.endTime().get() );
                 }
             }
             final SimpleTextField actualStartTimeField =
@@ -146,7 +146,7 @@ public class ProjectDetailPage extends LeftMenuNavPage
                     }
                 };
 
-            final List<AbstractTab> tabs = new ArrayList<AbstractTab>();
+            final List<ITab> tabs = new ArrayList<ITab>();
 
 //            tabs.add( createContactPersonTab() );
             tabs.add( createPriceRateTab() );
@@ -291,6 +291,6 @@ public class ProjectDetailPage extends LeftMenuNavPage
 
     public Project getProject()
     {
-        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( (Project) getModelObject() );
+        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( (Project) getDefaultModelObject() );
     }
 }

@@ -20,7 +20,6 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
@@ -59,12 +58,12 @@ public class PriceRateScheduleListPage extends LeftMenuNavPage
         {
             public Account getHasPriceRateSchedules()
             {
-                return (Account) getModelObject();
+                return (Account) getDefaultModelObject();
             }
 
             public Account getAccount()
             {
-                return (Account) getModelObject();
+                return (Account) getDefaultModelObject();
             }
         };
         add( table );

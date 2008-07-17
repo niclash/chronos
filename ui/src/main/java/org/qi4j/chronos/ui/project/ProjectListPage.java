@@ -15,16 +15,15 @@ package org.qi4j.chronos.ui.project;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.PageParameters;
-import org.apache.wicket.model.IModel;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.associations.HasProjects;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
-import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 import org.qi4j.entity.Identity;
 
@@ -43,7 +42,8 @@ public class ProjectListPage extends LeftMenuNavPage
             public void onClick()
             {
                 PageParameters param = new PageParameters();
-                param.put( ProjectListPage.class, ProjectListPage.this );
+                String pageClassName = ProjectListPage.class.getName();
+                param.put( pageClassName, ProjectListPage.this );
 
 //                setResponsePage( newPage( ProjectAddPage.class, param ) );
             }
@@ -82,7 +82,7 @@ public class ProjectListPage extends LeftMenuNavPage
         List<String> projects = new ArrayList<String>();
         for( Project project : getAccount().projects() )
         {
-            projects.add( ( (Identity) project).identity().get() );
+            projects.add( ( (Identity) project ).identity().get() );
         }
 
         return projects.subList( first, first + count );

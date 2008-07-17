@@ -28,15 +28,17 @@ public abstract class RelationshipAddPage extends RelationshipAddEditPage
 
     public void onSubmitting()
     {
-        newRelationship( (Relationship) getModelObject() );
+        newRelationship( (Relationship) getDefaultModelObject() );
         divertToGoBackPage();
     }
 
+    @Override
     public String getSubmitButtonValue()
     {
         return "Add";
     }
 
+    @Override
     public String getTitleLabel()
     {
         return "Add Relationship";

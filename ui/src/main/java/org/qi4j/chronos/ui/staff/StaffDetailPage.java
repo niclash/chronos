@@ -15,26 +15,20 @@ package org.qi4j.chronos.ui.staff;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.Page;
-import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
+import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Project;
-import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.associations.HasProjects;
-import org.qi4j.chronos.model.composites.StaffEntityComposite;
 import org.qi4j.chronos.ui.project.ProjectTab;
 import org.qi4j.chronos.ui.user.UserDetailPanel;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
-import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
-import org.qi4j.entity.Identity;
 
 public class StaffDetailPage extends LeftMenuNavPage
 {
@@ -63,7 +57,7 @@ public class StaffDetailPage extends LeftMenuNavPage
     private void initComponents()
     {
         add( new FeedbackPanel( "feedbackPanel" ) );
-        add( new StaffDetailForm( "staffDetailForm", getModel() ) );
+        add( new StaffDetailForm( "staffDetailForm", getDefaultModel() ) );
     }
 
     private class StaffDetailForm extends Form
@@ -79,7 +73,7 @@ public class StaffDetailPage extends LeftMenuNavPage
         {
             UserDetailPanel userDetailPanel = new UserDetailPanel( "userDetailPanel", iModel );
 
-            final List<AbstractTab> tabs = new ArrayList<AbstractTab>();
+            final List<ITab> tabs = new ArrayList<ITab>();
             tabs.add(
                 new ProjectTab( "Project" )
                 {

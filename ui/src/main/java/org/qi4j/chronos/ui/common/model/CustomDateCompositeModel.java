@@ -12,8 +12,8 @@
  */
 package org.qi4j.chronos.ui.common.model;
 
-import org.apache.wicket.model.IModel;
 import java.util.Date;
+import org.apache.wicket.model.IModel;
 
 public class CustomDateCompositeModel extends CustomCompositeModel
 {

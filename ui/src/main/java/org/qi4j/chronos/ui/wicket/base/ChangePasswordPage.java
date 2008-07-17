@@ -84,10 +84,10 @@ public final class ChangePasswordPage extends LeftMenuNavPage
 
             User user = ChronosSession.get().getUser();
 
-            Label<String> loginIdLabel = new Label<String>( "loginId", user.login().get().name().get() );
+            Label loginIdLabel = new Label( "loginId", user.login().get().name().get() );
 
-            submitButton = new Button<String>( "submitButton", new Model<String>( "Change Password" ) );
-            cancelButton = new Button<String>( "cancelButton", new Model<String>( "Cancel" ) );
+            submitButton = new Button( "submitButton", new Model<String>( "Change Password" ) );
+            cancelButton = new Button( "cancelButton", new Model<String>( "Cancel" ) );
 
             oldPasswordField.setRequired( false );
             newPasswordField.setRequired( false );

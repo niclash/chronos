@@ -12,11 +12,11 @@
  */
 package org.qi4j.chronos.ui.util;
 
-import org.qi4j.chronos.model.ProjectStatusEnum;
-import org.qi4j.chronos.model.Project;
-import org.qi4j.chronos.model.associations.HasProjects;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
+import org.qi4j.chronos.model.Project;
+import org.qi4j.chronos.model.ProjectStatusEnum;
+import org.qi4j.chronos.model.associations.HasProjects;
 
 public class ProjectUtil
 {

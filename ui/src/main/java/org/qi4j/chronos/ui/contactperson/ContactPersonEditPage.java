@@ -57,7 +57,7 @@ public abstract class ContactPersonEditPage extends ContactPersonAddEditPage
         final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
         try
         {
-            final ContactPerson contactPerson = (ContactPerson) getModelObject();
+            final ContactPerson contactPerson = (ContactPerson) getDefaultModelObject();
             contactPerson.contacts().clear();
 
             for( Contact contact : contactList )

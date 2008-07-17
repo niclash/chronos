@@ -18,7 +18,7 @@ import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Address;
 import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 
-public class AddressDetailPanel extends Panel<IModel<Address>>
+public class AddressDetailPanel extends Panel
 {
     private static final long serialVersionUID = 1L;
 
@@ -29,7 +29,7 @@ public class AddressDetailPanel extends Panel<IModel<Address>>
         ChronosCompoundPropertyModel<IModel<Address>> model = new
             ChronosCompoundPropertyModel<IModel<Address>>( address );
 
-        setModel( model );
+        setDefaultModel( model );
 
         TextField<String> firstLineField = new TextField<String>( "firstLine" );
         TextField<String> secondLineField = new TextField<String>( "secondLine" );

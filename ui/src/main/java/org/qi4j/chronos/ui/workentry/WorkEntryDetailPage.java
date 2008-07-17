@@ -15,7 +15,7 @@ package org.qi4j.chronos.ui.workentry;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.Page;
-import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
+import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
@@ -45,7 +45,7 @@ public class WorkEntryDetailPage extends LeftMenuNavPage
     {
         this.returnPage = returnPage;
 
-        setModel(
+        setDefaultModel(
             new CompoundPropertyModel(
                 new LoadableDetachableModel()
                 {
@@ -62,7 +62,7 @@ public class WorkEntryDetailPage extends LeftMenuNavPage
     private void initComponents()
     {
         add( new FeedbackPanel( "feedbackPanel" ) );
-        add( new WorkEntryDetailForm( "workEntryDetailForm", getModel() ) );
+        add( new WorkEntryDetailForm( "workEntryDetailForm", getDefaultModel() ) );
     }
 
     private class WorkEntryDetailForm extends Form
@@ -89,7 +89,7 @@ public class WorkEntryDetailPage extends LeftMenuNavPage
             final SimpleTextField durationField =
                 new SimpleTextField( "durationField", AbstractReportPage.getPeriod( workEntry ).toString() );
 
-            List<AbstractTab> tabs = new ArrayList<AbstractTab>();
+            List<ITab> tabs = new ArrayList<ITab>();
             tabs.add( createCommentTab() );
 
             final TabbedPanel tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
@@ -136,6 +136,6 @@ public class WorkEntryDetailPage extends LeftMenuNavPage
 
     protected HasComments getHasComments()
     {
-        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( (WorkEntry) getModelObject() );
+        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( (WorkEntry) getDefaultModelObject() );
     }
 }

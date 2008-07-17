@@ -31,12 +31,9 @@ import org.apache.wicket.markup.html.list.Loop;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
-import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkFactory;
 
 //TODO bp. tidy up, code is not readable.
 public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
@@ -376,7 +373,7 @@ public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
 
     private void handleItemCheckBoxChanged( ID id, CheckBox checkBox, AjaxRequestTarget target )
     {
-        if( !Boolean.parseBoolean( checkBox.getModelObjectAsString() ) )
+        if( !Boolean.parseBoolean( checkBox.getDefaultModelObjectAsString() ) )
         {
             handleGrandSelectAll( target, false, false, false );
 
@@ -441,7 +438,7 @@ public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
         {
             if( totalItems > dataView.getItemsPerPage() )
             {
-                totalSelectedLabel.setModelObject( selectedIds.size() );
+                totalSelectedLabel.setDefaultModelObject( selectedIds.size() );
 
                 grandSelectAllContainer.setVisible( true );
 

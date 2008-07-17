@@ -12,23 +12,23 @@
  */
 package org.qi4j.chronos.ui.pricerate;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
-import java.io.Serializable;
 import org.apache.wicket.Page;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.form.Button;
-import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.DropDownChoice;
+import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.model.Model;
 import org.apache.wicket.model.CompoundPropertyModel;
-import org.qi4j.chronos.model.SystemRole;
+import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.PriceRateSchedule;
-import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
-import org.qi4j.chronos.ui.common.SimpleTextField;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.common.NameChoiceRenderer;
+import org.qi4j.chronos.ui.common.SimpleTextField;
+import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public abstract class PriceRateScheduleSelectionPage extends LeftMenuNavPage

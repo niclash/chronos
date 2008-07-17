@@ -15,7 +15,6 @@ package org.qi4j.chronos.ui.pricerate;
 import org.apache.wicket.Page;
 import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.PriceRate;
-import org.qi4j.chronos.model.composites.PriceRateEntityComposite;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

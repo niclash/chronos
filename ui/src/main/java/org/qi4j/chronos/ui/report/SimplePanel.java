@@ -12,15 +12,15 @@
  */
 package org.qi4j.chronos.ui.report;
 
-import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.markup.html.list.ListView;
-import org.apache.wicket.markup.html.list.ListItem;
-import org.apache.wicket.markup.html.basic.Label;
-import org.apache.wicket.model.IModel;
-import java.util.List;
 import java.util.Arrays;
+import java.util.List;
+import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.list.ListItem;
+import org.apache.wicket.markup.html.list.ListView;
+import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.IModel;
 
-public class SimplePanel extends Panel 
+public class SimplePanel extends Panel
 {
     private String title;
 
@@ -41,7 +41,7 @@ public class SimplePanel extends Panel
         {
             public void populateItem( final ListItem listItem )
             {
-                listItem.add( new Label( "header", listItem.getModelObjectAsString() ) );
+                listItem.add( new Label( "header", listItem.getDefaultModelObjectAsString() ) );
             }
         };
 
@@ -54,9 +54,9 @@ public class SimplePanel extends Panel
                 {
                     public void populateItem( final ListItem listItem )
                     {
-                        listItem.add( new Label( "entry", listItem.getModelObjectAsString() ) );
+                        listItem.add( new Label( "entry", listItem.getDefaultModelObjectAsString() ) );
                     }
-                });
+                } );
             }
         };
 
@@ -85,7 +85,7 @@ public class SimplePanel extends Panel
         return headers;
     }
 
-    public void setHeaders( String...headers )
+    public void setHeaders( String... headers )
     {
         this.headers = headers;
     }

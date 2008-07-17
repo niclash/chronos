@@ -14,7 +14,6 @@ package org.qi4j.chronos.ui.task;
 
 import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
-import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.entity.Identity;
 
 public abstract class TaskDataProvider extends AbstractSortableDataProvider<Task, String>

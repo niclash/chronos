@@ -75,7 +75,7 @@ public abstract class PriceRateScheduleAddPage extends PriceRateScheduleAddEditP
         try
         {
             final Account account = unitOfWork.dereference( getAccount() );
-            final PriceRateSchedule priceRateSchedule = (PriceRateSchedule) getModelObject();
+            final PriceRateSchedule priceRateSchedule = (PriceRateSchedule) getDefaultModelObject();
 
             for( PriceRate priceRate : priceRateList )
             {

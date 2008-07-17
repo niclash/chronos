@@ -122,7 +122,7 @@ public class ActionBar extends Panel
 
         if( action.isShowConfirmDialog() )
         {
-            confirmMsgLabel.setModel( new Model( action.getConfirmMsg() ) );
+            confirmMsgLabel.setDefaultModel( new Model( action.getConfirmMsg() ) );
 
             updateConfirmationVisibility( null, true );
         }
@@ -148,7 +148,7 @@ public class ActionBar extends Panel
 
     private Action getSelectedAction()
     {
-        String key = actionChoices.getModelObjectAsString();
+        String key = actionChoices.getDefaultModelObjectAsString();
 
         Action action = actionMap.get( key );
 

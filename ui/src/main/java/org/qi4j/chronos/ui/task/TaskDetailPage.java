@@ -15,7 +15,7 @@ package org.qi4j.chronos.ui.task;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.Page;
-import org.apache.wicket.extensions.markup.html.tabs.AbstractTab;
+import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
@@ -76,7 +76,7 @@ public class TaskDetailPage extends LeftMenuNavPage
                 }
             };
 
-            List<AbstractTab> tabs = new ArrayList<AbstractTab>();
+            List<ITab> tabs = new ArrayList<ITab>();
             tabs.add( createCommentTab() );
             tabs.add( createWorkEntryTab() );
 
@@ -192,6 +192,6 @@ public class TaskDetailPage extends LeftMenuNavPage
 
     public Task getTask()
     {
-        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( (Task) getModelObject() );
+        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( (Task) getDefaultModelObject() );
     }
 }

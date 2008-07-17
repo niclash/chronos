@@ -60,7 +60,7 @@ public abstract class WorkEntryAddPage extends WorkEntryAddEditPage
     {
         try
         {
-            final WorkEntry workEntry = (WorkEntry) getModelObject();
+            final WorkEntry workEntry = (WorkEntry) getDefaultModelObject();
             final HasWorkEntries hasWorkEntries = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( WorkEntryAddPage.this.getHasWorkEntries() );
             hasWorkEntries.workEntries().add( workEntry );
             ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
