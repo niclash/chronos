@@ -15,12 +15,14 @@ package org.qi4j.chronos.ui.admin;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.ui.common.menu.MenuBar;
+import org.qi4j.chronos.ui.common.menu.MenuGroupPanel;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 
 @AuthorizeInstantiation( SystemRole.SYSTEM_ADMIN )
 public class AdminHomePage extends LeftMenuNavPage
 {
+    private static final long serialVersionUID = 1L;
+
     public AdminHomePage()
     {
         initComponents();
@@ -31,8 +33,8 @@ public class AdminHomePage extends LeftMenuNavPage
         add( new FeedbackPanel( "feedbackPanel" ) );
     }
 
-    public MenuBar[] getMenuBars()
+    public MenuGroupPanel[] getMenuBars()
     {
-        return new MenuBar[]{ new AdminMainMenuBar() };
+        return new MenuGroupPanel[]{ new AdminMainMenuGroup() };
     }
 }

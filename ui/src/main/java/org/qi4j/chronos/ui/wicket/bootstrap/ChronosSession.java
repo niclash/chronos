@@ -24,6 +24,7 @@ import org.qi4j.chronos.service.UserAuthenticationFailException;
 import org.qi4j.chronos.service.UserService;
 import org.qi4j.chronos.ui.SystemRoleResolver;
 import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.entity.UnitOfWork;
 import org.qi4j.injection.scope.Service;
 import org.qi4j.injection.scope.Structure;
 import org.qi4j.injection.scope.Uses;
@@ -63,6 +64,7 @@ public final class ChronosSession extends AuthenticatedWebSession
         return (ChronosSession) Session.get();
     }
 
+    @Override
     public final boolean authenticate( String aUserName, String aPassword )
     {
         if( aUserName == null || aPassword == null )
@@ -97,7 +99,8 @@ public final class ChronosSession extends AuthenticatedWebSession
     {
         if( user != null )
         {
-            return unitOfWorkManager.getCurrentUnitOfWork().dereference( user );
+            UnitOfWork work = unitOfWorkManager.getCurrentUnitOfWork();
+            return work.dereference( user );
         }
 
         return null;
@@ -117,7 +120,8 @@ public final class ChronosSession extends AuthenticatedWebSession
     {
         if( account != null )
         {
-            return unitOfWorkManager.getCurrentUnitOfWork().dereference( account );
+            UnitOfWork work = unitOfWorkManager.getCurrentUnitOfWork();
+            return work.dereference( account );
         }
 
         return null;
@@ -128,12 +132,14 @@ public final class ChronosSession extends AuthenticatedWebSession
         return userId != null;
     }
 
-    public Roles getRoles()
+    @Override
+    public final Roles getRoles()
     {
         return roleResolver.getRoles();
     }
 
-    protected void attach()
+    @Override
+    protected final void attach()
     {
         ChronosUnitOfWorkManager.set( unitOfWorkManager );
 
@@ -144,7 +150,8 @@ public final class ChronosSession extends AuthenticatedWebSession
         super.attach();
     }
 
-    protected void detach()
+    @Override
+    protected final void detach()
     {
         ChronosUnitOfWorkManager.set( null );
 

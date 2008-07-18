@@ -30,6 +30,7 @@ public class AccountListPage extends LeftMenuNavPage
         {
             private static final long serialVersionUID = 1L;
 
+            @Override
             public void onClick()
             {
                 //TODO accountAddPage

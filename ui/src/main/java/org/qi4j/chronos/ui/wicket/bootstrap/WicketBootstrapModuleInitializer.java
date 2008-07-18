@@ -1,5 +1,6 @@
 package org.qi4j.chronos.ui.wicket.bootstrap;
 
+import org.apache.wicket.markup.html.pages.InternalErrorPage;
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.LayerAssembly;
 import org.qi4j.bootstrap.ModuleAssembly;
@@ -11,7 +12,6 @@ import org.qi4j.chronos.ui.wicket.bootstrap.assembler.ServiceAssembler;
 import org.qi4j.chronos.ui.wicket.bootstrap.assembler.ViewAssembler;
 import org.qi4j.chronos.ui.wicket.bootstrap.serialization.Qi4jObjectStreamFactory;
 import static org.qi4j.composite.NullArgumentException.validateNotNull;
-import static org.qi4j.structure.Visibility.application;
 
 /**
  * @author edward.yakop@gmail.com
@@ -22,7 +22,8 @@ public final class WicketBootstrapModuleInitializer
     {
     }
 
-    public static void addWicketBootstrapModule( LayerAssembly aLayerAssembly ) throws AssemblyException
+    public static void addWicketBootstrapModule( LayerAssembly aLayerAssembly )
+        throws AssemblyException
     {
         validateNotNull( "aLayerAssembly", aLayerAssembly );
 
@@ -31,13 +32,17 @@ public final class WicketBootstrapModuleInitializer
         try
         {
             moduleAssembly.addObjects(
+                InternalErrorPage.class
+            );
+
+            moduleAssembly.addObjects(
                 ChronosWebApp.class,
                 ChronosPageFactory.class,
                 ChronosSession.class,
                 LoginPage.class,
                 Qi4jObjectStreamFactory.class,
                 DummyDataInitializer.class
-            ).visibleIn( application );
+            );
 
             moduleAssembly.addAssembler( new InfrastructureAssembler() );
             moduleAssembly.addAssembler( new DomainAssembler() );

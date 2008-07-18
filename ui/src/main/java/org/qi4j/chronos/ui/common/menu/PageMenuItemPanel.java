@@ -13,27 +13,31 @@
 package org.qi4j.chronos.ui.common.menu;
 
 import org.apache.wicket.PageParameters;
+import org.apache.wicket.model.Model;
 import org.apache.wicket.markup.html.WebPage;
 
-public class PageMenuLink extends MenuLink
+public class PageMenuItemPanel extends MenuItemPanel
 {
+    private static final long serialVersionUID = 1L;
+
     private Class<? extends WebPage> webPageClazz;
     private PageParameters pageParamaters;
 
-    public PageMenuLink( String text, final Class<? extends WebPage> webPage )
+    public PageMenuItemPanel( String text, final Class<? extends WebPage> webPage )
     {
         this( text, webPage, null );
     }
 
-    public PageMenuLink( String text, final Class<? extends WebPage> webPage, final PageParameters pageParameters )
+    public PageMenuItemPanel( String text, final Class<? extends WebPage> webPage, final PageParameters pageParameters )
     {
-        super( text );
+        super( new Model<String>( text ) );
 
         this.webPageClazz = webPage;
         this.pageParamaters = pageParameters;
     }
 
-    protected void handleClicked()
+    @Override
+    protected final void handleClicked()
     {
         if( pageParamaters != null )
         {

@@ -23,6 +23,8 @@ import org.qi4j.chronos.ui.util.AuthorizationUtil;
 
 public class SystemRoleResolver implements Serializable
 {
+    private static final long serialVersionUID = 1L;
+
     private boolean isAdmin;
     private boolean isStaff;
     private boolean isContactPerson;

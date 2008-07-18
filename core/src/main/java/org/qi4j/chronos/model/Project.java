@@ -9,10 +9,11 @@ import org.qi4j.chronos.model.associations.HasProjectAssignees;
 import org.qi4j.chronos.model.associations.HasProjectTimeRange;
 import org.qi4j.chronos.model.associations.HasTasks;
 import org.qi4j.chronos.model.associations.HasWorkEntries;
+import org.qi4j.entity.Identity;
 
-public interface Project extends NameWithReference, ProjectStatus, HasProjectTimeRange, HasPriceRateSchedule,
-                                 HasLegalConditions, HasProjectAssignees,
-                                 HasCustomer, HasContactPersons, HasPrimaryContactPerson, HasTasks, HasWorkEntries
+public interface Project extends Identity, NameWithReference, ProjectStatus, HasProjectTimeRange, HasPriceRateSchedule,
+                                 HasLegalConditions, HasProjectAssignees, HasCustomer, HasContactPersons,
+                                 HasPrimaryContactPerson, HasTasks, HasWorkEntries
 {
     public final static int PROJECT_NAME_LEN = 120;
 

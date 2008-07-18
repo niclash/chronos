@@ -46,7 +46,8 @@ import org.qi4j.chronos.model.composites.TimeRangeEntity;
 import org.qi4j.chronos.model.composites.WorkEntryEntity;
 import static org.qi4j.structure.Visibility.application;
 
-public class DomainAssembler implements Assembler
+public class DomainAssembler
+    implements Assembler
 {
     public void assemble( ModuleAssembly aModule )
         throws AssemblyException

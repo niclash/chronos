@@ -44,7 +44,6 @@ public class LoginPage extends BasePage
         throws IllegalArgumentException
     {
         add( new FeedbackPanel( WICKET_ID_FEEDBACK_PANEL ) );
-
         add( new LoginForm( WICKET_ID_LOGIN_FORM, new LoginModel(), accountService ) );
     }
 
@@ -96,6 +95,7 @@ public class LoginPage extends BasePage
             add( password );
         }
 
+        @Override
         public final void onSubmit()
         {
             ChronosEntityModel<Account> accountEntityModel = accountDropDownChoice.getModelObject();
@@ -125,7 +125,8 @@ public class LoginPage extends BasePage
         }
     }
 
-    private static final class AccountDropDownChoiceRenderer implements IChoiceRenderer<ChronosEntityModel<Account>>
+    private static final class AccountDropDownChoiceRenderer
+        implements IChoiceRenderer<ChronosEntityModel<Account>>
     {
         private static final long serialVersionUID = 1L;
 

@@ -18,20 +18,22 @@ import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.protocol.http.WebResponse;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.ui.SystemRoleResolver;
-import org.qi4j.chronos.ui.admin.AdminMainMenuBar;
-import org.qi4j.chronos.ui.common.menu.MenuBar;
-import org.qi4j.chronos.ui.contactperson.ContactPersonMainMenuBar;
-import org.qi4j.chronos.ui.project.RecentProjectMenuBar;
-import org.qi4j.chronos.ui.staff.StaffMainMenuBar;
+import org.qi4j.chronos.ui.admin.AdminMainMenuGroup;
+import org.qi4j.chronos.ui.common.menu.MenuGroupPanel;
+import org.qi4j.chronos.ui.contactperson.ContactPersonMainMenuGroup;
+import org.qi4j.chronos.ui.project.RecentProjectMenuGroup;
+import org.qi4j.chronos.ui.staff.StaffMainMenuGroup;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 
 public abstract class LeftMenuNavPage extends TopMenuNavPage
 {
+    private static final long serialVersionUID = 1L;
+
     public LeftMenuNavPage()
     {
         ChronosSession session = ChronosSession.get();
 
-        MenuBar[] menuBars = null;
+        MenuGroupPanel[] menuBars = null;
 
         SystemRoleResolver systemRoleResolver = session.getSystemRoleResolver();
 
@@ -53,7 +55,7 @@ public abstract class LeftMenuNavPage extends TopMenuNavPage
             @Override
             protected void populateItem( ListItem item )
             {
-                MenuBar leftMenuBar = (MenuBar) item.getModelObject();
+                MenuGroupPanel leftMenuBar = (MenuGroupPanel) item.getModelObject();
 
                 item.add( leftMenuBar );
             }
@@ -62,30 +64,24 @@ public abstract class LeftMenuNavPage extends TopMenuNavPage
         add( menuBarListView );
     }
 
-    private MenuBar[] getAdminMenuBars()
+    private MenuGroupPanel[] getAdminMenuBars()
     {
-        return new MenuBar[]{ new AdminMainMenuBar() };
+        return new MenuGroupPanel[]{ new AdminMainMenuGroup() };
     }
 
-    private MenuBar[] getContactPersonMenuBars()
+    private MenuGroupPanel[] getContactPersonMenuBars()
     {
-        return new MenuBar[]{ new ContactPersonMainMenuBar(), createRecentProjectMenuBar() };
+        return new MenuGroupPanel[]{ new ContactPersonMainMenuGroup(), createRecentProjectMenuBar() };
     }
 
-    private MenuBar[] getStaffMenuBars()
+    private MenuGroupPanel[] getStaffMenuBars()
     {
-        return new MenuBar[]{ new StaffMainMenuBar(), createRecentProjectMenuBar() };
+        return new MenuGroupPanel[]{ new StaffMainMenuGroup(), createRecentProjectMenuBar() };
     }
 
-    private MenuBar createRecentProjectMenuBar()
+    private MenuGroupPanel createRecentProjectMenuBar()
     {
-        return new RecentProjectMenuBar()
-        {
-            public Account getAccount()
-            {
-                return LeftMenuNavPage.this.getAccount();
-            }
-        };
+        return new RecentProjectMenuGroup();
     }
 
     @Override public boolean isVersioned()

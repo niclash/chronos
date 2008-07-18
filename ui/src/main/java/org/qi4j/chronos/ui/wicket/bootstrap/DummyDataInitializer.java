@@ -105,7 +105,6 @@ final class DummyDataInitializer
      */
     public void initializeDummyData()
     {
-
         initSystemRoles();
         initAccounts();
 
@@ -113,11 +112,8 @@ final class DummyDataInitializer
         initProjectRolesAndStaff();
 
         initPriceRateSchedule();
-
         initCustomersAndContactPersons();
-
         initProjectsTasksAndAssignees();
-
         initWorkEntries();
 
 //        initReports();
