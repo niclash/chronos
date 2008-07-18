@@ -35,7 +35,9 @@ import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.Identity;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.qi4j.injection.scope.Structure;
 import org.qi4j.injection.scope.Uses;
+import org.qi4j.object.ObjectBuilderFactory;
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
 
@@ -64,12 +66,14 @@ public class AccountTable extends ActionTable<IModel<Account>, String>
     private static final String HEADER_CLOSED = "closedProject";
     private static final String HEADER_LAST = "last";
 
-    private AccountDataProvider dataProvider;
+    private final AccountDataProvider dataProvider;
 
-    public AccountTable( @Uses String aWicketId )
+    public AccountTable( @Uses String aWicketId, @Structure ObjectBuilderFactory anOBF )
         throws IllegalArgumentException
     {
         super( aWicketId );
+
+        dataProvider = anOBF.newObject( AccountDataProvider.class );
 
         addAction( new AccountDeleteAction() );
         addAction( new DisableAction() );
@@ -79,14 +83,8 @@ public class AccountTable extends ActionTable<IModel<Account>, String>
     @Override
     public final AbstractSortableDataProvider<IModel<Account>, String> getDetachableDataProvider()
     {
-        if( dataProvider == null )
-        {
-            dataProvider = new AccountDataProvider();
-        }
-
         return dataProvider;
     }
-
 
     @Override
     public final void populateItems( Item item, final IModel iModel )

@@ -36,6 +36,6 @@ public class DomainLayerAssembler
         entities.setName( MODULE_ENTITIES );
         entities.addAssembler( new EntitiesModuleAssembler() );
 
-        return null;
+        return domainLayer;
     }
 }

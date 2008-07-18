@@ -57,7 +57,7 @@ public abstract class ProjectTable extends ActionTable<IModel, String>
         addActions();
     }
 
-    protected void authorizatiingActionBar( Component component )
+    protected void authorizingActionBar( Component component )
     {
         MetaDataRoleAuthorizationStrategy.authorize( component, RENDER, SystemRole.ACCOUNT_ADMIN );
     }

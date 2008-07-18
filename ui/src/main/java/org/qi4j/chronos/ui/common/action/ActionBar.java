@@ -17,13 +17,14 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import org.apache.wicket.MarkupContainer;
 import org.apache.wicket.ajax.AjaxRequestTarget;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.model.Model;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 
@@ -39,125 +40,29 @@ class ActionBar extends Panel
     private static final String WICKET_ID_CONFIRM_MSG_LABEL = "confirmMsgLabel";
     private static final String WICKET_ID_CONFIRMATION_CONTAINER = "confirmationContainer";
 
-    private Map<String, Action> actionMap;
+    private final Map<String, Action> actionMap;
+    private final ActionTable actionTable;
 
-    private SimpleDropDownChoice actionChoices;
+    private final SimpleDropDownChoice<String> actionChoices;
+    private final Button goButton;
+    private final ActionConfirmationContainer confirmationContainer;
 
-    private Button goButton;
-
-    private Label confirmMsgLabel;
-
-    private WebMarkupContainer confirmationContainer;
-
-    private ActionTable actionTable;
-
-    ActionBar( ActionTable actionTable )
+    ActionBar( ActionTable anActionTable )
     {
         super( WICKET_ID_ACTION_BAR );
 
-        this.actionTable = actionTable;
-
+        actionTable = anActionTable;
         actionMap = new HashMap<String, Action>();
 
-        initComponents();
-    }
-
-    @SuppressWarnings( "unchecked" )
-    private void initComponents()
-    {
-        final List<String> actionKeyList = getActionKeyList();
-        actionChoices = new SimpleDropDownChoice( WICKET_ID_ACTION_CHOICES, actionKeyList, true );
-
-        goButton = new Button( WICKET_ID_GO_BUTTON )
-        {
-            private static final long serialVersionUID = 1L;
-
-            public void onSubmit()
-            {
-                handleGo();
-            }
-        };
-
-        goButton.setOutputMarkupId( true );
-        goButton.setEnabled( false );
-
-        Link yesLink = newYesLink();
-
-        Link noLink = newNoLink();
-
-        confirmMsgLabel = new Label( WICKET_ID_CONFIRM_MSG_LABEL, "" );
-
-        confirmationContainer = new WebMarkupContainer( WICKET_ID_CONFIRMATION_CONTAINER );
-
-        confirmationContainer.setOutputMarkupId( true );
-        confirmationContainer.setOutputMarkupPlaceholderTag( true );
-        confirmationContainer.setVisible( false );
-
-        confirmationContainer.add( yesLink );
-        confirmationContainer.add( noLink );
-        confirmationContainer.add( confirmMsgLabel );
-
+        List<String> actions = new ArrayList<String>();
+        actionChoices = new SimpleDropDownChoice<String>( WICKET_ID_ACTION_CHOICES, actions, true );
         add( actionChoices );
-        add( goButton );
+
+        confirmationContainer = new ActionConfirmationContainer();
         add( confirmationContainer );
-    }
 
-    private Link newNoLink()
-    {
-        return new Link( WICKET_ID_NO_LINK )
-        {
-            private static final long serialVersionUID = 1L;
-
-            public void onClick()
-            {
-                handleNo();
-            }
-        };
-    }
-
-    private Link newYesLink()
-    {
-        return new Link( WICKET_ID_YES_LINK )
-        {
-            private static final long serialVersionUID = 1L;
-
-            public void onClick()
-            {
-                handleYes();
-            }
-        };
-    }
-
-    private void handleNo()
-    {
-        updateConfirmationVisibility( null, false );
-    }
-
-    private void handleYes()
-    {
-        performAction();
-    }
-
-    @SuppressWarnings( "unchecked" )
-    private void handleGo()
-    {
-        if( !actionTable.isSelectedItems() )
-        {
-            return;
-        }
-
-        Action action = getSelectedAction();
-
-        if( action.isShowConfirmDialog() )
-        {
-            confirmMsgLabel.setDefaultModel( new Model( action.getConfirmMsg() ) );
-
-            updateConfirmationVisibility( null, true );
-        }
-        else
-        {
-            performAction();
-        }
+        goButton = new ExecuteActionButton( confirmationContainer );
+        add( goButton );
     }
 
     @SuppressWarnings( "unchecked" )
@@ -170,7 +75,7 @@ class ActionBar extends Panel
         action.performAction( dataProvider );
 
         goButton.setEnabled( false );
-        updateConfirmationVisibility( null, false );
+        confirmationContainer.setVisible( false );
 
         actionTable.resetCurrBatchData();
     }
@@ -178,58 +83,133 @@ class ActionBar extends Panel
     private Action getSelectedAction()
     {
         String key = actionChoices.getDefaultModelObjectAsString();
-
         return actionMap.get( key );
     }
 
     @SuppressWarnings( "unchecked" )
-    private void updateActionChoiceList()
+    final void addAction( Action action )
     {
-        final List<String> actionKeyList = getActionKeyList();
+        String actionName = action.getActionName();
+        actionMap.put( actionName, action );
 
-        actionChoices.setNewChoices( actionKeyList );
+        List choices = actionChoices.getChoices();
+        choices.add( actionName );
+        Collections.sort( choices );
     }
 
-    private List<String> getActionKeyList()
+    final void removeAction( Action action )
     {
-        final List<String> actionKeyList = new ArrayList<String>( actionMap.keySet() );
-
-        Collections.sort( actionKeyList );
-
-        return actionKeyList;
+        String actionName = action.getActionName();
+        actionMap.remove( actionName );
     }
 
-    public void addAction( Action action )
-    {
-        actionMap.put( action.getActionName(), action );
-
-        updateActionChoiceList();
-    }
-
-    public void removeAction( Action action )
-    {
-        actionMap.remove( action.getActionName() );
-    }
-
-    void setActionBarEnabled( boolean isEnabled, AjaxRequestTarget target )
+    final void setActionBarEnabled( boolean isEnabled, AjaxRequestTarget target )
     {
         goButton.setEnabled( isEnabled );
+        confirmationContainer.setVisible( false );
 
         if( target != null )
         {
             target.addComponent( goButton );
-        }
-
-        updateConfirmationVisibility( target, false );
-    }
-
-    private void updateConfirmationVisibility( AjaxRequestTarget target, boolean visible )
-    {
-        confirmationContainer.setVisible( visible );
-
-        if( target != null )
-        {
             target.addComponent( confirmationContainer );
         }
     }
+
+    private class ExecuteActionButton extends Button
+    {
+        private static final long serialVersionUID = 1L;
+
+        private final ActionConfirmationContainer confirmationContainer;
+
+        private ExecuteActionButton( ActionConfirmationContainer actionConfirmationContainer )
+        {
+            super( WICKET_ID_GO_BUTTON );
+            confirmationContainer = actionConfirmationContainer;
+
+            setOutputMarkupId( true );
+            setEnabled( false );
+        }
+
+        @Override
+        public final void onSubmit()
+        {
+            if( !actionTable.isSelectedItems() )
+            {
+                return;
+            }
+
+            Action action = getSelectedAction();
+            if( action.isShowConfirmDialog() )
+            {
+                IModel<String> confirmMsg = action.getConfirmMsg();
+                confirmationContainer.displayConfirmMessage( confirmMsg );
+                confirmationContainer.setVisible( true );
+            }
+            else
+            {
+                performAction();
+            }
+        }
+    }
+
+    private class ActionConfirmationContainer extends WebMarkupContainer
+    {
+        private static final long serialVersionUID = 1L;
+
+        private final Label confirmMsgLabel;
+
+        private ActionConfirmationContainer()
+        {
+            super( WICKET_ID_CONFIRMATION_CONTAINER );
+
+            setOutputMarkupId( true );
+            setOutputMarkupPlaceholderTag( true );
+            setVisible( false );
+
+            confirmMsgLabel = new Label( WICKET_ID_CONFIRM_MSG_LABEL, "" );
+
+            add( new ConfirmActionLink() );
+            add( new CancelConfirmActionLink() );
+            add( confirmMsgLabel );
+        }
+
+        private void displayConfirmMessage( IModel<String> aMessage )
+        {
+            confirmMsgLabel.setDefaultModel( aMessage );
+        }
+
+        private class ConfirmActionLink extends Link
+        {
+            private static final long serialVersionUID = 1L;
+
+            public ConfirmActionLink()
+            {
+                super( WICKET_ID_YES_LINK );
+            }
+
+            @Override
+            public final void onClick()
+            {
+                performAction();
+            }
+        }
+
+        private class CancelConfirmActionLink extends Link
+        {
+            private static final long serialVersionUID = 1L;
+
+            private CancelConfirmActionLink()
+            {
+                super( WICKET_ID_NO_LINK );
+            }
+
+            @Override
+            public final void onClick()
+            {
+                MarkupContainer confirmationContainer = getParent();
+                confirmationContainer.setVisible( false );
+            }
+        }
+    }
+
 }

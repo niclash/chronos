@@ -13,6 +13,7 @@
 package org.qi4j.chronos.ui.common.action;
 
 import java.io.Serializable;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
 public interface Action<ITEM> extends Serializable
@@ -23,6 +24,6 @@ public interface Action<ITEM> extends Serializable
 
     boolean isShowConfirmDialog();
 
-    String getConfirmMsg();
+    IModel<String> getConfirmMsg();
 }
 

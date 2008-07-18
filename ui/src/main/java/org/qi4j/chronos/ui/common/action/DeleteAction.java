@@ -12,12 +12,17 @@
  */
 package org.qi4j.chronos.ui.common.action;
 
+import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
+
 public abstract class DeleteAction<ITEM> extends DefaultAction<ITEM>
 {
     private static final long serialVersionUID = 1L;
 
+    private static final IModel<String> CONFIRM_MSG = new Model<String>( "Are you sure want to delete selected item(s)?" );
+
     public DeleteAction( String actionName )
     {
-        super( actionName, true, "Are you sure want to delete selected item(s)?" );
+        super( actionName, true, CONFIRM_MSG );
     }
 }

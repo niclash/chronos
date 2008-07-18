@@ -14,11 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.wicket.admin;
+package org.qi4j.chronos.ui.wicket.admin.assembler;
 
 import org.qi4j.bootstrap.Assembler;
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.ModuleAssembly;
+import org.qi4j.chronos.ui.wicket.admin.AdminHomePage;
 import org.qi4j.chronos.ui.wicket.admin.account.AccountListPage;
 import org.qi4j.chronos.ui.wicket.admin.account.AccountTable;
 import org.qi4j.chronos.ui.wicket.admin.account.model.AccountDataProvider;
@@ -34,13 +35,13 @@ public class AdminAssembly
         throws AssemblyException
     {
         aModule.addObjects(
-            AdminHomePage.class
+            AdminHomePage.class,
+            AccountListPage.class
         ).visibleIn( layer );
 
         aModule.addObjects(
             AccountDataProvider.class,
-            AccountTable.class,
-            AccountListPage.class
+            AccountTable.class
         );
     }
 }

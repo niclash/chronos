@@ -152,7 +152,7 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
         }
     }
 
-    protected void authorizatiingActionBar( Component component )
+    protected void authorizingActionBar( Component component )
     {
         MetaDataRoleAuthorizationStrategy.authorize( component, RENDER, SystemRole.ACCOUNT_ADMIN );
     }

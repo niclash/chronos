@@ -51,7 +51,7 @@ public abstract class LegalConditionTable extends ActionTable<LegalCondition, St
         } );
     }
 
-    protected void authorizatiingActionBar( Component component )
+    protected void authorizingActionBar( Component component )
     {
         MetaDataRoleAuthorizationStrategy.authorize( component, RENDER, SystemRole.ACCOUNT_ADMIN );
     }

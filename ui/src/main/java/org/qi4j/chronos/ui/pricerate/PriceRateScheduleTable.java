@@ -44,9 +44,9 @@ public abstract class PriceRateScheduleTable<T extends HasPriceRateSchedules> ex
     private final static String DELETE_SUCCESS = "deleteSuccessful";
     private static final String DELETE_ACTION = "deleteAction";
 
-    public PriceRateScheduleTable( String id, IModel iModel )
+    public PriceRateScheduleTable( String aWicketId, IModel iModel )
     {
-        super( id, iModel );
+        super( aWicketId );
         setDefaultModel( iModel );
 
         addActions();

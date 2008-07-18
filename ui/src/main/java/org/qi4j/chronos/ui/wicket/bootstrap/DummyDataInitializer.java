@@ -16,7 +16,6 @@ import java.util.Calendar;
 import java.util.Currency;
 import java.util.Date;
 import java.util.Iterator;
-import java.util.List;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.AccountReport;
 import org.qi4j.chronos.model.Address;
@@ -43,6 +42,10 @@ import org.qi4j.chronos.model.Report;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.State;
 import org.qi4j.chronos.model.SystemRole;
+import static org.qi4j.chronos.model.SystemRole.ACCOUNT_ADMIN;
+import static org.qi4j.chronos.model.SystemRole.ACCOUNT_DEVELOPER;
+import static org.qi4j.chronos.model.SystemRole.CONTACT_PERSON;
+import static org.qi4j.chronos.model.SystemRole.SYSTEM_ADMIN;
 import org.qi4j.chronos.model.SystemRoleTypeEnum;
 import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.model.TaskStatusEnum;
@@ -69,17 +72,14 @@ import org.qi4j.chronos.model.composites.ProjectRoleEntity;
 import org.qi4j.chronos.model.composites.RelationshipEntity;
 import org.qi4j.chronos.model.composites.StaffEntity;
 import org.qi4j.chronos.model.composites.StateEntity;
-import org.qi4j.chronos.model.composites.SystemRoleEntity;
 import org.qi4j.chronos.model.composites.TaskEntity;
 import org.qi4j.chronos.model.composites.TimeRangeEntity;
 import org.qi4j.chronos.model.composites.WorkEntryEntity;
-import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.util.ReportUtil;
 import org.qi4j.entity.EntityBuilder;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.qi4j.entity.UnitOfWorkFactory;
-import org.qi4j.injection.scope.Service;
 import org.qi4j.injection.scope.Structure;
 import org.qi4j.library.general.model.Contact;
 import org.qi4j.library.general.model.GenderType;
@@ -92,13 +92,6 @@ import static org.qi4j.query.QueryExpressions.templateFor;
 final class DummyDataInitializer
 {
     private @Structure UnitOfWorkFactory unitOfWorkFactory;
-
-    private @Service AccountService accountService;
-
-
-    public DummyDataInitializer()
-    {
-    }
 
     /**
      * Initialize mock-up data.
@@ -122,7 +115,7 @@ final class DummyDataInitializer
     private void initReports()
     {
         UnitOfWork unitOfWork = newUnitOfWork( unitOfWorkFactory );
-        List<Account> accounts = accountService.findAllAccounts();
+        Iterable<Account> accountQuery = getAllAccounts( unitOfWork );
 
         Calendar now = Calendar.getInstance();
         now.add( Calendar.DATE, -3 );
@@ -130,7 +123,7 @@ final class DummyDataInitializer
         now.add( Calendar.DATE, -8 );
         Date startTime = now.getTime();
 
-        for( Account account : accounts )
+        for( Account account : accountQuery )
         {
             account = unitOfWork.dereference( account );
 
@@ -148,6 +141,12 @@ final class DummyDataInitializer
         complete( unitOfWork );
     }
 
+    private Iterable<Account> getAllAccounts( UnitOfWork unitOfWork )
+    {
+        QueryBuilderFactory queryBuilderFactory = unitOfWork.queryBuilderFactory();
+        QueryBuilder<Account> accountQueryBuilder = queryBuilderFactory.newQueryBuilder( Account.class );
+        return accountQueryBuilder.newQuery();
+    }
 
     /**
      * Creates work entry per projects and tasks.
@@ -156,7 +155,7 @@ final class DummyDataInitializer
     {
         UnitOfWork unitOfWork = newUnitOfWork( unitOfWorkFactory );
 
-        List<Account> accounts = accountService.findAllAccounts();
+        Iterable<Account> accounts = getAllAccounts( unitOfWork );
 
         for( Account account : accounts )
         {
@@ -213,10 +212,9 @@ final class DummyDataInitializer
      */
     private void initProjectsTasksAndAssignees()
     {
-
         UnitOfWork unitOfWork = newUnitOfWork( unitOfWorkFactory );
 
-        List<Account> accounts = accountService.findAllAccounts();
+        Iterable<Account> accounts = getAllAccounts( unitOfWork );
 
         Calendar now = Calendar.getInstance();
         now.add( Calendar.MONTH, -1 );
@@ -271,7 +269,7 @@ final class DummyDataInitializer
     private void initCustomersAndContactPersons()
     {
         UnitOfWork unitOfWork = newUnitOfWork( unitOfWorkFactory );
-        List<Account> accounts = accountService.findAllAccounts();
+        Iterable<Account> accounts = getAllAccounts( unitOfWork );
 
         for( Account account : accounts )
         {
@@ -286,7 +284,7 @@ final class DummyDataInitializer
             QueryBuilder<SystemRole> systemRoleQB = newSystemRoleQuery( unitOfWork );
 
             SystemRole contactPersonRoleTemplate = templateFor( SystemRole.class );
-            SystemRole contactPersonRole = systemRoleQB.where( eq( contactPersonRoleTemplate.name(), SystemRole.CONTACT_PERSON ) ).newQuery().find();
+            SystemRole contactPersonRole = systemRoleQB.where( eq( contactPersonRoleTemplate.name(), CONTACT_PERSON ) ).newQuery().find();
 
             projectManager.systemRoles().add( contactPersonRole );
 
@@ -321,7 +319,7 @@ final class DummyDataInitializer
     {
         UnitOfWork unitOfWork = newUnitOfWork( unitOfWorkFactory );
 
-        List<Account> accounts = accountService.findAllAccounts();
+        Iterable<Account> accounts = getAllAccounts( unitOfWork );
 
         for( Account account : accounts )
         {
@@ -352,15 +350,15 @@ final class DummyDataInitializer
             QueryBuilder<SystemRole> systemRoleQueryBuilder = unitOfWork.queryBuilderFactory().newQueryBuilder( SystemRole.class );
 
             systemRoleQueryBuilder.where( or(
-                eq( staffRole.name(), SystemRole.ACCOUNT_ADMIN ),
-                eq( staffRole.name(), SystemRole.ACCOUNT_DEVELOPER )
+                eq( staffRole.name(), ACCOUNT_ADMIN ),
+                eq( staffRole.name(), ACCOUNT_DEVELOPER )
             ) );
 
             for( SystemRole role : systemRoleQB.newQuery() )
             {
                 role = unitOfWork.dereference( role );
                 boss.systemRoles().add( role );
-                if( equals( role, SystemRole.ACCOUNT_DEVELOPER ) )
+                if( equals( role, ACCOUNT_DEVELOPER ) )
                 {
                     developer.systemRoles().add( role );
                 }
@@ -380,7 +378,7 @@ final class DummyDataInitializer
     {
         UnitOfWork unitOfWork = newUnitOfWork( unitOfWorkFactory );
 
-        List<Account> accounts = accountService.findAllAccounts();
+        Iterable<Account> accounts = getAllAccounts( unitOfWork );
 
         for( Account account : accounts )
         {
@@ -441,23 +439,23 @@ final class DummyDataInitializer
         UnitOfWork unitOfWork = newUnitOfWork( unitOfWorkFactory );
 
         SystemRole adminRole =
-            unitOfWork.newEntityBuilder( SystemRole.SYSTEM_ADMIN, SystemRoleEntity.class ).newInstance();
-        adminRole.name().set( SystemRole.SYSTEM_ADMIN );
+            unitOfWork.newEntityBuilder( SYSTEM_ADMIN, SystemRole.class ).newInstance();
+        adminRole.name().set( SYSTEM_ADMIN );
         adminRole.systemRoleType().set( SystemRoleTypeEnum.ADMIN );
 
         SystemRole accountAdmin =
-            unitOfWork.newEntityBuilder( SystemRole.ACCOUNT_ADMIN, SystemRoleEntity.class ).newInstance();
-        accountAdmin.name().set( SystemRole.ACCOUNT_ADMIN );
+            unitOfWork.newEntityBuilder( ACCOUNT_ADMIN, SystemRole.class ).newInstance();
+        accountAdmin.name().set( ACCOUNT_ADMIN );
         accountAdmin.systemRoleType().set( SystemRoleTypeEnum.STAFF );
 
         SystemRole developer =
-            unitOfWork.newEntityBuilder( SystemRole.ACCOUNT_DEVELOPER, SystemRoleEntity.class ).newInstance();
-        developer.name().set( SystemRole.ACCOUNT_DEVELOPER );
+            unitOfWork.newEntityBuilder( ACCOUNT_DEVELOPER, SystemRole.class ).newInstance();
+        developer.name().set( ACCOUNT_DEVELOPER );
         developer.systemRoleType().set( SystemRoleTypeEnum.STAFF );
 
         SystemRole contactPerson =
-            unitOfWork.newEntityBuilder( SystemRole.CONTACT_PERSON, SystemRoleEntity.class ).newInstance();
-        contactPerson.name().set( SystemRole.CONTACT_PERSON );
+            unitOfWork.newEntityBuilder( CONTACT_PERSON, SystemRole.class ).newInstance();
+        contactPerson.name().set( CONTACT_PERSON );
         contactPerson.systemRoleType().set( SystemRoleTypeEnum.CONTACT_PERSON );
 
         complete( unitOfWork );
@@ -494,17 +492,13 @@ final class DummyDataInitializer
 
     /**
      * Compares a given Name composite with a text. Returns true if text equals name.
-     *
-     * @param name
-     * @param text
-     * @return
      */
     private boolean equals( Name name, String text )
     {
         return text.equals( name.name().get() );
     }
 
-    protected static final void complete( UnitOfWork unitOfWork )
+    protected static void complete( UnitOfWork unitOfWork )
     {
         try
         {
@@ -519,7 +513,7 @@ final class DummyDataInitializer
         }
     }
 
-    protected static final UnitOfWork newUnitOfWork( UnitOfWorkFactory unitOfWorkFactory )
+    protected static UnitOfWork newUnitOfWork( UnitOfWorkFactory unitOfWorkFactory )
     {
         return unitOfWorkFactory.newUnitOfWork();
     }
@@ -573,9 +567,9 @@ final class DummyDataInitializer
         return accountBuilder.newInstance();
     }
 
-    protected static final Address newAddress( UnitOfWork unitOfWork, String firstLine,
-                                               String secondLine, String cityName,
-                                               String stateName, String countryName, String zipCode )
+    protected static Address newAddress( UnitOfWork unitOfWork, String firstLine,
+                                         String secondLine, String cityName,
+                                         String stateName, String countryName, String zipCode )
     {
         EntityBuilder<AddressEntity> addressBuilder =
             unitOfWork.newEntityBuilder( AddressEntity.class );

@@ -55,7 +55,7 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssignee, 
         } );
     }
 
-    protected void authorizatiingActionBar( Component component )
+    protected void authorizingActionBar( Component component )
     {
         MetaDataRoleAuthorizationStrategy.authorize( component, RENDER, SystemRole.ACCOUNT_ADMIN );
     }

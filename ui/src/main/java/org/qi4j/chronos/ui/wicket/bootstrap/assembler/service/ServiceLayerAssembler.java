@@ -28,13 +28,17 @@ import static org.qi4j.structure.Visibility.application;
 public final class ServiceLayerAssembler
     implements LayerAssembler
 {
+    public static final String LAYER_SERVICE = "service";
+    public static final String MODULE_SERVICE = "service";
+
     public final LayerAssembly createLayerAssembly( @NotNull ApplicationAssembly anApplicationAssembly )
         throws AssemblyException
     {
         LayerAssembly serviceLayer = anApplicationAssembly.newLayerAssembly();
-        serviceLayer.setName( "service" );
+        serviceLayer.setName( LAYER_SERVICE );
 
         ModuleAssembly service = serviceLayer.newModuleAssembly();
+        service.setName( MODULE_SERVICE );
         service.addServices(
             AccountService.class,
             UserService.class

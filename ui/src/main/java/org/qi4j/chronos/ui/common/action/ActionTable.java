@@ -31,13 +31,16 @@ import org.apache.wicket.markup.html.list.Loop;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.markup.repeater.data.DataView;
-import org.apache.wicket.model.IModel;
+import org.apache.wicket.markup.repeater.data.IDataProvider;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.model.PropertyModel;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
 public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
 {
     private static final long serialVersionUID = 1L;
+
+    private static final String WICKET_ID_ACTION_TABLE_FORM = "actionTableForm";
 
     private final static String CHECKBOX_CLASS_NAME = "checkBoxClass";
 
@@ -54,8 +57,6 @@ public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
 
     private Label totalSelectedLabel;
 
-    private int totalItems;
-
     private WebMarkupContainer grandSelectAllContainer;
 
     private WebMarkupContainer grandSelectNoneContainer;
@@ -67,42 +68,32 @@ public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
     private WebMarkupContainer checkBoxHeaderContainer;
 
     private boolean isGrandAllSelected = false;
+    private ActionTable<ITEM, ID>.ActionTableForm form;
 
-    public ActionTable( String id )
+    public ActionTable( String aWicketId )
     {
-        this( id, null );
-    }
-
-    public ActionTable( String id, IModel iModel )
-    {
-        super( id, iModel );
+        super( aWicketId );
 
         actionBar = new ActionBar( this );
 
         selectedIds = new HashSet<ID>();
-
         currBatchIds = new ArrayList<ID>();
         currBatchCheckBoxs = new ArrayList<CheckBox>();
 
-        initComponents();
-    }
-
-    private void initComponents()
-    {
-        add( new ActionTableForm( "actionTableForm" ) );
-
+        form = new ActionTableForm( WICKET_ID_ACTION_TABLE_FORM );
+        add( form );
         authorizingActionBar();
     }
 
     private void authorizingActionBar()
     {
-        authorizatiingActionBar( actionBar );
-        authorizatiingActionBar( selectAllOrNoneContainer );
+        authorizingActionBar( actionBar );
+        authorizingActionBar( selectAllOrNoneContainer );
 
         updateCheckBoxHeaderContainerVisibility();
     }
 
-    protected void authorizatiingActionBar( Component component )
+    protected void authorizingActionBar( Component component )
     {
         //override this
     }
@@ -150,20 +141,12 @@ public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
 
         private AbstractSortableDataProvider<ITEM, ID> dataProvider;
 
-        public ActionTableForm( String id )
+        public ActionTableForm( String aWicketId )
         {
-            super( id );
+            super( aWicketId );
 
-            initComponents();
-        }
-
-        private void initComponents()
-        {
             add( actionBar );
-
             dataProvider = getDetachableDataProvider();
-
-            totalItems = dataProvider.size();
 
             initDataViewComponent();
             initNavigatorGroupComponent();
@@ -209,7 +192,7 @@ public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
                     final ID id = dataProvider.getId( obj );
 
                     final CheckBox checkBox = new CheckBox( "itemCheckBox", new CheckedModel( id ) );
-                    checkBox.add( new AttributeModifier( "class", true, new Model( CHECKBOX_CLASS_NAME ) ) );
+                    checkBox.add( new AttributeModifier( "class", true, new Model<String>( CHECKBOX_CLASS_NAME ) ) );
 
                     checkBox.add( new AjaxFormComponentUpdatingBehavior( "onchange" )
                     {
@@ -232,7 +215,7 @@ public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
 
                     if( item.getIndex() % 2 == 0 )
                     {
-                        item.add( new AttributeModifier( "class", true, new Model( "alt" ) ) );
+                        item.add( new AttributeModifier( "class", true, new Model<String>( "alt" ) ) );
                     }
 
                     currBatchIds.add( id );
@@ -315,10 +298,10 @@ public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
 
             grandSelectAllContainer.add( grandSelectAllLink );
 
-            totalSelectedLabel = new Label( "totalSelectedLabel", new Model( "0" ) );
+            totalSelectedLabel = new Label( "totalSelectedLabel", new Model<String>( "0" ) );
             grandSelectAllContainer.add( totalSelectedLabel );
 
-            Label totalItem1Label = new Label( "totalItem1Label", new Model( totalItems ) );
+            Label totalItem1Label = new Label( "totalItem1Label", new PropertyModel( dataProvider, "size" ) );
             grandSelectAllLink.add( totalItem1Label );
         }
 
@@ -342,7 +325,7 @@ public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
 
             grandSelectNoneContainer.add( grandSelectNoneLink );
 
-            Label totalItem2Label = new Label( "totalItem2Label", new Model( totalItems ) );
+            Label totalItem2Label = new Label( "totalItem2Label", new PropertyModel( dataProvider, "size" ) );
             grandSelectNoneContainer.add( totalItem2Label );
         }
     }
@@ -410,7 +393,7 @@ public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
 
             CheckBox checkBox = currBatchCheckBoxs.get( i );
 
-            checkBox.setModel( new Model( isSelectAll ) );
+            checkBox.setModel( new Model<Boolean>( isSelectAll ) );
 
             target.addComponent( checkBox );
         }
@@ -419,6 +402,8 @@ public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
 
         if( isSelectAll )
         {
+            IDataProvider dataProvider = dataView.getDataProvider();
+            int totalItems = dataProvider.size();
             if( totalItems > dataView.getItemsPerPage() )
             {
                 totalSelectedLabel.setDefaultModelObject( selectedIds.size() );

@@ -13,6 +13,7 @@
 package org.qi4j.chronos.ui.common.action;
 
 import java.util.List;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
 public abstract class DefaultAction<ITEM> extends AbstractAction<ITEM>
@@ -24,7 +25,7 @@ public abstract class DefaultAction<ITEM> extends AbstractAction<ITEM>
         super( actionName );
     }
 
-    public DefaultAction( String actionName, boolean isConfirmShowDialog, String confirmMsg )
+    public DefaultAction( String actionName, boolean isConfirmShowDialog, IModel<String> confirmMsg )
     {
         super( actionName, isConfirmShowDialog, confirmMsg );
     }

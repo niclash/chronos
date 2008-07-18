@@ -5,7 +5,7 @@ import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.LayerAssembly;
 import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.chronos.assembler.LayerAssembler;
-import org.qi4j.chronos.ui.wicket.admin.AdminAssembly;
+import org.qi4j.chronos.ui.wicket.admin.assembler.AdminAssembly;
 import org.qi4j.chronos.ui.wicket.bootstrap.assembler.view.ViewAssembler;
 
 /**

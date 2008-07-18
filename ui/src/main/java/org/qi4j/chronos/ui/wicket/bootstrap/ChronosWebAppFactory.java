@@ -63,14 +63,15 @@ public final class ChronosWebAppFactory
         ApplicationAssembly chronosAppAssembly = boot.newApplicationAssembly();
 
         LayerAssembly infrastructure = createInfraLayer( chronosAppAssembly );
+
         LayerAssembly domain = createDomainLayer( chronosAppAssembly );
+        domain.uses( infrastructure );
+
         LayerAssembly service = createServiceLayer( chronosAppAssembly );
-        LayerAssembly wicket = createWicketLayer( chronosAppAssembly );
-
-
         service.uses( infrastructure );
         service.uses( domain );
 
+        LayerAssembly wicket = createWicketLayer( chronosAppAssembly );
         wicket.uses( infrastructure );
         wicket.uses( domain );
         wicket.uses( service );

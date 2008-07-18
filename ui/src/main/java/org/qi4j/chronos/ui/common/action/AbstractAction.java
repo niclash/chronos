@@ -12,20 +12,22 @@
  */
 package org.qi4j.chronos.ui.common.action;
 
+import org.apache.wicket.model.IModel;
+
 public abstract class AbstractAction<ITEM> implements Action<ITEM>
 {
     private static final long serialVersionUID = 1L;
 
     private String actionName;
     private boolean showConfirmDialog;
-    private String confirmMsg;
+    private IModel<String> confirmMsg;
 
     public AbstractAction( String actionName )
     {
         this( actionName, false, null );
     }
 
-    public AbstractAction( String actionName, boolean showConfirmDialog, String confirmMsg )
+    public AbstractAction( String actionName, boolean showConfirmDialog, IModel<String> confirmMsg )
     {
         this.actionName = actionName;
         this.showConfirmDialog = showConfirmDialog;
@@ -42,7 +44,7 @@ public abstract class AbstractAction<ITEM> implements Action<ITEM>
         return showConfirmDialog;
     }
 
-    public String getConfirmMsg()
+    public IModel<String> getConfirmMsg()
     {
         return confirmMsg;
     }
