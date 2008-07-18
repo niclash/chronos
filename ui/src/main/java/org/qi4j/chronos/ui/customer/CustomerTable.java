@@ -27,7 +27,7 @@ import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleCheckBox;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
-import org.qi4j.chronos.ui.common.action.SimpleAction;
+import org.qi4j.chronos.ui.common.action.DefaultAction;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 import org.qi4j.chronos.ui.wicket.model.ChronosEntityModel;
@@ -50,7 +50,7 @@ public abstract class CustomerTable extends ActionTable<IModel<Customer>, String
     private void addActions()
     {
         addAction(
-            new SimpleAction<IModel<Customer>>( "Disable" )
+            new DefaultAction<IModel<Customer>>( "Disable" )
             {
                 public void performAction( List<IModel<Customer>> customers )
                 {
@@ -61,7 +61,7 @@ public abstract class CustomerTable extends ActionTable<IModel<Customer>, String
         );
 
         addAction(
-            new SimpleAction<IModel<Customer>>( "Enable" )
+            new DefaultAction<IModel<Customer>>( "Enable" )
             {
                 public void performAction( List<IModel<Customer>> customers )
                 {

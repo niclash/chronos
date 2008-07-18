@@ -32,8 +32,8 @@ import org.qi4j.chronos.model.composites.ProjectEntity;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
-import org.qi4j.chronos.ui.common.action.SimpleAction;
-import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
+import org.qi4j.chronos.ui.common.action.DefaultAction;
+import org.qi4j.chronos.ui.common.action.DeleteAction;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 import org.qi4j.entity.Identity;
@@ -65,7 +65,7 @@ public abstract class ProjectTable extends ActionTable<IModel, String>
     private void addActions()
     {
         addAction(
-            new SimpleDeleteAction<IModel>( "Delete" )
+            new DeleteAction<IModel>( "Delete" )
             {
                 public void performAction( List<IModel> projects )
                 {
@@ -75,7 +75,7 @@ public abstract class ProjectTable extends ActionTable<IModel, String>
             }
         );
         addAction(
-            new SimpleAction<IModel>( "Change to active status" )
+            new DefaultAction<IModel>( "Change to active status" )
             {
                 public void performAction( List<IModel> projects )
                 {
@@ -85,7 +85,7 @@ public abstract class ProjectTable extends ActionTable<IModel, String>
             }
         );
         addAction(
-            new SimpleAction<IModel>( "Change to inactive status" )
+            new DefaultAction<IModel>( "Change to inactive status" )
             {
                 public void performAction( List<IModel> projects )
                 {
@@ -96,7 +96,7 @@ public abstract class ProjectTable extends ActionTable<IModel, String>
         );
 
         addAction(
-            new SimpleAction<IModel>( "Change to closed status " )
+            new DefaultAction<IModel>( "Change to closed status " )
             {
                 public void performAction( List<IModel> projects )
                 {

@@ -30,8 +30,8 @@ import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleCheckBox;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
-import org.qi4j.chronos.ui.common.action.SimpleAction;
-import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
+import org.qi4j.chronos.ui.common.action.DefaultAction;
+import org.qi4j.chronos.ui.common.action.DeleteAction;
 import org.qi4j.chronos.ui.util.ProjectUtil;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.Identity;
@@ -73,7 +73,7 @@ public class AccountTable extends ActionTable<IModel, String>
     private void addActions()
     {
         addAction(
-            new SimpleDeleteAction<IModel>( getString( DELETE_ACTION ) )
+            new DeleteAction<IModel>( getString( DELETE_ACTION ) )
             {
                 public void performAction( List<IModel> iModels )
                 {
@@ -84,7 +84,7 @@ public class AccountTable extends ActionTable<IModel, String>
         );
 
         addAction(
-            new SimpleAction<IModel>( getString( DISABLE_ACTION ) )
+            new DefaultAction<IModel>( getString( DISABLE_ACTION ) )
             {
                 public void performAction( List<IModel> iModels )
                 {
@@ -95,7 +95,7 @@ public class AccountTable extends ActionTable<IModel, String>
         );
 
         addAction(
-            new SimpleAction<IModel>( getString( ENABLE_ACTION ) )
+            new DefaultAction<IModel>( getString( ENABLE_ACTION ) )
             {
                 public void performAction( List<IModel> iModels )
                 {

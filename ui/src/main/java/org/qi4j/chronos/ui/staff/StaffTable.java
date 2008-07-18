@@ -28,8 +28,8 @@ import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleCheckBox;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
-import org.qi4j.chronos.ui.common.action.SimpleAction;
-import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
+import org.qi4j.chronos.ui.common.action.DefaultAction;
+import org.qi4j.chronos.ui.common.action.DeleteAction;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.Identity;
 
@@ -48,7 +48,7 @@ public abstract class StaffTable extends ActionTable<IModel, String>
 
     private void initActions()
     {
-        addAction( new SimpleDeleteAction<Staff>( "Delete Staff" )
+        addAction( new DeleteAction<Staff>( "Delete Staff" )
         {
             public void performAction( List<Staff> staffs )
             {
@@ -58,7 +58,7 @@ public abstract class StaffTable extends ActionTable<IModel, String>
             }
         } );
 
-        addAction( new SimpleAction<Staff>( "Disable Login" )
+        addAction( new DefaultAction<Staff>( "Disable Login" )
         {
             public void performAction( List<Staff> staffs )
             {
@@ -68,7 +68,7 @@ public abstract class StaffTable extends ActionTable<IModel, String>
             }
         } );
 
-        addAction( new SimpleAction<Staff>( "Enable Login" )
+        addAction( new DefaultAction<Staff>( "Enable Login" )
         {
             public void performAction( List<Staff> staffs )
             {

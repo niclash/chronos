@@ -27,9 +27,17 @@ import org.apache.wicket.model.Model;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 
-public class ActionBar extends Panel
+class ActionBar extends Panel
 {
-    private ActionTable actionTable;
+    private static final long serialVersionUID = 1L;
+
+    private static final String WICKET_ID_ACTION_BAR = "actionBar";
+    private static final String WICKET_ID_GO_BUTTON = "goButton";
+    private static final String WICKET_ID_ACTION_CHOICES = "actionChoices";
+    private static final String WICKET_ID_YES_LINK = "yesLink";
+    private static final String WICKET_ID_NO_LINK = "noLink";
+    private static final String WICKET_ID_CONFIRM_MSG_LABEL = "confirmMsgLabel";
+    private static final String WICKET_ID_CONFIRMATION_CONTAINER = "confirmationContainer";
 
     private Map<String, Action> actionMap;
 
@@ -38,27 +46,32 @@ public class ActionBar extends Panel
     private Button goButton;
 
     private Label confirmMsgLabel;
-    private Link yesLink;
-    private Link noLink;
 
     private WebMarkupContainer confirmationContainer;
 
-    public ActionBar()
+    private ActionTable actionTable;
+
+    ActionBar( ActionTable actionTable )
     {
-        super( "actionBar" );
+        super( WICKET_ID_ACTION_BAR );
+
+        this.actionTable = actionTable;
 
         actionMap = new HashMap<String, Action>();
 
         initComponents();
     }
 
+    @SuppressWarnings( "unchecked" )
     private void initComponents()
     {
         final List<String> actionKeyList = getActionKeyList();
-        actionChoices = new SimpleDropDownChoice( "actionChoices", actionKeyList, true );
+        actionChoices = new SimpleDropDownChoice( WICKET_ID_ACTION_CHOICES, actionKeyList, true );
 
-        goButton = new Button( "goButton" )
+        goButton = new Button( WICKET_ID_GO_BUTTON )
         {
+            private static final long serialVersionUID = 1L;
+
             public void onSubmit()
             {
                 handleGo();
@@ -68,25 +81,13 @@ public class ActionBar extends Panel
         goButton.setOutputMarkupId( true );
         goButton.setEnabled( false );
 
-        yesLink = new Link( "yesLink" )
-        {
-            public void onClick()
-            {
-                handleYes();
-            }
-        };
+        Link yesLink = newYesLink();
 
-        noLink = new Link( "noLink" )
-        {
-            public void onClick()
-            {
-                handleNo();
-            }
-        };
+        Link noLink = newNoLink();
 
-        confirmMsgLabel = new Label( "confirmMsgLabel", "" );
+        confirmMsgLabel = new Label( WICKET_ID_CONFIRM_MSG_LABEL, "" );
 
-        confirmationContainer = new WebMarkupContainer( "confirmationContainer" );
+        confirmationContainer = new WebMarkupContainer( WICKET_ID_CONFIRMATION_CONTAINER );
 
         confirmationContainer.setOutputMarkupId( true );
         confirmationContainer.setOutputMarkupPlaceholderTag( true );
@@ -101,6 +102,32 @@ public class ActionBar extends Panel
         add( confirmationContainer );
     }
 
+    private Link newNoLink()
+    {
+        return new Link( WICKET_ID_NO_LINK )
+        {
+            private static final long serialVersionUID = 1L;
+
+            public void onClick()
+            {
+                handleNo();
+            }
+        };
+    }
+
+    private Link newYesLink()
+    {
+        return new Link( WICKET_ID_YES_LINK )
+        {
+            private static final long serialVersionUID = 1L;
+
+            public void onClick()
+            {
+                handleYes();
+            }
+        };
+    }
+
     private void handleNo()
     {
         updateConfirmationVisibility( null, false );
@@ -111,6 +138,7 @@ public class ActionBar extends Panel
         performAction();
     }
 
+    @SuppressWarnings( "unchecked" )
     private void handleGo()
     {
         if( !actionTable.isSelectedItems() )
@@ -132,6 +160,7 @@ public class ActionBar extends Panel
         }
     }
 
+    @SuppressWarnings( "unchecked" )
     private void performAction()
     {
         Action action = getSelectedAction();
@@ -150,21 +179,15 @@ public class ActionBar extends Panel
     {
         String key = actionChoices.getDefaultModelObjectAsString();
 
-        Action action = actionMap.get( key );
-
-        return action;
+        return actionMap.get( key );
     }
 
+    @SuppressWarnings( "unchecked" )
     private void updateActionChoiceList()
     {
         final List<String> actionKeyList = getActionKeyList();
 
         actionChoices.setNewChoices( actionKeyList );
-    }
-
-    public void setActionTable( ActionTable actionTable )
-    {
-        this.actionTable = actionTable;
     }
 
     private List<String> getActionKeyList()

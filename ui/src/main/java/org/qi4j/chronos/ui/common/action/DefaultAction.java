@@ -15,14 +15,16 @@ package org.qi4j.chronos.ui.common.action;
 import java.util.List;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
-public abstract class SimpleAction<ITEM> extends AbstractAction<ITEM>
+public abstract class DefaultAction<ITEM> extends AbstractAction<ITEM>
 {
-    public SimpleAction( String actionName )
+    private static final long serialVersionUID = 1L;
+
+    public DefaultAction( String actionName )
     {
         super( actionName );
     }
 
-    public SimpleAction( String actionName, boolean isConfirmShowDialog, String confirmMsg )
+    public DefaultAction( String actionName, boolean isConfirmShowDialog, String confirmMsg )
     {
         super( actionName, isConfirmShowDialog, confirmMsg );
     }

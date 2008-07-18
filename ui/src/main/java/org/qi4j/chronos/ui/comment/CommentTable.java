@@ -28,7 +28,7 @@ import org.qi4j.chronos.model.composites.CommentEntity;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
-import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
+import org.qi4j.chronos.ui.common.action.DeleteAction;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.chronos.util.DateUtil;
 import org.qi4j.entity.Identity;
@@ -55,7 +55,7 @@ public abstract class CommentTable extends ActionTable<IModel, String>
     private void addActions()
     {
         addAction(
-            new SimpleDeleteAction<IModel>( getString( DELETE_ACTION ) )
+            new DeleteAction<IModel>( getString( DELETE_ACTION ) )
             {
                 public void performAction( List<IModel> comments )
                 {

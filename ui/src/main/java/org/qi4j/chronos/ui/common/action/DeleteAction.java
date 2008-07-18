@@ -12,8 +12,12 @@
  */
 package org.qi4j.chronos.ui.common.action;
 
-import org.apache.wicket.markup.html.WebPage;
-
-public class TagPage extends WebPage
+public abstract class DeleteAction<ITEM> extends DefaultAction<ITEM>
 {
+    private static final long serialVersionUID = 1L;
+
+    public DeleteAction( String actionName )
+    {
+        super( actionName, true, "Are you sure want to delete selected item(s)?" );
+    }
 }

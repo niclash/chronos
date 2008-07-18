@@ -17,26 +17,28 @@ import java.util.ArrayList;
 import java.util.List;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
-public abstract class SubSetSortableDataProvider<ITEM, ID extends Serializable> extends AbstractSortableDataProvider<ITEM, ID>
+abstract class SelectedItemDataProvider<ITEM, ID extends Serializable> extends AbstractSortableDataProvider<ITEM, ID>
 {
-    private List<ID> idList;
+    private static final long serialVersionUID = 1L;
 
-    public SubSetSortableDataProvider( List<ID> idList )
+    private List<ID> selectedIdList;
+
+    SelectedItemDataProvider( List<ID> selectedIdList )
     {
-        this.idList = idList;
+        this.selectedIdList = selectedIdList;
     }
 
-    public List<ITEM> dataList( int first, int count )
+    public final List<ITEM> dataList( int first, int count )
     {
         int toIndex = first + count;
 
         //tune the buffer to avoid IndexOutOfBoundsException
-        if( toIndex > idList.size() )
+        if( toIndex > selectedIdList.size() )
         {
-            toIndex = idList.size();
+            toIndex = selectedIdList.size();
         }
 
-        List<ID> idList = this.idList.subList( first, toIndex );
+        List<ID> idList = this.selectedIdList.subList( first, toIndex );
 
         List<ITEM> resultList = new ArrayList<ITEM>();
 
@@ -50,8 +52,8 @@ public abstract class SubSetSortableDataProvider<ITEM, ID extends Serializable> 
         return resultList;
     }
 
-    public int getSize()
+    public final int getSize()
     {
-        return idList.size();
+        return selectedIdList.size();
     }
 }

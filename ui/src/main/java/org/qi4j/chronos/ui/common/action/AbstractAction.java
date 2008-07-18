@@ -14,6 +14,8 @@ package org.qi4j.chronos.ui.common.action;
 
 public abstract class AbstractAction<ITEM> implements Action<ITEM>
 {
+    private static final long serialVersionUID = 1L;
+
     private String actionName;
     private boolean showConfirmDialog;
     private String confirmMsg;

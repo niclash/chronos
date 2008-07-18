@@ -32,38 +32,33 @@ import org.apache.wicket.model.PropertyModel;
 
 public class ActionTableNavigatorBar extends Panel
 {
+    private static final long serialVersionUID = 1L;
+
     private final static List<String> ITEM_PER_PAGE_LIST = Arrays.asList( "5", "10", "20", "25", "50", "100", "150", "200",
                                                                           "300", "500" );
-    private String itemSize = "10";
+    private static final String WICKET_ID_FIRST = "first";
+    private static final String WICKET_ID_PREV = "prev";
+    private static final String WICKET_ID_NEXT = "next";
+    private static final String WICKET_ID_LAST = "last";
+    private static final String WICKET_ID_DETAIL_LINK = "detailLink";
+    private static final String WICKET_ID_ITEM_SIZE_CHOICE = "itemSizeChoice";
+
+    private String itemPerPageSize = "10";
 
     public ActionTableNavigatorBar( final String id, final DataView dataView )
     {
         super( id );
 
-        dataView.setItemsPerPage( Integer.valueOf( itemSize ) );
+        dataView.setItemsPerPage( Integer.valueOf( itemPerPageSize ) );
 
-        Link firstLink = newNavigationLink( "first", dataView, 0, "first" );
-        Link prevLink = newIncrementLink( "prev", dataView, -1, "previous" );
-        Link nextLink = newIncrementLink( "next", dataView, 1, "next" );
-        Link lastLink = newNavigationLink( "last", dataView, -1, "last" );
+        Link firstLink = newNavigationLink( WICKET_ID_FIRST, dataView, 0, WICKET_ID_FIRST );
+        Link prevLink = newIncrementLink( WICKET_ID_PREV, dataView, -1, "previous" );
+        Link nextLink = newIncrementLink( WICKET_ID_NEXT, dataView, 1, WICKET_ID_NEXT );
+        Link lastLink = newNavigationLink( WICKET_ID_LAST, dataView, -1, WICKET_ID_LAST );
 
-        add( new DetailLine( "detailLink", dataView ) );
+        add( new DetailLine( WICKET_ID_DETAIL_LINK, dataView ) );
 
-        DropDownChoice itemPerPageChoice = new DropDownChoice( "itemSizeChoice", new PropertyModel( this, "itemSize" ), ITEM_PER_PAGE_LIST );
-
-        itemPerPageChoice.add( new AjaxFormComponentUpdatingBehavior( "onchange" )
-        {
-            protected void onUpdate( AjaxRequestTarget target )
-            {
-                beforeItemPerPageChanged();
-
-                dataView.setItemsPerPage( Integer.parseInt( itemSize ) );
-
-                Page page = ActionTableNavigatorBar.this.getPage();
-
-                setResponsePage( page );
-            }
-        } );
+        DropDownChoice itemPerPageChoice = newItemPerPageDropDownChoice( dataView );
 
         add( itemPerPageChoice );
 
@@ -73,8 +68,39 @@ public class ActionTableNavigatorBar extends Panel
         add( lastLink );
     }
 
+    @SuppressWarnings( "unchecked" )
+    private DropDownChoice newItemPerPageDropDownChoice( final DataView dataView )
+    {
+        DropDownChoice itemPerPageChoice = new DropDownChoice( WICKET_ID_ITEM_SIZE_CHOICE, new PropertyModel( this, "itemSize" ), ITEM_PER_PAGE_LIST );
+
+        itemPerPageChoice.add( new AjaxFormComponentUpdatingBehavior( "onchange" )
+        {
+            private static final long serialVersionUID = 1L;
+
+            protected void onUpdate( AjaxRequestTarget target )
+            {
+                handleItemPerPageChanged( dataView );
+            }
+        } );
+
+        return itemPerPageChoice;
+    }
+
+    private void handleItemPerPageChanged( final DataView dataView )
+    {
+        beforeItemPerPageChanged();
+
+        dataView.setItemsPerPage( Integer.parseInt( itemPerPageSize ) );
+
+        Page page = getPage();
+
+        setResponsePage( page );
+    }
+
     private class DetailLine extends WebComponent
     {
+        private static final long serialVersionUID = 1L;
+
         private DataView dataView;
 
         public DetailLine( String id, DataView dataView )
@@ -109,10 +135,12 @@ public class ActionTableNavigatorBar extends Panel
         }
     }
 
-    protected Link newIncrementLink( String id, IPageable page, int increment, final String imageName )
+    private Link newIncrementLink( String id, IPageable page, int increment, final String imageName )
     {
         final Link link = new PagingNavigationIncrementLink( id, page, increment )
         {
+            private static final long serialVersionUID = 1L;
+
             public void onClick()
             {
                 beforeNextNagivation();
@@ -126,10 +154,12 @@ public class ActionTableNavigatorBar extends Panel
         return link;
     }
 
-    protected Link newNavigationLink( String id, IPageable page, int pageNum, final String imageName )
+    private Link newNavigationLink( String id, IPageable page, int pageNum, final String imageName )
     {
         final Link link = new PagingNavigationLink( id, page, pageNum )
         {
+            private static final long serialVersionUID = 1L;
+
             public void onClick()
             {
                 beforeNextNagivation();
@@ -146,6 +176,8 @@ public class ActionTableNavigatorBar extends Panel
     {
         link.add( new Image( "image" )
         {
+            private static final long serialVersionUID = 1L;
+
             @Override
             protected void onComponentTag( ComponentTag tag )
             {
@@ -158,14 +190,9 @@ public class ActionTableNavigatorBar extends Panel
         } );
     }
 
-    public String getItemSize()
+    public final String getItemPerPageSize()
     {
-        return itemSize;
-    }
-
-    public void setItemSize( String itemSize )
-    {
-        this.itemSize = itemSize;
+        return itemPerPageSize;
     }
 
     void beforeNextNagivation()

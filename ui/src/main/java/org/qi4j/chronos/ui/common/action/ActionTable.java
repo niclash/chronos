@@ -35,9 +35,10 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
-//TODO bp. tidy up, code is not readable.
 public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
 {
+    private static final long serialVersionUID = 1L;
+
     private final static String CHECKBOX_CLASS_NAME = "checkBoxClass";
 
     public final static int DEFAULT_ITEM_PER_PAGE = 10;
@@ -56,9 +57,8 @@ public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
     private int totalItems;
 
     private WebMarkupContainer grandSelectAllContainer;
-    private WebMarkupContainer grandSelectNoneContainer;
 
-    private boolean isGrandAllSelected = false;
+    private WebMarkupContainer grandSelectNoneContainer;
 
     private WebMarkupContainer navigatorGroupContainer;
 
@@ -66,39 +66,18 @@ public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
 
     private WebMarkupContainer checkBoxHeaderContainer;
 
+    private boolean isGrandAllSelected = false;
+
     public ActionTable( String id )
     {
-        this( id, new ActionBar() );
-    }
-
-    public ActionTable( String id, ActionBar actionBar )
-    {
-        super( id );
-
-        this.actionBar = actionBar;
-
-        this.actionBar.setActionTable( this );
-
-        selectedIds = new HashSet<ID>();
-
-        currBatchIds = new ArrayList<ID>();
-        currBatchCheckBoxs = new ArrayList<CheckBox>();
-
-        initComponents();
+        this( id, null );
     }
 
     public ActionTable( String id, IModel iModel )
     {
-        this( id, new ActionBar(), iModel );
-    }
-
-    public ActionTable( String id, ActionBar actionBar, IModel iModel )
-    {
         super( id, iModel );
 
-        this.actionBar = actionBar;
-
-        this.actionBar.setActionTable( this );
+        actionBar = new ActionBar( this );
 
         selectedIds = new HashSet<ID>();
 
@@ -167,6 +146,8 @@ public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
 
     private class ActionTableForm extends Form
     {
+        private static final long serialVersionUID = 1L;
+
         private AbstractSortableDataProvider<ITEM, ID> dataProvider;
 
         public ActionTableForm( String id )
@@ -211,6 +192,8 @@ public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
 
             dataView = new DataView( "dataView", dataProvider )
             {
+                private static final long serialVersionUID = 1L;
+
                 @SuppressWarnings( { "unchecked" } )
                 @Override
                 protected void populateItem( Item item )
@@ -461,8 +444,64 @@ public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
         dataView.modelChanged();
     }
 
+    public final void addAction( Action action )
+    {
+        actionBar.addAction( action );
+    }
+
+    public final void removeAction( Action action )
+    {
+        actionBar.removeAction( action );
+    }
+
+    final boolean isSelectedItems()
+    {
+        if( getDetachableDataProvider().size() == 0 )
+        {
+            error( "No available item!" );
+            return false;
+        }
+
+        final AbstractSortableDataProvider dataProvider = getSelectedItemsDataProvider();
+
+        if( dataProvider.size() == 0 )
+        {
+            error( "Please select a least one item!" );
+            return false;
+        }
+
+        return true;
+    }
+
+    AbstractSortableDataProvider getSelectedItemsDataProvider()
+    {
+        if( !isGrandAllSelected )
+        {
+            return new SelectedItemDataProvider<ITEM, ID>( new ArrayList<ID>( selectedIds ) )
+            {
+                private static final long serialVersionUID = 1L;
+
+                public ID getId( ITEM o )
+                {
+                    return getDetachableDataProvider().getId( o );
+                }
+
+                public ITEM load( ID id )
+                {
+                    return getDetachableDataProvider().load( id );
+                }
+            };
+        }
+        else
+        {
+            return getDetachableDataProvider();
+        }
+    }
+
     private class CheckedModel extends AbstractCheckBoxModel
     {
+        private static final long serialVersionUID = 1L;
+
         private final ID id;
 
         public CheckedModel( ID id )
@@ -486,58 +525,6 @@ public abstract class ActionTable<ITEM, ID extends Serializable> extends Panel
         public void unselect()
         {
             selectedIds.remove( id );
-        }
-    }
-
-    public void addAction( Action action )
-    {
-        actionBar.addAction( action );
-    }
-
-    public void removeAction( Action action )
-    {
-        actionBar.removeAction( action );
-    }
-
-    boolean isSelectedItems()
-    {
-        if( getDetachableDataProvider().size() == 0 )
-        {
-            error( "No available item!" );
-            return false;
-        }
-
-        final AbstractSortableDataProvider dataProvider = getSelectedItemsDataProvider();
-
-        if( dataProvider.size() == 0 )
-        {
-            error( "Please select a least one item!" );
-            return false;
-        }
-
-        return true;
-    }
-
-    AbstractSortableDataProvider getSelectedItemsDataProvider()
-    {
-        if( !isGrandAllSelected )
-        {
-            return new SubSetSortableDataProvider<ITEM, ID>( new ArrayList<ID>( selectedIds ) )
-            {
-                public ID getId( ITEM o )
-                {
-                    return getDetachableDataProvider().getId( o );
-                }
-
-                public ITEM load( ID id )
-                {
-                    return getDetachableDataProvider().load( id );
-                }
-            };
-        }
-        else
-        {
-            return getDetachableDataProvider();
         }
     }
 

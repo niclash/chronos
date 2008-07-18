@@ -17,12 +17,12 @@ import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 
 public interface Action<ITEM> extends Serializable
 {
-    public String getActionName();
+    String getActionName();
 
-    public void performAction( AbstractSortableDataProvider<ITEM, ?> dataProvider );
+    void performAction( AbstractSortableDataProvider<ITEM, ?> selectedDataProvider );
 
-    public boolean isShowConfirmDialog();
+    boolean isShowConfirmDialog();
 
-    public String getConfirmMsg();
+    String getConfirmMsg();
 }
 

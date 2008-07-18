@@ -28,7 +28,7 @@ import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
-import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
+import org.qi4j.chronos.ui.common.action.DeleteAction;
 import org.qi4j.entity.Identity;
 
 public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssignee, String>
@@ -44,7 +44,7 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssignee, 
 
     private void addActions()
     {
-        addAction( new SimpleDeleteAction<ProjectAssignee>( "Delete" )
+        addAction( new DeleteAction<ProjectAssignee>( "Delete" )
         {
             public void performAction( List<ProjectAssignee> projectAsssignees )
             {

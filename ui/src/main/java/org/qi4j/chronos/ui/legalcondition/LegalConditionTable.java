@@ -24,7 +24,7 @@ import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
-import org.qi4j.chronos.ui.common.action.SimpleDeleteAction;
+import org.qi4j.chronos.ui.common.action.DeleteAction;
 
 public abstract class LegalConditionTable extends ActionTable<LegalCondition, String>
 {
@@ -39,7 +39,7 @@ public abstract class LegalConditionTable extends ActionTable<LegalCondition, St
 
     private void addActions()
     {
-        addAction( new SimpleDeleteAction<LegalCondition>( "Delete" )
+        addAction( new DeleteAction<LegalCondition>( "Delete" )
         {
             public void performAction( List<LegalCondition> legalConditions )
             {
