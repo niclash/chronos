@@ -25,7 +25,7 @@ import static org.apache.wicket.util.lang.Objects.setObjectStreamFactory;
 import org.qi4j.chronos.model.Admin;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.User;
-import org.qi4j.chronos.ui.admin.AdminHomePage;
+import org.qi4j.chronos.ui.wicket.admin.AdminHomePage;
 import org.qi4j.chronos.ui.contactperson.ContactPersonHomePage;
 import org.qi4j.chronos.ui.staff.StaffHomePage;
 import org.qi4j.chronos.ui.wicket.authentication.LoginPage;

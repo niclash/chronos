@@ -18,9 +18,10 @@ import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
 import org.qi4j.chronos.model.associations.HasProjectRoles;
 import org.qi4j.chronos.model.associations.HasProjects;
 import org.qi4j.chronos.model.associations.HasStaffs;
+import org.qi4j.entity.Identity;
 import org.qi4j.library.general.model.Enabled;
 
-public interface Account extends NameWithReference, HasAddress, HasStaffs, HasProjectRoles, Enabled,
+public interface Account extends Identity, NameWithReference, HasAddress, HasStaffs, HasProjectRoles, Enabled,
                                  HasCustomers, HasProjects, HasPriceRateSchedules
 {
 }

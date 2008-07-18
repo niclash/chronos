@@ -10,14 +10,14 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.admin;
+package org.qi4j.chronos.ui.wicket.admin;
 
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.model.Model;
 import static org.qi4j.chronos.model.SystemRole.ACCOUNT_ADMIN;
-import org.qi4j.chronos.ui.account.AccountListPage;
+import org.qi4j.chronos.ui.wicket.admin.account.AccountListPage;
 import org.qi4j.chronos.ui.common.menu.MenuGroupPanel;
 import org.qi4j.chronos.ui.common.menu.MenuItemPanel;
 import org.qi4j.chronos.ui.common.menu.PageMenuItemPanel;

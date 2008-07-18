@@ -10,7 +10,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.account;
+package org.qi4j.chronos.ui.wicket.admin.account;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -20,12 +20,9 @@ import org.apache.wicket.Page;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.ProjectStatusEnum;
-import org.qi4j.chronos.model.composites.AccountEntity;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleCheckBox;
 import org.qi4j.chronos.ui.common.SimpleLink;
@@ -33,17 +30,21 @@ import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.DefaultAction;
 import org.qi4j.chronos.ui.common.action.DeleteAction;
 import org.qi4j.chronos.ui.util.ProjectUtil;
+import org.qi4j.chronos.ui.wicket.admin.account.model.AccountDataProvider;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.Identity;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.qi4j.injection.scope.Uses;
 import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import static org.slf4j.LoggerFactory.getLogger;
 
-public class AccountTable extends ActionTable<IModel, String>
+public class AccountTable extends ActionTable<IModel<Account>, String>
 {
-    private final static Logger LOGGER = LoggerFactory.getLogger( AccountTable.class );
-    private AbstractSortableDataProvider<IModel, String> dataProvider;
+    private static final long serialVersionUID = 1L;
+
+    private final static Logger LOGGER = getLogger( AccountTable.class );
+
     private static final String DELETE_ACTION = "deleteAction";
     private static final String DELETE_SUCCESS = "deleteSuccessful";
     private static final String DELETE_FAIL = "deleteFailed";
@@ -63,168 +64,32 @@ public class AccountTable extends ActionTable<IModel, String>
     private static final String HEADER_CLOSED = "closedProject";
     private static final String HEADER_LAST = "last";
 
-    public AccountTable( String id )
-    {
-        super( id );
+    private AccountDataProvider dataProvider;
 
-        addActions();
+    public AccountTable( @Uses String aWicketId )
+        throws IllegalArgumentException
+    {
+        super( aWicketId );
+
+        addAction( new AccountDeleteAction() );
+        addAction( new DisableAction() );
+        addAction( new EnableAction() );
     }
 
-    private void addActions()
-    {
-        addAction(
-            new DeleteAction<IModel>( getString( DELETE_ACTION ) )
-            {
-                public void performAction( List<IModel> iModels )
-                {
-                    handleDeleteAction( iModels );
-                    info( getString( DELETE_SUCCESS ) );
-                }
-            }
-        );
-
-        addAction(
-            new DefaultAction<IModel>( getString( DISABLE_ACTION ) )
-            {
-                public void performAction( List<IModel> iModels )
-                {
-                    handleEnableAction( iModels, false );
-                    info( getString( DISABLE_SUCCESS ) );
-                }
-            }
-        );
-
-        addAction(
-            new DefaultAction<IModel>( getString( ENABLE_ACTION ) )
-            {
-                public void performAction( List<IModel> iModels )
-                {
-                    handleEnableAction( iModels, true );
-                    info( getString( ENABLE_SUCCESS ) );
-                }
-            }
-        );
-    }
-
-    private void handleDeleteAction( List<IModel> iModels )
-    {
-        final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
-        try
-        {
-            for( IModel iModel : iModels )
-            {
-//                getAccountService().remove( (Account) iModel.getObject() );
-            }
-            ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
-        }
-        catch( UnitOfWorkCompletionException uowce )
-        {
-            ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
-
-            LOGGER.error( uowce.getLocalizedMessage(), uowce );
-            error( getString( DELETE_FAIL ) );
-        }
-    }
-
-    private void handleEnableAction( List<IModel> iModels, boolean enable )
-    {
-        final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
-        try
-        {
-            List<Account> accounts = new ArrayList<Account>();
-            for( IModel iModel : iModels )
-            {
-                accounts.add( (Account) iModel.getObject() );
-            }
-//            getAccountService().enableAccounts( accounts, enable );
-            ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
-        }
-        catch( UnitOfWorkCompletionException uowce )
-        {
-            ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
-
-            LOGGER.error( uowce.getLocalizedMessage(), uowce );
-            error( getString( enable ? ENABLE_FAIL : DISABLE_FAIL ) );
-        }
-    }
-
-    public AbstractSortableDataProvider<IModel, String> getDetachableDataProvider()
+    @Override
+    public final AbstractSortableDataProvider<IModel<Account>, String> getDetachableDataProvider()
     {
         if( dataProvider == null )
         {
-            dataProvider = new AbstractSortableDataProvider<IModel, String>()
-            {
-                public int getSize()
-                {
-//                    return getAccountService().count();
-                    return 0;
-                }
-
-                public String getId( IModel t )
-                {
-//                    return getAccountService().getId( (Account) t.getObject() );
-                    return null;
-                }
-
-                public IModel load( final String s )
-                {
-                    return new CompoundPropertyModel(
-                        new LoadableDetachableModel()
-                        {
-                            public Object load()
-                            {
-                                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, AccountEntity.class );
-                            }
-                        }
-                    );
-                }
-
-                public List<IModel> dataList( int first, int count )
-                {
-                    List<IModel> accounts = new ArrayList<IModel>();
-                    for( final String accountId : getAccountIds() )
-                    {
-                        accounts.add(
-                            new CompoundPropertyModel(
-                                new LoadableDetachableModel()
-                                {
-                                    public Object load()
-                                    {
-                                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( accountId, AccountEntity.class );
-                                    }
-                                }
-                            )
-                        );
-                    }
-
-                    return accounts.subList( first, first + count );
-                }
-            };
+            dataProvider = new AccountDataProvider();
         }
+
         return dataProvider;
     }
 
-/*
-    private static AccountService getAccountService()
-    {
-        return ChronosSession.get().getAccountService();
-    }
-*/
 
-    private static List<String> getAccountIds()
-    {
-        List<String> list = new ArrayList<String>();
-/*
-        for( Account account : getAccountService().findAll() )
-        {
-            list.add( ( (Identity) account).identity().get() );
-        }
-*/
-
-        return list;
-    }
-
-    public void populateItems( Item item, final IModel iModel )
+    @Override
+    public final void populateItems( Item item, final IModel iModel )
     {
         Account anAccount = (Account) iModel.getObject();
         item.add( createDetailPage( HEADER_NAME, anAccount.name().get(), iModel ) );
@@ -282,7 +147,8 @@ public class AccountTable extends ActionTable<IModel, String>
         return params;
     }
 
-    public List<String> getTableHeaderList()
+    @Override
+    public final List<String> getTableHeaderList()
     {
         return getTableHeaderList(
             HEADER_NAME,
@@ -305,5 +171,104 @@ public class AccountTable extends ActionTable<IModel, String>
         }
 
         return Collections.unmodifiableList( result );
+    }
+
+    private class AccountDeleteAction extends DeleteAction<IModel>
+    {
+        private static final long serialVersionUID = 1L;
+
+        public AccountDeleteAction()
+        {
+            super( getString( DELETE_ACTION ) );
+        }
+
+        @Override
+        public final void performAction( List<IModel> iModels )
+        {
+            final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
+            try
+            {
+                for( IModel iModel : iModels )
+                {
+                    //                getAccountService().remove( (Account) iModel.getObject() );
+                }
+                ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
+            }
+            catch( UnitOfWorkCompletionException uowce )
+            {
+                ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
+
+                LOGGER.error( uowce.getLocalizedMessage(), uowce );
+                error( getString( DELETE_FAIL ) );
+            }
+            info( getString( DELETE_SUCCESS ) );
+        }
+    }
+
+    private class DisableAction extends DefaultAction<IModel>
+    {
+        private static final long serialVersionUID = 1L;
+
+        public DisableAction()
+        {
+            super( getString( DISABLE_ACTION ) );
+        }
+
+        @Override
+        public void performAction( List<IModel> iModels )
+        {
+            final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
+            try
+            {
+                List<Account> accounts = new ArrayList<Account>();
+                for( IModel iModel : iModels )
+                {
+                    accounts.add( (Account) iModel.getObject() );
+                }
+                //            getAccountService().enableAccounts( accounts, enable );
+                ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
+            }
+            catch( UnitOfWorkCompletionException uowce )
+            {
+                ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
+
+                LOGGER.error( uowce.getLocalizedMessage(), uowce );
+                error( getString( DISABLE_FAIL ) );
+            }
+            info( getString( DISABLE_SUCCESS ) );
+        }
+    }
+
+    private class EnableAction extends DefaultAction<IModel>
+    {
+        private static final long serialVersionUID = 1L;
+
+        public EnableAction()
+        {
+            super( getString( ENABLE_ACTION ) );
+        }
+
+        public void performAction( List<IModel> iModels )
+        {
+            final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
+            try
+            {
+                List<Account> accounts = new ArrayList<Account>();
+                for( IModel iModel : iModels )
+                {
+                    accounts.add( (Account) iModel.getObject() );
+                }
+                //            getAccountService().enableAccounts( accounts, enable );
+                ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
+            }
+            catch( UnitOfWorkCompletionException uowce )
+            {
+                ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
+
+                LOGGER.error( uowce.getLocalizedMessage(), uowce );
+                error( getString( ENABLE_FAIL ) );
+            }
+            info( getString( ENABLE_SUCCESS ) );
+        }
     }
 }

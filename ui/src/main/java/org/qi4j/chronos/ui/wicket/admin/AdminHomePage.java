@@ -10,25 +10,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.admin;
+package org.qi4j.chronos.ui.wicket.admin;
 
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.qi4j.chronos.model.SystemRole;
+import static org.qi4j.chronos.model.SystemRole.SYSTEM_ADMIN;
 import org.qi4j.chronos.ui.common.menu.MenuGroupPanel;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 
-@AuthorizeInstantiation( SystemRole.SYSTEM_ADMIN )
+@AuthorizeInstantiation( SYSTEM_ADMIN )
 public class AdminHomePage extends LeftMenuNavPage
 {
     private static final long serialVersionUID = 1L;
 
     public AdminHomePage()
-    {
-        initComponents();
-    }
-
-    private void initComponents()
     {
         add( new FeedbackPanel( "feedbackPanel" ) );
     }

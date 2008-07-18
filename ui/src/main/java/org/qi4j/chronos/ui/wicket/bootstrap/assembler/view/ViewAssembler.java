@@ -10,16 +10,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.wicket.bootstrap.assembler;
+package org.qi4j.chronos.ui.wicket.bootstrap.assembler.view;
 
 import org.qi4j.bootstrap.Assembler;
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.ModuleAssembly;
-import org.qi4j.chronos.ui.account.AccountAddPage;
-import org.qi4j.chronos.ui.account.AccountDetailPage;
-import org.qi4j.chronos.ui.account.AccountEditPage;
-import org.qi4j.chronos.ui.account.AccountListPage;
-import org.qi4j.chronos.ui.admin.AdminHomePage;
 import org.qi4j.chronos.ui.contactperson.ContactPersonHomePage;
 import org.qi4j.chronos.ui.customer.CustomerListPage;
 import org.qi4j.chronos.ui.pricerate.PriceRateScheduleListPage;
@@ -31,17 +26,23 @@ import org.qi4j.chronos.ui.report.ReportMainPage;
 import org.qi4j.chronos.ui.staff.StaffHomePage;
 import org.qi4j.chronos.ui.staff.StaffListPage;
 import org.qi4j.chronos.ui.systemrole.SystemRoleListPage;
-import org.qi4j.structure.Visibility;
+import org.qi4j.chronos.ui.wicket.admin.account.AccountAddPage;
+import org.qi4j.chronos.ui.wicket.admin.account.AccountDetailPage;
+import org.qi4j.chronos.ui.wicket.admin.account.AccountEditPage;
+import static org.qi4j.structure.Visibility.layer;
 
-public class ViewAssembler implements Assembler
+/**
+ * TODO: Remove this
+ */
+public class ViewAssembler
+    implements Assembler
 {
-    public void assemble( ModuleAssembly module ) throws AssemblyException
+    public void assemble( ModuleAssembly module )
+        throws AssemblyException
     {
         module.addObjects(
-            AdminHomePage.class,
             StaffHomePage.class,
             ContactPersonHomePage.class,
-            AccountListPage.class,
             AccountAddPage.class,
             AccountDetailPage.class,
             AccountEditPage.class,
@@ -53,10 +54,11 @@ public class ViewAssembler implements Assembler
             ProjectListPage.class,
             ProjectAddPage.class,
             ReportMainPage.class,
+            DomainObjectModel.class
+
 //            TaskDetailPage.class,
 //            CommentDetailPage.class,
 
-            DomainObjectModel.class
-        ).visibleIn( Visibility.application );
+        ).visibleIn( layer );
     }
 }

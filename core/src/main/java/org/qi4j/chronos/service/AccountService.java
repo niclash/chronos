@@ -14,11 +14,11 @@ package org.qi4j.chronos.service;
 
 import java.util.List;
 import org.qi4j.chronos.model.Account;
-import org.qi4j.service.ServiceComposite;
+import org.qi4j.chronos.service.impl.AccountServiceMixin;
 import org.qi4j.composite.Mixins;
-import org.qi4j.entity.UnitOfWork;
+import org.qi4j.service.ServiceComposite;
 
-@Mixins( org.qi4j.chronos.service.impl.AccountServiceMixin.class )
+@Mixins( AccountServiceMixin.class )
 public interface AccountService extends ServiceComposite
 {
     List<Account> findAllAccounts();

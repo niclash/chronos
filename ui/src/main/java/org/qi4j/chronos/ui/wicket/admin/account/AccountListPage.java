@@ -10,23 +10,30 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.account;
+package org.qi4j.chronos.ui.wicket.admin.account;
 
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.qi4j.chronos.model.SystemRole;
+import static org.qi4j.chronos.model.SystemRole.SYSTEM_ADMIN;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
+import org.qi4j.injection.scope.Structure;
+import org.qi4j.object.ObjectBuilder;
+import org.qi4j.object.ObjectBuilderFactory;
 
-@AuthorizeInstantiation( SystemRole.SYSTEM_ADMIN )
+@AuthorizeInstantiation( SYSTEM_ADMIN )
 public class AccountListPage extends LeftMenuNavPage
 {
     private static final long serialVersionUID = 1L;
 
-    public AccountListPage()
+    private static final String WICKET_ID_ACCOUNT_TABLE = "accountTable";
+    private static final String WICKET_ID_NEW_ACCOUNT_LINK = "newAccountLink";
+    private static final String WICKET_ID_FEEDBACK_PANEL = "feedbackPanel";
+
+    public AccountListPage( @Structure ObjectBuilderFactory anOBF )
     {
-        add( new Link( "newAccountLink" )
+        add( new Link( WICKET_ID_NEW_ACCOUNT_LINK )
         {
             private static final long serialVersionUID = 1L;
 
@@ -41,10 +48,12 @@ public class AccountListPage extends LeftMenuNavPage
             }
         } );
 
-        add( new FeedbackPanel( "feedbackPanel" ) );
 
-        AccountTable accountTable = new AccountTable( "accountTable" );
+        ObjectBuilder<AccountTable> accountTableBuilder = anOBF.newObjectBuilder( AccountTable.class );
+        accountTableBuilder.use( WICKET_ID_ACCOUNT_TABLE );
+        AccountTable accountTable = accountTableBuilder.newInstance();
         add( accountTable );
-    }
 
+        add( new FeedbackPanel( WICKET_ID_FEEDBACK_PANEL ) );
+    }
 }

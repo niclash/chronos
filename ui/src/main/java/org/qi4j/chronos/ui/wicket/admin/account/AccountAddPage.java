@@ -10,53 +10,54 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.ui.account;
+package org.qi4j.chronos.ui.wicket.admin.account;
 
 import org.apache.wicket.Page;
 import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
+import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.qi4j.injection.scope.Uses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public class AccountEditPage extends AccountAddEditPage
+public class AccountAddPage extends AccountAddEditPage
 {
     private static final long serialVersionUID = 1L;
 
-    private static final Logger LOGGER = LoggerFactory.getLogger( AccountEditPage.class );
+    private static final Logger LOGGER = LoggerFactory.getLogger( AccountAddPage.class );
 
-    public AccountEditPage( @Uses Page goBackPage, @Uses IModel<Account> accountModel )
+    public AccountAddPage( @Uses Page goBackPage, @Uses IModel<Account> accountModel )
     {
         super( goBackPage, accountModel );
     }
 
-    public void onSubmitting( IModel<Account> account )
+    public void onSubmitting( IModel<Account> accountModel )
     {
         try
         {
             ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
 
-            logInfoMsg( "Account was edited successfully." );
+            logInfoMsg( "Account was added successfully" );
 
             super.divertToGoBackPage();
         }
-        catch( Exception err )
+        catch( UnitOfWorkCompletionException uowce )
         {
             ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
-            error( "Fail to save account." );
-            LOGGER.error( err.getMessage(), err );
+            logErrorMsg( "Fail to create new account" );
+            LOGGER.error( uowce.getMessage() );
         }
     }
 
     public String getSubmitButtonValue()
     {
-        return "Save";
+        return "Add";
     }
 
     public String getTitleLabel()
     {
-        return "Edit Account";
+        return "New Account";
     }
 }
