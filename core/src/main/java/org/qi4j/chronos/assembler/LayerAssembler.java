@@ -17,8 +17,8 @@
 package org.qi4j.chronos.assembler;
 
 import org.qi4j.bootstrap.ApplicationAssembly;
-import org.qi4j.bootstrap.LayerAssembly;
 import org.qi4j.bootstrap.AssemblyException;
+import org.qi4j.bootstrap.LayerAssembly;
 import org.qi4j.library.framework.constraint.annotation.NotNull;
 
 /**
@@ -26,5 +26,6 @@ import org.qi4j.library.framework.constraint.annotation.NotNull;
  */
 public interface LayerAssembler
 {
-    LayerAssembly createLayerAssembly( @NotNull ApplicationAssembly anApplicationAssembly ) throws AssemblyException;
+    LayerAssembly createLayerAssembly( @NotNull ApplicationAssembly anApplicationAssembly )
+        throws AssemblyException;
 }

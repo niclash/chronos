@@ -15,6 +15,8 @@ package org.qi4j.chronos.ui.task;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.Page;
+import org.apache.wicket.authentication.AuthenticatedWebSession;
+import org.apache.wicket.authorization.strategies.role.Roles;
 import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.form.Button;
@@ -28,6 +30,7 @@ import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.ProjectAssignee;
 import org.qi4j.chronos.model.Staff;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.model.WorkEntry;
 import org.qi4j.chronos.model.associations.HasComments;
@@ -158,7 +161,9 @@ public class TaskDetailPage extends LeftMenuNavPage
     private ProjectAssignee getProjectAssignee()
     {
         //TODO bp. This may return null if current user is Customer or ACCOUNT_ADMIN.
-        if( getChronosSession().isStaff() )
+        AuthenticatedWebSession authenticatedSession = (AuthenticatedWebSession) getSession();
+        Roles userRoles = authenticatedSession.getRoles();
+        if( userRoles.contains( SystemRole.STAFF ) )
         {
 /*
             TODO kamil: migrate

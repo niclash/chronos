@@ -14,33 +14,40 @@ package org.qi4j.chronos.service;
 
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.User;
+import org.qi4j.chronos.service.impl.UserServiceMixin;
+import org.qi4j.composite.Constraints;
 import org.qi4j.composite.Mixins;
+import org.qi4j.library.framework.constraint.NotNullConstraint;
+import org.qi4j.library.framework.constraint.annotation.NotNull;
 import org.qi4j.library.framework.validation.ValidationException;
 import org.qi4j.service.ServiceComposite;
 
-@Mixins( org.qi4j.chronos.service.impl.UserServiceMixin.class )
+@Constraints( NotNullConstraint.class )
+@Mixins( UserServiceMixin.class )
 public interface UserService extends ServiceComposite
 {
     /**
      * Authenticate user by account, username and password. Note: the account may be null if the user attempts
      * to login as super admin.
      *
-     * @param account  the account, null if user attempts to login as super user.
-     * @param userName the username
-     * @param password the password
+     * @param anAccount account to login, null if user attempts to login as super user.
+     * @param aUserName user name. This argument must not be {@code null}.
+     * @param apassword user password.
      * @return the logged in user.
      * @throws UserAuthenticationFailException
-     *          - thrown if user can't be authenticated.
+     *          thrown if user can't be authenticated.
      */
-    User authenticate( Account account, String userName, String password ) throws UserAuthenticationFailException;
+    User authenticate( @NotNull Account anAccount, @NotNull String aUserName, String apassword )
+        throws UserAuthenticationFailException;
 
     /**
      * Change user's password.
      *
-     * @param user
-     * @param oldPassword the old password
-     * @param password    the new password
+     * @param user        User to change password.
+     * @param oldPassword users old password.
+     * @param password    users new password.
      * @throws ValidationException thrown if the user's password doesn't match with the oldPassword
      */
-    void changePassword( User user, String oldPassword, String password ) throws ValidationException;
+    void changePassword( @NotNull User user, String oldPassword, String password )
+        throws ValidationException;
 }

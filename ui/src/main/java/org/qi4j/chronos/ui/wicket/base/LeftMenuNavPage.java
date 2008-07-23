@@ -13,16 +13,17 @@
 package org.qi4j.chronos.ui.wicket.base;
 
 import java.util.Arrays;
+import org.apache.wicket.authentication.AuthenticatedWebSession;
+import org.apache.wicket.authorization.strategies.role.Roles;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.protocol.http.WebResponse;
-import org.qi4j.chronos.ui.SystemRoleResolver;
-import org.qi4j.chronos.ui.wicket.admin.AdminMainMenuGroup;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.common.menu.MenuGroupPanel;
 import org.qi4j.chronos.ui.contactperson.ContactPersonMainMenuGroup;
 import org.qi4j.chronos.ui.project.RecentProjectMenuGroup;
 import org.qi4j.chronos.ui.staff.StaffMainMenuGroup;
-import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
+import org.qi4j.chronos.ui.wicket.admin.AdminMainMenuGroup;
 
 public abstract class LeftMenuNavPage extends TopMenuNavPage
 {
@@ -30,21 +31,20 @@ public abstract class LeftMenuNavPage extends TopMenuNavPage
 
     public LeftMenuNavPage()
     {
-        ChronosSession session = ChronosSession.get();
+        AuthenticatedWebSession authenticatedSession = (AuthenticatedWebSession) getSession();
+        Roles roles = authenticatedSession.getRoles();
 
         MenuGroupPanel[] menuBars = null;
 
-        SystemRoleResolver systemRoleResolver = session.getSystemRoleResolver();
-
-        if( systemRoleResolver.isAdmin() )
+        if( roles.contains( SystemRole.ACCOUNT_ADMIN ) )
         {
             menuBars = getAdminMenuBars();
         }
-        else if( systemRoleResolver.isStaff() )
+        else if( roles.contains( SystemRole.STAFF ) )
         {
             menuBars = getStaffMenuBars();
         }
-        else if( systemRoleResolver.isContactPerson() )
+        else if( roles.contains( SystemRole.CONTACT_PERSON ) )
         {
             menuBars = getContactPersonMenuBars();
         }

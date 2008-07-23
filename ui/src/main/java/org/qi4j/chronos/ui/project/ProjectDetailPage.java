@@ -15,6 +15,8 @@ package org.qi4j.chronos.ui.project;
 import java.util.ArrayList;
 import java.util.List;
 import org.apache.wicket.Page;
+import org.apache.wicket.authentication.AuthenticatedWebSession;
+import org.apache.wicket.authorization.strategies.role.Roles;
 import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.WebMarkupContainer;
@@ -32,6 +34,7 @@ import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.ProjectAssignee;
 import org.qi4j.chronos.model.ProjectStatusEnum;
 import org.qi4j.chronos.model.Staff;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.TimeRange;
 import org.qi4j.chronos.model.WorkEntry;
 import org.qi4j.chronos.model.associations.HasContactPersons;
@@ -218,9 +221,11 @@ public class ProjectDetailPage extends LeftMenuNavPage
 
     private ProjectAssignee getProjectAssignee()
     {
+        AuthenticatedWebSession authenticatedSession = (AuthenticatedWebSession) getSession();
+        Roles roles = authenticatedSession.getRoles();
         //TODO bp. This may return null if current user is Customer or ACCOUNT_ADMIN.
         //TODO got better way to handle this?
-        if( getChronosSession().isStaff() )
+        if( roles.contains( SystemRole.STAFF ) )
         {
 /*
             TODO kamil: migrate

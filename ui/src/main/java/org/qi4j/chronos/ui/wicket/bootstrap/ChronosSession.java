@@ -18,13 +18,13 @@ import org.apache.wicket.Session;
 import org.apache.wicket.authentication.AuthenticatedWebSession;
 import org.apache.wicket.authorization.strategies.role.Roles;
 import org.qi4j.chronos.model.Account;
-import org.qi4j.chronos.model.Staff;
+import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.service.UserAuthenticationFailException;
 import org.qi4j.chronos.service.UserService;
-import org.qi4j.chronos.ui.SystemRoleResolver;
-import org.qi4j.entity.UnitOfWorkFactory;
 import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.entity.association.SetAssociation;
 import org.qi4j.injection.scope.Service;
 import org.qi4j.injection.scope.Structure;
 import org.qi4j.injection.scope.Uses;
@@ -41,15 +41,19 @@ public final class ChronosSession extends AuthenticatedWebSession
     private static final long serialVersionUID = 1L;
 
     private @Service UserService userService;
+    private @Structure UnitOfWorkFactory unitOfWorkFactory;
 
     private @Structure ServiceFinder serviceFinder;
 
-    private SystemRoleResolver roleResolver;
-
     private String userId;
-    private Account account;
-    private User user;
+    private String accountId;
+
+    private transient Account account;
+    private transient User user;
+    private transient Roles roles;
+
     private ChronosUnitOfWorkManager unitOfWorkManager;
+
 
     public ChronosSession( @Uses Request request, @Structure UnitOfWorkFactory aUOWF )
     {
@@ -74,57 +78,50 @@ public final class ChronosSession extends AuthenticatedWebSession
 
         try
         {
-            User user = userService.authenticate( account, aUserName, aPassword );
-
-            this.user = user;
-            this.userId = user.identity().get();
-
-            this.roleResolver = new SystemRoleResolver( user );
-
+            user = userService.authenticate( account, aUserName, aPassword );
+            userId = user.identity().get();
             return true;
         }
         catch( UserAuthenticationFailException e )
         {
             return false;
-
         }
     }
 
-    public SystemRoleResolver getSystemRoleResolver()
+    public final User getUser()
     {
-        return roleResolver;
-    }
-
-    public User getUser()
-    {
-        if( user != null )
+        if( userId != null && user == null )
         {
-            UnitOfWork work = unitOfWorkManager.getCurrentUnitOfWork();
-            return work.dereference( user );
+            UnitOfWork work = unitOfWorkFactory.currentUnitOfWork();
+            user = work.getReference( userId, User.class );
         }
 
-        return null;
+        return user;
     }
 
-    public void setAccount( Account anAccount )
+    public final void setAccount( Account anAccount )
     {
+        if( anAccount != null )
+        {
+            accountId = anAccount.identity().get();
+        }
+        else
+        {
+            accountId = null;
+        }
+
         account = anAccount;
-    }
-
-    public boolean isStaff()
-    {
-        return getUser() instanceof Staff;
     }
 
     public Account getAccount()
     {
-        if( account != null )
+        if( accountId != null && account == null )
         {
-            UnitOfWork work = unitOfWorkManager.getCurrentUnitOfWork();
-            return work.dereference( account );
+            UnitOfWork work = unitOfWorkFactory.currentUnitOfWork();
+            account = work.getReference( accountId, Account.class );
         }
 
-        return null;
+        return account;
     }
 
     public boolean isSignIn()
@@ -135,7 +132,24 @@ public final class ChronosSession extends AuthenticatedWebSession
     @Override
     public final Roles getRoles()
     {
-        return roleResolver.getRoles();
+        if( roles != null )
+        {
+            return roles;
+        }
+
+        roles = new Roles();
+        User user = getUser();
+        if( user != null )
+        {
+
+            SetAssociation<SystemRole> systemRoles = user.systemRoles();
+            for( SystemRole systemRole : systemRoles )
+            {
+                String systemRoleName = systemRole.name().get();
+                roles.add( systemRoleName );
+            }
+        }
+        return roles;
     }
 
     @Override
@@ -143,8 +157,12 @@ public final class ChronosSession extends AuthenticatedWebSession
     {
         ChronosUnitOfWorkManager.set( unitOfWorkManager );
 
-        ChronosServiceFinderHelper helper = new ChronosServiceFinderHelper( serviceFinder );
+        roles = null;
+        user = null;
+        account = null;
 
+        // TODO
+        ChronosServiceFinderHelper helper = new ChronosServiceFinderHelper( serviceFinder );
         ChronosServiceFinderHelper.set( helper );
 
         super.attach();
@@ -154,8 +172,11 @@ public final class ChronosSession extends AuthenticatedWebSession
     protected final void detach()
     {
         ChronosUnitOfWorkManager.set( null );
-
         ChronosServiceFinderHelper.set( null );
+
+        roles = null;
+        user = null;
+        account = null;
 
         super.detach();
     }

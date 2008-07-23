@@ -12,97 +12,159 @@
  */
 package org.qi4j.chronos.service.impl;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.Collection;
 import java.util.Set;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.Admin;
+import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.Customer;
+import org.qi4j.chronos.model.Login;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.associations.HasLogin;
 import org.qi4j.chronos.service.UserAuthenticationFailException;
 import org.qi4j.chronos.service.UserService;
 import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.association.SetAssociation;
+import org.qi4j.library.framework.constraint.annotation.NotNull;
 import org.qi4j.library.framework.validation.ValidationException;
+import org.qi4j.property.Property;
 import org.qi4j.query.Query;
 import org.qi4j.query.QueryBuilder;
 import org.qi4j.query.QueryBuilderFactory;
 import static org.qi4j.query.QueryExpressions.and;
 import static org.qi4j.query.QueryExpressions.eq;
 import static org.qi4j.query.QueryExpressions.templateFor;
+import static org.qi4j.query.QueryExpressions.variable;
+import org.qi4j.query.grammar.BooleanExpression;
 import org.qi4j.query.grammar.Conjunction;
+import org.qi4j.query.grammar.EqualsPredicate;
+import org.qi4j.query.grammar.impl.VariableValueExpression;
 
+/**
+ * TODO user encode password
+ */
 public abstract class UserServiceMixin extends AbstractServiceMixin implements UserService
 {
     private static final long serialVersionUID = 1L;
 
-    //TODO user encode password
+    private static Conjunction ADMIN_QUERY_WHERE_CLAUSE;
 
-    public void changePassword( User user, String oldPassword, String password ) throws ValidationException
+    static
     {
-        if( !user.login().get().password().get().equals( oldPassword ) )
+        Admin admin = templateFor( Admin.class );
+
+        Login userLogin = admin.login().get();
+        Property<String> userPasswordProperty = userLogin.password();
+
+        Property<String> userNameProperty = userLogin.name();
+        VariableValueExpression<String> userName = variable( "username" );
+        BooleanExpression userNameEquals = eq( userNameProperty, userName );
+
+        VariableValueExpression<String> password = variable( "password" );
+        EqualsPredicate<String> passwordEquals = eq( userPasswordProperty, password );
+        ADMIN_QUERY_WHERE_CLAUSE = and( userNameEquals, passwordEquals );
+    }
+
+
+    public final void changePassword( @NotNull User aUser, String anOldPassword, String aNewPassword )
+        throws ValidationException
+    {
+        Login userLogin = aUser.login().get();
+        Property<String> passwordProperty = userLogin.password();
+        String userPassword = passwordProperty.get();
+        if( !userPassword.equals( anOldPassword ) )
         {
             throw new ValidationException( "The old password is incorrect!" );
         }
 
-        user.login().get().password().set( password );
+        passwordProperty.set( aNewPassword );
     }
 
-    public User authenticate( final Account account, final String userName, final String password )
+    public final User authenticate( @NotNull Account anAccount, @NotNull String aUserName, final String aPassword )
         throws UserAuthenticationFailException
     {
 
-        UnitOfWork unitOfWork = getUnitOfWork();
-
-        QueryBuilderFactory queryBuilderFactory = unitOfWork.queryBuilderFactory();
-
         //user attempting to login as super admin
-        if( account == null )
+        if( anAccount == null )
         {
-            QueryBuilder<Admin> adminQueryBuilder = queryBuilderFactory.newQueryBuilder( Admin.class );
-
-            Admin adminTemplate = templateFor( Admin.class );
-
-            Query<Admin> adinQuery = adminQueryBuilder.where( getHasLoginQueryExpression( adminTemplate, userName, password ) ).newQuery();
-
-            Admin admin = adinQuery.find();
-
-            if( admin != null )
-            {
-                return admin;
-            }
+            return authenticateAdminUser( aUserName, aPassword );
         }
         else
         {
-            //TODO Query support for Assocaition and Join not ready yet.
-            //TODO see http://issues.ops4j.org/jira/browse/QI-67
-            List<User> candidates = new ArrayList<User>();
-            Set<Staff> staffs = account.staffs();
-            candidates.addAll( staffs );
+            UnitOfWork unitOfWork = getUnitOfWork();
+            Account referencedAccount = unitOfWork.dereference( anAccount );
 
-            Set<Customer> customers = account.customers();
-
-            for( Customer customer : customers )
+            // is user a staff
+            Set<Staff> staffs = referencedAccount.staffs();
+            User user = authenticateUsersFrom( aUserName, aPassword, staffs );
+            if( user != null )
             {
-                candidates.addAll( customer.contactPersons() );
+                return user;
             }
 
-            for( User user : candidates )
+            // is user a customer
+            Set<Customer> customers = referencedAccount.customers();
+            for( Customer customer : customers )
             {
-                if( user.login().get().name().get().equals( userName ) && user.login().get().password().get().equals( password ) )
+                SetAssociation<ContactPerson> contactPersons = customer.contactPersons();
+
+                user = authenticateUsersFrom( aUserName, aPassword, contactPersons );
+                if( user != null )
                 {
                     return user;
                 }
             }
+
         }
 
         throw new UserAuthenticationFailException( "Invalid password or username" );
     }
 
-    private Conjunction getHasLoginQueryExpression( HasLogin hasLogin, String userName, String password )
+    private User authenticateUsersFrom( String aUserName, String aPassword, Collection<? extends User> candidates )
     {
-        return and( eq( hasLogin.login().get().name(), userName ),
-                    eq( hasLogin.login().get().password(), password ) );
+        for( User user : candidates )
+        {
+            if( isUserCredentialsMatch( aUserName, aPassword, user ) )
+            {
+                return user;
+            }
+        }
+
+        return null;
     }
+
+    private boolean isUserCredentialsMatch( String aUserName, String aPassword, HasLogin hasLogin )
+    {
+        Login userLogin = hasLogin.login().get();
+        String userName = userLogin.name().get();
+        String userPassword = userLogin.password().get();
+
+        return userName.equals( aUserName ) && userPassword.equals( aPassword );
+    }
+
+    private Admin authenticateAdminUser( String aUserName, String aPassword )
+        throws UserAuthenticationFailException
+    {
+        Query<Admin> adminQuery = createAdminQuery();
+        adminQuery.setVariable( "username", aUserName );
+        adminQuery.setVariable( "password", aPassword );
+        Admin admin = adminQuery.find();
+
+        if( admin == null )
+        {
+            throw new UserAuthenticationFailException( "Invalid username or password." );
+        }
+
+        return admin;
+    }
+
+    private Query<Admin> createAdminQuery()
+    {
+        UnitOfWork work = getUnitOfWork();
+        QueryBuilderFactory builderFactory = work.queryBuilderFactory();
+        QueryBuilder<Admin> adminQueryBuilder = builderFactory.newQueryBuilder( Admin.class );
+        return adminQueryBuilder.where( ADMIN_QUERY_WHERE_CLAUSE ).newQuery();
+    }
+
 }
