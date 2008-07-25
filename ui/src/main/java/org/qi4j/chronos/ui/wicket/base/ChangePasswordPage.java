@@ -21,8 +21,9 @@ import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
-import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.apache.wicket.validation.IValidator;
+import org.apache.wicket.validation.validator.StringValidator;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.service.UserService;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosServiceFinderHelper;
@@ -38,79 +39,92 @@ public final class ChangePasswordPage extends LeftMenuNavPage
 
     private final static Logger LOGGER = LoggerFactory.getLogger( ChangePasswordPage.class );
 
-    private Page goBackPage;
+    private static final String WICKET_ID_FEEDBACK_PANEL = "feedbackPanel";
+    private static final String WICKET_ID_CHANGE_PASSWORD_FORM = "changePasswordForm";
 
-    public ChangePasswordPage( Page goBackPage )
+    public ChangePasswordPage( Page aReturnPage )
     {
-        this.goBackPage = goBackPage;
-
-        initComponents();
-    }
-
-    private void initComponents()
-    {
-        add( new FeedbackPanel( "feedbackPanel" ) );
-        add( new ChangePasswordForm( "changePasswordForm", new ChangePasswordModel() ) );
+        add( new FeedbackPanel( WICKET_ID_FEEDBACK_PANEL ) );
+        add( new ChangePasswordForm( WICKET_ID_CHANGE_PASSWORD_FORM, new ChangePasswordModel(), aReturnPage ) );
     }
 
     private class ChangePasswordForm extends Form<ChangePasswordModel>
     {
         private static final long serialVersionUID = 1L;
 
+        private static final String WICKET_ID_LOGIN_ID = "loginId";
+        private static final String WICKET_ID_OLD_PASSWORD = "oldPassword";
+        private static final String WICKET_ID_NEW_PASSWORD = "newPassword";
+        private static final String WICKET_ID_CONFIRM_PASSWORD = "confirmPassword";
+        private static final String WICKET_ID_SUBMIT_BUTTON = "submitButton";
+        private static final String WICKET_ID_CANCEL_BUTTON = "cancelButton";
+
         private Button submitButton;
 
         private Button cancelButton;
+        private final Page returnPage;
 
-        public ChangePasswordForm( String id, ChangePasswordModel changePasswordModel )
+
+        public ChangePasswordForm( String id, ChangePasswordModel changePasswordModel, Page aReturnPage )
         {
             super( id );
 
+            returnPage = aReturnPage;
+
             CompoundPropertyModel<ChangePasswordModel> model =
                 new CompoundPropertyModel<ChangePasswordModel>( changePasswordModel );
-
             setModel( model );
 
-            PasswordTextField oldPasswordField = new PasswordTextField( "oldPassword" );
-            IModel<String> oldPasswordModel = model.bind( "oldPassword" );
-            oldPasswordField.setModel( oldPasswordModel );
-
-            PasswordTextField newPasswordField = new PasswordTextField( "newPassword" );
-            IModel<String> newPasswordModel = model.bind( "newPassword" );
-            newPasswordField.setModel( newPasswordModel );
-
-            PasswordTextField confirmPasswordField = new PasswordTextField( "confirmPassword" );
-            IModel<String> confirmPasswordModel = model.bind( "confirmPassword" );
-            confirmPasswordField.setModel( confirmPasswordModel );
-
-            User user = ChronosSession.get().getUser();
-
-            Label loginIdLabel = new Label( "loginId", user.login().get().name().get() );
-
-            submitButton = new Button( "submitButton", new Model<String>( "Change Password" ) );
-            cancelButton = new Button( "cancelButton", new Model<String>( "Cancel" ) );
-
-            oldPasswordField.setRequired( false );
-            newPasswordField.setRequired( false );
-            confirmPasswordField.setRequired( false );
-
-            add( oldPasswordField );
-            add( newPasswordField );
-            add( confirmPasswordField );
+            // Login id
+            Label loginIdLabel = newLoginIdLabel();
             add( loginIdLabel );
 
+            IValidator notEmptyString = new StringValidator.MinimumLengthValidator( 1 );
+
+            // Old password
+            PasswordTextField oldPasswordField = new PasswordTextField( WICKET_ID_OLD_PASSWORD );
+            add( oldPasswordField );
+            oldPasswordField.add( notEmptyString );
+            oldPasswordField.setRequired( true );
+
+            // New Password
+            PasswordTextField newPasswordField = new PasswordTextField( WICKET_ID_NEW_PASSWORD );
+            add( newPasswordField );
+            newPasswordField.add( notEmptyString );
+            newPasswordField.setRequired( true );
+
+            // Confirm Password
+            PasswordTextField confirmPasswordField = new PasswordTextField( WICKET_ID_CONFIRM_PASSWORD );
+            add( confirmPasswordField );
+            confirmPasswordField.add( notEmptyString );
+            confirmPasswordField.setRequired( false );
+
+            // Change Password button
+            submitButton = new Button( WICKET_ID_SUBMIT_BUTTON, new Model<String>( "Change Password" ) );
             add( submitButton );
+
+            // Cancel button
+            cancelButton = new Button( WICKET_ID_CANCEL_BUTTON, new Model<String>( "Cancel" ) );
             add( cancelButton );
         }
 
-        protected void delegateSubmit( IFormSubmittingComponent iFormSubmittingComponent )
+        private Label newLoginIdLabel()
         {
-            if( iFormSubmittingComponent == submitButton )
+            ChronosSession session = (ChronosSession) getSession();
+            User user = session.getUser();
+            return new Label( WICKET_ID_LOGIN_ID, user.login().get().name().get() );
+        }
+
+        @Override
+        protected final void delegateSubmit( IFormSubmittingComponent submittingComponent )
+        {
+            if( submittingComponent == submitButton )
             {
                 handleChangePassword();
             }
-            else if( iFormSubmittingComponent == cancelButton )
+            else if( submittingComponent == cancelButton )
             {
-                setResponsePage( goBackPage );
+                setResponsePage( returnPage );
             }
             else
             {
@@ -122,51 +136,27 @@ public final class ChangePasswordPage extends LeftMenuNavPage
         {
             ChangePasswordModel changePasswordModel = getModelObject();
 
-            StringBuilder errorMsgBuilder = new StringBuilder();
-
-            String oldPassword = changePasswordModel.getOldPassword();
             String newPassword = changePasswordModel.getNewPassword();
             String confirmPassword = changePasswordModel.getConfirmPassword();
 
-            if( oldPassword == null )
-            {
-                errorMsgBuilder.append( "Old password is required. \n" );
-            }
-
-            if( newPassword == null )
-            {
-                errorMsgBuilder.append( "New password is required. \n" );
-            }
-
-            if( confirmPassword == null )
-            {
-                errorMsgBuilder.append( "Confirm password is required. \n" );
-            }
-
-            if( newPassword != null && confirmPassword != null && !( newPassword.equals( confirmPassword ) ) )
-            {
-                errorMsgBuilder.append( "New password and confirm password is not matched!." );
-            }
-
+            StringBuilder errorMsgBuilder = validateChangePasswordInput( newPassword, confirmPassword );
             if( errorMsgBuilder.length() != 0 )
             {
                 error( errorMsgBuilder.toString() );
                 return;
             }
 
+            String oldPassword = changePasswordModel.getOldPassword();
             try
             {
                 User user = ChronosSession.get().getUser();
 
                 UserService userService = ChronosServiceFinderHelper.get().findService( UserService.class );
-
                 userService.changePassword( user, oldPassword, newPassword );
-
                 ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
 
-                goBackPage.info( "Password was changed successfully." );
-
-                setResponsePage( goBackPage );
+                returnPage.info( "Password was changed successfully." );
+                setResponsePage( returnPage );
             }
             catch( ValidationException err )
             {
@@ -181,9 +171,20 @@ public final class ChangePasswordPage extends LeftMenuNavPage
                 LOGGER.error( err.getLocalizedMessage(), err );
             }
         }
+
+        private StringBuilder validateChangePasswordInput( String newPassword, String confirmPassword )
+        {
+            StringBuilder errorMsgBuilder = new StringBuilder();
+            if( newPassword != null && confirmPassword != null && !( newPassword.equals( confirmPassword ) ) )
+            {
+                errorMsgBuilder.append( "New password and confirm password is not matched!." );
+            }
+            return errorMsgBuilder;
+        }
     }
 
-    private final static class ChangePasswordModel implements Serializable
+    private final static class ChangePasswordModel
+        implements Serializable
     {
         private static final long serialVersionUID = 1L;
 

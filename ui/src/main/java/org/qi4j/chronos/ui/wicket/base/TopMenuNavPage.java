@@ -12,6 +12,8 @@
  */
 package org.qi4j.chronos.ui.wicket.base;
 
+import org.apache.wicket.IPageMap;
+import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.qi4j.chronos.model.Account;
@@ -22,51 +24,71 @@ public abstract class TopMenuNavPage extends BasePage
 {
     private static final long serialVersionUID = 1L;
 
+    private static final String WICKET_ID_ACCOUNT_NAME = "accountName";
+    private static final String WICKET_ID_LOGIN_ID = "loginId";
+    private static final String WICKET_ID_CHANGE_PASSWORD_LINK = "changePasswordLink";
+    private static final String WICKET_ID_LOGOUT_LINK = "logoutLink";
+
     public TopMenuNavPage()
     {
-        initComponents();
+        add( new Label( WICKET_ID_ACCOUNT_NAME, getAccountName() ) );
+        add( new Label( WICKET_ID_LOGIN_ID, getUserLogin() ) );
+        add( new ChangePasswordLink() );
+        add( new LogoutLink() );
     }
 
-    private void initComponents()
+    private String getUserLogin()
     {
-        add( new Label( "accountName", getAccountName() ) );
-
-        add( new Label( "loginId", getUser().login().get().name().get() ) );
-
-        add( new Link( "changePasswordLink" )
-        {
-            public void onClick()
-            {
-                handleChangePassword();
-            }
-        } );
-
-        add( new Link( "logoutLink" )
-        {
-            public void onClick()
-            {
-                // invalidate the session.
-                getSession().invalidate();
-
-                setResponsePage( LoginPage.class );
-            }
-        } );
-    }
-
-    private User getUser()
-    {
-        return getChronosSession().getUser();
+        User user = getChronosSession().getUser();
+        return user.login().get().name().get();
     }
 
     private String getAccountName()
     {
-        Account account = getAccount();
-
-        return account == null ? null : account.name().get();
+        Account account = getChronosSession().getAccount();
+        if( account == null )
+        {
+            return null;
+        }
+        else
+        {
+            return account.name().get();
+        }
     }
 
-    private void handleChangePassword()
+    private static class ChangePasswordLink extends Link
     {
-        setResponsePage( new ChangePasswordPage( this ) );
+        private static final long serialVersionUID = 1L;
+
+        private ChangePasswordLink()
+        {
+            super( WICKET_ID_CHANGE_PASSWORD_LINK );
+        }
+
+        @Override
+        public final void onClick()
+        {
+            Page page = getPage();
+            setResponsePage( new ChangePasswordPage( page ) );
+        }
+    }
+
+    private static class LogoutLink extends Link
+    {
+        private static final long serialVersionUID = 1L;
+
+        private LogoutLink()
+        {
+            super( WICKET_ID_LOGOUT_LINK );
+        }
+
+        @Override
+        public final void onClick()
+        {
+            // invalidate the session.
+            getSession().invalidate();
+
+            setResponsePage( LoginPage.class );
+        }
     }
 }
