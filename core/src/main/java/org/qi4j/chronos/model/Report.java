@@ -18,9 +18,9 @@ import org.qi4j.chronos.model.associations.HasReportSummary;
 import org.qi4j.chronos.model.composites.ReportEntity;
 import org.qi4j.composite.Mixins;
 import org.qi4j.injection.scope.This;
+import org.qi4j.property.ComputedProperty;
 import org.qi4j.property.ComputedPropertyInstance;
 import org.qi4j.property.GenericPropertyInfo;
-import org.qi4j.property.ImmutableProperty;
 import org.qi4j.property.PropertyInfo;
 
 @Mixins( Report.DescriptorMixin.class )
@@ -46,7 +46,7 @@ public interface Report extends Descriptor, Name, TimeRange, HasProject, HasRepo
 
         private @This Report report;
 
-        public ImmutableProperty<String> displayValue()
+        public ComputedProperty<String> displayValue()
         {
             return new ComputedPropertyInstance<String>( DISPLAY_VALUE )
             {

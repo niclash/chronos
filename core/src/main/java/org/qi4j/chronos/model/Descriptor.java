@@ -12,7 +12,7 @@
  */
 package org.qi4j.chronos.model;
 
-import org.qi4j.property.ImmutableProperty;
+import org.qi4j.property.ComputedProperty;
 
 /**
  * Created by IntelliJ IDEA.
@@ -22,5 +22,5 @@ import org.qi4j.property.ImmutableProperty;
  */
 public interface Descriptor
 {
-    ImmutableProperty<String> displayValue();
+    ComputedProperty<String> displayValue();
 }
