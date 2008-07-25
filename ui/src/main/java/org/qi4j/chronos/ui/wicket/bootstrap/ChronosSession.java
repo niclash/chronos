@@ -22,6 +22,7 @@ import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.service.UserAuthenticationFailException;
 import org.qi4j.chronos.service.UserService;
+import org.qi4j.composite.Composite;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkFactory;
 import org.qi4j.entity.association.SetAssociation;
@@ -29,6 +30,8 @@ import org.qi4j.injection.scope.Service;
 import org.qi4j.injection.scope.Structure;
 import org.qi4j.injection.scope.Uses;
 import org.qi4j.service.ServiceFinder;
+import org.qi4j.spi.Qi4jSPI;
+import org.qi4j.spi.composite.CompositeDescriptor;
 
 /**
  * TODO: Refactor this
@@ -45,7 +48,10 @@ public final class ChronosSession extends AuthenticatedWebSession
 
     private @Structure ServiceFinder serviceFinder;
 
+    private @Structure Qi4jSPI spi;
+
     private String userId;
+    private Class<? extends Composite> userType;
     private String accountId;
 
     private transient Account account;
@@ -79,6 +85,8 @@ public final class ChronosSession extends AuthenticatedWebSession
         try
         {
             user = userService.authenticate( account, aUserName, aPassword );
+            CompositeDescriptor descriptor = spi.getCompositeDescriptor( (Composite) user );
+            userType = descriptor.type();
             userId = user.identity().get();
             return true;
         }
@@ -93,7 +101,7 @@ public final class ChronosSession extends AuthenticatedWebSession
         if( userId != null && user == null )
         {
             UnitOfWork work = unitOfWorkFactory.currentUnitOfWork();
-            user = work.getReference( userId, User.class );
+            user = (User) work.getReference( userId, userType );
         }
 
         return user;

@@ -37,7 +37,7 @@ public interface UserService extends ServiceComposite
      * @throws UserAuthenticationFailException
      *          thrown if user can't be authenticated.
      */
-    User authenticate( @NotNull Account anAccount, @NotNull String aUserName, String apassword )
+    User authenticate( Account anAccount, @NotNull String aUserName, String apassword )
         throws UserAuthenticationFailException;
 
     /**

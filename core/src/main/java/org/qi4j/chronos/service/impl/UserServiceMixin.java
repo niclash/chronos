@@ -44,7 +44,8 @@ import org.qi4j.query.grammar.impl.VariableValueExpression;
 /**
  * TODO user encode password
  */
-public abstract class UserServiceMixin extends AbstractServiceMixin implements UserService
+public abstract class UserServiceMixin extends AbstractServiceMixin
+    implements UserService
 {
     private static final long serialVersionUID = 1L;
 
@@ -81,7 +82,7 @@ public abstract class UserServiceMixin extends AbstractServiceMixin implements U
         passwordProperty.set( aNewPassword );
     }
 
-    public final User authenticate( @NotNull Account anAccount, @NotNull String aUserName, final String aPassword )
+    public final User authenticate( Account anAccount, @NotNull String aUserName, final String aPassword )
         throws UserAuthenticationFailException
     {
 
