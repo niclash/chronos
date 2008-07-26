@@ -60,6 +60,11 @@
     </dependency>
     <dependency>
       <groupId>org.qi4j.library</groupId>
+      <artifactId>qi4j-lib-beans</artifactId>
+      <version>0.3-SNAPSHOT</version>
+    </dependency>
+    <dependency>
+      <groupId>org.qi4j.library</groupId>
       <artifactId>qi4j-lib-general</artifactId>
       <version>0.3-SNAPSHOT</version>
     </dependency>
