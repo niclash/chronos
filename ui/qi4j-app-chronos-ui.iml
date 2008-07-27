@@ -37,6 +37,14 @@
             <attribute name="method" value="5" />
             <attribute name="URI" value="/WEB-INF/lib/qi4j-lib-beans-0.3-SNAPSHOT.jar" />
           </containerElement>
+          <containerElement type="module" name="qi4j-core-runtime">
+            <attribute name="method" value="5" />
+            <attribute name="URI" value="/WEB-INF/lib/qi4j-core-runtime-0.3-SNAPSHOT.jar" />
+          </containerElement>
+          <containerElement type="library" name="cglib:cglib-nodep:2.1_3" level="module">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/cglib-nodep-2.1_3.jar" />
+          </containerElement>
           <containerElement type="module" name="qi4j-lib-general">
             <attribute name="method" value="5" />
             <attribute name="URI" value="/WEB-INF/lib/qi4j-lib-general-0.3-SNAPSHOT.jar" />
@@ -299,7 +307,6 @@
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/resources" isTestSource="true" />
       <excludeFolder url="file://$MODULE_DIR$/target/classes" />
-      <excludeFolder url="file://$MODULE_DIR$/target/qi4j-app-chronos-ui-0.3-SNAPSHOT" />
       <excludeFolder url="file://$MODULE_DIR$/target/test-classes" />
     </content>
     <orderEntry type="inheritedJdk" />
@@ -322,6 +329,20 @@
       </library>
     </orderEntry>
     <orderEntry type="module" module-name="qi4j-lib-beans" exported="" />
+    <orderEntry type="module" module-name="qi4j-core-runtime" exported="" />
+    <orderEntry type="module-library" exported="">
+      <library name="cglib:cglib-nodep:2.1_3">
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/../../../../../../../.m2/repository/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3.jar!/" />
+        </CLASSES>
+        <JAVADOC>
+          <root url="jar://$MODULE_DIR$/../../../../../../../.m2/repository/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3-javadoc.jar!/" />
+        </JAVADOC>
+        <SOURCES>
+          <root url="jar://$MODULE_DIR$/../../../../../../../.m2/repository/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3-sources.jar!/" />
+        </SOURCES>
+      </library>
+    </orderEntry>
     <orderEntry type="module" module-name="qi4j-lib-general" exported="" />
     <orderEntry type="module" module-name="qi4j-lib-validation" exported="" />
     <orderEntry type="module" module-name="qi4j-ext-entitystore-quick" exported="" />
