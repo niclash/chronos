@@ -2,7 +2,7 @@ package org.qi4j.chronos.ui.wicket.authentication;
 
 import org.qi4j.composite.Composite;
 import org.qi4j.composite.Mixins;
-import org.qi4j.library.framework.properties.PropertiesMixin;
+import org.qi4j.library.beans.properties.PropertiesMixin;
 
 /**
  * @author edward.yakop@gmail.com
