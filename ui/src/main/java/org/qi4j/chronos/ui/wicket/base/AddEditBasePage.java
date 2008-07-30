@@ -22,7 +22,7 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
-import org.qi4j.library.framework.validation.ValidationMessage;
+import org.qi4j.library.validation.ValidationMessage;
 
 public abstract class AddEditBasePage<T> extends LeftMenuNavPage
 {

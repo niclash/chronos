@@ -29,7 +29,7 @@ import org.qi4j.chronos.service.UserService;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosServiceFinderHelper;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import org.qi4j.library.framework.validation.ValidationException;
+import org.qi4j.library.validation.ValidationException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

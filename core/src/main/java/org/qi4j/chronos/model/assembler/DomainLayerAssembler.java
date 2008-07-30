@@ -17,7 +17,7 @@ import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.LayerAssembly;
 import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.chronos.assembler.LayerAssembler;
-import org.qi4j.library.framework.constraint.annotation.NotNull;
+import org.qi4j.library.constraints.annotation.NotNull;
 
 public class DomainLayerAssembler
     implements LayerAssembler

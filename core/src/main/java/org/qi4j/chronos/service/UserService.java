@@ -17,9 +17,9 @@ import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.service.impl.UserServiceMixin;
 import org.qi4j.composite.Constraints;
 import org.qi4j.composite.Mixins;
-import org.qi4j.library.framework.constraint.NotNullConstraint;
-import org.qi4j.library.framework.constraint.annotation.NotNull;
-import org.qi4j.library.framework.validation.ValidationException;
+import org.qi4j.library.constraints.NotNullConstraint;
+import org.qi4j.library.constraints.annotation.NotNull;
+import org.qi4j.library.validation.ValidationException;
 import org.qi4j.service.ServiceComposite;
 
 @Constraints( NotNullConstraint.class )

@@ -12,11 +12,9 @@
  */
 package org.qi4j.chronos.model.composites;
 
-import org.qi4j.chronos.model.validations.AddressValidatableConcern;
-import org.qi4j.composite.Concerns;
 import org.qi4j.composite.Mixins;
-import org.qi4j.library.framework.validation.Validatable;
-import org.qi4j.library.framework.validation.ValidatableMixin;
+import org.qi4j.library.validation.Validatable;
+import org.qi4j.library.validation.ValidatableMixin;
 import org.qi4j.chronos.model.Address;
 import org.qi4j.entity.EntityComposite;
 

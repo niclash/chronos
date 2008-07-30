@@ -13,7 +13,7 @@
 package org.qi4j.chronos.util;
 
 import java.util.Date;
-import org.qi4j.library.framework.validation.Validator;
+import org.qi4j.library.validation.Validator;
 
 public final class ValidatorUtil
 {

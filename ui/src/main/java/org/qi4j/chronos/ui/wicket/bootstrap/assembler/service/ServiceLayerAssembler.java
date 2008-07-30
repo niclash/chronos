@@ -19,7 +19,7 @@ import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.chronos.assembler.LayerAssembler;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.service.UserService;
-import org.qi4j.library.framework.constraint.annotation.NotNull;
+import org.qi4j.library.constraints.annotation.NotNull;
 import static org.qi4j.structure.Visibility.application;
 
 /**
