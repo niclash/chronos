@@ -29,11 +29,9 @@ public class DomainLayerAssembler
     public LayerAssembly createLayerAssembly( @NotNull ApplicationAssembly anApplicationAssembly )
         throws AssemblyException
     {
-        LayerAssembly domainLayer = anApplicationAssembly.newLayerAssembly();
-        domainLayer.setName( LAYER_DOMAIN );
+        LayerAssembly domainLayer = anApplicationAssembly.newLayerAssembly( LAYER_DOMAIN );
 
-        ModuleAssembly entities = domainLayer.newModuleAssembly();
-        entities.setName( MODULE_ENTITIES );
+        ModuleAssembly entities = domainLayer.newModuleAssembly( MODULE_ENTITIES );
         entities.addAssembler( new EntitiesModuleAssembler() );
 
         return domainLayer;

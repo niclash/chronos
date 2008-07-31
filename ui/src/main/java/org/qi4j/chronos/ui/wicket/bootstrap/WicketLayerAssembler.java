@@ -23,19 +23,16 @@ public final class WicketLayerAssembler
     public final LayerAssembly createLayerAssembly( ApplicationAssembly anApplicationAssembly )
         throws AssemblyException
     {
-        LayerAssembly wicketLayer = anApplicationAssembly.newLayerAssembly();
+        LayerAssembly wicketLayer = anApplicationAssembly.newLayerAssembly( null );
         wicketLayer.setName( LAYER_WICKET );
 
-        ModuleAssembly chronosBootstrap = wicketLayer.newModuleAssembly();
-        chronosBootstrap.setName( MODULE_BOOTSTRAP );
+        ModuleAssembly chronosBootstrap = wicketLayer.newModuleAssembly( MODULE_BOOTSTRAP );
         chronosBootstrap.addAssembler( new BootstrapModuleAssembler() );
 
-        ModuleAssembly admin = wicketLayer.newModuleAssembly();
-        admin.setName( MODULE_ADMIN );
+        ModuleAssembly admin = wicketLayer.newModuleAssembly( MODULE_ADMIN );
         admin.addAssembler( new AdminAssembly() );
 
-        ModuleAssembly view = wicketLayer.newModuleAssembly();
-        view.setName( MODULE_VIEW );
+        ModuleAssembly view = wicketLayer.newModuleAssembly( MODULE_VIEW );
         view.addAssembler( new ViewAssembler() );
 
         return wicketLayer;

@@ -34,11 +34,9 @@ public final class ServiceLayerAssembler
     public final LayerAssembly createLayerAssembly( @NotNull ApplicationAssembly anApplicationAssembly )
         throws AssemblyException
     {
-        LayerAssembly serviceLayer = anApplicationAssembly.newLayerAssembly();
-        serviceLayer.setName( LAYER_SERVICE );
+        LayerAssembly serviceLayer = anApplicationAssembly.newLayerAssembly( LAYER_SERVICE );
 
-        ModuleAssembly service = serviceLayer.newModuleAssembly();
-        service.setName( MODULE_SERVICE );
+        ModuleAssembly service = serviceLayer.newModuleAssembly( MODULE_SERVICE );
         service.addServices(
             AccountService.class,
             UserService.class

@@ -28,11 +28,9 @@ public final class InfrastructureAssembler
     public final LayerAssembly createLayerAssembly( @NotNull ApplicationAssembly anApplicationAssembly )
         throws AssemblyException
     {
-        LayerAssembly infrastructure = anApplicationAssembly.newLayerAssembly();
-        infrastructure.setName( LAYER_INFRASTRUCTURE );
+        LayerAssembly infrastructure = anApplicationAssembly.newLayerAssembly( LAYER_INFRASTRUCTURE );
 
-        ModuleAssembly persistence = infrastructure.newModuleAssembly();
-        persistence.setName( MODULE_PERSISTENCE );
+        ModuleAssembly persistence = infrastructure.newModuleAssembly( MODULE_PERSISTENCE );
         persistence.addAssembler( new PersistenceModuleAssembler() );
 
         return infrastructure;
