@@ -234,7 +234,7 @@ final class DummyDataInitializer
             PriceRate priceRate = priceRateSchedule.priceRates().iterator().next();
             ProjectAssignee projectAssignee = newProjectAssignee( unitOfWork, true, staff, priceRate );
 
-            Project project = newProject( unitOfWork, "Chronos Qi4J", "Chronos v0.1", ProjectStatusEnum.ACTIVE );
+            Project project = newProject( unitOfWork, "Chronos Qi4j", "Chronos v0.1", ProjectStatusEnum.ACTIVE );
             project.customer().set( customer );
             project.primaryContactPerson().set( contactPerson );
             project.contactPersons().addAll( customer.contactPersons() );

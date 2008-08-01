@@ -7,7 +7,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.qi4j.app.chronos</groupId>
   <artifactId>qi4j-app-chronos-core</artifactId>
-  <name>Qi4J Apps Chronos - Core</name>
+  <name>Qi4j Apps Chronos - Core</name>
   <version>0.3-SNAPSHOT</version>
 
   <build>

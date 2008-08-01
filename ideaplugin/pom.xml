@@ -10,7 +10,7 @@
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.qi4j.app.chronos</groupId>
   <artifactId>qi4j-app-chronos-idea</artifactId>
-  <name>Qi4J Apps Chronos - IntelliJ IDEA plugin</name>
+  <name>Qi4j Apps Chronos - IntelliJ IDEA plugin</name>
   <version>0.2.0-SNAPSHOT</version>
   <dependencies>
     <dependency>
