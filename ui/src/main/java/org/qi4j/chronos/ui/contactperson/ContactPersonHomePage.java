@@ -19,6 +19,8 @@ import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 @AuthorizeInstantiation( SystemRole.CONTACT_PERSON )
 public class ContactPersonHomePage extends LeftMenuNavPage
 {
+    private static final long serialVersionUID = 1L;
+
     public ContactPersonHomePage()
     {
 

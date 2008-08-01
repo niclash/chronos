@@ -17,9 +17,10 @@ import org.qi4j.chronos.model.associations.HasOngoingWorkEntries;
 import org.qi4j.chronos.model.associations.HasUser;
 import org.qi4j.chronos.model.associations.HasWorkEntries;
 import org.qi4j.library.general.model.Description;
+import org.qi4j.entity.Identity;
 
 public interface Task extends Title, Description, CreatedDate, HasComments, HasOngoingWorkEntries,
-                              HasWorkEntries, HasUser, TaskStatus
+                              HasWorkEntries, HasUser, TaskStatus, Identity
 {
     public final static int TITLE_LEN = 120;
 

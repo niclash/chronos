@@ -19,40 +19,30 @@ import org.qi4j.chronos.ui.common.BorderPanel;
 import org.qi4j.chronos.ui.common.BorderPanelWrapper;
 import org.qi4j.chronos.ui.common.tab.BaseTab;
 
-public abstract class ProjectTab extends BaseTab
+public final class ProjectTab extends BaseTab
 {
-    public ProjectTab( String title )
+    private static final long serialVersionUID = 1L;
+
+    private IModel<? extends HasProjects> hasProjects;
+
+    public ProjectTab( String title, IModel<? extends HasProjects> hasProjects )
     {
         super( title );
+
+        this.hasProjects = hasProjects;
     }
 
     public BorderPanel getBorderPanel( String panelId )
     {
-        BorderPanelWrapper wrapper = new BorderPanelWrapper( panelId )
+        return new BorderPanelWrapper( panelId )
         {
+            private static final long serialVersionUID = 1L;
+
             public Panel getWrappedPanel( String panelId )
             {
-                ProjectTable projectTable = new ProjectTable( panelId )
-                {
-                    public int getSize()
-                    {
-                        return ProjectTab.this.getSize();
-                    }
-
-                    public IModel<HasProjects> getHasProjectsModel()
-                    {
-                        return ProjectTab.this.getHasProjectsModel();
-                    }
-                };
-
-                return projectTable;
+                return new ProjectTable( panelId, hasProjects, new ProjectDataProvider( hasProjects ) );
             }
         };
 
-        return wrapper;
     }
-
-    public abstract IModel<HasProjects> getHasProjectsModel();
-
-    public abstract int getSize();
 }

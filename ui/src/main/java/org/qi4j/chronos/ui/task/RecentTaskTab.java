@@ -12,46 +12,36 @@
  */
 package org.qi4j.chronos.ui.task;
 
-import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.IModel;
+import org.qi4j.chronos.model.associations.HasTasks;
 import org.qi4j.chronos.ui.common.BorderPanel;
 import org.qi4j.chronos.ui.common.BorderPanelWrapper;
 import org.qi4j.chronos.ui.common.tab.BaseTab;
 
-public abstract class RecentTaskTab extends BaseTab
+public final class RecentTaskTab extends BaseTab
 {
-    public RecentTaskTab( String title )
+    private static final long serialVersionUID = 1L;
+
+    private IModel<? extends HasTasks> hasTasks;
+
+    public RecentTaskTab( String title, IModel<? extends HasTasks> hasTasks )
     {
         super( title );
+
+        this.hasTasks = hasTasks;
     }
 
     public BorderPanel getBorderPanel( String panelId )
     {
-        BorderPanelWrapper wrapper = new BorderPanelWrapper( panelId )
+        return new BorderPanelWrapper( panelId )
         {
+            private static final long serialVersionUID = 1L;
+
             public Panel getWrappedPanel( String panelId )
             {
-                TaskTable taskTable = new TaskTable( panelId )
-                {
-                    public int getSize()
-                    {
-                        return RecentTaskTab.this.getSize();
-                    }
-
-                    public List<String> dataList( int first, int count )
-                    {
-                        return RecentTaskTab.this.dataList( first, count );
-                    }
-                };
-
-                return taskTable;
+                return new TaskTable( panelId, hasTasks, new RecentTaskDataProvider( hasTasks ) );
             }
         };
-
-        return wrapper;
     }
-
-    public abstract int getSize();
-
-    public abstract List<String> dataList( int first, int count );
 }

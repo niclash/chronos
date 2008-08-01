@@ -20,20 +20,21 @@ import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.Project;
-import org.qi4j.chronos.model.Task;
-import org.qi4j.chronos.model.associations.HasProjects;
 import org.qi4j.chronos.ui.project.ProjectTab;
-import org.qi4j.chronos.ui.task.RecentTaskTab;
-import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
-import org.qi4j.entity.Identity;
 
-public abstract class AccountAdminPanel extends Panel
+public final class AccountAdminPanel extends Panel
 {
+    private static final long serialVersionUID = 1L;
+
     private TabbedPanel tabbedPanel;
 
-    public AccountAdminPanel( String id )
+    private IModel<Account> accountModel;
+
+    public AccountAdminPanel( String id, IModel<Account> accountModel )
     {
         super( id );
+
+        this.accountModel = accountModel;
 
         initComponents();
     }
@@ -42,7 +43,7 @@ public abstract class AccountAdminPanel extends Panel
     {
         List<ITab> tabs = new ArrayList<ITab>();
 
-        tabs.add( createRecentTaskTab() );
+//        tabs.add( createRecentTaskTab() );
         tabs.add( createRecentProjectTab() );
 
         tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
@@ -50,53 +51,42 @@ public abstract class AccountAdminPanel extends Panel
         add( tabbedPanel );
     }
 
-    // TODO kamil: fix business logic, should only return recent tasks
-    private RecentTaskTab createRecentTaskTab()
-    {
-        return new RecentTaskTab( "Recent Tasks" )
-        {
-            public int getSize()
-            {
-                return getAccount().projects().iterator().next().tasks().size();
-            }
-
-            public List<String> dataList( int first, int count )
-            {
-                List<String> taskIdList = new ArrayList<String>();
-                for( Task task : getAccount().projects().iterator().next().tasks() )
-                {
-                    taskIdList.add( ( (Identity) task ).identity().get() );
-                }
-                return taskIdList.subList( first, first + count );
-            }
-        };
-    }
+//    // TODO kamil: fix business logic, should only return recent tasks
+//    private RecentTaskTab createRecentTaskTab()
+//    {
+//
+//        return new RecentTaskTab( "Recent Tasks",  )
+//        {
+//            public int getSize()
+//            {
+//                return getAccount().projects().iterator().next().tasks().size();
+//            }
+//
+//            public List<String> dataList( int first, int count )
+//            {
+//                List<String> taskIdList = new ArrayList<String>();
+//                for( Task task : getAccount().projects().iterator().next().tasks() )
+//                {
+//                    taskIdList.add( ( (Identity) task ).identity().get() );
+//                }
+//                return taskIdList.subList( first, first + count );
+//            }
+//        };
+//    }
 
     private ProjectTab createRecentProjectTab()
     {
-        return new ProjectTab( "Recent Projects" )
-        {
-            public IModel<HasProjects> getHasProjectsModel()
-            {
-                return new ChronosCompoundPropertyModel<HasProjects>( AccountAdminPanel.this.getAccount() );
-            }
-
-            public int getSize()
-            {
-                return getAccount().projects().size();
-            }
-        };
+        return new ProjectTab( "Recent Projects", accountModel );
     }
 
     public List<String> dataList( int first, int count )
     {
         List<String> projectIdList = new ArrayList<String>();
-        for( Project project : getAccount().projects() )
+        for( Project project : accountModel.getObject().projects() )
         {
-            projectIdList.add( ( (Identity) project ).identity().get() );
+            projectIdList.add( project.identity().get() );
         }
         return projectIdList.subList( first, first + count );
     }
 
-    public abstract Account getAccount();
 }

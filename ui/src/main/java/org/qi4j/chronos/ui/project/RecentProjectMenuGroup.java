@@ -16,12 +16,14 @@ import static java.lang.Math.min;
 import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.ui.common.menu.MenuGroupPanel;
 import org.qi4j.chronos.ui.common.menu.MenuItemPanel;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
+import org.qi4j.chronos.ui.wicket.model.ChronosDetachableModel;
 import org.qi4j.entity.association.SetAssociation;
 
 public final class RecentProjectMenuGroup extends MenuGroupPanel
@@ -32,7 +34,6 @@ public final class RecentProjectMenuGroup extends MenuGroupPanel
 
     public RecentProjectMenuGroup()
     {
-        // TODO: Localization
         super( new Model<String>( "Recent Projects" ) );
     }
 
@@ -54,9 +55,9 @@ public final class RecentProjectMenuGroup extends MenuGroupPanel
         {
             Project project = it.next();
 
-            String projectId = project.identity().get();
             String projectName = project.name().get();
-            menuItems.add( new ProjectMenuItemPanel( projectName, projectId ) );
+
+            menuItems.add( new ProjectMenuItemPanel( projectName, new ChronosDetachableModel<Project>( project ) ) );
         }
         return menuItems;
     }
@@ -72,18 +73,20 @@ public final class RecentProjectMenuGroup extends MenuGroupPanel
     {
         private static final long serialVersionUID = 1L;
 
-        private final String projectId;
+        private IModel<Project> projectModel;
 
-        private ProjectMenuItemPanel( String aProjectName, String aProjectId )
+        private ProjectMenuItemPanel( String aProjectName, IModel<Project> projectModel )
         {
             super( new Model<String>( aProjectName ) );
-            projectId = aProjectId;
+
+            this.projectModel = projectModel;
         }
 
         @Override
         protected final void handleClicked()
         {
-            ProjectDetailPage detailPage = new ProjectDetailPage( getPage(), projectId );
+            ProjectDetailPage detailPage = new ProjectDetailPage( getPage(), projectModel );
+
             setResponsePage( detailPage );
         }
     }

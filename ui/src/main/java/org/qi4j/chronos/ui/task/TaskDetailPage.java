@@ -26,23 +26,21 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.ProjectAssignee;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.Task;
 import org.qi4j.chronos.model.WorkEntry;
-import org.qi4j.chronos.model.associations.HasComments;
-import org.qi4j.chronos.model.associations.HasWorkEntries;
 import org.qi4j.chronos.ui.comment.CommentTab;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
+import org.qi4j.chronos.ui.wicket.model.ChronosDetachableModel;
+import org.qi4j.chronos.ui.workentry.WorkEntryDataProvider;
 import org.qi4j.chronos.ui.workentry.WorkEntryTab;
-import org.qi4j.entity.Identity;
 
-public class TaskDetailPage extends LeftMenuNavPage
+public final class TaskDetailPage extends LeftMenuNavPage
 {
     private static final long serialVersionUID = 1L;
 
@@ -95,54 +93,16 @@ public class TaskDetailPage extends LeftMenuNavPage
 
         private WorkEntryTab createWorkEntryTab()
         {
-            return new WorkEntryTab( "WorkEntries" )
-            {
-                public void addingWorkEntry( WorkEntry workEntry )
-                {
-                    TaskDetailPage.this.addingWorkEntry( workEntry );
-                }
+            ChronosDetachableModel<Task> task = new ChronosDetachableModel<Task>( getTask() );
+            ChronosDetachableModel<ProjectAssignee> projectAssignee = new ChronosDetachableModel<ProjectAssignee>( getProjectAssignee() );
 
-                public List<String> dataList( int first, int count )
-                {
-                    List<String> workEntryIdList = new ArrayList<String>();
-                    for( WorkEntry workEntry : TaskDetailPage.this.getTask().workEntries() )
-                    {
-                        workEntryIdList.add( ( (Identity) workEntry ).identity().get() );
-                    }
-                    return workEntryIdList.subList( first, first + count );
-                }
-
-                public ProjectAssignee getProjectAssignee()
-                {
-                    return TaskDetailPage.this.getProjectAssignee();
-                }
-
-                public HasWorkEntries getHasWorkEntries()
-                {
-                    return TaskDetailPage.this.getTask();
-                }
-            };
+            return new WorkEntryTab( "WorkEntries", task, new WorkEntryDataProvider( task ), projectAssignee );
         }
 
         private CommentTab createCommentTab()
         {
-            return new CommentTab( "Comment" )
-            {
-                public List<String> dataList( int first, int count )
-                {
-                    List<String> commentIdList = new ArrayList<String>();
-                    for( Comment comment : TaskDetailPage.this.getTask().comments() )
-                    {
-                        commentIdList.add( ( (Identity) comment ).identity().get() );
-                    }
-                    return commentIdList.subList( first, first + count );
-                }
-
-                public HasComments getHasComments()
-                {
-                    return TaskDetailPage.this.getTask();
-                }
-            };
+            ChronosDetachableModel<Task> task = new ChronosDetachableModel<Task>( getTask() );
+            return new CommentTab( "Comment", task );
         }
     }
 

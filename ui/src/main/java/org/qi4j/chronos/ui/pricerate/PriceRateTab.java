@@ -14,15 +14,22 @@ package org.qi4j.chronos.ui.pricerate;
 
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.model.CompoundPropertyModel;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.ui.common.BorderPanel;
 import org.qi4j.chronos.ui.common.tab.BaseTab;
 
-public abstract class PriceRateTab extends BaseTab
+public final class PriceRateTab extends BaseTab
 {
-    public PriceRateTab( String title )
+    private static final long serialVersionUID = 1L;
+
+    private IModel<PriceRateSchedule> priceRateScheduleModel;
+
+    public PriceRateTab( String title, IModel<PriceRateSchedule> priceRateScheduleModel )
     {
         super( title );
+
+        this.priceRateScheduleModel = priceRateScheduleModel;
     }
 
     public BorderPanel getBorderPanel( String panelId )
@@ -32,6 +39,8 @@ public abstract class PriceRateTab extends BaseTab
 
     private class PriceRatePanel extends BorderPanel
     {
+        private static final long serialVersionUID = 1L;
+
         private PriceRateListView priceRateListView;
         private Label priceRateScheduleNameField;
         private Label priceRateScheduleCurrencyField;
@@ -40,7 +49,8 @@ public abstract class PriceRateTab extends BaseTab
         {
             super( id );
 
-            PriceRateSchedule priceRateSchedule = getPriceRateSchedule();
+            PriceRateSchedule priceRateSchedule = priceRateScheduleModel.getObject();
+
             priceRateListView =
                 new PriceRateListView( "priceRateListView", new CompoundPropertyModel( priceRateSchedule ) );
             priceRateScheduleNameField =
@@ -53,6 +63,4 @@ public abstract class PriceRateTab extends BaseTab
             add( priceRateScheduleCurrencyField );
         }
     }
-
-    public abstract PriceRateSchedule getPriceRateSchedule();
 }

@@ -13,10 +13,10 @@
  */
 package org.qi4j.chronos.model;
 
-import org.qi4j.chronos.model.Text;
 import org.qi4j.chronos.model.associations.HasUser;
+import org.qi4j.entity.Identity;
 
-public interface Comment extends CreatedDate, Text, HasUser
+public interface Comment extends CreatedDate, Text, HasUser, Identity
 {
     public final static int COMMENT_LEN = 512;
 }

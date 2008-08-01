@@ -12,22 +12,24 @@
  */
 package org.qi4j.chronos.ui.staff;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.qi4j.chronos.model.Staff;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.associations.HasStaffs;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
-import org.qi4j.entity.Identity;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public class StaffListPage extends LeftMenuNavPage
 {
-    public StaffListPage()
+    private static final long serialVersionUID = 1L;
+
+    private IModel<? extends HasStaffs> hasStaffs;
+
+    public StaffListPage( IModel<? extends HasStaffs> hasStaffs )
     {
+        this.hasStaffs = hasStaffs;
         initComponents();
     }
 
@@ -35,6 +37,8 @@ public class StaffListPage extends LeftMenuNavPage
     {
         add( new Link( "newStaffLink" )
         {
+            private static final long serialVersionUID = 1L;
+
             public void onClick()
             {
 //                setResponsePage( new StaffAddPage( StaffListPage.this ) );
@@ -43,39 +47,8 @@ public class StaffListPage extends LeftMenuNavPage
 
         add( new FeedbackPanel( "feedbackPanel" ) );
 
-        StaffTable staffTable = new StaffTable( "staffTable" )
-        {
-            public int getSize()
-            {
-                return StaffListPage.this.getSize();
-            }
-
-            public List<String> dataList( int first, int count )
-            {
-                return StaffListPage.this.dataList( first, count );
-            }
-
-            public HasStaffs getHasStaffs()
-            {
-                return StaffListPage.this.getAccount();
-            }
-        };
+        StaffTable staffTable = new StaffTable( "staffTable", hasStaffs, new StaffDataProvider( hasStaffs ) );
 
         add( staffTable );
-    }
-
-    public int getSize()
-    {
-        return getAccount().staffs().size();
-    }
-
-    public List<String> dataList( int first, int count )
-    {
-        List<String> staffIdList = new ArrayList<String>();
-        for( final Staff staff : getAccount().staffs() )
-        {
-            staffIdList.add( ( (Identity) staff ).identity().get() );
-        }
-        return staffIdList.subList( first, first + count );
     }
 }

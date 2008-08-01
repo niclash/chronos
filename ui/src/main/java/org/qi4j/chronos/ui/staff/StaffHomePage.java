@@ -18,10 +18,13 @@ import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
+import org.qi4j.chronos.ui.wicket.model.ChronosDetachableModel;
 
 @AuthorizeInstantiation( { SystemRole.ACCOUNT_ADMIN, SystemRole.ACCOUNT_DEVELOPER } )
 public class StaffHomePage extends LeftMenuNavPage
 {
+    private static final long serialVersionUID = 1L;
+
     public StaffHomePage()
     {
         initComponents();
@@ -35,19 +38,15 @@ public class StaffHomePage extends LeftMenuNavPage
 
     private class StaffHomeForm extends Form
     {
+        private static final long serialVersionUID = 1L;
+
         public StaffHomeForm( String id )
         {
             super( id );
 
-            add(
-                new AccountAdminPanel( "staffHomePanel" )
-                {
-                    public Account getAccount()
-                    {
-                        return StaffHomePage.this.getAccount();
-                    }
-                }
-            );
+            ChronosDetachableModel<Account> accountModel = new ChronosDetachableModel<Account>( getAccount() );
+
+            add( new AccountAdminPanel( "staffHomePanel", accountModel ) );
         }
     }
 }

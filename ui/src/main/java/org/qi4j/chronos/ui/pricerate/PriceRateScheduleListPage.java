@@ -15,19 +15,23 @@ package org.qi4j.chronos.ui.pricerate;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public class PriceRateScheduleListPage extends LeftMenuNavPage
 {
-    public PriceRateScheduleListPage()
+    private static final long serialVersionUID = 1L;
+
+    private IModel<HasPriceRateSchedules> hasPriceRateSchedules;
+
+    public PriceRateScheduleListPage( IModel<HasPriceRateSchedules> hasPriceRateSchedules )
     {
         initComponents();
+
+        this.hasPriceRateSchedules = hasPriceRateSchedules;
     }
 
     private void initComponents()
@@ -35,6 +39,8 @@ public class PriceRateScheduleListPage extends LeftMenuNavPage
         add(
             new Link( "newPriceRateScheduleLink" )
             {
+                private static final long serialVersionUID = 1L;
+
                 public void onClick()
                 {
                     handleNewPriceRateSchedule();
@@ -43,29 +49,9 @@ public class PriceRateScheduleListPage extends LeftMenuNavPage
         );
         add( new FeedbackPanel( "feedbackPanel" ) );
 
-        final IModel iModel =
-            new CompoundPropertyModel(
-                new LoadableDetachableModel()
-                {
-                    public Object load()
-                    {
-                        return PriceRateScheduleListPage.this.getAccount();
-                    }
-                }
-            );
-
-        PriceRateScheduleTable<Account> table = new PriceRateScheduleTable<Account>( "priceRateScheduleTable", iModel )
-        {
-            public Account getHasPriceRateSchedules()
-            {
-                return (Account) getDefaultModelObject();
-            }
-
-            public Account getAccount()
-            {
-                return (Account) getDefaultModelObject();
-            }
-        };
+        PriceRateScheduleTable<HasPriceRateSchedules> table = new
+            PriceRateScheduleTable<HasPriceRateSchedules>( "priceRateScheduleTable", hasPriceRateSchedules,
+                                                           new PriceRateScheduleDataProvider( hasPriceRateSchedules ) );
         add( table );
     }
 

@@ -12,22 +12,18 @@
  */
 package org.qi4j.chronos.ui.contact;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.Component;
 import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
+import org.qi4j.chronos.model.Contact;
 import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.model.associations.HasContacts;
 import org.qi4j.chronos.model.composites.ContactEntity;
-import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.DeleteAction;
@@ -35,47 +31,53 @@ import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.Identity;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
-import org.qi4j.library.general.model.Contact;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class ContactTable extends ActionTable<IModel, String>
+public final class ContactTable extends ActionTable<Contact>
 {
+    private static final long serialVersionUID = 1L;
+
     private final static Logger LOGGER = LoggerFactory.getLogger( ContactTable.class );
+
     private static final String DELETE_ACTION = "deleteAction";
     private static final String DELETE_SUCCESS = "deleteSuccessful";
     private static final String DELETE_FAIL = "deleteFailed";
 
-    public ContactTable( String id )
+    private static final String[] COLUMN_NAMES = { "Contact", "Contact Type", "" };
+
+    public ContactTable( String id, IModel<HasContacts> hasContacts, ContactDataProvider dataProvider )
     {
-        super( id );
+        super( id, hasContacts, dataProvider, COLUMN_NAMES );
 
         addActions();
     }
 
     private void addActions()
     {
-        addAction(
-            new DeleteAction<IModel>( getString( DELETE_ACTION ) )
+        addAction( new DeleteAction<ContactEntity>( getString( DELETE_ACTION ) )
+        {
+            private static final long serialVersionUID = 1L;
+
+            public void performAction( List<ContactEntity> contacts )
             {
-                public void performAction( List<IModel> contacts )
-                {
-                    handleDeleteAction( contacts );
-                    info( getString( DELETE_SUCCESS ) );
-                }
+                handleDeleteAction( contacts );
+
+                info( getString( DELETE_SUCCESS ) );
             }
+        }
         );
     }
 
-    private void handleDeleteAction( final List<IModel> contacts )
+    private void handleDeleteAction( final List<ContactEntity> contacts )
     {
         final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
         try
         {
-            final ContactPerson contactPerson = unitOfWork.dereference( getContactPerson() );
-            for( IModel iModel : contacts )
+            final ContactPerson contactPerson = (ContactPerson) getDefaultModelObject();
+
+            for( ContactEntity contact : contacts )
             {
-                final Contact contact = (Contact) iModel.getObject();
                 contactPerson.contacts().remove( contact );
                 unitOfWork.remove( contact );
             }
@@ -86,63 +88,26 @@ public abstract class ContactTable extends ActionTable<IModel, String>
         {
             ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
-            error( getString( DELETE_FAIL, new Model( uowce ) ) );
+            error( getString( DELETE_FAIL ) );
             LOGGER.error( uowce.getLocalizedMessage(), uowce );
         }
-    }
-
-    public AbstractSortableDataProvider<IModel, String> getDetachableDataProvider()
-    {
-        return new AbstractSortableDataProvider<IModel, String>()
-        {
-            public int getSize()
-            {
-                return ContactTable.this.getContactPerson().contacts().size();
-            }
-
-            public String getId( IModel t )
-            {
-                return ( (Identity) t.getObject() ).identity().get();
-            }
-
-            public IModel load( final String s )
-            {
-                return new CompoundPropertyModel(
-                    new LoadableDetachableModel()
-                    {
-                        protected Object load()
-                        {
-                            return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, ContactEntity.class );
-                        }
-                    }
-                );
-            }
-
-            public List<IModel> dataList( int first, int count )
-            {
-                List<IModel> models = new ArrayList<IModel>();
-                for( final String contactId : ContactTable.this.dataList( first, count ) )
-                {
-                    models.add(
-                        new CompoundPropertyModel(
-                            new LoadableDetachableModel()
-                            {
-                                protected Object load()
-                                {
-                                    return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( contactId, ContactEntity.class );
-                                }
-                            }
-                        )
-                    );
-                }
-                return models;
-            }
-        };
     }
 
     protected void authorizingActionBar( Component component )
     {
         MetaDataRoleAuthorizationStrategy.authorize( component, RENDER, SystemRole.ACCOUNT_ADMIN );
+    }
+
+    public void populateItems( Item<org.qi4j.chronos.model.Contact> item )
+    {
+        org.qi4j.chronos.model.Contact contact = item.getModelObject();
+
+        item.add( new Label( "contact", contact.contactValue().get() ) );
+        item.add( new Label( "contactType", contact.contactType().get() ) );
+
+        SimpleLink simpleLink = createEditLink( contact.identity().get() );
+
+        item.add( simpleLink );
     }
 
     public void populateItems( Item item, IModel iModel )
@@ -162,6 +127,8 @@ public abstract class ContactTable extends ActionTable<IModel, String>
     {
         return new SimpleLink( "editLink", "Edit" )
         {
+            private static final long serialVersionUID = 1L;
+
             public void linkClicked()
             {
                 //TODO
@@ -176,13 +143,4 @@ public abstract class ContactTable extends ActionTable<IModel, String>
             }
         };
     }
-
-    public List<String> getTableHeaderList()
-    {
-        return Arrays.asList( "Contact", "Contact Type", "" );
-    }
-
-    public abstract ContactPerson getContactPerson();
-
-    public abstract List<String> dataList( int first, int count );
 }

@@ -51,6 +51,8 @@ public abstract class LeftMenuNavPage extends TopMenuNavPage
 
         ListView menuBarListView = new ListView( "menuBarList", Arrays.asList( menuBars ) )
         {
+            private static final long serialVersionUID = 1L;
+
             @Override
             protected void populateItem( ListItem item )
             {

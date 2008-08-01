@@ -12,66 +12,62 @@
  */
 package org.qi4j.chronos.ui.workentry;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.WorkEntry;
 import org.qi4j.chronos.model.associations.HasWorkEntries;
-import org.qi4j.chronos.model.composites.WorkEntryEntity;
-import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.DeleteAction;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.chronos.util.DateUtil;
-import org.qi4j.entity.Identity;
 import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class WorkEntryTable extends ActionTable<IModel, String>
+public final class WorkEntryTable extends ActionTable<WorkEntry>
 {
     private static final Logger LOGGER = LoggerFactory.getLogger( WorkEntryTable.class );
-    private AbstractSortableDataProvider<IModel, String> provider;
     private static final String DELETE_ACTION = "deleteAction";
     private static final String DELETE_SUCCESS = "deleteSuccessful";
     private static final String DELETE_FAIL = "deleteFailed";
 
-    public WorkEntryTable( String id )
+    private static final long serialVersionUID = 1L;
+
+    private final static String[] COLUMN_NAMES = { "Title", "Created Date", "From Time", "To Time", "" };
+
+    public WorkEntryTable( String id, IModel<? extends HasWorkEntries> hasWorkEntries, WorkEntryDataProvider dataProvider )
     {
-        super( id );
+        super( id, hasWorkEntries, dataProvider, COLUMN_NAMES );
 
         initActions();
     }
 
     private void initActions()
     {
-        addAction(
-            new DeleteAction<IModel>( getString( DELETE_ACTION ) )
+        addAction( new DeleteAction<WorkEntry>( getString( DELETE_ACTION ) )
+        {
+            private static final long serialVersionUID = 1L;
+
+            public void performAction( List<WorkEntry> workEntries )
             {
-                public void performAction( List<IModel> workEntries )
-                {
-                    handleDeleteAction( workEntries );
-                    info( getString( DELETE_SUCCESS ) );
-                }
+                handleDeleteAction( workEntries );
+                info( getString( DELETE_SUCCESS ) );
             }
+        }
         );
     }
 
-    private void handleDeleteAction( List<IModel> workEntries )
+    private void handleDeleteAction( List<WorkEntry> workEntries )
     {
         try
         {
-            HasWorkEntries hasWorkEntries = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( WorkEntryTable.this.getHasWorkEntries() );
-            for( IModel iModel : workEntries )
+            HasWorkEntries hasWorkEntries = (HasWorkEntries) getDefaultModelObject();
+
+            for( WorkEntry workEntry : workEntries )
             {
-                final WorkEntry workEntry = (WorkEntry) iModel.getObject();
                 hasWorkEntries.workEntries().remove( workEntry );
                 ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().remove( workEntry );
             }
@@ -81,104 +77,42 @@ public abstract class WorkEntryTable extends ActionTable<IModel, String>
         {
             ChronosUnitOfWorkManager.get().discardCurrentUnitOfWork();
 
-            error( getString( DELETE_FAIL, new Model( uowce ) ) );
+            error( getString( DELETE_FAIL ) );
             LOGGER.error( uowce.getLocalizedMessage(), uowce );
         }
     }
 
-    public AbstractSortableDataProvider<IModel, String> getDetachableDataProvider()
+
+    public void populateItems( final Item<WorkEntry> item )
     {
-        if( provider == null )
+        final WorkEntry workEntry = item.getModelObject();
+        final String workEntryId = workEntry.identity().get();
+
+        item.add( new SimpleLink( "title", workEntry.title().get() )
         {
-            provider = new AbstractSortableDataProvider<IModel, String>()
+            private static final long serialVersionUID = 1L;
+
+            public void linkClicked()
             {
-                public int getSize()
-                {
-                    final HasWorkEntries hasWorkEntries =
-                        ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( WorkEntryTable.this.getHasWorkEntries() );
-                    return hasWorkEntries.workEntries().size();
-                }
-
-                public String getId( IModel t )
-                {
-                    return ( (Identity) t.getObject() ).identity().get();
-                }
-
-                public IModel load( final String workEntryId )
-                {
-                    return new CompoundPropertyModel(
-                        new LoadableDetachableModel()
-                        {
-                            protected Object load()
-                            {
-                                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( workEntryId, WorkEntryEntity.class );
-                            }
-                        }
-                    );
-                }
-
-                public List<IModel> dataList( int first, int count )
-                {
-                    List<IModel> models = new ArrayList<IModel>();
-                    for( final String workEntryId : WorkEntryTable.this.dataList( first, count ) )
-                    {
-                        models.add(
-                            new CompoundPropertyModel(
-                                new LoadableDetachableModel()
-                                {
-                                    protected Object load()
-                                    {
-                                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( workEntryId, WorkEntryEntity.class );
-                                    }
-                                }
-                            )
-                        );
-                    }
-                    return models;
-                }
-            };
-        }
-
-        return provider;
-    }
-
-    public void populateItems( Item item, IModel iModel )
-    {
-        final WorkEntry workEntry = (WorkEntry) iModel.getObject();
-        final String workEntryId = ( (Identity) workEntry ).identity().get();
-
-        item.add(
-            new SimpleLink( "title", workEntry.title().get() )
-            {
-                public void linkClicked()
-                {
-                    WorkEntryDetailPage detailPage = new WorkEntryDetailPage( this.getPage(), workEntryId );
-                    setResponsePage( detailPage );
-                }
+                WorkEntryDetailPage detailPage = new WorkEntryDetailPage( this.getPage(), item.getModel() );
+                setResponsePage( detailPage );
             }
+        }
         );
         item.add( new Label( "createdDate", DateUtil.formatDateTime( workEntry.createdDate().get() ) ) );
         item.add( new Label( "fromTime", DateUtil.formatDateTime( workEntry.startTime().get() ) ) );
         item.add( new Label( "toTime", DateUtil.formatDateTime( workEntry.endTime().get() ) ) );
-        item.add(
-            new SimpleLink( "editLink", "Edit" )
+        item.add( new SimpleLink( "editLink", "Edit" )
+        {
+            private static final long serialVersionUID = 1L;
+
+            public void linkClicked()
             {
-                public void linkClicked()
-                {
-                    //TODO
+                //TODO
 //                    WorkEntryEditPage editPage = new WorkEntryEditPage( (BasePage) this.getPage(), workEntryId );
 //                    setResponsePage( editPage );
-                }
             }
+        }
         );
     }
-
-    public List<String> getTableHeaderList()
-    {
-        return Arrays.asList( "Title", "Created Date", "From Time", "To Time", "" );
-    }
-
-    public abstract HasWorkEntries getHasWorkEntries();
-
-    public abstract List<String> dataList( int first, int count );
 }

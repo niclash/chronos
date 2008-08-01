@@ -13,10 +13,11 @@
 package org.qi4j.chronos.model;
 
 import org.qi4j.chronos.model.associations.HasSalary;
+import org.qi4j.entity.Identity;
 
 /**
  * Generic interface for Staff
  */
-public interface Staff extends User, HasSalary
+public interface Staff extends User, HasSalary, Identity
 {
 }

@@ -22,7 +22,6 @@ import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.associations.HasProjects;
 import org.qi4j.chronos.ui.project.ProjectTab;
@@ -32,67 +31,45 @@ import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 
 public class StaffDetailPage extends LeftMenuNavPage
 {
+    private static final long serialVersionUID = 1L;
+
     private Page returnPage;
 
-    public StaffDetailPage( Page returnPage, final IModel<Staff> staffModel )
+    private IModel<? extends HasProjects> hasProjects;
+
+    public StaffDetailPage( Page returnPage, final IModel<Staff> staffModel, final IModel<? extends HasProjects> hasProjects )
     {
         this.returnPage = returnPage;
-/*
+        this.hasProjects = hasProjects;
 
-        setModel(
-            new CompoundPropertyModel(
-                new LoadableDetachableModel()
-                {
-                    protected Object load()
-                    {
-                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( staffId, StaffEntityComposite.class );
-                    }
-                }
-            )
-        );
-*/
-        initComponents();
-    }
+        ChronosCompoundPropertyModel<IModel<Staff>> model = new ChronosCompoundPropertyModel<IModel<Staff>>( staffModel );
 
-    private void initComponents()
-    {
+        setDefaultModel( model );
+
         add( new FeedbackPanel( "feedbackPanel" ) );
-        add( new StaffDetailForm( "staffDetailForm", getDefaultModel() ) );
+        add( new StaffDetailForm( "staffDetailForm", model ) );
     }
 
     private class StaffDetailForm extends Form
     {
-        public StaffDetailForm( String id, final IModel iModel )
+        private static final long serialVersionUID = 1L;
+
+        public StaffDetailForm( String id, final ChronosCompoundPropertyModel<IModel<Staff>> model )
         {
             super( id );
 
-            initComponents( iModel );
-        }
-
-        private void initComponents( final IModel iModel )
-        {
-            UserDetailPanel userDetailPanel = new UserDetailPanel( "userDetailPanel", iModel );
+            UserDetailPanel userDetailPanel = new UserDetailPanel( "userDetailPanel", model.getObject() );
 
             final List<ITab> tabs = new ArrayList<ITab>();
-            tabs.add(
-                new ProjectTab( "Project" )
-                {
-                    public IModel<HasProjects> getHasProjectsModel()
-                    {
-                        return new ChronosCompoundPropertyModel<HasProjects>( StaffDetailPage.this.getAccount() );
-                    }
+            tabs.add( new ProjectTab( "Project", hasProjects ) );
 
-                    public int getSize()
-                    {
-                        return getAccount().projects().size();
-                    }
-                }
-            );
             final TabbedPanel tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
 
             final Button submitButton =
-                new Button( "submitButton", new Model( "Return" ) )
+                new Button( "submitButton", new Model<String>( "Return" ) )
                 {
+                    private static final long serialVersionUID = 1L;
+
                     public void onSubmit()
                     {
 //                        reset();
@@ -105,16 +82,6 @@ public class StaffDetailPage extends LeftMenuNavPage
             add( tabbedPanel );
             add( submitButton );
         }
-    }
 
-    protected List<IModel<Project>> dataList( int first, int count )
-    {
-        List<IModel<Project>> projects = new ArrayList<IModel<Project>>();
-        for( Project project : getAccount().projects() )
-        {
-            projects.add( new ChronosCompoundPropertyModel<Project>( project ) );
-        }
-
-        return projects.subList( first, first + count );
     }
 }

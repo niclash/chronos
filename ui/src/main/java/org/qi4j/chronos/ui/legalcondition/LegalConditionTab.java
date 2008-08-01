@@ -15,16 +15,23 @@ package org.qi4j.chronos.ui.legalcondition;
 import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.model.Project;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.model.associations.HasLegalConditions;
 import org.qi4j.chronos.ui.common.NewLinkPanel;
 import org.qi4j.chronos.ui.common.tab.NewLinkTab;
 
-public abstract class LegalConditionTab extends NewLinkTab
+public final class LegalConditionTab extends NewLinkTab
 {
-    public LegalConditionTab( String title )
+    private static final long serialVersionUID = 1L;
+
+    private IModel<? extends HasLegalConditions> hasLegalConditions;
+
+    public LegalConditionTab( String title, IModel<? extends HasLegalConditions> hasLegalConditions )
     {
         super( title );
+
+        this.hasLegalConditions = hasLegalConditions;
     }
 
     public NewLinkPanel getNewLinkPanel( String id )
@@ -34,6 +41,8 @@ public abstract class LegalConditionTab extends NewLinkTab
 
     private class LegalConditionNewLinkPanel extends NewLinkPanel
     {
+        private static final long serialVersionUID = 1L;
+
         public LegalConditionNewLinkPanel( String id )
         {
             super( id );
@@ -44,15 +53,9 @@ public abstract class LegalConditionTab extends NewLinkTab
             MetaDataRoleAuthorizationStrategy.authorize( link, RENDER, SystemRole.ACCOUNT_ADMIN );
         }
 
-        public Panel getContent( String id )
+        public Panel newContent( String id )
         {
-            return new LegalConditionTable( id )
-            {
-                public Project getProject()
-                {
-                    return LegalConditionTab.this.getProject();
-                }
-            };
+            return new LegalConditionTable( id, hasLegalConditions, new LegalConditionDataProvider( hasLegalConditions ) );
         }
 
         public void newLinkOnClick()
@@ -74,11 +77,9 @@ public abstract class LegalConditionTab extends NewLinkTab
 //            setResponsePage( addPage );
         }
 
-        public String getNewLinkText()
+        public String newLinkText()
         {
             return "New Legal Condition";
         }
     }
-
-    public abstract Project getProject();
 }

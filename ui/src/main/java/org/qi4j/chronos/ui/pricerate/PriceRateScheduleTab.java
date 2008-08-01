@@ -13,20 +13,22 @@
 package org.qi4j.chronos.ui.pricerate;
 
 import org.apache.wicket.markup.html.panel.Panel;
-import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
-import org.qi4j.chronos.model.Account;
-import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
 import org.qi4j.chronos.ui.common.NewLinkPanel;
 import org.qi4j.chronos.ui.common.tab.NewLinkTab;
 
-public abstract class PriceRateScheduleTab<T extends HasPriceRateSchedules> extends NewLinkTab
+public final class PriceRateScheduleTab<T extends HasPriceRateSchedules> extends NewLinkTab
 {
-    public PriceRateScheduleTab( String title )
+    private static final long serialVersionUID = 1L;
+
+    private IModel<HasPriceRateSchedules> hasPriceRateSchedules;
+
+    public PriceRateScheduleTab( String title, IModel<HasPriceRateSchedules> hasPriceRateSchedules )
     {
         super( title );
+
+        this.hasPriceRateSchedules = hasPriceRateSchedules;
     }
 
     public NewLinkPanel getNewLinkPanel( String panelId )
@@ -36,36 +38,16 @@ public abstract class PriceRateScheduleTab<T extends HasPriceRateSchedules> exte
 
     private class PriceRateScheduleNewLinkPanel extends NewLinkPanel
     {
+        private static final long serialVersionUID = 1L;
+
         public PriceRateScheduleNewLinkPanel( String id )
         {
             super( id );
         }
 
-        public Panel getContent( String id )
+        public Panel newContent( String id )
         {
-            final IModel iModel =
-                new CompoundPropertyModel(
-                    new LoadableDetachableModel()
-                    {
-                        public Object load()
-                        {
-                            return PriceRateScheduleTab.this.getAccount();
-                        }
-                    }
-                );
-
-            return new PriceRateScheduleTable( id, iModel )
-            {
-                public HasPriceRateSchedules getHasPriceRateSchedules()
-                {
-                    return PriceRateScheduleTab.this.getHasPriceRateSchedules();
-                }
-
-                public Account getAccount()
-                {
-                    return PriceRateScheduleTab.this.getAccount();
-                }
-            };
+            return new PriceRateScheduleTable( id, hasPriceRateSchedules, new PriceRateScheduleDataProvider( hasPriceRateSchedules ) );
         }
 
         public void newLinkOnClick()
@@ -88,15 +70,9 @@ public abstract class PriceRateScheduleTab<T extends HasPriceRateSchedules> exte
 */
         }
 
-        public String getNewLinkText()
+        public String newLinkText()
         {
             return "New Price Rate Schedule";
         }
     }
-
-    public abstract Account getAccount();
-
-    public abstract void addPriceRateSchedule( PriceRateSchedule priceRateSchedule );
-
-    public abstract T getHasPriceRateSchedules();
 }

@@ -32,30 +32,7 @@ public abstract class WorkEntryAddPage extends WorkEntryAddEditPage
         super( basePage, workEntry );
 
     }
-//
-//    private void bindModel()
-//    {
-//        setModel(
-//            new CompoundPropertyModel(
-//                new LoadableDetachableModel()
-//                {
-//                    public Object load()
-//                    {
-//                        final ProjectAssignee projectAssignee =
-//                            ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( WorkEntryAddPage.this.getProjectAssignee() );
-//                        final WorkEntry workEntry =
-//                            ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().newEntityBuilder( WorkEntryEntityComposite.class ).newInstance();
-//                        workEntry.createdDate().set( new Date() );
-//                        workEntry.projectAssignee().set( projectAssignee );
-//
-//                        return workEntry;
-//                    }
-//                }
-//            )
-//        );
-//        bindPropertyModel( getModel() );
-//    }
-
+    
     public void onSubmitting()
     {
         try

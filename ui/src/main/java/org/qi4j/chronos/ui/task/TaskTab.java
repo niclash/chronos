@@ -12,20 +12,23 @@
  */
 package org.qi4j.chronos.ui.task;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.model.Project;
-import org.qi4j.chronos.model.Task;
+import org.apache.wicket.model.IModel;
+import org.qi4j.chronos.model.associations.HasTasks;
 import org.qi4j.chronos.ui.common.NewLinkPanel;
 import org.qi4j.chronos.ui.common.tab.NewLinkTab;
-import org.qi4j.entity.Identity;
 
-public abstract class TaskTab extends NewLinkTab
+public final class TaskTab extends NewLinkTab
 {
-    public TaskTab( String id )
+    private static final long serialVersionUID = 1L;
+
+    private IModel<? extends HasTasks> hasTasks;
+
+    public TaskTab( String id, IModel<? extends HasTasks> hasTasks )
     {
         super( id );
+
+        this.hasTasks = hasTasks;
     }
 
     public NewLinkPanel getNewLinkPanel( String id )
@@ -35,30 +38,16 @@ public abstract class TaskTab extends NewLinkTab
 
     private class TaskMasterNewLinkPanel extends NewLinkPanel
     {
+        private static final long serialVersionUID = 1L;
+
         public TaskMasterNewLinkPanel( String id )
         {
             super( id );
         }
 
-        public Panel getContent( String id )
+        public Panel newContent( String id )
         {
-            return new TaskTable( id )
-            {
-                public int getSize()
-                {
-                    return TaskTab.this.getProject().tasks().size();
-                }
-
-                public List<String> dataList( int first, int count )
-                {
-                    List<String> taskIdList = new ArrayList<String>();
-                    for( Task task : TaskTab.this.getProject().tasks() )
-                    {
-                        taskIdList.add( ( (Identity) task ).identity().get() );
-                    }
-                    return taskIdList.subList( first, first + count );
-                }
-            };
+            return new TaskTable( id, hasTasks, new TaskDataProvider( hasTasks ) );
         }
 
         public void newLinkOnClick()
@@ -76,11 +65,9 @@ public abstract class TaskTab extends NewLinkTab
         }
 
 
-        public String getNewLinkText()
+        public String newLinkText()
         {
             return "New Task";
         }
     }
-
-    public abstract Project getProject();
 }

@@ -13,7 +13,9 @@
  */
 package org.qi4j.chronos.model;
 
-public interface ProjectRole extends Name
+import org.qi4j.entity.Identity;
+
+public interface ProjectRole extends Name, Identity
 {
     public final static int NAME_LEN = 80;
 }

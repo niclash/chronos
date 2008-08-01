@@ -18,6 +18,8 @@ import org.apache.wicket.markup.html.panel.Panel;
 
 public abstract class NewLinkPanel extends BorderPanel
 {
+    private static final long serialVersionUID = 1L;
+
     public NewLinkPanel( String id )
     {
         super( id );
@@ -27,12 +29,14 @@ public abstract class NewLinkPanel extends BorderPanel
 
     private void initComponents()
     {
-        add( getContent( "content" ) );
+        add( newContent( "content" ) );
 
-        Label linkLabel = new Label( "linkLabel", getNewLinkText() );
+        Label linkLabel = new Label( "linkLabel", newLinkText() );
 
         Link newLink = new Link( "newLink" )
         {
+            private static final long serialVersionUID = 1L;
+
             public void onClick()
             {
                 newLinkOnClick();
@@ -51,9 +55,9 @@ public abstract class NewLinkPanel extends BorderPanel
         //override this.
     }
 
-    public abstract Panel getContent( String id );
+    public abstract Panel newContent( String id );
 
     public abstract void newLinkOnClick();
 
-    public abstract String getNewLinkText();
+    public abstract String newLinkText();
 }

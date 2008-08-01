@@ -16,16 +16,18 @@ import java.util.Iterator;
 import org.apache.wicket.Page;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
+import org.qi4j.chronos.model.Contact;
 import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.injection.scope.Uses;
-import org.qi4j.library.general.model.Contact;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 public abstract class ContactPersonEditPage extends ContactPersonAddEditPage
 {
+    private static final long serialVersionUID = 1L;
+
     private final static Logger LOGGER = LoggerFactory.getLogger( ContactPersonEditPage.class );
 
     private static final String SUBMIT_BUTTON = "editPageSubmitButton";
@@ -36,20 +38,6 @@ public abstract class ContactPersonEditPage extends ContactPersonAddEditPage
     public ContactPersonEditPage( @Uses Page basePage, final @Uses IModel<ContactPerson> contactPersonModel )
     {
         super( basePage, contactPersonModel );
-
-/*
-        setModel(
-            new CompoundPropertyModel(
-                new LoadableDetachableModel()
-                {
-                    public Object load()
-                    {
-                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( contactPersonId, ContactPersonEntityComposite.class );
-                    }
-                }
-            )
-        );
-*/
     }
 
     public void onSubmitting()

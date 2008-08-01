@@ -13,36 +13,34 @@
 package org.qi4j.chronos.ui.customer;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
+import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
-import org.qi4j.chronos.model.Account;
+import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.associations.HasCustomers;
-import org.qi4j.chronos.model.composites.CustomerEntity;
-import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
-import org.qi4j.chronos.ui.common.SimpleCheckBox;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.DefaultAction;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 import org.qi4j.chronos.ui.wicket.model.ChronosEntityModel;
-import org.qi4j.entity.Identity;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class CustomerTable extends ActionTable<IModel<Customer>, String>
+public final class CustomerTable extends ActionTable<Customer>
 {
-    private final static Logger LOGGER = LoggerFactory.getLogger( CustomerTable.class );
-    private AbstractSortableDataProvider<IModel<Customer>, String> provider;
+    private static final long serialVersionUID = 1L;
 
-    public CustomerTable( String id )
+    private final static Logger LOGGER = LoggerFactory.getLogger( CustomerTable.class );
+
+    private final static String[] COLUMN_NAMES = { "Name", "Reference", "Enabled", "Edit" };
+
+    public CustomerTable( String id, IModel<HasCustomers> hasCustomers, CustomerDataProvider dataProvider )
     {
-        super( id );
+        super( id, hasCustomers, dataProvider, COLUMN_NAMES );
 
         addActions();
     }
@@ -50,9 +48,11 @@ public abstract class CustomerTable extends ActionTable<IModel<Customer>, String
     private void addActions()
     {
         addAction(
-            new DefaultAction<IModel<Customer>>( "Disable" )
+            new DefaultAction<Customer>( "Disable" )
             {
-                public void performAction( List<IModel<Customer>> customers )
+                private static final long serialVersionUID = 1L;
+
+                public void performAction( List<Customer> customers )
                 {
                     handleEnableAction( customers, false );
                     info( "The selected customer(s) is disabled successfully." );
@@ -61,9 +61,11 @@ public abstract class CustomerTable extends ActionTable<IModel<Customer>, String
         );
 
         addAction(
-            new DefaultAction<IModel<Customer>>( "Enable" )
+            new DefaultAction<Customer>( "Enable" )
             {
-                public void performAction( List<IModel<Customer>> customers )
+                private static final long serialVersionUID = 1L;
+
+                public void performAction( List<Customer> customers )
                 {
                     handleEnableAction( customers, true );
                     info( "The selected customer(s) is disabled successfully." );
@@ -72,11 +74,10 @@ public abstract class CustomerTable extends ActionTable<IModel<Customer>, String
         );
     }
 
-    private void handleEnableAction( List<IModel<Customer>> customers, boolean enable )
+    private void handleEnableAction( List<Customer> customers, boolean enable )
     {
-        for( IModel<Customer> iModel : customers )
+        for( Customer customer : customers )
         {
-            Customer customer = iModel.getObject();
             customer.isEnabled().set( enable );
         }
 
@@ -93,73 +94,13 @@ public abstract class CustomerTable extends ActionTable<IModel<Customer>, String
         }
     }
 
-    public AbstractSortableDataProvider<IModel<Customer>, String> getDetachableDataProvider()
-    {
-        if( provider == null )
-        {
-            provider = new AbstractSortableDataProvider<IModel<Customer>, String>()
-            {
-                public int getSize()
-                {
-                    return CustomerTable.this.getHasCustomersModel().getObject().customers().size();
-                }
-
-                public String getId( IModel<Customer> customerModel )
-                {
-                    return ( (Identity) customerModel.getObject() ).identity().get();
-                }
-
-                public IModel<Customer> load( final String identityId )
-                {
-                    return new ChronosCompoundPropertyModel<Customer>(
-                                ChronosUnitOfWorkManager.get().getCurrentUnitOfWork()
-                                    .find( identityId, CustomerEntity.class )
-                    );
-                }
-
-                public List<IModel<Customer>> dataList( int first, int count )
-                {
-                    List<IModel<Customer>> customerModels = new ArrayList<IModel<Customer>>();
-                    for( Customer customer : CustomerTable.this.dataList( first, count ) )
-                    {
-                        customerModels.add( new ChronosCompoundPropertyModel<Customer>( customer ) );
-                    }
-                    return customerModels;
-                }
-            };
-        }
-
-        return provider;
-    }
-
-    public abstract Account getAccount();
-
-    public void populateItems( Item item, IModel<Customer> iModel )
-    {
-        Customer customer = iModel.getObject();
-        final ChronosEntityModel<Customer> customerModel = new ChronosEntityModel<Customer>( customer );
-        item.add( createDetailLink( "name", customer.name().get(), customer.isEnabled().get(), customerModel ) );
-        item.add( createDetailLink( "reference", customer.reference().get(),
-                                    customer.isEnabled().get(), customerModel ) );
-        item.add( new SimpleCheckBox( "enabled", customer.isEnabled().get(), true ) );
-        item.add(
-            new SimpleLink( "editLink", "Edit" )
-            {
-                public void linkClicked()
-                {
-                    CustomerEditPage editPage = new CustomerEditPage( this.getPage(), customerModel );
-
-                    setResponsePage( editPage );
-                }
-            }
-        );
-    }
-
     private SimpleLink createDetailLink( final String id, final String displayValue,
                                          final boolean enable, final IModel<Customer> customerIModel )
     {
         return new SimpleLink( id, displayValue )
         {
+            private static final long serialVersionUID = 1L;
+
             public void linkClicked()
             {
                 CustomerDetailPage detailPage = new CustomerDetailPage( this.getPage(), customerIModel );
@@ -173,11 +114,6 @@ public abstract class CustomerTable extends ActionTable<IModel<Customer>, String
         };
     }
 
-    public List<String> getTableHeaderList()
-    {
-        return Arrays.asList( "Name", "Reference", "Enabled", "Edit" );
-    }
-
     public List<String> getTableHeaderList( String... headers )
     {
         List<String> result = new ArrayList<String>();
@@ -189,16 +125,26 @@ public abstract class CustomerTable extends ActionTable<IModel<Customer>, String
         return Collections.unmodifiableList( result );
     }
 
-    protected List<Customer> dataList( int first, int count )
+    public void populateItems( Item<Customer> item )
     {
-        List<Customer> customers = new ArrayList<Customer>();
-        for( Customer customer : getAccount().customers() )
+        Customer customer = item.getModelObject();
+
+        final ChronosEntityModel<Customer> customerModel = new ChronosEntityModel<Customer>( customer );
+        item.add( createDetailLink( "name", customer.name().get(), customer.isEnabled().get(), customerModel ) );
+        item.add( createDetailLink( "reference", customer.reference().get(),
+                                    customer.isEnabled().get(), customerModel ) );
+        item.add( new CheckBox( "enabled", new Model<Boolean>( customer.isEnabled().get() ) ) );
+        item.add( new SimpleLink( "editLink", "Edit" )
         {
-            customers.add( customer );
+            private static final long serialVersionUID = 1L;
+
+            public void linkClicked()
+            {
+                CustomerEditPage editPage = new CustomerEditPage( this.getPage(), customerModel );
+
+                setResponsePage( editPage );
+            }
         }
-
-        return customers.subList( first, first + count );
+        );
     }
-
-    public abstract IModel<HasCustomers> getHasCustomersModel();
 }

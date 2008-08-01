@@ -13,8 +13,9 @@
 package org.qi4j.chronos.ui.common.action;
 
 import org.apache.wicket.model.IModel;
+import org.qi4j.entity.Identity;
 
-public abstract class AbstractAction<ITEM> implements Action<ITEM>
+public abstract class AbstractAction<T extends Identity> implements Action<T>
 {
     private static final long serialVersionUID = 1L;
 

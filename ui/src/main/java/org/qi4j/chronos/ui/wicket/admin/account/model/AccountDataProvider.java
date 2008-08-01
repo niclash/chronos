@@ -33,29 +33,12 @@ import org.qi4j.query.QueryBuilderFactory;
 /**
  * @author edward.yakop@gmail.com
  */
-public final class AccountDataProvider extends AbstractSortableDataProvider<IModel<Account>, String>
+public final class AccountDataProvider extends AbstractSortableDataProvider<Account>
 {
     private static final long serialVersionUID = 1L;
 
     @Structure
     private UnitOfWorkFactory uowf;
-
-    @Override
-    public final int getSize()
-    {
-        UnitOfWork uow = uowf.currentUnitOfWork();
-        QueryBuilderFactory queryBuilderFactory = uow.queryBuilderFactory();
-        QueryBuilder<Account> accountBuilder = queryBuilderFactory.newQueryBuilder( Account.class );
-        Query<Account> accountQuery = accountBuilder.newQuery();
-        return (int) accountQuery.count();
-    }
-
-    @Override
-    public final String getId( IModel<Account> anAccountModel )
-    {
-        Account account = anAccountModel.getObject();
-        return account.identity().get();
-    }
 
     @Override
     public final IModel<Account> load( final String anAccountIdentity )
@@ -81,7 +64,7 @@ public final class AccountDataProvider extends AbstractSortableDataProvider<IMod
     }
 
     @Override
-    public final List<IModel<Account>> dataList( int first, int count )
+    public final List<Account> dataList( int first, int count )
     {
         UnitOfWork uow = uowf.currentUnitOfWork();
         QueryBuilderFactory builderFactory = uow.queryBuilderFactory();
@@ -90,13 +73,22 @@ public final class AccountDataProvider extends AbstractSortableDataProvider<IMod
         accountQuery.firstResult( first );
         accountQuery.maxResults( count );
 
-        List<IModel<Account>> accountModels = new ArrayList<IModel<Account>>( (int) accountQuery.count() );
+        List<Account> accountModels = new ArrayList<Account>( (int) accountQuery.count() );
+
         for( Account account : accountQuery )
         {
-            String accId = account.identity().get();
-            accountModels.add( newAccountModel( accId ) );
+            accountModels.add( account );
         }
 
         return accountModels;
+    }
+
+    public int size()
+    {
+        UnitOfWork uow = uowf.currentUnitOfWork();
+        QueryBuilderFactory queryBuilderFactory = uow.queryBuilderFactory();
+        QueryBuilder<Account> accountBuilder = queryBuilderFactory.newQueryBuilder( Account.class );
+        Query<Account> accountQuery = accountBuilder.newQuery();
+        return (int) accountQuery.count();
     }
 }

@@ -52,7 +52,10 @@ public abstract class AddEditBasePage<T> extends LeftMenuNavPage
 
         public AddEditForm( String id, IModel<T> model )
         {
-            super( id, new ChronosCompoundPropertyModel<T>( model.getObject() ) );
+            super( id );
+
+            ChronosCompoundPropertyModel<T> formModel = new ChronosCompoundPropertyModel<T>( model.getObject() );
+            setModel( formModel );
 
             String buttonValue = getSubmitButtonValue();
 

@@ -12,8 +12,6 @@
  */
 package org.qi4j.chronos.ui.contactperson;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.Component;
 import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
@@ -24,25 +22,22 @@ import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.ContactPerson;
-import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.associations.HasContactPersons;
-import org.qi4j.chronos.model.composites.ContactPersonEntity;
-import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.DefaultAction;
 import org.qi4j.chronos.ui.common.action.DeleteAction;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import org.qi4j.chronos.ui.wicket.model.ChronosEntityModel;
-import org.qi4j.entity.Identity;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class ContactPersonTable<T extends HasContactPersons> extends ActionTable<IModel, String>
+public final class ContactPersonTable extends ActionTable<ContactPerson>
 {
+    private static final long serialVersionUID = 1L;
+
     private static final Logger LOGGER = LoggerFactory.getLogger( ContactPersonTable.class );
     private static final String DELETE_ACTION = "deleteAction";
     private static final String DELETE_SUCCESS = "deleteSuccessful";
@@ -53,11 +48,12 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
     private static final String DISABLE_ACTION = "disableAction";
     private static final String DISABLE_SUCCESS = "disableSuccessful";
     private static final String DISABLE_FAIL = "disableFailed";
-    private AbstractSortableDataProvider<IModel, String> provider;
 
-    public ContactPersonTable( String id )
+    private final static String[] COLUMN_NAMES = { "First Name", "Last name", "Login Id", "Login Enabled", "Edit" };
+
+    public ContactPersonTable( String id, IModel<? extends HasContactPersons> hasContactPerson, ContactPersonDataProvider dataProvider )
     {
-        super( id );
+        super( id, hasContactPerson, dataProvider, COLUMN_NAMES );
 
         addActions();
     }
@@ -65,9 +61,11 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
     private void addActions()
     {
         addAction(
-            new DeleteAction<IModel>( getString( DELETE_ACTION ) )
+            new DeleteAction<ContactPerson>( getString( DELETE_ACTION ) )
             {
-                public void performAction( List<IModel> contactPersons )
+                private static final long serialVersionUID = 1L;
+
+                public void performAction( List<ContactPerson> contactPersons )
                 {
                     handleDeleteAction( contactPersons );
                     info( getString( DELETE_SUCCESS ) );
@@ -75,9 +73,11 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
             }
         );
         addAction(
-            new DefaultAction<IModel>( getString( DISABLE_ACTION ) )
+            new DefaultAction<ContactPerson>( getString( DISABLE_ACTION ) )
             {
-                public void performAction( List<IModel> contactPersons )
+                private static final long serialVersionUID = 1L;
+
+                public void performAction( List<ContactPerson> contactPersons )
                 {
                     handleEnableAction( contactPersons, false );
                     info( getString( DISABLE_SUCCESS ) );
@@ -85,9 +85,11 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
             }
         );
         addAction(
-            new DefaultAction<IModel>( getString( ENABLE_ACTION ) )
+            new DefaultAction<ContactPerson>( getString( ENABLE_ACTION ) )
             {
-                public void performAction( List<IModel> contactPersons )
+                private static final long serialVersionUID = 1L;
+
+                public void performAction( List<ContactPerson> contactPersons )
                 {
                     handleEnableAction( contactPersons, true );
                     info( getString( ENABLE_SUCCESS ) );
@@ -96,14 +98,13 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
         );
     }
 
-    private void handleEnableAction( List<IModel> contactPersons, boolean enable )
+    private void handleEnableAction( List<ContactPerson> contactPersons, boolean enable )
     {
         final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
         try
         {
-            for( IModel iModel : contactPersons )
+            for( ContactPerson contactPerson : contactPersons )
             {
-                final ContactPerson contactPerson = (ContactPerson) iModel.getObject();
                 contactPerson.login().get().isEnabled().set( enable );
             }
 
@@ -119,16 +120,17 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
     }
 
     // might not be a good idea to have delete action
-    private void handleDeleteAction( List<IModel> contactPersons )
+    private void handleDeleteAction( List<ContactPerson> contactPersons )
     {
         final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
         try
         {
-            final Customer customer = unitOfWork.dereference( ContactPersonTable.this.getCustomer() );
-            for( IModel iModel : contactPersons )
+
+            final HasContactPersons hasContactPersons = (HasContactPersons) getDefaultModelObject();
+
+            for( ContactPerson contactPerson : contactPersons )
             {
-                final ContactPerson contactPerson = (ContactPerson) iModel.getObject();
-                customer.contactPersons().remove( contactPerson );
+                hasContactPersons.contactPersons().remove( contactPerson );
 /*
                 for( Project project : getAccount().projects() )
                 {
@@ -157,46 +159,10 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
         MetaDataRoleAuthorizationStrategy.authorize( component, RENDER, SystemRole.ACCOUNT_ADMIN );
     }
 
-    public AbstractSortableDataProvider<IModel, String> getDetachableDataProvider()
+    public void populateItems( Item<ContactPerson> item )
     {
-        if( provider == null )
-        {
-            provider = new AbstractSortableDataProvider<IModel, String>()
-            {
-                public int getSize()
-                {
-                    return getHasContactPersons().contactPersons().size();
-                }
+        final ContactPerson contactPerson = item.getModelObject();
 
-                public String getId( IModel t )
-                {
-                    return ( (Identity) t.getObject() ).identity().get();
-                }
-
-                public IModel load( final String s )
-                {
-                    return new ChronosEntityModel( ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, ContactPersonEntity.class ) );
-                }
-
-                public List<IModel> dataList( int first, int count )
-                {
-                    List<IModel> iModels = new ArrayList<IModel>();
-                    for( final String contactPersonId : ContactPersonTable.this.dataList( first, count ) )
-                    {
-                        iModels.add( new ChronosEntityModel( ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( contactPersonId, ContactPersonEntity.class ) ) );
-                    }
-
-                    return iModels;
-                }
-            };
-        }
-
-        return provider;
-    }
-
-    public void populateItems( Item item, IModel iModel )
-    {
-        final ContactPerson contactPerson = (ContactPerson) iModel.getObject();
         final String contactPersonId = contactPerson.identity().get();
 
         item.add( createDetailLink( "firstName", contactPerson.firstName().get(), contactPersonId ) );
@@ -208,11 +174,11 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
         loginEnabled.setEnabled( false );
         item.add( loginEnabled );
 
-        SimpleLink editLink = createEditLink( contactPersonId, iModel );
+        SimpleLink editLink = createEditLink( contactPerson );
         item.add( editLink );
     }
 
-    private SimpleLink createEditLink( final String contactPersonId, final IModel iModel )
+    private SimpleLink createEditLink( ContactPerson contactPerson )
     {
         return new SimpleLink( "editLink", "Edit" )
         {
@@ -258,24 +224,4 @@ public abstract class ContactPersonTable<T extends HasContactPersons> extends Ac
         };
     }
 
-    public List<String> getTableHeaderList()
-    {
-        return Arrays.asList( "First Name", "Last name", "Login Id", "Login Enabled", "Edit" );
-    }
-
-    protected List<String> dataList( int first, int count )
-    {
-        List<String> idList = new ArrayList<String>();
-        HasContactPersons hasContactPersons = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( getHasContactPersons() );
-        for( ContactPerson contactPerson : hasContactPersons.contactPersons() )
-        {
-            idList.add( contactPerson.identity().get() );
-        }
-
-        return idList.subList( first, first + count );
-    }
-
-    public abstract T getHasContactPersons();
-
-    public abstract Customer getCustomer();
 }

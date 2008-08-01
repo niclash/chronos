@@ -13,94 +13,74 @@
 package org.qi4j.chronos.ui.workentry;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.apache.wicket.Page;
 import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextArea;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
-import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.model.WorkEntry;
 import org.qi4j.chronos.model.associations.HasComments;
-import org.qi4j.chronos.model.composites.WorkEntryEntity;
 import org.qi4j.chronos.ui.comment.CommentTab;
-import org.qi4j.chronos.ui.common.SimpleTextArea;
-import org.qi4j.chronos.ui.common.SimpleTextField;
-import org.qi4j.chronos.ui.report.AbstractReportPage;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import org.qi4j.chronos.util.DateUtil;
-import org.qi4j.entity.Identity;
+import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
+import org.qi4j.chronos.ui.wicket.model.ChronosDetachableModel;
 
 public class WorkEntryDetailPage extends LeftMenuNavPage
 {
+    private static final long serialVersionUID = 1L;
+
     private Page returnPage;
 
-    public WorkEntryDetailPage( Page returnPage, final String workEntryId )
+    public WorkEntryDetailPage( Page returnPage, IModel<WorkEntry> workEntryModel )
     {
         this.returnPage = returnPage;
 
-        setDefaultModel(
-            new CompoundPropertyModel(
-                new LoadableDetachableModel()
-                {
-                    public Object load()
-                    {
-                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( workEntryId, WorkEntryEntity.class );
-                    }
-                }
-            )
-        );
-        initComponents();
-    }
+        ChronosCompoundPropertyModel<WorkEntry> model = new ChronosCompoundPropertyModel<WorkEntry>( workEntryModel.getObject() );
 
-    private void initComponents()
-    {
         add( new FeedbackPanel( "feedbackPanel" ) );
-        add( new WorkEntryDetailForm( "workEntryDetailForm", getDefaultModel() ) );
+        add( new WorkEntryDetailForm( "workEntryDetailForm", model ) );
     }
 
-    private class WorkEntryDetailForm extends Form
+    private class WorkEntryDetailForm extends Form<WorkEntry>
     {
-        public WorkEntryDetailForm( String id, IModel iModel )
+        private static final long serialVersionUID = 1L;
+
+        public WorkEntryDetailForm( String id, ChronosCompoundPropertyModel<WorkEntry> model )
         {
             super( id );
 
-            initComponents( iModel );
-        }
+            setModel( model );
 
-        private void initComponents( IModel imodel )
-        {
-            final WorkEntry workEntry = (WorkEntry) imodel.getObject();
-            final SimpleTextField titleTextField = new SimpleTextField( "titleField", workEntry.title().get() );
-            final SimpleTextArea descriptionTextArea =
-                new SimpleTextArea( "descriptionTextArea", workEntry.description().get() );
-            final SimpleTextField createdDateField =
-                new SimpleTextField( "createDateField", DateUtil.formatDateTime( workEntry.createdDate().get() ) );
-            final SimpleTextField startTimeFieid =
-                new SimpleTextField( "startTimeField", DateUtil.formatDateTime( workEntry.startTime().get() ) );
-            final SimpleTextField endTimeField =
-                new SimpleTextField( "endTimeField", DateUtil.formatDateTime( workEntry.endTime().get() ) );
-            final SimpleTextField durationField =
-                new SimpleTextField( "durationField", AbstractReportPage.getPeriod( workEntry ).toString() );
+            TextField titleTextField = new TextField<String>( "titleField", model.<String>bind( "title" ) );
+            TextArea descriptionTextArea = new TextArea<String>( "descriptionTextArea", model.<String>bind( "description" ) );
+
+            TextField createdDateField = new TextField<Date>( "createDateField", model.<Date>bind( "createdDate" ) );
+            TextField startTimeFieid = new TextField<Date>( "startTimeField", model.<Date>bind( "startTime" ) );
+
+            TextField endTimeField = new TextField<Date>( "endTimeField", model.<Date>bind( "endTime" ) );
+            TextField durationField = new TextField<Date>( "durationField", model.<Date>bind( "duration" ) );
 
             List<ITab> tabs = new ArrayList<ITab>();
             tabs.add( createCommentTab() );
 
-            final TabbedPanel tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
-            final Button submitButton =
-                new Button( "submitButton", new Model( "Return" ) )
+            TabbedPanel tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
+            Button submitButton = new Button( "submitButton", new Model<String>( "Return" ) )
+            {
+                private static final long serialVersionUID = 1L;
+
+                public void onSubmit()
                 {
-                    public void onSubmit()
-                    {
-                        setResponsePage( returnPage );
-                    }
-                };
+                    setResponsePage( returnPage );
+                }
+            };
 
             add( titleTextField );
             add( descriptionTextArea );
@@ -114,24 +94,15 @@ public class WorkEntryDetailPage extends LeftMenuNavPage
 
         private CommentTab createCommentTab()
         {
-            return new CommentTab( "Comment" )
-            {
-                public List<String> dataList( int first, int count )
-                {
-                    List<String> commentIdList = new ArrayList<String>();
-                    for( Comment comment : WorkEntryDetailPage.this.getHasComments().comments() )
-                    {
-                        commentIdList.add( ( (Identity) comment ).identity().get() );
-                    }
-                    return commentIdList.subList( first, first + count );
-                }
+            ChronosDetachableModel<WorkEntry> workEntry = new ChronosDetachableModel<WorkEntry>( getWorkEntry() );
 
-                public HasComments getHasComments()
-                {
-                    return WorkEntryDetailPage.this.getHasComments();
-                }
-            };
+            return new CommentTab( "Comment", workEntry );
         }
+    }
+
+    private WorkEntry getWorkEntry()
+    {
+        return (WorkEntry) getDefaultModelObject();
     }
 
     protected HasComments getHasComments()

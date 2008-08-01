@@ -17,8 +17,9 @@ import org.qi4j.chronos.model.associations.HasAddress;
 import org.qi4j.chronos.model.associations.HasContactPersons;
 import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
 import org.qi4j.library.general.model.Enabled;
+import org.qi4j.entity.Identity;
 
-public interface Customer extends NameWithReference, HasAddress, HasContactPersons, HasPriceRateSchedules, Enabled
+public interface Customer extends NameWithReference, HasAddress, HasContactPersons, HasPriceRateSchedules, Enabled, Identity
 {
 }
 

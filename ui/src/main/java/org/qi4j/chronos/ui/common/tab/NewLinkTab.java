@@ -17,6 +17,8 @@ import org.qi4j.chronos.ui.common.NewLinkPanel;
 
 public abstract class NewLinkTab extends BaseTab
 {
+    private static final long serialVersionUID = 1L;
+
     public NewLinkTab( String title )
     {
         super( title );

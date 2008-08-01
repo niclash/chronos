@@ -23,11 +23,11 @@ public final class UserDetailPanel extends Panel
 {
     private static final long serialVersionUID = 1L;
 
-    public UserDetailPanel( String id, IModel<User> user )
+    public UserDetailPanel( String id, IModel<? extends User> user )
     {
         super( id );
 
-        ChronosCompoundPropertyModel<IModel<User>> model = new ChronosCompoundPropertyModel<IModel<User>>( user );
+        ChronosCompoundPropertyModel<IModel<? extends User>> model = new ChronosCompoundPropertyModel<IModel<? extends User>>( user );
         setDefaultModel( model );
 
         TextField firstNameField = new TextField( "firstName" );

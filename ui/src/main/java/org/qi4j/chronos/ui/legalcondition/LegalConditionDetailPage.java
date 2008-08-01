@@ -16,55 +16,55 @@ import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.LegalCondition;
-import org.qi4j.chronos.ui.common.SimpleTextArea;
-import org.qi4j.chronos.ui.common.SimpleTextField;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
+import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 
-public abstract class LegalConditionDetailPage extends LeftMenuNavPage
+public final class LegalConditionDetailPage extends LeftMenuNavPage
 {
-    private Page returnPage;
+    private static final long serialVersionUID = 1L;
 
-    public LegalConditionDetailPage( Page returnBack )
+    private Page returnPage;
+    private static final String WICKET_ID_FEEDBACK_PANEL = "feedbackPanel";
+    private static final String WICKET_ID_LEGAL_CONDITION_DETAIL_FORM = "legalConditionDetailForm";
+
+    public LegalConditionDetailPage( Page returnBack, IModel<LegalCondition> legalConditionModel )
     {
         this.returnPage = returnBack;
 
-        initComponents();
+        add( new FeedbackPanel( WICKET_ID_FEEDBACK_PANEL ) );
+        add( new LegalConditionDetailForm( WICKET_ID_LEGAL_CONDITION_DETAIL_FORM, legalConditionModel ) );
     }
 
-    private void initComponents()
+    private class LegalConditionDetailForm extends Form<IModel<LegalCondition>>
     {
-        add( new FeedbackPanel( "feedbackPanel" ) );
-        add( new LegalConditionDetailForm( "legalConditionDetailForm" ) );
-    }
-
-    private class LegalConditionDetailForm extends Form
-    {
-        private SimpleTextField nameField;
-        private SimpleTextArea descField;
+        private static final long serialVersionUID = 1L;
 
         private Button submitButton;
+        private static final String WICKET_ID_NAME_FIELD = "nameField";
+        private static final String WICKET_ID_DESC_TEXT_AREA = "descTextArea";
+        private static final String WICKET_ID_SUBMIT_BUTTON = "submitButton";
 
-        public LegalConditionDetailForm( String id )
+        public LegalConditionDetailForm( String id, IModel<LegalCondition> legalConditionModel )
         {
             super( id );
 
-            initComponents();
-        }
+            ChronosCompoundPropertyModel<IModel<LegalCondition>> model =
+                new ChronosCompoundPropertyModel<IModel<LegalCondition>>( legalConditionModel );
 
-        private void initComponents()
-        {
-            LegalCondition legalCondition = getLegalCondition();
+            setModel( model );
 
-            nameField = new SimpleTextField( "nameField", legalCondition.name().get(), true );
-            descField = new SimpleTextArea( "descTextArea", legalCondition.description().get(), true );
-
-            submitButton = new Button( "submitButton", new Model( "Return" ) );
+            TextField nameField = new TextField<String>( WICKET_ID_NAME_FIELD, model.<String>bind( "name" ) );
+            TextField descField = new TextField<String>( WICKET_ID_DESC_TEXT_AREA, model.<String>bind( "description" ) );
 
             add( nameField );
             add( descField );
+
+            submitButton = new Button( WICKET_ID_SUBMIT_BUTTON, new Model<String>( "Return" ) );
 
             add( submitButton );
         }
@@ -81,6 +81,4 @@ public abstract class LegalConditionDetailPage extends LeftMenuNavPage
             }
         }
     }
-
-    public abstract LegalCondition getLegalCondition();
 }

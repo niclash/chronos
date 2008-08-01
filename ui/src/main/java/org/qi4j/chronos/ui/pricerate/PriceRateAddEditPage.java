@@ -19,13 +19,13 @@ import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInst
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.SubmitLink;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.PriceRate;
 import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.PriceRateTypeEnum;
 import org.qi4j.chronos.model.ProjectRole;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.ui.common.NumberTextField;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
 import org.qi4j.chronos.ui.projectrole.ProjectRoleDelegator;
@@ -35,7 +35,9 @@ import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public abstract class PriceRateAddEditPage extends AddEditBasePage
 {
-    private NumberTextField amountField;
+    private static final long serialVersionUID = 1L;
+
+    private TextField amountField;
     private SimpleDropDownChoice<ProjectRoleDelegator> projectRoleChoice;
     private SimpleDropDownChoice<PriceRateTypeEnum> priceRateTypeChoice;
 
@@ -65,7 +67,7 @@ public abstract class PriceRateAddEditPage extends AddEditBasePage
         selectPriceRateContainer = new WebMarkupContainer( "selectPriceRateContainer" );
         selectPriceRateContainer.add( selectPriceRateLink );
 
-        amountField = new NumberTextField( "amount", "Amount" );
+        amountField = new TextField( "amount" );
 
         List<PriceRateTypeEnum> priceRatyeTypeList = Arrays.asList( PriceRateTypeEnum.values() );
         List<ProjectRoleDelegator> roleList = ListUtil.getProjectRoleDelegatorList( getAccount() );
@@ -111,14 +113,14 @@ public abstract class PriceRateAddEditPage extends AddEditBasePage
 
     protected void assignFieldValueToPriceRate( PriceRate priceRate )
     {
-        priceRate.amount().set( amountField.getLongValue() );
+//        priceRate.amount().set( amountField.getLongValue() );
         priceRate.priceRateType().set( priceRateTypeChoice.getChoice() );
         priceRate.projectRole().set( getSelectedProjectRole() );
     }
 
     protected void assignPriceRateToFieldValue( PriceRate priceRate )
     {
-        amountField.setLongValue( priceRate.amount().get() );
+//        amountField.setLongValue( priceRate.amount().get() );
         priceRateTypeChoice.setChoice( priceRate.priceRateType().get() );
         projectRoleChoice.setChoice( new ProjectRoleDelegator( priceRate.projectRole().get() ) );
     }
@@ -137,10 +139,10 @@ public abstract class PriceRateAddEditPage extends AddEditBasePage
     {
         boolean isRejected = false;
 
-        if( amountField.checkIsEmptyOrNotInteger() )
-        {
-            isRejected = true;
-        }
+//        if( amountField.checkIsEmptyOrNotInteger() )
+//        {
+//            isRejected = true;
+//        }
 
         if( isRejected )
         {

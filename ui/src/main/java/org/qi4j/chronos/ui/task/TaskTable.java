@@ -12,60 +12,59 @@
  */
 package org.qi4j.chronos.ui.task;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.Task;
-import org.qi4j.chronos.model.composites.TaskEntity;
-import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
+import org.qi4j.chronos.model.associations.HasTasks;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.DeleteAction;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.chronos.util.DateUtil;
-import org.qi4j.entity.Identity;
 import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-public abstract class TaskTable extends ActionTable<IModel, String>
+public final class TaskTable extends ActionTable<Task>
 {
+    private static final long serialVersionUID = 1L;
+
     private static final Logger LOGGER = LoggerFactory.getLogger( TaskTable.class );
-    private AbstractSortableDataProvider<IModel, String> dataProvider;
+
     private static final String DELETE_ACTION = "deleteAction";
     private static final String DELETE_SUCCESS = "deleteSuccessful";
     private static final String DELETE_FAIL = "deleteFailed";
 
-    public TaskTable( String id )
+    private final static String[] COLUMN_NAMES = { "Title", "Created Date", "Created by", "" };
+
+    public TaskTable( String id, IModel<? extends HasTasks> hasTasks, TaskDataProvider dataProvider )
     {
-        super( id );
+        super( id, hasTasks, dataProvider, COLUMN_NAMES );
 
         addActions();
     }
 
     private void addActions()
     {
-        addAction(
-            new DeleteAction<IModel>( getString( DELETE_ACTION ) )
+        addAction( new DeleteAction<Task>( getString( DELETE_ACTION ) )
+        {
+            private static final long serialVersionUID = 1L;
+
+            public void performAction( List<Task> tasks )
             {
-                public void performAction( List<IModel> tasks )
-                {
-                    handleDeleteAction( tasks );
-                    info( getString( DELETE_SUCCESS ) );
-                }
+                handleDeleteAction( tasks );
+                info( getString( DELETE_SUCCESS ) );
             }
+        }
         );
     }
 
-    private void handleDeleteAction( List<IModel> tasks )
+    private void handleDeleteAction( List<Task> tasks )
     {
         Account account = ChronosSession.get().getAccount();
 
@@ -77,9 +76,9 @@ public abstract class TaskTable extends ActionTable<IModel, String>
             }
         }
 
-        for( IModel iModel : tasks )
+        for( Task task : tasks )
         {
-            ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().remove( iModel.getObject() );
+            ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().remove( task );
         }
 
         try
@@ -95,82 +94,31 @@ public abstract class TaskTable extends ActionTable<IModel, String>
         }
     }
 
-    public AbstractSortableDataProvider<IModel, String> getDetachableDataProvider()
+    public void populateItems( Item<Task> item )
     {
-        if( dataProvider == null )
+        final Task task = item.getModelObject();
+        final String id = task.identity().get();
+
+        item.add( new SimpleLink( "title", task.title().get() )
         {
-            dataProvider = new AbstractSortableDataProvider<IModel, String>()
+            private static final long serialVersionUID = 1L;
+
+            public void linkClicked()
             {
-                public int getSize()
-                {
-                    return TaskTable.this.getSize();
-                }
-
-                public String getId( IModel t )
-                {
-                    return ( (Identity) t.getObject() ).identity().get();
-                }
-
-                public IModel load( final String s )
-                {
-                    return new CompoundPropertyModel(
-                        new LoadableDetachableModel()
-                        {
-                            protected Object load()
-                            {
-                                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, TaskEntity.class );
-                            }
-                        }
-                    );
-                }
-
-                public List<IModel> dataList( int first, int count )
-                {
-                    List<IModel> models = new ArrayList<IModel>();
-                    for( final String taskId : TaskTable.this.dataList( first, count ) )
-                    {
-                        models.add(
-                            new CompoundPropertyModel(
-                                new LoadableDetachableModel()
-                                {
-                                    protected Object load()
-                                    {
-                                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( taskId, TaskEntity.class );
-                                    }
-                                }
-                            )
-                        );
-                    }
-                    return models;
-                }
-            };
-        }
-
-        return dataProvider;
-    }
-
-    public void populateItems( final Item item, final IModel iModel )
-    {
-        final Task task = (Task) iModel.getObject();
-        final String id = ( (Identity) task ).identity().get();
-
-        item.add(
-            new SimpleLink( "title", task.title().get() )
-            {
-                public void linkClicked()
-                {
-                    handleViewDetail( id );
-                }
+                handleViewDetail( id );
             }
+        }
         );
         item.add( new Label( "createdDateLabel", DateUtil.formatDateTime( task.createdDate().get() ) ) );
         item.add( new Label( "createdByLabel", task.user().get().fullName().get() ) );
 
         SimpleLink editLink = new SimpleLink( "editLink", "Edit" )
         {
+            private static final long serialVersionUID = 1L;
+
             public void linkClicked()
             {
-                handleEdit( id, iModel );
+                handleEdit( task );
             }
         };
         item.add( editLink );
@@ -183,7 +131,7 @@ public abstract class TaskTable extends ActionTable<IModel, String>
 //        setResponsePage( detailPage );
     }
 
-    private void handleEdit( final String id, final IModel iModel )
+    private void handleEdit( final Task task )
     {
         //TODO
 //        TaskEditPage editPage = new TaskEditPage( (BasePage) this.getPage(), id )
@@ -196,13 +144,4 @@ public abstract class TaskTable extends ActionTable<IModel, String>
 //
 //        setResponsePage( editPage );
     }
-
-    public List<String> getTableHeaderList()
-    {
-        return Arrays.asList( "Title", "Created Date", "Created by", "" );
-    }
-
-    public abstract int getSize();
-
-    public abstract List<String> dataList( int first, int count );
 }

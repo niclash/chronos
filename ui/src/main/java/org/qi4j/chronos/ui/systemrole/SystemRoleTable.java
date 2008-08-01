@@ -12,100 +12,29 @@
  */
 package org.qi4j.chronos.ui.systemrole;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.composites.SystemRoleEntity;
-import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
+import org.qi4j.chronos.model.associations.HasSystemRoles;
 import org.qi4j.chronos.ui.common.action.ActionTable;
-import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import org.qi4j.entity.Identity;
 
-public abstract class SystemRoleTable extends ActionTable<IModel, String>
+public final class SystemRoleTable extends ActionTable<SystemRole>
 {
-    private AbstractSortableDataProvider<IModel, String> dataProvider;
+    private static final long serialVersionUID = 1L;
 
-    public SystemRoleTable( String id )
+    private static final String[] COLUMN_NAMES = { "Name", "System Role Type" };
+
+    public SystemRoleTable( String id, IModel<? extends HasSystemRoles> hasSystemRoles, SystemRoleDataProvider dataProvider )
     {
-        super( id );
+        super( id, hasSystemRoles, dataProvider, COLUMN_NAMES );
     }
 
-    public AbstractSortableDataProvider<IModel, String> getDetachableDataProvider()
+    public void populateItems( Item<SystemRole> item )
     {
-        if( dataProvider == null )
-        {
-            dataProvider = new AbstractSortableDataProvider<IModel, String>()
-            {
-                public int getSize()
-                {
-                    return SystemRoleTable.this.getSystemRoleIds().size();
-                }
+        SystemRole systemRole = item.getModelObject();
 
-                public String getId( IModel t )
-                {
-                    return ( (Identity) t.getObject() ).identity().get();
-                }
-
-                public IModel load( final String s )
-                {
-                    return new CompoundPropertyModel(
-                        new LoadableDetachableModel()
-                        {
-                            protected Object load()
-                            {
-                                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, SystemRoleEntity.class );
-                            }
-                        }
-                    );
-                }
-
-                public List<IModel> dataList( int first, int count )
-                {
-                    List<IModel> systemRoles = new ArrayList<IModel>();
-                    for( final String systemRoleId : SystemRoleTable.this.dataList( first, count ) )
-                    {
-                        systemRoles.add(
-                            new CompoundPropertyModel(
-                                new LoadableDetachableModel()
-                                {
-                                    protected Object load()
-                                    {
-                                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( systemRoleId, SystemRoleEntity.class );
-                                    }
-                                }
-                            )
-                        );
-                    }
-                    return systemRoles;
-                }
-            };
-        }
-
-        return dataProvider;
-    }
-
-    public void populateItems( Item item, IModel iModel )
-    {
-        SystemRole systemRole = (SystemRole) iModel.getObject();
         item.add( new Label( "systemRoleName", systemRole.name().get() ) );
         item.add( new Label( "systemRoleType", systemRole.systemRoleType().get().toString() ) );
     }
-
-    public List<String> getTableHeaderList()
-    {
-        return Arrays.asList( "Name", "System Role Type" );
-    }
-
-    protected List<String> dataList( int first, int count )
-    {
-        return getSystemRoleIds().subList( first, first + count );
-    }
-
-    public abstract List<String> getSystemRoleIds();
 }

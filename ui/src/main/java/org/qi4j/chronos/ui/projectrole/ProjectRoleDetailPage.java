@@ -16,48 +16,45 @@ import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.ProjectRole;
-import org.qi4j.chronos.ui.common.SimpleTextField;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
+import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 
-public abstract class ProjectRoleDetailPage extends LeftMenuNavPage
+public final class ProjectRoleDetailPage extends LeftMenuNavPage
 {
+    private static final long serialVersionUID = 1L;
+
     private Page goBackPage;
 
-    public ProjectRoleDetailPage( Page goBackPage )
+    public ProjectRoleDetailPage( Page goBackPage, IModel<ProjectRole> projectRoleModel )
     {
         this.goBackPage = goBackPage;
 
-        initComponents();
-    }
-
-    private void initComponents()
-    {
         add( new FeedbackPanel( "feedbackPanel" ) );
-        add( new RoleDetailForm( "roleDetailForm" ) );
+        add( new RoleDetailForm( "roleDetailForm", projectRoleModel ) );
     }
 
-    private class RoleDetailForm extends Form
+    private class RoleDetailForm extends Form<ProjectRole>
     {
-        private Button returnButton;
-        private SimpleTextField roleNameField;
+        private static final long serialVersionUID = 1L;
 
-        public RoleDetailForm( String id )
+        private Button returnButton;
+
+        public RoleDetailForm( String id, IModel<ProjectRole> projectRoleModel )
         {
             super( id );
 
-            initComponents();
-        }
+            ChronosCompoundPropertyModel<ProjectRole> model = new ChronosCompoundPropertyModel<ProjectRole>( projectRoleModel.getObject() );
 
-        private void initComponents()
-        {
-            ProjectRole projectRole = getProjectRole();
+            setModel( model );
 
-            roleNameField = new SimpleTextField( "roleName", projectRole.name().get(), false );
+            TextField roleNameField = new TextField<String>( "roleName", model.<String>bind( "name" ) );
 
-            returnButton = new Button( "submitButton", new Model( "Return" ) );
+            returnButton = new Button( "submitButton", new Model<String>( "Return" ) );
 
             add( roleNameField );
             add( returnButton );
@@ -76,6 +73,4 @@ public abstract class ProjectRoleDetailPage extends LeftMenuNavPage
             setResponsePage( goBackPage );
         }
     }
-
-    public abstract ProjectRole getProjectRole();
 }

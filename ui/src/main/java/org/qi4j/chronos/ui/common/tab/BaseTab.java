@@ -19,9 +19,11 @@ import org.qi4j.chronos.ui.common.BorderPanel;
 
 public abstract class BaseTab extends AbstractTab
 {
+    private static final long serialVersionUID = 1L;
+
     public BaseTab( String title )
     {
-        super( new Model( title ) );
+        super( new Model<String>( title ) );
     }
 
     public final Panel getPanel( String panelId )

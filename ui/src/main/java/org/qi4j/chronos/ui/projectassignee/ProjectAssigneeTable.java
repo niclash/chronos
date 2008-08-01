@@ -12,7 +12,6 @@
  */
 package org.qi4j.chronos.ui.projectassignee;
 
-import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.Component;
 import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
@@ -20,24 +19,25 @@ import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.repeater.Item;
+import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.ProjectAssignee;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
+import org.qi4j.chronos.model.associations.HasProjectAssignees;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.DeleteAction;
-import org.qi4j.entity.Identity;
 
-public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssignee, String>
+public final class ProjectAssigneeTable extends ActionTable<ProjectAssignee>
 {
     private static final long serialVersionUID = 1L;
 
-    public ProjectAssigneeTable( String id )
+    private final static String[] COLUMN_NAMES = { };
+
+    public ProjectAssigneeTable( String id, IModel<? extends HasProjectAssignees> hasProjectAssignees, ProjectAssigneeDataProvider dataProvider )
     {
-        super( id );
+        super( id, hasProjectAssignees, dataProvider, COLUMN_NAMES );
 
         addActions();
     }
@@ -46,8 +46,11 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssignee, 
     {
         addAction( new DeleteAction<ProjectAssignee>( "Delete" )
         {
+            private static final long serialVersionUID = 1L;
+
             public void performAction( List<ProjectAssignee> projectAsssignees )
             {
+                //TODO
 //                getProjectAssigneeService().delete( projectAsssignees );
 
                 info( "Selected project assignee(s) are deleted." );
@@ -60,33 +63,15 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssignee, 
         MetaDataRoleAuthorizationStrategy.authorize( component, RENDER, SystemRole.ACCOUNT_ADMIN );
     }
 
-    public AbstractSortableDataProvider<ProjectAssignee, String> getDetachableDataProvider()
+    public void populateItems( Item<ProjectAssignee> item )
     {
-/*
-        if( dataProvider == null )
-        {
-            dataProvider = new ProjectAssigneeDataProvider()
-            {
-                public Project getProject()
-                {
-                    return ProjectAssigneeTable.this.getProject();
-                }
-            };
-        }
+        final String projectAssigneeId = item.getModelObject().identity().get();
 
-        return dataProvider;
-*/
-        return null;
-    }
+        Staff staff = item.getModelObject().staff().get();
 
-    public void populateItems( Item item, ProjectAssignee obj )
-    {
-        final String projectAssigneeId = ( (Identity) obj ).identity().get();
-
-        Staff staff = obj.staff().get();
         item.add( new Label( "firstName", staff.firstName().get() ) );
         item.add( new Label( "lastName", staff.lastName().get() ) );
-        CheckBox isLeadCheckBox = new CheckBox( "isLead", new Model( obj.isLead().get() ) );
+        CheckBox isLeadCheckBox = new CheckBox( "isLead", new Model( item.getModelObject().isLead().get() ) );
 
         isLeadCheckBox.setEnabled( false );
 
@@ -101,6 +86,8 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssignee, 
     {
         return new SimpleLink( "editLink", "Edit" )
         {
+            private static final long serialVersionUID = 1L;
+
             public void linkClicked()
             {
 //                ProjectAssigneeEditPage editPage = new ProjectAssigneeEditPage( (BasePage) this.getPage() )
@@ -132,10 +119,4 @@ public abstract class ProjectAssigneeTable extends ActionTable<ProjectAssignee, 
         };
     }
 
-    public List<String> getTableHeaderList()
-    {
-        return Arrays.asList( "First Name", "Last name", "Is Lead", "" );
-    }
-
-    public abstract Project getProject();
 }

@@ -21,13 +21,13 @@ import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.common.NameChoiceRenderer;
-import org.qi4j.chronos.ui.common.SimpleTextField;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
@@ -52,7 +52,7 @@ public abstract class PriceRateScheduleSelectionPage extends LeftMenuNavPage
     {
         private DropDownChoice priceRateScheduleChoice;
         private PriceRateListView priceRateListView;
-        private SimpleTextField currencyField;
+        private TextField currencyField;
         private final IChoiceRenderer nameChoiceRenderer = new NameChoiceRenderer();
 
         private Button submitButton;
@@ -84,7 +84,7 @@ public abstract class PriceRateScheduleSelectionPage extends LeftMenuNavPage
                 new Model( (Serializable) getAvailablePriceRateScheduleList().get( 0 ) ) );
             PriceRateSchedule priceRateSchedule = (PriceRateSchedule) priceRateScheduleChoice.getModelObject();
             currencyField =
-                new SimpleTextField( "currencyField", priceRateSchedule.currency().get().getCurrencyCode() );
+                new TextField( "currencyField" );
             priceRateListView =
                 new PriceRateListView( "priceRateListView", new CompoundPropertyModel( priceRateSchedule ) );
             submitButton = new Button( "submitButton", new Model( "Select" ) )

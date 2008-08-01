@@ -12,26 +12,27 @@
  */
 package org.qi4j.chronos.ui.project;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
-import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.associations.HasProjects;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
-import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
-import org.qi4j.entity.Identity;
 
 @AuthorizeInstantiation( { SystemRole.ACCOUNT_ADMIN, SystemRole.ACCOUNT_DEVELOPER } )
 public class ProjectListPage extends LeftMenuNavPage
 {
-    public ProjectListPage()
+    private static final long serialVersionUID = 1L;
+
+    private IModel<HasProjects> hasProjects;
+
+    public ProjectListPage( IModel<HasProjects> hasProjects )
     {
+        this.hasProjects = hasProjects;
+
         initComponents();
     }
 
@@ -39,6 +40,8 @@ public class ProjectListPage extends LeftMenuNavPage
     {
         Link newProjectLink = new Link( "newProjectLink" )
         {
+            private static final long serialVersionUID = 1L;
+
             public void onClick()
             {
                 PageParameters param = new PageParameters();
@@ -51,18 +54,7 @@ public class ProjectListPage extends LeftMenuNavPage
 
         FeedbackPanel feedbackPanel = new FeedbackPanel( "feedbackPanel" );
 
-        ProjectTable projectTable = new ProjectTable( "projectTable" )
-        {
-            public int getSize()
-            {
-                return ProjectListPage.this.getSize();
-            }
-
-            public IModel<HasProjects> getHasProjectsModel()
-            {
-                return new ChronosCompoundPropertyModel<HasProjects>( ProjectListPage.this.getAccount() );
-            }
-        };
+        ProjectTable projectTable = new ProjectTable( "projectTable", hasProjects, new ProjectDataProvider( hasProjects ) );
 
         //authorise render/enable action
         MetaDataRoleAuthorizationStrategy.authorize( newProjectLink, RENDER, SystemRole.ACCOUNT_ADMIN );
@@ -75,16 +67,5 @@ public class ProjectListPage extends LeftMenuNavPage
     protected int getSize()
     {
         return getAccount().projects().size();
-    }
-
-    protected List<String> dataList( int first, int count )
-    {
-        List<String> projects = new ArrayList<String>();
-        for( Project project : getAccount().projects() )
-        {
-            projects.add( ( (Identity) project ).identity().get() );
-        }
-
-        return projects.subList( first, first + count );
     }
 }

@@ -12,54 +12,36 @@
  */
 package org.qi4j.chronos.ui.staff;
 
-import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.associations.HasStaffs;
 import org.qi4j.chronos.ui.common.BorderPanel;
 import org.qi4j.chronos.ui.common.BorderPanelWrapper;
 import org.qi4j.chronos.ui.common.tab.BaseTab;
 
-public abstract class StaffTab extends BaseTab
+public final class StaffTab extends BaseTab
 {
-    public StaffTab( String title )
+    private static final long serialVersionUID = 1L;
+
+    private IModel<? extends HasStaffs> hasStaffs;
+
+    public StaffTab( String title, IModel<? extends HasStaffs> hasStaffs )
     {
         super( title );
+
+        this.hasStaffs = hasStaffs;
     }
 
     public BorderPanel getBorderPanel( String panelId )
     {
-        BorderPanelWrapper wrapper = new BorderPanelWrapper( panelId )
+        return new BorderPanelWrapper( panelId )
         {
+            private static final long serialVersionUID = 1L;
+
             public Panel getWrappedPanel( String panelId )
             {
-                StaffTable staffTable = new StaffTable( panelId )
-                {
-                    public int getSize()
-                    {
-                        return StaffTab.this.getSize();
-                    }
-
-                    public List<String> dataList( int first, int count )
-                    {
-                        return StaffTab.this.dataList( first, count );
-                    }
-
-                    public HasStaffs getHasStaffs()
-                    {
-                        return StaffTab.this.getHasStaffs();
-                    }
-                };
-
-                return staffTable;
+                return new StaffTable( panelId, hasStaffs, new StaffDataProvider( hasStaffs ) );
             }
         };
-
-        return wrapper;
     }
-
-    public abstract int getSize();
-
-    public abstract List<String> dataList( int first, int count );
-
-    public abstract HasStaffs getHasStaffs();
 }

@@ -12,6 +12,7 @@
  */
 package org.qi4j.chronos.ui.comment;
 
+import java.util.Date;
 import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.TextArea;
@@ -29,16 +30,16 @@ public class CommentDetailPage extends LeftMenuNavPage
 
     public CommentDetailPage( final Page basePage, IModel<Comment> comment )
     {
-        ChronosCompoundPropertyModel model = new ChronosCompoundPropertyModel( comment );
+        ChronosCompoundPropertyModel<Comment> model = new ChronosCompoundPropertyModel<Comment>( comment.getObject() );
         setDefaultModel( model );
 
         add( new FeedbackPanel( "feedbackPanel" ) );
 
-        final TextField createdDateField = new TextField( "createdDate", model.bind( "createdDate" ) );
-        final TextField userField = new TextField( "user", model.bind( "user.fullName" ) );
-        final TextArea commentTextArea = new TextArea( "text" );
+        TextField<Date> createdDateField = new TextField<Date>( "createdDate", model.<Date>bind( "createdDate" ) );
+        TextField<String> userField = new TextField<String>( "user", model.<String>bind( "user.fullName" ) );
+        TextArea<String> commentTextArea = new TextArea<String>( "text", model.<String>bind( "text" ) );
 
-        final Button submitButton = new Button( "submitButton", new Model( "Return" ) )
+        final Button submitButton = new Button( "submitButton", new Model<String>( "Return" ) )
         {
             private static final long serialVersionUID = 1L;
 
@@ -53,6 +54,4 @@ public class CommentDetailPage extends LeftMenuNavPage
         add( commentTextArea );
         add( submitButton );
     }
-
-
 }

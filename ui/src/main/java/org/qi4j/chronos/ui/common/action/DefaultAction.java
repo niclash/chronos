@@ -15,8 +15,9 @@ package org.qi4j.chronos.ui.common.action;
 import java.util.List;
 import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
+import org.qi4j.entity.Identity;
 
-public abstract class DefaultAction<ITEM> extends AbstractAction<ITEM>
+public abstract class DefaultAction<T extends Identity> extends AbstractAction<T>
 {
     private static final long serialVersionUID = 1L;
 
@@ -30,15 +31,15 @@ public abstract class DefaultAction<ITEM> extends AbstractAction<ITEM>
         super( actionName, isConfirmShowDialog, confirmMsg );
     }
 
-    public final void performAction( AbstractSortableDataProvider<ITEM, ?> abstractSortableDataProvider )
+    public final void performAction( AbstractSortableDataProvider<T> abstractSortableDataProvider )
     {
-        int size = abstractSortableDataProvider.getSize();
+        int size = abstractSortableDataProvider.size();
 
-        List<ITEM> items = abstractSortableDataProvider.dataList( 0, size );
+        List<T> items = abstractSortableDataProvider.dataList( 0, size );
 
         performAction( items );
     }
 
-    public abstract void performAction( List<ITEM> items );
+    public abstract void performAction( List<T> items );
 
 }

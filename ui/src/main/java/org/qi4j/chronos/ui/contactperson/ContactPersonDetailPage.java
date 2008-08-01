@@ -21,28 +21,33 @@ import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
+import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.ContactPerson;
-import org.qi4j.chronos.model.associations.HasProjects;
 import org.qi4j.chronos.ui.project.ProjectTab;
 import org.qi4j.chronos.ui.user.UserDetailPanel;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
+import org.qi4j.chronos.ui.wicket.model.ChronosDetachableModel;
 import org.qi4j.injection.scope.Uses;
 
 public class ContactPersonDetailPage extends LeftMenuNavPage
 {
+    private static final long serialVersionUID = 1L;
+
     private Page basePage;
 
     public ContactPersonDetailPage( final @Uses Page basePage, IModel<ContactPerson> contactPersonModel )
     {
         this.basePage = basePage;
-        ChronosCompoundPropertyModel model = new ChronosCompoundPropertyModel( contactPersonModel );
+
+        ChronosCompoundPropertyModel<IModel<ContactPerson>> model = new ChronosCompoundPropertyModel<IModel<ContactPerson>>( contactPersonModel );
+
         setDefaultModel( model );
 
         add( new FeedbackPanel( "feedbackPanel" ) );
 
         TextField relationshipField = new TextField( "relationship.relationship" );
-        UserDetailPanel userDetailPanel = new UserDetailPanel( "userDetailPanel", model );
+        UserDetailPanel userDetailPanel = new UserDetailPanel( "userDetailPanel", model.getObject() );
         Link goBackLink = new Link( "goBackLink" )
         {
             public void onClick()
@@ -65,20 +70,9 @@ public class ContactPersonDetailPage extends LeftMenuNavPage
         );
 */
 
-        tabs.add(
-            new ProjectTab( "Project" )
-            {
-                public IModel<HasProjects> getHasProjectsModel()
-                {
-                    return new ChronosCompoundPropertyModel<HasProjects>( ContactPersonDetailPage.this.getAccount() );
-                }
+        ChronosDetachableModel<Account> account = new ChronosDetachableModel<Account>( getAccount() );
 
-                public int getSize()
-                {
-                    return getAccount().projects().size();
-                }
-            }
-        );
+        tabs.add( new ProjectTab( "Project", account ) );
 
         TabbedPanel tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
 

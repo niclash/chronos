@@ -13,25 +13,25 @@
 package org.qi4j.chronos.ui.staff;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import org.apache.wicket.extensions.markup.html.tabs.ITab;
 import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.panel.Panel;
 import org.apache.wicket.model.IModel;
-import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.associations.HasProjects;
 import org.qi4j.chronos.ui.project.ProjectTab;
-import org.qi4j.chronos.ui.task.RecentTaskTab;
-import org.qi4j.entity.UnitOfWork;
 
-public abstract class DeveloperPanel extends Panel
+public final class DeveloperPanel extends Panel
 {
-    private TabbedPanel tabbedPanel;
+    private static final long serialVersionUID = 1L;
 
-    public DeveloperPanel( String id )
+    private IModel<? extends HasProjects> hasProjectsModel;
+
+    public DeveloperPanel( String id, IModel<? extends HasProjects> hasProjectsModel )
     {
         super( id );
+
+        this.hasProjectsModel = hasProjectsModel;
 
         initComponents();
     }
@@ -40,60 +40,43 @@ public abstract class DeveloperPanel extends Panel
     {
         List<ITab> tabs = new ArrayList<ITab>();
 
-        tabs.add( createRecentTaskTab() );
+//        tabs.add( createRecentTaskTab() );
         tabs.add( createRecentProjectTab() );
 
-        tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
+        TabbedPanel tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
 
         add( tabbedPanel );
     }
 
     private ProjectTab createRecentProjectTab()
     {
-        return new ProjectTab( "Recent Projects" )
-        {
-            public IModel<HasProjects> getHasProjectsModel()
-            {
-                return DeveloperPanel.this.getHasProjectsModel();
-            }
-
-            public int getSize()
-            {
-                return DeveloperPanel.this.getHasProjectsModel().getObject().projects().size();
-            }
-        };
+        return new ProjectTab( "Recent Projects", hasProjectsModel );
     }
 
-    // TODO kamil: fix business logic
-    private RecentTaskTab createRecentTaskTab()
-    {
-        return new RecentTaskTab( "Recent Tasks" )
-        {
-            public int getSize()
-            {
-//                return getTaskService().countRecentTasks( getStaff() );
-                return 0;
-            }
-
-            public List<String> dataList( int first, int count )
-            {
-//                return getTaskService().getRecentTasks( getStaff(), new FindFilter( first, count ) );
-/*
-                List<String> taskIdList = new ArrayList<String>();
-                for( Task task : getTaskService().getRecentTasks( getStaff() ) )
-                {
-                    taskIdList.add( ( (Identity) task ).identity().get() );
-                }
-                return taskIdList.subList( first, first + count );
-*/
-                return Collections.EMPTY_LIST;
-            }
-        };
-    }
-
-    public abstract UnitOfWork getUnitOfWork();
-
-    public abstract Staff getStaff();
-
-    public abstract IModel<HasProjects> getHasProjectsModel();
+//    // TODO kamil: fix business logic
+//    private RecentTaskTab createRecentTaskTab()
+//    {
+//        return new RecentTaskTab( "Recent Tasks" )
+//        {
+//            public int getSize()
+//            {
+////                return getTaskService().countRecentTasks( getStaff() );
+//                return 0;
+//            }
+//
+//            public List<String> dataList( int first, int count )
+//            {
+////                return getTaskService().getRecentTasks( getStaff(), new FindFilter( first, count ) );
+///*
+//                List<String> taskIdList = new ArrayList<String>();
+//                for( Task task : getTaskService().getRecentTasks( getStaff() ) )
+//                {
+//                    taskIdList.add( ( (Identity) task ).identity().get() );
+//                }
+//                return taskIdList.subList( first, first + count );
+//*/
+//                return Collections.EMPTY_LIST;
+//            }
+//        };
+//    }
 }

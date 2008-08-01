@@ -12,19 +12,29 @@
  */
 package org.qi4j.chronos.ui.workentry;
 
-import java.util.List;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.ProjectAssignee;
 import org.qi4j.chronos.model.associations.HasWorkEntries;
 import org.qi4j.chronos.ui.common.NewLinkPanel;
 import org.qi4j.chronos.ui.common.tab.NewLinkTab;
 
-public abstract class WorkEntryTab extends NewLinkTab
+public final class WorkEntryTab extends NewLinkTab
 {
-    public WorkEntryTab( String title )
+    private static final long serialVersionUID = 1L;
+
+    private IModel<? extends HasWorkEntries> hasWorkEntries;
+    private WorkEntryDataProvider dataProvider;
+    private IModel<ProjectAssignee> projectAssignee;
+
+    public WorkEntryTab( String title, IModel<? extends HasWorkEntries> hasWorkEntries, WorkEntryDataProvider dataProvider, IModel<ProjectAssignee> projectAssignee )
     {
         super( title );
+
+        this.hasWorkEntries = hasWorkEntries;
+        this.dataProvider = dataProvider;
+        this.projectAssignee = projectAssignee;
     }
 
     public NewLinkPanel getNewLinkPanel( String panelId )
@@ -34,30 +44,21 @@ public abstract class WorkEntryTab extends NewLinkTab
 
     private class WorkEntryNewLinkPanel extends NewLinkPanel
     {
+        private static final long serialVersionUID = 1L;
+
         public WorkEntryNewLinkPanel( String id )
         {
             super( id );
         }
 
-        public Panel getContent( String id )
+        public Panel newContent( String id )
         {
-            return new WorkEntryTable( id )
-            {
-                public HasWorkEntries getHasWorkEntries()
-                {
-                    return WorkEntryTab.this.getHasWorkEntries();
-                }
-
-                public List<String> dataList( int first, int count )
-                {
-                    return WorkEntryTab.this.dataList( first, count );
-                }
-            };
+            return new WorkEntryTable( id, hasWorkEntries, dataProvider );
         }
 
         protected void authorizingLink( Link link )
         {
-            if( getProjectAssignee() == null )
+            if( projectAssignee == null )
             {
                 link.setVisible( false );
             }
@@ -82,15 +83,9 @@ public abstract class WorkEntryTab extends NewLinkTab
 //            setResponsePage( addPage );
         }
 
-        public String getNewLinkText()
+        public String newLinkText()
         {
             return "New Work Entry";
         }
     }
-
-    public abstract List<String> dataList( int first, int count );
-
-    public abstract ProjectAssignee getProjectAssignee();
-
-    public abstract HasWorkEntries getHasWorkEntries();
 }

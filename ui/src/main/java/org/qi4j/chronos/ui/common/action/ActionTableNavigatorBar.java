@@ -71,7 +71,8 @@ public class ActionTableNavigatorBar extends Panel
     @SuppressWarnings( "unchecked" )
     private DropDownChoice newItemPerPageDropDownChoice( final DataView dataView )
     {
-        DropDownChoice itemPerPageChoice = new DropDownChoice( WICKET_ID_ITEM_SIZE_CHOICE, new PropertyModel( this, "itemSize" ), ITEM_PER_PAGE_LIST );
+        DropDownChoice itemPerPageChoice = new DropDownChoice( WICKET_ID_ITEM_SIZE_CHOICE,
+                                                               new PropertyModel( this, "itemPerPageSize" ), ITEM_PER_PAGE_LIST );
 
         itemPerPageChoice.add( new AjaxFormComponentUpdatingBehavior( "onchange" )
         {
@@ -193,6 +194,11 @@ public class ActionTableNavigatorBar extends Panel
     public final String getItemPerPageSize()
     {
         return itemPerPageSize;
+    }
+
+    final void setItemPerPageSize( String itemPerPageSize )
+    {
+        this.itemPerPageSize = itemPerPageSize;
     }
 
     void beforeNextNagivation()

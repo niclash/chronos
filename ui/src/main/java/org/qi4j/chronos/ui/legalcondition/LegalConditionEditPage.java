@@ -30,8 +30,6 @@ public abstract class LegalConditionEditPage extends LegalConditionAddEditPage
         super( goBackPage, legalCondition );
 
         hideSelectionLegalConditionLink();
-
-
     }
 
     public void onSubmitting()

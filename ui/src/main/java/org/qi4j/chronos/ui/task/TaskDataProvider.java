@@ -12,29 +12,43 @@
  */
 package org.qi4j.chronos.ui.task;
 
+import java.util.ArrayList;
+import java.util.List;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.Task;
+import org.qi4j.chronos.model.associations.HasTasks;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
-import org.qi4j.entity.Identity;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
+import org.qi4j.chronos.ui.wicket.model.ChronosDetachableModel;
 
-public abstract class TaskDataProvider extends AbstractSortableDataProvider<Task, String>
+public class TaskDataProvider extends AbstractSortableDataProvider<Task>
 {
-    public String getId( Task task )
+    private static final long serialVersionUID = 1L;
+
+    private IModel<? extends HasTasks> hasTasks;
+
+    public TaskDataProvider( IModel<? extends HasTasks> hasTasks )
     {
-        return ( (Identity) task).identity().get();
+        this.hasTasks = hasTasks;
     }
 
-    public Task load( String taskId )
+    public IModel<Task> load( String id )
     {
-        for( Task task : dataList( 0, getSize() ) )
-        {
-            if( taskId.equals( ( (Identity) task ).identity().get() ) )
-            {
-                return task;
-            }
-        }
+        Task task = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().getReference( id, Task.class );
 
-        return null;
-//        return ChronosSession.get().getService().getTaskService().get( taskId );
-//        return ChronosWebApp.getServices().getTaskService().get( taskId );
+        return new ChronosDetachableModel<Task>( task );
+    }
+
+    public List<Task> dataList( int first, int count )
+    {
+        //TODO
+        List<Task> tasks = new ArrayList<Task>( hasTasks.getObject().tasks() );
+
+        return tasks.subList( first, count );
+    }
+
+    public int size()
+    {
+        return hasTasks.getObject().tasks().size();
     }
 }

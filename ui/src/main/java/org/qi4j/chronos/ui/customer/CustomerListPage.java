@@ -16,17 +16,21 @@ import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInst
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.IModel;
-import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.associations.HasCustomers;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
-import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public class CustomerListPage extends LeftMenuNavPage
 {
-    public CustomerListPage()
+    private static final long serialVersionUID = 1L;
+
+    private IModel<HasCustomers> hasCustomers;
+
+    public CustomerListPage( IModel<HasCustomers> hasCustomers )
     {
+        this.hasCustomers = hasCustomers;
+
         initComponents();
     }
 
@@ -35,6 +39,8 @@ public class CustomerListPage extends LeftMenuNavPage
         add( new FeedbackPanel( "feedbackPanel" ) );
         add( new Link( "newCustomerLink" )
         {
+            private static final long serialVersionUID = 1L;
+
             public void onClick()
             {
 //                setResponsePage( new CustomerAddPage( CustomerListPage.this ) );
@@ -42,18 +48,7 @@ public class CustomerListPage extends LeftMenuNavPage
         }
         );
 
-        CustomerTable customerTable = new CustomerTable( "customerTable" )
-        {
-            public Account getAccount()
-            {
-                return CustomerListPage.this.getAccount();
-            }
-
-            public IModel<HasCustomers> getHasCustomersModel()
-            {
-                return new ChronosCompoundPropertyModel<HasCustomers>( CustomerListPage.this.getAccount() );
-            }
-        };
+        CustomerTable customerTable = new CustomerTable( "customerTable", hasCustomers, new CustomerDataProvider( hasCustomers ) );
 
         add( customerTable );
     }

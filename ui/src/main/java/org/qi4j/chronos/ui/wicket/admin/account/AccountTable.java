@@ -12,19 +12,18 @@
  */
 package org.qi4j.chronos.ui.wicket.admin.account;
 
-import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 import org.apache.wicket.Page;
 import org.apache.wicket.PageParameters;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.repeater.Item;
 import org.apache.wicket.model.IModel;
+import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.ProjectStatusEnum;
-import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
-import org.qi4j.chronos.ui.common.SimpleCheckBox;
+import org.qi4j.chronos.model.associations.HasAccounts;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.DefaultAction;
@@ -32,16 +31,13 @@ import org.qi4j.chronos.ui.common.action.DeleteAction;
 import org.qi4j.chronos.ui.util.ProjectUtil;
 import org.qi4j.chronos.ui.wicket.admin.account.model.AccountDataProvider;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import org.qi4j.entity.Identity;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
-import org.qi4j.injection.scope.Structure;
 import org.qi4j.injection.scope.Uses;
-import org.qi4j.object.ObjectBuilderFactory;
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
 
-public class AccountTable extends ActionTable<IModel<Account>, String>
+public class AccountTable extends ActionTable<Account>
 {
     private static final long serialVersionUID = 1L;
 
@@ -57,6 +53,7 @@ public class AccountTable extends ActionTable<IModel<Account>, String>
     private static final String ENABLE_SUCCESS = "enableSuccessful";
     private static final String ENABLE_FAIL = "enableFailed";
     private static final String EDIT_LINK = "editLink";
+
     private static final String HEADER_NAME = "name";
     private static final String HEADER_REFERENCE = "formalReference";
     private static final String HEADER_ENABLED = "enabled";
@@ -66,34 +63,59 @@ public class AccountTable extends ActionTable<IModel<Account>, String>
     private static final String HEADER_CLOSED = "closedProject";
     private static final String HEADER_LAST = "last";
 
-    private final AccountDataProvider dataProvider;
 
-    public AccountTable( @Uses String aWicketId, @Structure ObjectBuilderFactory anOBF )
+    private final static String[] COLUMN_NAMES = { HEADER_NAME, HEADER_REFERENCE, HEADER_ENABLED,
+                                                   HEADER_PROJECT, HEADER_ACTIVE, HEADER_INACTIVE, HEADER_CLOSED, HEADER_LAST };
+
+    public AccountTable( @Uses String aWicketId, @Uses IModel<HasAccounts> hasAccounts, @Uses AccountDataProvider dataProvider )
         throws IllegalArgumentException
     {
-        super( aWicketId );
+        super( aWicketId, hasAccounts, dataProvider, COLUMN_NAMES );
 
-        dataProvider = anOBF.newObject( AccountDataProvider.class );
 
         addAction( new AccountDeleteAction() );
         addAction( new DisableAction() );
         addAction( new EnableAction() );
     }
 
-    @Override
-    public final AbstractSortableDataProvider<IModel<Account>, String> getDetachableDataProvider()
+    private SimpleLink createDetailPage( String id, String displayValue, final String accountId )
     {
-        return dataProvider;
+        return new SimpleLink( id, displayValue )
+        {
+            public void linkClicked()
+            {
+                setResponsePage( newPage( AccountDetailPage.class, getPageParameters( accountId ) ) );
+            }
+        };
     }
 
-    @Override
-    public final void populateItems( Item item, final IModel iModel )
+    /**
+     * Generate PageParameters to be used in Page constructor.
+     *
+     * @param accountId
+     * @return PageParameters
+     */
+    private PageParameters getPageParameters( final String accountId )
     {
-        Account anAccount = (Account) iModel.getObject();
-        item.add( createDetailPage( HEADER_NAME, anAccount.name().get(), iModel ) );
-        item.add( createDetailPage( HEADER_REFERENCE, anAccount.reference().get(), iModel ) );
+        final PageParameters params = new PageParameters();
+        Page page = this.getPage();
+        Class<? extends Page> pageClass = page.getClass();
+        String pageClassName = pageClass.getName();
+        params.put( pageClassName, page );
+        params.put( String.class.getName(), accountId );
 
-        item.add( new SimpleCheckBox( HEADER_ENABLED, anAccount.isEnabled().get(), true ) );
+        return params;
+    }
+
+    public void populateItems( Item<Account> item )
+    {
+        Account anAccount = item.getModelObject();
+        final String accountId = anAccount.identity().get();
+
+        item.add( createDetailPage( HEADER_NAME, anAccount.name().get(), accountId ) );
+        item.add( createDetailPage( HEADER_REFERENCE, anAccount.reference().get(), accountId ) );
+
+        item.add( new CheckBox( HEADER_ENABLED, new Model<Boolean>(anAccount.isEnabled().get())) );
 
         Map<ProjectStatusEnum, Integer> projectStatusMap = ProjectUtil.getProjectStatusCount( anAccount );
 
@@ -109,69 +131,16 @@ public class AccountTable extends ActionTable<IModel<Account>, String>
 
         item.add( new SimpleLink( EDIT_LINK, getString( EDIT_LINK ) )
         {
+            private static final long serialVersionUID = 1L;
+
             public void linkClicked()
             {
-                setResponsePage( newPage( AccountEditPage.class, getPageParameters( iModel ) ) );
+                setResponsePage( newPage( AccountEditPage.class, getPageParameters( accountId ) ) );
             }
         } );
     }
 
-    private SimpleLink createDetailPage( String id, String displayValue, final IModel iModel )
-    {
-        return new SimpleLink( id, displayValue )
-        {
-            public void linkClicked()
-            {
-                setResponsePage( newPage( AccountDetailPage.class, getPageParameters( iModel ) ) );
-            }
-        };
-    }
-
-    /**
-     * Generate PageParameters to be used in Page constructor.
-     *
-     * @param iModel
-     * @return
-     */
-    private PageParameters getPageParameters( final IModel iModel )
-    {
-        final PageParameters params = new PageParameters();
-        Page page = this.getPage();
-        Class<? extends Page> pageClass = page.getClass();
-        String pageClassName = pageClass.getName();
-        params.put( pageClassName, page );
-        params.put( String.class.getName(), ( (Identity) iModel.getObject() ).identity().get() );
-
-        return params;
-    }
-
-    @Override
-    public final List<String> getTableHeaderList()
-    {
-        return getTableHeaderList(
-            HEADER_NAME,
-            HEADER_REFERENCE,
-            HEADER_ENABLED,
-            HEADER_PROJECT,
-            HEADER_ACTIVE,
-            HEADER_INACTIVE,
-            HEADER_CLOSED,
-            HEADER_LAST
-        );
-    }
-
-    public List<String> getTableHeaderList( String... headers )
-    {
-        List<String> result = new ArrayList<String>();
-        for( String header : headers )
-        {
-            result.add( getString( "tableHeader." + header ) );
-        }
-
-        return Collections.unmodifiableList( result );
-    }
-
-    private class AccountDeleteAction extends DeleteAction<IModel>
+    private class AccountDeleteAction extends DeleteAction<Account>
     {
         private static final long serialVersionUID = 1L;
 
@@ -181,12 +150,12 @@ public class AccountTable extends ActionTable<IModel<Account>, String>
         }
 
         @Override
-        public final void performAction( List<IModel> iModels )
+        public final void performAction( List<Account> accounts )
         {
             final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
             try
             {
-                for( IModel iModel : iModels )
+                for( Account account : accounts )
                 {
                     //                getAccountService().remove( (Account) iModel.getObject() );
                 }
@@ -203,7 +172,7 @@ public class AccountTable extends ActionTable<IModel<Account>, String>
         }
     }
 
-    private class DisableAction extends DefaultAction<IModel>
+    private class DisableAction extends DefaultAction<Account>
     {
         private static final long serialVersionUID = 1L;
 
@@ -213,16 +182,11 @@ public class AccountTable extends ActionTable<IModel<Account>, String>
         }
 
         @Override
-        public void performAction( List<IModel> iModels )
+        public void performAction( List<Account> accounts )
         {
             final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
             try
             {
-                List<Account> accounts = new ArrayList<Account>();
-                for( IModel iModel : iModels )
-                {
-                    accounts.add( (Account) iModel.getObject() );
-                }
                 //            getAccountService().enableAccounts( accounts, enable );
                 ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
             }
@@ -237,7 +201,7 @@ public class AccountTable extends ActionTable<IModel<Account>, String>
         }
     }
 
-    private class EnableAction extends DefaultAction<IModel>
+    private class EnableAction extends DefaultAction<Account>
     {
         private static final long serialVersionUID = 1L;
 
@@ -246,16 +210,11 @@ public class AccountTable extends ActionTable<IModel<Account>, String>
             super( getString( ENABLE_ACTION ) );
         }
 
-        public void performAction( List<IModel> iModels )
+        public void performAction( List<Account> accounts )
         {
             final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
             try
             {
-                List<Account> accounts = new ArrayList<Account>();
-                for( IModel iModel : iModels )
-                {
-                    accounts.add( (Account) iModel.getObject() );
-                }
                 //            getAccountService().enableAccounts( accounts, enable );
                 ChronosUnitOfWorkManager.get().completeCurrentUnitOfWork();
             }
@@ -269,4 +228,6 @@ public class AccountTable extends ActionTable<IModel<Account>, String>
             info( getString( ENABLE_SUCCESS ) );
         }
     }
+
+
 }

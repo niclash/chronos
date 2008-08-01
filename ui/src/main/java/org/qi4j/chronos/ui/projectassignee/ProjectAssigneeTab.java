@@ -15,16 +15,23 @@ package org.qi4j.chronos.ui.projectassignee;
 import org.apache.wicket.authorization.strategies.role.metadata.MetaDataRoleAuthorizationStrategy;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.model.Project;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.SystemRole;
+import org.qi4j.chronos.model.associations.HasProjectAssignees;
 import org.qi4j.chronos.ui.common.NewLinkPanel;
 import org.qi4j.chronos.ui.common.tab.NewLinkTab;
 
-public abstract class ProjectAssigneeTab extends NewLinkTab
+public final class ProjectAssigneeTab extends NewLinkTab
 {
-    public ProjectAssigneeTab( String title )
+    private static final long serialVersionUID = 1L;
+
+    private IModel<? extends HasProjectAssignees> hasProjectAssignees;
+
+    public ProjectAssigneeTab( String title, IModel<? extends HasProjectAssignees> hasProjectAssignees )
     {
         super( title );
+
+        this.hasProjectAssignees = hasProjectAssignees;
     }
 
     public NewLinkPanel getNewLinkPanel( String panelId )
@@ -34,6 +41,8 @@ public abstract class ProjectAssigneeTab extends NewLinkTab
 
     private class ProjectAssigneeNewLinkPanel extends NewLinkPanel
     {
+        private static final long serialVersionUID = 1L;
+
         public ProjectAssigneeNewLinkPanel( String id )
         {
             super( id );
@@ -44,15 +53,9 @@ public abstract class ProjectAssigneeTab extends NewLinkTab
             MetaDataRoleAuthorizationStrategy.authorize( link, RENDER, SystemRole.ACCOUNT_ADMIN );
         }
 
-        public Panel getContent( String id )
+        public Panel newContent( String id )
         {
-            return new ProjectAssigneeTable( id )
-            {
-                public Project getProject()
-                {
-                    return ProjectAssigneeTab.this.getProject();
-                }
-            };
+            return new ProjectAssigneeTable( id, hasProjectAssignees, new ProjectAssigneeDataProvider( hasProjectAssignees ) );
         }
 
         public void newLinkOnClick()
@@ -68,11 +71,9 @@ public abstract class ProjectAssigneeTab extends NewLinkTab
 //            setResponsePage( addPage );
         }
 
-        public String getNewLinkText()
+        public String newLinkText()
         {
             return "New Project Assignee";
         }
     }
-
-    public abstract Project getProject();
 }

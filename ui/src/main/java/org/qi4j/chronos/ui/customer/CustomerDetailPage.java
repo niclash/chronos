@@ -31,12 +31,12 @@ public class CustomerDetailPage extends LeftMenuNavPage
     {
         add( new FeedbackPanel( "feedbackPanel" ) );
 
-        ChronosCompoundPropertyModel model = new ChronosCompoundPropertyModel( customerModel );
+        ChronosCompoundPropertyModel<Customer> model = new ChronosCompoundPropertyModel<Customer>( customerModel.getObject() );
 
         setDefaultModel( model );
 
-        TextField nameField = new TextField( "name" );
-        TextField referenceField = new TextField( "reference" );
+        TextField<String> nameField = new TextField<String>( "name", model.<String>bind( "name" ) );
+        TextField<String> referenceField = new TextField<String>( "reference", model.<String>bind( "reference" ) );
 
         IModel<Address> addressModel = model.bind( "address" );
         AddressDetailPanel addressDetailPanel = new AddressDetailPanel( "addressDetailPanel", addressModel );
@@ -91,7 +91,6 @@ public class CustomerDetailPage extends LeftMenuNavPage
 //            add( ajaxTabbedPanel );
         add( goBackLink );
     }
-
 
 /*
     private void handleAddPriceRateSchedule( PriceRateSchedule priceRateSchedule )

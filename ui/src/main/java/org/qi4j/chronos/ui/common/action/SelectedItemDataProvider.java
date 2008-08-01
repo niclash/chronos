@@ -12,23 +12,23 @@
  */
 package org.qi4j.chronos.ui.common.action;
 
-import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
+import org.qi4j.entity.Identity;
 
-abstract class SelectedItemDataProvider<ITEM, ID extends Serializable> extends AbstractSortableDataProvider<ITEM, ID>
+abstract class SelectedItemDataProvider<T extends Identity> extends AbstractSortableDataProvider<T>
 {
     private static final long serialVersionUID = 1L;
 
-    private List<ID> selectedIdList;
+    private List<String> selectedIdList;
 
-    SelectedItemDataProvider( List<ID> selectedIdList )
+    SelectedItemDataProvider( List<String> selectedIdList )
     {
         this.selectedIdList = selectedIdList;
     }
 
-    public final List<ITEM> dataList( int first, int count )
+    public final List<T> dataList( int first, int count )
     {
         int toIndex = first + count;
 
@@ -38,13 +38,13 @@ abstract class SelectedItemDataProvider<ITEM, ID extends Serializable> extends A
             toIndex = selectedIdList.size();
         }
 
-        List<ID> idList = this.selectedIdList.subList( first, toIndex );
+        List<String> idList = this.selectedIdList.subList( first, toIndex );
 
-        List<ITEM> resultList = new ArrayList<ITEM>();
+        List<T> resultList = new ArrayList<T>();
 
-        for( ID id : idList )
+        for( String id : idList )
         {
-            ITEM t = load( id );
+            T t = load( id ).getObject();
 
             resultList.add( t );
         }
@@ -52,7 +52,7 @@ abstract class SelectedItemDataProvider<ITEM, ID extends Serializable> extends A
         return resultList;
     }
 
-    public final int getSize()
+    public int size()
     {
         return selectedIdList.size();
     }

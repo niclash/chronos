@@ -22,6 +22,7 @@ import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.apache.wicket.markup.html.form.SubmitLink;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -33,9 +34,7 @@ import org.qi4j.chronos.model.ProjectRole;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.PriceRateEntity;
 import org.qi4j.chronos.ui.common.CurrencyChoiceRenderer;
-import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.common.NameChoiceRenderer;
-import org.qi4j.chronos.ui.common.NumberTextField;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
 import org.qi4j.chronos.ui.common.model.GenericCustomCompositeModel;
@@ -45,12 +44,12 @@ import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.chronos.util.CurrencyUtil;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
-public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
+public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage<PriceRateSchedule>
 {
-    private MaxLengthTextField nameField;
+    private TextField nameField;
     private List<SimpleDropDownChoice<ProjectRole>> projectRoleChoiceList;
     private List<SimpleDropDownChoice<PriceRateTypeEnum>> priceRateTypeChoiceList;
-    private List<NumberTextField> amountFieldList;
+    private List<TextField> amountFieldList;
     protected List<PriceRate> priceRateList;
     private ListView priceRateListView;
     private SubmitLink newPriceRateLink;
@@ -79,7 +78,7 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
         return getAccount().priceRateSchedules().size();
     }
 
-    public final void initComponent( Form form )
+    public final void initComponent( Form<PriceRateSchedule> form )
     {
         selectPriceRateScheduleLink = new SubmitLink( "selectPriceRateScheduleLink" )
         {
@@ -105,7 +104,7 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
         priceRateList = buildPriceRateList( getInitPriceRateIterator() );
         projectRoleChoiceList = new ArrayList<SimpleDropDownChoice<ProjectRole>>();
         priceRateTypeChoiceList = new ArrayList<SimpleDropDownChoice<PriceRateTypeEnum>>();
-        amountFieldList = new ArrayList<NumberTextField>();
+        amountFieldList = new ArrayList<TextField>();
 
         newPriceRateLink = new SubmitLink( "newPriceRateLink" )
         {
@@ -128,7 +127,7 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
                 final SimpleDropDownChoice<PriceRateTypeEnum> priceRateTypeChoice =
                     new SimpleDropDownChoice( "priceRateTypeChoice",
                                               Arrays.asList( PriceRateTypeEnum.values() ), true );
-                final NumberTextField amountField = new NumberTextField( "amountField", "Amount" );
+                final TextField amountField = new TextField( "amountField" );
 
                 projectRoleChoiceList.add( projectRoleChoice );
                 priceRateTypeChoiceList.add( priceRateTypeChoice );
@@ -155,7 +154,7 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
             }
         };
 
-        nameField = new MaxLengthTextField( "name", "Name", PriceRateSchedule.NAME_LEN );
+        nameField = new TextField( "name");
 
         form.add( selectPriceRateScheduleContainer );
         form.add( currencyChoice );
@@ -237,10 +236,10 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
     {
         boolean isRejected = false;
 
-        if( nameField.checkIsEmptyOrInvalidLength() )
-        {
-            isRejected = true;
-        }
+//        if( nameField.checkIsEmptyOrInvalidLength() )
+//        {
+//            isRejected = true;
+//        }
 
 /*
         if( priceRateList.size() == 0 )
@@ -264,13 +263,13 @@ public abstract class PriceRateScheduleAddEditPage extends AddEditBasePage
 
     private boolean isInvalidPriceRate()
     {
-        for( NumberTextField amountField : amountFieldList )
-        {
-            if( amountField.checkIsEmptyOrNotLong() )
-            {
-                return true;
-            }
-        }
+//        for( NumberTextField amountField : amountFieldList )
+//        {
+//            if( amountField.checkIsEmptyOrNotLong() )
+//            {
+//                return true;
+//            }
+//        }
 
         return false;
     }

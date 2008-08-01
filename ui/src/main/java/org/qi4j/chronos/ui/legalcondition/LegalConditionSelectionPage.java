@@ -17,15 +17,17 @@ import java.util.List;
 import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextArea;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.LegalCondition;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
-import org.qi4j.chronos.ui.common.SimpleTextArea;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 
 public abstract class LegalConditionSelectionPage extends LeftMenuNavPage
 {
+    private static final long serialVersionUID = 1L;
+
     private Page returnPage;
 
     public LegalConditionSelectionPage( Page returnPage )
@@ -43,12 +45,12 @@ public abstract class LegalConditionSelectionPage extends LeftMenuNavPage
 
     private class LegalConditionSelectionForm extends Form
     {
-        private Button submitButton;
-        private Button cancelButton;
+
+        private static final long serialVersionUID = -4222327186706699028L;
 
         private SimpleDropDownChoice<LegalConditionDelegator> legalConditionChoice;
 
-        private SimpleTextArea descTextArea;
+        private TextArea descTextArea;
 
         public LegalConditionSelectionForm( String id )
         {
@@ -63,6 +65,8 @@ public abstract class LegalConditionSelectionPage extends LeftMenuNavPage
 
             legalConditionChoice = new SimpleDropDownChoice<LegalConditionDelegator>( "legalConditionChoice", list, true )
             {
+                private static final long serialVersionUID = 1L;
+
                 protected void onSelectionChanged( Object newSelection )
                 {
                     handleSelectionChanged();
@@ -74,9 +78,9 @@ public abstract class LegalConditionSelectionPage extends LeftMenuNavPage
                 }
             };
 
-            descTextArea = new SimpleTextArea( "descTextArea", legalConditionChoice.getChoice().toString() );
+            descTextArea = new TextArea( "descTextArea", new Model( legalConditionChoice.getChoice().toString() ) );
 
-            submitButton = new Button( "submitButton", new Model( "Select" ) )
+            Button submitButton = new Button( "submitButton", new Model( "Select" ) )
             {
                 public void onSubmit()
                 {
@@ -84,7 +88,7 @@ public abstract class LegalConditionSelectionPage extends LeftMenuNavPage
                 }
             };
 
-            cancelButton = new Button( "cancelButton", new Model( "Cancel" ) )
+            Button cancelButton = new Button( "cancelButton", new Model( "Cancel" ) )
             {
                 public void onSubmit()
                 {
@@ -114,7 +118,7 @@ public abstract class LegalConditionSelectionPage extends LeftMenuNavPage
 
         private void handleSelectionChanged()
         {
-            descTextArea.setText( legalConditionChoice.getChoice().getDesc() );
+            descTextArea.setModelObject( legalConditionChoice.getChoice().getDesc() );
         }
     }
 

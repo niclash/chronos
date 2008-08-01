@@ -12,59 +12,36 @@
  */
 package org.qi4j.chronos.ui.contact;
 
-import java.util.ArrayList;
-import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.model.ContactPerson;
+import org.apache.wicket.model.IModel;
+import org.qi4j.chronos.model.associations.HasContacts;
 import org.qi4j.chronos.ui.common.BorderPanel;
 import org.qi4j.chronos.ui.common.BorderPanelWrapper;
 import org.qi4j.chronos.ui.common.tab.BaseTab;
-import org.qi4j.entity.Identity;
-import org.qi4j.library.general.model.Contact;
 
-public abstract class ContactTab extends BaseTab
+public final class ContactTab extends BaseTab
 {
-    public ContactTab()
+    private static final long serialVersionUID = 1L;
+
+    private IModel<HasContacts> hasContacts;
+
+    public ContactTab( IModel<HasContacts> hasContacts )
     {
         super( "Contact" );
+
+        this.hasContacts = hasContacts;
     }
 
     public BorderPanel getBorderPanel( String panelId )
     {
-        BorderPanelWrapper wrapper = new BorderPanelWrapper( panelId )
+        return new BorderPanelWrapper( panelId )
         {
+            private static final long serialVersionUID = 1L;
+
             public Panel getWrappedPanel( String panelId )
             {
-                ContactTable contactTable = new ContactTable( panelId )
-                {
-                    public ContactPerson getContactPerson()
-                    {
-                        return ContactTab.this.getContactPerson();
-                    }
-
-                    public List<String> dataList( int first, int count )
-                    {
-                        return ContactTab.this.dataList( first, count );
-                    }
-                };
-
-                return contactTable;
+                return new ContactTable( panelId, hasContacts, new ContactDataProvider( hasContacts ) );
             }
         };
-
-        return wrapper;
     }
-
-    public List<String> dataList( int first, int count )
-    {
-        List<String> contactIdList = new ArrayList<String>();
-        for( Contact contact : getContactPerson().contacts() )
-        {
-            contactIdList.add( ( (Identity) contact ).identity().get() );
-        }
-
-        return contactIdList.subList( first, first + count );
-    }
-
-    public abstract ContactPerson getContactPerson();
 }

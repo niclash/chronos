@@ -22,6 +22,7 @@ import org.apache.wicket.extensions.markup.html.form.palette.Palette;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.ContactPerson;
@@ -30,27 +31,22 @@ import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.ProjectStatusEnum;
 import org.qi4j.chronos.ui.common.FullNameChoiceRenderer;
-import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.common.NameChoiceRenderer;
-import org.qi4j.chronos.ui.common.SimpleDateField;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
-import org.qi4j.chronos.ui.common.model.NameModel;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 
-public abstract class ProjectAddEditPage extends AddEditBasePage
+public abstract class ProjectAddEditPage extends AddEditBasePage<Project>
 {
-    protected MaxLengthTextField projectNameField;
-    protected MaxLengthTextField formalReferenceField;
     protected SimpleDropDownChoice statusChoice;
     protected SimpleDropDownChoice primaryContactChoice;
     protected SimpleDropDownChoice customerChoice;
     protected SimpleDropDownChoice priceRateScheduleChoice;
     protected Palette contactPalette;
-    protected SimpleDateField estimateStartDate;
-    protected SimpleDateField estimateEndDate;
-    protected SimpleDateField actualStartDate;
-    protected SimpleDateField actualEndDate;
+    protected TextField estimateStartDate;
+    protected TextField estimateEndDate;
+    protected TextField actualStartDate;
+    protected TextField actualEndDate;
     private WebMarkupContainer actualDateContainer;
     private static final IChoiceRenderer nameChoiceRender = new NameChoiceRenderer();
     private static final IChoiceRenderer fullNameChoiceRender = new FullNameChoiceRenderer();
@@ -59,22 +55,28 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
     protected List<ContactPerson> selectedContactPersons;
     protected List<ContactPerson> availableContactPersons;
 
-    public ProjectAddEditPage( Page basePage, final IModel iModel )
+    private static final long serialVersionUID = 1L;
+
+    public ProjectAddEditPage( Page basePage, final IModel<Project> projectModel )
     {
-        super( basePage, iModel );
+        super( basePage, projectModel );
     }
 
-    public void initComponent( final Form form )
+    public void initComponent( final Form<Project> form )
     {
         availableCustomers = new ArrayList<Customer>( getAccount().customers() );
         customerChoice = new SimpleDropDownChoice( "customerChoice", availableCustomers, nameChoiceRender )
         {
-            @Override protected void onSelectionChanged( Object newSelection )
+            private static final long serialVersionUID = 1L;
+
+            @Override
+            protected void onSelectionChanged( Object newSelection )
             {
                 handleProjectOwnerChanged( form );
             }
 
-            @Override protected boolean wantOnSelectionChangedNotifications()
+            @Override
+            protected boolean wantOnSelectionChangedNotifications()
             {
                 return true;
             }
@@ -85,10 +87,9 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
         priceRateScheduleChoice =
             new SimpleDropDownChoice( "priceRateScheduleChoice", availablePriceRateSchedules, nameChoiceRender );
 
-        projectNameField = new MaxLengthTextField( "projectName", "Project Name", Project.PROJECT_NAME_LEN );
-        formalReferenceField =
-            new MaxLengthTextField( "projectFormalReference",
-                                    "Project Formal Reference", Project.PROJECT_FORMAL_REFERENCE_LEN );
+        TextField<String> projectNameField = new TextField<String>( "projectName" );
+        TextField<String> formalReferenceField =
+            new TextField<String>( "projectFormalReference" );
 
         statusChoice = new SimpleDropDownChoice( "statusChoice", Arrays.asList( ProjectStatusEnum.values() ), true )
         {
@@ -109,12 +110,12 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
             new SimpleDropDownChoice(
                 "primaryContactChoice", getAvailableContactPersonChoices(), fullNameChoiceRender );
 
-        estimateStartDate = new SimpleDateField( "estimateStartDate" );
-        estimateEndDate = new SimpleDateField( "estimateEndDate" );
+        estimateStartDate = new TextField( "estimateStartDate" );
+        estimateEndDate = new TextField( "estimateEndDate" );
         actualDateContainer = new WebMarkupContainer( "actualDateContainer" );
         actualDateContainer.setOutputMarkupId( true );
-        actualStartDate = new SimpleDateField( "actualStartDate" );
-        actualEndDate = new SimpleDateField( "actualEndDate" );
+        actualStartDate = new TextField( "actualStartDate" );
+        actualEndDate = new TextField( "actualEndDate" );
         actualDateContainer.add( actualStartDate );
         actualDateContainer.add( actualEndDate );
         actualDateContainer.setVisible( false );
@@ -217,8 +218,8 @@ public abstract class ProjectAddEditPage extends AddEditBasePage
 
     protected void bindPropertyModel( IModel iModel )
     {
-        projectNameField.setModel( new NameModel( iModel ) );
-        formalReferenceField.setModel( new CustomCompositeModel( iModel, "reference" ) );
+//        projectNameField.setModel( new NameModel( iModel ) );
+//        formalReferenceField.setModel( new CustomCompositeModel( iModel, "reference" ) );
         statusChoice.setModel( new CustomCompositeModel( iModel, "projectStatus" ) );
         customerChoice.setModel( new CustomCompositeModel( iModel, "customer" ) );
         priceRateScheduleChoice.setModel( new CustomCompositeModel( iModel, "priceRateSchedule" ) );

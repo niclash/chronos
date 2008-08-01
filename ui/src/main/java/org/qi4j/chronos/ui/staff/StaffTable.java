@@ -12,36 +12,29 @@
  */
 package org.qi4j.chronos.ui.staff;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 import org.apache.wicket.markup.html.basic.Label;
+import org.apache.wicket.markup.html.form.CheckBox;
 import org.apache.wicket.markup.repeater.Item;
-import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
+import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Money;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.associations.HasStaffs;
-import org.qi4j.chronos.model.composites.StaffEntity;
-import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
-import org.qi4j.chronos.ui.common.SimpleCheckBox;
 import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.DefaultAction;
 import org.qi4j.chronos.ui.common.action.DeleteAction;
-import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import org.qi4j.entity.Identity;
 
-public abstract class StaffTable extends ActionTable<IModel, String>
+public final class StaffTable extends ActionTable<Staff>
 {
     private static final long serialVersionUID = 1L;
 
-    private AbstractSortableDataProvider<IModel, String> dataProvider;
+    private final static String[] COLUMN_NAMES = { "First Name", "Last name", "Salary", "Login Id", "Login Enabled", "Edit" };
 
-    public StaffTable( String id )
+    public StaffTable( String id, IModel<? extends HasStaffs> hasStaffs, StaffDataProvider dataProvider )
     {
-        super( id );
+        super( id, hasStaffs, dataProvider, COLUMN_NAMES );
 
         initActions();
     }
@@ -50,6 +43,8 @@ public abstract class StaffTable extends ActionTable<IModel, String>
     {
         addAction( new DeleteAction<Staff>( "Delete Staff" )
         {
+            private static final long serialVersionUID = 1L;
+
             public void performAction( List<Staff> staffs )
             {
 //                getStaffService().delete( staffs );
@@ -60,6 +55,8 @@ public abstract class StaffTable extends ActionTable<IModel, String>
 
         addAction( new DefaultAction<Staff>( "Disable Login" )
         {
+            private static final long serialVersionUID = 1L;
+
             public void performAction( List<Staff> staffs )
             {
 //                getStaffService().enableLogin( false, staffs );
@@ -70,6 +67,8 @@ public abstract class StaffTable extends ActionTable<IModel, String>
 
         addAction( new DefaultAction<Staff>( "Enable Login" )
         {
+            private static final long serialVersionUID = 1L;
+
             public void performAction( List<Staff> staffs )
             {
 //                getStaffService().enableLogin( true, staffs );
@@ -79,96 +78,12 @@ public abstract class StaffTable extends ActionTable<IModel, String>
         } );
     }
 
-    public AbstractSortableDataProvider<IModel, String> getDetachableDataProvider()
-    {
-        if( dataProvider == null )
-        {
-            dataProvider = new AbstractSortableDataProvider<IModel, String>()
-            {
-                public int getSize()
-                {
-                    return StaffTable.this.getHasStaffs().staffs().size();
-                }
-
-                public String getId( IModel t )
-                {
-                    return ( (Identity) t.getObject() ).identity().get();
-                }
-
-                public IModel load( final String s )
-                {
-                    return new CompoundPropertyModel(
-                        new LoadableDetachableModel()
-                        {
-                            protected Object load()
-                            {
-                                return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( s, StaffEntity.class );
-                            }
-                        }
-                    );
-                }
-
-                public List<IModel> dataList( int first, int count )
-                {
-                    List<IModel> models = new ArrayList<IModel>();
-                    for( final String staffId : StaffTable.this.dataList( first, count ) )
-                    {
-                        models.add(
-                            new CompoundPropertyModel(
-                                new LoadableDetachableModel()
-                                {
-                                    protected Object load()
-                                    {
-                                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( staffId, StaffEntity.class );
-                                    }
-                                }
-                            )
-                        );
-                    }
-                    return models;
-                }
-            };
-        }
-
-        return dataProvider;
-    }
-
-    public void populateItems( Item item, final IModel iModel )
-    {
-        final Staff staff = (Staff) iModel.getObject();
-        final String staffId = staff.identity().get();
-
-        item.add( createDetailLink( "firstName", staff.firstName().get(), staffId ) );
-        item.add( createDetailLink( "lastName", staff.lastName().get(), staffId ) );
-
-        Money salary = staff.salary().get();
-        item.add( new Label( "salary", salary.displayValue().get() ) );
-        item.add( new Label( "loginId", staff.login().get().name().get() ) );
-        item.add( new SimpleCheckBox( "loginEnabled", staff.login().get().isEnabled().get(), true ) );
-        item.add(
-            new SimpleLink( "editLink", "Edit" )
-            {
-                public void linkClicked()
-                {
-                    //TODO
-//                    setResponsePage(
-//                        new StaffEditPage( (BasePage) this.getPage(), staffId )
-//                        {
-//                            public Staff getStaff()
-//                            {
-//                                return staff;
-//                            }
-//                        }
-//                    );
-                }
-            }
-        );
-    }
-
     private SimpleLink createDetailLink( String id, String text, final String staffId )
     {
         return new SimpleLink( id, text )
         {
+            private static final long serialVersionUID = 1L;
+
             public void linkClicked()
             {
 /*
@@ -180,14 +95,36 @@ public abstract class StaffTable extends ActionTable<IModel, String>
         };
     }
 
-    public List<String> getTableHeaderList()
+    public void populateItems( Item<Staff> item )
     {
-        return Arrays.asList( "First Name", "Last name", "Salary", "Login Id", "Login Enabled", "Edit" );
+        final Staff staff = item.getModelObject();
+        final String staffId = staff.identity().get();
+
+        item.add( createDetailLink( "firstName", staff.firstName().get(), staffId ) );
+        item.add( createDetailLink( "lastName", staff.lastName().get(), staffId ) );
+
+        Money salary = staff.salary().get();
+        item.add( new Label( "salary", salary.displayValue().get() ) );
+        item.add( new Label( "loginId", staff.login().get().name().get() ) );
+        item.add( new CheckBox( "loginEnabled", new Model<Boolean>( staff.login().get().isEnabled().get() ) ) );
+        item.add( new SimpleLink( "editLink", "Edit" )
+        {
+            private static final long serialVersionUID = 1L;
+
+            public void linkClicked()
+            {
+                //TODO
+//                    setResponsePage(
+//                        new StaffEditPage( (BasePage) this.getPage(), staffId )
+//                        {
+//                            public Staff getStaff()
+//                            {
+//                                return staff;
+//                            }
+//                        }
+//                    );
+            }
+        }
+        );
     }
-
-    public abstract int getSize();
-
-    public abstract List<String> dataList( int first, int count );
-
-    public abstract HasStaffs getHasStaffs();
 }

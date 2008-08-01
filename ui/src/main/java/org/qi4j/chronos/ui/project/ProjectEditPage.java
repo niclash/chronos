@@ -26,7 +26,10 @@ import org.slf4j.LoggerFactory;
 
 public class ProjectEditPage extends ProjectAddEditPage
 {
+    private static final long serialVersionUID = -1175225123835832532L;
+
     private final static Logger LOGGER = LoggerFactory.getLogger( ProjectEditPage.class );
+
     private static final String UPDATE_FAIL = "updateFailed";
     private static final String UPDATE_SUCCESS = "updateSuccessful";
     private static final String SUBMIT_BUTTON = "editPageSubmitButton";

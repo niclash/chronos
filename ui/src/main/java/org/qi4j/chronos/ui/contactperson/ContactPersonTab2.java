@@ -13,40 +13,34 @@
 package org.qi4j.chronos.ui.contactperson;
 
 import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.model.Customer;
-import org.qi4j.chronos.model.Project;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.associations.HasContactPersons;
 import org.qi4j.chronos.ui.common.BorderPanel;
 import org.qi4j.chronos.ui.common.BorderPanelWrapper;
 import org.qi4j.chronos.ui.common.tab.BaseTab;
-import org.qi4j.entity.association.Association;
 
-public abstract class ContactPersonTab2 extends BaseTab
+public final class ContactPersonTab2 extends BaseTab
 {
-    public ContactPersonTab2( String title )
+    private static final long serialVersionUID = 1L;
+
+    private IModel<HasContactPersons> hasContactPersons;
+
+    public ContactPersonTab2( String title, IModel<HasContactPersons> hasContactPersons )
     {
         super( title );
+
+        this.hasContactPersons = hasContactPersons;
     }
 
     public BorderPanel getBorderPanel( String panelId )
     {
-        BorderPanelWrapper borderPanelWrapper = new BorderPanelWrapper( panelId )
+        return new BorderPanelWrapper( panelId )
         {
+            private static final long serialVersionUID = 1L;
+
             public Panel getWrappedPanel( String panelId )
             {
-                ContactPersonTable table = new ContactPersonTable( panelId )
-                {
-                    public HasContactPersons getHasContactPersons()
-                    {
-                        return getProject();
-                    }
-
-                    public Customer getCustomer()
-                    {
-                        Association<Customer> projectCustomer = getProject().customer();
-                        return projectCustomer.get();
-                    }
-                };
+                ContactPersonTable table = new ContactPersonTable( panelId, hasContactPersons, new ContactPersonDataProvider( hasContactPersons ) );
 
                 table.setNavigatorVisible( false );
                 table.setActionBarVisible( false );
@@ -54,9 +48,6 @@ public abstract class ContactPersonTab2 extends BaseTab
                 return table;
             }
         };
-
-        return borderPanelWrapper;
     }
 
-    public abstract Project getProject();
 }

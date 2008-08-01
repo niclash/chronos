@@ -14,9 +14,9 @@
 package org.qi4j.chronos.model.associations;
 
 import org.qi4j.chronos.model.Comment;
-import org.qi4j.entity.association.ManyAssociation;
+import org.qi4j.entity.association.ListAssociation;
 
 public interface HasComments
 {
-    ManyAssociation<Comment> comments();
+    ListAssociation<Comment> comments();
 }

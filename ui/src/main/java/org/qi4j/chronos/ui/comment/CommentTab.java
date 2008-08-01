@@ -12,17 +12,23 @@
  */
 package org.qi4j.chronos.ui.comment;
 
-import java.util.List;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.associations.HasComments;
 import org.qi4j.chronos.ui.common.NewLinkPanel;
 import org.qi4j.chronos.ui.common.tab.NewLinkTab;
 
-public abstract class CommentTab extends NewLinkTab
+public final class CommentTab extends NewLinkTab
 {
-    public CommentTab( String title )
+    private static final long serialVersionUID = 1L;
+
+    private IModel<? extends HasComments> hasComments;
+
+    public CommentTab( String title, IModel<? extends HasComments> hasComments )
     {
         super( title );
+
+        this.hasComments = hasComments;
     }
 
     public NewLinkPanel getNewLinkPanel( String id )
@@ -32,49 +38,38 @@ public abstract class CommentTab extends NewLinkTab
 
     private class CommentNewLinkPanel extends NewLinkPanel
     {
+        private static final long serialVersionUID = 1L;
+
         public CommentNewLinkPanel( String id )
         {
             super( id );
         }
 
-        public Panel getContent( String id )
+        public Panel newContent( String id )
         {
-            return new CommentTable( id )
-            {
-                public List<String> dataList( int first, int count )
-                {
-                    return CommentTab.this.dataList( first, count );
-                }
-
-                public HasComments getHasComments()
-                {
-                    return CommentTab.this.getHasComments();
-                }
-            };
+            return new CommentTable( id, hasComments, new CommentDataProvider( hasComments ) );
         }
 
         public void newLinkOnClick()
         {
-            //TODO
             CommentAddPage addPage = new CommentAddPage( CommentNewLinkPanel.this.getPage(), null )
             {
+                private static final long serialVersionUID = 1L;
+
                 public HasComments getHasComments()
                 {
-                    return CommentTab.this.getHasComments();
+                    //TODO fix me
+                    return hasComments.getObject();
                 }
             };
 
             setResponsePage( addPage );
         }
 
-        public String getNewLinkText()
+        public String newLinkText()
         {
             return "New Comment";
         }
     }
 
-
-    public abstract List<String> dataList( int first, int count );
-
-    public abstract HasComments getHasComments();
 }

@@ -13,6 +13,7 @@
 package org.qi4j.chronos.ui.project;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import org.apache.wicket.Page;
 import org.apache.wicket.authentication.AuthenticatedWebSession;
@@ -22,12 +23,10 @@ import org.apache.wicket.extensions.markup.html.tabs.TabbedPanel;
 import org.apache.wicket.markup.html.WebMarkupContainer;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
-import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.model.Model;
-import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.Project;
@@ -35,114 +34,72 @@ import org.qi4j.chronos.model.ProjectAssignee;
 import org.qi4j.chronos.model.ProjectStatusEnum;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.SystemRole;
-import org.qi4j.chronos.model.TimeRange;
-import org.qi4j.chronos.model.WorkEntry;
-import org.qi4j.chronos.model.associations.HasContactPersons;
-import org.qi4j.chronos.model.associations.HasWorkEntries;
-import org.qi4j.chronos.model.composites.ProjectEntity;
-import org.qi4j.chronos.ui.common.SimpleTextField;
+import org.qi4j.chronos.ui.contactperson.ContactPersonDataProvider;
 import org.qi4j.chronos.ui.contactperson.ContactPersonTable;
 import org.qi4j.chronos.ui.legalcondition.LegalConditionTab;
 import org.qi4j.chronos.ui.pricerate.PriceRateTab;
 import org.qi4j.chronos.ui.projectassignee.ProjectAssigneeTab;
 import org.qi4j.chronos.ui.task.TaskTab;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
-import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
+import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
+import org.qi4j.chronos.ui.wicket.model.ChronosDetachableModel;
+import org.qi4j.chronos.ui.workentry.WorkEntryDataProvider;
 import org.qi4j.chronos.ui.workentry.WorkEntryTab;
-import org.qi4j.chronos.util.DateUtil;
-import org.qi4j.entity.Identity;
 
 public class ProjectDetailPage extends LeftMenuNavPage
 {
+    private static final long serialVersionUID = 1L;
+
     private Page returnPage;
 
-    public ProjectDetailPage( Page returnPage, final String projectId )
+    public ProjectDetailPage( Page returnPage, IModel<Project> projectModel )
     {
         this.returnPage = returnPage;
 
-        setDefaultModel(
-            new CompoundPropertyModel(
-                new LoadableDetachableModel()
-                {
-                    protected Object load()
-                    {
-                        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().find( projectId, ProjectEntity.class );
-                    }
-                }
-            )
-        );
-        initComponents();
-    }
-
-    private void initComponents()
-    {
         add( new FeedbackPanel( "feedbackPanel" ) );
-        add( new ProjectDetailForm( "projectDetailForm", getDefaultModel() ) );
+        add( new ProjectDetailForm( "projectDetailForm", projectModel ) );
     }
 
-    private class ProjectDetailForm extends Form
+    private class ProjectDetailForm extends Form<Project>
     {
-        public ProjectDetailForm( String id, IModel iModel )
+        private static final long serialVersionUID = 1L;
+
+        public ProjectDetailForm( String id, IModel<Project> projectModel )
         {
             super( id );
 
-            initComponents( iModel );
-        }
+            ChronosCompoundPropertyModel<Project> model = new ChronosCompoundPropertyModel<Project>( projectModel.getObject() );
+            setModel( model );
 
-        private void initComponents( IModel iModel )
-        {
-            final Project project = (Project) iModel.getObject();
-            final SimpleTextField projectNameField =
-                new SimpleTextField( "projectNameField", project.name().get() );
-            final SimpleTextField formalReferenceField =
-                new SimpleTextField( "formalReferenceField", project.reference().get() );
-            final ProjectStatusEnum projectStatus = project.projectStatus().get();
-            final SimpleTextField projectStatusField =
-                new SimpleTextField( "projectStatusField", projectStatus.toString() );
-
-            final Customer projectCustomer = project.customer().get();
-            final SimpleTextField projectOwnerField =
-                new SimpleTextField( "customerField", projectCustomer.name().get() );
-
-            final ContactPerson primaryContact = project.primaryContactPerson().get();
-            final SimpleTextField primaryContactField =
-                new SimpleTextField( "primaryContactField", primaryContact.fullName().get() );
-
-            final TimeRange projectEstimateTime = project.estimateTime().get();
-            final SimpleTextField estimateStartTimeField =
-                new SimpleTextField( "estimateStartTimeField",
-                                     DateUtil.formatDate( projectEstimateTime.startTime().get() ) );
-            final SimpleTextField estimateEndTimeField =
-                new SimpleTextField( "estimateEndTimeField",
-                                     DateUtil.formatDate( projectEstimateTime.endTime().get() ) );
-
-            final TimeRange projectActualTime = project.actualTime().get();
-            String actualStartTime = null;
-            String actualEndTime = null;
-            if( null != projectActualTime )
-            {
-                if( null != projectActualTime.startTime().get() )
-                {
-                    actualStartTime = DateUtil.formatDate( projectActualTime.startTime().get() );
-                }
-
-                if( null != projectActualTime.endTime().get() )
-                {
-                    actualEndTime = DateUtil.formatDate( projectActualTime.endTime().get() );
-                }
-            }
-            final SimpleTextField actualStartTimeField =
-                new SimpleTextField( "actualStartTimeField", actualStartTime );
-            final SimpleTextField actualEndTimeField =
-                new SimpleTextField( "actualEndTimeField", actualEndTime );
+            TextField<String> projectNameField =
+                new TextField<String>( "projectNameField", model.<String>bind( "name" ) );
+            TextField<String> formalReferenceField =
+                new TextField<String>( "formalReferenceField", model.<String>bind( "reference" ) );
+            TextField<String> projectStatusField =
+                new TextField<String>( "projectStatusField", model.<String>bind( "projectStatus" ) );
+            TextField<String> projectOwnerField =
+                new TextField<String>( "customerField", model.<String>bind( "customer.name" ) );
+            TextField<String> primaryContactField =
+                new TextField<String>( "primaryContactField", model.<String>bind( "primaryContactPerson.fullName" ) );
+            TextField<Date> estimateStartTimeField =
+                new TextField<Date>( "estimateStartTimeField", model.<Date>bind( "estimateTime.startTime" ) );
+            TextField<Date> estimateEndTimeField =
+                new TextField<Date>( "estimateEndTimeField", model.<Date>bind( "estimateTime.endTime" ) );
+            TextField<Date> actualStartTimeField =
+                new TextField<Date>( "actualStartTimeField", model.<Date>bind( "actualTime.startTime" ) );
+            TextField<Date> actualEndTimeField =
+                new TextField<Date>( "actualEndTimeField", model.<Date>bind( "actualTime.endTime" ) );
 
             final WebMarkupContainer actualTimeContainer = new WebMarkupContainer( "actualTimeContainer" );
+
             actualTimeContainer.add( actualStartTimeField );
             actualTimeContainer.add( actualEndTimeField );
 
             final Button submitButton =
-                new Button( "submitButton", new Model( "Return" ) )
+                new Button( "submitButton", new Model<String>( "Return" ) )
                 {
+                    private static final long serialVersionUID = -3931151764245902532L;
+
                     public void onSubmit()
                     {
                         setResponsePage( returnPage );
@@ -159,18 +116,14 @@ public class ProjectDetailPage extends LeftMenuNavPage
             tabs.add( createLegalConditionTab() );
 
             final TabbedPanel tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
-            final ContactPersonTable contactPersonTable = new ContactPersonTable( "contactPersonTable" )
-            {
-                public HasContactPersons getHasContactPersons()
-                {
-                    return ProjectDetailPage.this.getProject();
-                }
 
-                public Customer getCustomer()
-                {
-                    return ProjectDetailPage.this.getProject().customer().get();
-                }
-            };
+            Customer customer = getModelObject().customer().get();
+            ChronosDetachableModel<Customer> customerModel = new ChronosDetachableModel<Customer>( customer );
+
+            final ContactPersonTable contactPersonTable =
+                new ContactPersonTable( "contactPersonTable", customerModel
+                    , new ContactPersonDataProvider( customerModel ) );
+
             contactPersonTable.setActionBarVisible( false );
             contactPersonTable.setNavigatorVisible( false );
 
@@ -186,47 +139,29 @@ public class ProjectDetailPage extends LeftMenuNavPage
             add( tabbedPanel );
             add( contactPersonTable );
 
-            if( projectStatus != ProjectStatusEnum.CLOSED )
+            if( projectModel.getObject().projectStatus().get() != ProjectStatusEnum.CLOSED )
             {
                 actualTimeContainer.setVisible( false );
             }
         }
-    }
 
-    private WorkEntryTab createWorkEntryTab()
-    {
-        return new WorkEntryTab( "WorkEntries" )
+
+        private WorkEntryTab createWorkEntryTab()
         {
-            public List<String> dataList( int first, int count )
-            {
-                List<String> workEntryIdList = new ArrayList<String>();
-                for( WorkEntry workEntry : ProjectDetailPage.this.getProject().workEntries() )
-                {
-                    workEntryIdList.add( ( (Identity) workEntry ).identity().get() );
-                }
-                return workEntryIdList.subList( first, first + count );
-            }
+            ChronosDetachableModel<Project> project = new ChronosDetachableModel<Project>( getModelObject() );
+            ChronosDetachableModel<ProjectAssignee> projectAssignee = new ChronosDetachableModel<ProjectAssignee>( getProjectAssignee() );
 
-            public ProjectAssignee getProjectAssignee()
-            {
-                return ProjectDetailPage.this.getProjectAssignee();
-            }
+            return new WorkEntryTab( "WorkEntries", project, new WorkEntryDataProvider( project ), projectAssignee );
+        }
 
-            public HasWorkEntries getHasWorkEntries()
-            {
-                return ProjectDetailPage.this.getProject();
-            }
-        };
-    }
-
-    private ProjectAssignee getProjectAssignee()
-    {
-        AuthenticatedWebSession authenticatedSession = (AuthenticatedWebSession) getSession();
-        Roles roles = authenticatedSession.getRoles();
-        //TODO bp. This may return null if current user is Customer or ACCOUNT_ADMIN.
-        //TODO got better way to handle this?
-        if( roles.contains( SystemRole.STAFF ) )
+        private ProjectAssignee getProjectAssignee()
         {
+            AuthenticatedWebSession authenticatedSession = (AuthenticatedWebSession) getSession();
+            Roles roles = authenticatedSession.getRoles();
+            //TODO bp. This may return null if current user is Customer or ACCOUNT_ADMIN.
+            //TODO got better way to handle this?
+            if( roles.contains( SystemRole.STAFF ) )
+            {
 /*
             TODO kamil: migrate
             Staff staff = (Staff) getChronosSession().getUser();
@@ -235,67 +170,42 @@ public class ProjectDetailPage extends LeftMenuNavPage
 
             return projectAssignee;
 */
-            Staff staff = (Staff) getChronosSession().getUser();
-            for( ProjectAssignee projectAssignee : getProject().projectAssignees() )
-            {
-                if( staff.equals( projectAssignee.staff().get() ) )
+                Staff staff = (Staff) getChronosSession().getUser();
+                for( ProjectAssignee projectAssignee : getModelObject().projectAssignees() )
                 {
-                    return projectAssignee;
+                    if( staff.equals( projectAssignee.staff().get() ) )
+                    {
+                        return projectAssignee;
+                    }
                 }
+
+                return null;
             }
 
             return null;
         }
 
-        return null;
-    }
-
-    private LegalConditionTab createLegalConditionTab()
-    {
-        return new LegalConditionTab( "Legal Condition" )
+        private LegalConditionTab createLegalConditionTab()
         {
-            public Project getProject()
-            {
-                return ProjectDetailPage.this.getProject();
-            }
-        };
-    }
+            return new LegalConditionTab( "Legal Condition", getModel() );
+        }
 
-    private TaskTab createTaskTab()
-    {
-        return new TaskTab( "Task" )
+        private TaskTab createTaskTab()
         {
-            public Project getProject()
-            {
-                return ProjectDetailPage.this.getProject();
-            }
-        };
-    }
+            return new TaskTab( "Task", getModel() );
+        }
 
-    private ProjectAssigneeTab createProjectAssigneeTab()
-    {
-        return new ProjectAssigneeTab( "Project Assignee" )
+        private ProjectAssigneeTab createProjectAssigneeTab()
         {
-            public Project getProject()
-            {
-                return ProjectDetailPage.this.getProject();
-            }
-        };
-    }
+            return new ProjectAssigneeTab( "Project Assignee", getModel() );
+        }
 
-    private PriceRateTab createPriceRateTab()
-    {
-        return new PriceRateTab( "Price Rate Schedule" )
+        private PriceRateTab createPriceRateTab()
         {
-            public PriceRateSchedule getPriceRateSchedule()
-            {
-                return ProjectDetailPage.this.getProject().priceRateSchedule().get();
-            }
-        };
-    }
+            ChronosDetachableModel<PriceRateSchedule> priceRateSchedule =
+                new ChronosDetachableModel<PriceRateSchedule>( getModel().getObject().priceRateSchedule().get() );
 
-    public Project getProject()
-    {
-        return ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().dereference( (Project) getDefaultModelObject() );
+            return new PriceRateTab( "Price Rate Schedule", priceRateSchedule );
+        }
     }
 }

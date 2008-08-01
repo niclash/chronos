@@ -12,7 +12,7 @@
  */
 package org.qi4j.chronos.model.composites;
 
-import org.qi4j.library.general.model.Contact;
+import org.qi4j.chronos.model.Contact;
 import org.qi4j.entity.EntityComposite;
 
 /**

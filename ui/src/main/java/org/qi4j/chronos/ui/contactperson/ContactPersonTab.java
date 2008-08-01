@@ -13,16 +13,21 @@
 package org.qi4j.chronos.ui.contactperson;
 
 import org.apache.wicket.markup.html.panel.Panel;
-import org.qi4j.chronos.model.Customer;
+import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.associations.HasContactPersons;
 import org.qi4j.chronos.ui.common.NewLinkPanel;
 import org.qi4j.chronos.ui.common.tab.NewLinkTab;
 
-public abstract class ContactPersonTab extends NewLinkTab
+public final class ContactPersonTab extends NewLinkTab
 {
-    public ContactPersonTab()
+    private static final long serialVersionUID = 1L;
+
+    private IModel<HasContactPersons> hasContactPersons;
+
+    public ContactPersonTab( IModel<HasContactPersons> hasContactPersons )
     {
         super( "Contact Persons" );
+        this.hasContactPersons = hasContactPersons;
     }
 
     public NewLinkPanel getNewLinkPanel( String panelId )
@@ -32,25 +37,16 @@ public abstract class ContactPersonTab extends NewLinkTab
 
     private class ContactPersonNewLinkPanel extends NewLinkPanel
     {
+        private static final long serialVersionUID = 1L;
+
         public ContactPersonNewLinkPanel( String id )
         {
             super( id );
         }
 
-        public Panel getContent( String id )
+        public Panel newContent( String id )
         {
-            return new ContactPersonTable( id )
-            {
-                public HasContactPersons getHasContactPersons()
-                {
-                    return ContactPersonTab.this.getCustomer();
-                }
-
-                public Customer getCustomer()
-                {
-                    return ContactPersonTab.this.getCustomer();
-                }
-            };
+            return new ContactPersonTable( id, hasContactPersons, new ContactPersonDataProvider( hasContactPersons ) );
         }
 
         public void newLinkOnClick()
@@ -68,11 +64,10 @@ public abstract class ContactPersonTab extends NewLinkTab
 */
         }
 
-        public String getNewLinkText()
+        public String newLinkText()
         {
             return "New Contact Person";
         }
     }
 
-    public abstract Customer getCustomer();
 }

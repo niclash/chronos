@@ -13,9 +13,10 @@
  */
 package org.qi4j.chronos.model;
 
+import org.qi4j.entity.Identity;
 import org.qi4j.library.general.model.Description;
 
-public interface LegalCondition extends Name, Description
+public interface LegalCondition extends Name, Description, Identity
 {
     public final static int NAME_LEN = 120;
 

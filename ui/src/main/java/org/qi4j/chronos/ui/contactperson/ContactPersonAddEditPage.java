@@ -21,29 +21,29 @@ import org.apache.wicket.Page;
 import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInstantiation;
 import org.apache.wicket.markup.html.form.Form;
 import org.apache.wicket.markup.html.form.SubmitLink;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.list.ListItem;
 import org.apache.wicket.markup.html.list.ListView;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
+import org.qi4j.chronos.model.Contact;
 import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.composites.ContactEntity;
-import org.qi4j.chronos.ui.common.MaxLengthTextField;
 import org.qi4j.chronos.ui.common.model.CustomCompositeModel;
 import org.qi4j.chronos.ui.relationship.RelationshipOptionPanel;
 import org.qi4j.chronos.ui.user.UserAddEditPanel;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import org.qi4j.library.general.model.Contact;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public abstract class ContactPersonAddEditPage extends AddEditBasePage
 {
     private UserAddEditPanel userAddEditPanel;
     private RelationshipOptionPanel relationshipOptionPanel;
-    private List<MaxLengthTextField> contactValueFieldList;
-    private List<MaxLengthTextField> contactTypeFieldList;
+    private List<TextField> contactValueFieldList;
+    private List<TextField> contactTypeFieldList;
     private SubmitLink newContactLink;
     private ListView contactListView;
     protected List<Contact> contactList;
@@ -58,8 +58,8 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
     {
         contactList = getInitContactList();
 
-        contactValueFieldList = new ArrayList<MaxLengthTextField>();
-        contactTypeFieldList = new ArrayList<MaxLengthTextField>();
+        contactValueFieldList = new ArrayList<TextField>();
+        contactTypeFieldList = new ArrayList<TextField>();
 
         newContactLink = new SubmitLink( "newContactLink" )
         {
@@ -71,18 +71,20 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
 
         contactListView = new ListView( "contactListView", Arrays.asList( new Integer[contactList.size()] ) )
         {
+            private static final long serialVersionUID = 1L;
+
             protected void populateItem( ListItem item )
             {
                 final int index = item.getIndex();
                 final Contact contact = contactList.get( index );
 
-                final MaxLengthTextField contactValueField;
-                final MaxLengthTextField contactTypeField;
+                final TextField contactValueField;
+                final TextField contactTypeField;
 
                 contactValueField =
-                    new MaxLengthTextField( "contactValueField", "Contact Value", Contact.CONTACT_VALUE_LEN );
+                    new TextField( "contactValueField" );
                 contactTypeField =
-                    new MaxLengthTextField( "contactTypeField", "Contact Type", Contact.CONTACT_TYPE_LEN );
+                    new TextField( "contactTypeField" );
 
                 contactValueFieldList.add( contactValueField );
                 contactTypeFieldList.add( contactTypeField );

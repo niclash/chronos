@@ -20,6 +20,7 @@ import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInst
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.DropDownChoice;
 import org.apache.wicket.markup.html.form.Form;
+import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -29,7 +30,6 @@ import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.model.Report;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.common.NameChoiceRenderer;
-import org.qi4j.chronos.ui.common.SimpleDateField;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.chronos.util.ReportUtil;
 import org.qi4j.entity.Identity;
@@ -52,8 +52,8 @@ public class ReportMainPage extends AbstractReportPage
 
     private class ReportForm extends Form
     {
-        private final SimpleDateField startTimeDateField;
-        private final SimpleDateField endTimeDateField;
+        private final TextField startTimeDateField;
+        private final TextField endTimeDateField;
         private final DropDownChoice projectDropDownChoice;
 
         public ReportForm( String id, TimeRangeModel reportmodel )
@@ -63,9 +63,9 @@ public class ReportMainPage extends AbstractReportPage
             CompoundPropertyModel compoundPropertyModel = new CompoundPropertyModel( reportmodel );
             setModel( compoundPropertyModel );
 
-            startTimeDateField = new SimpleDateField( "startTimeDateField" );
+            startTimeDateField = new TextField( "startTimeDateField" );
             startTimeDateField.setModel( compoundPropertyModel.bind( "startDate" ) );
-            endTimeDateField = new SimpleDateField( "endTimeDateField" );
+            endTimeDateField = new TextField( "endTimeDateField" );
             endTimeDateField.setModel( compoundPropertyModel.bind( "endDate" ) );
 
             NameChoiceRenderer nameRenderer = new NameChoiceRenderer();
@@ -80,7 +80,7 @@ public class ReportMainPage extends AbstractReportPage
             add( endTimeDateField );
 //            add( new EmptyPanel ("historyPanel" ) );
 
-            SimplePanel historyPanel = new SimplePanel ("historyPanel" );
+            SimplePanel historyPanel = new SimplePanel( "historyPanel" );
             historyPanel.setHeaders( "Reports" );
             add( historyPanel );
 
@@ -93,10 +93,10 @@ public class ReportMainPage extends AbstractReportPage
 
             for( Report report : accountReport.reports() )
             {
-                entries.add( new String[] { report.name().get() } );
+                entries.add( new String[]{ report.name().get() } );
             }
             historyPanel.setEntries( entries );
-            Link hidden = new Link( "showDetail")
+            Link hidden = new Link( "showDetail" )
             {
                 public final void onClick()
                 {
@@ -105,7 +105,7 @@ public class ReportMainPage extends AbstractReportPage
             hidden.add( new Label( "linkLabel", "" ) );
             hidden.setVisible( false );
             historyPanel.add( hidden );
-            
+
             historyPanel.initComponents();
         }
 
@@ -121,7 +121,7 @@ public class ReportMainPage extends AbstractReportPage
             Report report = ReportUtil.generateReport( unitOfWork, "test", project, startTime, endTime );
 
             final Account account = unitOfWork.dereference( getAccount() );
-            final String reportId = ( (Identity) report).identity().get();
+            final String reportId = ( (Identity) report ).identity().get();
 
             final AccountReport accountReport = ReportUtil.getAccountReport( unitOfWork, account );
             accountReport.account().set( account );
