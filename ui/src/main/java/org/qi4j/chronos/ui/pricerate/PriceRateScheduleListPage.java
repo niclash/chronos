@@ -19,6 +19,7 @@ import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
+import org.qi4j.injection.scope.Uses;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public class PriceRateScheduleListPage extends LeftMenuNavPage
@@ -27,7 +28,7 @@ public class PriceRateScheduleListPage extends LeftMenuNavPage
 
     private IModel<HasPriceRateSchedules> hasPriceRateSchedules;
 
-    public PriceRateScheduleListPage( IModel<HasPriceRateSchedules> hasPriceRateSchedules )
+    public PriceRateScheduleListPage( @Uses IModel<HasPriceRateSchedules> hasPriceRateSchedules )
     {
         initComponents();
 

@@ -19,6 +19,7 @@ import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.associations.HasProjectRoles;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
+import org.qi4j.injection.scope.Uses;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public class ProjectRoleListPage extends LeftMenuNavPage
@@ -27,7 +28,7 @@ public class ProjectRoleListPage extends LeftMenuNavPage
 
     private IModel<? extends HasProjectRoles> hasProjectRoles;
 
-    public ProjectRoleListPage( IModel<? extends HasProjectRoles> hasProjectRoles )
+    public ProjectRoleListPage( @Uses IModel<? extends HasProjectRoles> hasProjectRoles )
     {
         this.hasProjectRoles = hasProjectRoles;
 

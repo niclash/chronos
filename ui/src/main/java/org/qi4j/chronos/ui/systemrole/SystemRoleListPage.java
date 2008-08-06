@@ -18,6 +18,7 @@ import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.associations.HasSystemRoles;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
+import org.qi4j.injection.scope.Uses;
 
 @AuthorizeInstantiation( { SystemRole.SYSTEM_ADMIN, SystemRole.ACCOUNT_ADMIN } )
 public class SystemRoleListPage extends LeftMenuNavPage
@@ -26,7 +27,7 @@ public class SystemRoleListPage extends LeftMenuNavPage
 
     private IModel<? extends HasSystemRoles> hasSystemRoles;
 
-    public SystemRoleListPage( IModel<? extends HasSystemRoles> hasSystemRoles )
+    public SystemRoleListPage( @Uses IModel<? extends HasSystemRoles> hasSystemRoles )
     {
         this.hasSystemRoles = hasSystemRoles;
         initComponents();

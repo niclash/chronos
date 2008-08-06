@@ -19,6 +19,7 @@ import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.associations.HasStaffs;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
+import org.qi4j.injection.scope.Uses;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public class StaffListPage extends LeftMenuNavPage
@@ -27,7 +28,7 @@ public class StaffListPage extends LeftMenuNavPage
 
     private IModel<? extends HasStaffs> hasStaffs;
 
-    public StaffListPage( IModel<? extends HasStaffs> hasStaffs )
+    public StaffListPage( @Uses IModel<? extends HasStaffs> hasStaffs )
     {
         this.hasStaffs = hasStaffs;
         initComponents();
