@@ -21,6 +21,7 @@ import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.address.AddressAddEditPanel;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
+import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 
 @AuthorizeInstantiation( SystemRole.SYSTEM_ADMIN )
 public abstract class AccountAddEditPage extends AddEditBasePage<Account>
@@ -32,12 +33,18 @@ public abstract class AccountAddEditPage extends AddEditBasePage<Account>
         super( goBackPage, accountModel );
     }
 
-    public final void initComponent( Form form )
+    public final void initComponent( Form<Account> form )
     {
-        RequiredTextField name = new RequiredTextField( "name" );
-        RequiredTextField reference = new RequiredTextField( "reference" );
 
-        AddressAddEditPanel address = new AddressAddEditPanel( "address" );
+        ChronosCompoundPropertyModel<Account> model = (ChronosCompoundPropertyModel<Account>) form.getModel();
+
+        RequiredTextField<String> name = new RequiredTextField<String>( "name" );
+        RequiredTextField<String> reference = new RequiredTextField<String>( "reference" );
+
+        AddressAddEditPanel address = new AddressAddEditPanel( "address", model );
+
+        name.setModel( model.<String>bind( "name" ) );
+        reference.setModel( model.<String>bind( "reference" ) );
 
         form.add( name );
         form.add( reference );

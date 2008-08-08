@@ -35,29 +35,6 @@ public abstract class CommentAddPage extends CommentAddEditPage
         super( basePage, comment );
     }
 
-//    private void bindModel()
-//    {
-//        setModel(
-//            new CompoundPropertyModel(
-//                new LoadableDetachableModel()
-//                {
-//                    public Object load()
-//                    {
-//                        final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
-//
-//                        final Comment comment =
-//                            unitOfWork.newEntityBuilder( CommentEntityComposite.class ).newInstance();
-//                        final User user = unitOfWork.dereference( getCommentOwner() );
-//                        comment.createdDate().set( new Date() );
-//                        comment.user().set( user );
-//
-//                        return comment;
-//                    }
-//                }
-//            )
-//        );
-//    }
-
     public void onSubmitting( IModel<Comment> model )
     {
         final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();

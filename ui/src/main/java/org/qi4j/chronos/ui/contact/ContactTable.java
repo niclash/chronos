@@ -28,7 +28,6 @@ import org.qi4j.chronos.ui.common.SimpleLink;
 import org.qi4j.chronos.ui.common.action.ActionTable;
 import org.qi4j.chronos.ui.common.action.DeleteAction;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import org.qi4j.entity.Identity;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
@@ -45,6 +44,10 @@ public final class ContactTable extends ActionTable<Contact>
     private static final String DELETE_FAIL = "deleteFailed";
 
     private static final String[] COLUMN_NAMES = { "Contact", "Contact Type", "" };
+
+    private static final String WICKET_ID_EDIT_LINK = "editLink";
+    private static final String WICKET_ID_CONTACT = "contact";
+    private static final String WICKET_ID_CONTACT_TYPE = "contactType";
 
     public ContactTable( String id, IModel<HasContacts> hasContacts, ContactDataProvider dataProvider )
     {
@@ -102,8 +105,8 @@ public final class ContactTable extends ActionTable<Contact>
     {
         org.qi4j.chronos.model.Contact contact = item.getModelObject();
 
-        item.add( new Label( "contact", contact.contactValue().get() ) );
-        item.add( new Label( "contactType", contact.contactType().get() ) );
+        item.add( new Label( WICKET_ID_CONTACT, contact.contactValue().get() ) );
+        item.add( new Label( WICKET_ID_CONTACT_TYPE, contact.contactType().get() ) );
 
         SimpleLink simpleLink = createEditLink( contact.identity().get() );
 
@@ -113,10 +116,10 @@ public final class ContactTable extends ActionTable<Contact>
     public void populateItems( Item item, IModel iModel )
     {
         final Contact contact = (Contact) iModel.getObject();
-        final String contactId = ( (Identity) contact ).identity().get();
+        final String contactId = contact.identity().get();
 
-        item.add( new Label( "contact", contact.contactValue().get() ) );
-        item.add( new Label( "contactType", contact.contactType().get() ) );
+        item.add( new Label( WICKET_ID_CONTACT, contact.contactValue().get() ) );
+        item.add( new Label( WICKET_ID_CONTACT_TYPE, contact.contactType().get() ) );
 
         SimpleLink simpleLink = createEditLink( contactId );
 
@@ -125,7 +128,7 @@ public final class ContactTable extends ActionTable<Contact>
 
     private SimpleLink createEditLink( final String contactId )
     {
-        return new SimpleLink( "editLink", "Edit" )
+        return new SimpleLink( WICKET_ID_EDIT_LINK, "Edit" )
         {
             private static final long serialVersionUID = 1L;
 

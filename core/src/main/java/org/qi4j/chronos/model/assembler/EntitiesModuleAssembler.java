@@ -48,6 +48,7 @@ import org.qi4j.chronos.model.composites.SystemRoleEntity;
 import org.qi4j.chronos.model.composites.TaskEntity;
 import org.qi4j.chronos.model.composites.TimeRangeEntity;
 import org.qi4j.chronos.model.composites.WorkEntryEntity;
+import org.qi4j.chronos.model.composites.ChronosSystemEntity;
 import static org.qi4j.structure.Visibility.application;
 
 /**
@@ -88,7 +89,8 @@ final class EntitiesModuleAssembler
             ReportEntity.class,
             ReportDetailEntity.class,
             ReportSummaryEntity.class,
-            AccountReportEntity.class
+            AccountReportEntity.class,
+            ChronosSystemEntity.class
         ).visibleIn( application );
     }
 }

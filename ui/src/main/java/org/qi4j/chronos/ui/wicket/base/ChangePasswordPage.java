@@ -17,7 +17,6 @@ import org.apache.wicket.Page;
 import org.apache.wicket.markup.html.basic.Label;
 import org.apache.wicket.markup.html.form.Button;
 import org.apache.wicket.markup.html.form.Form;
-import org.apache.wicket.markup.html.form.IFormSubmittingComponent;
 import org.apache.wicket.markup.html.form.PasswordTextField;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import org.apache.wicket.model.CompoundPropertyModel;
@@ -97,14 +96,32 @@ public final class ChangePasswordPage extends LeftMenuNavPage
             PasswordTextField confirmPasswordField = new PasswordTextField( WICKET_ID_CONFIRM_PASSWORD );
             add( confirmPasswordField );
             confirmPasswordField.add( notEmptyString );
-            confirmPasswordField.setRequired( false );
+            confirmPasswordField.setRequired( true );
 
             // Change Password button
-            submitButton = new Button( WICKET_ID_SUBMIT_BUTTON, new Model<String>( "Change Password" ) );
+            submitButton = new Button( WICKET_ID_SUBMIT_BUTTON, new Model<String>( "Change Password" ) )
+            {
+                private static final long serialVersionUID = 1L;
+
+                public void onSubmit()
+                {
+                    handleChangePassword();
+                }
+            };
             add( submitButton );
 
             // Cancel button
-            cancelButton = new Button( WICKET_ID_CANCEL_BUTTON, new Model<String>( "Cancel" ) );
+            cancelButton = new Button( WICKET_ID_CANCEL_BUTTON, new Model<String>( "Cancel" ) )
+            {
+                private static final long serialVersionUID = 1L;
+
+                public void onSubmit()
+                {
+                    setResponsePage( returnPage );
+                }
+            };
+            cancelButton.setDefaultFormProcessing( false );
+
             add( cancelButton );
         }
 
@@ -113,23 +130,6 @@ public final class ChangePasswordPage extends LeftMenuNavPage
             ChronosSession session = (ChronosSession) getSession();
             User user = session.getUser();
             return new Label( WICKET_ID_LOGIN_ID, user.login().get().name().get() );
-        }
-
-        @Override
-        protected final void delegateSubmit( IFormSubmittingComponent submittingComponent )
-        {
-            if( submittingComponent == submitButton )
-            {
-                handleChangePassword();
-            }
-            else if( submittingComponent == cancelButton )
-            {
-                setResponsePage( returnPage );
-            }
-            else
-            {
-                throw new IllegalArgumentException( "" );
-            }
         }
 
         private void handleChangePassword()

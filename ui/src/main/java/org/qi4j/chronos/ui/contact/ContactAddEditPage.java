@@ -19,6 +19,7 @@ import org.apache.wicket.markup.html.form.RequiredTextField;
 import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
+import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 import org.qi4j.library.general.model.Contact;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
@@ -33,8 +34,10 @@ public abstract class ContactAddEditPage extends AddEditBasePage<Contact>
 
     public void initComponent( Form<Contact> form )
     {
-        RequiredTextField valueField = new RequiredTextField( "contactValue" );
-        RequiredTextField contactTypeField = new RequiredTextField( "contactType" );
+        ChronosCompoundPropertyModel<Contact> model = (ChronosCompoundPropertyModel<Contact>) form.getModel();
+
+        RequiredTextField<String> valueField = new RequiredTextField<String>( "contactValue", model.<String>bind( "contactValue" ) );
+        RequiredTextField<String> contactTypeField = new RequiredTextField<String>( "contactType", model.<String>bind( "contactType" ) );
 
         form.add( valueField );
         form.add( contactTypeField );

@@ -194,7 +194,9 @@ public final class ProjectTable extends ActionTable<Project>
 
         item.add( createDetailLink( "name", project.name().get(), item.getModel() ) );
         item.add( createDetailLink( "formalReference", project.reference().get(), item.getModel() ) );
-        item.add( new Label( "status", project.projectStatus().get().toString() ) );
+
+        String projectStatus = project.projectStatus().get().name();
+        item.add( new Label( "status", projectStatus) );
 
         final SimpleLink editLink = createEditLink( project );
         item.add( editLink );

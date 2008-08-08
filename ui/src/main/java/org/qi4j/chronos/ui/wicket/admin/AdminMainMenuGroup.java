@@ -37,9 +37,11 @@ public class AdminMainMenuGroup extends MenuGroupPanel
     public final List<MenuItemPanel> getMenuItemList()
     {
         ArrayList<MenuItemPanel> itemPanels = new ArrayList<MenuItemPanel>();
+
         itemPanels.add( new PageMenuItemPanel( "Home", AdminHomePage.class ) );
         itemPanels.add( new PageMenuItemPanel( "Account", AccountListPage.class ) );
         itemPanels.add( new PageMenuItemPanel( "System Role", SystemRoleListPage.class ) );
+        
         return itemPanels;
     }
 }

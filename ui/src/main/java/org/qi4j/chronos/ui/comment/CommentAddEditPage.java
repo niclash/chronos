@@ -34,10 +34,9 @@ public abstract class CommentAddEditPage extends AddEditBasePage<Comment>
 
     public void initComponent( Form<Comment> form )
     {
-        TextArea commentTextArea = new TextArea( "text" );
-
         ChronosCompoundPropertyModel<Comment> model = (ChronosCompoundPropertyModel<Comment>) form.getModel();
 
+        TextArea commentTextArea = new TextArea( "text" );
         TextField<String> user = new TextField<String>( "user", model.<String>bind( "user.fullname" ) );
 
         form.add( commentTextArea );

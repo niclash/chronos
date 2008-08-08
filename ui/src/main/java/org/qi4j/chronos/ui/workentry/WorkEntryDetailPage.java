@@ -38,6 +38,8 @@ public class WorkEntryDetailPage extends LeftMenuNavPage
     private static final long serialVersionUID = 1L;
 
     private Page returnPage;
+    private static final String WICKET_ID_FEEDBACK_PANEL = "feedbackPanel";
+    private static final String WICKET_ID_WORK_ENTRY_DETAIL_FORM = "workEntryDetailForm";
 
     public WorkEntryDetailPage( Page returnPage, IModel<WorkEntry> workEntryModel )
     {
@@ -45,8 +47,8 @@ public class WorkEntryDetailPage extends LeftMenuNavPage
 
         ChronosCompoundPropertyModel<WorkEntry> model = new ChronosCompoundPropertyModel<WorkEntry>( workEntryModel.getObject() );
 
-        add( new FeedbackPanel( "feedbackPanel" ) );
-        add( new WorkEntryDetailForm( "workEntryDetailForm", model ) );
+        add( new FeedbackPanel( WICKET_ID_FEEDBACK_PANEL ) );
+        add( new WorkEntryDetailForm( WICKET_ID_WORK_ENTRY_DETAIL_FORM, model ) );
     }
 
     private class WorkEntryDetailForm extends Form<WorkEntry>

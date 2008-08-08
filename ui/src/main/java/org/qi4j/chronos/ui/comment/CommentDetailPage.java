@@ -28,18 +28,37 @@ public class CommentDetailPage extends LeftMenuNavPage
 {
     private static final long serialVersionUID = 1L;
 
-    public CommentDetailPage( final Page basePage, IModel<Comment> comment )
+    private static final String WICKET_ID_FEEDBACK_PANEL = "feedbackPanel";
+    private static final String WICKET_ID_CREATED_DATE = "createdDate";
+    private static final String WICKET_ID_USER = "user";
+    private static final String WICKET_ID_TEXT = "text";
+
+    private final Page basePage;
+
+    public CommentDetailPage( Page basePage, IModel<Comment> comment )
     {
+        this.basePage = basePage;
+
         ChronosCompoundPropertyModel<Comment> model = new ChronosCompoundPropertyModel<Comment>( comment.getObject() );
         setDefaultModel( model );
 
-        add( new FeedbackPanel( "feedbackPanel" ) );
+        add( new FeedbackPanel( WICKET_ID_FEEDBACK_PANEL ) );
 
-        TextField<Date> createdDateField = new TextField<Date>( "createdDate", model.<Date>bind( "createdDate" ) );
-        TextField<String> userField = new TextField<String>( "user", model.<String>bind( "user.fullName" ) );
-        TextArea<String> commentTextArea = new TextArea<String>( "text", model.<String>bind( "text" ) );
+        TextField<Date> createdDateField = new TextField<Date>( WICKET_ID_CREATED_DATE, model.<Date>bind( WICKET_ID_CREATED_DATE ) );
+        TextField<String> userField = new TextField<String>( WICKET_ID_USER, model.<String>bind( "user.fullName" ) );
+        TextArea<String> commentTextArea = new TextArea<String>( WICKET_ID_TEXT, model.<String>bind( WICKET_ID_TEXT ) );
 
-        final Button submitButton = new Button( "submitButton", new Model<String>( "Return" ) )
+        final Button submitButton = newSubmitButton();
+
+        add( createdDateField );
+        add( userField );
+        add( commentTextArea );
+        add( submitButton );
+    }
+
+    private Button newSubmitButton()
+    {
+        return new Button( "submitButton", new Model<String>( "Return" ) )
         {
             private static final long serialVersionUID = 1L;
 
@@ -48,10 +67,5 @@ public class CommentDetailPage extends LeftMenuNavPage
                 setResponsePage( basePage );
             }
         };
-
-        add( createdDateField );
-        add( userField );
-        add( commentTextArea );
-        add( submitButton );
     }
 }

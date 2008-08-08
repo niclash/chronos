@@ -24,6 +24,11 @@ import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
 public abstract class WorkEntryAddEditPage extends AddEditBasePage<WorkEntry>
 {
     private static final long serialVersionUID = 1L;
+    
+    private static final String WICKET_ID_TITLE = "title";
+    private static final String WICKET_ID_DESCRIPTION = "description";
+    private static final String WICKET_ID_START_TIME = "startTime";
+    private static final String WICKET_ID_END_TIME = "endTime";
 
     public WorkEntryAddEditPage( Page basePage, IModel<WorkEntry> workEntry )
     {
@@ -32,11 +37,11 @@ public abstract class WorkEntryAddEditPage extends AddEditBasePage<WorkEntry>
 
     public void initComponent( Form<WorkEntry> form )
     {
-        RequiredTextField titleField = new RequiredTextField( "title" );
-        TextArea descriptionTextArea = new TextArea( "description" );
+        RequiredTextField titleField = new RequiredTextField( WICKET_ID_TITLE );
+        TextArea descriptionTextArea = new TextArea( WICKET_ID_DESCRIPTION );
 
-        DateTimeField fromDateTimeField = new DateTimeField( "startTime" );
-        DateTimeField toDateTimeField = new DateTimeField( "endTime" );
+        DateTimeField fromDateTimeField = new DateTimeField( WICKET_ID_START_TIME );
+        DateTimeField toDateTimeField = new DateTimeField( WICKET_ID_END_TIME );
 
         form.add( titleField );
         form.add( descriptionTextArea );

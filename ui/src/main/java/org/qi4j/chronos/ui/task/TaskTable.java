@@ -41,6 +41,10 @@ public final class TaskTable extends ActionTable<Task>
     private static final String DELETE_FAIL = "deleteFailed";
 
     private final static String[] COLUMN_NAMES = { "Title", "Created Date", "Created by", "" };
+    private static final String WICKET_ID_CREATED_DATE_LABEL = "createdDateLabel";
+    private static final String WICKET_ID_CREATED_BY_LABEL = "createdByLabel";
+    private static final String WICKET_ID_EDIT_LINK = "editLink";
+    private static final String WICKET_ID_TITLE = "title";
 
     public TaskTable( String id, IModel<? extends HasTasks> hasTasks, TaskDataProvider dataProvider )
     {
@@ -99,7 +103,7 @@ public final class TaskTable extends ActionTable<Task>
         final Task task = item.getModelObject();
         final String id = task.identity().get();
 
-        item.add( new SimpleLink( "title", task.title().get() )
+        item.add( new SimpleLink( WICKET_ID_TITLE, task.title().get() )
         {
             private static final long serialVersionUID = 1L;
 
@@ -109,10 +113,10 @@ public final class TaskTable extends ActionTable<Task>
             }
         }
         );
-        item.add( new Label( "createdDateLabel", DateUtil.formatDateTime( task.createdDate().get() ) ) );
-        item.add( new Label( "createdByLabel", task.user().get().fullName().get() ) );
+        item.add( new Label( WICKET_ID_CREATED_DATE_LABEL, DateUtil.formatDateTime( task.createdDate().get() ) ) );
+        item.add( new Label( WICKET_ID_CREATED_BY_LABEL, task.user().get().fullName().get() ) );
 
-        SimpleLink editLink = new SimpleLink( "editLink", "Edit" )
+        SimpleLink editLink = new SimpleLink( WICKET_ID_EDIT_LINK, "Edit" )
         {
             private static final long serialVersionUID = 1L;
 

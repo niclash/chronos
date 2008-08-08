@@ -28,7 +28,8 @@ public final class WorkEntryTab extends NewLinkTab
     private WorkEntryDataProvider dataProvider;
     private IModel<ProjectAssignee> projectAssignee;
 
-    public WorkEntryTab( String title, IModel<? extends HasWorkEntries> hasWorkEntries, WorkEntryDataProvider dataProvider, IModel<ProjectAssignee> projectAssignee )
+    public WorkEntryTab( String title, IModel<? extends HasWorkEntries> hasWorkEntries, WorkEntryDataProvider dataProvider,
+                         IModel<ProjectAssignee> projectAssignee )
     {
         super( title );
 

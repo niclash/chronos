@@ -44,33 +44,47 @@ public final class TaskDetailPage extends LeftMenuNavPage
 {
     private static final long serialVersionUID = 1L;
 
+    private static final String WICKET_ID_FEEDBACK_PANEL = "feedbackPanel";
+    private static final String WICKET_ID_TASK_DETAIL_FORM = "taskDetailForm";
+
     private Page basePage;
 
     public TaskDetailPage( final Page basePage, IModel<Task> task )
     {
         this.basePage = basePage;
 
-        add( new FeedbackPanel( "feedbackPanel" ) );
-        add( new TaskMasterDetailForm( "taskDetailForm", task ) );
+        add( new FeedbackPanel( WICKET_ID_FEEDBACK_PANEL ) );
+        add( new TaskMasterDetailForm( WICKET_ID_TASK_DETAIL_FORM, task ) );
     }
 
     private class TaskMasterDetailForm extends Form
     {
         private static final long serialVersionUID = 1L;
 
+        private static final String WICKET_ID_USER_FIELD = "userField";
+        private static final String WICKET_ID_TITLE = "title";
+        private static final String WICKET_ID_CREATE_DATE = "createDate";
+        private static final String WICKET_ID_DESCRIPTION = "description";
+        private static final String WICKET_ID_SUBMIT_BUTTON = "submitButton";
+        private static final String WICKET_ID_TABBED_PANEL = "tabbedPanel";
+        private static final String WICKET_ID_COMMENT = "Comment";
+        private static final String WICKET_ID_WORK_ENTRIES = "WorkEntries";
+
         public TaskMasterDetailForm( String id, IModel<Task> task )
         {
             super( id );
 
-            ChronosCompoundPropertyModel model = new ChronosCompoundPropertyModel( task );
+            ChronosCompoundPropertyModel<Task> model = new ChronosCompoundPropertyModel<Task>( task.getObject() );
 
-            TextField userField = new TextField( "userField", model.bind( "user.fullName" ) );
-            TextField titleField = new TextField( "title" );
-            TextField createDateField = new TextField( "createDate" );
-            TextArea descriptionTextArea = new TextArea( "description" );
+            TextField<String> userField = new TextField<String>( WICKET_ID_USER_FIELD, model.<String>bind( "user.fullName" ) );
+            TextField<String> titleField = new TextField<String>( WICKET_ID_TITLE, model.<String>bind( WICKET_ID_TITLE ) );
+            TextField<String> createDateField = new TextField<String>( WICKET_ID_CREATE_DATE, model.<String>bind( "createdDate" ) );
+            TextArea<String> descriptionTextArea = new TextArea<String>( WICKET_ID_DESCRIPTION, model.<String>bind( WICKET_ID_DESCRIPTION ) );
 
-            final Button submitButton = new Button( "submitButton", new Model( "Return" ) )
+            final Button submitButton = new Button( WICKET_ID_SUBMIT_BUTTON, new Model<String>( "Return" ) )
             {
+                private static final long serialVersionUID = 1L;
+
                 public void onSubmit()
                 {
                     setResponsePage( basePage );
@@ -81,7 +95,7 @@ public final class TaskDetailPage extends LeftMenuNavPage
             tabs.add( createCommentTab() );
             tabs.add( createWorkEntryTab() );
 
-            TabbedPanel tabbedPanel = new TabbedPanel( "tabbedPanel", tabs );
+            TabbedPanel tabbedPanel = new TabbedPanel( WICKET_ID_TABBED_PANEL, tabs );
 
             add( userField );
             add( titleField );
@@ -96,13 +110,13 @@ public final class TaskDetailPage extends LeftMenuNavPage
             ChronosDetachableModel<Task> task = new ChronosDetachableModel<Task>( getTask() );
             ChronosDetachableModel<ProjectAssignee> projectAssignee = new ChronosDetachableModel<ProjectAssignee>( getProjectAssignee() );
 
-            return new WorkEntryTab( "WorkEntries", task, new WorkEntryDataProvider( task ), projectAssignee );
+            return new WorkEntryTab( WICKET_ID_WORK_ENTRIES, task, new WorkEntryDataProvider( task ), projectAssignee );
         }
 
         private CommentTab createCommentTab()
         {
             ChronosDetachableModel<Task> task = new ChronosDetachableModel<Task>( getTask() );
-            return new CommentTab( "Comment", task );
+            return new CommentTab( WICKET_ID_COMMENT, task );
         }
     }
 

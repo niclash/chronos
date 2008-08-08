@@ -137,7 +137,7 @@ public class LoginPage extends BasePage
 
         public String getIdValue( ChronosEntityModel<Account> object, int index )
         {
-            return ( (Identity) object.getObject() ).identity().get();
+            return object.getObject() .identity().get();
         }
     }
 

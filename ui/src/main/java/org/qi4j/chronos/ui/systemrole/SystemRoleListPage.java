@@ -26,6 +26,8 @@ public class SystemRoleListPage extends LeftMenuNavPage
     private static final long serialVersionUID = 1L;
 
     private IModel<? extends HasSystemRoles> hasSystemRoles;
+    private static final String WICKET_ID_FEEDBACK_PANEL = "feedbackPanel";
+    private static final String WICKET_ID_SYSTEM_ROLE_TABLE = "systemRoleTable";
 
     public SystemRoleListPage( @Uses IModel<? extends HasSystemRoles> hasSystemRoles )
     {
@@ -35,9 +37,10 @@ public class SystemRoleListPage extends LeftMenuNavPage
 
     private void initComponents()
     {
-        add( new FeedbackPanel( "feedbackPanel" ) );
+        add( new FeedbackPanel( WICKET_ID_FEEDBACK_PANEL ) );
 
-        SystemRoleTable systemRoleTable = new SystemRoleTable( "systemRoleTable", hasSystemRoles, new SystemRoleDataProvider( hasSystemRoles ) );
+        SystemRoleTable systemRoleTable = new SystemRoleTable( WICKET_ID_SYSTEM_ROLE_TABLE, hasSystemRoles, 
+                                                               new SystemRoleDataProvider( hasSystemRoles ) );
 
         systemRoleTable.setActionBarVisible( false );
 

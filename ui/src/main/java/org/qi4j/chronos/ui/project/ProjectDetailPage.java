@@ -46,7 +46,7 @@ import org.qi4j.chronos.ui.wicket.model.ChronosDetachableModel;
 import org.qi4j.chronos.ui.workentry.WorkEntryDataProvider;
 import org.qi4j.chronos.ui.workentry.WorkEntryTab;
 
-public class ProjectDetailPage extends LeftMenuNavPage
+public final class ProjectDetailPage extends LeftMenuNavPage
 {
     private static final long serialVersionUID = 1L;
 
@@ -80,7 +80,7 @@ public class ProjectDetailPage extends LeftMenuNavPage
             TextField<String> projectOwnerField =
                 new TextField<String>( "customerField", model.<String>bind( "customer.name" ) );
             TextField<String> primaryContactField =
-                new TextField<String>( "primaryContactField", model.<String>bind( "primaryContactPerson.fullName" ) );
+                new TextField<String>( "primaryContactField", model.<String>bind( "customer.name" ) );
             TextField<Date> estimateStartTimeField =
                 new TextField<Date>( "estimateStartTimeField", model.<Date>bind( "estimateTime.startTime" ) );
             TextField<Date> estimateEndTimeField =
@@ -145,31 +145,34 @@ public class ProjectDetailPage extends LeftMenuNavPage
             }
         }
 
-
+        @SuppressWarnings( "unchecked")
         private WorkEntryTab createWorkEntryTab()
         {
             ChronosDetachableModel<Project> project = new ChronosDetachableModel<Project>( getModelObject() );
-            ChronosDetachableModel<ProjectAssignee> projectAssignee = new ChronosDetachableModel<ProjectAssignee>( getProjectAssignee() );
 
-            return new WorkEntryTab( "WorkEntries", project, new WorkEntryDataProvider( project ), projectAssignee );
+            ProjectAssignee projectAssignee = getProjectAssignee();
+
+            IModel<ProjectAssignee> projectAssigneeIModel;
+
+            if(projectAssignee!=null)
+            {
+                projectAssigneeIModel = new ChronosDetachableModel<ProjectAssignee>( projectAssignee);
+            }else{
+                projectAssigneeIModel= new Model();
+            }
+
+            return new WorkEntryTab( "WorkEntries", project, new WorkEntryDataProvider( project ), projectAssigneeIModel );
         }
 
         private ProjectAssignee getProjectAssignee()
         {
             AuthenticatedWebSession authenticatedSession = (AuthenticatedWebSession) getSession();
             Roles roles = authenticatedSession.getRoles();
+            
             //TODO bp. This may return null if current user is Customer or ACCOUNT_ADMIN.
             //TODO got better way to handle this?
             if( roles.contains( SystemRole.STAFF ) )
             {
-/*
-            TODO kamil: migrate
-            Staff staff = (Staff) getChronosSession().getUser();
-
-            ProjectAssignee projectAssignee = getServices().getProjectAssigneeService().getProjectAssignee( getProject(), staff );
-
-            return projectAssignee;
-*/
                 Staff staff = (Staff) getChronosSession().getUser();
                 for( ProjectAssignee projectAssignee : getModelObject().projectAssignees() )
                 {

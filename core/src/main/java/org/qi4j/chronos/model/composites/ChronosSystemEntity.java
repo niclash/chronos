@@ -12,10 +12,10 @@
  */
 package org.qi4j.chronos.model.composites;
 
-import org.qi4j.chronos.model.System;
+import org.qi4j.chronos.model.ChronosSystem;
 import org.qi4j.entity.EntityComposite;
 
-public interface SystemEntityComposite extends System, EntityComposite
+public interface ChronosSystemEntity extends ChronosSystem, EntityComposite
 {
 
 }

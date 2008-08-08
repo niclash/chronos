@@ -27,12 +27,12 @@ public final class UserDetailPanel extends Panel
     {
         super( id );
 
-        ChronosCompoundPropertyModel<IModel<? extends User>> model = new ChronosCompoundPropertyModel<IModel<? extends User>>( user );
+        ChronosCompoundPropertyModel<User> model = new ChronosCompoundPropertyModel<User>( user.getObject() );
         setDefaultModel( model );
 
-        TextField firstNameField = new TextField( "firstName" );
-        TextField lastNameField = new TextField( "lastName" );
-        TextField genderField = new TextField( "gender" );
+        TextField<String> firstNameField = new TextField<String>( "firstName", model.<String>bind( "firstName" ));
+        TextField<String> lastNameField = new TextField<String>( "lastName", model.<String>bind( "lastName" ));
+        TextField<String> genderField = new TextField<String>( "gender", model.<String>bind( "gender" ));
 
         IModel<Login> loginModel = model.bind( "login" );
 

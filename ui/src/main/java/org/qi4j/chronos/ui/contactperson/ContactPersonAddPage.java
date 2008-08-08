@@ -37,45 +37,7 @@ public abstract class ContactPersonAddPage extends ContactPersonAddEditPage
     public ContactPersonAddPage( @Uses Page basePage, @Uses IModel<ContactPerson> contactPersonModel )
     {
         super( basePage, contactPersonModel );
-
-/*
-        validateNotNull( "basePage", basePage );
-
-        bindModel();
-*/
     }
-
-    /*
-        private void bindModel()
-        {
-            setModel(
-                new CompoundPropertyModel(
-                    new LoadableDetachableModel()
-                    {
-                        public Object load()
-                        {
-                            final UnitOfWork unitOfWork = ChronosUnitOfWorkManager.get().getCurrentUnitOfWork();
-                            final ContactPerson contactPerson =
-                                unitOfWork.newEntityBuilder( ContactPersonEntityComposite.class ).newInstance();
-                            final Login contactPersonLogin =
-                                unitOfWork.newEntityBuilder( LoginEntityComposite.class ).newInstance();
-                            final SystemRole contactPersonRole =
-                                unitOfWork.find( SystemRole.CONTACT_PERSON, SystemRoleEntityComposite.class );
-                            contactPerson.gender().set( GenderType.MALE );
-                            contactPersonLogin.isEnabled().set( true );
-                            contactPerson.login().set( contactPersonLogin );
-                            contactPerson.systemRoles().add( contactPersonRole );
-                            contactPerson.relationship().set( getRelationshipOptionPanel().getRelationshipList().get( 0 ) );
-
-                            return contactPerson;
-                        }
-                    }
-                )
-            );
-
-            bindPropertyModel( getModel() );
-        }
-    */
 
     protected void handleSubmitClicked( IModel iModel )
     {

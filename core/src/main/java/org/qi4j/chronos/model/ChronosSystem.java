@@ -14,6 +14,6 @@ package org.qi4j.chronos.model;
 
 import org.qi4j.chronos.model.associations.HasAccounts;
 
-public interface System extends HasAccounts
+public interface ChronosSystem extends HasAccounts
 {
 }

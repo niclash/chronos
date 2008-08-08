@@ -85,6 +85,8 @@ public abstract class PriceRateAddEditPage extends AddEditBasePage
     {
         PriceRateSelectionPage selectionPage = new PriceRateSelectionPage( this )
         {
+            private static final long serialVersionUID = 1L;
+
             public void handleSelectedPriceRate( PriceRate priceRate )
             {
                 PriceRateAddEditPage.this.handleSelectedPriceRate( priceRate );

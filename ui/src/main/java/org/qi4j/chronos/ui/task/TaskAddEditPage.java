@@ -37,17 +37,18 @@ public abstract class TaskAddEditPage extends AddEditBasePage<Task>
 
     public void initComponent( Form<Task> form )
     {
-        RequiredTextField titleField = new RequiredTextField( "title" );
-        TextArea descriptionTextArea = new TextArea( "description" );
-
-        TextField userField = new TextField( "user" );
-
-        ChronosCompoundPropertyModel model = (ChronosCompoundPropertyModel) form.getModel();
+        ChronosCompoundPropertyModel<Task> model = (ChronosCompoundPropertyModel<Task>) form.getModel();
 
         DropDownChoice taskStatusChoice = new DropDownChoice( "taskStatusChoice", Arrays.asList( TaskStatusEnum.values() ) );
 
+        RequiredTextField<String> titleField = new RequiredTextField<String>( "title" );
+        TextArea<String> descriptionTextArea = new TextArea<String>( "description" );
+
+        TextField<String> userField = new TextField<String>( "user" );
+
         taskStatusChoice.setModel( model.bind( "taskStatus" ) );
-        userField.setModel( model.bind( "user.fullName" ) );
+        userField.setModel( model.<String>bind( "user.fullName" ) );
+        descriptionTextArea.setModel( model.<String>bind( "description" ));
 
         form.add( titleField );
         form.add( descriptionTextArea );

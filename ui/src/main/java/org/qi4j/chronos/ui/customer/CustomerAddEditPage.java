@@ -21,6 +21,7 @@ import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.address.AddressAddEditPanel;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
+import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public abstract class CustomerAddEditPage extends AddEditBasePage<Customer>
@@ -32,11 +33,16 @@ public abstract class CustomerAddEditPage extends AddEditBasePage<Customer>
         super( goBackPage, model );
     }
 
-    public final void initComponent( Form form )
+    public final void initComponent( Form<Customer> form )
     {
-        RequiredTextField name = new RequiredTextField( "name" );
-        RequiredTextField reference = new RequiredTextField( "reference" );
-        AddressAddEditPanel address = new AddressAddEditPanel( "address" );
+        ChronosCompoundPropertyModel<Customer> model = (ChronosCompoundPropertyModel<Customer>) form.getModel();
+
+        RequiredTextField<String> name = new RequiredTextField<String>( "name" );
+        RequiredTextField<String> reference = new RequiredTextField<String>( "reference" );
+        AddressAddEditPanel address = new AddressAddEditPanel( "address", model );
+
+        name.setModel( model.<String>bind( "name" ) );
+        reference.setModel( model.<String>bind( "reference" ) );
 
         form.add( name );
         form.add( reference );
@@ -45,8 +51,8 @@ public abstract class CustomerAddEditPage extends AddEditBasePage<Customer>
 
     public final void handleSubmitClicked( IModel<Customer> model )
     {
-        onSubmitting(model);
+        onSubmitting( model );
     }
 
-    public abstract void onSubmitting(IModel<Customer> model);
+    public abstract void onSubmitting( IModel<Customer> model );
 }

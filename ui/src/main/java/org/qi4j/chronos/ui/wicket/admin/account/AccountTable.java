@@ -67,7 +67,7 @@ public class AccountTable extends ActionTable<Account>
     private final static String[] COLUMN_NAMES = { HEADER_NAME, HEADER_REFERENCE, HEADER_ENABLED,
                                                    HEADER_PROJECT, HEADER_ACTIVE, HEADER_INACTIVE, HEADER_CLOSED, HEADER_LAST };
 
-    public AccountTable( @Uses String aWicketId, @Uses IModel<HasAccounts> hasAccounts, @Uses AccountDataProvider dataProvider )
+    public AccountTable( String aWicketId, IModel<? extends HasAccounts> hasAccounts, AccountDataProvider dataProvider )
         throws IllegalArgumentException
     {
         super( aWicketId, hasAccounts, dataProvider, COLUMN_NAMES );
@@ -82,6 +82,8 @@ public class AccountTable extends ActionTable<Account>
     {
         return new SimpleLink( id, displayValue )
         {
+            private static final long serialVersionUID = 1L;
+
             public void linkClicked()
             {
                 setResponsePage( newPage( AccountDetailPage.class, getPageParameters( accountId ) ) );

@@ -26,6 +26,8 @@ public abstract class SystemRoleServiceMixin extends AbstractServiceMixin
     implements SystemRoleService
 {
     private static final SystemRole systemRoleTemplate = templateFor( SystemRole.class );
+    
+    private static final long serialVersionUID = 1L;
 
     public List<SystemRole> findAllSystemRoles()
     {

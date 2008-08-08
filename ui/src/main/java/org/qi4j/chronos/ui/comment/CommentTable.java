@@ -40,6 +40,9 @@ public final class CommentTable extends ActionTable<Comment>
     private static final String DELETE_FAIL = "deleteFailed";
 
     private static final long serialVersionUID = 1L;
+    private static final String WICKET_ID_USER = "user";
+    private static final String WICKET_ID_CREATED_DATE = "createdDate";
+    private static final String WICKET_ID_COMMENT = "comment";
 
     public CommentTable( String id, IModel<? extends HasComments> model, CommentDataProvider commentDataProvider )
     {
@@ -116,8 +119,8 @@ public final class CommentTable extends ActionTable<Comment>
         User user = comment.user().get();
 
         Date createdDate = comment.createdDate().get();
-        commentItem.add( createDetailLink( "user", user.fullName().get(), commentModel ) );
-        commentItem.add( createDetailLink( "createdDate", DateUtil.formatDateTime( createdDate ), commentModel ) );
-        commentItem.add( createDetailLink( "comment", comment.text().get(), commentModel ) );
+        commentItem.add( createDetailLink( WICKET_ID_USER, user.fullName().get(), commentModel ) );
+        commentItem.add( createDetailLink( WICKET_ID_CREATED_DATE, DateUtil.formatDateTime( createdDate ), commentModel ) );
+        commentItem.add( createDetailLink( WICKET_ID_COMMENT, comment.text().get(), commentModel ) );
     }
 }

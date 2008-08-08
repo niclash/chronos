@@ -31,6 +31,12 @@ public final class StaffTable extends ActionTable<Staff>
     private static final long serialVersionUID = 1L;
 
     private final static String[] COLUMN_NAMES = { "First Name", "Last name", "Salary", "Login Id", "Login Enabled", "Edit" };
+    private static final String WICKET_ID_FIRST_NAME = "firstName";
+    private static final String WICKET_ID_LAST_NAME = "lastName";
+    private static final String WICKET_ID_SALARY = "salary";
+    private static final String WICKET_ID_LOGIN_ID = "loginId";
+    private static final String WICKET_ID_LOGIN_ENABLED = "loginEnabled";
+    private static final String WICKET_ID_EDIT_LINK = "editLink";
 
     public StaffTable( String id, IModel<? extends HasStaffs> hasStaffs, StaffDataProvider dataProvider )
     {
@@ -100,14 +106,15 @@ public final class StaffTable extends ActionTable<Staff>
         final Staff staff = item.getModelObject();
         final String staffId = staff.identity().get();
 
-        item.add( createDetailLink( "firstName", staff.firstName().get(), staffId ) );
-        item.add( createDetailLink( "lastName", staff.lastName().get(), staffId ) );
+        item.add( createDetailLink( WICKET_ID_FIRST_NAME, staff.firstName().get(), staffId ) );
+        item.add( createDetailLink( WICKET_ID_LAST_NAME, staff.lastName().get(), staffId ) );
 
         Money salary = staff.salary().get();
-        item.add( new Label( "salary", salary.displayValue().get() ) );
-        item.add( new Label( "loginId", staff.login().get().name().get() ) );
-        item.add( new CheckBox( "loginEnabled", new Model<Boolean>( staff.login().get().isEnabled().get() ) ) );
-        item.add( new SimpleLink( "editLink", "Edit" )
+        
+        item.add( new Label( WICKET_ID_SALARY, salary.displayValue().get() ) );
+        item.add( new Label( WICKET_ID_LOGIN_ID, staff.login().get().name().get() ) );
+        item.add( new CheckBox( WICKET_ID_LOGIN_ENABLED, new Model<Boolean>( staff.login().get().isEnabled().get() ) ) );
+        item.add( new SimpleLink( WICKET_ID_EDIT_LINK, "Edit" )
         {
             private static final long serialVersionUID = 1L;
 

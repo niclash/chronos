@@ -17,10 +17,12 @@ import org.apache.wicket.authorization.strategies.role.annotations.AuthorizeInst
 import org.apache.wicket.markup.html.link.Link;
 import org.apache.wicket.markup.html.panel.FeedbackPanel;
 import static org.qi4j.chronos.model.SystemRole.SYSTEM_ADMIN;
+import org.qi4j.chronos.model.ChronosSystem;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
-import org.qi4j.injection.scope.Structure;
-import org.qi4j.object.ObjectBuilder;
-import org.qi4j.object.ObjectBuilderFactory;
+import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
+import org.qi4j.chronos.ui.wicket.admin.account.model.AccountDataProvider;
+import org.qi4j.chronos.ui.wicket.model.ChronosDetachableModel;
+import org.qi4j.query.QueryBuilder;
 
 @AuthorizeInstantiation( SYSTEM_ADMIN )
 public class AccountListPage extends LeftMenuNavPage
@@ -31,9 +33,25 @@ public class AccountListPage extends LeftMenuNavPage
     private static final String WICKET_ID_NEW_ACCOUNT_LINK = "newAccountLink";
     private static final String WICKET_ID_FEEDBACK_PANEL = "feedbackPanel";
 
-    public AccountListPage( @Structure ObjectBuilderFactory anOBF )
+    public AccountListPage( )
     {
-        add( new Link( WICKET_ID_NEW_ACCOUNT_LINK )
+        add( newAccountLink());
+
+        QueryBuilder<ChronosSystem> queryBuilder =ChronosUnitOfWorkManager.get().getCurrentUnitOfWork().queryBuilderFactory().newQueryBuilder( ChronosSystem.class );
+
+        ChronosSystem system = queryBuilder.newQuery().find();
+
+        ChronosDetachableModel<ChronosSystem> systemModel = new ChronosDetachableModel<ChronosSystem>(system);
+
+        AccountTable accountTable = new AccountTable( WICKET_ID_ACCOUNT_TABLE, systemModel, new AccountDataProvider(systemModel));
+        add( accountTable );
+
+        add( new FeedbackPanel( WICKET_ID_FEEDBACK_PANEL ) );
+    }
+
+    private Link newAccountLink()
+    {
+        return new Link( WICKET_ID_NEW_ACCOUNT_LINK )
         {
             private static final long serialVersionUID = 1L;
 
@@ -46,14 +64,6 @@ public class AccountListPage extends LeftMenuNavPage
 
                 setResponsePage( newPage( AccountAddPage.class, param ) );
             }
-        } );
-
-
-        ObjectBuilder<AccountTable> accountTableBuilder = anOBF.newObjectBuilder( AccountTable.class );
-        accountTableBuilder.use( WICKET_ID_ACCOUNT_TABLE );
-        AccountTable accountTable = accountTableBuilder.newInstance();
-        add( accountTable );
-
-        add( new FeedbackPanel( WICKET_ID_FEEDBACK_PANEL ) );
+        };
     }
 }

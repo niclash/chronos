@@ -14,21 +14,30 @@ package org.qi4j.chronos.ui.address;
 
 import org.apache.wicket.markup.html.form.TextField;
 import org.apache.wicket.markup.html.panel.Panel;
+import org.qi4j.chronos.model.associations.HasAddress;
+import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 
 public class AddressAddEditPanel extends Panel
 {
     private static final long serialVersionUID = 1L;
 
-    public AddressAddEditPanel( String id )
+    public AddressAddEditPanel( String id, ChronosCompoundPropertyModel<? extends HasAddress> addressModel )
     {
         super( id );
 
-        TextField address1Field = new TextField( "firstLine" );
-        TextField address2Field = new TextField( "secondLine" );
-        TextField zipcodeField = new TextField( "zipCode" );
-        TextField countryField = new TextField( "city.name" );
-        TextField cityField = new TextField( "city.country.name" );
-        TextField stateField = new TextField( "city.state.name" );
+        TextField<String> address1Field = new TextField<String>( "firstLine" );
+        TextField<String> address2Field = new TextField<String>( "secondLine" );
+        TextField<String> zipcodeField = new TextField<String>( "zipCode" );
+        TextField<String> countryField = new TextField<String>( "city.name" );
+        TextField<String> cityField = new TextField<String>( "city.country.name" );
+        TextField<String> stateField = new TextField<String>( "city.state.name" );
+
+        address1Field.setModel( addressModel.<String>bind( "address.firstLine" ) );
+        address1Field.setModel( addressModel.<String>bind( "address.secondLine" ) );
+        address1Field.setModel( addressModel.<String>bind( "address.zipCode" ) );
+        address1Field.setModel( addressModel.<String>bind( "address.city.name" ) );
+        address1Field.setModel( addressModel.<String>bind( "address.city.country.name" ) );
+        address1Field.setModel( addressModel.<String>bind( "address.city.state.name" ) );
 
         add( address1Field );
         add( address2Field );

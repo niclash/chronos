@@ -26,20 +26,25 @@ import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 public class CustomerDetailPage extends LeftMenuNavPage
 {
     private static final long serialVersionUID = 1L;
+    private static final String WICKET_ID_FEEDBACK_PANEL = "feedbackPanel";
+    private static final String WICKET_ID_NAME = "name";
+    private static final String WICKET_ID_REFERENCE = "reference";
+    private static final String WICKET_ID_ADDRESS_DETAIL_PANEL = "addressDetailPanel";
+    private static final String WICKET_ID_GO_BACK_LINK = "goBackLink";
 
     public CustomerDetailPage( final Page returnPage, final IModel<Customer> customerModel )
     {
-        add( new FeedbackPanel( "feedbackPanel" ) );
+        add( new FeedbackPanel( WICKET_ID_FEEDBACK_PANEL ) );
 
         ChronosCompoundPropertyModel<Customer> model = new ChronosCompoundPropertyModel<Customer>( customerModel.getObject() );
 
         setDefaultModel( model );
 
-        TextField<String> nameField = new TextField<String>( "name", model.<String>bind( "name" ) );
-        TextField<String> referenceField = new TextField<String>( "reference", model.<String>bind( "reference" ) );
+        TextField<String> nameField = new TextField<String>( WICKET_ID_NAME, model.<String>bind( WICKET_ID_NAME ) );
+        TextField<String> referenceField = new TextField<String>( WICKET_ID_REFERENCE, model.<String>bind( WICKET_ID_REFERENCE ) );
 
         IModel<Address> addressModel = model.bind( "address" );
-        AddressDetailPanel addressDetailPanel = new AddressDetailPanel( "addressDetailPanel", addressModel );
+        AddressDetailPanel addressDetailPanel = new AddressDetailPanel( WICKET_ID_ADDRESS_DETAIL_PANEL, addressModel );
 
 //            List<AbstractTab> tabs = new ArrayList<AbstractTab>();
 //
@@ -75,7 +80,7 @@ public class CustomerDetailPage extends LeftMenuNavPage
 //
 //            ajaxTabbedPanel = new TabbedPanel( "ajaxTabbedPanel", tabs );
 
-        Link goBackLink = new Link( "goBackLink" )
+        Link goBackLink = new Link( WICKET_ID_GO_BACK_LINK )
         {
             private static final long serialVersionUID = 1L;
 

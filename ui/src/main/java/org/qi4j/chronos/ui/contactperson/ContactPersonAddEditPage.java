@@ -48,6 +48,7 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
     private ListView contactListView;
     protected List<Contact> contactList;
     private static final String DUPLICATE_ENTRY = "duplicateContacts";
+    private static final String WICKET_ID_NEW_CONTACT_LINK = "newContactLink";
 
     public ContactPersonAddEditPage( Page goBackPage, IModel<ContactPerson> contactPersonModel )
     {
@@ -61,8 +62,10 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
         contactValueFieldList = new ArrayList<TextField>();
         contactTypeFieldList = new ArrayList<TextField>();
 
-        newContactLink = new SubmitLink( "newContactLink" )
+        newContactLink = new SubmitLink( WICKET_ID_NEW_CONTACT_LINK )
         {
+            private static final long serialVersionUID = 1L;
+
             public void onSubmit()
             {
                 handleNewContact();
@@ -110,6 +113,8 @@ public abstract class ContactPersonAddEditPage extends AddEditBasePage
 
         relationshipOptionPanel = new RelationshipOptionPanel( "relationshipOptionPanel" )
         {
+            private static final long serialVersionUID = 1L;
+
             public Customer getCustomer()
             {
                 return ContactPersonAddEditPage.this.getCustomer();

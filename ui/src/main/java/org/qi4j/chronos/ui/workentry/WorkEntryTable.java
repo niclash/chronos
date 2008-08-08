@@ -30,6 +30,7 @@ import org.slf4j.LoggerFactory;
 public final class WorkEntryTable extends ActionTable<WorkEntry>
 {
     private static final Logger LOGGER = LoggerFactory.getLogger( WorkEntryTable.class );
+    
     private static final String DELETE_ACTION = "deleteAction";
     private static final String DELETE_SUCCESS = "deleteSuccessful";
     private static final String DELETE_FAIL = "deleteFailed";
@@ -37,6 +38,11 @@ public final class WorkEntryTable extends ActionTable<WorkEntry>
     private static final long serialVersionUID = 1L;
 
     private final static String[] COLUMN_NAMES = { "Title", "Created Date", "From Time", "To Time", "" };
+
+    private static final String WICKET_ID_CREATED_DATE = "createdDate";
+    private static final String WICKET_ID_FROM_TIME = "fromTime";
+    private static final String WICKET_ID_TO_TIME = "toTime";
+    private static final String WICKET_ID_EDIT_LINK = "editLink";
 
     public WorkEntryTable( String id, IModel<? extends HasWorkEntries> hasWorkEntries, WorkEntryDataProvider dataProvider )
     {
@@ -86,7 +92,6 @@ public final class WorkEntryTable extends ActionTable<WorkEntry>
     public void populateItems( final Item<WorkEntry> item )
     {
         final WorkEntry workEntry = item.getModelObject();
-        final String workEntryId = workEntry.identity().get();
 
         item.add( new SimpleLink( "title", workEntry.title().get() )
         {
@@ -99,10 +104,11 @@ public final class WorkEntryTable extends ActionTable<WorkEntry>
             }
         }
         );
-        item.add( new Label( "createdDate", DateUtil.formatDateTime( workEntry.createdDate().get() ) ) );
-        item.add( new Label( "fromTime", DateUtil.formatDateTime( workEntry.startTime().get() ) ) );
-        item.add( new Label( "toTime", DateUtil.formatDateTime( workEntry.endTime().get() ) ) );
-        item.add( new SimpleLink( "editLink", "Edit" )
+        item.add( new Label( WICKET_ID_CREATED_DATE, DateUtil.formatDateTime( workEntry.createdDate().get() ) ) );
+        item.add( new Label( WICKET_ID_FROM_TIME, DateUtil.formatDateTime( workEntry.startTime().get() ) ) );
+        item.add( new Label( WICKET_ID_TO_TIME, DateUtil.formatDateTime( workEntry.endTime().get() ) ) );
+        
+        item.add( new SimpleLink( WICKET_ID_EDIT_LINK, "Edit" )
         {
             private static final long serialVersionUID = 1L;
 

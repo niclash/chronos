@@ -37,8 +37,6 @@ public abstract class MenuItemPanel extends Panel
         link.add( label );
     }
 
-    protected abstract void handleClicked();
-
     private static class MenuItemLink extends Link
     {
         private static final long serialVersionUID = 1L;
@@ -56,5 +54,7 @@ public abstract class MenuItemPanel extends Panel
             menuItem.handleClicked();
         }
     }
+
+    protected abstract void handleClicked();    
 }
 

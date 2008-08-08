@@ -36,7 +36,7 @@ public abstract class LeftMenuNavPage extends TopMenuNavPage
 
         MenuGroupPanel[] menuBars = null;
 
-        if( roles.contains( SystemRole.ACCOUNT_ADMIN ) )
+        if( roles.contains( SystemRole.SYSTEM_ADMIN ) )
         {
             menuBars = getAdminMenuBars();
         }
@@ -49,14 +49,14 @@ public abstract class LeftMenuNavPage extends TopMenuNavPage
             menuBars = getContactPersonMenuBars();
         }
 
-        ListView menuBarListView = new ListView( "menuBarList", Arrays.asList( menuBars ) )
+        ListView<MenuGroupPanel> menuBarListView = new ListView<MenuGroupPanel>( "menuBarList", Arrays.asList( menuBars ) )
         {
             private static final long serialVersionUID = 1L;
 
             @Override
-            protected void populateItem( ListItem item )
+            protected void populateItem( ListItem<MenuGroupPanel> item )
             {
-                MenuGroupPanel leftMenuBar = (MenuGroupPanel) item.getModelObject();
+                MenuGroupPanel leftMenuBar = item.getModelObject();
 
                 item.add( leftMenuBar );
             }
@@ -85,12 +85,14 @@ public abstract class LeftMenuNavPage extends TopMenuNavPage
         return new RecentProjectMenuGroup();
     }
 
-    @Override public boolean isVersioned()
+    @Override
+    public boolean isVersioned()
     {
         return false;
     }
 
-    @Override protected void setHeaders( WebResponse response )
+    @Override
+    protected void setHeaders( WebResponse response )
     {
         response.setHeader( "Pragma", "no-cache" );
         response.setHeader( "Cache-Control", "no-cache, max-age=0, must-revalidate, no-store" );

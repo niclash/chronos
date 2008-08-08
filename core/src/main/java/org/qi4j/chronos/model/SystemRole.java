@@ -27,7 +27,7 @@ public interface SystemRole extends Name, SystemRoleType, HasSystemRoles, Identi
 
     String STAFF = "Staff";
 
-    String ACCOUNT_ADMIN = "Admin";
+    String ACCOUNT_ADMIN = "Account Admin";
 
     String ACCOUNT_DEVELOPER = "Developer";
 }

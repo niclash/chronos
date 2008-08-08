@@ -42,8 +42,6 @@ public abstract class MenuGroupPanel extends Panel
         add( listView );
     }
 
-    public abstract List<MenuItemPanel> getMenuItemList();
-
     private static class ItemPanel extends ListView<MenuItemPanel>
     {
         private static final long serialVersionUID = 1L;
@@ -66,5 +64,8 @@ public abstract class MenuGroupPanel extends Panel
             item.add( panel );
         }
     }
+
+    public abstract List<MenuItemPanel> getMenuItemList();
+    
 }
 

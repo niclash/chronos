@@ -21,8 +21,6 @@ import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.chronos.ui.wicket.admin.AdminHomePage;
 import org.qi4j.chronos.ui.wicket.admin.account.AccountListPage;
-import org.qi4j.chronos.ui.wicket.admin.account.AccountTable;
-import org.qi4j.chronos.ui.wicket.admin.account.model.AccountDataProvider;
 import static org.qi4j.structure.Visibility.layer;
 
 /**
@@ -39,9 +37,5 @@ public class AdminAssembly
             AccountListPage.class
         ).visibleIn( layer );
 
-        aModule.addObjects(
-            AccountDataProvider.class,
-            AccountTable.class
-        );
     }
 }

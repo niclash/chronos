@@ -24,6 +24,8 @@ public final class SystemRoleTable extends ActionTable<SystemRole>
     private static final long serialVersionUID = 1L;
 
     private static final String[] COLUMN_NAMES = { "Name", "System Role Type" };
+    private static final String WICKET_ID_SYSTEM_ROLE_NAME = "systemRoleName";
+    private static final String WICKET_ID_SYSTEM_ROLE_TYPE = "systemRoleType";
 
     public SystemRoleTable( String id, IModel<? extends HasSystemRoles> hasSystemRoles, SystemRoleDataProvider dataProvider )
     {
@@ -34,7 +36,7 @@ public final class SystemRoleTable extends ActionTable<SystemRole>
     {
         SystemRole systemRole = item.getModelObject();
 
-        item.add( new Label( "systemRoleName", systemRole.name().get() ) );
-        item.add( new Label( "systemRoleType", systemRole.systemRoleType().get().toString() ) );
+        item.add( new Label( WICKET_ID_SYSTEM_ROLE_NAME, systemRole.name().get() ) );
+        item.add( new Label( WICKET_ID_SYSTEM_ROLE_TYPE, systemRole.systemRoleType().get().toString() ) );
     }
 }

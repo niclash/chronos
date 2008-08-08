@@ -17,11 +17,11 @@ import java.util.Currency;
 import java.util.Date;
 import java.util.Iterator;
 import org.qi4j.chronos.model.Account;
-import org.qi4j.chronos.model.AccountReport;
 import org.qi4j.chronos.model.Address;
 import org.qi4j.chronos.model.Admin;
 import org.qi4j.chronos.model.City;
 import org.qi4j.chronos.model.Comment;
+import org.qi4j.chronos.model.Contact;
 import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.Country;
 import org.qi4j.chronos.model.Customer;
@@ -38,7 +38,6 @@ import org.qi4j.chronos.model.ProjectAssignee;
 import org.qi4j.chronos.model.ProjectRole;
 import org.qi4j.chronos.model.ProjectStatusEnum;
 import org.qi4j.chronos.model.Relationship;
-import org.qi4j.chronos.model.Report;
 import org.qi4j.chronos.model.Staff;
 import org.qi4j.chronos.model.State;
 import org.qi4j.chronos.model.SystemRole;
@@ -52,7 +51,7 @@ import org.qi4j.chronos.model.TaskStatusEnum;
 import org.qi4j.chronos.model.TimeRange;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.WorkEntry;
-import org.qi4j.chronos.model.Contact;
+import org.qi4j.chronos.model.ChronosSystem;
 import org.qi4j.chronos.model.composites.AccountEntity;
 import org.qi4j.chronos.model.composites.AddressEntity;
 import org.qi4j.chronos.model.composites.AdminEntity;
@@ -76,7 +75,6 @@ import org.qi4j.chronos.model.composites.StateEntity;
 import org.qi4j.chronos.model.composites.TaskEntity;
 import org.qi4j.chronos.model.composites.TimeRangeEntity;
 import org.qi4j.chronos.model.composites.WorkEntryEntity;
-import org.qi4j.chronos.util.ReportUtil;
 import org.qi4j.entity.EntityBuilder;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
@@ -108,37 +106,6 @@ final class DummyDataInitializer
         initCustomersAndContactPersons();
         initProjectsTasksAndAssignees();
         initWorkEntries();
-
-//        initReports();
-    }
-
-    private void initReports()
-    {
-        UnitOfWork unitOfWork = newUnitOfWork( unitOfWorkFactory );
-        Iterable<Account> accountQuery = getAllAccounts( unitOfWork );
-
-        Calendar now = Calendar.getInstance();
-        now.add( Calendar.DATE, -3 );
-        Date endTime = now.getTime();
-        now.add( Calendar.DATE, -8 );
-        Date startTime = now.getTime();
-
-        for( Account account : accountQuery )
-        {
-            account = unitOfWork.dereference( account );
-
-            final AccountReport accountReport = ReportUtil.getAccountReport( unitOfWork, account );
-            accountReport.account().set( account );
-
-            for( Project project : account.projects() )
-            {
-                Report report = ReportUtil.generateReport( unitOfWork, "Report for " + project.name().get(),
-                                                           project, startTime, endTime );
-                accountReport.reports().add( report );
-            }
-        }
-
-        complete( unitOfWork );
     }
 
     private Iterable<Account> getAllAccounts( UnitOfWork unitOfWork )
@@ -154,6 +121,8 @@ final class DummyDataInitializer
     private void initWorkEntries()
     {
         UnitOfWork unitOfWork = newUnitOfWork( unitOfWorkFactory );
+
+        ChronosSystem system = unitOfWork.newEntity( ChronosSystem.class );
 
         Iterable<Account> accounts = getAllAccounts( unitOfWork );
 
@@ -202,6 +171,8 @@ final class DummyDataInitializer
                     }
                 }
             }
+
+            system.accounts().add( account );
         }
 
         complete( unitOfWork );
@@ -281,10 +252,15 @@ final class DummyDataInitializer
             Contact mobile = newContact( unitOfWork, "Mobile", "7073247032" );
             projectManager.contacts().add( mobile );
 
-            QueryBuilder<SystemRole> systemRoleQB = newSystemRoleQuery( unitOfWork );
+            QueryBuilder<SystemRole> systemRoleQBuilder = unitOfWork.queryBuilderFactory().newQueryBuilder( SystemRole.class );
 
-            SystemRole contactPersonRoleTemplate = templateFor( SystemRole.class );
-            SystemRole contactPersonRole = systemRoleQB.where( eq( contactPersonRoleTemplate.name(), CONTACT_PERSON ) ).newQuery().find();
+            SystemRole systemRoleTemplate = templateFor( SystemRole.class );
+
+            systemRoleQBuilder.where( eq( systemRoleTemplate.name(), SystemRole.CONTACT_PERSON ) );
+
+            QueryBuilder<SystemRole> queryBuilder = unitOfWork.queryBuilderFactory().newQueryBuilder( SystemRole.class );
+
+            SystemRole contactPersonRole = queryBuilder.newQuery().find();
 
             projectManager.systemRoles().add( contactPersonRole );
 
@@ -343,25 +319,30 @@ final class DummyDataInitializer
             developer.login().set( newLogin( unitOfWork, "developer", "developer" ) );
             developer.salary().set( newMoney( unitOfWork, 2000L, "USD" ) );
 
-            QueryBuilder<SystemRole> systemRoleQB = newSystemRoleQuery( unitOfWork );
+            SystemRole bossSystemRoleTemplate = templateFor( SystemRole.class );
 
-            SystemRole staffRole = templateFor( SystemRole.class );
+            QueryBuilder<SystemRole> bossSystemRoleQueryBuilder = unitOfWork.queryBuilderFactory().newQueryBuilder( SystemRole.class );
 
-            QueryBuilder<SystemRole> systemRoleQueryBuilder = unitOfWork.queryBuilderFactory().newQueryBuilder( SystemRole.class );
-
-            systemRoleQueryBuilder.where( or(
-                eq( staffRole.name(), ACCOUNT_ADMIN ),
-                eq( staffRole.name(), ACCOUNT_DEVELOPER )
+            bossSystemRoleQueryBuilder.where( or(
+                eq( bossSystemRoleTemplate.name(), ACCOUNT_ADMIN ),
+                eq( bossSystemRoleTemplate.name(), SystemRole.STAFF)
             ) );
 
-            for( SystemRole role : systemRoleQB.newQuery() )
+            for( SystemRole role : bossSystemRoleQueryBuilder.newQuery() )
             {
-                role = unitOfWork.dereference( role );
                 boss.systemRoles().add( role );
-                if( equals( role, ACCOUNT_DEVELOPER ) )
-                {
-                    developer.systemRoles().add( role );
-                }
+            }
+
+            QueryBuilder<SystemRole> developerSystemRoleQueryBuilder = unitOfWork.queryBuilderFactory().newQueryBuilder( SystemRole.class );
+
+            SystemRole developerSystemRoleTemplate = templateFor( SystemRole.class );
+
+            developerSystemRoleQueryBuilder.where( or(eq( developerSystemRoleTemplate.name(),
+                                                          ACCOUNT_DEVELOPER ),eq( developerSystemRoleTemplate.name(), SystemRole.STAFF )));
+
+            for( SystemRole role : developerSystemRoleQueryBuilder.newQuery() )
+            {
+                developer.systemRoles().add( role );
             }
 
             account.staffs().add( boss );
@@ -458,6 +439,10 @@ final class DummyDataInitializer
         contactPerson.name().set( CONTACT_PERSON );
         contactPerson.systemRoleType().set( SystemRoleTypeEnum.CONTACT_PERSON );
 
+        SystemRole staff = unitOfWork.newEntityBuilder( SystemRole.STAFF, SystemRole.class).newInstance();
+        staff.name().set( SystemRole.STAFF );
+        staff.systemRoleType().set( SystemRoleTypeEnum.STAFF );
+
         complete( unitOfWork );
     }
 
@@ -473,20 +458,20 @@ final class DummyDataInitializer
                                    "Administrator", GenderType.MALE );
         adminUser.login().set( adminLogin );
 
-        QueryBuilder<SystemRole> queryBuilder = newSystemRoleQuery( unitOfWork );
+        QueryBuilder<SystemRole> adminSystemRoleQueryBuilder = unitOfWork.queryBuilderFactory().newQueryBuilder( SystemRole.class );
+
+        SystemRole adminSystemRoleTemplate = templateFor( SystemRole.class );
+
+        adminSystemRoleQueryBuilder.where( eq( adminSystemRoleTemplate.name(), SystemRole.SYSTEM_ADMIN ) );
+
+        QueryBuilder<SystemRole> queryBuilder = unitOfWork.queryBuilderFactory().newQueryBuilder( SystemRole.class );
+
         for( SystemRole role : queryBuilder.newQuery() )
         {
             adminUser.systemRoles().add( unitOfWork.dereference( role ) );
         }
 
         complete( unitOfWork );
-    }
-
-    private QueryBuilder<SystemRole> newSystemRoleQuery( UnitOfWork unitOfWork )
-    {
-        QueryBuilderFactory queryBuilderFactory = unitOfWork.queryBuilderFactory();
-
-        return queryBuilderFactory.newQueryBuilder( SystemRole.class );
     }
 
 

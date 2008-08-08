@@ -22,6 +22,7 @@ import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.LegalCondition;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.wicket.base.AddEditBasePage;
+import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public abstract class LegalConditionAddEditPage extends AddEditBasePage<LegalCondition>
@@ -29,6 +30,10 @@ public abstract class LegalConditionAddEditPage extends AddEditBasePage<LegalCon
     private static final long serialVersionUID = 1L;
 
     private WebMarkupContainer selectLegalConditionContainer;
+    private static final String WICKET_ID_SELECT_LEGAL_CONDITION_LINK = "selectLegalConditionLink";
+    private static final String WICKET_ID_SELECT_LEGAL_CONDITION_CONTAINER = "selectLegalConditionContainer";
+    private static final String WICKET_ID_NAME = "name";
+    private static final String WICKET_ID_DESCRIPTION = "description";
 
     public LegalConditionAddEditPage( Page goBackPage, IModel<LegalCondition> model )
     {
@@ -40,17 +45,21 @@ public abstract class LegalConditionAddEditPage extends AddEditBasePage<LegalCon
         selectLegalConditionContainer.setVisible( false );
     }
 
-    public void initComponent( Form form )
+    public void initComponent( Form<LegalCondition> form )
     {
-        SubmitLink selectLegalConditionLink = new SubmitLink( "selectLegalConditionLink" )
+        ChronosCompoundPropertyModel<LegalCondition> model = (ChronosCompoundPropertyModel<LegalCondition>) form.getModel();
+
+        SubmitLink selectLegalConditionLink = new SubmitLink( WICKET_ID_SELECT_LEGAL_CONDITION_LINK )
         {
+            private static final long serialVersionUID = 1L;
+
             public void onSubmit()
             {
                 handleSelectLegalConditionClick();
             }
         };
 
-        selectLegalConditionContainer = new WebMarkupContainer( "selectLegalConditionContainer" );
+        selectLegalConditionContainer = new WebMarkupContainer( WICKET_ID_SELECT_LEGAL_CONDITION_CONTAINER );
         selectLegalConditionContainer.add( selectLegalConditionLink );
 
 //        if( getServices().getLegalConditionService().countAll( getAccount() ) == 0 )
@@ -60,8 +69,11 @@ public abstract class LegalConditionAddEditPage extends AddEditBasePage<LegalCon
             selectLegalConditionContainer.setVisible( false );
         }
 
-        TextField nameField = new TextField( "name" );
-        TextField descField = new TextField( "description" );
+        TextField<String> nameField = new TextField<String>( WICKET_ID_NAME );
+        TextField<String> descField = new TextField<String>( WICKET_ID_DESCRIPTION );
+
+        nameField.setModel( model.<String>bind( "name" ) );
+        descField.setModel( model.<String>bind( "description" ) );
 
         form.add( selectLegalConditionContainer );
         form.add( nameField );
@@ -72,6 +84,8 @@ public abstract class LegalConditionAddEditPage extends AddEditBasePage<LegalCon
     {
         LegalConditionSelectionPage page = new LegalConditionSelectionPage( this )
         {
+            private static final long serialVersionUID = 1L;
+
             public void selectedLegalCondition( LegalCondition legalCondition )
             {
 //                assignLegalConditionToFieldValue( legalCondition );
