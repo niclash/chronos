@@ -39,7 +39,7 @@ import static org.qi4j.query.QueryExpressions.variable;
 import org.qi4j.query.grammar.BooleanExpression;
 import org.qi4j.query.grammar.Conjunction;
 import org.qi4j.query.grammar.EqualsPredicate;
-import org.qi4j.query.grammar.impl.VariableValueExpression;
+import org.qi4j.query.grammar.VariableValueExpression;
 
 /**
  * TODO user encode password
