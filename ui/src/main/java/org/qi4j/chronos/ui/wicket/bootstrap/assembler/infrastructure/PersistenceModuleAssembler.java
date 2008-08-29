@@ -20,7 +20,7 @@ import org.qi4j.bootstrap.Assembler;
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.entity.index.rdf.RdfQueryService;
-import org.qi4j.entity.memory.IndexedMemoryEntityStoreService;
+import org.qi4j.entity.memory.MemoryEntityStoreService;
 import org.qi4j.library.rdf.repository.MemoryRepositoryService;
 import org.qi4j.spi.entity.UuidIdentityGeneratorService;
 import static org.qi4j.structure.Visibility.application;
@@ -36,7 +36,7 @@ final class PersistenceModuleAssembler
         module.addServices(
             UuidIdentityGeneratorService.class,
             RdfQueryService.class,
-            IndexedMemoryEntityStoreService.class,
+            MemoryEntityStoreService.class,
             MemoryRepositoryService.class
         ).visibleIn( application ).instantiateOnStartup();
     }
