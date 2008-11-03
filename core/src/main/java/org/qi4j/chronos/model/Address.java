@@ -16,8 +16,8 @@ import org.qi4j.chronos.model.associations.HasCity;
 import org.qi4j.composite.Mixins;
 import org.qi4j.injection.scope.PropertyField;
 import org.qi4j.injection.scope.This;
-import org.qi4j.property.ComputedProperty;
 import org.qi4j.property.ComputedPropertyInstance;
+import org.qi4j.property.Property;
 
 /**
  * Created by IntelliJ IDEA.
@@ -39,9 +39,9 @@ public interface Address extends Descriptor, AddressLine, ZipCode, HasCity
     {
         private @This Address address;
 
-        private @PropertyField ComputedProperty<String> displayValue;
+        private @PropertyField Property<String> displayValue;
 
-        public ComputedProperty<String> displayValue()
+        public Property<String> displayValue()
         {
             return new ComputedPropertyInstance<String>( displayValue )
             {

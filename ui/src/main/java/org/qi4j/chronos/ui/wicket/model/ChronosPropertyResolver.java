@@ -4,7 +4,6 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import org.apache.wicket.WicketRuntimeException;
 import org.qi4j.entity.association.Association;
-import org.qi4j.property.ImmutableProperty;
 import org.qi4j.property.Property;
 
 /**
@@ -89,10 +88,7 @@ public final class ChronosPropertyResolver
                 {
                     Method setter = null;
 
-                    if( !( target instanceof ImmutableProperty ) )
-                    {
-                        setter = target.getClass().getMethod( "set", Object.class );
-                    }
+                    setter = target.getClass().getMethod( "set", Object.class );
 
                     Method getter = target.getClass().getMethod( "get" );
 

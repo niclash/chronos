@@ -261,10 +261,6 @@
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/slf4j-simple-1.4.2.jar" />
           </containerElement>
-          <containerElement type="module" name="qi4j-app-chronos-core">
-            <attribute name="method" value="5" />
-            <attribute name="URI" value="/WEB-INF/lib/qi4j-app-chronos-core-0.5-SNAPSHOT.jar" />
-          </containerElement>
           <containerElement type="module" name="qi4j-lib-quikit">
             <attribute name="method" value="5" />
             <attribute name="URI" value="/WEB-INF/lib/qi4j-lib-quikit-0.5-SNAPSHOT.jar" />
@@ -318,19 +314,13 @@
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/resources" isTestSource="true" />
-      <excludeFolder url="file://$MODULE_DIR$/target/classes" />
-      <excludeFolder url="file://$MODULE_DIR$/target/qi4j-app-chronos-ui-0.4-SNAPSHOT" />
-      <excludeFolder url="file://$MODULE_DIR$/target/qi4j-app-chronos-ui-0.5-SNAPSHOT" />
-      <excludeFolder url="file://$MODULE_DIR$/target/surefire-reports" />
-      <excludeFolder url="file://$MODULE_DIR$/target/test-classes" />
-      <excludeFolder url="file://$MODULE_DIR$/target/war" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="qi4j-core-api" exported="" />
     <orderEntry type="module" module-name="qi4j-core-bootstrap" exported="" />
     <orderEntry type="module" module-name="qi4j-core-spi" exported="" />
-    <orderEntry type="module" module-name="qi4j-core-testsupport" />
+    <orderEntry type="module" module-name="qi4j-core-testsupport" exported="" />
     <orderEntry type="module-library">
       <library name="junit:junit:4.4">
         <CLASSES>

@@ -13,8 +13,8 @@ import org.qi4j.injection.scope.This;
 import org.qi4j.library.general.model.Amount;
 import org.qi4j.library.general.model.Currency;
 import org.qi4j.library.general.model.Descriptor;
-import org.qi4j.property.ComputedProperty;
 import org.qi4j.property.ComputedPropertyInstance;
+import org.qi4j.property.Property;
 
 @Mixins( Salary.DescriptorMixin.class )
 public interface Salary extends Amount<Long>, Currency, Descriptor
@@ -23,9 +23,9 @@ public interface Salary extends Amount<Long>, Currency, Descriptor
     {
         private @This Salary salary;
 
-        private @PropertyField ComputedProperty<String> displayValue;
+        private @PropertyField Property<String> displayValue;
 
-        public ComputedProperty<String> displayValue()
+        public Property<String> displayValue()
         {
             return new ComputedPropertyInstance<String>( displayValue )
             {

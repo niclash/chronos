@@ -12,7 +12,8 @@
  */
 package org.qi4j.chronos.model;
 
-import org.qi4j.property.ComputedProperty;
+import org.qi4j.composite.Computed;
+import org.qi4j.property.Property;
 
 /**
  * Created by IntelliJ IDEA.
@@ -22,5 +23,5 @@ import org.qi4j.property.ComputedProperty;
  */
 public interface Descriptor
 {
-    ComputedProperty<String> displayValue();
+    @Computed Property<String> displayValue();
 }
