@@ -7,6 +7,7 @@
           <deploymentDescriptor name="web.xml" url="file://$MODULE_DIR$/src/webapp/WEB-INF/web.xml" optional="false" version="2.5" />
         </descriptors>
         <webroots>
+          <root url="file://$MODULE_DIR$/src/main/webapp" relative="/" />
           <root url="file://$MODULE_DIR$/src/webapp" relative="/" />
         </webroots>
         <building>
@@ -261,6 +262,10 @@
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/slf4j-simple-1.4.2.jar" />
           </containerElement>
+          <containerElement type="module" name="qi4j-app-chronos-core">
+            <attribute name="method" value="5" />
+            <attribute name="URI" value="/WEB-INF/lib/qi4j-app-chronos-core-0.5-SNAPSHOT.jar" />
+          </containerElement>
           <containerElement type="module" name="qi4j-lib-quikit">
             <attribute name="method" value="5" />
             <attribute name="URI" value="/WEB-INF/lib/qi4j-lib-quikit-0.5-SNAPSHOT.jar" />
@@ -307,20 +312,20 @@
   </component>
   <component name="NewModuleRootManager" LANGUAGE_LEVEL="JDK_1_5" inherit-compiler-output="false">
     <output url="file://$MODULE_DIR$/target/classes" />
-    <exclude-output />
     <output-test url="file://$MODULE_DIR$/target/test-classes" />
     <content url="file://$MODULE_DIR$">
       <sourceFolder url="file://$MODULE_DIR$/src/main/java" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/main/resources" isTestSource="false" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/java" isTestSource="true" />
       <sourceFolder url="file://$MODULE_DIR$/src/test/resources" isTestSource="true" />
+      <excludeFolder url="file://$MODULE_DIR$/target" />
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
     <orderEntry type="module" module-name="qi4j-core-api" exported="" />
     <orderEntry type="module" module-name="qi4j-core-bootstrap" exported="" />
     <orderEntry type="module" module-name="qi4j-core-spi" exported="" />
-    <orderEntry type="module" module-name="qi4j-core-testsupport" exported="" />
+    <orderEntry type="module" module-name="qi4j-core-testsupport" />
     <orderEntry type="module-library">
       <library name="junit:junit:4.4">
         <CLASSES>
