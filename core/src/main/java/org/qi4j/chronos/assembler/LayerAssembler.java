@@ -26,6 +26,6 @@ import org.qi4j.library.constraints.annotation.NotNull;
  */
 public interface LayerAssembler
 {
-    LayerAssembly createLayerAssembly( @NotNull ApplicationAssembly anApplicationAssembly )
+    LayerAssembly createLayerAssembly( ApplicationAssembly anApplicationAssembly )
         throws AssemblyException;
 }

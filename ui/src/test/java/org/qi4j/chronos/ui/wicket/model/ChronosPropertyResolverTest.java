@@ -21,6 +21,7 @@ import org.qi4j.chronos.model.composites.CustomerEntity;
 import org.qi4j.chronos.model.composites.StateEntity;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.qi4j.entity.EntityBuilder;
 import org.qi4j.entity.memory.MemoryEntityStoreService;
 import org.qi4j.spi.entity.UuidIdentityGeneratorService;
 import org.qi4j.test.AbstractQi4jTest;
@@ -45,8 +46,10 @@ public class ChronosPropertyResolverTest extends AbstractQi4jTest
     public void testEntitySimpleProperty() throws UnitOfWorkCompletionException
     {
         UnitOfWork uow = unitOfWorkFactory.newUnitOfWork();
-        CustomerEntity customer = uow.newEntity( CustomerEntity.class );
+        EntityBuilder<CustomerEntity> customerEntityEntityBuilder = uow.newEntityBuilder( CustomerEntity.class );
+        CustomerEntity customer = customerEntityEntityBuilder.stateOfComposite();
         customer.name().set( "Microsoft" );
+        customer = customerEntityEntityBuilder.newInstance();
         Assert.assertEquals( "Microsoft", ChronosPropertyResolver.getValue( "name", customer ) );
         ChronosPropertyResolver.setValue( "name", customer, "Yahoo" );
         Assert.assertEquals( "Yahoo", customer.name().get() );

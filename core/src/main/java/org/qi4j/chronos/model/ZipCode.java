@@ -13,6 +13,7 @@
 package org.qi4j.chronos.model;
 
 import org.qi4j.property.Property;
+import org.qi4j.composite.Optional;
 
 /**
  * Created by IntelliJ IDEA.
@@ -22,5 +23,5 @@ import org.qi4j.property.Property;
  */
 public interface ZipCode
 {
-    Property<String> zipCode();
+    @Optional Property<String> zipCode();
 }

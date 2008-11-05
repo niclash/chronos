@@ -68,7 +68,7 @@ public abstract class UserServiceMixin extends AbstractServiceMixin
     }
 
 
-    public final void changePassword( @NotNull User aUser, String anOldPassword, String aNewPassword )
+    public final void changePassword( User aUser, String anOldPassword, String aNewPassword )
         throws ValidationException
     {
         Login userLogin = aUser.login().get();
@@ -82,7 +82,7 @@ public abstract class UserServiceMixin extends AbstractServiceMixin
         passwordProperty.set( aNewPassword );
     }
 
-    public final User authenticate( Account anAccount, @NotNull String aUserName, final String aPassword )
+    public final User authenticate( Account anAccount, String aUserName, final String aPassword )
         throws UserAuthenticationFailException
     {
 

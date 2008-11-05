@@ -31,7 +31,7 @@ public final class ServiceLayerAssembler
     public static final String LAYER_SERVICE = "service";
     public static final String MODULE_SERVICE = "service";
 
-    public final LayerAssembly createLayerAssembly( @NotNull ApplicationAssembly anApplicationAssembly )
+    public final LayerAssembly createLayerAssembly( ApplicationAssembly anApplicationAssembly )
         throws AssemblyException
     {
         LayerAssembly serviceLayer = anApplicationAssembly.newLayerAssembly( LAYER_SERVICE );

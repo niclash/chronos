@@ -26,7 +26,7 @@ public class DomainLayerAssembler
 
     private static final String MODULE_ENTITIES = "entities";
 
-    public LayerAssembly createLayerAssembly( @NotNull ApplicationAssembly anApplicationAssembly )
+    public LayerAssembly createLayerAssembly( ApplicationAssembly anApplicationAssembly )
         throws AssemblyException
     {
         LayerAssembly domainLayer = anApplicationAssembly.newLayerAssembly( LAYER_DOMAIN );

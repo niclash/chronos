@@ -8,8 +8,9 @@
 package org.qi4j.chronos.model;
 
 import org.qi4j.property.Property;
+import org.qi4j.composite.Optional;
 
 public interface Name
 {
-    Property<String> name();
+    @Optional Property<String> name();
 }

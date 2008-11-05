@@ -25,7 +25,7 @@ public final class InfrastructureAssembler
     public static final String LAYER_INFRASTRUCTURE = "Infrastructure";
     public static final String MODULE_PERSISTENCE = "persistence";
 
-    public final LayerAssembly createLayerAssembly( @NotNull ApplicationAssembly anApplicationAssembly )
+    public final LayerAssembly createLayerAssembly( ApplicationAssembly anApplicationAssembly )
         throws AssemblyException
     {
         LayerAssembly infrastructure = anApplicationAssembly.newLayerAssembly( LAYER_INFRASTRUCTURE );
