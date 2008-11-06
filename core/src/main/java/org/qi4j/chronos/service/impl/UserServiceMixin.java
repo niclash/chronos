@@ -26,7 +26,6 @@ import org.qi4j.chronos.service.UserAuthenticationFailException;
 import org.qi4j.chronos.service.UserService;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.association.SetAssociation;
-import org.qi4j.library.constraints.annotation.NotNull;
 import org.qi4j.library.validation.ValidationException;
 import org.qi4j.property.Property;
 import org.qi4j.query.Query;
