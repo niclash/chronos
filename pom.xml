@@ -1,10 +1,14 @@
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
   <modelVersion>4.0.0</modelVersion>
+
   <parent>
     <groupId>org.qi4j</groupId>
     <artifactId>qi4j</artifactId>
     <version>0.5-SNAPSHOT</version>
   </parent>
+
   <groupId>org.qi4j.apps</groupId>
   <artifactId>qi4j-app-chronos</artifactId>
   <name>Qi4j Apps Chronos (Build POM)</name>
@@ -13,7 +17,7 @@
   <!-- This POM is ONLY to initiate the modules to be built. -->
   <modules>
     <module>core</module>
-    <module>ui</module>
+    <!--<module>ui</module> Temp. commented to refactor core quickly. -->
     <!--<module>ideaplugin</module>  Problem to get versions right, since this require 1.6 on Windows+Linux-->
   </modules>
 </project>

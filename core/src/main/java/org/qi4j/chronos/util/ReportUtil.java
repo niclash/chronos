@@ -13,19 +13,17 @@
 package org.qi4j.chronos.util;
 
 import java.util.Date;
-import org.qi4j.chronos.model.Account;
-import org.qi4j.chronos.model.AccountReport;
-import org.qi4j.chronos.model.Report;
-import org.qi4j.chronos.model.ReportDetail;
-import org.qi4j.chronos.model.ReportSummary;
-import org.qi4j.chronos.model.Staff;
-import org.qi4j.chronos.model.Task;
-import org.qi4j.chronos.model.WorkEntry;
-import org.qi4j.chronos.model.associations.HasTasks;
-import org.qi4j.chronos.model.composites.AccountReportEntity;
-import org.qi4j.chronos.model.composites.ReportDetailEntity;
-import org.qi4j.chronos.model.composites.ReportEntity;
-import org.qi4j.chronos.model.composites.ReportSummaryEntity;
+import org.qi4j.chronos.domain.model.AccountReport;
+import org.qi4j.chronos.domain.model.Report;
+import org.qi4j.chronos.domain.model.ReportDetail;
+import org.qi4j.chronos.domain.model.ReportSummary;
+import org.qi4j.chronos.domain.model.Task;
+import org.qi4j.chronos.domain.model.WorkEntry;
+import org.qi4j.chronos.domain.model.account.Account;
+import org.qi4j.chronos.domain.model.associations.HasTasks;
+import org.qi4j.chronos.domain.model.common.timeRange.TimeRangeState;
+import org.qi4j.chronos.domain.model.user.Staff;
+import org.qi4j.entity.EntityBuilder;
 import org.qi4j.entity.EntityCompositeNotFoundException;
 import org.qi4j.entity.Identity;
 import org.qi4j.entity.UnitOfWork;
@@ -35,20 +33,22 @@ public final class ReportUtil
     public static Report generateReport( UnitOfWork unitOfWork, String name, HasTasks hasTasks,
                                          Date filterStartDate, Date filterEndDate )
     {
-        Report report = unitOfWork.newEntityBuilder( ReportEntity.class ).newInstance();
-        report.startTime().set( filterStartDate );
-        report.endTime().set( filterEndDate );
-        report.name().set( name );
+        EntityBuilder<Report> builder = unitOfWork.newEntityBuilder( Report.class );
+        TimeRangeState timeRangeState = builder.stateFor( TimeRangeState.class );
+        timeRangeState.startTime().set( filterStartDate );
+        timeRangeState.endTime().set( filterEndDate );
+        Report report = builder.newInstance();
+//        report.name().set( name );
 
-        ReportSummary summary = unitOfWork.newEntityBuilder( ReportSummaryEntity.class ).newInstance();
+        ReportSummary summary = unitOfWork.newEntityBuilder( ReportSummary.class ).newInstance();
         report.reportSummary().set( summary );
 
         for( Task task : hasTasks.tasks() )
         {
             for( WorkEntry workEntry : task.workEntries() )
             {
-                Date startDate = workEntry.startTime().get();
-                Date endDate = workEntry.endTime().get();
+                Date startDate = workEntry.startTime();
+                Date endDate = workEntry.endTime();
 
                 if( startDate.after( filterStartDate ) && endDate.before( filterEndDate ) )
                 {
@@ -65,12 +65,12 @@ public final class ReportUtil
 
                     if( !exists )
                     {
-                        ReportDetail reportDetail = unitOfWork.
-                            newEntityBuilder( ReportDetailEntity.class ).newInstance();
-                        reportDetail.staff().set( staff );
-                        reportDetail.workEntries().add( workEntry );
-                        summary.reportDetails().add( reportDetail );
-                    }
+//                        ReportDetail reportDetail = unitOfWork.
+//                            newEntityBuilder( ReportDetailEntity.class ).newInstance();
+//                        reportDetail.staff().set( staff );
+//                        reportDetail.workEntries().add( workEntry );
+//                        summary.reportDetails().add( reportDetail );
+                    }   
                 }
             }
         }
@@ -83,14 +83,12 @@ public final class ReportUtil
         final String accountId = ( (Identity) account ).identity().get();
         try
         {
-            return unitOfWork.find( accountId,
-                                    AccountReportEntity.class );
+            return unitOfWork.find( accountId, AccountReport.class );
         }
         catch( EntityCompositeNotFoundException ecnfe )
         {
             // expected
         }
-        return unitOfWork.
-                newEntityBuilder( accountId, AccountReportEntity.class ).newInstance();
+        return unitOfWork.newEntityBuilder( accountId, AccountReport.class ).newInstance();
     }
 }
