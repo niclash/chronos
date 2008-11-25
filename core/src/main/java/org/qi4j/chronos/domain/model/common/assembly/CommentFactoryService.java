@@ -24,7 +24,6 @@ import org.qi4j.chronos.domain.model.user.User;
 import org.qi4j.composite.Mixins;
 import org.qi4j.entity.EntityBuilder;
 import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.qi4j.entity.UnitOfWorkFactory;
 import org.qi4j.injection.scope.Structure;
 import org.qi4j.service.ServiceComposite;
@@ -43,7 +42,8 @@ interface CommentFactoryService extends CommentFactory, ServiceComposite
 
         public final Comment create( String commentContent, User user )
         {
-            UnitOfWork uow = uowf.nestedUnitOfWork();
+            UnitOfWork uow = uowf.currentUnitOfWork();
+
             EntityBuilder<Comment> builder = uow.newEntityBuilder( Comment.class );
             CommentState state = builder.stateFor( CommentState.class );
             state.comment().set( commentContent );
@@ -51,17 +51,8 @@ interface CommentFactoryService extends CommentFactory, ServiceComposite
             state.createdDate().set( createdDate );
             state.lastUpdatedDate().set( createdDate );
             state.createdBy().set( user );
-            Comment comment = builder.newInstance();
-            try
-            {
-                uow.completeAndContinue();
-            }
-            catch( UnitOfWorkCompletionException e )
-            {
-                // Shouldn't happened
-                e.printStackTrace(); // TODO
-            }
-            return comment;
+
+            return builder.newInstance();
         }
     }
 }

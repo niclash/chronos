@@ -23,7 +23,6 @@ import org.qi4j.chronos.domain.model.common.money.MoneyState;
 import org.qi4j.composite.Mixins;
 import org.qi4j.entity.EntityBuilder;
 import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.qi4j.entity.UnitOfWorkFactory;
 import org.qi4j.injection.scope.Structure;
 import org.qi4j.service.ServiceComposite;
@@ -42,28 +41,15 @@ interface MoneyFactoryService extends MoneyFactory, ServiceComposite
 
         public final Money create( Currency currency, long amount )
         {
-            UnitOfWork uow = uowf.nestedUnitOfWork();
+            UnitOfWork uow = uowf.currentUnitOfWork();
 
             EntityBuilder<Money> builder = uow.newEntityBuilder( Money.class );
             MoneyState moneyState = builder.stateFor( MoneyState.class );
             String currencyCode = currency.getCurrencyCode();
             moneyState.currencyCode().set( currencyCode );
             moneyState.amount().set( amount );
-            Money money = builder.newInstance();
 
-            try
-            {
-                uow.completeAndContinue();
-            }
-            catch( UnitOfWorkCompletionException e )
-            {
-                uow.discard();
-                
-                // Shouldn't happened
-                e.printStackTrace(); // TODO
-            }
-
-            return money;
+            return builder.newInstance();
         }
     }
 }

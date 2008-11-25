@@ -16,40 +16,42 @@
  */
 package org.qi4j.chronos.domain.model.common.assembly;
 
-import java.util.Currency;
-import static org.junit.Assert.*;
-import org.junit.Ignore;
+import java.util.Date;
+import org.junit.Assert;
 import org.junit.Test;
-import org.qi4j.chronos.domain.model.common.money.Money;
-import org.qi4j.chronos.domain.model.common.money.MoneyFactory;
+import static org.junit.Assert.*;
+import org.qi4j.chronos.domain.model.common.timeRange.TimeRange;
+import org.qi4j.chronos.domain.model.common.timeRange.TimeRangeFactory;
 import org.qi4j.entity.UnitOfWork;
+import org.qi4j.service.ServiceFinder;
 import org.qi4j.service.ServiceReference;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-public final class MoneyFactoryTest extends AbstractCommonTest
+public final class TimeRangeFactoryTest extends AbstractCommonTest
 {
     @Test
-    public void createMoneyTest()
+    public final void createTimeRangeTest()
     {
         UnitOfWork uow = unitOfWorkFactory.newUnitOfWork();
 
-        ServiceReference<MoneyFactory> serviceRef = moduleInstance.serviceFinder().findService( MoneyFactory.class );
-        MoneyFactory moneyFactory = serviceRef.get();
+        ServiceFinder serviceFinder = moduleInstance.serviceFinder();
+        ServiceReference<TimeRangeFactory> factoryRef = serviceFinder.findService( TimeRangeFactory.class );
+        TimeRangeFactory timeRangeFactory = factoryRef.get();
         try
         {
-            Currency currency = Currency.getInstance( "USD" );
-            Money money = moneyFactory.create( currency, 100 );
-            assertEquals( 100, money.amount() );
-            assertEquals( currency, money.currency() );
+            Date now = new Date();
+            Date oneHourLater = new Date( now.getTime() + 3600000 );
+            TimeRange timeRange = timeRangeFactory.create( now, oneHourLater );
 
-            uow.remove( money );
+            assertEquals( now, timeRange.startTime() );
+            assertEquals( oneHourLater, timeRange.endTime() );
         }
         finally
         {
-            serviceRef.releaseService();
+            factoryRef.releaseService();
             uow.discard();
         }
     }

@@ -44,7 +44,6 @@ public final class CommentFactoryTest extends AbstractCommonTest
     }
 
     @Test
-    @Ignore
     public final void createCommentTest()
     {
         UnitOfWork uow = unitOfWorkFactory.newUnitOfWork();

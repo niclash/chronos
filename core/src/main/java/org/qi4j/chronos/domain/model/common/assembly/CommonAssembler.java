@@ -39,7 +39,8 @@ public final class CommonAssembler
 
         aModule.addServices(
             MoneyFactoryService.class,
-            CommentFactoryService.class
+            CommentFactoryService.class,
+            TimeRangeFactoryService.class
         ).visibleIn( application );
     }
 }

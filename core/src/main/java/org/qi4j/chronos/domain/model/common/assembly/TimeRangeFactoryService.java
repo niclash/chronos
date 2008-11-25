@@ -20,10 +20,12 @@ import java.util.Date;
 import org.qi4j.chronos.domain.model.common.timeRange.TimeRange;
 import org.qi4j.chronos.domain.model.common.timeRange.TimeRangeFactory;
 import org.qi4j.chronos.domain.model.common.timeRange.TimeRangeState;
-import org.qi4j.composite.CompositeBuilder;
-import org.qi4j.composite.CompositeBuilderFactory;
 import org.qi4j.composite.Mixins;
 import org.qi4j.composite.Optional;
+import org.qi4j.entity.EntityBuilder;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.qi4j.entity.UnitOfWorkFactory;
 import org.qi4j.injection.scope.Structure;
 import org.qi4j.service.ServiceComposite;
 
@@ -37,11 +39,13 @@ interface TimeRangeFactoryService extends TimeRangeFactory, ServiceComposite
     class TimeRangeFactoryMixin
         implements TimeRangeFactory
     {
-        @Structure private CompositeBuilderFactory cbf;
+        @Structure private UnitOfWorkFactory uowf;
 
         public final TimeRange create( @Optional Date startTime, @Optional Date endTime )
         {
-            CompositeBuilder<TimeRange> builder = cbf.newCompositeBuilder( TimeRange.class );
+            UnitOfWork uow = uowf.currentUnitOfWork();
+
+            EntityBuilder<TimeRange> builder = uow.newEntityBuilder( TimeRange.class );
             TimeRangeState state = builder.stateFor( TimeRangeState.class );
             state.startTime().set( startTime );
             state.endTime().set( endTime );
