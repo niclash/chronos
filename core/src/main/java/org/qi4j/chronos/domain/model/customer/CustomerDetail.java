@@ -17,6 +17,7 @@
 package org.qi4j.chronos.domain.model.customer;
 
 import org.qi4j.chronos.domain.model.common.name.PersonName;
+import org.qi4j.chronos.domain.model.common.name.ReferenceName;
 
 /**
  * @author edward.yakop@gmail.com

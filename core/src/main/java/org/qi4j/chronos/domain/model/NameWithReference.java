@@ -14,6 +14,7 @@
 package org.qi4j.chronos.domain.model;
 
 import org.qi4j.chronos.domain.model.common.name.Name;
+import org.qi4j.chronos.domain.model.common.name.ReferenceName;
 
 /**
  * Aggregation interface for name and reference

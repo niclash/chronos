@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.domain.model.location.assembly;
+package org.qi4j.chronos.domain.model.common.assembly;
 
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.ModuleAssembly;
@@ -28,7 +28,7 @@ import org.qi4j.test.AbstractQi4jTest;
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-abstract class AbstractLocationTest extends AbstractQi4jTest
+abstract class AbstractCommentTest extends AbstractQi4jTest
 {
     public final void assemble( ModuleAssembly module )
         throws AssemblyException
@@ -36,6 +36,6 @@ abstract class AbstractLocationTest extends AbstractQi4jTest
         module.addObjects( EntitySerializer.class );
         module.addAssembler( new RdfMemoryStoreAssembler() );
         module.addServices( MemoryEntityStoreService.class, UuidIdentityGeneratorService.class );
-        module.addAssembler( new LocationAssembler() );
+        module.addAssembler( new CommonAssembler() );
     }
 }

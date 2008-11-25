@@ -16,15 +16,15 @@
  */
 package org.qi4j.chronos.domain.model.common.money;
 
-import java.util.Currency;
 import org.qi4j.property.Property;
 
 /**
  * @author edward.yakop@gmail.com
+ * @since 0.5
  */
 public interface MoneyState
 {
-    Property<Currency> currency();
+    Property<String> currencyCode();
 
     Property<Long> amount();
 }

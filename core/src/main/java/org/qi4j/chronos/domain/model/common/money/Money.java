@@ -10,7 +10,5 @@ public interface Money
 {
     Currency currency();
 
-    Long amount();
-
-    String displayValue();
+    long amount();
 }

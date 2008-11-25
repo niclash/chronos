@@ -16,13 +16,12 @@
  */
 package org.qi4j.chronos.domain.model.common.assembly;
 
-import java.text.NumberFormat;
 import java.util.Currency;
 import org.qi4j.chronos.domain.model.common.money.Money;
 import org.qi4j.chronos.domain.model.common.money.MoneyState;
 import org.qi4j.composite.Mixins;
-import org.qi4j.injection.scope.This;
 import org.qi4j.entity.EntityComposite;
+import org.qi4j.injection.scope.This;
 
 /**
  * @author edward.yakop@gmail.com
@@ -35,23 +34,21 @@ interface MoneyEntity extends Money, EntityComposite
         implements Money
     {
         @This private MoneyState state;
+        private Currency currency;
 
         public final Currency currency()
         {
-            return state.currency().get();
+            if( currency == null )
+            {
+                String currencyCode = state.currencyCode().get();
+                currency = Currency.getInstance( currencyCode );
+            }
+            return currency;
         }
 
-        public final Long amount()
+        public final long amount()
         {
             return state.amount().get();
-        }
-
-        public final String displayValue()
-        {
-            NumberFormat numberFormatter = NumberFormat.getNumberInstance();
-            Currency currency = currency();
-            String amountString = numberFormatter.format( amount() / currency.getDefaultFractionDigits() );
-            return currency.getSymbol() + " " + amountString;
         }
     }
 }

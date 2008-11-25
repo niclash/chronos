@@ -20,9 +20,11 @@ import java.util.Currency;
 import org.qi4j.chronos.domain.model.common.money.Money;
 import org.qi4j.chronos.domain.model.common.money.MoneyFactory;
 import org.qi4j.chronos.domain.model.common.money.MoneyState;
-import org.qi4j.composite.CompositeBuilder;
-import org.qi4j.composite.CompositeBuilderFactory;
 import org.qi4j.composite.Mixins;
+import org.qi4j.entity.EntityBuilder;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.qi4j.entity.UnitOfWorkFactory;
 import org.qi4j.injection.scope.Structure;
 import org.qi4j.service.ServiceComposite;
 
@@ -36,16 +38,32 @@ interface MoneyFactoryService extends MoneyFactory, ServiceComposite
     class MoneyFactoryMixin
         implements MoneyFactory
     {
-        @Structure private CompositeBuilderFactory cbf;
+        @Structure private UnitOfWorkFactory uowf;
 
         public final Money create( Currency currency, long amount )
         {
-            CompositeBuilder<Money> builder = cbf.newCompositeBuilder( Money.class );
-            MoneyState moneyState = builder.stateFor( MoneyState.class );
-            moneyState.currency().set( currency );
-            moneyState.amount().set( amount );
+            UnitOfWork uow = uowf.nestedUnitOfWork();
 
-            return builder.newInstance();
+            EntityBuilder<Money> builder = uow.newEntityBuilder( Money.class );
+            MoneyState moneyState = builder.stateFor( MoneyState.class );
+            String currencyCode = currency.getCurrencyCode();
+            moneyState.currencyCode().set( currencyCode );
+            moneyState.amount().set( amount );
+            Money money = builder.newInstance();
+
+            try
+            {
+                uow.completeAndContinue();
+            }
+            catch( UnitOfWorkCompletionException e )
+            {
+                uow.discard();
+                
+                // Shouldn't happened
+                e.printStackTrace(); // TODO
+            }
+
+            return money;
         }
     }
 }
