@@ -17,9 +17,8 @@
 package org.qi4j.chronos.domain.model.common.assembly;
 
 import java.util.Date;
-import org.junit.Assert;
-import org.junit.Test;
 import static org.junit.Assert.*;
+import org.junit.Test;
 import org.qi4j.chronos.domain.model.common.timeRange.TimeRange;
 import org.qi4j.chronos.domain.model.common.timeRange.TimeRangeFactory;
 import org.qi4j.entity.UnitOfWork;

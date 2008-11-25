@@ -17,7 +17,6 @@
 package org.qi4j.chronos.domain.model.common.assembly;
 
 import static org.junit.Assert.*;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.ModuleAssembly;
