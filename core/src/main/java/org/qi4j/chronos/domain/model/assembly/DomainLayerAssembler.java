@@ -26,18 +26,22 @@ public class DomainLayerAssembler
 {
     public static final String LAYER_DOMAIN = "domain";
 
+    private static final String MODULE_ACCOUNT = "account";
+    private static final String MODULE_COMMON = "common";
+    private static final String MODULE_PROJECT = "project";
+
     public LayerAssembly createLayerAssembly( ApplicationAssembly anApplicationAssembly )
         throws AssemblyException
     {
         LayerAssembly domainLayer = anApplicationAssembly.newLayerAssembly( LAYER_DOMAIN );
 
-        ModuleAssembly accountModule = domainLayer.newModuleAssembly( "account" );
+        ModuleAssembly accountModule = domainLayer.newModuleAssembly( MODULE_ACCOUNT );
         accountModule.addAssembler( new AccountAssembler() );
 
-        ModuleAssembly commonModule = domainLayer.newModuleAssembly( "common" );
+        ModuleAssembly commonModule = domainLayer.newModuleAssembly( MODULE_COMMON );
         commonModule.addAssembler( new CommonAssembler() );
 
-        ModuleAssembly projectModule = domainLayer.newModuleAssembly( "project" );
+        ModuleAssembly projectModule = domainLayer.newModuleAssembly( MODULE_PROJECT );
         projectModule.addAssembler( new ProjectAssembler() );
 
         return domainLayer;

@@ -11,12 +11,20 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.domain.model;
+package org.qi4j.chronos.domain.model.common.comment;
 
-import org.qi4j.chronos.domain.model.associations.HasUser;
-import org.qi4j.entity.Identity;
+import java.util.Date;
+import org.qi4j.chronos.domain.model.user.User;
 
-public interface Comment extends CreatedDate, Text, HasUser, Identity
+public interface Comment
 {
-    public final static int COMMENT_LEN = 512;
+    String content();
+
+    void updateContent( String newContent );
+
+    Date createdDate();
+
+    Date lastUpdatedDate();
+
+    User createdBy();
 }

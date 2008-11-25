@@ -19,16 +19,16 @@ package org.qi4j.chronos.domain.model.common.assembly;
 import java.util.Date;
 import org.qi4j.chronos.domain.model.common.timeRange.TimeRange;
 import org.qi4j.chronos.domain.model.common.timeRange.TimeRangeState;
-import org.qi4j.composite.Composite;
 import org.qi4j.composite.Mixins;
 import org.qi4j.composite.Optional;
+import org.qi4j.entity.EntityComposite;
 import org.qi4j.injection.scope.This;
 
 /**
  * @author edward.yakop@gmail.com
  */
-@Mixins( TimeRangeComposite.TimeRangeMixin.class )
-interface TimeRangeComposite extends TimeRange, Composite
+@Mixins( TimeRangeEntity.TimeRangeMixin.class )
+interface TimeRangeEntity extends TimeRange, EntityComposite
 {
     class TimeRangeMixin
         implements TimeRange

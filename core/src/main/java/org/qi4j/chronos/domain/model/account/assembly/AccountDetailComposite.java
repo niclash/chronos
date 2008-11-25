@@ -17,8 +17,11 @@
 package org.qi4j.chronos.domain.model.account.assembly;
 
 import org.qi4j.chronos.domain.model.account.AccountDetail;
+import org.qi4j.chronos.domain.model.account.AccountState;
+import org.qi4j.chronos.domain.model.location.address.Address;
 import org.qi4j.composite.Composite;
 import org.qi4j.composite.Mixins;
+import org.qi4j.composite.Optional;
 import org.qi4j.injection.scope.Uses;
 import org.qi4j.library.constraints.annotation.MaxLength;
 
@@ -52,6 +55,17 @@ interface AccountDetailComposite extends AccountDetail, Composite
         public final void changeReferenceName( @MaxLength( 80 )String aNewReferenceName )
         {
             state.referenceName().set( aNewReferenceName );
+        }
+
+        @Optional
+        public final Address address()
+        {
+            return state.address().get();
+        }
+
+        public final void changeAddress( @Optional Address address )
+        {
+            state.address().set( address );
         }
     }
 }

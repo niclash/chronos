@@ -12,7 +12,7 @@
  */
 package org.qi4j.chronos.domain.model.validations;
 
-import org.qi4j.chronos.domain.model.Comment;
+import org.qi4j.chronos.domain.model.common.comment.Comment;
 import static org.qi4j.chronos.util.ValidatorUtil.*;
 import org.qi4j.injection.scope.This;
 import org.qi4j.library.validation.AbstractValidatableConcern;

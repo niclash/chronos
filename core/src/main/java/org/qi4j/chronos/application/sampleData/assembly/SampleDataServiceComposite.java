@@ -585,7 +585,7 @@ interface SampleDataServiceComposite extends SampleDataService, ServiceComposite
 //            return projectBuilder.newInstance();
 //        }
 //
-//        private TimeRange newTimeRange( UnitOfWork unitOfWork, Date startDate, Date endDate )
+//        private timeRange newTimeRange( UnitOfWork unitOfWork, Date startDate, Date endDate )
 //        {
 //            EntityBuilder<TimeRangeEntity> timeRangeBuilder =
 //                unitOfWork.newEntityBuilder( TimeRangeEntity.class );

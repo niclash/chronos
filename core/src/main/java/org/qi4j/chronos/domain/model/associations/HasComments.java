@@ -13,7 +13,7 @@
  */
 package org.qi4j.chronos.domain.model.associations;
 
-import org.qi4j.chronos.domain.model.Comment;
+import org.qi4j.chronos.domain.model.common.comment.Comment;
 import org.qi4j.entity.association.ListAssociation;
 
 public interface HasComments

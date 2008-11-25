@@ -122,7 +122,7 @@ interface AuthenticationServiceComposite extends AuthenticationService, ServiceC
             }
 
             uow.discard();
-            throw new UserAuthenticationFailException( "Invalie user or password" );
+            throw new UserAuthenticationFailException( "Invalid user or password" );
         }
     }
 }

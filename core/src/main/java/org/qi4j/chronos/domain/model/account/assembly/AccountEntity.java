@@ -19,13 +19,23 @@ package org.qi4j.chronos.domain.model.account.assembly;
 import org.qi4j.chronos.domain.model.account.Account;
 import org.qi4j.chronos.domain.model.account.AccountDetail;
 import org.qi4j.chronos.domain.model.account.AccountId;
+import org.qi4j.chronos.domain.model.account.AccountState;
+import org.qi4j.chronos.domain.model.common.priceRate.PriceRateSchedule;
+import org.qi4j.chronos.domain.model.customer.Customer;
+import org.qi4j.chronos.domain.model.project.Project;
+import org.qi4j.chronos.domain.model.project.role.ProjectRole;
+import org.qi4j.chronos.domain.model.user.Staff;
 import org.qi4j.composite.CompositeBuilder;
 import org.qi4j.composite.CompositeBuilderFactory;
 import org.qi4j.composite.Mixins;
 import org.qi4j.entity.EntityComposite;
 import org.qi4j.entity.Identity;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkFactory;
 import org.qi4j.injection.scope.Structure;
 import org.qi4j.injection.scope.This;
+import org.qi4j.query.Query;
+import org.qi4j.query.QueryBuilder;
 
 /**
  * @author edward.yakop@gmail.com
@@ -43,6 +53,8 @@ interface AccountEntity extends Account, EntityComposite
         @Structure private CompositeBuilderFactory cbf;
         private AccountDetail accountDetail;
 
+        @Structure private UnitOfWorkFactory uowf;
+
         public AccountMixin( @This Identity anIdentity )
         {
             accountId = new AccountId( anIdentity.identity().get() );
@@ -58,7 +70,7 @@ interface AccountEntity extends Account, EntityComposite
             return other != null && accountId.sameValueAs( other.accountId() );
         }
 
-        public AccountDetail accountDetail()
+        public final AccountDetail accountDetail()
         {
             if( accountDetail == null )
             {
@@ -68,6 +80,51 @@ interface AccountEntity extends Account, EntityComposite
             }
 
             return accountDetail;
+        }
+
+        public final Query<Staff> staffs()
+        {
+            UnitOfWork uow = uowf.nestedUnitOfWork();
+            QueryBuilder<Staff> builder = uow.queryBuilderFactory().newQueryBuilder( Staff.class );
+            Query<Staff> query = builder.newQuery( state.staffs() );
+            uow.pause();
+            return query;
+        }
+
+        public final Query<Customer> customers()
+        {
+            UnitOfWork uow = uowf.nestedUnitOfWork();
+            QueryBuilder<Customer> builder = uow.queryBuilderFactory().newQueryBuilder( Customer.class );
+            Query<Customer> query = builder.newQuery( state.customers() );
+            uow.pause();
+            return query;
+        }
+
+        public final Query<Project> projects()
+        {
+            UnitOfWork uow = uowf.nestedUnitOfWork();
+            QueryBuilder<Project> builder = uow.queryBuilderFactory().newQueryBuilder( Project.class );
+            Query<Project> query = builder.newQuery( state.projects() );
+            uow.pause();
+            return query;
+        }
+
+        public final Query<ProjectRole> projectRoles()
+        {
+            UnitOfWork uow = uowf.nestedUnitOfWork();
+            QueryBuilder<ProjectRole> builder = uow.queryBuilderFactory().newQueryBuilder( ProjectRole.class );
+            Query<ProjectRole> query = builder.newQuery( state.projectRoles() );
+            uow.pause();
+            return query;
+        }
+
+        public final Query<PriceRateSchedule> priceRateSchedules()
+        {
+            UnitOfWork uow = uowf.nestedUnitOfWork();
+            QueryBuilder<PriceRateSchedule> builder = uow.queryBuilderFactory().newQueryBuilder( PriceRateSchedule.class );
+            Query<PriceRateSchedule> query = builder.newQuery( state.priceRateSchedules() );
+            uow.pause();
+            return query;
         }
     }
 }

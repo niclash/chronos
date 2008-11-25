@@ -13,17 +13,15 @@
 package org.qi4j.chronos.domain.model.account;
 
 import org.qi4j.chronos.domain.model.Entity;
-import org.qi4j.chronos.domain.model.associations.HasAddress;
-import org.qi4j.chronos.domain.model.associations.HasPriceRateSchedules;
-import org.qi4j.chronos.domain.model.associations.HasProjectRoles;
-import org.qi4j.chronos.domain.model.associations.HasProjects;
 import org.qi4j.chronos.domain.model.common.enable.Enable;
+import org.qi4j.chronos.domain.model.common.priceRate.PriceRateSchedule;
 import org.qi4j.chronos.domain.model.customer.Customer;
+import org.qi4j.chronos.domain.model.project.Project;
+import org.qi4j.chronos.domain.model.project.role.ProjectRole;
 import org.qi4j.chronos.domain.model.user.Staff;
 import org.qi4j.query.Query;
 
-public interface Account extends Entity<Account>, Enable,
-                                 HasAddress, HasProjects, HasProjectRoles, HasPriceRateSchedules
+public interface Account extends Entity<Account>, Enable
 {
     AccountId accountId();
 
@@ -32,4 +30,10 @@ public interface Account extends Entity<Account>, Enable,
     Query<Staff> staffs();
 
     Query<Customer> customers();
+
+    Query<Project> projects();
+
+    Query<ProjectRole> projectRoles();
+
+    Query<PriceRateSchedule> priceRateSchedules();
 }

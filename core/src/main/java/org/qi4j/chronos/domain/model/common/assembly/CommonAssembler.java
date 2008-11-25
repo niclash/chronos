@@ -31,12 +31,15 @@ public final class CommonAssembler
     public final void assemble( ModuleAssembly aModule )
         throws AssemblyException
     {
-        aModule.addComposites(
-            MoneyComposite.class,
-            TimeRangeComposite.class
+        aModule.addEntities(
+            MoneyEntity.class,
+            TimeRangeEntity.class,
+            CommentEntity.class
         ).visibleIn( layer );
 
-        aModule.addServices( MoneyFactoryService.class )
-            .visibleIn( application );
+        aModule.addServices(
+            MoneyFactoryService.class,
+            CommentFactoryService.class
+        ).visibleIn( application );
     }
 }

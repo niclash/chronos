@@ -20,16 +20,16 @@ import java.text.NumberFormat;
 import java.util.Currency;
 import org.qi4j.chronos.domain.model.common.money.Money;
 import org.qi4j.chronos.domain.model.common.money.MoneyState;
-import org.qi4j.composite.Composite;
 import org.qi4j.composite.Mixins;
 import org.qi4j.injection.scope.This;
+import org.qi4j.entity.EntityComposite;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-@Mixins( MoneyComposite.MoneyMixin.class )
-interface MoneyComposite extends Money, Composite
+@Mixins( MoneyEntity.MoneyMixin.class )
+interface MoneyEntity extends Money, EntityComposite
 {
     final class MoneyMixin
         implements Money
