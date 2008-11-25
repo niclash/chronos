@@ -14,7 +14,7 @@ package org.qi4j.chronos.domain.model.account.assembly;
 
 import org.qi4j.chronos.domain.model.account.Account;
 import org.qi4j.chronos.domain.model.account.AccountFactory;
-import org.qi4j.chronos.domain.model.common.name.NameState;
+import org.qi4j.chronos.domain.model.account.AccountState;
 import org.qi4j.composite.Mixins;
 import org.qi4j.entity.EntityBuilder;
 import org.qi4j.entity.UnitOfWork;
@@ -32,18 +32,11 @@ interface AccountFactoryService extends AccountFactory, ServiceComposite
 
         public final Account newAccount( String anAccountName )
         {
-            UnitOfWork uow = uowf.nestedUnitOfWork();
-            try
-            {
-                EntityBuilder<Account> accountBuilder = uow.newEntityBuilder( Account.class );
-                NameState nameState = accountBuilder.stateFor( NameState.class );
-                nameState.name().set( anAccountName );
-                return accountBuilder.newInstance();
-            }
-            finally
-            {
-                uow.pause();
-            }
+            UnitOfWork uow = uowf.currentUnitOfWork();
+            EntityBuilder<Account> accountBuilder = uow.newEntityBuilder( Account.class );
+            AccountState nameState = accountBuilder.stateFor( AccountState.class );
+            nameState.name().set( anAccountName );
+            return accountBuilder.newInstance();
         }
     }
 }
