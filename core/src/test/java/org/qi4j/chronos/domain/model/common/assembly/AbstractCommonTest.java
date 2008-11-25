@@ -28,9 +28,9 @@ import org.qi4j.test.AbstractQi4jTest;
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-abstract class AbstractCommentTest extends AbstractQi4jTest
+abstract class AbstractCommonTest extends AbstractQi4jTest
 {
-    public final void assemble( ModuleAssembly module )
+    public void assemble( ModuleAssembly module )
         throws AssemblyException
     {
         module.addObjects( EntitySerializer.class );

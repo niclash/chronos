@@ -37,8 +37,10 @@ public final class UserAssembler
             ContactPersonEntity.class
         ).visibleIn( layer );
 
-        aModule.addServices( SystemRoleBootstrap.class )
-            .instantiateOnStartup();
+        aModule.addServices(
+            SystemRoleBootstrap.class,
+            AdminBootstrap.class
+        ).instantiateOnStartup();
 
         aModule.addComposites(
             UserDetailComposite.class,

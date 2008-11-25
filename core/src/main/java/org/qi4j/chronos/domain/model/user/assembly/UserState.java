@@ -26,8 +26,6 @@ import org.qi4j.property.Property;
  */
 interface UserState
 {
-    Property<String> userName();
-
     Property<String> firstName();
 
     Property<String> lastName();

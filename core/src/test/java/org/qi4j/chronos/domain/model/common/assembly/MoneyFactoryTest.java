@@ -29,7 +29,7 @@ import org.qi4j.service.ServiceReference;
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-public final class MoneyFactoryTest extends AbstractCommentTest
+public final class MoneyFactoryTest extends AbstractCommonTest
 {
     @Test
     @Ignore

@@ -17,12 +17,33 @@
 package org.qi4j.chronos.domain.model.user.assembly;
 
 import org.qi4j.chronos.domain.model.user.SystemRole;
+import org.qi4j.chronos.domain.model.user.SystemRoleId;
+import org.qi4j.composite.Mixins;
 import org.qi4j.entity.EntityComposite;
+import org.qi4j.entity.Identity;
+import org.qi4j.injection.scope.This;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
+@Mixins( SystemRoleEntity.SystemRoleMixin.class )
 interface SystemRoleEntity extends SystemRole, EntityComposite
 {
+    abstract class SystemRoleMixin
+        implements SystemRole
+    {
+        private final SystemRoleId systemRoleId;
+
+        public SystemRoleMixin( @This Identity identity )
+        {
+            String idString = identity.identity().get();
+            systemRoleId = new SystemRoleId( idString );
+        }
+
+        public SystemRoleId systemRoleId()
+        {
+            return systemRoleId;
+        }
+    }
 }
