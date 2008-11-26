@@ -43,31 +43,22 @@ interface AccountRepositoryService extends AccountRepository, ServiceComposite
 
         public final Query<Account> findAll()
         {
-            UnitOfWork uow = uowf.nestedUnitOfWork();
-            try
-            {
-                QueryBuilderFactory qbf = uow.queryBuilderFactory();
-                QueryBuilder<Account> builder = qbf.newQueryBuilder( Account.class );
-                return builder.newQuery();
-            }
-            finally
-            {
-                uow.pause();
-            }
+            UnitOfWork uow = uowf.currentUnitOfWork();
+            QueryBuilderFactory qbf = uow.queryBuilderFactory();
+            QueryBuilder<Account> builder = qbf.newQueryBuilder( Account.class );
+            return builder.newQuery();
         }
 
-        public final Account find( AccountId anAccountId )
+        public final Account find( AccountId accountId )
         {
-            UnitOfWork uow = uowf.nestedUnitOfWork();
+            UnitOfWork uow = uowf.currentUnitOfWork();
+            String accountIdString = accountId.idString();
             try
             {
-                Account account = uow.find( anAccountId.idString(), Account.class );
-                uow.pause();
-                return account;
+                return uow.find( accountIdString, Account.class );
             }
             catch( EntityCompositeNotFoundException e )
             {
-                uow.discard();
                 return null;
             }
         }

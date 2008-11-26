@@ -28,7 +28,7 @@ import org.qi4j.chronos.domain.model.user.Staff;
 import org.qi4j.composite.CompositeBuilder;
 import org.qi4j.composite.CompositeBuilderFactory;
 import org.qi4j.composite.Mixins;
-import org.qi4j.entity.EntityComposite;
+import org.qi4j.entity.AggregateEntity;
 import org.qi4j.entity.Identity;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkFactory;
@@ -42,7 +42,7 @@ import org.qi4j.query.QueryBuilder;
  * @since 0.5
  */
 @Mixins( AccountEntity.AccountMixin.class )
-interface AccountEntity extends Account, EntityComposite
+interface AccountEntity extends Account, AggregateEntity
 {
     abstract class AccountMixin
         implements Account
