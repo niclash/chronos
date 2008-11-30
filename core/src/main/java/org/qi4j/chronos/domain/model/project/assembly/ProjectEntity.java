@@ -16,24 +16,41 @@
  */
 package org.qi4j.chronos.domain.model.project.assembly;
 
+import org.qi4j.chronos.domain.model.common.legalCondition.LegalCondition;
+import org.qi4j.chronos.domain.model.common.priceRate.PriceRateSchedule;
 import org.qi4j.chronos.domain.model.project.Project;
+import org.qi4j.chronos.domain.model.project.ProjectDetail;
 import org.qi4j.chronos.domain.model.project.ProjectId;
+import org.qi4j.chronos.domain.model.project.ProjectState;
+import org.qi4j.composite.CompositeBuilder;
+import org.qi4j.composite.CompositeBuilderFactory;
 import org.qi4j.composite.Mixins;
-import org.qi4j.entity.EntityComposite;
+import org.qi4j.entity.AggregateEntity;
 import org.qi4j.entity.Identity;
+import org.qi4j.entity.UnitOfWork;
+import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.injection.scope.Structure;
 import org.qi4j.injection.scope.This;
+import org.qi4j.query.Query;
+import org.qi4j.query.QueryBuilder;
+import org.qi4j.query.QueryBuilderFactory;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
 @Mixins( ProjectEntity.ProjectMixin.class )
-interface ProjectEntity extends Project, EntityComposite
+interface ProjectEntity extends Project, AggregateEntity
 {
     abstract class ProjectMixin
         implements Project
     {
         private final ProjectId projectId;
+
+        @Structure private UnitOfWorkFactory uowf;
+        @This private ProjectState state;
+        @Structure private CompositeBuilderFactory cbf;
+        private ProjectDetail detail;
 
         public ProjectMixin( @This Identity identity )
         {
@@ -44,6 +61,33 @@ interface ProjectEntity extends Project, EntityComposite
         public final ProjectId projectId()
         {
             return projectId;
+        }
+
+        public final ProjectDetail projectDetail()
+        {
+            if( detail == null )
+            {
+                CompositeBuilder<ProjectDetail> builder = cbf.newCompositeBuilder( ProjectDetail.class );
+                builder.use( state );
+                detail = builder.newInstance();
+            }
+
+            return detail;
+        }
+
+        public final Query<LegalCondition> legalConditions()
+        {
+            UnitOfWork uow = uowf.currentUnitOfWork();
+            QueryBuilder<LegalCondition> builder = uow.queryBuilderFactory().newQueryBuilder( LegalCondition.class );
+            return builder.newQuery( state.legalConditions() );
+        }
+
+        public final Query<PriceRateSchedule> priceRateSchedules()
+        {
+            UnitOfWork uow = uowf.currentUnitOfWork();
+            QueryBuilderFactory qbf = uow.queryBuilderFactory();
+            QueryBuilder<PriceRateSchedule> builder = qbf.newQueryBuilder( PriceRateSchedule.class );
+            return builder.newQuery( state.priceRateSchedules() );
         }
 
         public final boolean sameIdentityAs( Project other )

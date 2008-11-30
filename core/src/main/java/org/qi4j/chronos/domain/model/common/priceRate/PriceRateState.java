@@ -14,10 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.domain.model.common.comment;
+package org.qi4j.chronos.domain.model.common.priceRate;
 
-import java.util.Date;
-import org.qi4j.chronos.domain.model.user.User;
+import org.qi4j.chronos.domain.model.common.money.Money;
+import org.qi4j.chronos.domain.model.common.period.Period;
+import org.qi4j.chronos.domain.model.project.role.ProjectRole;
 import org.qi4j.entity.association.Association;
 import org.qi4j.property.Property;
 
@@ -25,13 +26,13 @@ import org.qi4j.property.Property;
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-public interface CommentState
+public interface PriceRateState
 {
-    Property<String> comment();
+    Association<Money> price();
 
-    Property<Date> createdDate();
+    Property<PriceRateType> type();
 
-    Property<Date> lastUpdatedDate();
+    Association<ProjectRole> projectRole();
 
-    Association<User> createdBy();
+    Association<Period> validPeriod();
 }

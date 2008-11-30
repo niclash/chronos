@@ -14,24 +14,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.domain.model.common.comment;
+package org.qi4j.chronos.domain.model.common.priceRate;
 
-import java.util.Date;
-import org.qi4j.chronos.domain.model.user.User;
-import org.qi4j.entity.association.Association;
+import org.qi4j.entity.association.SetAssociation;
 import org.qi4j.property.Property;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-public interface CommentState
+public interface PriceRateScheduleState
 {
-    Property<String> comment();
+    Property<String> defaultCurrencyCode();
 
-    Property<Date> createdDate();
-
-    Property<Date> lastUpdatedDate();
-
-    Association<User> createdBy();
+    SetAssociation<PriceRate> priceRates();
 }

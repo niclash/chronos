@@ -13,16 +13,23 @@
  */
 package org.qi4j.chronos.domain.model.customer;
 
-import org.qi4j.chronos.domain.model.associations.HasAddress;
-import org.qi4j.chronos.domain.model.associations.HasContactPersons;
-import org.qi4j.chronos.domain.model.associations.HasPriceRateSchedules;
-import org.qi4j.entity.Identity;
+import org.qi4j.chronos.domain.model.Entity;
+import org.qi4j.chronos.domain.model.common.priceRate.PriceRateSchedule;
+import org.qi4j.chronos.domain.model.user.contactPerson.ContactPerson;
 import org.qi4j.library.general.model.Enabled;
+import org.qi4j.query.Query;
 
-public interface Customer extends HasAddress, HasContactPersons, HasPriceRateSchedules, Enabled, Identity
+public interface Customer extends Entity<Customer>, Enabled
 {
     CustomerId customerId();
 
     CustomerDetail customerDetail();
-}
 
+    Query<ContactPerson> contactPersons();
+
+    void addContactPerson( ContactPerson contactPerson );
+
+    void removeContactPerson( ContactPerson contactPerson );
+
+    Query<PriceRateSchedule> priceRateSchedules();
+}

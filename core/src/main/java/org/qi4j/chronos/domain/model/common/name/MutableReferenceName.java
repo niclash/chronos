@@ -26,5 +26,5 @@ import org.qi4j.composite.Optional;
 @Mixins( MutableReferenceNameMixin.class )
 public interface MutableReferenceName extends ReferenceName
 {
-    void changeReferenceName( @Optional String aReferenceName );
+    void changeReferenceName( @Optional String newReferenceName );
 }

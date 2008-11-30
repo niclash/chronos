@@ -25,7 +25,6 @@ import org.qi4j.composite.Mixins;
 import org.qi4j.composite.Optional;
 import org.qi4j.entity.EntityBuilder;
 import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.qi4j.entity.UnitOfWorkFactory;
 import org.qi4j.injection.scope.Structure;
 import org.qi4j.query.Query;
@@ -69,16 +68,7 @@ interface ProjectRoleFactoryService extends ProjectRoleFactory, ServiceComposite
             EntityBuilder<ProjectRole> builder = uow.newEntityBuilder( ProjectRole.class );
             builder.stateFor( NameState.class ).name().set( projectRoleName );
             builder.stateFor( DescriptionState.class ).description().set( roleDescription );
-            ProjectRole role = builder.newInstance();
-            try
-            {
-                uow.completeAndContinue();
-            }
-            catch( UnitOfWorkCompletionException e )
-            {
-                // TODO: Shouldn't happened
-            }
-            return role;
+            return builder.newInstance();
         }
 
         private void validateRoleNameUniqueness( String projectRoleName, UnitOfWork uow )

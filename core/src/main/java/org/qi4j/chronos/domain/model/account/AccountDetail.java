@@ -17,10 +17,8 @@
 package org.qi4j.chronos.domain.model.account;
 
 import org.qi4j.chronos.domain.model.common.name.MutableName;
-import org.qi4j.chronos.domain.model.common.name.ReferenceName;
 import org.qi4j.chronos.domain.model.common.name.MutableReferenceName;
 import org.qi4j.chronos.domain.model.location.address.Address;
-import org.qi4j.library.constraints.annotation.MaxLength;
 import org.qi4j.composite.Optional;
 
 /**

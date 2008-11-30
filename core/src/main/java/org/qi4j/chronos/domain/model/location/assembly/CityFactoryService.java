@@ -27,7 +27,6 @@ import org.qi4j.composite.Mixins;
 import org.qi4j.composite.Optional;
 import org.qi4j.entity.EntityBuilder;
 import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.qi4j.entity.UnitOfWorkFactory;
 import org.qi4j.injection.scope.Structure;
 import org.qi4j.query.Query;
@@ -136,19 +135,7 @@ interface CityFactoryService extends CityFactory, ServiceComposite
 
             NameState nameState = cityBuilder.stateFor( NameState.class );
             nameState.name().set( cityName );
-            City city = cityBuilder.newInstance();
-
-            try
-            {
-                uow.completeAndContinue();
-            }
-            catch( UnitOfWorkCompletionException e )
-            {
-                // Shouldn't happened.
-                e.printStackTrace(); // TODO
-            }
-
-            return city;
+            return cityBuilder.newInstance();
         }
 
         private void validateCityWithinCountry( String cityName, Country country, UnitOfWork uow )

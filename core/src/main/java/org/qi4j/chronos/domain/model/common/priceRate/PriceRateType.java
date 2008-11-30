@@ -18,31 +18,8 @@ package org.qi4j.chronos.domain.model.common.priceRate;
 
 public enum PriceRateType
 {
-    HOURLY( " Hourly" ), DAILY( "Daily" ), MONTHLY( "Monthly" ), YEARLY( "Yearly" );
-
-    private String description;
-
-    private PriceRateType( String description )
-    {
-        this.description = description;
-    }
-
-    @Override public String toString()
-    {
-        return this.description;
-    }
-
-    public static PriceRateType toEnum( String text )
-    {
-        try
-        {
-            return valueOf( text.toUpperCase() );
-        }
-        catch( IllegalArgumentException iae )
-        {
-            // TODO
-        }
-
-        return null;
-    }
+    HOURLY,
+    DAILY,
+    MONTHLY,
+    YEARLY
 }

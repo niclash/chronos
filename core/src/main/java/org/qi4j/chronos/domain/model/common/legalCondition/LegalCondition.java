@@ -12,18 +12,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.domain.model.common.timeRange;
+package org.qi4j.chronos.domain.model.common.legalCondition;
 
-import java.util.Date;
+import org.qi4j.chronos.domain.model.common.description.Description;
+import org.qi4j.chronos.domain.model.common.name.Name;
 
 /**
  * @author Sianny Halim
- * @author Lan Boon Ping
- * @author edward.yakop@gmail.com
+ * @author Lan Boon PIng
+ * @author Edward Yakop
+ * @since 0.5
  */
-public interface TimeRange
+public interface LegalCondition extends Name, Description
 {
-    Date startTime();
-
-    Date endTime();
 }

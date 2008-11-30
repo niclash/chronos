@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.domain.model.common.assembly;
+package org.qi4j.chronos.domain.model.customer.assembly;
 
 import org.qi4j.bootstrap.Assembler;
 import org.qi4j.bootstrap.AssemblyException;
@@ -25,26 +25,18 @@ import static org.qi4j.structure.Visibility.*;
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-public final class CommonAssembler
+public final class CustomerAssembler
     implements Assembler
 {
-    public final void assemble( ModuleAssembly aModule )
+    public final void assemble( ModuleAssembly module )
         throws AssemblyException
     {
-        aModule.addEntities(
-            CommentEntity.class,
-            LegalConditionEntity.class,
-            MoneyEntity.class,
-            PeriodEntity.class,
-            PriceRateEntity.class,
-            PriceRateScheduleEntity.class
-        ).visibleIn( layer );
+        module.addEntities( CustomerEntity.class ).visibleIn( layer );
+        module.addComposites( CustomerDetailComposite.class );
 
-        aModule.addServices(
-            CommentFactoryService.class,
-            LegalConditionFactoryService.class,
-            MoneyFactoryService.class,
-            PeriodFactoryService.class
+        module.addServices(
+            CustomerRepositoryService.class,
+            CustomerFactoryService.class
         ).visibleIn( application );
     }
 }

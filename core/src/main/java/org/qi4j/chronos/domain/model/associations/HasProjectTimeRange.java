@@ -13,12 +13,12 @@
  */
 package org.qi4j.chronos.domain.model.associations;
 
-import org.qi4j.chronos.domain.model.common.timeRange.TimeRange;
+import org.qi4j.chronos.domain.model.common.period.Period;
 import org.qi4j.entity.association.Association;
 
 public interface HasProjectTimeRange
 {
-    Association<TimeRange> estimateTime();
+    Association<Period> estimateTime();
 
-    Association<TimeRange> actualTime();
+    Association<Period> actualTime();
 }

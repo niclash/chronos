@@ -16,11 +16,10 @@
  */
 package org.qi4j.chronos.domain.model.common.assembly;
 
-import java.util.Date;
 import static org.junit.Assert.*;
 import org.junit.Test;
-import org.qi4j.chronos.domain.model.common.timeRange.TimeRange;
-import org.qi4j.chronos.domain.model.common.timeRange.TimeRangeFactory;
+import org.qi4j.chronos.domain.model.common.legalCondition.LegalCondition;
+import org.qi4j.chronos.domain.model.common.legalCondition.LegalConditionFactory;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.service.ServiceFinder;
 import org.qi4j.service.ServiceReference;
@@ -29,29 +28,31 @@ import org.qi4j.service.ServiceReference;
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-public final class TimeRangeFactoryTest extends AbstractCommonTest
+public final class LegalConditionFactoryTest extends AbstractCommonTest
 {
     @Test
-    public final void createTimeRangeTest()
+    public final void createLegalConditionTest()
     {
         UnitOfWork uow = unitOfWorkFactory.newUnitOfWork();
 
         ServiceFinder serviceFinder = moduleInstance.serviceFinder();
-        ServiceReference<TimeRangeFactory> factoryRef = serviceFinder.findService( TimeRangeFactory.class );
-        TimeRangeFactory timeRangeFactory = factoryRef.get();
+        ServiceReference<LegalConditionFactory> factoryRef = serviceFinder.findService( LegalConditionFactory.class );
+        LegalConditionFactory factory = factoryRef.get();
         try
         {
-            Date now = new Date();
-            Date oneHourLater = new Date( now.getTime() + 3600000 );
-            TimeRange timeRange = timeRangeFactory.create( now, oneHourLater );
+            LegalCondition condition = factory.create( "Service Agreement" );
+            assertNotNull( condition );
 
-            assertEquals( now, timeRange.startTime() );
-            assertEquals( oneHourLater, timeRange.endTime() );
+            assertEquals( "Service Agreement", condition.name() );
+
+            assertNull( condition.description() );
+            condition.changeDescription( "description" );
+            assertEquals( "description", condition.description() );
         }
         finally
         {
-            factoryRef.releaseService();
             uow.discard();
+            factoryRef.releaseService();
         }
     }
 }

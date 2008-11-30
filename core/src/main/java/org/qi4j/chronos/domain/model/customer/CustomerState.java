@@ -14,24 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.domain.model.common.comment;
+package org.qi4j.chronos.domain.model.customer;
 
-import java.util.Date;
-import org.qi4j.chronos.domain.model.user.User;
+import org.qi4j.chronos.domain.model.common.priceRate.PriceRateSchedule;
+import org.qi4j.chronos.domain.model.location.address.Address;
+import org.qi4j.chronos.domain.model.user.contactPerson.ContactPerson;
+import org.qi4j.composite.Optional;
 import org.qi4j.entity.association.Association;
+import org.qi4j.entity.association.SetAssociation;
 import org.qi4j.property.Property;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-public interface CommentState
+public interface CustomerState
 {
-    Property<String> comment();
+    Property<String> name();
 
-    Property<Date> createdDate();
+    Property<String> referenceName();
 
-    Property<Date> lastUpdatedDate();
+    @Optional Association<Address> address();
 
-    Association<User> createdBy();
+    SetAssociation<ContactPerson> contactPersons();
+
+    SetAssociation<PriceRateSchedule> priceRateSchedules();
 }

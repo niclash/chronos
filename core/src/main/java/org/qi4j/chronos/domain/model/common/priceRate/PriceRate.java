@@ -14,11 +14,16 @@
 package org.qi4j.chronos.domain.model.common.priceRate;
 
 import org.qi4j.chronos.domain.model.common.money.Money;
+import org.qi4j.chronos.domain.model.common.period.Period;
 import org.qi4j.chronos.domain.model.project.role.ProjectRole;
 
-public interface PriceRate extends Money
+public interface PriceRate
 {
-    PriceRateType type();
+    Money price();
+
+    PriceRateType priceRateType();
 
     ProjectRole projectRole();
+
+    Period validPeriod();
 }

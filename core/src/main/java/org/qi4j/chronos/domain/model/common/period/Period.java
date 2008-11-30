@@ -1,6 +1,7 @@
 /*
  * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
  * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
+ * Copyright (c) 2008, Edward Yakop. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -11,15 +12,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.domain.model;
+package org.qi4j.chronos.domain.model.common.period;
 
-import org.qi4j.chronos.domain.model.common.name.Name;
-import org.qi4j.entity.Identity;
-import org.qi4j.library.general.model.Description;
+import java.util.Date;
 
-public interface LegalCondition extends Name, Description, Identity
+/**
+ * @author Sianny Halim
+ * @author Lan Boon Ping
+ * @author edward.yakop@gmail.com
+ * @since 0.5
+ */
+public interface Period
 {
-    public final static int NAME_LEN = 120;
+    Date startTime();
 
-    public final static int DESC_LEN = 2000;
+    Date endTime();
 }

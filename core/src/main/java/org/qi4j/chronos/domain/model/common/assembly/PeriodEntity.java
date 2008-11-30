@@ -17,8 +17,8 @@
 package org.qi4j.chronos.domain.model.common.assembly;
 
 import java.util.Date;
-import org.qi4j.chronos.domain.model.common.timeRange.TimeRange;
-import org.qi4j.chronos.domain.model.common.timeRange.TimeRangeState;
+import org.qi4j.chronos.domain.model.common.period.Period;
+import org.qi4j.chronos.domain.model.common.period.PeriodState;
 import org.qi4j.composite.Mixins;
 import org.qi4j.composite.Optional;
 import org.qi4j.entity.EntityComposite;
@@ -26,14 +26,15 @@ import org.qi4j.injection.scope.This;
 
 /**
  * @author edward.yakop@gmail.com
+ * @since 0.5
  */
-@Mixins( TimeRangeEntity.TimeRangeMixin.class )
-interface TimeRangeEntity extends TimeRange, EntityComposite
+@Mixins( PeriodEntity.PeriodMixin.class )
+interface PeriodEntity extends Period, EntityComposite
 {
-    class TimeRangeMixin
-        implements TimeRange
+    class PeriodMixin
+        implements Period
     {
-        @This private TimeRangeState state;
+        @This private PeriodState state;
 
         public final Date startTime()
         {

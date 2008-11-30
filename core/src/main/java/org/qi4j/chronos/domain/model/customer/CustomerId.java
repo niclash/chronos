@@ -35,7 +35,7 @@ public final class CustomerId
         idString = customerIdString;
     }
 
-    public final String getIdString()
+    public final String idString()
     {
         return idString;
     }

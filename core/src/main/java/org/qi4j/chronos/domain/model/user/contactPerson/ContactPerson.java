@@ -11,10 +11,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.domain.model.user;
+package org.qi4j.chronos.domain.model.user.contactPerson;
 
 import org.qi4j.chronos.domain.model.associations.HasContacts;
 import org.qi4j.chronos.domain.model.associations.HasRelationship;
+import org.qi4j.chronos.domain.model.user.User;
 
 /**
  * @author Sianny Halim

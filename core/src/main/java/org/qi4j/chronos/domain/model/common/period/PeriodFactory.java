@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.domain.model.common.timeRange;
+package org.qi4j.chronos.domain.model.common.period;
 
 import java.util.Date;
 
@@ -22,7 +22,7 @@ import java.util.Date;
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-public interface TimeRangeFactory
+public interface PeriodFactory
 {
-    TimeRange create( Date startTime, Date endTime );
+    Period create( Date startTime, Date endTime );
 }

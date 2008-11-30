@@ -16,13 +16,18 @@
  */
 package org.qi4j.chronos.domain.model.customer;
 
-import org.qi4j.chronos.domain.model.common.name.PersonName;
-import org.qi4j.chronos.domain.model.common.name.ReferenceName;
+import org.qi4j.chronos.domain.model.common.name.MutableName;
+import org.qi4j.chronos.domain.model.common.name.MutableReferenceName;
+import org.qi4j.chronos.domain.model.location.address.Address;
+import org.qi4j.composite.Optional;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-public interface CustomerDetail extends PersonName, ReferenceName
+public interface CustomerDetail extends MutableName, MutableReferenceName
 {
+    @Optional Address address();
+
+    void changeAddress( Address address );
 }

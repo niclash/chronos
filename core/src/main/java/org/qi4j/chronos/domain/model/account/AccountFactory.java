@@ -21,5 +21,5 @@ package org.qi4j.chronos.domain.model.account;
  */
 public interface AccountFactory
 {
-    Account newAccount( String anAccountName );
+    Account newAccount( String accountName );
 }

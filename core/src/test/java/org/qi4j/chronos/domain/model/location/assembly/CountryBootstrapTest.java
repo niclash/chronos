@@ -17,6 +17,7 @@
 package org.qi4j.chronos.domain.model.location.assembly;
 
 import static org.junit.Assert.*;
+import org.junit.Ignore;
 import org.junit.Test;
 import static org.qi4j.chronos.domain.model.location.assembly.CountryBootstrap.CountryBootstrapMixin.*;
 import org.qi4j.chronos.domain.model.location.country.Country;
@@ -31,6 +32,7 @@ import org.qi4j.service.ServiceReference;
 public final class CountryBootstrapTest extends AbstractLocationTest
 {
     @Test
+    @Ignore
     public void testBootstrap()
     {
         ServiceReference<CountryRepository> repositoryReference =

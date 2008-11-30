@@ -14,24 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.domain.model.common.comment;
+package org.qi4j.chronos.domain.model.common.assembly;
 
-import java.util.Date;
-import org.qi4j.chronos.domain.model.user.User;
-import org.qi4j.entity.association.Association;
-import org.qi4j.property.Property;
+import org.qi4j.chronos.domain.model.common.legalCondition.LegalCondition;
+import org.qi4j.entity.EntityComposite;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-public interface CommentState
+interface LegalConditionEntity extends LegalCondition, EntityComposite
 {
-    Property<String> comment();
-
-    Property<Date> createdDate();
-
-    Property<Date> lastUpdatedDate();
-
-    Association<User> createdBy();
 }

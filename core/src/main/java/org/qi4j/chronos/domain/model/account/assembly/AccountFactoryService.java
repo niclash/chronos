@@ -30,12 +30,12 @@ interface AccountFactoryService extends AccountFactory, ServiceComposite
     {
         @Structure private UnitOfWorkFactory uowf;
 
-        public final Account newAccount( String anAccountName )
+        public final Account newAccount( String accountName )
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
             EntityBuilder<Account> accountBuilder = uow.newEntityBuilder( Account.class );
             AccountState nameState = accountBuilder.stateFor( AccountState.class );
-            nameState.name().set( anAccountName );
+            nameState.name().set( accountName );
             return accountBuilder.newInstance();
         }
     }

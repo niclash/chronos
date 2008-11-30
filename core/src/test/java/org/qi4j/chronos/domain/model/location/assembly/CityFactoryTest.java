@@ -44,8 +44,7 @@ public final class CityFactoryTest extends AbstractLocationTest
         ServiceReference<CityFactory> cityFactoryRef = serviceFinder.findService( CityFactory.class );
         CityFactory cityFactory = cityFactoryRef.get();
 
-
-        UnitOfWork uow = unitOfWorkFactory.nestedUnitOfWork();
+        UnitOfWork uow = unitOfWorkFactory.newUnitOfWork();
         try
         {
             // Singapore
@@ -74,9 +73,9 @@ public final class CityFactoryTest extends AbstractLocationTest
         }
         finally
         {
+            uow.discard();
             countryRepositoryRef.releaseService();
             cityFactoryRef.releaseService();
-            uow.discard();
         }
     }
 }

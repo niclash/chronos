@@ -21,7 +21,7 @@ import org.qi4j.chronos.domain.model.Task;
 import org.qi4j.chronos.domain.model.WorkEntry;
 import org.qi4j.chronos.domain.model.account.Account;
 import org.qi4j.chronos.domain.model.associations.HasTasks;
-import org.qi4j.chronos.domain.model.common.timeRange.TimeRangeState;
+import org.qi4j.chronos.domain.model.common.period.PeriodState;
 import org.qi4j.chronos.domain.model.user.Staff;
 import org.qi4j.entity.EntityBuilder;
 import org.qi4j.entity.EntityCompositeNotFoundException;
@@ -34,9 +34,9 @@ public final class ReportUtil
                                          Date filterStartDate, Date filterEndDate )
     {
         EntityBuilder<Report> builder = unitOfWork.newEntityBuilder( Report.class );
-        TimeRangeState timeRangeState = builder.stateFor( TimeRangeState.class );
-        timeRangeState.startTime().set( filterStartDate );
-        timeRangeState.endTime().set( filterEndDate );
+        PeriodState periodState = builder.stateFor( PeriodState.class );
+        periodState.startTime().set( filterStartDate );
+        periodState.endTime().set( filterEndDate );
         Report report = builder.newInstance();
 //        report.name().set( name );
 
@@ -70,7 +70,7 @@ public final class ReportUtil
 //                        reportDetail.staff().set( staff );
 //                        reportDetail.workEntries().add( workEntry );
 //                        summary.reportDetails().add( reportDetail );
-                    }   
+                    }
                 }
             }
         }

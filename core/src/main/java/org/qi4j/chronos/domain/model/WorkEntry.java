@@ -16,11 +16,11 @@ package org.qi4j.chronos.domain.model;
 import org.qi4j.chronos.domain.model.associations.HasComments;
 import org.qi4j.chronos.domain.model.associations.HasCreatedDate;
 import org.qi4j.chronos.domain.model.associations.HasProjectAssignee;
-import org.qi4j.chronos.domain.model.common.timeRange.TimeRange;
+import org.qi4j.chronos.domain.model.common.period.Period;
 import org.qi4j.entity.Identity;
 import org.qi4j.library.general.model.Description;
 
-public interface WorkEntry extends Title, Description, TimeRange, HasComments, HasCreatedDate, HasProjectAssignee, Identity
+public interface WorkEntry extends Title, Description, Period, HasComments, HasCreatedDate, HasProjectAssignee, Identity
 {
     public final static int TITLE_LEN = 120;
 

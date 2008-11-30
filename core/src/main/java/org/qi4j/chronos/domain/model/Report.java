@@ -15,8 +15,8 @@ package org.qi4j.chronos.domain.model;
 import org.qi4j.chronos.domain.model.associations.HasProject;
 import org.qi4j.chronos.domain.model.associations.HasReportSummary;
 import org.qi4j.chronos.domain.model.common.name.Name;
-import org.qi4j.chronos.domain.model.common.timeRange.TimeRange;
+import org.qi4j.chronos.domain.model.common.period.Period;
 
-public interface Report extends Name, TimeRange, HasProject, HasReportSummary
+public interface Report extends Name, Period, HasProject, HasReportSummary
 {
 }

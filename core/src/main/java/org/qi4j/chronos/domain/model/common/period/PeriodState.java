@@ -14,24 +14,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.domain.model.common.comment;
+package org.qi4j.chronos.domain.model.common.period;
 
 import java.util.Date;
-import org.qi4j.chronos.domain.model.user.User;
-import org.qi4j.entity.association.Association;
+import org.qi4j.composite.Optional;
 import org.qi4j.property.Property;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-public interface CommentState
+public interface PeriodState
 {
-    Property<String> comment();
+    @Optional Property<Date> startTime();
 
-    Property<Date> createdDate();
-
-    Property<Date> lastUpdatedDate();
-
-    Association<User> createdBy();
+    @Optional Property<Date> endTime();
 }

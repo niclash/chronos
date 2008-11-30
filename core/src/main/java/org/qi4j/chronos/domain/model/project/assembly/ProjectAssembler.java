@@ -32,8 +32,8 @@ public final class ProjectAssembler
     public final void assemble( ModuleAssembly module )
         throws AssemblyException
     {
+        module.addComposites( ProjectDetailComposite.class );
         module.addEntities( ProjectEntity.class ).visibleIn( layer );
-
         module.addAssembler( new ProjectRoleAssembler() );
     }
 }

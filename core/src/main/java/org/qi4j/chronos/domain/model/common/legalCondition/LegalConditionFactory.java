@@ -14,19 +14,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.domain.model.common.timeRange;
-
-import java.util.Date;
-import org.qi4j.composite.Optional;
-import org.qi4j.property.Property;
+package org.qi4j.chronos.domain.model.common.legalCondition;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-public interface TimeRangeState
+public interface LegalConditionFactory
 {
-    @Optional Property<Date> startTime();
-
-    @Optional Property<Date> endTime();
+    LegalCondition create( String legalConditionName );
 }

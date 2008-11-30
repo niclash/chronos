@@ -16,13 +16,19 @@
  */
 package org.qi4j.chronos.domain.model.project;
 
+import org.qi4j.chronos.domain.model.common.name.MutableReferenceName;
 import org.qi4j.chronos.domain.model.common.name.Name;
-import org.qi4j.chronos.domain.model.common.name.ReferenceName;
+import org.qi4j.chronos.domain.model.common.period.Period;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-public interface ProjectDetail extends Name, ReferenceName
+public interface ProjectDetail extends Name, MutableReferenceName
 {
+    ProjectStatus status();
+
+    Period estimateTime();
+
+    Period actualTime();
 }

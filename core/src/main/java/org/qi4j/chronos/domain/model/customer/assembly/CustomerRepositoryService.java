@@ -14,10 +14,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.domain.model.location.assembly;
+package org.qi4j.chronos.domain.model.customer.assembly;
 
-import org.qi4j.chronos.domain.model.location.country.Country;
-import org.qi4j.chronos.domain.model.location.country.CountryRepository;
+import org.qi4j.chronos.domain.model.customer.Customer;
+import org.qi4j.chronos.domain.model.customer.CustomerId;
+import org.qi4j.chronos.domain.model.customer.CustomerRepository;
 import org.qi4j.composite.Mixins;
 import org.qi4j.entity.EntityCompositeNotFoundException;
 import org.qi4j.entity.UnitOfWork;
@@ -30,34 +31,29 @@ import org.qi4j.service.ServiceComposite;
 
 /**
  * @author edward.yakop@gmail.com
- * @since 0.5
  */
-@Mixins( CountryRepositoryService.CountryRepositoryMixin.class )
-interface CountryRepositoryService extends CountryRepository, ServiceComposite
+@Mixins( CustomerRepositoryService.CustomerRepositoryMixin.class )
+interface CustomerRepositoryService extends CustomerRepository, ServiceComposite
 {
-    class CountryRepositoryMixin
-        implements CountryRepository
+    class CustomerRepositoryMixin
+        implements CustomerRepository
     {
-        @Structure UnitOfWorkFactory uowf;
+        @Structure private UnitOfWorkFactory uowf;
 
-        public final Query<Country> findAll()
+        public final Query<Customer> findAll()
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
-
             QueryBuilderFactory qbf = uow.queryBuilderFactory();
-            QueryBuilder<Country> qb = qbf.newQueryBuilder( Country.class );
-            Query<Country> query = qb.newQuery();
-            return query;
+            QueryBuilder<Customer> builder = qbf.newQueryBuilder( Customer.class );
+            return builder.newQuery();
         }
 
-        public final Country findByNumericCode( String aCode )
+        public final Customer find( CustomerId customerId )
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
-
             try
             {
-                Country country = uow.find( aCode, Country.class );
-                return country;
+                return uow.find( customerId.idString(), Customer.class );
             }
             catch( EntityCompositeNotFoundException e )
             {

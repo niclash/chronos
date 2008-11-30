@@ -12,7 +12,7 @@
  */
 package org.qi4j.chronos.domain.model.validations;
 
-import org.qi4j.chronos.domain.model.user.ContactPerson;
+import org.qi4j.chronos.domain.model.user.contactPerson.ContactPerson;
 import org.qi4j.injection.scope.This;
 import org.qi4j.library.validation.AbstractValidatableConcern;
 import org.qi4j.library.validation.Validator;

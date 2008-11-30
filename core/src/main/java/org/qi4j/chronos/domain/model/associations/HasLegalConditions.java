@@ -13,7 +13,7 @@
  */
 package org.qi4j.chronos.domain.model.associations;
 
-import org.qi4j.chronos.domain.model.LegalCondition;
+import org.qi4j.chronos.domain.model.common.legalCondition.LegalCondition;
 import org.qi4j.entity.association.SetAssociation;
 
 public interface HasLegalConditions

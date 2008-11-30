@@ -16,17 +16,16 @@ import org.qi4j.chronos.domain.model.account.Account;
 import org.qi4j.chronos.domain.model.customer.Customer;
 import org.qi4j.chronos.domain.model.user.Admin;
 import org.qi4j.chronos.domain.model.user.AdminRepository;
-import org.qi4j.chronos.domain.model.user.ContactPerson;
 import org.qi4j.chronos.domain.model.user.Login;
 import org.qi4j.chronos.domain.model.user.Staff;
 import org.qi4j.chronos.domain.model.user.User;
+import org.qi4j.chronos.domain.model.user.contactPerson.ContactPerson;
 import org.qi4j.chronos.domain.service.authentication.AuthenticationService;
 import org.qi4j.chronos.domain.service.authentication.UserAuthenticationFailException;
 import org.qi4j.composite.Mixins;
 import org.qi4j.composite.Optional;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkFactory;
-import org.qi4j.entity.association.SetAssociation;
 import org.qi4j.injection.scope.Service;
 import org.qi4j.injection.scope.Structure;
 import org.qi4j.query.Query;
@@ -76,8 +75,7 @@ interface AuthenticationServiceComposite extends AuthenticationService, ServiceC
             Query<Customer> customers = referencedAccount.customers();
             for( Customer customer : customers )
             {
-                SetAssociation<ContactPerson> contactPersons = customer.contactPersons();
-
+                Query<ContactPerson> contactPersons = customer.contactPersons();
                 user = authenticateUsersFrom( aUserName, aPassword, contactPersons );
                 if( user != null )
                 {

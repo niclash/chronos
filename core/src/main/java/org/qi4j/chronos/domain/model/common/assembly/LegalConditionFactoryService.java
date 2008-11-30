@@ -16,12 +16,10 @@
  */
 package org.qi4j.chronos.domain.model.common.assembly;
 
-import java.util.Date;
-import org.qi4j.chronos.domain.model.common.timeRange.TimeRange;
-import org.qi4j.chronos.domain.model.common.timeRange.TimeRangeFactory;
-import org.qi4j.chronos.domain.model.common.timeRange.TimeRangeState;
+import org.qi4j.chronos.domain.model.common.legalCondition.LegalCondition;
+import org.qi4j.chronos.domain.model.common.legalCondition.LegalConditionFactory;
+import org.qi4j.chronos.domain.model.common.name.NameState;
 import org.qi4j.composite.Mixins;
-import org.qi4j.composite.Optional;
 import org.qi4j.entity.EntityBuilder;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkFactory;
@@ -32,22 +30,20 @@ import org.qi4j.service.ServiceComposite;
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-@Mixins( TimeRangeFactoryService.TimeRangeFactoryMixin.class )
-interface TimeRangeFactoryService extends TimeRangeFactory, ServiceComposite
+@Mixins( LegalConditionFactoryService.LegalConditionFactoryMixin.class )
+interface LegalConditionFactoryService extends LegalConditionFactory, ServiceComposite
 {
-    class TimeRangeFactoryMixin
-        implements TimeRangeFactory
+    class LegalConditionFactoryMixin
+        implements LegalConditionFactory
     {
         @Structure private UnitOfWorkFactory uowf;
 
-        public final TimeRange create( @Optional Date startTime, @Optional Date endTime )
+        public final LegalCondition create( String legalConditionName )
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
-
-            EntityBuilder<TimeRange> builder = uow.newEntityBuilder( TimeRange.class );
-            TimeRangeState state = builder.stateFor( TimeRangeState.class );
-            state.startTime().set( startTime );
-            state.endTime().set( endTime );
+            EntityBuilder<LegalCondition> builder = uow.newEntityBuilder( LegalCondition.class );
+            NameState nameState = builder.stateFor( NameState.class );
+            nameState.name().set( legalConditionName );
             return builder.newInstance();
         }
     }
