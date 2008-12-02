@@ -16,13 +16,17 @@
  */
 package org.qi4j.chronos.domain.model.customer.assembly;
 
+import org.junit.Test;
+
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
 public final class CustomerTest extends AbstractCustomerTest
 {
+    @Test
     public final void customerTest()
     {
+        // TODO
     }
 }
