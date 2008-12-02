@@ -58,7 +58,7 @@ interface ProjectRoleFactoryService extends ProjectRoleFactory, ServiceComposite
         public final ProjectRole create( String projectRoleName, @Optional String description )
             throws ProjectRoleExistsException
         {
-            UnitOfWork uow = uowf.nestedUnitOfWork();
+            UnitOfWork uow = uowf.currentUnitOfWork();
             validateRoleNameUniqueness( projectRoleName, uow );
             return createProjectRole( projectRoleName, description, uow );
         }

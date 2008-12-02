@@ -34,7 +34,7 @@ interface SampleDataServiceComposite extends SampleDataService, ServiceComposite
         public final void populate()
             throws UnitOfWorkCompletionException
         {
-            UnitOfWork uow = uowf.nestedUnitOfWork();
+            UnitOfWork uow = uowf.newUnitOfWork();
             try
             {
 //                initAccounts();

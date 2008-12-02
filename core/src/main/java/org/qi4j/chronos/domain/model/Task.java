@@ -14,8 +14,8 @@ package org.qi4j.chronos.domain.model;
 
 import org.qi4j.chronos.domain.model.associations.HasComments;
 import org.qi4j.chronos.domain.model.associations.HasOngoingWorkEntries;
-import org.qi4j.chronos.domain.model.user.HasUser;
 import org.qi4j.chronos.domain.model.associations.HasWorkEntries;
+import org.qi4j.chronos.domain.model.user.HasUser;
 import org.qi4j.entity.Identity;
 import org.qi4j.library.general.model.Description;
 

@@ -53,12 +53,10 @@ interface StateEntity extends State, EntityComposite
 
         public final Query<City> cities()
         {
-            UnitOfWork uow = uowf.nestedUnitOfWork();
+            UnitOfWork uow = uowf.currentUnitOfWork();
             QueryBuilder<City> builder = uow.queryBuilderFactory().newQueryBuilder( City.class );
             builder.where( eq( templateFor( CityState.class ).state(), meAsEntity ) );
-            Query<City> cities = builder.newQuery();
-            uow.pause();
-            return cities;
+            return builder.newQuery();
         }
     }
 }

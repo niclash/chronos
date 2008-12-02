@@ -46,7 +46,7 @@ interface AuthenticationServiceComposite extends AuthenticationService, ServiceC
         public final User authenticate( @Optional Account anAccount, String aUserName, final String aPassword )
             throws UserAuthenticationFailException
         {
-            UnitOfWork uow = uowf.nestedUnitOfWork();
+            UnitOfWork uow = uowf.currentUnitOfWork();
             if( anAccount == null )
             {
                 return authenticateAdminUser( uow, aUserName, aPassword );
@@ -114,12 +114,10 @@ interface AuthenticationServiceComposite extends AuthenticationService, ServiceC
                 Login userLogin = admin.login();
                 if( userLogin.authenticate( aPassword ) )
                 {
-                    uow.pause();
                     return admin;
                 }
             }
 
-            uow.discard();
             throw new UserAuthenticationFailException( "Invalid user or password" );
         }
     }

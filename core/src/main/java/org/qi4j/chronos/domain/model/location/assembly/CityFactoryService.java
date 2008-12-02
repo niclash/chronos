@@ -75,7 +75,7 @@ interface CityFactoryService extends CityFactory, ServiceComposite
         {
             validateArguments( state, country );
 
-            UnitOfWork uow = uowf.nestedUnitOfWork();
+            UnitOfWork uow = uowf.currentUnitOfWork();
             if( state != null )
             {
                 validateCityWithinState( cityName, state, uow );
@@ -115,7 +115,6 @@ interface CityFactoryService extends CityFactory, ServiceComposite
             City city = query.find();
             if( city != null )
             {
-                uow.discard();
                 throw new DuplicateCityException();
             }
         }
@@ -151,7 +150,6 @@ interface CityFactoryService extends CityFactory, ServiceComposite
             City city = query.find();
             if( city != null )
             {
-                uow.discard();
                 throw new DuplicateCityException();
             }
         }

@@ -294,7 +294,7 @@ interface CountryBootstrap extends Activatable, ServiceComposite
         public final void activate()
             throws Exception
         {
-            UnitOfWork uow = uowf.nestedUnitOfWork();
+            UnitOfWork uow = uowf.newUnitOfWork();
 
             try
             {

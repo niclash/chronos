@@ -44,24 +44,21 @@ interface AdminRepositoryService extends AdminRepository, ServiceComposite
 
         public final Admin find( UserId aUserId )
         {
-            UnitOfWork uow = uowf.nestedUnitOfWork();
+            UnitOfWork uow = uowf.currentUnitOfWork();
 
             try
             {
-                Admin admin = uow.find( aUserId.idString(), Admin.class );
-                uow.pause();
-                return admin;
+                return uow.find( aUserId.idString(), Admin.class );
             }
             catch( EntityCompositeNotFoundException e )
             {
-                uow.discard();
                 return null;
             }
         }
 
         public final Admin findByLoginName( String aLoginName )
         {
-            UnitOfWork uow = uowf.nestedUnitOfWork();
+            UnitOfWork uow = uowf.currentUnitOfWork();
 
             try
             {
@@ -70,15 +67,10 @@ interface AdminRepositoryService extends AdminRepository, ServiceComposite
                 UserState stateTemplate = templateFor( UserState.class );
                 qb.where( eq( stateTemplate.loginName(), aLoginName ) );
                 Query<Admin> query = qb.newQuery();
-                Admin admin = query.find();
-
-                uow.pause();
-
-                return admin;
+                return query.find();
             }
             catch( EntityCompositeNotFoundException e )
             {
-                uow.discard();
                 return null;
             }
         }

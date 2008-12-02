@@ -16,24 +16,21 @@
  */
 package org.qi4j.chronos.domain.model.customer;
 
+import org.qi4j.chronos.domain.model.common.name.NameState;
+import org.qi4j.chronos.domain.model.common.name.ReferenceState;
 import org.qi4j.chronos.domain.model.common.priceRate.PriceRateSchedule;
 import org.qi4j.chronos.domain.model.location.address.Address;
 import org.qi4j.chronos.domain.model.user.contactPerson.ContactPerson;
 import org.qi4j.composite.Optional;
 import org.qi4j.entity.association.Association;
 import org.qi4j.entity.association.SetAssociation;
-import org.qi4j.property.Property;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-public interface CustomerState
+public interface CustomerState extends NameState, ReferenceState
 {
-    Property<String> name();
-
-    Property<String> referenceName();
-
     @Optional Association<Address> address();
 
     SetAssociation<ContactPerson> contactPersons();

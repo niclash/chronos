@@ -41,12 +41,10 @@ interface ProjectRoleRepositoryService extends ProjectRoleRepository, ServiceCom
 
         public final Query<ProjectRole> findAll()
         {
-            UnitOfWork uow = uowf.nestedUnitOfWork();
+            UnitOfWork uow = uowf.currentUnitOfWork();
             QueryBuilderFactory qbf = uow.queryBuilderFactory();
             QueryBuilder<ProjectRole> builder = qbf.newQueryBuilder( ProjectRole.class );
-            Query<ProjectRole> query = builder.newQuery();
-            uow.pause();
-            return query;
+            return builder.newQuery();
         }
     }
 }

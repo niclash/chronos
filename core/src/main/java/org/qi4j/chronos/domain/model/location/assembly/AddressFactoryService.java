@@ -42,15 +42,15 @@ interface AddressFactoryService extends AddressFactory, ServiceComposite
 
         public Address create( String firstLine, @Optional String secondLine, String zipCode, City city )
         {
-            UnitOfWork uow = uowf.nestedUnitOfWork();
+            UnitOfWork uow = uowf.currentUnitOfWork();
 
             EntityBuilder<Address> builder = uow.newEntityBuilder( Address.class );
-
             AddressState state = builder.stateFor( AddressState.class );
             state.firstLine().set( firstLine );
             state.secondLine().set( secondLine );
             state.zipCode().set( zipCode );
             state.city().set( city );
+
             return builder.newInstance();
         }
     }

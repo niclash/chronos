@@ -46,16 +46,13 @@ interface SystemRoleRepositoryService extends SystemRoleRepository, ServiceCompo
 
         private SystemRole findSystemRoleById( String id )
         {
-            UnitOfWork uow = uowf.nestedUnitOfWork();
+            UnitOfWork uow = uowf.currentUnitOfWork();
             try
             {
-                SystemRole systemRole = uow.find( id, SystemRole.class );
-                uow.pause();
-                return systemRole;
+                return uow.find( id, SystemRole.class );
             }
             catch( EntityCompositeNotFoundException e )
             {
-                uow.discard();
                 return null;
             }
         }

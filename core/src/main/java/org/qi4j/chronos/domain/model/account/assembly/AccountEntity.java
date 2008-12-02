@@ -84,35 +84,35 @@ interface AccountEntity extends Account, AggregateEntity
 
         public final Query<Staff> staffs()
         {
-            UnitOfWork uow = uowf.nestedUnitOfWork();
+            UnitOfWork uow = uowf.currentUnitOfWork();
             QueryBuilder<Staff> builder = uow.queryBuilderFactory().newQueryBuilder( Staff.class );
             return builder.newQuery( state.staffs() );
         }
 
         public final Query<Customer> customers()
         {
-            UnitOfWork uow = uowf.nestedUnitOfWork();
+            UnitOfWork uow = uowf.currentUnitOfWork();
             QueryBuilder<Customer> builder = uow.queryBuilderFactory().newQueryBuilder( Customer.class );
             return builder.newQuery( state.customers() );
         }
 
         public final Query<Project> projects()
         {
-            UnitOfWork uow = uowf.nestedUnitOfWork();
+            UnitOfWork uow = uowf.currentUnitOfWork();
             QueryBuilder<Project> builder = uow.queryBuilderFactory().newQueryBuilder( Project.class );
             return builder.newQuery( state.projects() );
         }
 
         public final Query<ProjectRole> projectRoles()
         {
-            UnitOfWork uow = uowf.nestedUnitOfWork();
+            UnitOfWork uow = uowf.currentUnitOfWork();
             QueryBuilder<ProjectRole> builder = uow.queryBuilderFactory().newQueryBuilder( ProjectRole.class );
             return builder.newQuery( state.projectRoles() );
         }
 
         public final Query<PriceRateSchedule> priceRateSchedules()
         {
-            UnitOfWork uow = uowf.nestedUnitOfWork();
+            UnitOfWork uow = uowf.currentUnitOfWork();
             QueryBuilder<PriceRateSchedule> builder = uow.queryBuilderFactory().newQueryBuilder( PriceRateSchedule.class );
             return builder.newQuery( state.priceRateSchedules() );
         }

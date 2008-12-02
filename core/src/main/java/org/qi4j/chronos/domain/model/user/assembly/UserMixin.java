@@ -81,17 +81,10 @@ final class UserMixin
 
     public final Query<SystemRole> systemRoles()
     {
-        UnitOfWork uow = uowf.nestedUnitOfWork();
-        try
-        {
-            QueryBuilderFactory qbf = uow.queryBuilderFactory();
-            QueryBuilder<SystemRole> systemRoleBuilder = qbf.newQueryBuilder( SystemRole.class );
-            return systemRoleBuilder.newQuery( state.systemRoles() );
-        }
-        finally
-        {
-            uow.pause();
-        }
+        UnitOfWork uow = uowf.currentUnitOfWork();
+        QueryBuilderFactory qbf = uow.queryBuilderFactory();
+        QueryBuilder<SystemRole> systemRoleBuilder = qbf.newQueryBuilder( SystemRole.class );
+        return systemRoleBuilder.newQuery( state.systemRoles() );
     }
 
     public final void addSystemRole( SystemRole role )

@@ -53,6 +53,7 @@ public final class CustomerRepositoryTest extends AbstractCustomerTest
             Customer joeCustomer = customerFactory.create( "Joe Smith", "Sir Joe Smith" );
             CustomerId joeCustomerId = joeCustomer.customerId();
             Customer johnCustomer = customerFactory.create( "John Smith", "Captain John Smith" );
+            uow.completeAndContinue();
 
             // Find individual
             Customer customer1 = customerRepository.find( joeCustomerId );

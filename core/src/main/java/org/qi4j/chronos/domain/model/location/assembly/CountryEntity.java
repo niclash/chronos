@@ -67,22 +67,18 @@ interface CountryEntity extends Country, Name, EntityComposite
 
         public final Query<State> states()
         {
-            UnitOfWork uow = uowf.nestedUnitOfWork();
+            UnitOfWork uow = uowf.currentUnitOfWork();
             QueryBuilder<State> builder = uow.queryBuilderFactory().newQueryBuilder( State.class );
             builder.where( eq( templateFor( StateState.class ).country(), meAsEntity ) );
-            Query<State> stateQuery = builder.newQuery();
-            uow.pause();
-            return stateQuery;
+            return builder.newQuery();
         }
 
         public final Query<City> cities()
         {
-            UnitOfWork uow = uowf.nestedUnitOfWork();
+            UnitOfWork uow = uowf.currentUnitOfWork();
             QueryBuilder<City> builder = uow.queryBuilderFactory().newQueryBuilder( City.class );
             builder.where( eq( templateFor( CityState.class ).country(), meAsEntity ) );
-            Query<City> cityQuery = builder.newQuery();
-            uow.pause();
-            return cityQuery;
+            return builder.newQuery();
         }
     }
 }
