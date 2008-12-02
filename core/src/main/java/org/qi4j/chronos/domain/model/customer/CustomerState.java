@@ -16,6 +16,7 @@
  */
 package org.qi4j.chronos.domain.model.customer;
 
+import org.qi4j.chronos.domain.model.common.enable.EnableState;
 import org.qi4j.chronos.domain.model.common.name.NameState;
 import org.qi4j.chronos.domain.model.common.name.ReferenceState;
 import org.qi4j.chronos.domain.model.common.priceRate.PriceRateSchedule;
@@ -29,7 +30,7 @@ import org.qi4j.entity.association.SetAssociation;
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-public interface CustomerState extends NameState, ReferenceState
+public interface CustomerState extends NameState, ReferenceState, EnableState
 {
     @Optional Association<Address> address();
 

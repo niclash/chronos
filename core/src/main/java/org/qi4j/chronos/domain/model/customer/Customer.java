@@ -14,12 +14,12 @@
 package org.qi4j.chronos.domain.model.customer;
 
 import org.qi4j.chronos.domain.model.Entity;
+import org.qi4j.chronos.domain.model.common.enable.Enable;
 import org.qi4j.chronos.domain.model.common.priceRate.PriceRateSchedule;
 import org.qi4j.chronos.domain.model.user.contactPerson.ContactPerson;
-import org.qi4j.library.general.model.Enabled;
 import org.qi4j.query.Query;
 
-public interface Customer extends Entity<Customer>, Enabled
+public interface Customer extends Entity<Customer>, Enable
 {
     CustomerId customerId();
 

@@ -16,7 +16,6 @@
  */
 package org.qi4j.chronos.domain.model.location.assembly;
 
-import org.qi4j.chronos.domain.model.common.name.NameState;
 import org.qi4j.chronos.domain.model.location.country.Country;
 import org.qi4j.chronos.domain.model.location.country.CountryRepository;
 import org.qi4j.chronos.domain.model.location.country.CountryState;
@@ -324,9 +323,7 @@ interface CountryBootstrap extends Activatable, ServiceComposite
             countryState.countryCodeNumeric().set( numeric );
             countryState.countryCodeAlpha2().set( alpha2 );
             countryState.countryCodeAlpha3().set( alpha3 );
-
-            NameState nameState = countryBuilder.stateFor( NameState.class );
-            nameState.name().set( countryName );
+            countryState.name().set( countryName );
 
             countryBuilder.newInstance();
         }

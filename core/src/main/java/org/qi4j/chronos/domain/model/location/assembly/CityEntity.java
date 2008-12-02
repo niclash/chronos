@@ -22,7 +22,7 @@ import org.qi4j.chronos.domain.model.location.country.Country;
 import org.qi4j.chronos.domain.model.location.country.State;
 import org.qi4j.composite.Mixins;
 import org.qi4j.composite.Optional;
-import org.qi4j.entity.EntityComposite;
+import org.qi4j.entity.AggregateEntity;
 import org.qi4j.injection.scope.This;
 
 /**
@@ -30,7 +30,7 @@ import org.qi4j.injection.scope.This;
  * @since 0.5
  */
 @Mixins( CityEntity.CityMixin.class )
-interface CityEntity extends City, EntityComposite
+interface CityEntity extends City, AggregateEntity
 {
     abstract class CityMixin
         implements City

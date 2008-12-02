@@ -131,9 +131,7 @@ interface CityFactoryService extends CityFactory, ServiceComposite
             {
                 cityState.country().set( country );
             }
-
-            NameState nameState = cityBuilder.stateFor( NameState.class );
-            nameState.name().set( cityName );
+            cityState.name().set( cityName );
             return cityBuilder.newInstance();
         }
 

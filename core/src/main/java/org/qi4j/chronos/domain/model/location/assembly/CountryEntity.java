@@ -27,7 +27,7 @@ import org.qi4j.chronos.domain.model.location.country.StateState;
 import org.qi4j.composite.CompositeBuilder;
 import org.qi4j.composite.CompositeBuilderFactory;
 import org.qi4j.composite.Mixins;
-import org.qi4j.entity.EntityComposite;
+import org.qi4j.entity.AggregateEntity;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkFactory;
 import org.qi4j.injection.scope.Structure;
@@ -41,7 +41,7 @@ import static org.qi4j.query.QueryExpressions.*;
  * @since 0.5
  */
 @Mixins( CountryEntity.CountryMixin.class )
-interface CountryEntity extends Country, Name, EntityComposite
+interface CountryEntity extends Country, Name, AggregateEntity
 {
     abstract class CountryMixin
         implements Country

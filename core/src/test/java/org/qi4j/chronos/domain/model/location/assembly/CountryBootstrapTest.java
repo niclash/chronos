@@ -17,12 +17,12 @@
 package org.qi4j.chronos.domain.model.location.assembly;
 
 import static org.junit.Assert.*;
-import org.junit.Ignore;
 import org.junit.Test;
 import static org.qi4j.chronos.domain.model.location.assembly.CountryBootstrap.CountryBootstrapMixin.*;
 import org.qi4j.chronos.domain.model.location.country.Country;
 import org.qi4j.chronos.domain.model.location.country.CountryCode;
 import org.qi4j.chronos.domain.model.location.country.CountryRepository;
+import org.qi4j.entity.UnitOfWork;
 import org.qi4j.service.ServiceReference;
 
 /**
@@ -32,9 +32,10 @@ import org.qi4j.service.ServiceReference;
 public final class CountryBootstrapTest extends AbstractLocationTest
 {
     @Test
-    @Ignore
     public void testBootstrap()
     {
+        UnitOfWork uow = unitOfWorkFactory.newUnitOfWork();
+
         ServiceReference<CountryRepository> repositoryReference =
             moduleInstance.serviceFinder().findService( CountryRepository.class );
         CountryRepository countryRepository = repositoryReference.get();
@@ -60,6 +61,7 @@ public final class CountryBootstrapTest extends AbstractLocationTest
         }
         finally
         {
+            uow.discard();
             repositoryReference.releaseService();
         }
     }

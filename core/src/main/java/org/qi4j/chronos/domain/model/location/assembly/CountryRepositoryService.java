@@ -46,8 +46,7 @@ interface CountryRepositoryService extends CountryRepository, ServiceComposite
 
             QueryBuilderFactory qbf = uow.queryBuilderFactory();
             QueryBuilder<Country> qb = qbf.newQueryBuilder( Country.class );
-            Query<Country> query = qb.newQuery();
-            return query;
+            return qb.newQuery();
         }
 
         public final Country findByNumericCode( String aCode )
@@ -56,8 +55,7 @@ interface CountryRepositoryService extends CountryRepository, ServiceComposite
 
             try
             {
-                Country country = uow.find( aCode, Country.class );
-                return country;
+                return uow.find( aCode, Country.class );
             }
             catch( EntityCompositeNotFoundException e )
             {
