@@ -10,9 +10,8 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.domain.model.associations;
+package org.qi4j.chronos.domain.model.user;
 
-import org.qi4j.chronos.domain.model.user.User;
 import org.qi4j.entity.association.Association;
 
 public interface HasUser

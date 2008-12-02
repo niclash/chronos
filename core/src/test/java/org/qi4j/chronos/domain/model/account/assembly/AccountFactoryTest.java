@@ -49,6 +49,7 @@ public final class AccountFactoryTest extends AbstractAccountTest
 
             String accountName = accountDetail.name();
             assertEquals( "My Account", accountName );
+            assertEquals( account.name(), accountName );
         }
         finally
         {

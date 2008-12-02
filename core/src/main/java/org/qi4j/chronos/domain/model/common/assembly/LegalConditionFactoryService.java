@@ -18,7 +18,7 @@ package org.qi4j.chronos.domain.model.common.assembly;
 
 import org.qi4j.chronos.domain.model.common.legalCondition.LegalCondition;
 import org.qi4j.chronos.domain.model.common.legalCondition.LegalConditionFactory;
-import org.qi4j.chronos.domain.model.common.name.NameState;
+import org.qi4j.chronos.domain.model.common.legalCondition.LegalConditionState;
 import org.qi4j.composite.Mixins;
 import org.qi4j.entity.EntityBuilder;
 import org.qi4j.entity.UnitOfWork;
@@ -42,8 +42,8 @@ interface LegalConditionFactoryService extends LegalConditionFactory, ServiceCom
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
             EntityBuilder<LegalCondition> builder = uow.newEntityBuilder( LegalCondition.class );
-            NameState nameState = builder.stateFor( NameState.class );
-            nameState.name().set( legalConditionName );
+            LegalConditionState state = builder.stateFor( LegalConditionState.class );
+            state.name().set( legalConditionName );
             return builder.newInstance();
         }
     }

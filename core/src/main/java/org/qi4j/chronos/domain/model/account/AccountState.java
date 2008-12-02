@@ -16,6 +16,7 @@
 */
 package org.qi4j.chronos.domain.model.account;
 
+import org.qi4j.chronos.domain.model.common.name.NameState;
 import org.qi4j.chronos.domain.model.common.priceRate.PriceRateSchedule;
 import org.qi4j.chronos.domain.model.customer.Customer;
 import org.qi4j.chronos.domain.model.location.address.Address;
@@ -31,10 +32,8 @@ import org.qi4j.property.Property;
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-public interface AccountState
+public interface AccountState extends NameState
 {
-    Property<String> name();
-
     @Optional Property<String> referenceName();
 
     @Optional Association<Address> address();

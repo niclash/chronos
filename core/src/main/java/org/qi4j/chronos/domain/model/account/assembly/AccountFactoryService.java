@@ -36,7 +36,8 @@ interface AccountFactoryService extends AccountFactory, ServiceComposite
             EntityBuilder<Account> accountBuilder = uow.newEntityBuilder( Account.class );
             AccountState nameState = accountBuilder.stateFor( AccountState.class );
             nameState.name().set( accountName );
-            return accountBuilder.newInstance();
+            Account account = accountBuilder.newInstance();
+            return account;
         }
     }
 }

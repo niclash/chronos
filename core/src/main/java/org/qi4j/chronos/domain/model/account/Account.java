@@ -14,6 +14,7 @@ package org.qi4j.chronos.domain.model.account;
 
 import org.qi4j.chronos.domain.model.Entity;
 import org.qi4j.chronos.domain.model.common.enable.Enable;
+import org.qi4j.chronos.domain.model.common.name.MutableName;
 import org.qi4j.chronos.domain.model.common.priceRate.PriceRateSchedule;
 import org.qi4j.chronos.domain.model.customer.Customer;
 import org.qi4j.chronos.domain.model.project.Project;
@@ -21,7 +22,7 @@ import org.qi4j.chronos.domain.model.project.role.ProjectRole;
 import org.qi4j.chronos.domain.model.user.Staff;
 import org.qi4j.query.Query;
 
-public interface Account extends Entity<Account>, Enable
+public interface Account extends MutableName, Enable, Entity<Account>
 {
     AccountId accountId();
 

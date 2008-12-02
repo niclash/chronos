@@ -86,45 +86,35 @@ interface AccountEntity extends Account, AggregateEntity
         {
             UnitOfWork uow = uowf.nestedUnitOfWork();
             QueryBuilder<Staff> builder = uow.queryBuilderFactory().newQueryBuilder( Staff.class );
-            Query<Staff> query = builder.newQuery( state.staffs() );
-            uow.pause();
-            return query;
+            return builder.newQuery( state.staffs() );
         }
 
         public final Query<Customer> customers()
         {
             UnitOfWork uow = uowf.nestedUnitOfWork();
             QueryBuilder<Customer> builder = uow.queryBuilderFactory().newQueryBuilder( Customer.class );
-            Query<Customer> query = builder.newQuery( state.customers() );
-            uow.pause();
-            return query;
+            return builder.newQuery( state.customers() );
         }
 
         public final Query<Project> projects()
         {
             UnitOfWork uow = uowf.nestedUnitOfWork();
             QueryBuilder<Project> builder = uow.queryBuilderFactory().newQueryBuilder( Project.class );
-            Query<Project> query = builder.newQuery( state.projects() );
-            uow.pause();
-            return query;
+            return builder.newQuery( state.projects() );
         }
 
         public final Query<ProjectRole> projectRoles()
         {
             UnitOfWork uow = uowf.nestedUnitOfWork();
             QueryBuilder<ProjectRole> builder = uow.queryBuilderFactory().newQueryBuilder( ProjectRole.class );
-            Query<ProjectRole> query = builder.newQuery( state.projectRoles() );
-            uow.pause();
-            return query;
+            return builder.newQuery( state.projectRoles() );
         }
 
         public final Query<PriceRateSchedule> priceRateSchedules()
         {
             UnitOfWork uow = uowf.nestedUnitOfWork();
             QueryBuilder<PriceRateSchedule> builder = uow.queryBuilderFactory().newQueryBuilder( PriceRateSchedule.class );
-            Query<PriceRateSchedule> query = builder.newQuery( state.priceRateSchedules() );
-            uow.pause();
-            return query;
+            return builder.newQuery( state.priceRateSchedules() );
         }
     }
 }
