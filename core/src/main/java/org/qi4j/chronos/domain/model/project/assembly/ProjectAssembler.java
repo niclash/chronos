@@ -34,6 +34,7 @@ public final class ProjectAssembler
     {
         module.addComposites( ProjectDetailComposite.class );
         module.addEntities( ProjectEntity.class ).visibleIn( layer );
+
         module.addAssembler( new ProjectRoleAssembler() );
     }
 }

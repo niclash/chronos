@@ -19,6 +19,10 @@ package org.qi4j.chronos.domain.model.project;
 import org.qi4j.chronos.domain.model.common.name.MutableReferenceName;
 import org.qi4j.chronos.domain.model.common.name.Name;
 import org.qi4j.chronos.domain.model.common.period.Period;
+import org.qi4j.chronos.domain.model.customer.Customer;
+import org.qi4j.chronos.domain.model.project.assignee.ProjectAssignee;
+import org.qi4j.chronos.domain.model.user.contactPerson.ContactPerson;
+import org.qi4j.query.Query;
 
 /**
  * @author edward.yakop@gmail.com
@@ -31,4 +35,12 @@ public interface ProjectDetail extends Name, MutableReferenceName
     Period estimateTime();
 
     Period actualTime();
+
+    Customer customer();
+
+    Query<ContactPerson> contactPersons();
+    ContactPerson primaryContactPerson();
+
+    Query<ProjectAssignee> projectAssignees();
+    ProjectAssignee projectLeader();
 }

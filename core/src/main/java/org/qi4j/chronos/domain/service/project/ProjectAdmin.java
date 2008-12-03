@@ -14,21 +14,12 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.domain.model.project.assignee.assembly;
-
-import org.qi4j.chronos.domain.model.project.assignee.ProjectAssigneeFactory;
-import org.qi4j.service.ServiceComposite;
-import org.qi4j.composite.Mixins;
+package org.qi4j.chronos.domain.service.project;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-@Mixins(ProjectAssigneeFactoryService.ProjectAssigneeFactoryMixin.class )
-interface ProjectAssigneeFactoryService extends ProjectAssigneeFactory, ServiceComposite
+public interface ProjectAdmin
 {
-    class ProjectAssigneeFactoryMixin
-        implements ProjectAssigneeFactory
-    {
-    }
 }

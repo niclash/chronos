@@ -18,11 +18,11 @@ package org.qi4j.chronos.domain.model.customer.assembly;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
+import org.qi4j.chronos.domain.model.common.priceRate.PriceRateSchedule;
 import org.qi4j.chronos.domain.model.customer.Customer;
 import org.qi4j.chronos.domain.model.customer.CustomerDetail;
 import org.qi4j.chronos.domain.model.customer.CustomerFactory;
 import org.qi4j.chronos.domain.model.user.contactPerson.ContactPerson;
-import org.qi4j.chronos.domain.model.common.priceRate.PriceRateSchedule;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkCompletionException;
 import org.qi4j.query.Query;

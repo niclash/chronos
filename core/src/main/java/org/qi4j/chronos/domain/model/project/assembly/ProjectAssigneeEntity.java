@@ -14,7 +14,7 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.qi4j.chronos.domain.model.project.assignee.assembly;
+package org.qi4j.chronos.domain.model.project.assembly;
 
 import org.qi4j.chronos.domain.model.common.priceRate.PriceRate;
 import org.qi4j.chronos.domain.model.project.assignee.ProjectAssignee;

@@ -17,13 +17,17 @@
 package org.qi4j.chronos.domain.model.project.assembly;
 
 import org.qi4j.chronos.domain.model.common.period.Period;
+import org.qi4j.chronos.domain.model.customer.Customer;
 import org.qi4j.chronos.domain.model.project.ProjectDetail;
 import org.qi4j.chronos.domain.model.project.ProjectState;
 import org.qi4j.chronos.domain.model.project.ProjectStatus;
+import org.qi4j.chronos.domain.model.project.assignee.ProjectAssignee;
+import org.qi4j.chronos.domain.model.user.contactPerson.ContactPerson;
 import org.qi4j.composite.Composite;
 import org.qi4j.composite.Mixins;
 import org.qi4j.composite.Optional;
 import org.qi4j.injection.scope.Uses;
+import org.qi4j.query.Query;
 
 /**
  * @author edward.yakop@gmail.com
@@ -66,6 +70,31 @@ interface ProjectDetailComposite extends ProjectDetail, Composite
         public final Period actualTime()
         {
             return state.actualTime().get();
+        }
+
+        public Customer customer()
+        {
+            return null;
+        }
+
+        public Query<ContactPerson> contactPersons()
+        {
+            return null;
+        }
+
+        public ContactPerson primaryContactPerson()
+        {
+            return null;
+        }
+
+        public Query<ProjectAssignee> projectAssignees()
+        {
+            return null;
+        }
+
+        public ProjectAssignee projectLeader()
+        {
+            return null;
         }
     }
 }
