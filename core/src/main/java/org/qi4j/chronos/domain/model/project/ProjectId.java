@@ -18,6 +18,7 @@ package org.qi4j.chronos.domain.model.project;
 
 import java.io.Serializable;
 import org.qi4j.chronos.domain.model.ValueObject;
+import static org.qi4j.composite.NullArgumentException.*;
 
 /**
  * @author edward.yakop@gmail.com
@@ -31,7 +32,9 @@ public final class ProjectId
     private final String idString;
 
     public ProjectId( String projectIdString )
+        throws IllegalArgumentException
     {
+        validateNotNull( "projectIdString", projectIdString );
         idString = projectIdString;
     }
 
@@ -43,5 +46,26 @@ public final class ProjectId
     public final boolean sameValueAs( ProjectId other )
     {
         return other != null && idString.equals( other.idString );
+    }
+
+    public final boolean equals( Object o )
+    {
+        if( this == o )
+        {
+            return true;
+        }
+        if( o == null || getClass() != o.getClass() )
+        {
+            return false;
+        }
+
+        ProjectId projectId = (ProjectId) o;
+
+        return idString.equals( projectId.idString );
+    }
+
+    public final int hashCode()
+    {
+        return idString.hashCode();
     }
 }

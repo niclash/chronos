@@ -14,30 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.domain.model.project.role.assembly;
+package org.qi4j.chronos.domain.model.project.assignee.assembly;
 
-import org.qi4j.bootstrap.Assembler;
-import org.qi4j.bootstrap.AssemblyException;
-import org.qi4j.bootstrap.ModuleAssembly;
-import static org.qi4j.structure.Visibility.*;
+import org.qi4j.chronos.domain.model.project.assignee.ProjectAssigneeFactory;
+import org.qi4j.service.ServiceComposite;
+import org.qi4j.composite.Mixins;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-public final class ProjectRoleAssembler
-    implements Assembler
+@Mixins(ProjectAssigneeFactoryService.ProjectAssigneeFactoryMixin.class )
+interface ProjectAssigneeFactoryService extends ProjectAssigneeFactory, ServiceComposite
 {
-    public void assemble( ModuleAssembly module )
-        throws AssemblyException
+    class ProjectAssigneeFactoryMixin
+        implements ProjectAssigneeFactory
     {
-        module.addEntities(
-            ProjectRoleEntity.class
-        ).visibleIn( layer );
-
-        module.addServices(
-            ProjectRoleRepositoryService.class,
-            ProjectRoleFactoryService.class
-        ).visibleIn( application );
     }
 }

@@ -25,4 +25,6 @@ import org.qi4j.query.Query;
 public interface ProjectRoleRepository
 {
     Query<ProjectRole> findAll();
+
+    ProjectRole find( ProjectRoleId roleId );
 }

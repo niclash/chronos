@@ -14,15 +14,15 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.domain.model.project.role.assembly;
+package org.qi4j.chronos.domain.model.project.role;
 
-import org.qi4j.chronos.domain.model.project.Project;
-import org.qi4j.entity.EntityComposite;
+import org.qi4j.chronos.domain.model.common.description.DescriptionState;
+import org.qi4j.chronos.domain.model.common.name.NameState;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-interface ProjectEntity extends Project, EntityComposite
+public interface ProjectRoleState extends NameState, DescriptionState
 {
 }

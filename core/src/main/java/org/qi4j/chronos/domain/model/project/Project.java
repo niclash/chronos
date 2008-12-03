@@ -8,10 +8,11 @@ import org.qi4j.chronos.domain.model.associations.HasProjectAssignees;
 import org.qi4j.chronos.domain.model.associations.HasTasks;
 import org.qi4j.chronos.domain.model.associations.HasWorkEntries;
 import org.qi4j.chronos.domain.model.common.legalCondition.LegalCondition;
+import org.qi4j.chronos.domain.model.common.name.Name;
 import org.qi4j.chronos.domain.model.common.priceRate.PriceRateSchedule;
 import org.qi4j.query.Query;
 
-public interface Project extends Entity<Project>, HasProjectAssignees, HasCustomer, HasContactPersons,
+public interface Project extends Name, Entity<Project>, HasProjectAssignees, HasCustomer, HasContactPersons,
                                  HasPrimaryContactPerson, HasTasks, HasWorkEntries
 {
     ProjectId projectId();

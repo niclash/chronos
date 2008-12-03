@@ -17,8 +17,10 @@
 package org.qi4j.chronos.domain.model.project.role.assembly;
 
 import org.qi4j.chronos.domain.model.project.role.ProjectRole;
+import org.qi4j.chronos.domain.model.project.role.ProjectRoleId;
 import org.qi4j.chronos.domain.model.project.role.ProjectRoleRepository;
 import org.qi4j.composite.Mixins;
+import org.qi4j.entity.EntityCompositeNotFoundException;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkFactory;
 import org.qi4j.injection.scope.Structure;
@@ -45,6 +47,19 @@ interface ProjectRoleRepositoryService extends ProjectRoleRepository, ServiceCom
             QueryBuilderFactory qbf = uow.queryBuilderFactory();
             QueryBuilder<ProjectRole> builder = qbf.newQueryBuilder( ProjectRole.class );
             return builder.newQuery();
+        }
+
+        public final ProjectRole find( ProjectRoleId roleId )
+        {
+            UnitOfWork uow = uowf.currentUnitOfWork();
+            try
+            {
+                return uow.find( roleId.idString(), ProjectRole.class );
+            }
+            catch( EntityCompositeNotFoundException e )
+            {
+                return null;
+            }
         }
     }
 }

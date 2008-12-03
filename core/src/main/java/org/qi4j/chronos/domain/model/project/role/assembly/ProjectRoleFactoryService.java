@@ -16,13 +16,12 @@
  */
 package org.qi4j.chronos.domain.model.project.role.assembly;
 
-import org.qi4j.chronos.domain.model.common.description.DescriptionState;
 import org.qi4j.chronos.domain.model.common.name.NameState;
 import org.qi4j.chronos.domain.model.project.role.ProjectRole;
 import org.qi4j.chronos.domain.model.project.role.ProjectRoleExistsException;
 import org.qi4j.chronos.domain.model.project.role.ProjectRoleFactory;
+import org.qi4j.chronos.domain.model.project.role.ProjectRoleState;
 import org.qi4j.composite.Mixins;
-import org.qi4j.composite.Optional;
 import org.qi4j.entity.EntityBuilder;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkFactory;
@@ -55,19 +54,18 @@ interface ProjectRoleFactoryService extends ProjectRoleFactory, ServiceComposite
 
         @Structure private UnitOfWorkFactory uowf;
 
-        public final ProjectRole create( String projectRoleName, @Optional String description )
+        public final ProjectRole create( String projectRoleName )
             throws ProjectRoleExistsException
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
             validateRoleNameUniqueness( projectRoleName, uow );
-            return createProjectRole( projectRoleName, description, uow );
+            return createProjectRole( projectRoleName, uow );
         }
 
-        private ProjectRole createProjectRole( String projectRoleName, String roleDescription, UnitOfWork uow )
+        private ProjectRole createProjectRole( String projectRoleName, UnitOfWork uow )
         {
             EntityBuilder<ProjectRole> builder = uow.newEntityBuilder( ProjectRole.class );
-            builder.stateFor( NameState.class ).name().set( projectRoleName );
-            builder.stateFor( DescriptionState.class ).description().set( roleDescription );
+            builder.stateFor( ProjectRoleState.class ).name().set( projectRoleName );
             return builder.newInstance();
         }
 

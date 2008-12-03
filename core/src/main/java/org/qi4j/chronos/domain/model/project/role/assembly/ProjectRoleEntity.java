@@ -17,12 +17,40 @@
 package org.qi4j.chronos.domain.model.project.role.assembly;
 
 import org.qi4j.chronos.domain.model.project.role.ProjectRole;
-import org.qi4j.entity.EntityComposite;
+import org.qi4j.chronos.domain.model.project.role.ProjectRoleId;
+import org.qi4j.chronos.domain.model.project.role.ProjectRoleState;
+import org.qi4j.composite.Mixins;
+import org.qi4j.entity.AggregateEntity;
+import org.qi4j.entity.Identity;
+import org.qi4j.injection.scope.This;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-interface ProjectRoleEntity extends ProjectRole, EntityComposite
+@Mixins( ProjectRoleEntity.ProjectRoleMixin.class )
+interface ProjectRoleEntity extends ProjectRole, AggregateEntity
 {
+    abstract class ProjectRoleMixin
+        implements ProjectRole
+    {
+        @This private ProjectRoleState state;
+
+        private final ProjectRoleId projectRoleId;
+
+        public ProjectRoleMixin( @This Identity identity )
+        {
+            projectRoleId = new ProjectRoleId( identity.identity().get() );
+        }
+
+        public final ProjectRoleId projectRoleId()
+        {
+            return projectRoleId;
+        }
+
+        public final boolean sameIdentityAs( ProjectRole other )
+        {
+            return other != null && projectRoleId.sameValueAs( other.projectRoleId() );
+        }
+    }
 }

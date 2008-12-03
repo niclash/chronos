@@ -13,7 +13,7 @@
  */
 package org.qi4j.chronos.domain.model.associations;
 
-import org.qi4j.chronos.domain.model.ProjectAssignee;
+import org.qi4j.chronos.domain.model.project.assignee.ProjectAssignee;
 import org.qi4j.entity.association.SetAssociation;
 
 public interface HasProjectAssignees

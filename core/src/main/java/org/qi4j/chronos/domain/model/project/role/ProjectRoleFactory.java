@@ -16,14 +16,12 @@
  */
 package org.qi4j.chronos.domain.model.project.role;
 
-import org.qi4j.composite.Optional;
-
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
 public interface ProjectRoleFactory
 {
-    ProjectRole create( String roleName, @Optional String description )
+    ProjectRole create( String roleName )
         throws ProjectRoleExistsException;
 }

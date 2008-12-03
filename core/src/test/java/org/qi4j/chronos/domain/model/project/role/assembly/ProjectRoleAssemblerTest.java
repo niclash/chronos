@@ -16,28 +16,24 @@
  */
 package org.qi4j.chronos.domain.model.project.role.assembly;
 
-import org.qi4j.bootstrap.Assembler;
-import org.qi4j.bootstrap.AssemblyException;
-import org.qi4j.bootstrap.ModuleAssembly;
-import static org.qi4j.structure.Visibility.*;
+import static org.junit.Assert.*;
+import org.junit.Test;
+import org.qi4j.chronos.domain.model.project.AbstractProjectTest;
+import org.qi4j.chronos.domain.model.project.role.ProjectRoleFactory;
+import org.qi4j.chronos.domain.model.project.role.ProjectRoleRepository;
+import org.qi4j.service.ServiceFinder;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-public final class ProjectRoleAssembler
-    implements Assembler
+public final class ProjectRoleAssemblerTest extends AbstractProjectTest
 {
-    public void assemble( ModuleAssembly module )
-        throws AssemblyException
+    @Test
+    public final void servicesAvailabilityTest()
     {
-        module.addEntities(
-            ProjectRoleEntity.class
-        ).visibleIn( layer );
-
-        module.addServices(
-            ProjectRoleRepositoryService.class,
-            ProjectRoleFactoryService.class
-        ).visibleIn( application );
+        ServiceFinder serviceFinder = moduleInstance.serviceFinder();
+        assertNotNull( serviceFinder.findService( ProjectRoleFactory.class ) );
+        assertNotNull( serviceFinder.findService( ProjectRoleRepository.class ) );
     }
 }

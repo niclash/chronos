@@ -17,6 +17,8 @@
 package org.qi4j.chronos.domain.model.project;
 
 import org.qi4j.chronos.domain.model.common.legalCondition.LegalCondition;
+import org.qi4j.chronos.domain.model.common.name.NameState;
+import org.qi4j.chronos.domain.model.common.name.ReferenceState;
 import org.qi4j.chronos.domain.model.common.period.Period;
 import org.qi4j.chronos.domain.model.common.priceRate.PriceRateSchedule;
 import org.qi4j.entity.association.SetAssociation;
@@ -26,12 +28,8 @@ import org.qi4j.property.Property;
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-public interface ProjectState
+public interface ProjectState extends NameState, ReferenceState
 {
-    Property<String> name();
-
-    Property<String> referenceName();
-
     Property<ProjectStatus> projectStatus();
 
     Property<Period> estimateTime();

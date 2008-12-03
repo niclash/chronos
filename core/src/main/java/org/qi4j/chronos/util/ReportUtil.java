@@ -52,7 +52,7 @@ public final class ReportUtil
 
                 if( startDate.after( filterStartDate ) && endDate.before( filterEndDate ) )
                 {
-                    Staff staff = workEntry.projectAssignee().get().staff().get();
+                    Staff staff = workEntry.projectAssignee().get().staff();
                     boolean exists = false;
                     for( ReportDetail reportDetail : summary.reportDetails() )
                     {

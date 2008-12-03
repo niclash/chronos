@@ -14,6 +14,7 @@
  */
 package org.qi4j.chronos.domain.model.project.role;
 
+import org.qi4j.chronos.domain.model.Entity;
 import org.qi4j.chronos.domain.model.common.description.Description;
 import org.qi4j.chronos.domain.model.common.name.Name;
 
@@ -22,6 +23,7 @@ import org.qi4j.chronos.domain.model.common.name.Name;
  * @author Lan Boon Ping
  * @author edward.yakop@gmail.com
  */
-public interface ProjectRole extends Name, Description
+public interface ProjectRole extends Name, Description, Entity<ProjectRole>
 {
+    ProjectRoleId projectRoleId();
 }

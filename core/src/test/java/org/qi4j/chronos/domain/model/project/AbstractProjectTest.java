@@ -14,30 +14,29 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.domain.model.project.role.assembly;
+package org.qi4j.chronos.domain.model.project;
 
-import org.qi4j.bootstrap.Assembler;
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.ModuleAssembly;
-import static org.qi4j.structure.Visibility.*;
+import org.qi4j.chronos.domain.model.project.assembly.ProjectAssembler;
+import org.qi4j.entity.index.rdf.assembly.RdfMemoryStoreAssembler;
+import org.qi4j.entity.memory.MemoryEntityStoreService;
+import org.qi4j.library.rdf.entity.EntitySerializer;
+import org.qi4j.spi.entity.UuidIdentityGeneratorService;
+import org.qi4j.test.AbstractQi4jTest;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-public final class ProjectRoleAssembler
-    implements Assembler
+public abstract class AbstractProjectTest extends AbstractQi4jTest
 {
-    public void assemble( ModuleAssembly module )
+    public final void assemble( ModuleAssembly module )
         throws AssemblyException
     {
-        module.addEntities(
-            ProjectRoleEntity.class
-        ).visibleIn( layer );
-
-        module.addServices(
-            ProjectRoleRepositoryService.class,
-            ProjectRoleFactoryService.class
-        ).visibleIn( application );
+        module.addObjects( EntitySerializer.class );
+        module.addAssembler( new RdfMemoryStoreAssembler() );
+        module.addServices( MemoryEntityStoreService.class, UuidIdentityGeneratorService.class );
+        module.addAssembler( new ProjectAssembler() );
     }
 }
