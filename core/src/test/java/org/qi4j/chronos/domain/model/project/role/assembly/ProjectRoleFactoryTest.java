@@ -20,41 +20,50 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.qi4j.chronos.domain.model.project.AbstractProjectTest;
 import org.qi4j.chronos.domain.model.project.role.ProjectRole;
+import org.qi4j.chronos.domain.model.project.role.ProjectRoleExistsException;
 import org.qi4j.chronos.domain.model.project.role.ProjectRoleFactory;
-import org.qi4j.chronos.domain.model.project.role.ProjectRoleRepository;
-import org.qi4j.entity.NoSuchEntityException;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.service.ServiceFinder;
+import org.qi4j.service.ServiceReference;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-public final class ProjectRoleAssemblerTest extends AbstractProjectTest
+public final class ProjectRoleFactoryTest extends AbstractProjectTest
 {
     @Test
-    public final void servicesAvailabilityTest()
-    {
-        ServiceFinder serviceFinder = moduleInstance.serviceFinder();
-        assertNotNull( serviceFinder.findService( ProjectRoleFactory.class ) );
-        assertNotNull( serviceFinder.findService( ProjectRoleRepository.class ) );
-    }
-
-    @Test
-    public final void entityAvailabilityTest()
+    public final void createTest()
+        throws Throwable
     {
         UnitOfWork uow = unitOfWorkFactory.newUnitOfWork();
+
+        ServiceFinder serviceFinder = moduleInstance.serviceFinder();
+        ServiceReference<ProjectRoleFactory> factoryRef = serviceFinder.findService( ProjectRoleFactory.class );
+        ProjectRoleFactory factory = factoryRef.get();
+
         try
         {
-            uow.newEntityBuilder( ProjectRole.class );
-        }
-        catch( NoSuchEntityException e )
-        {
-            fail( ProjectRole.class.toString() + " must be available as entity." );
+            ProjectRole role = factory.create( "Project Manager" );
+            assertNotNull( role );
+            uow.completeAndContinue();
+
+            try
+            {
+                factory.create( "Project Manager" );
+                fail( "Creating role with the same name must fail." );
+            }
+            catch( ProjectRoleExistsException e )
+            {
+                // Expected
+            }
+
+            uow.remove( role );
         }
         finally
         {
-            uow.discard();
+            uow.complete();
+            factoryRef.releaseService();
         }
     }
 }
