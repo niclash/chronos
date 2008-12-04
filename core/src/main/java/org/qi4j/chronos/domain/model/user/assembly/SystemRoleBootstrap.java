@@ -18,7 +18,16 @@ package org.qi4j.chronos.domain.model.user.assembly;
 
 import org.qi4j.chronos.domain.model.common.name.NameState;
 import org.qi4j.chronos.domain.model.user.SystemRole;
-import static org.qi4j.chronos.domain.model.user.assembly.Constants.*;
+import static org.qi4j.chronos.domain.model.user.assembly.Constants.ACCOUNT_ADMIN_ID;
+import static org.qi4j.chronos.domain.model.user.assembly.Constants.ACCOUNT_ADMIN_NAME;
+import static org.qi4j.chronos.domain.model.user.assembly.Constants.ACCOUNT_DEVELOPER_ID;
+import static org.qi4j.chronos.domain.model.user.assembly.Constants.ACCOUNT_DEVELOPER_NAME;
+import static org.qi4j.chronos.domain.model.user.assembly.Constants.CONTACT_PERSON_ID;
+import static org.qi4j.chronos.domain.model.user.assembly.Constants.CONTACT_PERSON_NAME;
+import static org.qi4j.chronos.domain.model.user.assembly.Constants.STAFF_ID;
+import static org.qi4j.chronos.domain.model.user.assembly.Constants.STAFF_NAME;
+import static org.qi4j.chronos.domain.model.user.assembly.Constants.SYSTEM_ADMIN_ID;
+import static org.qi4j.chronos.domain.model.user.assembly.Constants.SYSTEM_ADMIN_NAME;
 import org.qi4j.composite.Mixins;
 import org.qi4j.entity.EntityBuilder;
 import org.qi4j.entity.EntityCompositeNotFoundException;

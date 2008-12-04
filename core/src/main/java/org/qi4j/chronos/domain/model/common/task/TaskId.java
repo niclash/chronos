@@ -14,8 +14,9 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.qi4j.chronos.domain.model.user;
+package org.qi4j.chronos.domain.model.common.task;
 
+import java.io.Serializable;
 import org.qi4j.chronos.domain.model.ValueObject;
 import static org.qi4j.composite.NullArgumentException.validateNotNull;
 
@@ -23,24 +24,24 @@ import static org.qi4j.composite.NullArgumentException.validateNotNull;
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-public final class UserId
-    implements ValueObject<UserId>
+public final class TaskId
+    implements ValueObject<TaskId>, Serializable
 {
     private final String idString;
 
-    public UserId( String aUserIdString )
+    public TaskId( String taskIdString )
         throws IllegalArgumentException
     {
-        validateNotNull( "aUserIdString", aUserIdString );
-        idString = aUserIdString;
+        validateNotNull( "taskIdString", taskIdString );
+        idString = taskIdString;
     }
 
-    public final String idString()
+    public String idString()
     {
         return idString;
     }
 
-    public final boolean sameValueAs( UserId other )
+    public boolean sameValueAs( TaskId other )
     {
         return other != null && idString.equals( other.idString() );
     }

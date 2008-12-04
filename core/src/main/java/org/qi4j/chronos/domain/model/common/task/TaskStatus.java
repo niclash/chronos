@@ -1,6 +1,6 @@
 /*
  * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
- * Copyright (c) 2007, Sianny Halim. All Rights Reserved.
+ * Copyright (c) 2008, Edward Yakop. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -11,14 +11,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.domain.model.associations;
+package org.qi4j.chronos.domain.model.common.task;
 
-import org.qi4j.chronos.domain.model.common.period.Period;
-import org.qi4j.entity.association.Association;
-
-public interface HasProjectTimeRange
+/**
+ * @author Lan Boon Ping
+ * @author edward.yakop@gmail.com
+ * @since 0.5
+ */
+public enum TaskStatus
 {
-    Association<Period> estimateTime();
-
-    Association<Period> actualTime();
+    open,
+    closed,
+    wontFix
 }

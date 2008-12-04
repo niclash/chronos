@@ -19,7 +19,9 @@ package org.qi4j.chronos.domain.model.common.assembly;
 import org.qi4j.bootstrap.Assembler;
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.ModuleAssembly;
-import static org.qi4j.structure.Visibility.*;
+import org.qi4j.chronos.domain.model.common.comment.assembly.CommentAssembler;
+import static org.qi4j.structure.Visibility.application;
+import static org.qi4j.structure.Visibility.layer;
 
 /**
  * @author edward.yakop@gmail.com
@@ -31,8 +33,9 @@ public final class CommonAssembler
     public final void assemble( ModuleAssembly aModule )
         throws AssemblyException
     {
+        aModule.addAssembler( new CommentAssembler() );
+
         aModule.addEntities(
-            CommentEntity.class,
             LegalConditionEntity.class,
             MoneyEntity.class,
             PeriodEntity.class,
@@ -41,7 +44,6 @@ public final class CommonAssembler
         ).visibleIn( layer );
 
         aModule.addServices(
-            CommentFactoryService.class,
             LegalConditionFactoryService.class,
             MoneyFactoryService.class,
             PeriodFactoryService.class

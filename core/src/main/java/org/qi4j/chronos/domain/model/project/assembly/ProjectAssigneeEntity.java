@@ -17,6 +17,7 @@
 package org.qi4j.chronos.domain.model.project.assembly;
 
 import org.qi4j.chronos.domain.model.common.priceRate.PriceRate;
+import org.qi4j.chronos.domain.model.project.Project;
 import org.qi4j.chronos.domain.model.project.assignee.ProjectAssignee;
 import org.qi4j.chronos.domain.model.project.assignee.ProjectAssigneeState;
 import org.qi4j.chronos.domain.model.project.role.ProjectRole;
@@ -38,6 +39,11 @@ interface ProjectAssigneeEntity extends ProjectAssignee, EntityComposite
     {
         @This private ProjectAssigneeState state;
 
+        public final Project project()
+        {
+            return state.project().get();
+        }
+
         public final ProjectRole projectRole()
         {
             return state.projectRole().get();
@@ -51,11 +57,6 @@ interface ProjectAssigneeEntity extends ProjectAssignee, EntityComposite
         public final void updatePriceRate( PriceRate priceRate )
         {
             state.priceRate().set( priceRate );
-        }
-
-        public final boolean isProjectLeader()
-        {
-            return state.isProjectLeader().get();
         }
 
         @Optional

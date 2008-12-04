@@ -12,7 +12,7 @@
  */
 package org.qi4j.chronos.domain.model.associations;
 
-import org.qi4j.chronos.domain.model.Task;
+import org.qi4j.chronos.domain.model.common.task.Task;
 import org.qi4j.entity.association.SetAssociation;
 
 public interface HasTasks

@@ -14,7 +14,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.domain.model.common.assembly;
+package org.qi4j.chronos.domain.model.common.comment.assembly;
 
 import java.util.Date;
 import org.qi4j.chronos.domain.model.common.comment.Comment;

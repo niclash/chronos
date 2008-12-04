@@ -19,7 +19,8 @@ package org.qi4j.chronos.domain.model.account.assembly;
 import org.qi4j.bootstrap.Assembler;
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.ModuleAssembly;
-import static org.qi4j.structure.Visibility.*;
+import static org.qi4j.structure.Visibility.application;
+import static org.qi4j.structure.Visibility.layer;
 
 /**
  * @author edward.yakop@gmail.com

@@ -14,25 +14,17 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.qi4j.chronos.domain.model.project.assignee;
+package org.qi4j.chronos.domain.model.project.task;
 
-import org.qi4j.chronos.domain.model.common.priceRate.PriceRate;
+import org.qi4j.chronos.domain.model.common.task.TaskState;
 import org.qi4j.chronos.domain.model.project.Project;
-import org.qi4j.chronos.domain.model.project.role.ProjectRole;
-import org.qi4j.chronos.domain.model.user.Staff;
 import org.qi4j.entity.association.Association;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-public interface ProjectAssigneeState
+public interface ProjectTaskState extends TaskState
 {
     Association<Project> project();
-
-    Association<ProjectRole> projectRole();
-
-    Association<PriceRate> priceRate();
-
-    Association<Staff> staff();
 }

@@ -17,18 +17,26 @@
 package org.qi4j.chronos.domain.model.project.assembly;
 
 import org.qi4j.chronos.domain.model.common.legalCondition.LegalCondition;
+import org.qi4j.chronos.domain.model.common.period.Period;
 import org.qi4j.chronos.domain.model.common.priceRate.PriceRateSchedule;
+import org.qi4j.chronos.domain.model.common.task.TaskPriority;
+import org.qi4j.chronos.domain.model.customer.Customer;
 import org.qi4j.chronos.domain.model.project.Project;
-import org.qi4j.chronos.domain.model.project.ProjectDetail;
 import org.qi4j.chronos.domain.model.project.ProjectId;
 import org.qi4j.chronos.domain.model.project.ProjectState;
-import org.qi4j.composite.CompositeBuilder;
+import org.qi4j.chronos.domain.model.project.ProjectStatus;
+import org.qi4j.chronos.domain.model.project.assignee.ProjectAssignee;
+import org.qi4j.chronos.domain.model.project.role.ProjectRole;
+import org.qi4j.chronos.domain.model.project.task.ProjectTask;
+import org.qi4j.chronos.domain.model.user.User;
+import org.qi4j.chronos.domain.model.user.contactPerson.ContactPerson;
 import org.qi4j.composite.CompositeBuilderFactory;
 import org.qi4j.composite.Mixins;
 import org.qi4j.entity.AggregateEntity;
 import org.qi4j.entity.Identity;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.injection.scope.Service;
 import org.qi4j.injection.scope.Structure;
 import org.qi4j.injection.scope.This;
 import org.qi4j.query.Query;
@@ -50,7 +58,11 @@ interface ProjectEntity extends Project, AggregateEntity
         @Structure private UnitOfWorkFactory uowf;
         @This private ProjectState state;
         @Structure private CompositeBuilderFactory cbf;
-        private ProjectDetail detail;
+
+        @Service private ProjectAssigneeFactory assigneeFactory;
+        @This private Project meAsProject;
+
+        @Service private ProjectTaskFactory taskFactory;
 
         public ProjectMixin( @This Identity identity )
         {
@@ -63,16 +75,75 @@ interface ProjectEntity extends Project, AggregateEntity
             return projectId;
         }
 
-        public final ProjectDetail projectDetail()
+        public final ProjectStatus status()
         {
-            if( detail == null )
-            {
-                CompositeBuilder<ProjectDetail> builder = cbf.newCompositeBuilder( ProjectDetail.class );
-                builder.use( state );
-                detail = builder.newInstance();
-            }
+            return state.projectStatus().get();
+        }
 
-            return detail;
+        public final Period estimateTime()
+        {
+            return state.estimateTime().get();
+        }
+
+        public final Customer customer()
+        {
+            return state.customer().get();
+        }
+
+        public final Query<ContactPerson> contactPersons()
+        {
+            UnitOfWork uow = uowf.currentUnitOfWork();
+            QueryBuilderFactory qbf = uow.queryBuilderFactory();
+            QueryBuilder<ContactPerson> builder = qbf.newQueryBuilder( ContactPerson.class );
+            builder.newQuery( state.contactPersons() );
+            return builder.newQuery();
+        }
+
+        public final ContactPerson primaryContactPerson()
+        {
+            return state.primaryContactPerson().get();
+        }
+
+        public final Query<ProjectAssignee> projectAssignees()
+        {
+            UnitOfWork uow = uowf.currentUnitOfWork();
+            QueryBuilderFactory qbf = uow.queryBuilderFactory();
+            QueryBuilder<ProjectAssignee> builder = qbf.newQueryBuilder( ProjectAssignee.class );
+            return builder.newQuery( state.projectAssignees() );
+        }
+
+        public final ProjectAssignee addProjectAssignee( ProjectRole role )
+        {
+            ProjectAssignee projectAssignee = assigneeFactory.create( meAsProject, role );
+            state.projectAssignees().add( projectAssignee );
+            return projectAssignee;
+        }
+
+        public final void removeProjectAssignee( ProjectAssignee assignee )
+        {
+            state.projectAssignees().remove( assignee );
+
+            UnitOfWork uow = uowf.currentUnitOfWork();
+            uow.remove( assignee );
+        }
+
+        public final ProjectAssignee projectLeader()
+        {
+            return state.projectLeader().get();
+        }
+
+        public final Query<ProjectTask> tasks()
+        {
+            UnitOfWork uow = uowf.currentUnitOfWork();
+            QueryBuilderFactory qbf = uow.queryBuilderFactory();
+            QueryBuilder<ProjectTask> builder = qbf.newQueryBuilder( ProjectTask.class );
+            return builder.newQuery( state.tasks() );
+        }
+
+        public final void createTask( String name, String description, TaskPriority priority,
+                                      User createdBy, User assignedTo )
+        {
+            taskFactory.create( meAsProject, name, description, priority, createdBy, assignedTo );
         }
 
         public final Query<LegalCondition> legalConditions()
@@ -82,12 +153,14 @@ interface ProjectEntity extends Project, AggregateEntity
             return builder.newQuery( state.legalConditions() );
         }
 
-        public final Query<PriceRateSchedule> priceRateSchedules()
+        public final PriceRateSchedule priceRateSchedule()
         {
-            UnitOfWork uow = uowf.currentUnitOfWork();
-            QueryBuilderFactory qbf = uow.queryBuilderFactory();
-            QueryBuilder<PriceRateSchedule> builder = qbf.newQueryBuilder( PriceRateSchedule.class );
-            return builder.newQuery( state.priceRateSchedules() );
+            return state.priceRateSchedule().get();
+        }
+
+        public final void updatePriceRateSchedule( PriceRateSchedule newSchedule )
+        {
+            state.priceRateSchedule().set( newSchedule );
         }
 
         public final boolean sameIdentityAs( Project other )

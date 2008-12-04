@@ -17,7 +17,7 @@
 package org.qi4j.chronos.domain.model.account;
 
 import org.qi4j.chronos.domain.model.ValueObject;
-import static org.qi4j.composite.NullArgumentException.*;
+import static org.qi4j.composite.NullArgumentException.validateNotNull;
 
 /**
  * @author edward.yakop@gmail.com

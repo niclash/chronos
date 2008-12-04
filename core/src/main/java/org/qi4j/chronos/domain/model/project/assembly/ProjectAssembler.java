@@ -20,7 +20,7 @@ import org.qi4j.bootstrap.Assembler;
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.chronos.domain.model.project.role.assembly.ProjectRoleAssembler;
-import static org.qi4j.structure.Visibility.*;
+import static org.qi4j.structure.Visibility.layer;
 
 /**
  * @author edward.yakop@gmail.com
@@ -32,8 +32,13 @@ public final class ProjectAssembler
     public final void assemble( ModuleAssembly module )
         throws AssemblyException
     {
-        module.addComposites( ProjectDetailComposite.class );
-        module.addEntities( ProjectEntity.class ).visibleIn( layer );
+        module.addEntities(
+            ProjectEntity.class,
+            ProjectAssigneeEntity.class,
+            ProjectTaskEntity.class
+        ).visibleIn( layer );
+
+        module.addServices( ProjectAssigneeFactory.class );
 
         module.addAssembler( new ProjectRoleAssembler() );
     }

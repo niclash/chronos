@@ -21,6 +21,11 @@ import org.qi4j.chronos.domain.model.common.name.NameState;
 import org.qi4j.chronos.domain.model.common.name.ReferenceState;
 import org.qi4j.chronos.domain.model.common.period.Period;
 import org.qi4j.chronos.domain.model.common.priceRate.PriceRateSchedule;
+import org.qi4j.chronos.domain.model.customer.Customer;
+import org.qi4j.chronos.domain.model.project.assignee.ProjectAssignee;
+import org.qi4j.chronos.domain.model.project.task.ProjectTask;
+import org.qi4j.chronos.domain.model.user.contactPerson.ContactPerson;
+import org.qi4j.entity.association.Association;
 import org.qi4j.entity.association.SetAssociation;
 import org.qi4j.property.Property;
 
@@ -30,13 +35,25 @@ import org.qi4j.property.Property;
  */
 public interface ProjectState extends NameState, ReferenceState
 {
-    Property<ProjectStatus> projectStatus();
-
     Property<Period> estimateTime();
 
     Property<Period> actualTime();
 
-    SetAssociation<PriceRateSchedule> priceRateSchedules();
+    Property<ProjectStatus> projectStatus();
+
+    Association<Customer> customer();
+
+    SetAssociation<ContactPerson> contactPersons();
+
+    Association<ContactPerson> primaryContactPerson();
+
+    SetAssociation<ProjectAssignee> projectAssignees();
+
+    Association<ProjectAssignee> projectLeader();
+
+    SetAssociation<ProjectTask> tasks();
+
+    Association<PriceRateSchedule> priceRateSchedule();
 
     SetAssociation<LegalCondition> legalConditions();
 }

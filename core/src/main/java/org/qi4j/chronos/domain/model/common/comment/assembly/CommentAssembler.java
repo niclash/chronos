@@ -14,34 +14,27 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.qi4j.chronos.domain.model.user;
+package org.qi4j.chronos.domain.model.common.comment.assembly;
 
-import org.qi4j.chronos.domain.model.ValueObject;
-import static org.qi4j.composite.NullArgumentException.validateNotNull;
+import org.qi4j.bootstrap.Assembler;
+import org.qi4j.bootstrap.AssemblyException;
+import org.qi4j.bootstrap.ModuleAssembly;
+import static org.qi4j.structure.Visibility.application;
+import static org.qi4j.structure.Visibility.layer;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-public final class UserId
-    implements ValueObject<UserId>
+public final class CommentAssembler
+    implements Assembler
 {
-    private final String idString;
-
-    public UserId( String aUserIdString )
-        throws IllegalArgumentException
+    public final void assemble( ModuleAssembly module )
+        throws AssemblyException
     {
-        validateNotNull( "aUserIdString", aUserIdString );
-        idString = aUserIdString;
-    }
-
-    public final String idString()
-    {
-        return idString;
-    }
-
-    public final boolean sameValueAs( UserId other )
-    {
-        return other != null && idString.equals( other.idString() );
+        module.addEntities( CommentEntity.class )
+            .visibleIn( layer );
+        module.addServices( CommentFactoryService.class )
+            .visibleIn( application );
     }
 }

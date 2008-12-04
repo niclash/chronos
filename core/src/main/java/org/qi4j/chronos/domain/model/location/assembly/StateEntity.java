@@ -29,7 +29,8 @@ import org.qi4j.injection.scope.Structure;
 import org.qi4j.injection.scope.This;
 import org.qi4j.query.Query;
 import org.qi4j.query.QueryBuilder;
-import static org.qi4j.query.QueryExpressions.*;
+import static org.qi4j.query.QueryExpressions.eq;
+import static org.qi4j.query.QueryExpressions.templateFor;
 
 /**
  * @author edward.yakop@gmail.com
