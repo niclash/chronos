@@ -35,7 +35,7 @@ import org.qi4j.service.ServiceReference;
 public final class CityFactoryTest extends AbstractLocationTest
 {
     @Test
-    @Ignore
+    @Ignore( "Looks like either the TestCase is incorrectly set up or that we have a bug in the Query system.")
     public final void testCreate()
     {
         ServiceFinder serviceFinder = moduleInstance.serviceFinder();
