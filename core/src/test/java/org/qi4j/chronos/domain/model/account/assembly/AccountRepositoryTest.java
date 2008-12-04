@@ -37,7 +37,6 @@ import org.qi4j.service.ServiceReference;
 public final class AccountRepositoryTest extends AbstractAccountTest
 {
     @Test
-    @Ignore
     public final void findTest()
         throws UnitOfWorkCompletionException
     {
