@@ -16,7 +16,8 @@
  */
 package org.qi4j.chronos.domain.model.account.assembly;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import org.junit.Ignore;
 import org.junit.Test;
 import org.qi4j.chronos.domain.model.account.Account;
@@ -57,7 +58,7 @@ public final class AccountRepositoryTest extends AbstractAccountTest
             assertNotNull( account );
             AccountId accountId = account.accountId();
             assertNotNull( accountId );
-            String accountName = account.accountDetail().name();
+            String accountName = account.name();
             assertEquals( "My Account", accountName );
 
             uow.completeAndContinue();
@@ -65,7 +66,7 @@ public final class AccountRepositoryTest extends AbstractAccountTest
             Account account1 = accountRepository.find( accountId );
             assertNotNull( account1 );
             accountId.sameValueAs( account1.accountId() );
-            assertEquals( "My Account", account1.accountDetail().name() );
+            assertEquals( "My Account", account1.name() );
         }
         finally
         {

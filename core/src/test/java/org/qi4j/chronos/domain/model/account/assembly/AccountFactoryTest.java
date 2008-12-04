@@ -16,10 +16,10 @@
  */
 package org.qi4j.chronos.domain.model.account.assembly;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
 import org.qi4j.chronos.domain.model.account.Account;
-import org.qi4j.chronos.domain.model.account.AccountDetail;
 import org.qi4j.chronos.domain.model.account.AccountFactory;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.service.ServiceFinder;
@@ -44,12 +44,7 @@ public final class AccountFactoryTest extends AbstractAccountTest
             Account account = accountFactory.newAccount( "My Account" );
             assertNotNull( account );
 
-            AccountDetail accountDetail = account.accountDetail();
-            assertNotNull( accountDetail );
-
-            String accountName = accountDetail.name();
-            assertEquals( "My Account", accountName );
-            assertEquals( account.name(), accountName );
+            assertEquals( "My Account", account.name() );
         }
         finally
         {
