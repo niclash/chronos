@@ -17,15 +17,14 @@
 package org.qi4j.chronos.domain.model.account.assembly;
 
 import org.qi4j.chronos.domain.model.account.Account;
-import org.qi4j.chronos.domain.model.account.AccountDetail;
 import org.qi4j.chronos.domain.model.account.AccountId;
 import org.qi4j.chronos.domain.model.account.AccountState;
 import org.qi4j.chronos.domain.model.common.priceRate.PriceRateSchedule;
 import org.qi4j.chronos.domain.model.customer.Customer;
+import org.qi4j.chronos.domain.model.location.address.Address;
 import org.qi4j.chronos.domain.model.project.Project;
 import org.qi4j.chronos.domain.model.project.role.ProjectRole;
 import org.qi4j.chronos.domain.model.user.Staff;
-import org.qi4j.composite.CompositeBuilder;
 import org.qi4j.composite.CompositeBuilderFactory;
 import org.qi4j.composite.Mixins;
 import org.qi4j.entity.AggregateEntity;
@@ -51,7 +50,6 @@ interface AccountEntity extends Account, AggregateEntity
 
         @This private AccountState state;
         @Structure private CompositeBuilderFactory cbf;
-        private AccountDetail accountDetail;
 
         @Structure private UnitOfWorkFactory uowf;
 
@@ -65,21 +63,19 @@ interface AccountEntity extends Account, AggregateEntity
             return accountId;
         }
 
+        public final Address address()
+        {
+            return state.address().get();
+        }
+
+        public final void changeAddress( Address address )
+        {
+            state.address().set( address );
+        }
+
         public final boolean sameIdentityAs( Account other )
         {
             return other != null && accountId.sameValueAs( other.accountId() );
-        }
-
-        public final AccountDetail accountDetail()
-        {
-            if( accountDetail == null )
-            {
-                CompositeBuilder<AccountDetail> detailBuilder = cbf.newCompositeBuilder( AccountDetail.class );
-                detailBuilder.use( state );
-                accountDetail = detailBuilder.newInstance();
-            }
-
-            return accountDetail;
         }
 
         public final Query<Staff> staffs()

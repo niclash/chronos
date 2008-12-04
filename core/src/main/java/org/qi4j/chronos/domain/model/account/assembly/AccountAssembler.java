@@ -32,8 +32,8 @@ public final class AccountAssembler
     public final void assemble( ModuleAssembly aModule )
         throws AssemblyException
     {
-        aModule.addComposites( AccountDetailComposite.class );
-        aModule.addEntities( AccountEntity.class ).visibleIn( layer );
+        aModule.addEntities( AccountEntity.class )
+            .visibleIn( layer );
 
         aModule.addServices(
             AccountFactoryService.class,
