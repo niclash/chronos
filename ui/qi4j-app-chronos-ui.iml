@@ -58,6 +58,10 @@
             <attribute name="method" value="5" />
             <attribute name="URI" value="/WEB-INF/lib/qi4j-ext-entitystore-quick-0.5-SNAPSHOT.jar" />
           </containerElement>
+          <containerElement type="module" name="qi4j-lib-locking">
+            <attribute name="method" value="5" />
+            <attribute name="URI" value="/WEB-INF/lib/qi4j-lib-locking-0.5-SNAPSHOT.jar" />
+          </containerElement>
           <containerElement type="module" name="qi4j-ext-indexing-rdf">
             <attribute name="method" value="5" />
             <attribute name="URI" value="/WEB-INF/lib/qi4j-ext-indexing-rdf-0.5-SNAPSHOT.jar" />
@@ -353,6 +357,7 @@
     <orderEntry type="module" module-name="qi4j-lib-general" exported="" />
     <orderEntry type="module" module-name="qi4j-lib-validation" exported="" />
     <orderEntry type="module" module-name="qi4j-ext-entitystore-quick" exported="" />
+    <orderEntry type="module" module-name="qi4j-lib-locking" exported="" />
     <orderEntry type="module" module-name="qi4j-ext-indexing-rdf" exported="" />
     <orderEntry type="module" module-name="qi4j-lib-rdf" exported="" />
     <orderEntry type="module" module-name="qi4j-lib-constraints" exported="" />
