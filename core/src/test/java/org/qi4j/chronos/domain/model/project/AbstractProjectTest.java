@@ -34,7 +34,6 @@ public abstract class AbstractProjectTest extends AbstractQi4jTest
     public final void assemble( ModuleAssembly module )
         throws AssemblyException
     {
-        module.addObjects( EntitySerializer.class );
         module.addAssembler( new RdfMemoryStoreAssembler() );
         module.addServices( MemoryEntityStoreService.class, UuidIdentityGeneratorService.class );
         module.addAssembler( new ProjectAssembler() );

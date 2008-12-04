@@ -35,7 +35,6 @@ abstract class AbstractCustomerTest extends AbstractQi4jTest
     public void assemble( ModuleAssembly module )
         throws AssemblyException
     {
-        module.addObjects( EntitySerializer.class );
         module.addAssembler( new RdfMemoryStoreAssembler() );
         module.addServices( MemoryEntityStoreService.class, UuidIdentityGeneratorService.class );
 
