@@ -14,15 +14,16 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.qi4j.chronos.domain.model.common.legalCondition;
+package org.qi4j.chronos.domain.model.common.comment.association;
 
-import org.qi4j.chronos.domain.model.common.description.HasDescriptionState;
-import org.qi4j.chronos.domain.model.common.name.NameState;
+import org.qi4j.chronos.domain.model.common.comment.Comment;
+import org.qi4j.entity.association.SetAssociation;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-public interface LegalConditionState extends NameState, HasDescriptionState
+public interface HasCommentsState
 {
+    SetAssociation<Comment> comments();
 }

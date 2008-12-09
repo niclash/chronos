@@ -15,6 +15,7 @@
 package org.qi4j.chronos.domain.model.common.period;
 
 import java.util.Date;
+import org.qi4j.composite.Mixins;
 
 /**
  * @author Sianny Halim
@@ -22,6 +23,7 @@ import java.util.Date;
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
+@Mixins( PeriodMixin.class )
 public interface Period
 {
     Date startTime();

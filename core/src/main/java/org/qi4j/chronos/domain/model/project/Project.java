@@ -26,17 +26,23 @@ public interface Project extends Name, MutableReferenceName, Entity<Project>
     Customer customer();
 
     Query<ContactPerson> contactPersons();
+
     ContactPerson primaryContactPerson();
 
     Query<ProjectAssignee> projectAssignees();
+
     ProjectAssignee addProjectAssignee( ProjectRole role );
+
     void removeProjectAssignee( ProjectAssignee assignee );
+
     ProjectAssignee projectLeader();
 
     PriceRateSchedule priceRateSchedule();
+
     void updatePriceRateSchedule( PriceRateSchedule newSchedule );
 
     Query<ProjectTask> tasks();
+
     void createTask( String name, String description, TaskPriority priority, User reportedBy, User assignedTo );
 
     // TODO

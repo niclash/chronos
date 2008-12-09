@@ -13,7 +13,7 @@
  */
 package org.qi4j.chronos.domain.model.associations;
 
-import org.qi4j.chronos.domain.model.WorkEntry;
+import org.qi4j.chronos.domain.model.common.task.WorkEntry;
 import org.qi4j.entity.association.SetAssociation;
 
 public interface HasWorkEntries

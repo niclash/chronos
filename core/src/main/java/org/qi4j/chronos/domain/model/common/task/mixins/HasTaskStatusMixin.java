@@ -14,15 +14,30 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.qi4j.chronos.domain.model.common.legalCondition;
+package org.qi4j.chronos.domain.model.common.task.mixins;
 
-import org.qi4j.chronos.domain.model.common.description.HasDescriptionState;
-import org.qi4j.chronos.domain.model.common.name.NameState;
+import org.qi4j.chronos.domain.model.common.comment.Comment;
+import org.qi4j.chronos.domain.model.common.task.TaskStatus;
+import org.qi4j.composite.Optional;
+import org.qi4j.injection.scope.This;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-public interface LegalConditionState extends NameState, HasDescriptionState
+class HasTaskStatusMixin
+    implements HasTaskStatus
 {
+    @This private HasTaskStatusState state;
+
+    public final TaskStatus status()
+    {
+        return state.status().get();
+    }
+
+    public final void updateTaskStatus( TaskStatus newStatus, @Optional Comment comment )
+    {
+        state.status().set( newStatus );
+        state.comments().add( comment );
+    }
 }

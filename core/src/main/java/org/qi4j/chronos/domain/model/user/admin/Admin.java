@@ -1,5 +1,5 @@
 /*
- * Copyright (c) 2008, Muhd Kamil Mohd Baki. All Rights Reserved.
+ * Copyright (c) 2007, Lan Boon Ping. All Rights Reserved.
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -10,10 +10,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.domain.model;
+package org.qi4j.chronos.domain.model.user.admin;
 
-import org.qi4j.chronos.domain.model.associations.HasReportDetails;
+import org.qi4j.chronos.domain.model.user.User;
 
-public interface ReportSummary extends HasReportDetails
+public interface Admin extends User
 {
 }

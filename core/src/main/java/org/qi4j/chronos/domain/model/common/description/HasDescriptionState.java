@@ -23,7 +23,7 @@ import org.qi4j.property.Property;
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-public interface DescriptionState
+public interface HasDescriptionState
 {
     @Optional Property<String> description();
 }

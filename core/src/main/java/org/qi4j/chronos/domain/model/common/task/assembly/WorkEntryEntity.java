@@ -14,20 +14,15 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.qi4j.chronos.domain.model.account;
+package org.qi4j.chronos.domain.model.common.task.assembly;
 
-import org.qi4j.chronos.domain.model.common.name.MutableName;
-import org.qi4j.chronos.domain.model.common.name.MutableReferenceName;
-import org.qi4j.chronos.domain.model.location.address.Address;
-import org.qi4j.composite.Optional;
+import org.qi4j.chronos.domain.model.common.task.WorkEntry;
+import org.qi4j.entity.EntityComposite;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-public interface AccountDetail extends MutableName, MutableReferenceName
+interface WorkEntryEntity extends WorkEntry, EntityComposite
 {
-    @Optional Address address();
-
-    void changeAddress( @Optional Address address );
 }

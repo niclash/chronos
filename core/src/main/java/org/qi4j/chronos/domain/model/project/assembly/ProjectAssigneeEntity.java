@@ -21,7 +21,7 @@ import org.qi4j.chronos.domain.model.project.Project;
 import org.qi4j.chronos.domain.model.project.assignee.ProjectAssignee;
 import org.qi4j.chronos.domain.model.project.assignee.ProjectAssigneeState;
 import org.qi4j.chronos.domain.model.project.role.ProjectRole;
-import org.qi4j.chronos.domain.model.user.Staff;
+import org.qi4j.chronos.domain.model.user.staff.Staff;
 import org.qi4j.composite.Mixins;
 import org.qi4j.composite.Optional;
 import org.qi4j.entity.EntityComposite;

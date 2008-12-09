@@ -21,7 +21,7 @@ import org.qi4j.chronos.domain.model.customer.Customer;
 import org.qi4j.chronos.domain.model.location.address.Address;
 import org.qi4j.chronos.domain.model.project.Project;
 import org.qi4j.chronos.domain.model.project.role.ProjectRole;
-import org.qi4j.chronos.domain.model.user.Staff;
+import org.qi4j.chronos.domain.model.user.staff.Staff;
 import org.qi4j.query.Query;
 
 public interface Account extends MutableName, MutableReferenceName, Enable, Entity<Account>
@@ -29,6 +29,7 @@ public interface Account extends MutableName, MutableReferenceName, Enable, Enti
     AccountId accountId();
 
     Address address();
+
     void changeAddress( Address address );
 
     Query<Staff> staffs();

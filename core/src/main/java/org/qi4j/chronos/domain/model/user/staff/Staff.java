@@ -11,9 +11,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.domain.model.user;
+package org.qi4j.chronos.domain.model.user.staff;
 
 import org.qi4j.chronos.domain.model.common.money.Money;
+import org.qi4j.chronos.domain.model.user.User;
 
 /**
  * @author Sianny Halim

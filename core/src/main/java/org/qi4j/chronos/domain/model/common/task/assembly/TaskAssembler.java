@@ -14,15 +14,24 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.qi4j.chronos.domain.model.common.legalCondition;
+package org.qi4j.chronos.domain.model.common.task.assembly;
 
-import org.qi4j.chronos.domain.model.common.description.HasDescriptionState;
-import org.qi4j.chronos.domain.model.common.name.NameState;
+import org.qi4j.bootstrap.Assembler;
+import org.qi4j.bootstrap.AssemblyException;
+import org.qi4j.bootstrap.ModuleAssembly;
+import static org.qi4j.structure.Visibility.layer;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-public interface LegalConditionState extends NameState, HasDescriptionState
+public class TaskAssembler
+    implements Assembler
 {
+    public final void assemble( ModuleAssembly module )
+        throws AssemblyException
+    {
+        module.addEntities( WorkEntryEntity.class )
+            .visibleIn( layer );
+    }
 }

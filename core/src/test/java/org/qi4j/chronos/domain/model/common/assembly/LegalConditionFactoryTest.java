@@ -46,7 +46,7 @@ public final class LegalConditionFactoryTest extends AbstractCommonTest
             assertEquals( "Service Agreement", condition.name() );
 
             assertNull( condition.description() );
-            condition.changeDescription( "description" );
+            condition.updateDescription( "description" );
             assertEquals( "description", condition.description() );
         }
         finally

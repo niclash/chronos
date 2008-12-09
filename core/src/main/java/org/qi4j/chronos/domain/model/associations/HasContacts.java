@@ -13,7 +13,7 @@
  */
 package org.qi4j.chronos.domain.model.associations;
 
-import org.qi4j.chronos.domain.model.Contact;
+import org.qi4j.chronos.domain.model.user.contactPerson.Contact;
 import org.qi4j.entity.association.SetAssociation;
 
 /**

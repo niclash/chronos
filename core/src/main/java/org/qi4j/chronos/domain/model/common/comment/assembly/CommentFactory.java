@@ -18,10 +18,8 @@ package org.qi4j.chronos.domain.model.common.comment.assembly;
 
 import java.util.Date;
 import org.qi4j.chronos.domain.model.common.comment.Comment;
-import org.qi4j.chronos.domain.model.common.comment.CommentFactory;
 import org.qi4j.chronos.domain.model.common.comment.CommentState;
 import org.qi4j.chronos.domain.model.user.User;
-import org.qi4j.composite.Mixins;
 import org.qi4j.entity.EntityBuilder;
 import org.qi4j.entity.UnitOfWork;
 import org.qi4j.entity.UnitOfWorkFactory;
@@ -32,10 +30,11 @@ import org.qi4j.service.ServiceComposite;
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-@Mixins( CommentFactoryService.CommentFactoryMixin.class )
-interface CommentFactoryService extends CommentFactory, ServiceComposite
+interface CommentFactory extends ServiceComposite
 {
-    class CommentFactoryMixin
+    Comment create( String comment, User user );
+
+    abstract class CommentFactoryMixin
         implements CommentFactory
     {
         @Structure private UnitOfWorkFactory uowf;

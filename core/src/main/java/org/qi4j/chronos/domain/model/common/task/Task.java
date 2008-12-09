@@ -14,9 +14,10 @@ package org.qi4j.chronos.domain.model.common.task;
 
 import java.util.Date;
 import org.qi4j.chronos.domain.model.Entity;
-import org.qi4j.chronos.domain.model.WorkEntry;
 import org.qi4j.chronos.domain.model.common.comment.Comment;
-import org.qi4j.chronos.domain.model.common.description.Description;
+import org.qi4j.chronos.domain.model.common.comment.association.HasComments;
+import org.qi4j.chronos.domain.model.common.description.HasDescription;
+import org.qi4j.chronos.domain.model.common.task.assembly.TaskMixin;
 import org.qi4j.chronos.domain.model.user.User;
 import org.qi4j.composite.Mixins;
 import org.qi4j.composite.Optional;
@@ -28,7 +29,7 @@ import org.qi4j.query.Query;
  * @version 0.5
  */
 @Mixins( TaskMixin.class )
-public interface Task extends Description, Entity<Task>
+public interface Task extends HasDescription, HasComments, Entity<Task>
 {
     TaskId taskId();
 
@@ -45,8 +46,6 @@ public interface Task extends Description, Entity<Task>
     Date createdDate();
 
     User createdBy();
-
-    Query<Comment> comments();
 
     Query<WorkEntry> workEntries();
 

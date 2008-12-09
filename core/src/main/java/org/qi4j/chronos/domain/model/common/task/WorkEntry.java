@@ -11,12 +11,24 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.domain.model.associations;
+package org.qi4j.chronos.domain.model.common.task;
 
-import org.qi4j.chronos.domain.model.location.address.Address;
-import org.qi4j.entity.association.Association;
+import java.util.Date;
+import org.qi4j.chronos.domain.model.common.comment.association.HasComments;
+import org.qi4j.chronos.domain.model.common.description.HasDescription;
+import org.qi4j.chronos.domain.model.common.task.mixins.WorkEntryMixin;
+import org.qi4j.composite.Mixins;
 
-public interface HasAddress
+@Mixins( WorkEntryMixin.class )
+public interface WorkEntry extends HasComments, HasDescription
 {
-    Association<Address> address();
+    Task task();
+
+    Date createdDate();
+
+    String summary();
+
+    TaskStatus status();
+
+    Date lastUpdatedDate();
 }

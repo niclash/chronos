@@ -14,27 +14,17 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.domain.model.common.description;
+package org.qi4j.chronos.domain.model.user.admin;
 
-import org.qi4j.composite.Optional;
-import org.qi4j.injection.scope.This;
+import org.qi4j.chronos.domain.model.user.UserId;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-final class DescriptionMixin
-    implements Description
+public interface AdminRepository
 {
-    @This DescriptionState state;
+    Admin find( UserId aUserId );
 
-    public final String description()
-    {
-        return state.description().get();
-    }
-
-    public final void changeDescription( @Optional String newDescription )
-    {
-        state.description().set( newDescription );
-    }
+    Admin findByLoginName( String aLoginName );
 }

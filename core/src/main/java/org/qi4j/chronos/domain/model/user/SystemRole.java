@@ -13,10 +13,10 @@
  */
 package org.qi4j.chronos.domain.model.user;
 
-import org.qi4j.chronos.domain.model.common.description.Description;
+import org.qi4j.chronos.domain.model.common.description.HasDescription;
 import org.qi4j.chronos.domain.model.common.name.MutableName;
 
-public interface SystemRole extends MutableName, Description
+public interface SystemRole extends MutableName, HasDescription
 {
     SystemRoleId systemRoleId();
 }

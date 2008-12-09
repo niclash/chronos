@@ -14,7 +14,7 @@
  */
 package org.qi4j.chronos.domain.model.common.legalCondition;
 
-import org.qi4j.chronos.domain.model.common.description.Description;
+import org.qi4j.chronos.domain.model.common.description.HasDescription;
 import org.qi4j.chronos.domain.model.common.name.Name;
 
 /**
@@ -23,6 +23,6 @@ import org.qi4j.chronos.domain.model.common.name.Name;
  * @author Edward Yakop
  * @since 0.5
  */
-public interface LegalCondition extends Name, Description
+public interface LegalCondition extends Name, HasDescription
 {
 }

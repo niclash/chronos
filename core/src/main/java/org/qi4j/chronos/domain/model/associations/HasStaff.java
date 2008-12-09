@@ -12,7 +12,7 @@
  */
 package org.qi4j.chronos.domain.model.associations;
 
-import org.qi4j.chronos.domain.model.user.Staff;
+import org.qi4j.chronos.domain.model.user.staff.Staff;
 import org.qi4j.entity.association.Association;
 
 public interface HasStaff

@@ -14,12 +14,12 @@ package org.qi4j.chronos.domain.service.authentication.assembly;
 
 import org.qi4j.chronos.domain.model.account.Account;
 import org.qi4j.chronos.domain.model.customer.Customer;
-import org.qi4j.chronos.domain.model.user.Admin;
-import org.qi4j.chronos.domain.model.user.AdminRepository;
 import org.qi4j.chronos.domain.model.user.Login;
-import org.qi4j.chronos.domain.model.user.Staff;
 import org.qi4j.chronos.domain.model.user.User;
+import org.qi4j.chronos.domain.model.user.admin.Admin;
+import org.qi4j.chronos.domain.model.user.admin.AdminRepository;
 import org.qi4j.chronos.domain.model.user.contactPerson.ContactPerson;
+import org.qi4j.chronos.domain.model.user.staff.Staff;
 import org.qi4j.chronos.domain.service.authentication.AuthenticationService;
 import org.qi4j.chronos.domain.service.authentication.UserAuthenticationFailException;
 import org.qi4j.composite.Mixins;

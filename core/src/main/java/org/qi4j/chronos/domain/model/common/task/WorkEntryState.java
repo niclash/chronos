@@ -14,15 +14,21 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.qi4j.chronos.domain.model.common.legalCondition;
+package org.qi4j.chronos.domain.model.common.task;
 
-import org.qi4j.chronos.domain.model.common.description.HasDescriptionState;
-import org.qi4j.chronos.domain.model.common.name.NameState;
+import java.util.Date;
+import org.qi4j.chronos.domain.model.common.task.mixins.HasTaskStatusState;
+import org.qi4j.property.Property;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-public interface LegalConditionState extends NameState, HasDescriptionState
+public interface WorkEntryState extends HasTaskStatusState
 {
+    Property<Date> createdDate();
+
+    Property<String> summary();
+
+    Property<String> description();
 }

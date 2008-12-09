@@ -14,11 +14,16 @@
 * See the License for the specific language governing permissions and
 * limitations under the License.
 */
-package org.qi4j.chronos.domain.model.common.task;
+package org.qi4j.chronos.domain.model.common.task.assembly;
 
 import java.util.Date;
-import org.qi4j.chronos.domain.model.WorkEntry;
 import org.qi4j.chronos.domain.model.common.comment.Comment;
+import org.qi4j.chronos.domain.model.common.task.Task;
+import org.qi4j.chronos.domain.model.common.task.TaskId;
+import org.qi4j.chronos.domain.model.common.task.TaskPriority;
+import org.qi4j.chronos.domain.model.common.task.TaskState;
+import org.qi4j.chronos.domain.model.common.task.TaskStatus;
+import org.qi4j.chronos.domain.model.common.task.WorkEntry;
 import org.qi4j.chronos.domain.model.user.User;
 import org.qi4j.composite.Optional;
 import org.qi4j.entity.Identity;
@@ -89,14 +94,6 @@ public abstract class TaskMixin
     public final User createdBy()
     {
         return state.createdBy().get();
-    }
-
-    public final Query<Comment> comments()
-    {
-        UnitOfWork uow = uowf.currentUnitOfWork();
-        QueryBuilderFactory qbf = uow.queryBuilderFactory();
-        QueryBuilder<Comment> builder = qbf.newQueryBuilder( Comment.class );
-        return builder.newQuery( state.comments() );
     }
 
     public final Query<WorkEntry> workEntries()

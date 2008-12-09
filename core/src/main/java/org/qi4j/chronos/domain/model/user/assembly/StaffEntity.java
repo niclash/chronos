@@ -17,7 +17,7 @@
 package org.qi4j.chronos.domain.model.user.assembly;
 
 import org.qi4j.chronos.domain.model.common.money.Money;
-import org.qi4j.chronos.domain.model.user.Staff;
+import org.qi4j.chronos.domain.model.user.staff.Staff;
 import org.qi4j.composite.Mixins;
 import org.qi4j.entity.EntityComposite;
 import org.qi4j.injection.scope.This;

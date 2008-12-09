@@ -23,10 +23,10 @@ import org.qi4j.composite.Optional;
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-@Mixins( DescriptionMixin.class )
-public interface Description
+@Mixins( HasDescriptionMixin.class )
+public interface HasDescription
 {
     String description();
 
-    void changeDescription( @Optional String newDescription );
+    void updateDescription( @Optional String newDescription );
 }
