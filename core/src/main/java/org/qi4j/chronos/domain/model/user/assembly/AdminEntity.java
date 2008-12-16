@@ -17,8 +17,8 @@
 package org.qi4j.chronos.domain.model.user.assembly;
 
 import org.qi4j.chronos.domain.model.user.admin.Admin;
-import org.qi4j.composite.Mixins;
-import org.qi4j.entity.EntityComposite;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.entity.EntityComposite;
 
 /**
  * @author edward.yakop@gmail.com

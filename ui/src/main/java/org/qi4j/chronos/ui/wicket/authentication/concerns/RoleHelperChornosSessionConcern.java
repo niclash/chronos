@@ -7,7 +7,7 @@ import static org.qi4j.chronos.model.SystemRole.CONTACT_PERSON;
 import static org.qi4j.chronos.model.SystemRole.STAFF;
 import org.qi4j.chronos.ui.wicket.authentication.RoleHelperComposite;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
-import org.qi4j.composite.ConcernOf;
+import org.qi4j.api.concern.ConcernOf;
 
 /**
  * @author edward.yakop@gmail.com

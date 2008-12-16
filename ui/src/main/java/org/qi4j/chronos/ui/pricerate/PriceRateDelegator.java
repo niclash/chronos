@@ -15,7 +15,7 @@ package org.qi4j.chronos.ui.pricerate;
 import java.io.Serializable;
 import org.qi4j.chronos.model.PriceRate;
 import org.qi4j.chronos.model.PriceRateTypeEnum;
-import org.qi4j.entity.Identity;
+import org.qi4j.api.entity.Identity;
 
 //TODO bp. We may don't need this when we can make priceRateComposite serilizable.
 public class PriceRateDelegator implements Serializable

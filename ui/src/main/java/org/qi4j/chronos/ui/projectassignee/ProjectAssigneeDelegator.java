@@ -14,7 +14,7 @@ package org.qi4j.chronos.ui.projectassignee;
 
 import java.io.Serializable;
 import org.qi4j.chronos.model.ProjectAssignee;
-import org.qi4j.entity.Identity;
+import org.qi4j.api.entity.Identity;
 
 public class ProjectAssigneeDelegator implements Serializable
 {

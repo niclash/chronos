@@ -22,9 +22,9 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OutputStream;
 import org.apache.wicket.util.io.IObjectStreamFactory;
-import org.qi4j.Qi4j;
-import org.qi4j.composite.CompositeBuilderFactory;
-import org.qi4j.injection.scope.Structure;
+import org.qi4j.api.Qi4j;
+import org.qi4j.api.composite.CompositeBuilderFactory;
+import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.spi.serialization.CompositeInputStream;
 import org.qi4j.spi.serialization.CompositeOutputStream;
 

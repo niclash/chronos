@@ -28,7 +28,7 @@ import org.qi4j.chronos.ui.user.UserDetailPanel;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
 import org.qi4j.chronos.ui.wicket.model.ChronosDetachableModel;
-import org.qi4j.injection.scope.Uses;
+import org.qi4j.api.injection.scope.Uses;
 
 public class ContactPersonDetailPage extends LeftMenuNavPage
 {

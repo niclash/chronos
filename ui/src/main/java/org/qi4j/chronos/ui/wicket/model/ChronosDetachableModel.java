@@ -12,8 +12,8 @@ package org.qi4j.chronos.ui.wicket.model;
 
 import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import org.qi4j.entity.EntityComposite;
-import org.qi4j.entity.UnitOfWork;
+import org.qi4j.api.entity.EntityComposite;
+import org.qi4j.api.unitofwork.UnitOfWork;
 
 /**
  * @author Lan Boon Ping

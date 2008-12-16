@@ -19,10 +19,10 @@ package org.qi4j.chronos.domain.model.project.role.assembly;
 import org.qi4j.chronos.domain.model.project.role.ProjectRole;
 import org.qi4j.chronos.domain.model.project.role.ProjectRoleId;
 import org.qi4j.chronos.domain.model.project.role.ProjectRoleState;
-import org.qi4j.composite.Mixins;
-import org.qi4j.entity.AggregateEntity;
-import org.qi4j.entity.Identity;
-import org.qi4j.injection.scope.This;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.entity.AggregateEntity;
+import org.qi4j.api.entity.Identity;
+import org.qi4j.api.injection.scope.This;
 
 /**
  * @author edward.yakop@gmail.com

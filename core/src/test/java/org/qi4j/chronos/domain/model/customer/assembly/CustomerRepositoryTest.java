@@ -23,11 +23,11 @@ import org.qi4j.chronos.domain.model.customer.CustomerDetail;
 import org.qi4j.chronos.domain.model.customer.CustomerFactory;
 import org.qi4j.chronos.domain.model.customer.CustomerId;
 import org.qi4j.chronos.domain.model.customer.CustomerRepository;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkCompletionException;
-import org.qi4j.query.Query;
-import org.qi4j.service.ServiceFinder;
-import org.qi4j.service.ServiceReference;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkCompletionException;
+import org.qi4j.api.query.Query;
+import org.qi4j.api.service.ServiceFinder;
+import org.qi4j.api.service.ServiceReference;
 
 /**
  * @author edward.yakop@gmail.com
@@ -53,7 +53,7 @@ public final class CustomerRepositoryTest extends AbstractCustomerTest
             Customer joeCustomer = customerFactory.create( "Joe Smith", "Sir Joe Smith" );
             CustomerId joeCustomerId = joeCustomer.customerId();
             Customer johnCustomer = customerFactory.create( "John Smith", "Captain John Smith" );
-            uow.completeAndContinue();
+            uow.apply();
 
             // Find individual
             Customer customer1 = customerRepository.find( joeCustomerId );
@@ -68,7 +68,7 @@ public final class CustomerRepositoryTest extends AbstractCustomerTest
 
             uow.remove( joeCustomer );
             uow.remove( johnCustomer );
-            uow.completeAndContinue();
+            uow.apply();
         }
         finally
         {

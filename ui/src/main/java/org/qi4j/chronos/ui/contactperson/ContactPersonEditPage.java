@@ -19,8 +19,8 @@ import org.apache.wicket.model.Model;
 import org.qi4j.chronos.model.Contact;
 import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.injection.scope.Uses;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.injection.scope.Uses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

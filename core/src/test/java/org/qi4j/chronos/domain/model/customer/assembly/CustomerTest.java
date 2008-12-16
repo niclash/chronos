@@ -23,11 +23,11 @@ import org.qi4j.chronos.domain.model.customer.Customer;
 import org.qi4j.chronos.domain.model.customer.CustomerDetail;
 import org.qi4j.chronos.domain.model.customer.CustomerFactory;
 import org.qi4j.chronos.domain.model.user.contactPerson.ContactPerson;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkCompletionException;
-import org.qi4j.query.Query;
-import org.qi4j.service.ServiceFinder;
-import org.qi4j.service.ServiceReference;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkCompletionException;
+import org.qi4j.api.query.Query;
+import org.qi4j.api.service.ServiceFinder;
+import org.qi4j.api.service.ServiceReference;
 
 /**
  * @author edward.yakop@gmail.com
@@ -50,7 +50,7 @@ public final class CustomerTest extends AbstractCustomerTest
             assertNotNull( customer );
             assertNotNull( customer.customerId() );
 
-            uow.completeAndContinue();
+            uow.apply();
 
             CustomerDetail customerDetail = customer.customerDetail();
             assertNotNull( customerDetail );

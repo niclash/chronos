@@ -14,20 +14,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.qi4j.chronos.domain.model.common.assembly;
+package org.qi4j.chronos.domain.model.common.comment.assembly;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 import org.junit.Test;
+import org.qi4j.api.query.QueryBuilder;
+import org.qi4j.api.service.ServiceFinder;
+import org.qi4j.api.service.ServiceReference;
+import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.chronos.domain.model.common.comment.Comment;
-import org.qi4j.chronos.domain.model.common.comment.assembly.CommentFactory;
+import org.qi4j.chronos.domain.model.common.assembly.AbstractCommonTest;
 import org.qi4j.chronos.domain.model.user.admin.Admin;
 import org.qi4j.chronos.domain.model.user.assembly.UserAssembler;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.query.QueryBuilder;
-import org.qi4j.service.ServiceFinder;
-import org.qi4j.service.ServiceReference;
 
 /**
  * @author edward.yakop@gmail.com

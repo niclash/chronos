@@ -16,13 +16,40 @@
  */
 package org.qi4j.chronos.domain.model.common.assembly;
 
+import java.util.Date;
 import org.qi4j.chronos.domain.model.common.period.Period;
-import org.qi4j.entity.EntityComposite;
+import org.qi4j.chronos.domain.model.common.period.PeriodState;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.common.Optional;
+import org.qi4j.api.entity.EntityComposite;
+import org.qi4j.api.injection.scope.This;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
+@Mixins( PeriodEntity.PeriodMixin.class )
 interface PeriodEntity extends Period, EntityComposite
 {
+    class PeriodMixin
+        implements Period
+    {
+        @This private PeriodState state;
+
+        public final Date startTime()
+        {
+            return state.startTime().get();
+        }
+
+        public final Date endTime()
+        {
+            return state.endTime().get();
+        }
+
+        public final void updateTimeRange( @Optional Date startTime, @Optional Date endTime )
+        {
+            state.startTime().set( startTime );
+            state.endTime().set( endTime );
+        }
+    }
 }

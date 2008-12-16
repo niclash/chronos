@@ -21,7 +21,7 @@ import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.chronos.ui.wicket.admin.AdminHomePage;
 import org.qi4j.chronos.ui.wicket.admin.account.AccountListPage;
-import static org.qi4j.structure.Visibility.layer;
+import static org.qi4j.api.common.Visibility.layer;
 
 /**
  * @author edward.yakop@gmail.com

@@ -17,7 +17,7 @@
 package org.qi4j.chronos.domain.model.common.task.assembly;
 
 import org.qi4j.chronos.domain.model.common.task.WorkEntry;
-import org.qi4j.entity.EntityComposite;
+import org.qi4j.api.entity.EntityComposite;
 
 /**
  * @author edward.yakop@gmail.com

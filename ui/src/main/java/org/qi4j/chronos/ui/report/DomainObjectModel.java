@@ -14,12 +14,12 @@ package org.qi4j.chronos.ui.report;
 
 import org.apache.wicket.model.LoadableDetachableModel;
 import org.apache.wicket.util.lang.Objects;
-import static org.qi4j.composite.NullArgumentException.validateNotNull;
-import org.qi4j.entity.Identity;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkFactory;
-import org.qi4j.injection.scope.Structure;
-import org.qi4j.injection.scope.Uses;
+import static org.qi4j.api.util.NullArgumentException.validateNotNull;
+import org.qi4j.api.entity.Identity;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkFactory;
+import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.injection.scope.Uses;
 
 public class DomainObjectModel<T extends Identity> extends LoadableDetachableModel
 {

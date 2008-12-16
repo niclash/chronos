@@ -19,10 +19,10 @@ package org.qi4j.chronos.domain.model.customer.assembly;
 import org.qi4j.chronos.domain.model.customer.CustomerDetail;
 import org.qi4j.chronos.domain.model.customer.CustomerState;
 import org.qi4j.chronos.domain.model.location.address.Address;
-import org.qi4j.composite.Composite;
-import org.qi4j.composite.Mixins;
-import org.qi4j.composite.Optional;
-import org.qi4j.injection.scope.Uses;
+import org.qi4j.api.composite.Composite;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.common.Optional;
+import org.qi4j.api.injection.scope.Uses;
 
 /**
  * @author edward.yakop@gmail.com

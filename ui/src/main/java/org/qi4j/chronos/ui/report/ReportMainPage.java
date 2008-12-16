@@ -31,10 +31,9 @@ import org.qi4j.chronos.model.Report;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.common.NameChoiceRenderer;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import org.qi4j.chronos.util.ReportUtil;
-import org.qi4j.entity.Identity;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.qi4j.api.entity.Identity;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkCompletionException;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public class ReportMainPage extends AbstractReportPage

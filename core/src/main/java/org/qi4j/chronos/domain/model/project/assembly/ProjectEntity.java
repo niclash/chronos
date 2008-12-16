@@ -30,18 +30,18 @@ import org.qi4j.chronos.domain.model.project.role.ProjectRole;
 import org.qi4j.chronos.domain.model.project.task.ProjectTask;
 import org.qi4j.chronos.domain.model.user.User;
 import org.qi4j.chronos.domain.model.user.contactPerson.ContactPerson;
-import org.qi4j.composite.CompositeBuilderFactory;
-import org.qi4j.composite.Mixins;
-import org.qi4j.entity.AggregateEntity;
-import org.qi4j.entity.Identity;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkFactory;
-import org.qi4j.injection.scope.Service;
-import org.qi4j.injection.scope.Structure;
-import org.qi4j.injection.scope.This;
-import org.qi4j.query.Query;
-import org.qi4j.query.QueryBuilder;
-import org.qi4j.query.QueryBuilderFactory;
+import org.qi4j.api.composite.CompositeBuilderFactory;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.entity.AggregateEntity;
+import org.qi4j.api.entity.Identity;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkFactory;
+import org.qi4j.api.injection.scope.Service;
+import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.injection.scope.This;
+import org.qi4j.api.query.Query;
+import org.qi4j.api.query.QueryBuilder;
+import org.qi4j.api.query.QueryBuilderFactory;
 
 /**
  * @author edward.yakop@gmail.com

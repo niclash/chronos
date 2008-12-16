@@ -13,7 +13,7 @@
 package org.qi4j.chronos.domain.model.associations;
 
 import java.util.Date;
-import org.qi4j.property.Property;
+import org.qi4j.api.property.Property;
 
 public interface HasCreatedDate
 {

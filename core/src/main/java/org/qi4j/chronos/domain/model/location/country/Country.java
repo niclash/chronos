@@ -14,7 +14,7 @@ package org.qi4j.chronos.domain.model.location.country;
 
 import org.qi4j.chronos.domain.model.common.name.Name;
 import org.qi4j.chronos.domain.model.location.city.City;
-import org.qi4j.query.Query;
+import org.qi4j.api.query.Query;
 
 /**
  * @author Muhd Kamil Mohd Baki

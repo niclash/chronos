@@ -20,9 +20,9 @@ import static org.junit.Assert.*;
 import org.junit.Test;
 import org.qi4j.chronos.domain.model.common.legalCondition.LegalCondition;
 import org.qi4j.chronos.domain.model.common.legalCondition.LegalConditionFactory;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.service.ServiceFinder;
-import org.qi4j.service.ServiceReference;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.service.ServiceFinder;
+import org.qi4j.api.service.ServiceReference;
 
 /**
  * @author edward.yakop@gmail.com

@@ -21,7 +21,7 @@ import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.associations.HasProjects;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
-import org.qi4j.injection.scope.Uses;
+import org.qi4j.api.injection.scope.Uses;
 
 @AuthorizeInstantiation( { SystemRole.ACCOUNT_ADMIN, SystemRole.ACCOUNT_DEVELOPER } )
 public class ProjectListPage extends LeftMenuNavPage

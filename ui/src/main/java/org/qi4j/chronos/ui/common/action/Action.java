@@ -15,7 +15,7 @@ package org.qi4j.chronos.ui.common.action;
 import java.io.Serializable;
 import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
-import org.qi4j.entity.Identity;
+import org.qi4j.api.entity.Identity;
 
 public interface Action<T extends Identity> extends Serializable
 {

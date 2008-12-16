@@ -30,7 +30,7 @@ import org.qi4j.chronos.ui.pricerate.PriceRateDelegator;
 import org.qi4j.chronos.ui.projectrole.ProjectRoleDelegator;
 import org.qi4j.chronos.ui.wicket.model.ChronosEntityModel;
 import org.qi4j.chronos.util.CurrencyUtil;
-import org.qi4j.entity.association.SetAssociation;
+import org.qi4j.api.entity.association.SetAssociation;
 import org.qi4j.library.general.model.GenderType;
 
 public final class ListUtil

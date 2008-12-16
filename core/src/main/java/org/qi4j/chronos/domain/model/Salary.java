@@ -7,14 +7,14 @@
  */
 package org.qi4j.chronos.domain.model;
 
-import org.qi4j.composite.Mixins;
-import org.qi4j.injection.scope.PropertyField;
-import org.qi4j.injection.scope.This;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.injection.scope.PropertyField;
+import org.qi4j.api.injection.scope.This;
 import org.qi4j.library.general.model.Amount;
 import org.qi4j.library.general.model.Currency;
 import org.qi4j.library.general.model.Descriptor;
-import org.qi4j.property.ComputedPropertyInstance;
-import org.qi4j.property.Property;
+import org.qi4j.api.property.ComputedPropertyInstance;
+import org.qi4j.api.property.Property;
 
 @Mixins( Salary.DescriptorMixin.class )
 public interface Salary extends Amount<Long>, Currency, Descriptor

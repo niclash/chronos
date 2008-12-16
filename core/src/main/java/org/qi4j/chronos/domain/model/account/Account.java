@@ -22,7 +22,7 @@ import org.qi4j.chronos.domain.model.location.address.Address;
 import org.qi4j.chronos.domain.model.project.Project;
 import org.qi4j.chronos.domain.model.project.role.ProjectRole;
 import org.qi4j.chronos.domain.model.user.staff.Staff;
-import org.qi4j.query.Query;
+import org.qi4j.api.query.Query;
 
 public interface Account extends MutableName, MutableReferenceName, Enable, Entity<Account>
 {

@@ -19,9 +19,9 @@ import org.qi4j.chronos.domain.model.common.comment.association.HasComments;
 import org.qi4j.chronos.domain.model.common.description.HasDescription;
 import org.qi4j.chronos.domain.model.common.task.assembly.TaskMixin;
 import org.qi4j.chronos.domain.model.user.User;
-import org.qi4j.composite.Mixins;
-import org.qi4j.composite.Optional;
-import org.qi4j.query.Query;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.common.Optional;
+import org.qi4j.api.query.Query;
 
 /**
  * @author Lan Boon Ping

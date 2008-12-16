@@ -1,6 +1,6 @@
 package org.qi4j.chronos.ui.wicket.bootstrap;
 
-import org.qi4j.service.ServiceFinder;
+import org.qi4j.api.service.ServiceFinder;
 
 /**
  * @author Lan Boon Ping

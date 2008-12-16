@@ -20,11 +20,11 @@ import org.qi4j.chronos.domain.model.project.Project;
 import org.qi4j.chronos.domain.model.project.assignee.ProjectAssignee;
 import org.qi4j.chronos.domain.model.project.task.ProjectTask;
 import org.qi4j.chronos.domain.model.project.task.ProjectTaskState;
-import org.qi4j.composite.Mixins;
-import org.qi4j.entity.EntityComposite;
-import org.qi4j.entity.UnitOfWorkFactory;
-import org.qi4j.injection.scope.Structure;
-import org.qi4j.injection.scope.This;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.entity.EntityComposite;
+import org.qi4j.api.unitofwork.UnitOfWorkFactory;
+import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.injection.scope.This;
 
 /**
  * @author edward.yakop@gmail.com

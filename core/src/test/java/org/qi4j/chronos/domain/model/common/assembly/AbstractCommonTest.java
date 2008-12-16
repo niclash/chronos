@@ -28,7 +28,7 @@ import org.qi4j.test.AbstractQi4jTest;
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
-abstract class AbstractCommonTest extends AbstractQi4jTest
+public abstract class AbstractCommonTest extends AbstractQi4jTest
 {
     public void assemble( ModuleAssembly module )
         throws AssemblyException

@@ -24,7 +24,7 @@ import org.qi4j.chronos.model.ContactPerson;
 import org.qi4j.chronos.model.Customer;
 import org.qi4j.chronos.model.Relationship;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
-import org.qi4j.entity.Identity;
+import org.qi4j.api.entity.Identity;
 
 //TODO bp. code can be simplified when Relationship is serializable.
 public abstract class RelationshipOptionPanel extends Panel

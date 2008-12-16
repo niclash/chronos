@@ -13,7 +13,7 @@
 package org.qi4j.chronos.ui.common;
 
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
-import org.qi4j.entity.Identity;
+import org.qi4j.api.entity.Identity;
 import org.qi4j.library.general.model.PersonName;
 
 public class FullNameChoiceRenderer

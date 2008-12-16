@@ -19,7 +19,7 @@ import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.model.associations.HasProjectRoles;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
-import org.qi4j.injection.scope.Uses;
+import org.qi4j.api.injection.scope.Uses;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public class ProjectRoleListPage extends LeftMenuNavPage

@@ -9,7 +9,6 @@ import org.qi4j.chronos.model.Contact;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.chronos.ui.wicket.model.ChronosDetachableModel;
-import org.qi4j.entity.Identity;
 
 public class ContactDataProvider extends AbstractSortableDataProvider<Contact>
 {

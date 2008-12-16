@@ -25,15 +25,15 @@ import org.qi4j.chronos.domain.model.common.task.TaskState;
 import org.qi4j.chronos.domain.model.common.task.TaskStatus;
 import org.qi4j.chronos.domain.model.common.task.WorkEntry;
 import org.qi4j.chronos.domain.model.user.User;
-import org.qi4j.composite.Optional;
-import org.qi4j.entity.Identity;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkFactory;
-import org.qi4j.injection.scope.Structure;
-import org.qi4j.injection.scope.This;
-import org.qi4j.query.Query;
-import org.qi4j.query.QueryBuilder;
-import org.qi4j.query.QueryBuilderFactory;
+import org.qi4j.api.injection.scope.This;
+import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.unitofwork.UnitOfWorkFactory;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.entity.Identity;
+import org.qi4j.api.query.Query;
+import org.qi4j.api.query.QueryBuilderFactory;
+import org.qi4j.api.query.QueryBuilder;
+import org.qi4j.api.common.Optional;
 
 /**
  * @author edward.yakop@gmail.com

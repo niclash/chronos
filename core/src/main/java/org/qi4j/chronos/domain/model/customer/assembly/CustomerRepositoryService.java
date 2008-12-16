@@ -19,15 +19,15 @@ package org.qi4j.chronos.domain.model.customer.assembly;
 import org.qi4j.chronos.domain.model.customer.Customer;
 import org.qi4j.chronos.domain.model.customer.CustomerId;
 import org.qi4j.chronos.domain.model.customer.CustomerRepository;
-import org.qi4j.composite.Mixins;
-import org.qi4j.entity.EntityCompositeNotFoundException;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkFactory;
-import org.qi4j.injection.scope.Structure;
-import org.qi4j.query.Query;
-import org.qi4j.query.QueryBuilder;
-import org.qi4j.query.QueryBuilderFactory;
-import org.qi4j.service.ServiceComposite;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.unitofwork.EntityCompositeNotFoundException;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkFactory;
+import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.query.Query;
+import org.qi4j.api.query.QueryBuilder;
+import org.qi4j.api.query.QueryBuilderFactory;
+import org.qi4j.api.service.ServiceComposite;
 
 /**
  * @author edward.yakop@gmail.com

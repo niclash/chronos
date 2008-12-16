@@ -17,7 +17,7 @@ import org.qi4j.chronos.domain.model.Entity;
 import org.qi4j.chronos.domain.model.common.enable.Enable;
 import org.qi4j.chronos.domain.model.common.priceRate.PriceRateSchedule;
 import org.qi4j.chronos.domain.model.user.contactPerson.ContactPerson;
-import org.qi4j.query.Query;
+import org.qi4j.api.query.Query;
 
 public interface Customer extends Entity<Customer>, Enable
 {

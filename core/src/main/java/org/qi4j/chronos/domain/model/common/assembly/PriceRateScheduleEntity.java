@@ -20,14 +20,14 @@ import java.util.Currency;
 import org.qi4j.chronos.domain.model.common.priceRate.PriceRate;
 import org.qi4j.chronos.domain.model.common.priceRate.PriceRateSchedule;
 import org.qi4j.chronos.domain.model.common.priceRate.PriceRateScheduleState;
-import org.qi4j.composite.Mixins;
-import org.qi4j.entity.EntityComposite;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkFactory;
-import org.qi4j.injection.scope.Structure;
-import org.qi4j.injection.scope.This;
-import org.qi4j.query.Query;
-import org.qi4j.query.QueryBuilder;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.entity.EntityComposite;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkFactory;
+import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.injection.scope.This;
+import org.qi4j.api.query.Query;
+import org.qi4j.api.query.QueryBuilder;
 
 /**
  * @author edward.yakop@gmail.com

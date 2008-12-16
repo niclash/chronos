@@ -29,7 +29,7 @@ import org.qi4j.chronos.ui.systemrole.SystemRoleListPage;
 import org.qi4j.chronos.ui.wicket.admin.account.AccountAddPage;
 import org.qi4j.chronos.ui.wicket.admin.account.AccountDetailPage;
 import org.qi4j.chronos.ui.wicket.admin.account.AccountEditPage;
-import static org.qi4j.structure.Visibility.layer;
+import static org.qi4j.api.common.Visibility.layer;
 
 /**
  * TODO: Remove this

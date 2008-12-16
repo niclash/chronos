@@ -20,7 +20,7 @@ import org.qi4j.bootstrap.Assembler;
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.chronos.domain.model.project.role.assembly.ProjectRoleAssembler;
-import static org.qi4j.structure.Visibility.layer;
+import static org.qi4j.api.common.Visibility.layer;
 
 /**
  * @author edward.yakop@gmail.com

@@ -23,7 +23,7 @@ import org.qi4j.chronos.model.Address;
 import org.qi4j.chronos.ui.address.AddressDetailPanel;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.wicket.model.ChronosCompoundPropertyModel;
-import org.qi4j.injection.scope.Uses;
+import org.qi4j.api.injection.scope.Uses;
 
 public class AccountDetailPage extends LeftMenuNavPage
 {

@@ -21,7 +21,7 @@ import org.qi4j.chronos.model.PriceRate;
 import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.associations.HasPriceRateSchedules;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import org.qi4j.entity.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWork;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

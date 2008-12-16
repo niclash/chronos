@@ -25,8 +25,8 @@ import org.qi4j.chronos.model.PriceRateSchedule;
 import org.qi4j.chronos.model.SystemRole;
 import org.qi4j.chronos.ui.common.SimpleDropDownChoice;
 import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
-import org.qi4j.entity.Identity;
-import org.qi4j.entity.association.SetAssociation;
+import org.qi4j.api.entity.Identity;
+import org.qi4j.api.entity.association.SetAssociation;
 
 @AuthorizeInstantiation( SystemRole.ACCOUNT_ADMIN )
 public abstract class PriceRateSelectionPage extends LeftMenuNavPage
@@ -96,7 +96,7 @@ public abstract class PriceRateSelectionPage extends LeftMenuNavPage
 */
             for( PriceRate priceRate : getPriceRateSchedule().priceRates() )
             {
-                if( delegator.getPriceRateId().equals( ( ( Identity) priceRate).identity().get() ) )
+                if( delegator.getPriceRateId().equals( ( (Identity) priceRate).identity().get() ) )
                 {
                     handleSelectedPriceRate( priceRate );
                 }

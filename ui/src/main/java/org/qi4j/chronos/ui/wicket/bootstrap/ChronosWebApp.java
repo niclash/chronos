@@ -30,9 +30,9 @@ import org.qi4j.chronos.ui.contactperson.ContactPersonHomePage;
 import org.qi4j.chronos.ui.staff.StaffHomePage;
 import org.qi4j.chronos.ui.wicket.authentication.LoginPage;
 import org.qi4j.chronos.ui.wicket.bootstrap.serialization.Qi4jObjectStreamFactory;
-import org.qi4j.injection.scope.Structure;
-import org.qi4j.object.ObjectBuilder;
-import org.qi4j.object.ObjectBuilderFactory;
+import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.object.ObjectBuilder;
+import org.qi4j.api.object.ObjectBuilderFactory;
 
 /**
  * @author Lan Boon Ping

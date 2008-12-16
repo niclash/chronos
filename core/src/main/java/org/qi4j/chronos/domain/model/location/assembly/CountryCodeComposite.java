@@ -18,9 +18,9 @@ package org.qi4j.chronos.domain.model.location.assembly;
 
 import org.qi4j.chronos.domain.model.location.country.CountryCode;
 import org.qi4j.chronos.domain.model.location.country.CountryState;
-import org.qi4j.composite.Composite;
-import org.qi4j.composite.Mixins;
-import org.qi4j.injection.scope.Uses;
+import org.qi4j.api.composite.Composite;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.injection.scope.Uses;
 
 /**
  * @author edward.yakop@gmail.com

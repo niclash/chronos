@@ -75,17 +75,17 @@ import org.qi4j.chronos.model.composites.StateEntity;
 import org.qi4j.chronos.model.composites.TaskEntity;
 import org.qi4j.chronos.model.composites.TimeRangeEntity;
 import org.qi4j.chronos.model.composites.WorkEntryEntity;
-import org.qi4j.entity.EntityBuilder;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkCompletionException;
-import org.qi4j.entity.UnitOfWorkFactory;
-import org.qi4j.injection.scope.Structure;
+import org.qi4j.api.entity.EntityBuilder;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkCompletionException;
+import org.qi4j.api.unitofwork.UnitOfWorkFactory;
+import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.library.general.model.GenderType;
-import org.qi4j.query.QueryBuilder;
-import org.qi4j.query.QueryBuilderFactory;
-import static org.qi4j.query.QueryExpressions.eq;
-import static org.qi4j.query.QueryExpressions.or;
-import static org.qi4j.query.QueryExpressions.templateFor;
+import org.qi4j.api.query.QueryBuilder;
+import org.qi4j.api.query.QueryBuilderFactory;
+import static org.qi4j.api.query.QueryExpressions.eq;
+import static org.qi4j.api.query.QueryExpressions.or;
+import static org.qi4j.api.query.QueryExpressions.templateFor;
 
 final class DummyDataInitializer
 {

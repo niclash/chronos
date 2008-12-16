@@ -14,7 +14,7 @@ package org.qi4j.chronos.domain.service.authentication;
 
 import org.qi4j.chronos.domain.model.account.Account;
 import org.qi4j.chronos.domain.model.user.User;
-import org.qi4j.composite.Optional;
+import org.qi4j.api.common.Optional;
 
 public interface AuthenticationService
 {

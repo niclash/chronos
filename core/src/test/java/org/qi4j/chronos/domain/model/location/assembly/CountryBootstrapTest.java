@@ -22,8 +22,8 @@ import static org.qi4j.chronos.domain.model.location.assembly.CountryBootstrap.C
 import org.qi4j.chronos.domain.model.location.country.Country;
 import org.qi4j.chronos.domain.model.location.country.CountryCode;
 import org.qi4j.chronos.domain.model.location.country.CountryRepository;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.service.ServiceReference;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.service.ServiceReference;
 
 /**
  * @author edward.yakop@gmail.com

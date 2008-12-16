@@ -18,20 +18,12 @@ package org.qi4j.chronos.ui.wicket.admin.account.model;
 
 import java.util.ArrayList;
 import java.util.List;
-import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
-import org.apache.wicket.model.LoadableDetachableModel;
 import org.qi4j.chronos.model.Account;
 import org.qi4j.chronos.model.associations.HasAccounts;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
 import org.qi4j.chronos.ui.wicket.model.ChronosDetachableModel;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkFactory;
-import org.qi4j.injection.scope.Structure;
-import org.qi4j.query.Query;
-import org.qi4j.query.QueryBuilder;
-import org.qi4j.query.QueryBuilderFactory;
 
 /**
  * @author edward.yakop@gmail.com

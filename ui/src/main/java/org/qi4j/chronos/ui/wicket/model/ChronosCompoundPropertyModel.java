@@ -14,7 +14,7 @@ import org.apache.wicket.Component;
 import org.apache.wicket.model.CompoundPropertyModel;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.IWrapModel;
-import org.qi4j.entity.Entity;
+import org.qi4j.api.entity.Entity;
 
 /**
  * @author Lan Boon Ping

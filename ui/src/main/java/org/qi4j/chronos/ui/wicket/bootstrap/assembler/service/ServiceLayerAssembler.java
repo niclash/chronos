@@ -19,7 +19,7 @@ import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.chronos.assembler.LayerAssembler;
 import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.service.UserService;
-import static org.qi4j.structure.Visibility.application;
+import static org.qi4j.api.common.Visibility.application;
 
 /**
  * TODO: Remove this

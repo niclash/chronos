@@ -22,14 +22,14 @@ import org.qi4j.chronos.domain.model.user.contactPerson.ContactPerson;
 import org.qi4j.chronos.domain.model.user.staff.Staff;
 import org.qi4j.chronos.domain.service.authentication.AuthenticationService;
 import org.qi4j.chronos.domain.service.authentication.UserAuthenticationFailException;
-import org.qi4j.composite.Mixins;
-import org.qi4j.composite.Optional;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkFactory;
-import org.qi4j.injection.scope.Service;
-import org.qi4j.injection.scope.Structure;
-import org.qi4j.query.Query;
-import org.qi4j.service.ServiceComposite;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.common.Optional;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkFactory;
+import org.qi4j.api.injection.scope.Service;
+import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.query.Query;
+import org.qi4j.api.service.ServiceComposite;
 
 /**
  * TODO user encode password

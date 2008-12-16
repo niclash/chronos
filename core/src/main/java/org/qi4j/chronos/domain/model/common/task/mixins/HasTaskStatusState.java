@@ -18,7 +18,7 @@ package org.qi4j.chronos.domain.model.common.task.mixins;
 
 import org.qi4j.chronos.domain.model.common.task.TaskStatus;
 import org.qi4j.chronos.domain.model.common.comment.association.HasCommentsState;
-import org.qi4j.property.Property;
+import org.qi4j.api.property.Property;
 
 /**
  * @author edward.yakop@gmail.com

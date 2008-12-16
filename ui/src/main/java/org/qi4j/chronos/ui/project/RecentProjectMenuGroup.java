@@ -24,7 +24,7 @@ import org.qi4j.chronos.ui.common.menu.MenuGroupPanel;
 import org.qi4j.chronos.ui.common.menu.MenuItemPanel;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.chronos.ui.wicket.model.ChronosDetachableModel;
-import org.qi4j.entity.association.SetAssociation;
+import org.qi4j.api.entity.association.SetAssociation;
 
 public final class RecentProjectMenuGroup extends MenuGroupPanel
 {

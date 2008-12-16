@@ -19,7 +19,7 @@ package org.qi4j.chronos.domain.model.common.comment.assembly;
 import org.qi4j.bootstrap.Assembler;
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.ModuleAssembly;
-import static org.qi4j.structure.Visibility.layer;
+import static org.qi4j.api.common.Visibility.layer;
 
 /**
  * @author edward.yakop@gmail.com
@@ -31,8 +31,7 @@ public final class CommentAssembler
     public final void assemble( ModuleAssembly module )
         throws AssemblyException
     {
-        module.addEntities( CommentEntity.class )
-            .visibleIn( layer );
+        module.addEntities( CommentEntity.class ).visibleIn( layer );
         module.addServices( CommentFactory.class );
     }
 }

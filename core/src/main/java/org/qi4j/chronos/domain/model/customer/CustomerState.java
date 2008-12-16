@@ -22,9 +22,9 @@ import org.qi4j.chronos.domain.model.common.name.ReferenceState;
 import org.qi4j.chronos.domain.model.common.priceRate.PriceRateSchedule;
 import org.qi4j.chronos.domain.model.location.address.Address;
 import org.qi4j.chronos.domain.model.user.contactPerson.ContactPerson;
-import org.qi4j.composite.Optional;
-import org.qi4j.entity.association.Association;
-import org.qi4j.entity.association.SetAssociation;
+import org.qi4j.api.common.Optional;
+import org.qi4j.api.entity.association.Association;
+import org.qi4j.api.entity.association.SetAssociation;
 
 /**
  * @author edward.yakop@gmail.com

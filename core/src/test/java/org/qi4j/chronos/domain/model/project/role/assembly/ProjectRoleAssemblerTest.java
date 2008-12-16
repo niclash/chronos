@@ -22,9 +22,9 @@ import org.qi4j.chronos.domain.model.project.AbstractProjectTest;
 import org.qi4j.chronos.domain.model.project.role.ProjectRole;
 import org.qi4j.chronos.domain.model.project.role.ProjectRoleFactory;
 import org.qi4j.chronos.domain.model.project.role.ProjectRoleRepository;
-import org.qi4j.entity.NoSuchEntityException;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.service.ServiceFinder;
+import org.qi4j.api.unitofwork.NoSuchEntityException;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.service.ServiceFinder;
 
 /**
  * @author edward.yakop@gmail.com

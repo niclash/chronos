@@ -16,7 +16,7 @@
 */
 package org.qi4j.chronos.application.sampleData;
 
-import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.qi4j.api.unitofwork.UnitOfWorkCompletionException;
 
 /**
  * @author edward.yakop@gmail.com

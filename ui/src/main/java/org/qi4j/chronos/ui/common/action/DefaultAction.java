@@ -15,7 +15,7 @@ package org.qi4j.chronos.ui.common.action;
 import java.util.List;
 import org.apache.wicket.model.IModel;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
-import org.qi4j.entity.Identity;
+import org.qi4j.api.entity.Identity;
 
 public abstract class DefaultAction<T extends Identity> extends AbstractAction<T>
 {

@@ -22,7 +22,7 @@ import org.qi4j.chronos.ui.wicket.base.LeftMenuNavPage;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
 import org.qi4j.chronos.ui.wicket.admin.account.model.AccountDataProvider;
 import org.qi4j.chronos.ui.wicket.model.ChronosDetachableModel;
-import org.qi4j.query.QueryBuilder;
+import org.qi4j.api.query.QueryBuilder;
 
 @AuthorizeInstantiation( SYSTEM_ADMIN )
 public class AccountListPage extends LeftMenuNavPage

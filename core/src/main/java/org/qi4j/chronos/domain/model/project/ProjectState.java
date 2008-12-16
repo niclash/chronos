@@ -25,9 +25,9 @@ import org.qi4j.chronos.domain.model.customer.Customer;
 import org.qi4j.chronos.domain.model.project.assignee.ProjectAssignee;
 import org.qi4j.chronos.domain.model.project.task.ProjectTask;
 import org.qi4j.chronos.domain.model.user.contactPerson.ContactPerson;
-import org.qi4j.entity.association.Association;
-import org.qi4j.entity.association.SetAssociation;
-import org.qi4j.property.Property;
+import org.qi4j.api.entity.association.Association;
+import org.qi4j.api.entity.association.SetAssociation;
+import org.qi4j.api.property.Property;
 
 /**
  * @author edward.yakop@gmail.com

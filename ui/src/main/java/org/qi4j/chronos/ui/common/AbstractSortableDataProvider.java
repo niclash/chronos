@@ -16,7 +16,7 @@ import java.util.Iterator;
 import java.util.List;
 import org.apache.wicket.extensions.markup.html.repeater.util.SortableDataProvider;
 import org.apache.wicket.model.IModel;
-import org.qi4j.entity.Identity;
+import org.qi4j.api.entity.Identity;
 
 public abstract class AbstractSortableDataProvider<T extends Identity> extends SortableDataProvider<T>
 {

@@ -16,8 +16,8 @@
  */
 package org.qi4j.chronos.domain.model.common.name;
 
-import org.qi4j.composite.Optional;
-import org.qi4j.injection.scope.This;
+import org.qi4j.api.common.Optional;
+import org.qi4j.api.injection.scope.This;
 
 /**
  * @author edward.yakop@gmail.com

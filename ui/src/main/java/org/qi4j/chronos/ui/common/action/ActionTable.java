@@ -35,8 +35,8 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
 import org.apache.wicket.model.PropertyModel;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
-import org.qi4j.composite.NullArgumentException;
-import org.qi4j.entity.Identity;
+import org.qi4j.api.util.NullArgumentException;
+import org.qi4j.api.entity.Identity;
 
 public abstract class ActionTable<T extends Identity> extends Panel
 {

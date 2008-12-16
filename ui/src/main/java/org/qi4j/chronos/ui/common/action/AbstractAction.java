@@ -13,7 +13,7 @@
 package org.qi4j.chronos.ui.common.action;
 
 import org.apache.wicket.model.IModel;
-import org.qi4j.entity.Identity;
+import org.qi4j.api.entity.Identity;
 
 public abstract class AbstractAction<T extends Identity> implements Action<T>
 {

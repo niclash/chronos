@@ -18,17 +18,16 @@ package org.qi4j.chronos.domain.model.account.assembly;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
-import org.junit.Ignore;
 import org.junit.Test;
 import org.qi4j.chronos.domain.model.account.Account;
 import org.qi4j.chronos.domain.model.account.AccountFactory;
 import org.qi4j.chronos.domain.model.account.AccountId;
 import org.qi4j.chronos.domain.model.account.AccountRepository;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkCompletionException;
-import org.qi4j.query.Query;
-import org.qi4j.service.ServiceFinder;
-import org.qi4j.service.ServiceReference;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkCompletionException;
+import org.qi4j.api.query.Query;
+import org.qi4j.api.service.ServiceFinder;
+import org.qi4j.api.service.ServiceReference;
 
 /**
  * @author edward.yakop@gmail.com
@@ -60,7 +59,7 @@ public final class AccountRepositoryTest extends AbstractAccountTest
             String accountName = account.name();
             assertEquals( "My Account", accountName );
 
-            uow.completeAndContinue();
+            uow.apply();
 
             Account account1 = accountRepository.find( accountId );
             assertNotNull( account1 );

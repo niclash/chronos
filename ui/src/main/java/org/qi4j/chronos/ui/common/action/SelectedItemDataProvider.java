@@ -15,7 +15,7 @@ package org.qi4j.chronos.ui.common.action;
 import java.util.ArrayList;
 import java.util.List;
 import org.qi4j.chronos.ui.common.AbstractSortableDataProvider;
-import org.qi4j.entity.Identity;
+import org.qi4j.api.entity.Identity;
 
 abstract class SelectedItemDataProvider<T extends Identity> extends AbstractSortableDataProvider<T>
 {

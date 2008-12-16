@@ -14,7 +14,7 @@ package org.qi4j.chronos.ui.common.action;
 
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.qi4j.entity.Identity;
+import org.qi4j.api.entity.Identity;
 
 public abstract class DeleteAction<T extends Identity> extends DefaultAction<T>
 {

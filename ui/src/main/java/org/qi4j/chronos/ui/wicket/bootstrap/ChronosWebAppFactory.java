@@ -13,10 +13,10 @@ import static org.qi4j.chronos.ui.wicket.bootstrap.WicketLayerAssembler.LAYER_WI
 import static org.qi4j.chronos.ui.wicket.bootstrap.WicketLayerAssembler.MODULE_BOOTSTRAP;
 import org.qi4j.chronos.ui.wicket.bootstrap.assembler.infrastructure.InfrastructureAssembler;
 import org.qi4j.chronos.ui.wicket.bootstrap.assembler.service.ServiceLayerAssembler;
-import org.qi4j.object.ObjectBuilder;
-import org.qi4j.object.ObjectBuilderFactory;
-import org.qi4j.structure.Application;
-import org.qi4j.structure.Module;
+import org.qi4j.api.object.ObjectBuilder;
+import org.qi4j.api.object.ObjectBuilderFactory;
+import org.qi4j.api.structure.Application;
+import org.qi4j.api.structure.Module;
 
 /**
  * {@code ChronosWebAppFactory} responsibles to create a chronos web application factory.

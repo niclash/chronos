@@ -16,11 +16,11 @@ import java.util.Iterator;
 import org.apache.wicket.Page;
 import org.apache.wicket.model.IModel;
 import org.apache.wicket.model.Model;
-import org.qi4j.chronos.model.ContactPerson;
-import org.qi4j.chronos.model.Project;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.qi4j.chronos.domain.model.project.Project;
+import org.qi4j.chronos.domain.model.user.contactPerson.ContactPerson;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

@@ -29,9 +29,8 @@ import org.qi4j.chronos.service.AccountService;
 import org.qi4j.chronos.ui.wicket.base.BasePage;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosSession;
 import org.qi4j.chronos.ui.wicket.model.ChronosEntityModel;
-import static org.qi4j.composite.NullArgumentException.validateNotNull;
-import org.qi4j.entity.Identity;
-import org.qi4j.injection.scope.Service;
+import static org.qi4j.api.util.NullArgumentException.validateNotNull;
+import org.qi4j.api.injection.scope.Service;
 
 public class LoginPage extends BasePage
 {

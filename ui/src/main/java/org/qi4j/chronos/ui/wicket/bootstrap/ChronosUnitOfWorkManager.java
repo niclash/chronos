@@ -11,9 +11,9 @@
 package org.qi4j.chronos.ui.wicket.bootstrap;
 
 import java.io.Serializable;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkCompletionException;
-import org.qi4j.entity.UnitOfWorkFactory;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkCompletionException;
+import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 
 /**
  * @author Lan Boon Ping
@@ -119,7 +119,7 @@ public class ChronosUnitOfWorkManager
     }
 
     /**
-     * Return the current version of {@link UnitOfWork}. The current version of {@link UnitOfWork} may be used to
+     * Return the current version of {@link org.qi4j.api.unitofwork.UnitOfWork}. The current version of {@link UnitOfWork} may be used to
      * determine if an entity already detached. An entity is considered detached, when its
      * UnitOfWork already been closed when it needs to re-associate another UnitOfWork before it
      * can be accessed.

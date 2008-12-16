@@ -15,11 +15,7 @@
           <setting name="EXPLODED_ENABLED" value="false" />
           <setting name="JAR_URL" value="file://$MODULE_DIR$/target/qi4j-app-chronos-ui-0.2.0-SNAPSHOT.war" />
           <setting name="JAR_ENABLED" value="true" />
-          <setting name="BUILD_MODULE_ON_FRAME_DEACTIVATION" value="false" />
-          <setting name="BUILD_EXTERNAL_DEPENDENCIES" value="false" />
           <setting name="EXCLUDE_EXPLODED_DIRECTORY" value="true" />
-          <setting name="RUN_JASPER_VALIDATION" value="false" />
-          <setting name="BUILD_ONLY_WEB_RESOURCES" value="false" />
         </building>
         <packaging>
           <containerElement type="module" name="qi4j-core-api">
@@ -42,9 +38,9 @@
             <attribute name="method" value="5" />
             <attribute name="URI" value="/WEB-INF/lib/qi4j-core-runtime-0.5-SNAPSHOT.jar" />
           </containerElement>
-          <containerElement type="library" name="cglib:cglib-nodep:2.1_3" level="module">
+          <containerElement type="library" name="Maven: cglib:cglib-nodep:2.1_3" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/cglib-nodep-2.1_3.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
           <containerElement type="module" name="qi4j-lib-general">
             <attribute name="method" value="5" />
@@ -74,197 +70,197 @@
             <attribute name="method" value="5" />
             <attribute name="URI" value="/WEB-INF/lib/qi4j-lib-constraints-0.5-SNAPSHOT.jar" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-model:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-model:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-model-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="info.aduna.commons:aduna-commons-collections:2.2" level="module">
+          <containerElement type="library" name="Maven: info.aduna.commons:aduna-commons-collections:2.2" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/aduna-commons-collections-2.2.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="info.aduna.commons:aduna-commons-concurrent:2.2" level="module">
+          <containerElement type="library" name="Maven: info.aduna.commons:aduna-commons-concurrent:2.2" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/aduna-commons-concurrent-2.2.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.slf4j:slf4j-api:1.4.2" level="module">
+          <containerElement type="library" name="Maven: org.slf4j:slf4j-api:1.4.2" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/slf4j-api-1.4.2.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="info.aduna.commons:aduna-commons-iteration:2.2" level="module">
+          <containerElement type="library" name="Maven: info.aduna.commons:aduna-commons-iteration:2.2" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/aduna-commons-iteration-2.2.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-rio-n3:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-rio-n3:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-rio-n3-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-rio-api:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-rio-api:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-rio-api-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="info.aduna.commons:aduna-commons-lang:2.2" level="module">
+          <containerElement type="library" name="Maven: info.aduna.commons:aduna-commons-lang:2.2" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/aduna-commons-lang-2.2.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="info.aduna.commons:aduna-commons-net:2.1" level="module">
+          <containerElement type="library" name="Maven: info.aduna.commons:aduna-commons-net:2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/aduna-commons-net-2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="info.aduna.commons:aduna-commons-text:2.1" level="module">
+          <containerElement type="library" name="Maven: info.aduna.commons:aduna-commons-text:2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/aduna-commons-text-2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-rio-turtle:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-rio-turtle:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-rio-turtle-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="info.aduna.commons:aduna-commons-io:2.3" level="module">
+          <containerElement type="library" name="Maven: info.aduna.commons:aduna-commons-io:2.3" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/aduna-commons-io-2.3.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-query:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-query:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-query-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-queryalgebra-model:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-queryalgebra-model:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-queryalgebra-model-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-queryparser-api:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-queryparser-api:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-queryparser-api-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-queryparser-serql:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-queryparser-serql:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-queryparser-serql-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-queryparser-sparql:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-queryparser-sparql:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-queryparser-sparql-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-queryresultio-api:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-queryresultio-api:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-queryresultio-api-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-queryresultio-binary:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-queryresultio-binary:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-queryresultio-binary-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-queryresultio-sparqljson:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-queryresultio-sparqljson:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-queryresultio-sparqljson-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-queryresultio-sparqlxml:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-queryresultio-sparqlxml:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-queryresultio-sparqlxml-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="info.aduna.commons:aduna-commons-xml:2.1" level="module">
+          <containerElement type="library" name="Maven: info.aduna.commons:aduna-commons-xml:2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/aduna-commons-xml-2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-queryresultio-text:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-queryresultio-text:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-queryresultio-text-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-repository-api:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-repository-api:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-repository-api-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-repository-manager:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-repository-manager:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-repository-manager-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-repository-event:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-repository-event:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-repository-event-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-repository-sail:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-repository-sail:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-repository-sail-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-sail-api:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-sail-api:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-sail-api-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-sail-memory:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-sail-memory:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-sail-memory-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-sail-inferencer:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-sail-inferencer:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-sail-inferencer-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-queryalgebra-evaluation:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-queryalgebra-evaluation:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-queryalgebra-evaluation-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-repository-http:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-repository-http:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-repository-http-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-http-client:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-http-client:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-http-client-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-http-protocol:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-http-protocol:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-http-protocol-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-rio-ntriples:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-rio-ntriples:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-rio-ntriples-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="commons-httpclient:commons-httpclient:3.1" level="module">
+          <containerElement type="library" name="Maven: commons-httpclient:commons-httpclient:3.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/commons-httpclient-3.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="commons-codec:commons-codec:1.3" level="module">
+          <containerElement type="library" name="Maven: commons-codec:commons-codec:1.3" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/commons-codec-1.3.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.slf4j:jcl104-over-slf4j:1.5.0" level="module">
+          <containerElement type="library" name="Maven: org.slf4j:jcl104-over-slf4j:1.5.0" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/jcl104-over-slf4j-1.5.0.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-repository-dataset:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-repository-dataset:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-repository-dataset-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-repository-contextaware:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-repository-contextaware:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-repository-contextaware-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-rio-rdfxml:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-rio-rdfxml:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-rio-rdfxml-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-rio-trix:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-rio-trix:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-rio-trix-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-rio-trig:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-rio-trig:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-rio-trig-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-sail-nativerdf:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-sail-nativerdf:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-sail-nativerdf-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.openrdf.sesame:sesame-sail-rdbms:2.2.1" level="module">
+          <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-sail-rdbms:2.2.1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/sesame-sail-rdbms-2.2.1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="commons-dbcp:commons-dbcp:1.2.2" level="module">
+          <containerElement type="library" name="Maven: commons-dbcp:commons-dbcp:1.2.2" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/commons-dbcp-1.2.2.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="commons-pool:commons-pool:1.3" level="module">
+          <containerElement type="library" name="Maven: commons-pool:commons-pool:1.3" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/commons-pool-1.3.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.slf4j:slf4j-simple:1.4.2" level="module">
+          <containerElement type="library" name="Maven: org.slf4j:slf4j-simple:1.4.2" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/slf4j-simple-1.4.2.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
           <containerElement type="module" name="qi4j-app-chronos-core">
             <attribute name="method" value="5" />
@@ -278,29 +274,29 @@
             <attribute name="method" value="5" />
             <attribute name="URI" value="/WEB-INF/lib/qi4j-lib-http-0.5-SNAPSHOT.jar" />
           </containerElement>
-          <containerElement type="library" name="org.apache.wicket:wicket:1.4-rc1" level="module">
+          <containerElement type="library" name="Maven: org.apache.wicket:wicket:1.4-rc1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/wicket-1.4-rc1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.apache.wicket:wicket-extensions:1.4-rc1" level="module">
+          <containerElement type="library" name="Maven: org.apache.wicket:wicket-extensions:1.4-rc1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/wicket-extensions-1.4-rc1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.apache.wicket:wicket-auth-roles:1.4-rc1" level="module">
+          <containerElement type="library" name="Maven: org.apache.wicket:wicket-auth-roles:1.4-rc1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/wicket-auth-roles-1.4-rc1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="org.apache.wicket:wicket-datetime:1.4-rc1" level="module">
+          <containerElement type="library" name="Maven: org.apache.wicket:wicket-datetime:1.4-rc1" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/wicket-datetime-1.4-rc1.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="joda-time:joda-time:1.4" level="module">
+          <containerElement type="library" name="Maven: joda-time:joda-time:1.4" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/joda-time-1.4.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="library" name="log4j:log4j:1.2.14" level="module">
+          <containerElement type="library" name="Maven: log4j:log4j:1.2.14" level="project">
             <attribute name="method" value="1" />
-            <attribute name="URI" value="/WEB-INF/lib/log4j-1.2.14.jar" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
           <containerElement type="module" name="qi4j-app-chronos-ui">
             <attribute name="method" value="1" />
@@ -326,34 +322,10 @@
     <orderEntry type="module" module-name="qi4j-core-bootstrap" exported="" />
     <orderEntry type="module" module-name="qi4j-core-spi" exported="" />
     <orderEntry type="module" module-name="qi4j-core-testsupport" />
-    <orderEntry type="module-library">
-      <library name="junit:junit:4.4">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/junit/junit/4.4/junit-4.4.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/junit/junit/4.4/junit-4.4-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/junit/junit/4.4/junit-4.4-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
+    <orderEntry type="library" name="Maven: junit:junit:4.4" level="project" />
     <orderEntry type="module" module-name="qi4j-lib-beans" exported="" />
     <orderEntry type="module" module-name="qi4j-core-runtime" exported="" />
-    <orderEntry type="module-library" exported="">
-      <library name="cglib:cglib-nodep:2.1_3">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/cglib/cglib-nodep/2.1_3/cglib-nodep-2.1_3-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
+    <orderEntry type="library" exported="" name="Maven: cglib:cglib-nodep:2.1_3" level="project" />
     <orderEntry type="module" module-name="qi4j-lib-general" exported="" />
     <orderEntry type="module" module-name="qi4j-lib-validation" exported="" />
     <orderEntry type="module" module-name="qi4j-ext-entitystore-quick" exported="" />
@@ -361,764 +333,67 @@
     <orderEntry type="module" module-name="qi4j-ext-indexing-rdf" exported="" />
     <orderEntry type="module" module-name="qi4j-lib-rdf" exported="" />
     <orderEntry type="module" module-name="qi4j-lib-constraints" exported="" />
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-model:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-model/2.2.1/sesame-model-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-model/2.2.1/sesame-model-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-model/2.2.1/sesame-model-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="info.aduna.commons:aduna-commons-collections:2.2">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/info/aduna/commons/aduna-commons-collections/2.2/aduna-commons-collections-2.2.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/info/aduna/commons/aduna-commons-collections/2.2/aduna-commons-collections-2.2-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/info/aduna/commons/aduna-commons-collections/2.2/aduna-commons-collections-2.2-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="info.aduna.commons:aduna-commons-concurrent:2.2">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/info/aduna/commons/aduna-commons-concurrent/2.2/aduna-commons-concurrent-2.2.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/info/aduna/commons/aduna-commons-concurrent/2.2/aduna-commons-concurrent-2.2-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/info/aduna/commons/aduna-commons-concurrent/2.2/aduna-commons-concurrent-2.2-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.slf4j:slf4j-api:1.4.2">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/slf4j/slf4j-api/1.4.2/slf4j-api-1.4.2.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/slf4j/slf4j-api/1.4.2/slf4j-api-1.4.2-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/slf4j/slf4j-api/1.4.2/slf4j-api-1.4.2-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="info.aduna.commons:aduna-commons-iteration:2.2">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/info/aduna/commons/aduna-commons-iteration/2.2/aduna-commons-iteration-2.2.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/info/aduna/commons/aduna-commons-iteration/2.2/aduna-commons-iteration-2.2-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/info/aduna/commons/aduna-commons-iteration/2.2/aduna-commons-iteration-2.2-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-rio-n3:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-rio-n3/2.2.1/sesame-rio-n3-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-rio-n3/2.2.1/sesame-rio-n3-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-rio-n3/2.2.1/sesame-rio-n3-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-rio-api:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-rio-api/2.2.1/sesame-rio-api-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-rio-api/2.2.1/sesame-rio-api-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-rio-api/2.2.1/sesame-rio-api-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="info.aduna.commons:aduna-commons-lang:2.2">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/info/aduna/commons/aduna-commons-lang/2.2/aduna-commons-lang-2.2.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/info/aduna/commons/aduna-commons-lang/2.2/aduna-commons-lang-2.2-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/info/aduna/commons/aduna-commons-lang/2.2/aduna-commons-lang-2.2-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="info.aduna.commons:aduna-commons-net:2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/info/aduna/commons/aduna-commons-net/2.1/aduna-commons-net-2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/info/aduna/commons/aduna-commons-net/2.1/aduna-commons-net-2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/info/aduna/commons/aduna-commons-net/2.1/aduna-commons-net-2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="info.aduna.commons:aduna-commons-text:2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/info/aduna/commons/aduna-commons-text/2.1/aduna-commons-text-2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/info/aduna/commons/aduna-commons-text/2.1/aduna-commons-text-2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/info/aduna/commons/aduna-commons-text/2.1/aduna-commons-text-2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-rio-turtle:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-rio-turtle/2.2.1/sesame-rio-turtle-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-rio-turtle/2.2.1/sesame-rio-turtle-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-rio-turtle/2.2.1/sesame-rio-turtle-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="info.aduna.commons:aduna-commons-io:2.3">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/info/aduna/commons/aduna-commons-io/2.3/aduna-commons-io-2.3.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/info/aduna/commons/aduna-commons-io/2.3/aduna-commons-io-2.3-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/info/aduna/commons/aduna-commons-io/2.3/aduna-commons-io-2.3-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-query:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-query/2.2.1/sesame-query-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-query/2.2.1/sesame-query-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-query/2.2.1/sesame-query-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-queryalgebra-model:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-queryalgebra-model/2.2.1/sesame-queryalgebra-model-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-queryalgebra-model/2.2.1/sesame-queryalgebra-model-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-queryalgebra-model/2.2.1/sesame-queryalgebra-model-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-queryparser-api:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-queryparser-api/2.2.1/sesame-queryparser-api-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-queryparser-api/2.2.1/sesame-queryparser-api-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-queryparser-api/2.2.1/sesame-queryparser-api-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-queryparser-serql:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-queryparser-serql/2.2.1/sesame-queryparser-serql-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-queryparser-serql/2.2.1/sesame-queryparser-serql-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-queryparser-serql/2.2.1/sesame-queryparser-serql-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-queryparser-sparql:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-queryparser-sparql/2.2.1/sesame-queryparser-sparql-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-queryparser-sparql/2.2.1/sesame-queryparser-sparql-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-queryparser-sparql/2.2.1/sesame-queryparser-sparql-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-queryresultio-api:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-queryresultio-api/2.2.1/sesame-queryresultio-api-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-queryresultio-api/2.2.1/sesame-queryresultio-api-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-queryresultio-api/2.2.1/sesame-queryresultio-api-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-queryresultio-binary:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-queryresultio-binary/2.2.1/sesame-queryresultio-binary-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-queryresultio-binary/2.2.1/sesame-queryresultio-binary-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-queryresultio-binary/2.2.1/sesame-queryresultio-binary-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-queryresultio-sparqljson:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-queryresultio-sparqljson/2.2.1/sesame-queryresultio-sparqljson-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-queryresultio-sparqljson/2.2.1/sesame-queryresultio-sparqljson-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-queryresultio-sparqljson/2.2.1/sesame-queryresultio-sparqljson-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-queryresultio-sparqlxml:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-queryresultio-sparqlxml/2.2.1/sesame-queryresultio-sparqlxml-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-queryresultio-sparqlxml/2.2.1/sesame-queryresultio-sparqlxml-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-queryresultio-sparqlxml/2.2.1/sesame-queryresultio-sparqlxml-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="info.aduna.commons:aduna-commons-xml:2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/info/aduna/commons/aduna-commons-xml/2.1/aduna-commons-xml-2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/info/aduna/commons/aduna-commons-xml/2.1/aduna-commons-xml-2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/info/aduna/commons/aduna-commons-xml/2.1/aduna-commons-xml-2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-queryresultio-text:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-queryresultio-text/2.2.1/sesame-queryresultio-text-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-queryresultio-text/2.2.1/sesame-queryresultio-text-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-queryresultio-text/2.2.1/sesame-queryresultio-text-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-repository-api:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-repository-api/2.2.1/sesame-repository-api-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-repository-api/2.2.1/sesame-repository-api-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-repository-api/2.2.1/sesame-repository-api-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-repository-manager:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-repository-manager/2.2.1/sesame-repository-manager-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-repository-manager/2.2.1/sesame-repository-manager-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-repository-manager/2.2.1/sesame-repository-manager-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-repository-event:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-repository-event/2.2.1/sesame-repository-event-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-repository-event/2.2.1/sesame-repository-event-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-repository-event/2.2.1/sesame-repository-event-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-repository-sail:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-repository-sail/2.2.1/sesame-repository-sail-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-repository-sail/2.2.1/sesame-repository-sail-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-repository-sail/2.2.1/sesame-repository-sail-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-sail-api:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-sail-api/2.2.1/sesame-sail-api-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-sail-api/2.2.1/sesame-sail-api-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-sail-api/2.2.1/sesame-sail-api-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-sail-memory:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-sail-memory/2.2.1/sesame-sail-memory-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-sail-memory/2.2.1/sesame-sail-memory-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-sail-memory/2.2.1/sesame-sail-memory-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-sail-inferencer:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-sail-inferencer/2.2.1/sesame-sail-inferencer-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-sail-inferencer/2.2.1/sesame-sail-inferencer-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-sail-inferencer/2.2.1/sesame-sail-inferencer-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-queryalgebra-evaluation:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-queryalgebra-evaluation/2.2.1/sesame-queryalgebra-evaluation-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-queryalgebra-evaluation/2.2.1/sesame-queryalgebra-evaluation-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-queryalgebra-evaluation/2.2.1/sesame-queryalgebra-evaluation-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-repository-http:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-repository-http/2.2.1/sesame-repository-http-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-repository-http/2.2.1/sesame-repository-http-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-repository-http/2.2.1/sesame-repository-http-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-http-client:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-http-client/2.2.1/sesame-http-client-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-http-client/2.2.1/sesame-http-client-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-http-client/2.2.1/sesame-http-client-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-http-protocol:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-http-protocol/2.2.1/sesame-http-protocol-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-http-protocol/2.2.1/sesame-http-protocol-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-http-protocol/2.2.1/sesame-http-protocol-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-rio-ntriples:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-rio-ntriples/2.2.1/sesame-rio-ntriples-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-rio-ntriples/2.2.1/sesame-rio-ntriples-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-rio-ntriples/2.2.1/sesame-rio-ntriples-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="commons-httpclient:commons-httpclient:3.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/commons-httpclient/commons-httpclient/3.1/commons-httpclient-3.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/commons-httpclient/commons-httpclient/3.1/commons-httpclient-3.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/commons-httpclient/commons-httpclient/3.1/commons-httpclient-3.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="commons-codec:commons-codec:1.3">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/commons-codec/commons-codec/1.3/commons-codec-1.3.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/commons-codec/commons-codec/1.3/commons-codec-1.3-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/commons-codec/commons-codec/1.3/commons-codec-1.3-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.slf4j:jcl104-over-slf4j:1.5.0">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/slf4j/jcl104-over-slf4j/1.5.0/jcl104-over-slf4j-1.5.0.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/slf4j/jcl104-over-slf4j/1.5.0/jcl104-over-slf4j-1.5.0-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/slf4j/jcl104-over-slf4j/1.5.0/jcl104-over-slf4j-1.5.0-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-repository-dataset:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-repository-dataset/2.2.1/sesame-repository-dataset-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-repository-dataset/2.2.1/sesame-repository-dataset-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-repository-dataset/2.2.1/sesame-repository-dataset-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-repository-contextaware:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-repository-contextaware/2.2.1/sesame-repository-contextaware-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-repository-contextaware/2.2.1/sesame-repository-contextaware-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-repository-contextaware/2.2.1/sesame-repository-contextaware-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-rio-rdfxml:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-rio-rdfxml/2.2.1/sesame-rio-rdfxml-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-rio-rdfxml/2.2.1/sesame-rio-rdfxml-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-rio-rdfxml/2.2.1/sesame-rio-rdfxml-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-rio-trix:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-rio-trix/2.2.1/sesame-rio-trix-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-rio-trix/2.2.1/sesame-rio-trix-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-rio-trix/2.2.1/sesame-rio-trix-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-rio-trig:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-rio-trig/2.2.1/sesame-rio-trig-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-rio-trig/2.2.1/sesame-rio-trig-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-rio-trig/2.2.1/sesame-rio-trig-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-sail-nativerdf:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-sail-nativerdf/2.2.1/sesame-sail-nativerdf-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-sail-nativerdf/2.2.1/sesame-sail-nativerdf-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-sail-nativerdf/2.2.1/sesame-sail-nativerdf-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.openrdf.sesame:sesame-sail-rdbms:2.2.1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-sail-rdbms/2.2.1/sesame-sail-rdbms-2.2.1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-sail-rdbms/2.2.1/sesame-sail-rdbms-2.2.1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/openrdf/sesame/sesame-sail-rdbms/2.2.1/sesame-sail-rdbms-2.2.1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="commons-dbcp:commons-dbcp:1.2.2">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/commons-dbcp/commons-dbcp/1.2.2/commons-dbcp-1.2.2.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/commons-dbcp/commons-dbcp/1.2.2/commons-dbcp-1.2.2-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/commons-dbcp/commons-dbcp/1.2.2/commons-dbcp-1.2.2-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="commons-pool:commons-pool:1.3">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/commons-pool/commons-pool/1.3/commons-pool-1.3.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/commons-pool/commons-pool/1.3/commons-pool-1.3-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/commons-pool/commons-pool/1.3/commons-pool-1.3-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.slf4j:slf4j-simple:1.4.2">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/slf4j/slf4j-simple/1.4.2/slf4j-simple-1.4.2.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/slf4j/slf4j-simple/1.4.2/slf4j-simple-1.4.2-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/slf4j/slf4j-simple/1.4.2/slf4j-simple-1.4.2-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-model:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: info.aduna.commons:aduna-commons-collections:2.2" level="project" />
+    <orderEntry type="library" exported="" name="Maven: info.aduna.commons:aduna-commons-concurrent:2.2" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.slf4j:slf4j-api:1.4.2" level="project" />
+    <orderEntry type="library" exported="" name="Maven: info.aduna.commons:aduna-commons-iteration:2.2" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-rio-n3:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-rio-api:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: info.aduna.commons:aduna-commons-lang:2.2" level="project" />
+    <orderEntry type="library" exported="" name="Maven: info.aduna.commons:aduna-commons-net:2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: info.aduna.commons:aduna-commons-text:2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-rio-turtle:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: info.aduna.commons:aduna-commons-io:2.3" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-query:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-queryalgebra-model:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-queryparser-api:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-queryparser-serql:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-queryparser-sparql:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-queryresultio-api:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-queryresultio-binary:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-queryresultio-sparqljson:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-queryresultio-sparqlxml:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: info.aduna.commons:aduna-commons-xml:2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-queryresultio-text:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-repository-api:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-repository-manager:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-repository-event:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-repository-sail:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-sail-api:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-sail-memory:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-sail-inferencer:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-queryalgebra-evaluation:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-repository-http:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-http-client:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-http-protocol:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-rio-ntriples:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: commons-httpclient:commons-httpclient:3.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: commons-codec:commons-codec:1.3" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.slf4j:jcl104-over-slf4j:1.5.0" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-repository-dataset:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-repository-contextaware:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-rio-rdfxml:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-rio-trix:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-rio-trig:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-sail-nativerdf:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-sail-rdbms:2.2.1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: commons-dbcp:commons-dbcp:1.2.2" level="project" />
+    <orderEntry type="library" exported="" name="Maven: commons-pool:commons-pool:1.3" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.slf4j:slf4j-simple:1.4.2" level="project" />
     <orderEntry type="module" module-name="qi4j-app-chronos-core" exported="" />
     <orderEntry type="module" module-name="qi4j-lib-quikit" exported="" />
     <orderEntry type="module" module-name="qi4j-lib-http" exported="" />
-    <orderEntry type="module-library">
-      <library name="org.mortbay.jetty:jetty:6.1.11">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/mortbay/jetty/jetty/6.1.11/jetty-6.1.11.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/mortbay/jetty/jetty/6.1.11/jetty-6.1.11-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/mortbay/jetty/jetty/6.1.11/jetty-6.1.11-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="org.mortbay.jetty:jetty-util:6.1.11">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/mortbay/jetty/jetty-util/6.1.11/jetty-util-6.1.11.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/mortbay/jetty/jetty-util/6.1.11/jetty-util-6.1.11-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/mortbay/jetty/jetty-util/6.1.11/jetty-util-6.1.11-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="org.mortbay.jetty:servlet-api-2.5:6.1.11">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/mortbay/jetty/servlet-api-2.5/6.1.11/servlet-api-2.5-6.1.11.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/mortbay/jetty/servlet-api-2.5/6.1.11/servlet-api-2.5-6.1.11-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/mortbay/jetty/servlet-api-2.5/6.1.11/servlet-api-2.5-6.1.11-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library">
-      <library name="javax.servlet:servlet-api:2.4">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/javax/servlet/servlet-api/2.4/servlet-api-2.4.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/javax/servlet/servlet-api/2.4/servlet-api-2.4-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/javax/servlet/servlet-api/2.4/servlet-api-2.4-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.apache.wicket:wicket:1.4-rc1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/apache/wicket/wicket/1.4-rc1/wicket-1.4-rc1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/apache/wicket/wicket/1.4-rc1/wicket-1.4-rc1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/apache/wicket/wicket/1.4-rc1/wicket-1.4-rc1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.apache.wicket:wicket-extensions:1.4-rc1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-extensions/1.4-rc1/wicket-extensions-1.4-rc1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-extensions/1.4-rc1/wicket-extensions-1.4-rc1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-extensions/1.4-rc1/wicket-extensions-1.4-rc1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.apache.wicket:wicket-auth-roles:1.4-rc1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-auth-roles/1.4-rc1/wicket-auth-roles-1.4-rc1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-auth-roles/1.4-rc1/wicket-auth-roles-1.4-rc1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-auth-roles/1.4-rc1/wicket-auth-roles-1.4-rc1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="org.apache.wicket:wicket-datetime:1.4-rc1">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-datetime/1.4-rc1/wicket-datetime-1.4-rc1.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-datetime/1.4-rc1/wicket-datetime-1.4-rc1-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/org/apache/wicket/wicket-datetime/1.4-rc1/wicket-datetime-1.4-rc1-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="joda-time:joda-time:1.4">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/joda-time/joda-time/1.4/joda-time-1.4.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/joda-time/joda-time/1.4/joda-time-1.4-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/joda-time/joda-time/1.4/joda-time-1.4-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntry type="module-library" exported="">
-      <library name="log4j:log4j:1.2.14">
-        <CLASSES>
-          <root url="jar://$M2_REPO$/log4j/log4j/1.2.14/log4j-1.2.14.jar!/" />
-        </CLASSES>
-        <JAVADOC>
-          <root url="jar://$M2_REPO$/log4j/log4j/1.2.14/log4j-1.2.14-javadoc.jar!/" />
-        </JAVADOC>
-        <SOURCES>
-          <root url="jar://$M2_REPO$/log4j/log4j/1.2.14/log4j-1.2.14-sources.jar!/" />
-        </SOURCES>
-      </library>
-    </orderEntry>
-    <orderEntryProperties />
+    <orderEntry type="library" name="Maven: org.mortbay.jetty:jetty:6.1.11" level="project" />
+    <orderEntry type="library" name="Maven: org.mortbay.jetty:jetty-util:6.1.11" level="project" />
+    <orderEntry type="library" name="Maven: org.mortbay.jetty:servlet-api-2.5:6.1.11" level="project" />
+    <orderEntry type="library" name="Maven: javax.servlet:servlet-api:2.4" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.apache.wicket:wicket:1.4-rc1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.apache.wicket:wicket-extensions:1.4-rc1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.apache.wicket:wicket-auth-roles:1.4-rc1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.apache.wicket:wicket-datetime:1.4-rc1" level="project" />
+    <orderEntry type="library" exported="" name="Maven: joda-time:joda-time:1.4" level="project" />
+    <orderEntry type="library" exported="" name="Maven: log4j:log4j:1.2.14" level="project" />
   </component>
 </module>
 

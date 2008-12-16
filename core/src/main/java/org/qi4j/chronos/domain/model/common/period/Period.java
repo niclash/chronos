@@ -15,7 +15,7 @@
 package org.qi4j.chronos.domain.model.common.period;
 
 import java.util.Date;
-import org.qi4j.composite.Mixins;
+import org.qi4j.api.mixin.Mixins;
 
 /**
  * @author Sianny Halim

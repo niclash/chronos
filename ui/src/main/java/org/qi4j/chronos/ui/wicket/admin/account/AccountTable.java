@@ -31,9 +31,8 @@ import org.qi4j.chronos.ui.common.action.DeleteAction;
 import org.qi4j.chronos.ui.util.ProjectUtil;
 import org.qi4j.chronos.ui.wicket.admin.account.model.AccountDataProvider;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkCompletionException;
-import org.qi4j.injection.scope.Uses;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
 import static org.slf4j.LoggerFactory.getLogger;
 

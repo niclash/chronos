@@ -14,7 +14,7 @@ package org.qi4j.chronos.ui.common;
 
 import org.apache.wicket.markup.html.form.IChoiceRenderer;
 import org.qi4j.chronos.model.Name;
-import org.qi4j.entity.Identity;
+import org.qi4j.api.entity.Identity;
 
 /**
  * {@code NameChoiceRenderer} is used to render name composite in drop down choice.

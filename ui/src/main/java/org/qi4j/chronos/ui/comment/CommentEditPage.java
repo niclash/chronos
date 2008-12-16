@@ -18,7 +18,7 @@ import org.qi4j.chronos.model.Comment;
 import org.qi4j.chronos.model.User;
 import org.qi4j.chronos.model.associations.HasComments;
 import org.qi4j.chronos.ui.wicket.bootstrap.ChronosUnitOfWorkManager;
-import org.qi4j.entity.UnitOfWorkCompletionException;
+import org.qi4j.api.unitofwork.UnitOfWorkCompletionException;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 

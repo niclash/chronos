@@ -8,7 +8,7 @@ import org.apache.wicket.model.IModel;
 import org.apache.wicket.util.lang.PropertyResolver;
 import org.apache.wicket.util.lang.PropertyResolverConverter;
 import org.apache.wicket.util.string.Strings;
-import org.qi4j.entity.Entity;
+import org.qi4j.api.entity.Entity;
 
 /**
  * @author Lan Boon Ping

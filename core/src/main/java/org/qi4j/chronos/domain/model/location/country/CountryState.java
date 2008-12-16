@@ -17,7 +17,7 @@
 package org.qi4j.chronos.domain.model.location.country;
 
 import org.qi4j.chronos.domain.model.common.name.NameState;
-import org.qi4j.property.Property;
+import org.qi4j.api.property.Property;
 
 /**
  * @author edward.yakop@gmail.com

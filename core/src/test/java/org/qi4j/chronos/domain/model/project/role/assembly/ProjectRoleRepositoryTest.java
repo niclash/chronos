@@ -25,13 +25,13 @@ import org.qi4j.chronos.domain.model.project.role.ProjectRoleExistsException;
 import org.qi4j.chronos.domain.model.project.role.ProjectRoleFactory;
 import org.qi4j.chronos.domain.model.project.role.ProjectRoleId;
 import org.qi4j.chronos.domain.model.project.role.ProjectRoleRepository;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkCompletionException;
-import org.qi4j.query.Query;
-import org.qi4j.query.QueryBuilder;
-import org.qi4j.query.QueryBuilderFactory;
-import org.qi4j.service.ServiceFinder;
-import org.qi4j.service.ServiceReference;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkCompletionException;
+import org.qi4j.api.query.Query;
+import org.qi4j.api.query.QueryBuilder;
+import org.qi4j.api.query.QueryBuilderFactory;
+import org.qi4j.api.service.ServiceFinder;
+import org.qi4j.api.service.ServiceReference;
 
 /**
  * @author edward.yakop@gmail.com
@@ -65,7 +65,7 @@ public final class ProjectRoleRepositoryTest extends AbstractProjectTest
             ProjectRoleFactory roleFactory = factoryRef.get();
             roleFactory.create( PROJECT_MANAGER );
             roleFactory.create( QA );
-            uow.completeAndContinue();
+            uow.apply();
         }
         finally
         {

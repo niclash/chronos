@@ -20,16 +20,18 @@ import java.util.Date;
 import org.qi4j.chronos.domain.model.common.comment.Comment;
 import org.qi4j.chronos.domain.model.common.comment.CommentState;
 import org.qi4j.chronos.domain.model.user.User;
-import org.qi4j.entity.EntityBuilder;
-import org.qi4j.entity.UnitOfWork;
-import org.qi4j.entity.UnitOfWorkFactory;
-import org.qi4j.injection.scope.Structure;
-import org.qi4j.service.ServiceComposite;
+import org.qi4j.api.service.ServiceComposite;
+import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.unitofwork.UnitOfWorkFactory;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.entity.EntityBuilder;
+import org.qi4j.api.mixin.Mixins;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
+@Mixins( CommentFactory.CommentFactoryMixin.class )
 interface CommentFactory extends ServiceComposite
 {
     Comment create( String comment, User user );

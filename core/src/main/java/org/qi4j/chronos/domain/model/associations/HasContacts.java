@@ -14,7 +14,7 @@
 package org.qi4j.chronos.domain.model.associations;
 
 import org.qi4j.chronos.domain.model.user.contactPerson.Contact;
-import org.qi4j.entity.association.SetAssociation;
+import org.qi4j.api.entity.association.SetAssociation;
 
 /**
  * Generic interface to describe association with {@link org.qi4j.chronos.domain.model.composites.ContactEntity}

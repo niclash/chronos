@@ -16,7 +16,7 @@
 */
 package org.qi4j.chronos.domain.model.account;
 
-import org.qi4j.query.Query;
+import org.qi4j.api.query.Query;
 
 /**
  * @author edward.yakop@gmail.com

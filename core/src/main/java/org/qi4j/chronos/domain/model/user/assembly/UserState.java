@@ -17,8 +17,8 @@
 package org.qi4j.chronos.domain.model.user.assembly;
 
 import org.qi4j.chronos.domain.model.user.SystemRole;
-import org.qi4j.entity.association.SetAssociation;
-import org.qi4j.property.Property;
+import org.qi4j.api.entity.association.SetAssociation;
+import org.qi4j.api.property.Property;
 
 /**
  * @author edward.yakop@gmail.com

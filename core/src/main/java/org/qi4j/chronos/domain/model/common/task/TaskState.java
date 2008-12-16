@@ -17,12 +17,13 @@
 package org.qi4j.chronos.domain.model.common.task;
 
 import java.util.Date;
-import org.qi4j.chronos.domain.model.common.description.HasDescriptionState;
+import org.qi4j.chronos.domain.model.common.comment.Comment;
 import org.qi4j.chronos.domain.model.common.task.mixins.HasTaskStatusState;
+import org.qi4j.chronos.domain.model.common.description.HasDescriptionState;
 import org.qi4j.chronos.domain.model.user.User;
-import org.qi4j.entity.association.Association;
-import org.qi4j.entity.association.ListAssociation;
-import org.qi4j.property.Property;
+import org.qi4j.api.entity.association.Association;
+import org.qi4j.api.entity.association.SetAssociation;
+import org.qi4j.api.property.Property;
 
 /**
  * @author edward.yakop@gmail.com
@@ -32,14 +33,17 @@ public interface TaskState extends HasDescriptionState, HasTaskStatusState
 {
     Property<String> title();
 
+    Property<TaskStatus> status();
+
     Property<TaskPriority> priority();
 
     Property<Date> createdDate();
 
     Association<User> createdBy();
 
-    // List because we want it to be ordered properly
-    ListAssociation<WorkEntry> workEntries();
+    SetAssociation<Comment> comments();
+
+    SetAssociation<WorkEntry> workEntries();
 
     Association<User> assignedTo();
 }

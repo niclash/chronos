@@ -17,7 +17,7 @@
 package org.qi4j.chronos.domain.model.location.address;
 
 import org.qi4j.chronos.domain.model.location.city.City;
-import org.qi4j.composite.Optional;
+import org.qi4j.api.common.Optional;
 
 /**
  * @author edward.yakop@gmail.com
