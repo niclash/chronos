@@ -23,7 +23,7 @@ import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.api.unitofwork.UnitOfWorkCompletionException;
 import org.qi4j.api.entity.EntityBuilder;
 import org.qi4j.entity.memory.MemoryEntityStoreService;
-import org.qi4j.spi.entity.UuidIdentityGeneratorService;
+import org.qi4j.spi.entity.helpers.UuidIdentityGeneratorService;
 import org.qi4j.test.AbstractQi4jTest;
 
 /**

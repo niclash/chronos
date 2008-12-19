@@ -22,8 +22,7 @@ import org.qi4j.chronos.domain.model.location.assembly.LocationAssembler;
 import org.qi4j.chronos.domain.model.user.assembly.UserAssembler;
 import org.qi4j.entity.index.rdf.assembly.RdfMemoryStoreAssembler;
 import org.qi4j.entity.memory.MemoryEntityStoreService;
-import org.qi4j.library.rdf.entity.EntitySerializer;
-import org.qi4j.spi.entity.UuidIdentityGeneratorService;
+import org.qi4j.spi.entity.helpers.UuidIdentityGeneratorService;
 import org.qi4j.test.AbstractQi4jTest;
 
 /**
