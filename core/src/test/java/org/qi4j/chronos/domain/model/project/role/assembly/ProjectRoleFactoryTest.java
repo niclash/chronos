@@ -63,7 +63,6 @@ public final class ProjectRoleFactoryTest extends AbstractProjectTest
         finally
         {
             uow.complete();
-            factoryRef.releaseService();
         }
     }
 }

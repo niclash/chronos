@@ -73,8 +73,6 @@ public final class CustomerRepositoryTest extends AbstractCustomerTest
         finally
         {
             uow.discard();
-            factoryRef.releaseService();
-            repositoryRef.releaseService();
         }
     }
 }

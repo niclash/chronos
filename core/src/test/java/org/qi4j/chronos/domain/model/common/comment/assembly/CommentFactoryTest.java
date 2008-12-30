@@ -68,7 +68,6 @@ public final class CommentFactoryTest extends AbstractCommonTest
         }
         finally
         {
-            commentFactoryRef.releaseService();
             uow.discard();
         }
     }

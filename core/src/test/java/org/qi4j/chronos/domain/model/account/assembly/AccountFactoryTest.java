@@ -48,7 +48,6 @@ public final class AccountFactoryTest extends AbstractAccountTest
         }
         finally
         {
-            accountFactoryRef.releaseService();
             uow.discard();
         }
     }

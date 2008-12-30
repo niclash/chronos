@@ -62,7 +62,6 @@ public final class CountryBootstrapTest extends AbstractLocationTest
         finally
         {
             uow.discard();
-            repositoryReference.releaseService();
         }
     }
 }

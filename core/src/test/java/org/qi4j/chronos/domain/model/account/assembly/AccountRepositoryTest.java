@@ -68,8 +68,6 @@ public final class AccountRepositoryTest extends AbstractAccountTest
         }
         finally
         {
-            factoryRef.releaseService();
-            repositoryRef.releaseService();
             uow.discard();
         }
     }

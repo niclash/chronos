@@ -60,17 +60,10 @@ public final class ProjectRoleRepositoryTest extends AbstractProjectTest
         ServiceFinder serviceFinder = moduleInstance.serviceFinder();
         ServiceReference<ProjectRoleFactory> factoryRef = serviceFinder.findService( ProjectRoleFactory.class );
 
-        try
-        {
-            ProjectRoleFactory roleFactory = factoryRef.get();
-            roleFactory.create( PROJECT_MANAGER );
-            roleFactory.create( QA );
-            uow.apply();
-        }
-        finally
-        {
-            factoryRef.releaseService();
-        }
+        ProjectRoleFactory roleFactory = factoryRef.get();
+        roleFactory.create( PROJECT_MANAGER );
+        roleFactory.create( QA );
+        uow.apply();
     }
 
     private void testFind()
@@ -79,22 +72,15 @@ public final class ProjectRoleRepositoryTest extends AbstractProjectTest
         ServiceReference<ProjectRoleRepository> repositoryRef = serviceFinder.findService( ProjectRoleRepository.class );
         ProjectRoleRepository repository = repositoryRef.get();
 
-        try
+        Query<ProjectRole> allProjectRoles = repository.findAll();
+        assertEquals( 2, allProjectRoles.count() );
+        for( ProjectRole projectRole : allProjectRoles )
         {
-            Query<ProjectRole> allProjectRoles = repository.findAll();
-            assertEquals( 2, allProjectRoles.count() );
-            for( ProjectRole projectRole : allProjectRoles )
-            {
-                String roleName = projectRole.name();
-                assertTrue( Arrays.binarySearch( ROLES, roleName ) >= 0 );
-                ProjectRoleId id = projectRole.projectRoleId();
+            String roleName = projectRole.name();
+            assertTrue( Arrays.binarySearch( ROLES, roleName ) >= 0 );
+            ProjectRoleId id = projectRole.projectRoleId();
 
-                assertNotNull( repository.find( id ) );
-            }
-        }
-        finally
-        {
-            repositoryRef.releaseService();
+            assertNotNull( repository.find( id ) );
         }
     }
 

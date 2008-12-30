@@ -52,7 +52,6 @@ public final class LegalConditionFactoryTest extends AbstractCommonTest
         finally
         {
             uow.discard();
-            factoryRef.releaseService();
         }
     }
 }

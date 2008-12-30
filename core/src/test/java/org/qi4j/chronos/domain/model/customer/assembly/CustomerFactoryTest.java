@@ -51,7 +51,6 @@ public final class CustomerFactoryTest extends AbstractCustomerTest
         finally
         {
             uow.discard();
-            factoryRef.releaseService();
         }
     }
 }

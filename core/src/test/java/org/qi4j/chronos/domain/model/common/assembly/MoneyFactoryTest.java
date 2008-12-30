@@ -48,7 +48,6 @@ public final class MoneyFactoryTest extends AbstractCommonTest
         }
         finally
         {
-            serviceRef.releaseService();
             uow.discard();
         }
     }

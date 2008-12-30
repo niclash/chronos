@@ -50,7 +50,6 @@ public final class PeriodFactoryTest extends AbstractCommonTest
         }
         finally
         {
-            factoryRef.releaseService();
             uow.discard();
         }
     }

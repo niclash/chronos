@@ -74,8 +74,6 @@ public final class CityFactoryTest extends AbstractLocationTest
         finally
         {
             uow.discard();
-            countryRepositoryRef.releaseService();
-            cityFactoryRef.releaseService();
         }
     }
 }
