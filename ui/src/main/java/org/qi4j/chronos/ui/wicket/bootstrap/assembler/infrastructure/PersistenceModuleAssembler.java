@@ -16,14 +16,15 @@
  */
 package org.qi4j.chronos.ui.wicket.bootstrap.assembler.infrastructure;
 
+import static org.qi4j.api.common.Visibility.application;
 import org.qi4j.bootstrap.Assembler;
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.ModuleAssembly;
+import org.qi4j.entity.index.rdf.RdfFactoryService;
 import org.qi4j.entity.index.rdf.RdfQueryService;
 import org.qi4j.entity.memory.MemoryEntityStoreService;
 import org.qi4j.library.rdf.repository.MemoryRepositoryService;
 import org.qi4j.spi.entity.helpers.UuidIdentityGeneratorService;
-import static org.qi4j.api.common.Visibility.application;
 
 /**
  * @author edward.yakop@gmail.com
@@ -35,7 +36,7 @@ final class PersistenceModuleAssembler
     {
         module.addServices(
             UuidIdentityGeneratorService.class,
-            RdfQueryService.class,
+            RdfQueryService.class, RdfFactoryService.class,
             MemoryEntityStoreService.class,
             MemoryRepositoryService.class
         ).visibleIn( application ).instantiateOnStartup();
