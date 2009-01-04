@@ -58,7 +58,7 @@
     </dependency>
     <dependency>
       <groupId>org.qi4j.extension</groupId>
-      <artifactId>qi4j-ext-entitystore-quick</artifactId>
+      <artifactId>qi4j-entitystore-quick</artifactId>
       <version>0.5-SNAPSHOT</version>
     </dependency>
     <dependency>
