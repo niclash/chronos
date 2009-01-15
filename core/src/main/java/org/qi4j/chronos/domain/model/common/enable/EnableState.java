@@ -16,6 +16,7 @@
 */
 package org.qi4j.chronos.domain.model.common.enable;
 
+import org.qi4j.api.common.UseDefaults;
 import org.qi4j.api.property.Property;
 
 /**
@@ -24,5 +25,6 @@ import org.qi4j.api.property.Property;
  */
 public interface EnableState
 {
+    @UseDefaults
     Property<Boolean> enabled();
 }
