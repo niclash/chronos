@@ -15,53 +15,53 @@
           <setting name="EXCLUDE_EXPLODED_DIRECTORY" value="true" />
         </building>
         <packaging>
-          <containerElement type="module" name="qi4j-core-api">
-            <attribute name="method" value="5" />
-            <attribute name="URI" value="/WEB-INF/lib/qi4j-core-api-0.5-SNAPSHOT.jar" />
+          <containerElement type="library" name="Maven: org.qi4j.core:qi4j-core-api:0.5-SNAPSHOT" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="module" name="qi4j-core-bootstrap">
-            <attribute name="method" value="5" />
-            <attribute name="URI" value="/WEB-INF/lib/qi4j-core-bootstrap-0.5-SNAPSHOT.jar" />
+          <containerElement type="library" name="Maven: org.qi4j.core:qi4j-core-bootstrap:0.5-SNAPSHOT" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="module" name="qi4j-core-spi">
-            <attribute name="method" value="5" />
-            <attribute name="URI" value="/WEB-INF/lib/qi4j-core-spi-0.5-SNAPSHOT.jar" />
+          <containerElement type="library" name="Maven: org.qi4j.core:qi4j-core-spi:0.5-SNAPSHOT" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="module" name="qi4j-lib-beans">
-            <attribute name="method" value="5" />
-            <attribute name="URI" value="/WEB-INF/lib/qi4j-lib-beans-0.5-SNAPSHOT.jar" />
+          <containerElement type="library" name="Maven: org.qi4j.library:qi4j-lib-beans:0.5-SNAPSHOT" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="module" name="qi4j-core-runtime">
-            <attribute name="method" value="5" />
-            <attribute name="URI" value="/WEB-INF/lib/qi4j-core-runtime-0.5-SNAPSHOT.jar" />
+          <containerElement type="library" name="Maven: org.qi4j.core:qi4j-core-runtime:0.5-SNAPSHOT" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
           <containerElement type="library" name="Maven: cglib:cglib-nodep:2.1_3" level="project">
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="module" name="qi4j-lib-general">
-            <attribute name="method" value="5" />
-            <attribute name="URI" value="/WEB-INF/lib/qi4j-lib-general-0.5-SNAPSHOT.jar" />
+          <containerElement type="library" name="Maven: org.qi4j.library:qi4j-lib-general:0.5-SNAPSHOT" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="module" name="qi4j-lib-validation">
-            <attribute name="method" value="5" />
-            <attribute name="URI" value="/WEB-INF/lib/qi4j-lib-validation-0.5-SNAPSHOT.jar" />
+          <containerElement type="library" name="Maven: org.qi4j.library:qi4j-lib-validation:0.5-SNAPSHOT" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
           <containerElement type="library" name="Maven: org.qi4j.extension:qi4j-entitystore-quick:0.5-SNAPSHOT" level="project">
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="module" name="qi4j-indexing-rdf">
-            <attribute name="method" value="5" />
-            <attribute name="URI" value="/WEB-INF/lib/qi4j-indexing-rdf-0.5-SNAPSHOT.jar" />
+          <containerElement type="library" name="Maven: org.qi4j.extension:qi4j-indexing-rdf:0.5-SNAPSHOT" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="module" name="qi4j-lib-rdf">
-            <attribute name="method" value="5" />
-            <attribute name="URI" value="/WEB-INF/lib/qi4j-lib-rdf-0.5-SNAPSHOT.jar" />
+          <containerElement type="library" name="Maven: org.qi4j.library:qi4j-lib-rdf:0.5-SNAPSHOT" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="module" name="qi4j-lib-constraints">
-            <attribute name="method" value="5" />
-            <attribute name="URI" value="/WEB-INF/lib/qi4j-lib-constraints-0.5-SNAPSHOT.jar" />
+          <containerElement type="library" name="Maven: org.qi4j.library:qi4j-lib-constraints:0.5-SNAPSHOT" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
           <containerElement type="library" name="Maven: org.openrdf.sesame:sesame-model:2.2.1" level="project">
             <attribute name="method" value="1" />
@@ -255,17 +255,17 @@
             <attribute name="method" value="1" />
             <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="module" name="qi4j-app-chronos-core">
-            <attribute name="method" value="5" />
-            <attribute name="URI" value="/WEB-INF/lib/qi4j-app-chronos-core-0.5-SNAPSHOT.jar" />
+          <containerElement type="library" name="Maven: org.qi4j.app.chronos:qi4j-app-chronos-core:0.5-SNAPSHOT" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="module" name="qi4j-lib-quikit">
-            <attribute name="method" value="5" />
-            <attribute name="URI" value="/WEB-INF/lib/qi4j-lib-quikit-0.5-SNAPSHOT.jar" />
+          <containerElement type="library" name="Maven: org.qi4j.library:qi4j-lib-quikit:0.5-SNAPSHOT" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
-          <containerElement type="module" name="qi4j-lib-http">
-            <attribute name="method" value="5" />
-            <attribute name="URI" value="/WEB-INF/lib/qi4j-lib-http-0.5-SNAPSHOT.jar" />
+          <containerElement type="library" name="Maven: org.qi4j.library:qi4j-lib-http:0.5-SNAPSHOT" level="project">
+            <attribute name="method" value="1" />
+            <attribute name="URI" value="/WEB-INF/lib/" />
           </containerElement>
           <containerElement type="library" name="Maven: org.apache.wicket:wicket:1.4-rc1" level="project">
             <attribute name="method" value="1" />
@@ -311,20 +311,20 @@
     </content>
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
-    <orderEntry type="module" module-name="qi4j-core-api" exported="" />
-    <orderEntry type="module" module-name="qi4j-core-bootstrap" exported="" />
-    <orderEntry type="module" module-name="qi4j-core-spi" exported="" />
-    <orderEntry type="module" module-name="qi4j-core-testsupport" />
+    <orderEntry type="library" exported="" name="Maven: org.qi4j.core:qi4j-core-api:0.5-SNAPSHOT" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.qi4j.core:qi4j-core-bootstrap:0.5-SNAPSHOT" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.qi4j.core:qi4j-core-spi:0.5-SNAPSHOT" level="project" />
+    <orderEntry type="library" name="Maven: org.qi4j.core:qi4j-core-testsupport:0.5-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: junit:junit:4.4" level="project" />
-    <orderEntry type="module" module-name="qi4j-lib-beans" exported="" />
-    <orderEntry type="module" module-name="qi4j-core-runtime" exported="" />
+    <orderEntry type="library" exported="" name="Maven: org.qi4j.library:qi4j-lib-beans:0.5-SNAPSHOT" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.qi4j.core:qi4j-core-runtime:0.5-SNAPSHOT" level="project" />
     <orderEntry type="library" exported="" name="Maven: cglib:cglib-nodep:2.1_3" level="project" />
-    <orderEntry type="module" module-name="qi4j-lib-general" exported="" />
-    <orderEntry type="module" module-name="qi4j-lib-validation" exported="" />
+    <orderEntry type="library" exported="" name="Maven: org.qi4j.library:qi4j-lib-general:0.5-SNAPSHOT" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.qi4j.library:qi4j-lib-validation:0.5-SNAPSHOT" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.qi4j.extension:qi4j-entitystore-quick:0.5-SNAPSHOT" level="project" />
-    <orderEntry type="module" module-name="qi4j-indexing-rdf" exported="" />
-    <orderEntry type="module" module-name="qi4j-lib-rdf" exported="" />
-    <orderEntry type="module" module-name="qi4j-lib-constraints" exported="" />
+    <orderEntry type="library" exported="" name="Maven: org.qi4j.extension:qi4j-indexing-rdf:0.5-SNAPSHOT" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.qi4j.library:qi4j-lib-rdf:0.5-SNAPSHOT" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.qi4j.library:qi4j-lib-constraints:0.5-SNAPSHOT" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.openrdf.sesame:sesame-model:2.2.1" level="project" />
     <orderEntry type="library" exported="" name="Maven: info.aduna.commons:aduna-commons-collections:2.2" level="project" />
     <orderEntry type="library" exported="" name="Maven: info.aduna.commons:aduna-commons-concurrent:2.2" level="project" />
@@ -373,9 +373,9 @@
     <orderEntry type="library" exported="" name="Maven: commons-dbcp:commons-dbcp:1.2.2" level="project" />
     <orderEntry type="library" exported="" name="Maven: commons-pool:commons-pool:1.3" level="project" />
     <orderEntry type="library" exported="" name="Maven: org.slf4j:slf4j-simple:1.4.2" level="project" />
-    <orderEntry type="module" module-name="qi4j-app-chronos-core" exported="" />
-    <orderEntry type="module" module-name="qi4j-lib-quikit" exported="" />
-    <orderEntry type="module" module-name="qi4j-lib-http" exported="" />
+    <orderEntry type="library" exported="" name="Maven: org.qi4j.app.chronos:qi4j-app-chronos-core:0.5-SNAPSHOT" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.qi4j.library:qi4j-lib-quikit:0.5-SNAPSHOT" level="project" />
+    <orderEntry type="library" exported="" name="Maven: org.qi4j.library:qi4j-lib-http:0.5-SNAPSHOT" level="project" />
     <orderEntry type="library" name="Maven: org.mortbay.jetty:jetty:6.1.11" level="project" />
     <orderEntry type="library" name="Maven: org.mortbay.jetty:jetty-util:6.1.11" level="project" />
     <orderEntry type="library" name="Maven: org.mortbay.jetty:servlet-api-2.5:6.1.11" level="project" />
