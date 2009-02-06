@@ -16,31 +16,31 @@
  */
 package org.qi4j.chronos.domain.model.customer.assembly;
 
+import org.qi4j.api.composite.CompositeBuilder;
+import org.qi4j.api.composite.CompositeBuilderFactory;
+import org.qi4j.api.entity.EntityComposite;
+import org.qi4j.api.entity.Identity;
+import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.injection.scope.This;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.query.Query;
+import org.qi4j.api.query.QueryBuilder;
+import org.qi4j.api.query.QueryBuilderFactory;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.chronos.domain.model.common.priceRate.PriceRateSchedule;
 import org.qi4j.chronos.domain.model.customer.Customer;
 import org.qi4j.chronos.domain.model.customer.CustomerDetail;
 import org.qi4j.chronos.domain.model.customer.CustomerId;
 import org.qi4j.chronos.domain.model.customer.CustomerState;
 import org.qi4j.chronos.domain.model.user.contactPerson.ContactPerson;
-import org.qi4j.api.composite.CompositeBuilder;
-import org.qi4j.api.composite.CompositeBuilderFactory;
-import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.entity.AggregateEntity;
-import org.qi4j.api.entity.Identity;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.unitofwork.UnitOfWorkFactory;
-import org.qi4j.api.injection.scope.Structure;
-import org.qi4j.api.injection.scope.This;
-import org.qi4j.api.query.Query;
-import org.qi4j.api.query.QueryBuilder;
-import org.qi4j.api.query.QueryBuilderFactory;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
 @Mixins( CustomerEntity.CustomerMixin.class )
-interface CustomerEntity extends Customer, AggregateEntity
+interface CustomerEntity extends Customer, EntityComposite
 {
     abstract class CustomerMixin
         implements Customer

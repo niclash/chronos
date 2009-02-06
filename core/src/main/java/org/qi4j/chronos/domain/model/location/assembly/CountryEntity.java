@@ -16,6 +16,18 @@
  */
 package org.qi4j.chronos.domain.model.location.assembly;
 
+import org.qi4j.api.composite.CompositeBuilder;
+import org.qi4j.api.composite.CompositeBuilderFactory;
+import org.qi4j.api.entity.EntityComposite;
+import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.injection.scope.This;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.query.Query;
+import org.qi4j.api.query.QueryBuilder;
+import static org.qi4j.api.query.QueryExpressions.eq;
+import static org.qi4j.api.query.QueryExpressions.templateFor;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.chronos.domain.model.common.name.Name;
 import org.qi4j.chronos.domain.model.location.city.City;
 import org.qi4j.chronos.domain.model.location.city.CityState;
@@ -24,25 +36,13 @@ import org.qi4j.chronos.domain.model.location.country.CountryCode;
 import org.qi4j.chronos.domain.model.location.country.CountryState;
 import org.qi4j.chronos.domain.model.location.country.State;
 import org.qi4j.chronos.domain.model.location.country.StateState;
-import org.qi4j.api.composite.CompositeBuilder;
-import org.qi4j.api.composite.CompositeBuilderFactory;
-import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.entity.AggregateEntity;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.unitofwork.UnitOfWorkFactory;
-import org.qi4j.api.injection.scope.Structure;
-import org.qi4j.api.injection.scope.This;
-import org.qi4j.api.query.Query;
-import org.qi4j.api.query.QueryBuilder;
-import static org.qi4j.api.query.QueryExpressions.eq;
-import static org.qi4j.api.query.QueryExpressions.templateFor;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
 @Mixins( CountryEntity.CountryMixin.class )
-interface CountryEntity extends Country, Name, AggregateEntity
+interface CountryEntity extends Country, Name, EntityComposite
 {
     abstract class CountryMixin
         implements Country

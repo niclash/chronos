@@ -16,6 +16,16 @@
 */
 package org.qi4j.chronos.domain.model.account.assembly;
 
+import org.qi4j.api.composite.CompositeBuilderFactory;
+import org.qi4j.api.entity.EntityComposite;
+import org.qi4j.api.entity.Identity;
+import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.injection.scope.This;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.query.Query;
+import org.qi4j.api.query.QueryBuilder;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.chronos.domain.model.account.Account;
 import org.qi4j.chronos.domain.model.account.AccountId;
 import org.qi4j.chronos.domain.model.account.AccountState;
@@ -25,23 +35,13 @@ import org.qi4j.chronos.domain.model.location.address.Address;
 import org.qi4j.chronos.domain.model.project.Project;
 import org.qi4j.chronos.domain.model.project.role.ProjectRole;
 import org.qi4j.chronos.domain.model.user.staff.Staff;
-import org.qi4j.api.composite.CompositeBuilderFactory;
-import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.entity.AggregateEntity;
-import org.qi4j.api.entity.Identity;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.unitofwork.UnitOfWorkFactory;
-import org.qi4j.api.injection.scope.Structure;
-import org.qi4j.api.injection.scope.This;
-import org.qi4j.api.query.Query;
-import org.qi4j.api.query.QueryBuilder;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
 @Mixins( AccountEntity.AccountMixin.class )
-interface AccountEntity extends Account, AggregateEntity
+interface AccountEntity extends Account, EntityComposite
 {
     abstract class AccountMixin
         implements Account

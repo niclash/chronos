@@ -16,21 +16,21 @@
  */
 package org.qi4j.chronos.domain.model.location.assembly;
 
+import org.qi4j.api.common.Optional;
+import org.qi4j.api.entity.EntityComposite;
+import org.qi4j.api.injection.scope.This;
+import org.qi4j.api.mixin.Mixins;
 import org.qi4j.chronos.domain.model.location.city.City;
 import org.qi4j.chronos.domain.model.location.city.CityState;
 import org.qi4j.chronos.domain.model.location.country.Country;
 import org.qi4j.chronos.domain.model.location.country.State;
-import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.common.Optional;
-import org.qi4j.api.entity.AggregateEntity;
-import org.qi4j.api.injection.scope.This;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
 @Mixins( CityEntity.CityMixin.class )
-interface CityEntity extends City, AggregateEntity
+interface CityEntity extends City, EntityComposite
 {
     abstract class CityMixin
         implements City

@@ -16,20 +16,20 @@
  */
 package org.qi4j.chronos.domain.model.project.role.assembly;
 
+import org.qi4j.api.entity.EntityComposite;
+import org.qi4j.api.entity.Identity;
+import org.qi4j.api.injection.scope.This;
+import org.qi4j.api.mixin.Mixins;
 import org.qi4j.chronos.domain.model.project.role.ProjectRole;
 import org.qi4j.chronos.domain.model.project.role.ProjectRoleId;
 import org.qi4j.chronos.domain.model.project.role.ProjectRoleState;
-import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.entity.AggregateEntity;
-import org.qi4j.api.entity.Identity;
-import org.qi4j.api.injection.scope.This;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
 @Mixins( ProjectRoleEntity.ProjectRoleMixin.class )
-interface ProjectRoleEntity extends ProjectRole, AggregateEntity
+interface ProjectRoleEntity extends ProjectRole, EntityComposite
 {
     abstract class ProjectRoleMixin
         implements ProjectRole

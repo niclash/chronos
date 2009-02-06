@@ -23,7 +23,7 @@ import org.qi4j.chronos.ui.common.menu.MenuGroupPanel;
 import org.qi4j.chronos.ui.contactperson.ContactPersonMainMenuGroup;
 import org.qi4j.chronos.ui.project.RecentProjectMenuGroup;
 import org.qi4j.chronos.ui.staff.StaffMainMenuGroup;
-import org.qi4j.chronos.ui.wicket.admin.AdminMainMenuGroup;
+import org.qi4j.chronorubs.ui.wicket.admin.AdminMainMenuGroup;
 
 public abstract class LeftMenuNavPage extends TopMenuNavPage
 {
