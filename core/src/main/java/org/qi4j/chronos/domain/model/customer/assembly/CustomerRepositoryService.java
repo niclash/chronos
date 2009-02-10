@@ -16,18 +16,18 @@
  */
 package org.qi4j.chronos.domain.model.customer.assembly;
 
-import org.qi4j.chronos.domain.model.customer.Customer;
-import org.qi4j.chronos.domain.model.customer.CustomerId;
-import org.qi4j.chronos.domain.model.customer.CustomerRepository;
-import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.unitofwork.EntityCompositeNotFoundException;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.query.Query;
 import org.qi4j.api.query.QueryBuilder;
 import org.qi4j.api.query.QueryBuilderFactory;
 import org.qi4j.api.service.ServiceComposite;
+import org.qi4j.api.unitofwork.NoSuchEntityException;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkFactory;
+import org.qi4j.chronos.domain.model.customer.Customer;
+import org.qi4j.chronos.domain.model.customer.CustomerId;
+import org.qi4j.chronos.domain.model.customer.CustomerRepository;
 
 /**
  * @author edward.yakop@gmail.com
@@ -55,7 +55,7 @@ interface CustomerRepositoryService extends CustomerRepository, ServiceComposite
             {
                 return uow.find( customerId.idString(), Customer.class );
             }
-            catch( EntityCompositeNotFoundException e )
+            catch( NoSuchEntityException e )
             {
                 return null;
             }

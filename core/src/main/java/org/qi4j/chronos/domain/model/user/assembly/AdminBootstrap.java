@@ -16,19 +16,19 @@
  */
 package org.qi4j.chronos.domain.model.user.assembly;
 
-import org.qi4j.chronos.domain.model.user.SystemRole;
-import org.qi4j.chronos.domain.model.user.SystemRoleRepository;
-import org.qi4j.chronos.domain.model.user.admin.Admin;
-import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.entity.EntityBuilder;
-import org.qi4j.api.unitofwork.EntityCompositeNotFoundException;
+import org.qi4j.api.injection.scope.Service;
+import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.service.Activatable;
+import org.qi4j.api.service.ServiceComposite;
+import org.qi4j.api.unitofwork.NoSuchEntityException;
 import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.api.unitofwork.UnitOfWorkCompletionException;
 import org.qi4j.api.unitofwork.UnitOfWorkFactory;
-import org.qi4j.api.injection.scope.Service;
-import org.qi4j.api.injection.scope.Structure;
-import org.qi4j.api.service.Activatable;
-import org.qi4j.api.service.ServiceComposite;
+import org.qi4j.chronos.domain.model.user.SystemRole;
+import org.qi4j.chronos.domain.model.user.SystemRoleRepository;
+import org.qi4j.chronos.domain.model.user.admin.Admin;
 
 /**
  * @author edward.yakop@gmail.com
@@ -66,7 +66,7 @@ public interface AdminBootstrap extends Activatable, ServiceComposite
                 uow.discard();
                 return true;
             }
-            catch( EntityCompositeNotFoundException e )
+            catch( NoSuchEntityException e )
             {
                 return false;
             }

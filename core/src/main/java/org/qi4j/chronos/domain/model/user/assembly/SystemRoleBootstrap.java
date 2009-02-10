@@ -16,6 +16,14 @@
 */
 package org.qi4j.chronos.domain.model.user.assembly;
 
+import org.qi4j.api.entity.EntityBuilder;
+import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.service.Activatable;
+import org.qi4j.api.service.ServiceComposite;
+import org.qi4j.api.unitofwork.NoSuchEntityException;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.chronos.domain.model.common.name.NameState;
 import org.qi4j.chronos.domain.model.user.SystemRole;
 import static org.qi4j.chronos.domain.model.user.assembly.Constants.ACCOUNT_ADMIN_ID;
@@ -28,14 +36,6 @@ import static org.qi4j.chronos.domain.model.user.assembly.Constants.STAFF_ID;
 import static org.qi4j.chronos.domain.model.user.assembly.Constants.STAFF_NAME;
 import static org.qi4j.chronos.domain.model.user.assembly.Constants.SYSTEM_ADMIN_ID;
 import static org.qi4j.chronos.domain.model.user.assembly.Constants.SYSTEM_ADMIN_NAME;
-import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.entity.EntityBuilder;
-import org.qi4j.api.unitofwork.EntityCompositeNotFoundException;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.unitofwork.UnitOfWorkFactory;
-import org.qi4j.api.injection.scope.Structure;
-import org.qi4j.api.service.Activatable;
-import org.qi4j.api.service.ServiceComposite;
 
 /**
  * @author edward.yakop@gmail.com
@@ -73,7 +73,7 @@ interface SystemRoleBootstrap extends Activatable, ServiceComposite
             {
                 uow.find( aSystemRoleId, SystemRole.class );
             }
-            catch( EntityCompositeNotFoundException e )
+            catch( NoSuchEntityException e )
             {
                 EntityBuilder<SystemRole> roleBuilder = uow.newEntityBuilder( aSystemRoleId, SystemRole.class );
                 NameState nameState = roleBuilder.stateFor( NameState.class );

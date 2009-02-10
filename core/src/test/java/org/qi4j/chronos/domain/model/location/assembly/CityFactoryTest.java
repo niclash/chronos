@@ -35,7 +35,7 @@ import org.qi4j.api.service.ServiceReference;
 public final class CityFactoryTest extends AbstractLocationTest
 {
     @Test
-    @Ignore( "Looks like either the TestCase is incorrectly set up or that we have a bug in the Query system.")
+    @Ignore( "Association querying is not implement. Waiting for QI-67 to be resolved.")
     public final void testCreate()
     {
         ServiceFinder serviceFinder = moduleInstance.serviceFinder();

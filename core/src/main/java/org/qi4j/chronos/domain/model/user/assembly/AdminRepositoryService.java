@@ -24,7 +24,7 @@ import org.qi4j.api.query.QueryBuilderFactory;
 import static org.qi4j.api.query.QueryExpressions.eq;
 import static org.qi4j.api.query.QueryExpressions.templateFor;
 import org.qi4j.api.service.ServiceComposite;
-import org.qi4j.api.unitofwork.EntityCompositeNotFoundException;
+import org.qi4j.api.unitofwork.NoSuchEntityException;
 import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.chronos.domain.model.user.UserId;
@@ -51,7 +51,7 @@ interface AdminRepositoryService extends AdminRepository, ServiceComposite
             {
                 return uow.find( aUserId.idString(), Admin.class );
             }
-            catch( EntityCompositeNotFoundException e )
+            catch( NoSuchEntityException e )
             {
                 return null;
             }
@@ -70,7 +70,7 @@ interface AdminRepositoryService extends AdminRepository, ServiceComposite
                 Query<Admin> query = qb.newQuery();
                 return query.find();
             }
-            catch( EntityCompositeNotFoundException e )
+            catch( NoSuchEntityException e )
             {
                 return null;
             }

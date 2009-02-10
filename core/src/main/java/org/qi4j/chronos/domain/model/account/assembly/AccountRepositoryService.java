@@ -20,9 +20,9 @@ import org.qi4j.chronos.domain.model.account.Account;
 import org.qi4j.chronos.domain.model.account.AccountId;
 import org.qi4j.chronos.domain.model.account.AccountRepository;
 import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.unitofwork.EntityCompositeNotFoundException;
 import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.api.unitofwork.UnitOfWorkFactory;
+import org.qi4j.api.unitofwork.NoSuchEntityException;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.query.Query;
 import org.qi4j.api.query.QueryBuilder;
@@ -57,7 +57,7 @@ interface AccountRepositoryService extends AccountRepository, ServiceComposite
             {
                 return uow.find( accountIdString, Account.class );
             }
-            catch( EntityCompositeNotFoundException e )
+            catch( NoSuchEntityException e )
             {
                 return null;
             }

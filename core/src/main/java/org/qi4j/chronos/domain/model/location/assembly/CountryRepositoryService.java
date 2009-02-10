@@ -16,17 +16,17 @@
  */
 package org.qi4j.chronos.domain.model.location.assembly;
 
-import org.qi4j.chronos.domain.model.location.country.Country;
-import org.qi4j.chronos.domain.model.location.country.CountryRepository;
-import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.unitofwork.EntityCompositeNotFoundException;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.query.Query;
 import org.qi4j.api.query.QueryBuilder;
 import org.qi4j.api.query.QueryBuilderFactory;
 import org.qi4j.api.service.ServiceComposite;
+import org.qi4j.api.unitofwork.NoSuchEntityException;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkFactory;
+import org.qi4j.chronos.domain.model.location.country.Country;
+import org.qi4j.chronos.domain.model.location.country.CountryRepository;
 
 /**
  * @author edward.yakop@gmail.com
@@ -57,7 +57,7 @@ interface CountryRepositoryService extends CountryRepository, ServiceComposite
             {
                 return uow.find( aCode, Country.class );
             }
-            catch( EntityCompositeNotFoundException e )
+            catch( NoSuchEntityException e )
             {
                 return null;
             }

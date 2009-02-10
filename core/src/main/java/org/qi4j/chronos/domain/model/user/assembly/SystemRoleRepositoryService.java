@@ -16,6 +16,12 @@
 */
 package org.qi4j.chronos.domain.model.user.assembly;
 
+import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.service.ServiceComposite;
+import org.qi4j.api.unitofwork.NoSuchEntityException;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.chronos.domain.model.user.SystemRole;
 import org.qi4j.chronos.domain.model.user.SystemRoleId;
 import org.qi4j.chronos.domain.model.user.SystemRoleRepository;
@@ -23,12 +29,6 @@ import static org.qi4j.chronos.domain.model.user.assembly.Constants.ACCOUNT_DEVE
 import static org.qi4j.chronos.domain.model.user.assembly.Constants.CONTACT_PERSON_ID;
 import static org.qi4j.chronos.domain.model.user.assembly.Constants.STAFF_ID;
 import static org.qi4j.chronos.domain.model.user.assembly.Constants.SYSTEM_ADMIN_ID;
-import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.unitofwork.EntityCompositeNotFoundException;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.unitofwork.UnitOfWorkFactory;
-import org.qi4j.api.injection.scope.Structure;
-import org.qi4j.api.service.ServiceComposite;
 
 /**
  * @author edward.yakop@gmail.com
@@ -54,7 +54,7 @@ interface SystemRoleRepositoryService extends SystemRoleRepository, ServiceCompo
             {
                 return uow.find( id, SystemRole.class );
             }
-            catch( EntityCompositeNotFoundException e )
+            catch( NoSuchEntityException e )
             {
                 return null;
             }
