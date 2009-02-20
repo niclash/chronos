@@ -12,6 +12,14 @@
  */
 package org.qi4j.chronos.domain.service.authentication.assembly;
 
+import org.qi4j.api.common.Optional;
+import org.qi4j.api.injection.scope.Service;
+import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.query.Query;
+import org.qi4j.api.service.ServiceComposite;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.chronos.domain.model.account.Account;
 import org.qi4j.chronos.domain.model.customer.Customer;
 import org.qi4j.chronos.domain.model.user.Login;
@@ -22,17 +30,9 @@ import org.qi4j.chronos.domain.model.user.contactPerson.ContactPerson;
 import org.qi4j.chronos.domain.model.user.staff.Staff;
 import org.qi4j.chronos.domain.service.authentication.AuthenticationService;
 import org.qi4j.chronos.domain.service.authentication.UserAuthenticationFailException;
-import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.common.Optional;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.unitofwork.UnitOfWorkFactory;
-import org.qi4j.api.injection.scope.Service;
-import org.qi4j.api.injection.scope.Structure;
-import org.qi4j.api.query.Query;
-import org.qi4j.api.service.ServiceComposite;
 
 /**
- * TODO user encode password
+ * JAVADOC user encode password
  */
 @Mixins( AuthenticationServiceComposite.AuthenticationServiceMixin.class )
 interface AuthenticationServiceComposite extends AuthenticationService, ServiceComposite
