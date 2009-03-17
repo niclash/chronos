@@ -19,6 +19,7 @@ package org.qi4j.chronos.domain.model.project;
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.chronos.domain.model.project.assembly.ProjectAssembler;
+import org.qi4j.chronos.domain.model.common.comment.assembly.CommentAssembler;
 import org.qi4j.index.rdf.assembly.RdfMemoryStoreAssembler;
 import org.qi4j.entitystore.memory.MemoryEntityStoreService;
 import org.qi4j.spi.entity.helpers.UuidIdentityGeneratorService;
@@ -36,5 +37,6 @@ public abstract class AbstractProjectTest extends AbstractQi4jTest
         module.addAssembler( new RdfMemoryStoreAssembler() );
         module.addServices( MemoryEntityStoreService.class, UuidIdentityGeneratorService.class );
         module.addAssembler( new ProjectAssembler() );
+        module.addAssembler( new CommentAssembler() );
     }
 }

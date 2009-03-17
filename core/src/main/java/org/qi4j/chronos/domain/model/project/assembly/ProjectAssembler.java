@@ -38,7 +38,7 @@ public final class ProjectAssembler
             ProjectTaskEntity.class
         ).visibleIn( layer );
 
-        module.addServices( ProjectAssigneeFactory.class );
+        module.addServices( ProjectAssigneeFactory.class, ProjectTaskFactory.class );
 
         module.addAssembler( new ProjectRoleAssembler() );
     }

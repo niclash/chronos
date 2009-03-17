@@ -32,6 +32,6 @@ public final class CommentAssembler
         throws AssemblyException
     {
         module.addEntities( CommentEntity.class ).visibleIn( layer );
-        module.addServices( CommentFactory.class );
+        module.addServices( CommentFactory.class ).visibleIn( layer );
     }
 }
