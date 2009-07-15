@@ -34,11 +34,11 @@ abstract class AbstractCustomerTest extends AbstractQi4jTest
     public void assemble( ModuleAssembly module )
         throws AssemblyException
     {
-        module.addAssembler( new RdfMemoryStoreAssembler() );
+        new RdfMemoryStoreAssembler().assemble( module );
         module.addServices( MemoryEntityStoreService.class, UuidIdentityGeneratorService.class );
 
-        module.addAssembler( new UserAssembler() );
-        module.addAssembler( new LocationAssembler() );
-        module.addAssembler( new CustomerAssembler() );
+        new UserAssembler().assemble( module );
+        new LocationAssembler().assemble( module );
+        new CustomerAssembler().assemble( module );
     }
 }

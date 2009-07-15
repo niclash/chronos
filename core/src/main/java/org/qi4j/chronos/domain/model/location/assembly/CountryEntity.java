@@ -16,14 +16,15 @@
  */
 package org.qi4j.chronos.domain.model.location.assembly;
 
-import org.qi4j.api.composite.CompositeBuilder;
-import org.qi4j.api.composite.CompositeBuilderFactory;
+import org.qi4j.api.composite.TransientBuilder;
+import org.qi4j.api.composite.TransientBuilderFactory;
 import org.qi4j.api.entity.EntityComposite;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.injection.scope.This;
 import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.query.Query;
 import org.qi4j.api.query.QueryBuilder;
+import org.qi4j.api.query.QueryBuilderFactory;
 import static org.qi4j.api.query.QueryExpressions.eq;
 import static org.qi4j.api.query.QueryExpressions.templateFor;
 import org.qi4j.api.unitofwork.UnitOfWork;
@@ -48,7 +49,8 @@ interface CountryEntity extends Country, Name, EntityComposite
         implements Country
     {
         @This private CountryState state;
-        @Structure private CompositeBuilderFactory cbf;
+        @Structure private TransientBuilderFactory cbf;
+        @Structure private QueryBuilderFactory qbf;
         private CountryCode countryCode;
 
         @Structure private UnitOfWorkFactory uowf;
@@ -58,7 +60,7 @@ interface CountryEntity extends Country, Name, EntityComposite
         {
             if( countryCode == null )
             {
-                CompositeBuilder<CountryCode> builder = cbf.newCompositeBuilder( CountryCode.class );
+                TransientBuilder<CountryCode> builder = cbf.newTransientBuilder( CountryCode.class );
                 builder.use( state );
                 countryCode = builder.newInstance();
             }
@@ -69,17 +71,17 @@ interface CountryEntity extends Country, Name, EntityComposite
         public final Query<State> states()
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
-            QueryBuilder<State> builder = uow.queryBuilderFactory().newQueryBuilder( State.class );
+            QueryBuilder<State> builder = qbf.newQueryBuilder( State.class );
             builder.where( eq( templateFor( StateState.class ).country(), meAsEntity ) );
-            return builder.newQuery();
+            return builder.newQuery( uow );
         }
 
         public final Query<City> cities()
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
-            QueryBuilder<City> builder = uow.queryBuilderFactory().newQueryBuilder( City.class );
+            QueryBuilder<City> builder = qbf.newQueryBuilder( City.class );
             builder.where( eq( templateFor( CityState.class ).country(), meAsEntity ) );
-            return builder.newQuery();
+            return builder.newQuery( uow );
         }
     }
 }

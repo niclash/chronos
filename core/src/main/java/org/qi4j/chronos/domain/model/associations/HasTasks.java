@@ -13,9 +13,9 @@
 package org.qi4j.chronos.domain.model.associations;
 
 import org.qi4j.chronos.domain.model.common.task.Task;
-import org.qi4j.api.entity.association.SetAssociation;
+import org.qi4j.api.entity.association.ManyAssociation;
 
 public interface HasTasks
 {
-    SetAssociation<Task> tasks();
+    ManyAssociation<Task> tasks();
 }

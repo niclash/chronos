@@ -40,7 +40,7 @@ public final class CommentFactoryTest extends AbstractCommonTest
         throws AssemblyException
     {
         super.assemble( module );
-        module.addAssembler( new UserAssembler() );
+        new UserAssembler().assemble( module );
     }
 
     @Test
@@ -74,8 +74,8 @@ public final class CommentFactoryTest extends AbstractCommonTest
 
     private Admin findSystemAdmin( UnitOfWork uow )
     {
-        QueryBuilder<Admin> builder = uow.queryBuilderFactory().newQueryBuilder( Admin.class );
-        Admin adminUser = builder.newQuery().find();
+        QueryBuilder<Admin> builder = queryBuilderFactory.newQueryBuilder( Admin.class );
+        Admin adminUser = builder.newQuery( uow ).find();
         assertNotNull( adminUser );
         return adminUser;
     }

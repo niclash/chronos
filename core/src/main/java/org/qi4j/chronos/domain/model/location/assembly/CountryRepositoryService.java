@@ -39,14 +39,14 @@ interface CountryRepositoryService extends CountryRepository, ServiceComposite
         implements CountryRepository
     {
         @Structure UnitOfWorkFactory uowf;
+        @Structure QueryBuilderFactory qbf;
 
         public final Query<Country> findAll()
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
 
-            QueryBuilderFactory qbf = uow.queryBuilderFactory();
             QueryBuilder<Country> qb = qbf.newQueryBuilder( Country.class );
-            return qb.newQuery();
+            return qb.newQuery(uow);
         }
 
         public final Country findByNumericCode( String aCode )
@@ -55,7 +55,7 @@ interface CountryRepositoryService extends CountryRepository, ServiceComposite
 
             try
             {
-                return uow.find( aCode, Country.class );
+                return uow.get( Country.class, aCode );
             }
             catch( NoSuchEntityException e )
             {

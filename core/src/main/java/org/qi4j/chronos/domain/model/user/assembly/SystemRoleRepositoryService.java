@@ -52,7 +52,7 @@ interface SystemRoleRepositoryService extends SystemRoleRepository, ServiceCompo
             UnitOfWork uow = uowf.currentUnitOfWork();
             try
             {
-                return uow.find( id, SystemRole.class );
+                return uow.get( SystemRole.class, id );
             }
             catch( NoSuchEntityException e )
             {

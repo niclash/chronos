@@ -26,7 +26,7 @@ import org.qi4j.chronos.domain.model.project.assignee.ProjectAssignee;
 import org.qi4j.chronos.domain.model.project.task.ProjectTask;
 import org.qi4j.chronos.domain.model.user.contactPerson.ContactPerson;
 import org.qi4j.api.entity.association.Association;
-import org.qi4j.api.entity.association.SetAssociation;
+import org.qi4j.api.entity.association.ManyAssociation;
 import org.qi4j.api.property.Property;
 
 /**
@@ -43,17 +43,17 @@ public interface ProjectState extends NameState, ReferenceState
 
     Association<Customer> customer();
 
-    SetAssociation<ContactPerson> contactPersons();
+    ManyAssociation<ContactPerson> contactPersons();
 
     Association<ContactPerson> primaryContactPerson();
 
-    SetAssociation<ProjectAssignee> projectAssignees();
+    ManyAssociation<ProjectAssignee> projectAssignees();
 
     Association<ProjectAssignee> projectLeader();
 
-    SetAssociation<ProjectTask> tasks();
+    ManyAssociation<ProjectTask> tasks();
 
     Association<PriceRateSchedule> priceRateSchedule();
 
-    SetAssociation<LegalCondition> legalConditions();
+    ManyAssociation<LegalCondition> legalConditions();
 }

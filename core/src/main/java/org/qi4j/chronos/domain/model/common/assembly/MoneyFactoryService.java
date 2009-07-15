@@ -44,7 +44,7 @@ interface MoneyFactoryService extends MoneyFactory, ServiceComposite
             UnitOfWork uow = uowf.currentUnitOfWork();
 
             EntityBuilder<Money> builder = uow.newEntityBuilder( Money.class );
-            MoneyState state = builder.stateFor( MoneyState.class );
+            MoneyState state = builder.prototypeFor( MoneyState.class );
             String currencyCode = currency.getCurrencyCode();
             state.currencyCode().set( currencyCode );
             state.amount().set( amount );

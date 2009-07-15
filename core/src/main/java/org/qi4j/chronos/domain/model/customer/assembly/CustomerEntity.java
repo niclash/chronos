@@ -16,8 +16,8 @@
  */
 package org.qi4j.chronos.domain.model.customer.assembly;
 
-import org.qi4j.api.composite.CompositeBuilder;
-import org.qi4j.api.composite.CompositeBuilderFactory;
+import org.qi4j.api.composite.TransientBuilder;
+import org.qi4j.api.composite.TransientBuilderFactory;
 import org.qi4j.api.entity.EntityComposite;
 import org.qi4j.api.entity.Identity;
 import org.qi4j.api.injection.scope.Structure;
@@ -46,7 +46,8 @@ interface CustomerEntity extends Customer, EntityComposite
         implements Customer
     {
         private final CustomerId customerId;
-        @Structure private CompositeBuilderFactory cbf;
+        @Structure private TransientBuilderFactory cbf;
+        @Structure private QueryBuilderFactory qbf;
 
         @This private CustomerState state;
         private CustomerDetail customerDetail;
@@ -67,7 +68,7 @@ interface CustomerEntity extends Customer, EntityComposite
         {
             if( customerDetail == null )
             {
-                CompositeBuilder<CustomerDetail> builder = cbf.newCompositeBuilder( CustomerDetail.class );
+                TransientBuilder<CustomerDetail> builder = cbf.newTransientBuilder( CustomerDetail.class );
                 builder.use( state );
                 customerDetail = builder.newInstance();
             }
@@ -78,14 +79,13 @@ interface CustomerEntity extends Customer, EntityComposite
         public final Query<ContactPerson> contactPersons()
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
-            QueryBuilderFactory qbf = uow.queryBuilderFactory();
             QueryBuilder<ContactPerson> queryBuilder = qbf.newQueryBuilder( ContactPerson.class );
             return queryBuilder.newQuery( state.contactPersons() );
         }
 
         public final void addContactPerson( ContactPerson contactPerson )
         {
-            state.contactPersons().add( contactPerson );
+            state.contactPersons().add( 0, contactPerson );
         }
 
         public final void removeContactPerson( ContactPerson contactPerson )
@@ -96,7 +96,6 @@ interface CustomerEntity extends Customer, EntityComposite
         public final Query<PriceRateSchedule> priceRateSchedules()
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
-            QueryBuilderFactory qbf = uow.queryBuilderFactory();
             QueryBuilder<PriceRateSchedule> queryBuilder = qbf.newQueryBuilder( PriceRateSchedule.class );
             return queryBuilder.newQuery( state.priceRateSchedules() );
         }

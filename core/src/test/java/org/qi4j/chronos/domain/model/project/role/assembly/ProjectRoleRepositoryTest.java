@@ -87,9 +87,8 @@ public final class ProjectRoleRepositoryTest extends AbstractProjectTest
     private void removeAllRoles( UnitOfWork uow )
         throws UnitOfWorkCompletionException
     {
-        QueryBuilderFactory qbf = uow.queryBuilderFactory();
-        QueryBuilder<ProjectRole> builder = qbf.newQueryBuilder( ProjectRole.class );
-        Query<ProjectRole> roleQuery = builder.newQuery();
+        QueryBuilder<ProjectRole> builder = queryBuilderFactory.newQueryBuilder( ProjectRole.class );
+        Query<ProjectRole> roleQuery = builder.newQuery( uow );
 
         try
         {

@@ -39,13 +39,13 @@ interface CustomerRepositoryService extends CustomerRepository, ServiceComposite
         implements CustomerRepository
     {
         @Structure private UnitOfWorkFactory uowf;
+        @Structure private QueryBuilderFactory qbf;
 
         public final Query<Customer> findAll()
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
-            QueryBuilderFactory qbf = uow.queryBuilderFactory();
             QueryBuilder<Customer> builder = qbf.newQueryBuilder( Customer.class );
-            return builder.newQuery();
+            return builder.newQuery( uow );
         }
 
         public final Customer find( CustomerId customerId )
@@ -53,7 +53,7 @@ interface CustomerRepositoryService extends CustomerRepository, ServiceComposite
             UnitOfWork uow = uowf.currentUnitOfWork();
             try
             {
-                return uow.find( customerId.idString(), Customer.class );
+                return uow.get( Customer.class, customerId.idString() );
             }
             catch( NoSuchEntityException e )
             {

@@ -18,6 +18,7 @@ package org.qi4j.chronos.domain.model.user.assembly;
 
 import org.qi4j.chronos.domain.model.user.Login;
 import org.qi4j.api.composite.Composite;
+import org.qi4j.api.composite.TransientComposite;
 import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.injection.scope.Uses;
 
@@ -26,7 +27,7 @@ import org.qi4j.api.injection.scope.Uses;
  * @since 0.5
  */
 @Mixins( LoginComposite.LoginMixin.class )
-interface LoginComposite extends Login, Composite
+interface LoginComposite extends Login, TransientComposite
 {
     class LoginMixin
         implements Login

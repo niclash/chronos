@@ -62,7 +62,7 @@ public interface AdminBootstrap extends Activatable, ServiceComposite
         {
             try
             {
-                uow.find( ID_ADMIN, Admin.class );
+                uow.get( Admin.class, ID_ADMIN );
                 uow.discard();
                 return true;
             }
@@ -75,8 +75,8 @@ public interface AdminBootstrap extends Activatable, ServiceComposite
         private void createSystemAdminUser( UnitOfWork uow )
             throws UnitOfWorkCompletionException
         {
-            EntityBuilder<Admin> adminBuilder = uow.newEntityBuilder( ID_ADMIN, Admin.class );
-            UserState userState = adminBuilder.stateFor( UserState.class );
+            EntityBuilder<Admin> adminBuilder = uow.newEntityBuilder( Admin.class, ID_ADMIN );
+            UserState userState = adminBuilder.prototypeFor( UserState.class );
             userState.firstName().set( "Admin" );
             userState.lastName().set( "Admin" );
             userState.isLoginEnabled().set( true );
@@ -84,7 +84,7 @@ public interface AdminBootstrap extends Activatable, ServiceComposite
             userState.loginPassword().set( "admin" );
 
             SystemRole systemAdminRole = systemRoleRepository.systemAdmin();
-            userState.systemRoles().add( systemAdminRole );
+            userState.systemRoles().add( 0, systemAdminRole );
             adminBuilder.newInstance();
 
             uow.complete();

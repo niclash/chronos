@@ -33,7 +33,7 @@ public final class CustomerAssembler
         throws AssemblyException
     {
         module.addEntities( CustomerEntity.class ).visibleIn( layer );
-        module.addComposites( CustomerDetailComposite.class );
+        module.addTransients( CustomerDetailComposite.class );
 
         module.addServices(
             CustomerRepositoryService.class,

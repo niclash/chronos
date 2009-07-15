@@ -39,7 +39,7 @@ public final class LocationAssembler
             CityEntity.class
         ).visibleIn( layer );
 
-        aModule.addComposites( CountryCodeComposite.class );
+        aModule.addTransients( CountryCodeComposite.class );
         aModule.addServices(
             CountryRepositoryService.class,
             CityFactoryService.class

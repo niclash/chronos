@@ -16,21 +16,19 @@
 */
 package org.qi4j.chronos.domain.model.user.assembly;
 
-import org.qi4j.chronos.domain.model.user.Login;
-import org.qi4j.chronos.domain.model.user.SystemRole;
-import org.qi4j.chronos.domain.model.user.User;
-import org.qi4j.chronos.domain.model.user.UserDetail;
-import org.qi4j.chronos.domain.model.user.UserId;
-import org.qi4j.api.composite.CompositeBuilder;
-import org.qi4j.api.composite.CompositeBuilderFactory;
+import org.qi4j.api.composite.TransientBuilder;
+import org.qi4j.api.composite.TransientBuilderFactory;
 import org.qi4j.api.entity.Identity;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.injection.scope.This;
 import org.qi4j.api.query.Query;
 import org.qi4j.api.query.QueryBuilder;
 import org.qi4j.api.query.QueryBuilderFactory;
+import org.qi4j.chronos.domain.model.user.Login;
+import org.qi4j.chronos.domain.model.user.SystemRole;
+import org.qi4j.chronos.domain.model.user.User;
+import org.qi4j.chronos.domain.model.user.UserDetail;
+import org.qi4j.chronos.domain.model.user.UserId;
 
 /**
  * @author edward.yakop@gmail.com
@@ -40,8 +38,8 @@ final class UserMixin
     implements User
 {
     @This private UserState state;
-    @Structure private CompositeBuilderFactory cbf;
-    @Structure private UnitOfWorkFactory uowf;
+    @Structure private TransientBuilderFactory cbf;
+    @Structure private QueryBuilderFactory qbf;
 
     private final UserId userId;
     private UserDetail userDetail;
@@ -61,7 +59,7 @@ final class UserMixin
     {
         if( login == null )
         {
-            CompositeBuilder<Login> loginBuilder = cbf.newCompositeBuilder( Login.class );
+            TransientBuilder<Login> loginBuilder = cbf.newTransientBuilder( Login.class );
             loginBuilder.use( state );
             login = loginBuilder.newInstance();
         }
@@ -72,7 +70,7 @@ final class UserMixin
     {
         if( userDetail == null )
         {
-            CompositeBuilder<UserDetail> detailBuilder = cbf.newCompositeBuilder( UserDetail.class );
+            TransientBuilder<UserDetail> detailBuilder = cbf.newTransientBuilder( UserDetail.class );
             detailBuilder.use( state );
             userDetail = detailBuilder.newInstance();
         }
@@ -81,15 +79,13 @@ final class UserMixin
 
     public final Query<SystemRole> systemRoles()
     {
-        UnitOfWork uow = uowf.currentUnitOfWork();
-        QueryBuilderFactory qbf = uow.queryBuilderFactory();
         QueryBuilder<SystemRole> systemRoleBuilder = qbf.newQueryBuilder( SystemRole.class );
         return systemRoleBuilder.newQuery( state.systemRoles() );
     }
 
     public final void addSystemRole( SystemRole role )
     {
-        state.systemRoles().add( role );
+        state.systemRoles().add( 0, role );
     }
 
     public final void removeSystemRole( SystemRole role )

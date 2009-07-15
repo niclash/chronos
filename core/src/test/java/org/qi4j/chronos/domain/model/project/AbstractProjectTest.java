@@ -34,9 +34,9 @@ public abstract class AbstractProjectTest extends AbstractQi4jTest
     public final void assemble( ModuleAssembly module )
         throws AssemblyException
     {
-        module.addAssembler( new RdfMemoryStoreAssembler() );
+        new RdfMemoryStoreAssembler().assemble( module );
         module.addServices( MemoryEntityStoreService.class, UuidIdentityGeneratorService.class );
-        module.addAssembler( new ProjectAssembler() );
-        module.addAssembler( new CommentAssembler() );
+        new ProjectAssembler().assemble( module );
+        new CommentAssembler().assemble( module );
     }
 }

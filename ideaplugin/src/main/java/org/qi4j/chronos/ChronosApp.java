@@ -29,12 +29,12 @@ import org.qi4j.chronos.util.UiUtil;
 import org.qi4j.chronos.util.listener.EventCallback;
 import org.qi4j.chronos.util.listener.ListenerHandler;
 import org.qi4j.composite.Composite;
-import org.qi4j.composite.CompositeBuilder;
-import org.qi4j.composite.CompositeBuilderFactory;
+import org.qi4j.composite.TransientBuilder;
+import org.qi4j.composite.TransientBuilderFactory;
 
 public class ChronosApp
 {
-    private CompositeBuilderFactory factory;
+    private TransientBuilderFactory factory;
     private Services services;
 
     private org.qi4j.chronos.model.Project chronosProject;
@@ -54,7 +54,7 @@ public class ChronosApp
 
     private Project project;
 
-    public ChronosApp( Project project, ChronosConfig chronosConfig, CompositeBuilderFactory factory, Services services )
+    public ChronosApp( Project project, ChronosConfig chronosConfig, TransientBuilderFactory factory, Services services )
     {
         this.project = project;
         this.services = services;
@@ -302,14 +302,14 @@ public class ChronosApp
         disconnectChronosServer();
     }
 
-    public <T extends Composite> CompositeBuilder<T> newCompositeBuilder( Class<T> compositeType )
+    public <T extends Composite> TransientBuilder<T> newTransientBuilder( Class<T> compositeType )
     {
-        return factory.newCompositeBuilder( compositeType );
+        return factory.newTransientBuilder( compositeType );
     }
 
     public <T extends Composite> T newInstance( Class<T> compositeType )
     {
-        return factory.newCompositeBuilder( compositeType ).newInstance();
+        return factory.newTransientBuilder( compositeType ).newInstance();
     }
 
     public org.qi4j.chronos.model.Project getChronosProject()

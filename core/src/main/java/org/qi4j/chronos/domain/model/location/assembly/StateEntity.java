@@ -22,6 +22,7 @@ import org.qi4j.api.injection.scope.This;
 import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.query.Query;
 import org.qi4j.api.query.QueryBuilder;
+import org.qi4j.api.query.QueryBuilderFactory;
 import static org.qi4j.api.query.QueryExpressions.eq;
 import static org.qi4j.api.query.QueryExpressions.templateFor;
 import org.qi4j.api.unitofwork.UnitOfWork;
@@ -45,6 +46,7 @@ interface StateEntity extends State, EntityComposite
         @This private StateState state;
 
         @Structure private UnitOfWorkFactory uowf;
+        @Structure private QueryBuilderFactory qbf;
         @This private StateEntity meAsEntity;
 
         public final Country country()
@@ -55,9 +57,9 @@ interface StateEntity extends State, EntityComposite
         public final Query<City> cities()
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
-            QueryBuilder<City> builder = uow.queryBuilderFactory().newQueryBuilder( City.class );
+            QueryBuilder<City> builder = qbf.newQueryBuilder( City.class );
             builder.where( eq( templateFor( CityState.class ).state(), meAsEntity ) );
-            return builder.newQuery();
+            return builder.newQuery( uow );
         }
     }
 }

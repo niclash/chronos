@@ -61,8 +61,10 @@ interface AuthenticationServiceComposite extends AuthenticationService, ServiceC
         private User authenticateNonAdminUser( UnitOfWork uow, Account anAccount, String aUserName, String aPassword )
             throws UserAuthenticationFailException
         {
-            Account referencedAccount = uow.dereference( anAccount );
-
+            // TODO: derefernce() disappeared in 0.8
+            //       What was this for?
+//            Account referencedAccount = uow.dereference( anAccount );
+            Account referencedAccount = anAccount;
             // is user a staff
             Query<Staff> staffs = referencedAccount.staffs();
             User user = authenticateUsersFrom( aUserName, aPassword, staffs );

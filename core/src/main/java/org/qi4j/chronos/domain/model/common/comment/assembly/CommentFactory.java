@@ -46,7 +46,7 @@ interface CommentFactory extends ServiceComposite
             UnitOfWork uow = uowf.currentUnitOfWork();
 
             EntityBuilder<Comment> builder = uow.newEntityBuilder( Comment.class );
-            CommentState state = builder.stateFor( CommentState.class );
+            CommentState state = builder.prototypeFor( CommentState.class );
             state.comment().set( commentContent );
             Date createdDate = new Date();
             state.createdDate().set( createdDate );

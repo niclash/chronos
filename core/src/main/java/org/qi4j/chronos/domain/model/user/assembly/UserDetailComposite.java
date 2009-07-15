@@ -16,17 +16,17 @@
 */
 package org.qi4j.chronos.domain.model.user.assembly;
 
-import org.qi4j.chronos.domain.model.user.UserDetail;
-import org.qi4j.api.composite.Composite;
-import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.composite.TransientComposite;
 import org.qi4j.api.injection.scope.Uses;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.chronos.domain.model.user.UserDetail;
 
 /**
  * @author edward.yakop@gmail.com
  * @since 0.5
  */
 @Mixins( UserDetailComposite.UserDetailMixin.class )
-interface UserDetailComposite extends UserDetail, Composite
+interface UserDetailComposite extends UserDetail, TransientComposite
 {
     class UserDetailMixin
         implements UserDetail

@@ -42,6 +42,7 @@ interface AdminRepositoryService extends AdminRepository, ServiceComposite
         implements AdminRepository
     {
         @Structure private UnitOfWorkFactory uowf;
+        @Structure private QueryBuilderFactory qbf;
 
         public final Admin find( UserId aUserId )
         {
@@ -49,7 +50,7 @@ interface AdminRepositoryService extends AdminRepository, ServiceComposite
 
             try
             {
-                return uow.find( aUserId.idString(), Admin.class );
+                return uow.get( Admin.class, aUserId.idString() );
             }
             catch( NoSuchEntityException e )
             {
@@ -63,11 +64,10 @@ interface AdminRepositoryService extends AdminRepository, ServiceComposite
 
             try
             {
-                QueryBuilderFactory qbf = uow.queryBuilderFactory();
                 QueryBuilder<Admin> qb = qbf.newQueryBuilder( Admin.class );
                 UserState stateTemplate = templateFor( UserState.class );
                 qb.where( eq( stateTemplate.loginName(), aLoginName ) );
-                Query<Admin> query = qb.newQuery();
+                Query<Admin> query = qb.newQuery( uow );
                 return query.find();
             }
             catch( NoSuchEntityException e )

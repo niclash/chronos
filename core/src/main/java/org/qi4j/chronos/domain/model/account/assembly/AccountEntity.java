@@ -16,7 +16,7 @@
 */
 package org.qi4j.chronos.domain.model.account.assembly;
 
-import org.qi4j.api.composite.CompositeBuilderFactory;
+import org.qi4j.api.composite.TransientBuilderFactory;
 import org.qi4j.api.entity.EntityComposite;
 import org.qi4j.api.entity.Identity;
 import org.qi4j.api.injection.scope.Structure;
@@ -24,8 +24,7 @@ import org.qi4j.api.injection.scope.This;
 import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.query.Query;
 import org.qi4j.api.query.QueryBuilder;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.unitofwork.UnitOfWorkFactory;
+import org.qi4j.api.query.QueryBuilderFactory;
 import org.qi4j.chronos.domain.model.account.Account;
 import org.qi4j.chronos.domain.model.account.AccountId;
 import org.qi4j.chronos.domain.model.account.AccountState;
@@ -49,9 +48,8 @@ interface AccountEntity extends Account, EntityComposite
         private final AccountId accountId;
 
         @This private AccountState state;
-        @Structure private CompositeBuilderFactory cbf;
-
-        @Structure private UnitOfWorkFactory uowf;
+        @Structure private TransientBuilderFactory cbf;
+        @Structure private QueryBuilderFactory qbf;
 
         public AccountMixin( @This Identity anIdentity )
         {
@@ -80,36 +78,31 @@ interface AccountEntity extends Account, EntityComposite
 
         public final Query<Staff> staffs()
         {
-            UnitOfWork uow = uowf.currentUnitOfWork();
-            QueryBuilder<Staff> builder = uow.queryBuilderFactory().newQueryBuilder( Staff.class );
+            QueryBuilder<Staff> builder = qbf.newQueryBuilder( Staff.class );
             return builder.newQuery( state.staffs() );
         }
 
         public final Query<Customer> customers()
         {
-            UnitOfWork uow = uowf.currentUnitOfWork();
-            QueryBuilder<Customer> builder = uow.queryBuilderFactory().newQueryBuilder( Customer.class );
+            QueryBuilder<Customer> builder = qbf.newQueryBuilder( Customer.class );
             return builder.newQuery( state.customers() );
         }
 
         public final Query<Project> projects()
         {
-            UnitOfWork uow = uowf.currentUnitOfWork();
-            QueryBuilder<Project> builder = uow.queryBuilderFactory().newQueryBuilder( Project.class );
+            QueryBuilder<Project> builder = qbf.newQueryBuilder( Project.class );
             return builder.newQuery( state.projects() );
         }
 
         public final Query<ProjectRole> projectRoles()
         {
-            UnitOfWork uow = uowf.currentUnitOfWork();
-            QueryBuilder<ProjectRole> builder = uow.queryBuilderFactory().newQueryBuilder( ProjectRole.class );
+            QueryBuilder<ProjectRole> builder = qbf.newQueryBuilder( ProjectRole.class );
             return builder.newQuery( state.projectRoles() );
         }
 
         public final Query<PriceRateSchedule> priceRateSchedules()
         {
-            UnitOfWork uow = uowf.currentUnitOfWork();
-            QueryBuilder<PriceRateSchedule> builder = uow.queryBuilderFactory().newQueryBuilder( PriceRateSchedule.class );
+            QueryBuilder<PriceRateSchedule> builder = qbf.newQueryBuilder( PriceRateSchedule.class );
             return builder.newQuery( state.priceRateSchedules() );
         }
     }

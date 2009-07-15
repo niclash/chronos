@@ -28,6 +28,7 @@ import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.injection.scope.This;
 import org.qi4j.api.query.Query;
 import org.qi4j.api.query.QueryBuilder;
+import org.qi4j.api.query.QueryBuilderFactory;
 
 /**
  * @author edward.yakop@gmail.com
@@ -40,6 +41,7 @@ interface PriceRateScheduleEntity extends PriceRateSchedule, EntityComposite
         implements PriceRateSchedule
     {
         @Structure private UnitOfWorkFactory uowf;
+        @Structure private QueryBuilderFactory qbf;
 
         @This private PriceRateScheduleState state;
         private Currency defaultPriceRateCurrency;
@@ -58,9 +60,9 @@ interface PriceRateScheduleEntity extends PriceRateSchedule, EntityComposite
         public final Query<PriceRate> priceRates()
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
-            QueryBuilder<PriceRate> builder = uow.queryBuilderFactory().newQueryBuilder( PriceRate.class );
+            QueryBuilder<PriceRate> builder = qbf.newQueryBuilder( PriceRate.class );
             builder.newQuery( state.priceRates() );
-            return builder.newQuery();
+            return builder.newQuery( uow );
         }
     }
 }

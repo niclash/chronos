@@ -31,6 +31,7 @@ import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.query.Query;
 import org.qi4j.api.query.QueryBuilder;
+import org.qi4j.api.query.QueryBuilderFactory;
 import static org.qi4j.api.query.QueryExpressions.and;
 import static org.qi4j.api.query.QueryExpressions.eq;
 import static org.qi4j.api.query.QueryExpressions.templateFor;
@@ -72,6 +73,7 @@ interface CityFactoryService extends CityFactory, ServiceComposite
         }
 
         @Structure private UnitOfWorkFactory uowf;
+        @Structure private QueryBuilderFactory qbf;
 
         public final City create( String cityName, @Optional State state, @Optional Country country )
             throws DuplicateCityException
@@ -81,12 +83,12 @@ interface CityFactoryService extends CityFactory, ServiceComposite
             UnitOfWork uow = uowf.currentUnitOfWork();
             if( state != null )
             {
-                validateCityWithinState( cityName, state, uow );
+                validateCityWithinState( cityName, state );
                 return createCity( cityName, state, country, uow );
             }
             else
             {
-                validateCityWithinCountry( cityName, country, uow );
+                validateCityWithinCountry( cityName, country );
                 return createCity( cityName, state, country, uow );
             }
         }
@@ -105,11 +107,11 @@ interface CityFactoryService extends CityFactory, ServiceComposite
             }
         }
 
-        private void validateCityWithinState( String cityName, State state, UnitOfWork uow )
+        private void validateCityWithinState( String cityName, State state )
             throws DuplicateCityException
         {
             Query<City> cities = state.cities();
-            QueryBuilder<City> builder = uow.queryBuilderFactory().newQueryBuilder( City.class );
+            QueryBuilder<City> builder = qbf.newQueryBuilder( City.class );
             builder.where( cityWithinState );
             Query<City> query = builder.newQuery( cities );
             query.setVariable( VARIABLE_STATE, state );
@@ -125,7 +127,7 @@ interface CityFactoryService extends CityFactory, ServiceComposite
         private City createCity( String cityName, State state, Country country, UnitOfWork uow )
         {
             EntityBuilder<City> cityBuilder = uow.newEntityBuilder( City.class );
-            CityState cityState = cityBuilder.stateFor( CityState.class );
+            CityState cityState = cityBuilder.prototypeFor( CityState.class );
             if( state != null )
             {
                 cityState.state().set( state );
@@ -138,11 +140,11 @@ interface CityFactoryService extends CityFactory, ServiceComposite
             return cityBuilder.newInstance();
         }
 
-        private void validateCityWithinCountry( String cityName, Country country, UnitOfWork uow )
+        private void validateCityWithinCountry( String cityName, Country country )
             throws DuplicateCityException
         {
             Query<City> cities = country.cities();
-            QueryBuilder<City> builder = uow.queryBuilderFactory().newQueryBuilder( City.class );
+            QueryBuilder<City> builder = qbf.newQueryBuilder( City.class );
             builder.where( cityWithinCountry );
             Query<City> query = builder.newQuery( cities );
             query.setVariable( VARIABLE_COUNTRY, country );

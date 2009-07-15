@@ -7,8 +7,7 @@
  */
 package org.qi4j.chronos.domain.model;
 
-import org.qi4j.library.general.model.HasMoney;
-
-public interface Salary extends HasMoney
+//TODO
+public interface Salary
 {
 }

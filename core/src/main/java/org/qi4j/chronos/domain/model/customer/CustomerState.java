@@ -24,7 +24,7 @@ import org.qi4j.chronos.domain.model.location.address.Address;
 import org.qi4j.chronos.domain.model.user.contactPerson.ContactPerson;
 import org.qi4j.api.common.Optional;
 import org.qi4j.api.entity.association.Association;
-import org.qi4j.api.entity.association.SetAssociation;
+import org.qi4j.api.entity.association.ManyAssociation;
 
 /**
  * @author edward.yakop@gmail.com
@@ -34,7 +34,7 @@ public interface CustomerState extends NameState, ReferenceState, EnableState
 {
     @Optional Association<Address> address();
 
-    SetAssociation<ContactPerson> contactPersons();
+    ManyAssociation<ContactPerson> contactPersons();
 
-    SetAssociation<PriceRateSchedule> priceRateSchedules();
+    ManyAssociation<PriceRateSchedule> priceRateSchedules();
 }

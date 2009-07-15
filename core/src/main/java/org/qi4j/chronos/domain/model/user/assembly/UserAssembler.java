@@ -43,7 +43,7 @@ public final class UserAssembler
             AdminBootstrap.class
         ).instantiateOnStartup();
 
-        aModule.addComposites(
+        aModule.addTransients(
             UserDetailComposite.class,
             LoginComposite.class
         );

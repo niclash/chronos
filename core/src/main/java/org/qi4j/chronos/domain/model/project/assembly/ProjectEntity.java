@@ -16,7 +16,7 @@
  */
 package org.qi4j.chronos.domain.model.project.assembly;
 
-import org.qi4j.api.composite.CompositeBuilderFactory;
+import org.qi4j.api.composite.TransientBuilderFactory;
 import org.qi4j.api.entity.EntityComposite;
 import org.qi4j.api.entity.Identity;
 import org.qi4j.api.injection.scope.Service;
@@ -56,13 +56,14 @@ interface ProjectEntity extends Project, EntityComposite
         private final ProjectId projectId;
 
         @Structure private UnitOfWorkFactory uowf;
-        @This private ProjectState state;
-        @Structure private CompositeBuilderFactory cbf;
+        @Structure private TransientBuilderFactory cbf;
+        @Structure private QueryBuilderFactory qbf;
 
-        @Service private ProjectAssigneeFactory assigneeFactory;
+        @This private ProjectState state;
         @This private Project meAsProject;
 
         @Service private ProjectTaskFactory taskFactory;
+        @Service private ProjectAssigneeFactory assigneeFactory;
 
         public ProjectMixin( @This Identity identity )
         {
@@ -93,10 +94,9 @@ interface ProjectEntity extends Project, EntityComposite
         public final Query<ContactPerson> contactPersons()
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
-            QueryBuilderFactory qbf = uow.queryBuilderFactory();
             QueryBuilder<ContactPerson> builder = qbf.newQueryBuilder( ContactPerson.class );
             builder.newQuery( state.contactPersons() );
-            return builder.newQuery();
+            return builder.newQuery( uow );
         }
 
         public final ContactPerson primaryContactPerson()
@@ -106,8 +106,6 @@ interface ProjectEntity extends Project, EntityComposite
 
         public final Query<ProjectAssignee> projectAssignees()
         {
-            UnitOfWork uow = uowf.currentUnitOfWork();
-            QueryBuilderFactory qbf = uow.queryBuilderFactory();
             QueryBuilder<ProjectAssignee> builder = qbf.newQueryBuilder( ProjectAssignee.class );
             return builder.newQuery( state.projectAssignees() );
         }
@@ -115,7 +113,7 @@ interface ProjectEntity extends Project, EntityComposite
         public final ProjectAssignee addProjectAssignee( ProjectRole role )
         {
             ProjectAssignee projectAssignee = assigneeFactory.create( meAsProject, role );
-            state.projectAssignees().add( projectAssignee );
+            state.projectAssignees().add( 0, projectAssignee );
             return projectAssignee;
         }
 
@@ -134,8 +132,6 @@ interface ProjectEntity extends Project, EntityComposite
 
         public final Query<ProjectTask> tasks()
         {
-            UnitOfWork uow = uowf.currentUnitOfWork();
-            QueryBuilderFactory qbf = uow.queryBuilderFactory();
             QueryBuilder<ProjectTask> builder = qbf.newQueryBuilder( ProjectTask.class );
             return builder.newQuery( state.tasks() );
         }
@@ -148,8 +144,7 @@ interface ProjectEntity extends Project, EntityComposite
 
         public final Query<LegalCondition> legalConditions()
         {
-            UnitOfWork uow = uowf.currentUnitOfWork();
-            QueryBuilder<LegalCondition> builder = uow.queryBuilderFactory().newQueryBuilder( LegalCondition.class );
+            QueryBuilder<LegalCondition> builder = qbf.newQueryBuilder( LegalCondition.class );
             return builder.newQuery( state.legalConditions() );
         }
 

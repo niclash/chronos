@@ -32,8 +32,8 @@ abstract class AbstractAccountTest extends AbstractQi4jTest
     public void assemble( ModuleAssembly module )
         throws AssemblyException
     {
-        module.addAssembler( new RdfMemoryStoreAssembler() );
+        new RdfMemoryStoreAssembler().assemble( module );
         module.addServices( MemoryEntityStoreService.class, UuidIdentityGeneratorService.class );
-        module.addAssembler( new AccountAssembler() );
+        new AccountAssembler().assemble( module );
     }
 }

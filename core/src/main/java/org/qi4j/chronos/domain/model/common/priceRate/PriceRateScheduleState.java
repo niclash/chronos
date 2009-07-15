@@ -16,7 +16,7 @@
  */
 package org.qi4j.chronos.domain.model.common.priceRate;
 
-import org.qi4j.api.entity.association.SetAssociation;
+import org.qi4j.api.entity.association.ManyAssociation;
 import org.qi4j.api.property.Property;
 
 /**
@@ -27,5 +27,5 @@ public interface PriceRateScheduleState
 {
     Property<String> defaultCurrencyCode();
 
-    SetAssociation<PriceRate> priceRates();
+    ManyAssociation<PriceRate> priceRates();
 }

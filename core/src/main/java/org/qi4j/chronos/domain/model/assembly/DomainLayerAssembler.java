@@ -36,13 +36,13 @@ public class DomainLayerAssembler
         LayerAssembly domainLayer = anApplicationAssembly.newLayerAssembly( LAYER_DOMAIN );
 
         ModuleAssembly accountModule = domainLayer.newModuleAssembly( MODULE_ACCOUNT );
-        accountModule.addAssembler( new AccountAssembler() );
+        new AccountAssembler().assemble( accountModule );
 
         ModuleAssembly commonModule = domainLayer.newModuleAssembly( MODULE_COMMON );
-        commonModule.addAssembler( new CommonAssembler() );
+        new CommonAssembler().assemble( commonModule );
 
         ModuleAssembly projectModule = domainLayer.newModuleAssembly( MODULE_PROJECT );
-        projectModule.addAssembler( new ProjectAssembler() );
+        new ProjectAssembler().assemble( projectModule );
 
         return domainLayer;
     }

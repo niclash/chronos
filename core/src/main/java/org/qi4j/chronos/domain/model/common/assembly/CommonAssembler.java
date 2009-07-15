@@ -33,7 +33,7 @@ public final class CommonAssembler
     public final void assemble( ModuleAssembly aModule )
         throws AssemblyException
     {
-        aModule.addAssembler( new CommentAssembler() );
+        new CommentAssembler().assemble( aModule );
 
         aModule.addEntities(
             LegalConditionEntity.class,

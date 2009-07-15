@@ -38,6 +38,6 @@ class HasTaskStatusMixin
     public final void updateTaskStatus( TaskStatus newStatus, @Optional Comment comment )
     {
         state.status().set( newStatus );
-        state.comments().add( comment );
+        state.comments().add( 0, comment );
     }
 }

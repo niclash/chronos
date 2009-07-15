@@ -45,7 +45,7 @@ interface PeriodFactoryService extends PeriodFactory, ServiceComposite
             UnitOfWork uow = uowf.currentUnitOfWork();
 
             EntityBuilder<Period> builder = uow.newEntityBuilder( Period.class );
-            PeriodState state = builder.stateFor( PeriodState.class );
+            PeriodState state = builder.prototypeFor( PeriodState.class );
             state.startTime().set( startTime );
             state.endTime().set( endTime );
             return builder.newInstance();

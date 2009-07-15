@@ -43,7 +43,7 @@ interface CustomerFactoryService extends CustomerFactory, ServiceComposite
             UnitOfWork uow = uowf.currentUnitOfWork();
 
             EntityBuilder<Customer> builder = uow.newEntityBuilder( Customer.class );
-            CustomerState state = builder.stateFor( CustomerState.class );
+            CustomerState state = builder.prototypeFor( CustomerState.class );
             state.name().set( name );
             state.referenceName().set( referenceName );
             Customer customer = builder.newInstance();

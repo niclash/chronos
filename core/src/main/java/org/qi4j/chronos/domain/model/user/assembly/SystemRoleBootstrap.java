@@ -71,12 +71,12 @@ interface SystemRoleBootstrap extends Activatable, ServiceComposite
         {
             try
             {
-                uow.find( aSystemRoleId, SystemRole.class );
+                uow.get( SystemRole.class, aSystemRoleId );
             }
             catch( NoSuchEntityException e )
             {
-                EntityBuilder<SystemRole> roleBuilder = uow.newEntityBuilder( aSystemRoleId, SystemRole.class );
-                NameState nameState = roleBuilder.stateFor( NameState.class );
+                EntityBuilder<SystemRole> roleBuilder = uow.newEntityBuilder( SystemRole.class, aSystemRoleId );
+                NameState nameState = roleBuilder.prototypeFor( NameState.class );
                 nameState.name().set( aSystemRoleName );
                 roleBuilder.newInstance();
             }

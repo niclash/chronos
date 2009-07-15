@@ -40,13 +40,13 @@ interface AccountRepositoryService extends AccountRepository, ServiceComposite
         implements AccountRepository
     {
         @Structure UnitOfWorkFactory uowf;
+        @Structure QueryBuilderFactory qbf;
 
         public final Query<Account> findAll()
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
-            QueryBuilderFactory qbf = uow.queryBuilderFactory();
             QueryBuilder<Account> builder = qbf.newQueryBuilder( Account.class );
-            return builder.newQuery();
+            return builder.newQuery( uow );
         }
 
         public final Account find( AccountId accountId )
@@ -55,7 +55,7 @@ interface AccountRepositoryService extends AccountRepository, ServiceComposite
             String accountIdString = accountId.idString();
             try
             {
-                return uow.find( accountIdString, Account.class );
+                return uow.get( Account.class, accountIdString );
             }
             catch( NoSuchEntityException e )
             {

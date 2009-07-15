@@ -25,7 +25,7 @@ import org.qi4j.chronos.domain.model.project.role.ProjectRole;
 import org.qi4j.chronos.domain.model.user.staff.Staff;
 import org.qi4j.api.common.Optional;
 import org.qi4j.api.entity.association.Association;
-import org.qi4j.api.entity.association.SetAssociation;
+import org.qi4j.api.entity.association.ManyAssociation;
 import org.qi4j.api.property.Property;
 
 /**
@@ -38,13 +38,13 @@ public interface AccountState extends NameState
 
     @Optional Association<Address> address();
 
-    SetAssociation<Staff> staffs();
+    ManyAssociation<Staff> staffs();
 
-    SetAssociation<Customer> customers();
+    ManyAssociation<Customer> customers();
 
-    SetAssociation<Project> projects();
+    ManyAssociation<Project> projects();
 
-    SetAssociation<ProjectRole> projectRoles();
+    ManyAssociation<ProjectRole> projectRoles();
 
-    SetAssociation<PriceRateSchedule> priceRateSchedules();
+    ManyAssociation<PriceRateSchedule> priceRateSchedules();
 }

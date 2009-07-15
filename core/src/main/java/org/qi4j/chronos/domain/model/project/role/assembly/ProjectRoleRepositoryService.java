@@ -40,13 +40,13 @@ interface ProjectRoleRepositoryService extends ProjectRoleRepository, ServiceCom
         implements ProjectRoleRepository
     {
         @Structure private UnitOfWorkFactory uowf;
+        @Structure private QueryBuilderFactory qbf;
 
         public final Query<ProjectRole> findAll()
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
-            QueryBuilderFactory qbf = uow.queryBuilderFactory();
             QueryBuilder<ProjectRole> builder = qbf.newQueryBuilder( ProjectRole.class );
-            return builder.newQuery();
+            return builder.newQuery( uow );
         }
 
         public final ProjectRole find( ProjectRoleId roleId )
@@ -54,7 +54,7 @@ interface ProjectRoleRepositoryService extends ProjectRoleRepository, ServiceCom
             UnitOfWork uow = uowf.currentUnitOfWork();
             try
             {
-                return uow.find( roleId.idString(), ProjectRole.class );
+                return uow.get( ProjectRole.class, roleId.idString() );
             }
             catch( NoSuchEntityException e )
             {

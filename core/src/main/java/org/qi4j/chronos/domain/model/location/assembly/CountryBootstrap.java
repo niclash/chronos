@@ -318,8 +318,8 @@ interface CountryBootstrap extends Activatable, ServiceComposite
 
         private void createCountry( UnitOfWork uow, String countryName, String numeric, String alpha2, String alpha3 )
         {
-            EntityBuilder<Country> countryBuilder = uow.newEntityBuilder( numeric, Country.class );
-            CountryState countryState = countryBuilder.stateFor( CountryState.class );
+            EntityBuilder<Country> countryBuilder = uow.newEntityBuilder( Country.class, numeric );
+            CountryState countryState = countryBuilder.prototypeFor( CountryState.class );
             countryState.countryCodeNumeric().set( numeric );
             countryState.countryCodeAlpha2().set( alpha2 );
             countryState.countryCodeAlpha3().set( alpha3 );

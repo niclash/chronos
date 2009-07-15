@@ -28,6 +28,7 @@ import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.query.Query;
 import org.qi4j.api.query.QueryBuilder;
+import org.qi4j.api.query.QueryBuilderFactory;
 import static org.qi4j.api.query.QueryExpressions.eq;
 import static org.qi4j.api.query.QueryExpressions.templateFor;
 import static org.qi4j.api.query.QueryExpressions.variable;
@@ -55,6 +56,7 @@ interface ProjectRoleFactoryService extends ProjectRoleFactory, ServiceComposite
         }
 
         @Structure private UnitOfWorkFactory uowf;
+        @Structure private QueryBuilderFactory qbf;
 
         public final ProjectRole create( String projectRoleName )
             throws ProjectRoleExistsException
@@ -67,16 +69,16 @@ interface ProjectRoleFactoryService extends ProjectRoleFactory, ServiceComposite
         private ProjectRole createProjectRole( String projectRoleName, UnitOfWork uow )
         {
             EntityBuilder<ProjectRole> builder = uow.newEntityBuilder( ProjectRole.class );
-            builder.stateFor( ProjectRoleState.class ).name().set( projectRoleName );
+            builder.prototypeFor( ProjectRoleState.class ).name().set( projectRoleName );
             return builder.newInstance();
         }
 
         private void validateRoleNameUniqueness( String projectRoleName, UnitOfWork uow )
             throws ProjectRoleExistsException
         {
-            QueryBuilder<ProjectRole> builder = uow.queryBuilderFactory().newQueryBuilder( ProjectRole.class );
+            QueryBuilder<ProjectRole> builder = qbf.newQueryBuilder( ProjectRole.class );
             builder.where( PREDICATE_ROLE_NAME );
-            Query<ProjectRole> query = builder.newQuery();
+            Query<ProjectRole> query = builder.newQuery( uow );
             query.setVariable( VARIABLE_ROLE_NAME, projectRoleName );
             ProjectRole role = query.find();
             if( role != null )

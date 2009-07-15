@@ -20,6 +20,7 @@ import org.qi4j.chronos.domain.model.customer.CustomerDetail;
 import org.qi4j.chronos.domain.model.customer.CustomerState;
 import org.qi4j.chronos.domain.model.location.address.Address;
 import org.qi4j.api.composite.Composite;
+import org.qi4j.api.composite.TransientComposite;
 import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.common.Optional;
 import org.qi4j.api.injection.scope.Uses;
@@ -29,7 +30,7 @@ import org.qi4j.api.injection.scope.Uses;
  * @since 0.5
  */
 @Mixins( CustomerDetailComposite.CustomerDetailMixin.class )
-interface CustomerDetailComposite extends CustomerDetail, Composite
+interface CustomerDetailComposite extends CustomerDetail, TransientComposite
 {
     class CustomerDetailMixin
         implements CustomerDetail

@@ -17,6 +17,13 @@
 package org.qi4j.chronos.domain.model.common.task.assembly;
 
 import java.util.Date;
+import org.qi4j.api.common.Optional;
+import org.qi4j.api.entity.Identity;
+import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.injection.scope.This;
+import org.qi4j.api.query.Query;
+import org.qi4j.api.query.QueryBuilder;
+import org.qi4j.api.query.QueryBuilderFactory;
 import org.qi4j.chronos.domain.model.common.comment.Comment;
 import org.qi4j.chronos.domain.model.common.task.Task;
 import org.qi4j.chronos.domain.model.common.task.TaskId;
@@ -25,15 +32,6 @@ import org.qi4j.chronos.domain.model.common.task.TaskState;
 import org.qi4j.chronos.domain.model.common.task.TaskStatus;
 import org.qi4j.chronos.domain.model.common.task.WorkEntry;
 import org.qi4j.chronos.domain.model.user.User;
-import org.qi4j.api.injection.scope.This;
-import org.qi4j.api.injection.scope.Structure;
-import org.qi4j.api.unitofwork.UnitOfWorkFactory;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.entity.Identity;
-import org.qi4j.api.query.Query;
-import org.qi4j.api.query.QueryBuilderFactory;
-import org.qi4j.api.query.QueryBuilder;
-import org.qi4j.api.common.Optional;
 
 /**
  * @author edward.yakop@gmail.com
@@ -45,7 +43,7 @@ public abstract class TaskMixin
     private final TaskId taskId;
     @This private TaskState state;
 
-    @Structure private UnitOfWorkFactory uowf;
+    @Structure private QueryBuilderFactory qbf;
 
     public TaskMixin( @This Identity identity )
     {
@@ -70,7 +68,7 @@ public abstract class TaskMixin
     public final void updateTaskStatus( TaskStatus newStatus, @Optional Comment comment )
     {
         state.status().set( newStatus );
-        state.comments().add( comment );
+        state.comments().add( 0, comment );
     }
 
     public final TaskPriority priority()
@@ -98,8 +96,6 @@ public abstract class TaskMixin
 
     public final Query<WorkEntry> workEntries()
     {
-        UnitOfWork uow = uowf.currentUnitOfWork();
-        QueryBuilderFactory qbf = uow.queryBuilderFactory();
         QueryBuilder<WorkEntry> builder = qbf.newQueryBuilder( WorkEntry.class );
         return builder.newQuery( state.workEntries() );
     }

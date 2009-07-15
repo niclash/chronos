@@ -41,8 +41,8 @@ import org.qi4j.bootstrap.SingletonAssembler;
 import org.qi4j.chronos.action.task.TaskAssociationAction;
 import org.qi4j.chronos.service.Services;
 import org.qi4j.chronos.service.composites.ServicesComposite;
-import org.qi4j.composite.CompositeBuilder;
-import org.qi4j.composite.CompositeBuilderFactory;
+import org.qi4j.composite.TransientBuilder;
+import org.qi4j.composite.TransientBuilderFactory;
 import org.qi4j.runtime.Energy4Java;
 import org.qi4j.runtime.Qi4jRuntime;
 import org.qi4j.runtime.structure.ApplicationInstance;
@@ -64,7 +64,7 @@ public class ChronosProjectComponent
 
     private ToolWindowManager toolWindowManager;
 
-    private CompositeBuilderFactory factory;
+    private TransientBuilderFactory factory;
 
     private Services services;
     private Project project;
@@ -200,7 +200,7 @@ public class ChronosProjectComponent
           if these codes were placed in projectOpened method, it will throw an
           ExceptionInInitializerError by Enhancer class in cglib. Fix it.
          */
-//        factory = new Energy4Java().newCompositeBuilderFactory();
+//        factory = new Energy4Java().newTransientBuilderFactory();
 
         try
         {
@@ -208,8 +208,8 @@ public class ChronosProjectComponent
             application.activate();
             LayerInstance layerInstance = application.getLayerInstances().get( 0 );
             ModuleInstance moduleInstance = layerInstance.getModuleInstances().get( 0 );
-            factory = moduleInstance.getStructureContext().getCompositeBuilderFactory();
-            CompositeBuilder<ServicesComposite> serviceBuilder = factory.newCompositeBuilder( ServicesComposite.class );
+            factory = moduleInstance.getStructureContext().getTransientBuilderFactory();
+            TransientBuilder<ServicesComposite> serviceBuilder = factory.newTransientBuilder( ServicesComposite.class );
             services = serviceBuilder.newInstance();
             services.initServices();
         }

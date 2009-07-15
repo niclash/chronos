@@ -41,12 +41,11 @@ public class HasCommentsMixin
 {
     @This private HasCommentsState state;
     @Structure private UnitOfWorkFactory uowf;
+    @Structure private QueryBuilderFactory qbf;
     @Service CommentFactory commentFactory;
 
     public final Query<Comment> comments()
     {
-        UnitOfWork uow = uowf.currentUnitOfWork();
-        QueryBuilderFactory qbf = uow.queryBuilderFactory();
         QueryBuilder<Comment> builder = qbf.newQueryBuilder( Comment.class );
         return builder.newQuery( state.comments() );
     }
@@ -54,7 +53,7 @@ public class HasCommentsMixin
     public final Comment addComment( String commentContent, User user )
     {
         Comment comment = create( commentContent, user );
-        state.comments().add( comment );
+        state.comments().add( 0, comment );
         return comment;
     }
 
@@ -63,7 +62,7 @@ public class HasCommentsMixin
         UnitOfWork uow = uowf.currentUnitOfWork();
 
         EntityBuilder<Comment> builder = uow.newEntityBuilder( Comment.class );
-        CommentState state = builder.stateFor( CommentState.class );
+        CommentState state = builder.prototypeFor( CommentState.class );
         state.comment().set( commentContent );
         Date createdDate = new Date();
         state.createdDate().set( createdDate );

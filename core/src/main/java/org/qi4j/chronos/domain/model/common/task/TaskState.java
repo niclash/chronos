@@ -22,7 +22,7 @@ import org.qi4j.chronos.domain.model.common.task.mixins.HasTaskStatusState;
 import org.qi4j.chronos.domain.model.common.description.HasDescriptionState;
 import org.qi4j.chronos.domain.model.user.User;
 import org.qi4j.api.entity.association.Association;
-import org.qi4j.api.entity.association.SetAssociation;
+import org.qi4j.api.entity.association.ManyAssociation;
 import org.qi4j.api.property.Property;
 
 /**
@@ -41,9 +41,9 @@ public interface TaskState extends HasDescriptionState, HasTaskStatusState
 
     Association<User> createdBy();
 
-    SetAssociation<Comment> comments();
+    ManyAssociation<Comment> comments();
 
-    SetAssociation<WorkEntry> workEntries();
+    ManyAssociation<WorkEntry> workEntries();
 
     Association<User> assignedTo();
 }

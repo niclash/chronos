@@ -40,6 +40,6 @@ public final class ProjectAssembler
 
         module.addServices( ProjectAssigneeFactory.class, ProjectTaskFactory.class );
 
-        module.addAssembler( new ProjectRoleAssembler() );
+        new ProjectRoleAssembler().assemble( module );
     }
 }

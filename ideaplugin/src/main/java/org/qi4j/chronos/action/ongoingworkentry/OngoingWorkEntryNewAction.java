@@ -23,7 +23,7 @@ import org.qi4j.chronos.task.TaskListComponent;
 import org.qi4j.chronos.util.ChronosUtil;
 import org.qi4j.chronos.util.DateUtil;
 import org.qi4j.chronos.util.UiUtil;
-import org.qi4j.entity.association.SetAssociation;
+import org.qi4j.entity.association.ManyAssociation;
 
 public class OngoingWorkEntryNewAction extends TaskBaseAction
 {
@@ -45,7 +45,7 @@ public class OngoingWorkEntryNewAction extends TaskBaseAction
         ongoingWorkEntry.projectAssignee().set( getProjectAssignee( e ) );
 
         //add it to task
-        SetAssociation<OngoingWorkEntry> onGoingWorkEntries = task.onGoingWorkEntries();
+        ManyAssociation<OngoingWorkEntry> onGoingWorkEntries = task.onGoingWorkEntries();
         onGoingWorkEntries.add( ongoingWorkEntry );
 
         //update task

@@ -32,8 +32,8 @@ abstract class AbstractLocationTest extends AbstractQi4jTest
     public final void assemble( ModuleAssembly module )
         throws AssemblyException
     {
-        module.addAssembler( new RdfMemoryStoreAssembler() );
+        new RdfMemoryStoreAssembler().assemble( module );
         module.addServices( MemoryEntityStoreService.class, UuidIdentityGeneratorService.class );
-        module.addAssembler( new LocationAssembler() );
+        new LocationAssembler().assemble( module );
     }
 }
