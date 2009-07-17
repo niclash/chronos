@@ -2,135 +2,16 @@
 <project relativePaths="false" version="4">
   <component name="ChangeListManager">
     <list default="true" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_queryparser_serql_2_3_pr1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_qi4j_core_qi4j_core_api_0_8_SNAPSHOT.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_sail_nativerdf_2_3_pr1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ideaplugin/src/main/java/org/qi4j/chronos/ChronosProjectComponent.java" afterPath="$PROJECT_DIR$/ideaplugin/src/main/java/org/qi4j/chronos/ChronosProjectComponent.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/account/assembly/AccountFactoryService.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/account/assembly/AccountFactoryService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_codec_commons_codec_1_3.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_repository_sail_2_3_pr1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/assembly/DomainLayerAssembler.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/assembly/DomainLayerAssembler.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_qi4j_core_qi4j_core_bootstrap_0_8_SNAPSHOT.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/project/role/assembly/ProjectRoleRepositoryService.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/project/role/assembly/ProjectRoleRepositoryService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/location/assembly/LocationAssembler.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/location/assembly/LocationAssembler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/service/authentication/assembly/AuthenticationServiceComposite.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/service/authentication/assembly/AuthenticationServiceComposite.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_queryresultio_text_2_3_pr1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/location/assembly/CountryBootstrap.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/location/assembly/CountryBootstrap.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/project/AbstractProjectTest.java" afterPath="$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/project/AbstractProjectTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/common/task/TaskState.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/common/task/TaskState.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_sail_inferencer_2_3_pr1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__info_aduna_commons_aduna_commons_xml_2_4_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/customer/assembly/CustomerRepositoryService.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/customer/assembly/CustomerRepositoryService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/common/assembly/MoneyFactoryService.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/common/assembly/MoneyFactoryService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/user/assembly/AdminRepositoryService.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/user/assembly/AdminRepositoryService.java" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/qi4j-app-chronos.iml" afterPath="" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/pom.xml" afterPath="$PROJECT_DIR$/pom.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_rio_ntriples_2_3_pr1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/common/comment/assembly/HasCommentsMixin.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/common/comment/assembly/HasCommentsMixin.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/common/assembly/AbstractCommonTest.java" afterPath="$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/common/assembly/AbstractCommonTest.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__info_aduna_commons_aduna_commons_net_2_4_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_queryparser_api_2_3_pr1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__info_aduna_commons_aduna_commons_lang_2_6_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ideaplugin/src/main/java/org/qi4j/chronos/ChronosApp.java" afterPath="$PROJECT_DIR$/ideaplugin/src/main/java/org/qi4j/chronos/ChronosApp.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/location/assembly/CountryCodeComposite.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/location/assembly/CountryCodeComposite.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/common/comment/association/HasCommentsState.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/common/comment/association/HasCommentsState.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/common/assembly/LegalConditionFactoryService.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/common/assembly/LegalConditionFactoryService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/associations/HasComments.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/associations/HasComments.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__junit_junit_4_5.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_http_client_2_3_pr1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/user/assembly/AdminBootstrap.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/user/assembly/AdminBootstrap.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/account/assembly/AccountEntity.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/account/assembly/AccountEntity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/user/assembly/UserAssembler.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/user/assembly/UserAssembler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/customer/assembly/CustomerDetailComposite.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/customer/assembly/CustomerDetailComposite.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_rio_trix_2_3_pr1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_queryalgebra_model_2_3_pr1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/associations/HasContacts.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/associations/HasContacts.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/location/assembly/CityFactoryService.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/location/assembly/CityFactoryService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_query_2_3_pr1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/user/assembly/UserDetailComposite.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/user/assembly/UserDetailComposite.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_rio_api_2_3_pr1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/common/assembly/PriceRateScheduleEntity.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/common/assembly/PriceRateScheduleEntity.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_queryresultio_sparqlxml_2_3_pr1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_http_protocol_2_3_pr1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_simple_1_4_2.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_repository_api_2_3_pr1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__info_aduna_commons_aduna_commons_i18n_1_1_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_queryalgebra_evaluation_2_3_pr1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_pool_commons_pool_1_3.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/project/role/assembly/ProjectRoleRepositoryTest.java" afterPath="$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/project/role/assembly/ProjectRoleRepositoryTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/user/assembly/LoginComposite.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/user/assembly/LoginComposite.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/user/assembly/UserState.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/user/assembly/UserState.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__cglib_cglib_nodep_2_1_3.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__info_aduna_commons_aduna_commons_io_2_6_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_qi4j_core_qi4j_core_testsupport_0_8_SNAPSHOT.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/location/assembly/CountryRepositoryService.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/location/assembly/CountryRepositoryService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_jcl_over_slf4j_1_5_6.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/user/assembly/SystemRoleBootstrap.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/user/assembly/SystemRoleBootstrap.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_qi4j_core_qi4j_core_runtime_0_8_SNAPSHOT.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/location/assembly/AbstractLocationTest.java" afterPath="$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/location/assembly/AbstractLocationTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/customer/assembly/CustomerFactoryService.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/customer/assembly/CustomerFactoryService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/account/AccountState.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/account/AccountState.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/common/comment/assembly/CommentFactoryTest.java" afterPath="$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/common/comment/assembly/CommentFactoryTest.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_repository_manager_2_3_pr1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/common/assembly/PeriodFactoryService.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/common/assembly/PeriodFactoryService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_qi4j_library_qi4j_lib_rdf_0_8_SNAPSHOT.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_model_2_3_pr1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_dbcp_commons_dbcp_1_2_2.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/common/comment/assembly/CommentFactory.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/common/comment/assembly/CommentFactory.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/common/task/assembly/TaskMixin.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/common/task/assembly/TaskMixin.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/user/assembly/UserMixin.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/user/assembly/UserMixin.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/project/assembly/ProjectAssigneeFactory.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/project/assembly/ProjectAssigneeFactory.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_repository_dataset_2_3_pr1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_sail_memory_2_3_pr1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_queryresultio_sparqljson_2_3_pr1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__commons_httpclient_commons_httpclient_3_1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/customer/CustomerState.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/customer/CustomerState.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_rio_turtle_2_3_pr1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/location/assembly/StateEntity.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/location/assembly/StateEntity.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__info_aduna_commons_aduna_commons_text_2_4_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_repository_event_2_3_pr1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/associations/HasWorkEntries.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/associations/HasWorkEntries.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__info_aduna_commons_aduna_commons_concurrent_2_4_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_repository_http_2_3_pr1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_sail_api_2_3_pr1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/project/ProjectState.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/project/ProjectState.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/user/assembly/SystemRoleRepositoryService.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/user/assembly/SystemRoleRepositoryService.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_queryparser_sparql_2_3_pr1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/ideaplugin/src/main/java/org/qi4j/chronos/action/ongoingworkentry/OngoingWorkEntryNewAction.java" afterPath="$PROJECT_DIR$/ideaplugin/src/main/java/org/qi4j/chronos/action/ongoingworkentry/OngoingWorkEntryNewAction.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_qi4j_extension_qi4j_indexing_rdf_0_8_SNAPSHOT.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/project/assembly/ProjectTaskFactory.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/project/assembly/ProjectTaskFactory.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__info_aduna_commons_aduna_commons_collections_2_5_0.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/Salary.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/Salary.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/project/assembly/ProjectEntity.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/project/assembly/ProjectEntity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/project/assembly/ProjectAssembler.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/project/assembly/ProjectAssembler.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/common/priceRate/PriceRateScheduleState.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/common/priceRate/PriceRateScheduleState.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__info_aduna_commons_aduna_commons_iteration_2_5_0.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_rio_n3_2_3_pr1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_qi4j_core_qi4j_core_spi_0_8_SNAPSHOT.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/associations/HasTasks.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/associations/HasTasks.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/customer/assembly/CustomerEntity.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/customer/assembly/CustomerEntity.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_qi4j_library_qi4j_lib_constraints_0_8_SNAPSHOT.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/common/assembly/CommonAssembler.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/common/assembly/CommonAssembler.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_repository_contextaware_2_3_pr1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/customer/assembly/CustomerAssembler.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/customer/assembly/CustomerAssembler.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_queryresultio_binary_2_3_pr1.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/location/assembly/CountryEntity.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/location/assembly/CountryEntity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/common/task/mixins/HasTaskStatusMixin.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/common/task/mixins/HasTaskStatusMixin.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/pom.xml" afterPath="$PROJECT_DIR$/core/pom.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/account/assembly/AccountRepositoryService.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/account/assembly/AccountRepositoryService.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/location/assembly/AddressFactoryService.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/location/assembly/AddressFactoryService.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/misc.xml" afterPath="$PROJECT_DIR$/.idea/misc.xml" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/customer/assembly/AbstractCustomerTest.java" afterPath="$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/customer/assembly/AbstractCustomerTest.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/project/role/assembly/ProjectRoleFactoryService.java" afterPath="$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/project/role/assembly/ProjectRoleFactoryService.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/account/assembly/AbstractAccountTest.java" afterPath="$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/account/assembly/AbstractAccountTest.java" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_sail_rdbms_2_3_pr1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_queryresultio_api_2_3_pr1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_rio_trig_2_3_pr1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_openrdf_sesame_sesame_rio_rdfxml_2_3_pr1.xml" />
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/libraries/Maven__org_slf4j_slf4j_api_1_5_6.xml" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/core/qi4j-app-chronos-core.iml" afterPath="" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/project/AbstractProjectTest.java" afterPath="$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/project/AbstractProjectTest.java" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/common/assembly/AbstractCommonTest.java" afterPath="$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/common/assembly/AbstractCommonTest.java" />
     </list>
-    <ignored path="qi4j-app-chronos.iws" />
     <ignored path=".idea/workspace.xml" />
+    <ignored path="qi4j-app-chronos.iws" />
   </component>
   <component name="ChangesViewManager" flattened_view="true" show_ignored="false" />
   <component name="Commander">
@@ -186,10 +67,10 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="UserMixin.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/user/assembly/UserMixin.java">
+      <file leaf-file-name="AbstractAccountTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/account/assembly/AbstractAccountTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="41" column="42" selection-start="1470" selection-end="1470" vertical-scroll-proportion="0.0">
+            <state line="37" column="60" selection-start="1409" selection-end="1409" vertical-scroll-proportion="0.0">
               <folding>
                 <element signature="imports" expanded="true" />
               </folding>
@@ -197,37 +78,10 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="HasCommentsMixin.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/common/comment/assembly/HasCommentsMixin.java">
+      <file leaf-file-name="ProjectRoleRepositoryTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/project/role/assembly/ProjectRoleRepositoryTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="64" column="50" selection-start="2339" selection-end="2339" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="CityFactoryService.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/location/assembly/CityFactoryService.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="75" column="50" selection-start="3403" selection-end="3403" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AbstractCommonTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/common/assembly/AbstractCommonTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="46" selection-start="1381" selection-end="1381" vertical-scroll-proportion="0.0">
-              <folding />
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file leaf-file-name="AbstractAccountTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/account/assembly/AbstractAccountTest.java">
-          <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="54" selection-start="1228" selection-end="1228" vertical-scroll-proportion="0.0">
+            <state line="46" column="16" selection-start="1808" selection-end="1808" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -236,43 +90,72 @@
       <file leaf-file-name="AbstractCustomerTest.java" pinned="false" current="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/customer/assembly/AbstractCustomerTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="54" selection-start="1370" selection-end="1370" vertical-scroll-proportion="0.0">
+            <state line="32" column="15" selection-start="1236" selection-end="1236" vertical-scroll-proportion="0.0">
+              <folding>
+                <element signature="imports" expanded="true" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="ProjectRoleFactoryTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/project/role/assembly/ProjectRoleFactoryTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="35" column="22" selection-start="1286" selection-end="1286" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="CommentFactoryTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/common/comment/assembly/CommentFactoryTest.java">
+      <file leaf-file-name="CustomerRepositoryTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/customer/assembly/CustomerRepositoryTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="77" column="48" selection-start="2738" selection-end="2738" vertical-scroll-proportion="0.0">
+            <state line="38" column="22" selection-start="1406" selection-end="1406" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AbstractLocationTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/location/assembly/AbstractLocationTest.java">
+      <file leaf-file-name="UnitOfWorkInstance.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$M2_REPO$/org/qi4j/core/qi4j-core-runtime/0.8-SNAPSHOT/qi4j-core-runtime-0.8-SNAPSHOT-sources.jar!/org/qi4j/runtime/unitofwork/UnitOfWorkInstance.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="34" column="54" selection-start="1236" selection-end="1236" vertical-scroll-proportion="0.0">
+            <state line="508" column="0" selection-start="16965" selection-end="16965" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="AbstractProjectTest.java" pinned="false" current="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/project/AbstractProjectTest.java">
+      <file leaf-file-name="MemoryMapEntityStoreMixin.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="jar://$M2_REPO$/org/qi4j/core/qi4j-core-spi/0.8-SNAPSHOT/qi4j-core-spi-0.8-SNAPSHOT-sources.jar!/org/qi4j/entitystore/memory/MemoryMapEntityStoreMixin.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="36" column="54" selection-start="1383" selection-end="1383" vertical-scroll-proportion="0.0">
+            <state line="73" column="48" selection-start="2433" selection-end="2433" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="ProjectRoleRepositoryTest.java" pinned="false" current="true" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/project/role/assembly/ProjectRoleRepositoryTest.java">
+      <file leaf-file-name="CityFactoryTest.java" pinned="false" current="true" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/location/assembly/CityFactoryTest.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state line="90" column="61" selection-start="3485" selection-end="3485" vertical-scroll-proportion="0.71460927">
+            <state line="38" column="29" selection-start="1452" selection-end="1452" vertical-scroll-proportion="0.2736842">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="CityFactoryService.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/location/assembly/CityFactoryService.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="64" column="35" selection-start="2670" selection-end="2670" vertical-scroll-proportion="0.0">
+              <folding />
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file leaf-file-name="AccountFactoryTest.java" pinned="false" current="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/account/assembly/AccountFactoryTest.java">
+          <provider selected="true" editor-type-id="text-editor">
+            <state line="31" column="60" selection-start="1132" selection-end="1132" vertical-scroll-proportion="0.0">
               <folding />
             </state>
           </provider>
@@ -352,6 +235,54 @@
           <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
         </PATH_ELEMENT>
       </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="qi4j-app-chronos" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="core" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="core" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="test" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="java" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="model" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
+      <PATH>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="qi4j-app-chronos" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewProjectNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="core" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.ProjectViewModuleNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="core" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+        <PATH_ELEMENT>
+          <option name="myItemId" value="src" />
+          <option name="myItemType" value="com.intellij.ide.projectView.impl.nodes.PsiDirectoryNode" />
+        </PATH_ELEMENT>
+      </PATH>
     </subPane>
   </component>
   <component name="ProjectReloadState">
@@ -375,6 +306,7 @@
     <property name="MemberChooser.copyJavadoc" value="false" />
     <property name="options.splitter.details.proportions" value="0.2" />
     <property name="GoToClass.includeLibraries" value="false" />
+    <property name="dynamic.classpath" value="false" />
     <property name="options.splitter.main.proportions" value="0.3" />
     <property name="MemberChooser.showClasses" value="true" />
     <property name="options.searchVisible" value="true" />
@@ -383,7 +315,31 @@
     <property name="GoToFile.includeJavaFiles" value="false" />
     <property name="GoToClass.toSaveIncludeLibraries" value="false" />
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="JUnit.org.qi4j.chronos.domain.model in core">
+    <tempConfiguration default="false" name="org.qi4j.chronos.domain.model in core" type="JUnit" factoryName="JUnit" enabled="false" merge="false" runner="emma">
+      <module name="core" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="PACKAGE_NAME" value="org.qi4j.chronos.domain.model" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="TEST_OBJECT" value="package" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" value="$PROJECT_DIR$" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="ADDITIONAL_CLASS_PATH" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <envs />
+      <RunnerSettings RunnerId="Run" />
+      <ConfigurationWrapper RunnerId="Run" />
+      <method>
+        <option name="Make" value="true" />
+      </method>
+    </tempConfiguration>
     <configuration default="true" type="Remote" factoryName="Remote">
       <option name="USE_SOCKET_TRANSPORT" value="true" />
       <option name="SERVER_MODE" value="false" />
@@ -402,6 +358,32 @@
       <option name="VM_PARAMETERS" />
       <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
       <option name="ALTERNATIVE_JRE_PATH" />
+    </configuration>
+    <configuration default="true" type="TestNG" factoryName="TestNG" enabled="false" merge="false">
+      <module name="" />
+      <option name="ALTERNATIVE_JRE_PATH_ENABLED" value="false" />
+      <option name="ALTERNATIVE_JRE_PATH" />
+      <option name="SUITE_NAME" />
+      <option name="PACKAGE_NAME" />
+      <option name="MAIN_CLASS_NAME" />
+      <option name="METHOD_NAME" />
+      <option name="GROUP_NAME" />
+      <option name="TEST_OBJECT" value="CLASS" />
+      <option name="VM_PARAMETERS" />
+      <option name="PARAMETERS" />
+      <option name="WORKING_DIRECTORY" />
+      <option name="OUTPUT_DIRECTORY" />
+      <option name="ANNOTATION_TYPE" />
+      <option name="ENV_VARIABLES" />
+      <option name="PASS_PARENT_ENVS" value="true" />
+      <option name="ADDITIONAL_CLASS_PATH" />
+      <option name="TEST_SEARCH_SCOPE">
+        <value defaultName="moduleWithDependencies" />
+      </option>
+      <option name="PROPERTIES_FILE" />
+      <envs />
+      <properties />
+      <listeners />
     </configuration>
     <configuration default="true" type="JUnit" factoryName="JUnit" enabled="false" merge="false" runner="emma">
       <module name="" />
@@ -435,7 +417,9 @@
       <module name="" />
       <envs />
     </configuration>
-    <list size="0" />
+    <list size="1">
+      <item index="0" class="java.lang.String" itemvalue="JUnit.org.qi4j.chronos.domain.model in core" />
+    </list>
     <configuration name="&lt;template&gt;" type="WebApp" default="true" selected="false">
       <Host>localhost</Host>
       <Port>5050</Port>
@@ -481,8 +465,8 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="0" y="22" width="1680" height="1024" extended-state="6" />
-    <editor active="true" />
+    <frame x="0" y="22" width="1680" height="1024" extended-state="0" />
+    <editor active="false" />
     <layout>
       <window_info id="Web Preview" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" />
       <window_info id="Dataflow to this" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" />
@@ -490,7 +474,7 @@
       <window_info id="Data Sources" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" />
       <window_info id="IDEtalk" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="7" side_tool="false" />
-      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.66451615" order="0" side_tool="false" />
+      <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.25" sideWeight="0.6634409" order="0" side_tool="false" />
       <window_info id="Find" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.32903227" sideWeight="0.5" order="1" side_tool="false" />
       <window_info id="Structure" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" />
       <window_info id="Inspection" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="6" side_tool="false" />
@@ -499,7 +483,7 @@
       <window_info id="Palette" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="3" side_tool="false" />
       <window_info id="Ant Build" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.25" sideWeight="0.5" order="1" side_tool="false" />
       <window_info id="Changes" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" />
-      <window_info id="Run" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="2" side_tool="false" />
+      <window_info id="Run" active="true" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" weight="0.32903227" sideWeight="0.5" order="2" side_tool="false" />
       <window_info id="Commander" active="false" anchor="right" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.39950982" sideWeight="0.6634409" order="0" side_tool="false" />
       <window_info id="Debug" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.4" sideWeight="0.5" order="4" side_tool="false" />
       <window_info id="IDEtalk Messages" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" weight="0.33" sideWeight="0.5" order="8" side_tool="false" />
@@ -544,94 +528,6 @@
     <option name="FILTER_TARGETS" value="false" />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/common/assembly/PeriodFactoryService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="47" column="53" selection-start="1759" selection-end="1759" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/customer/assembly/CustomerRepositoryService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="55" column="46" selection-start="2056" selection-end="2056" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/account/assembly/AccountFactoryService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="65" selection-start="1651" selection-end="1651" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/location/assembly/LocationAssembler.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="32" selection-start="1324" selection-end="1324" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/location/assembly/CountryCodeComposite.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="29" column="61" selection-start="1089" selection-end="1089" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/project/role/assembly/ProjectRoleRepositoryService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="42" column="50" selection-start="1658" selection-end="1658" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/user/assembly/UserMixin.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="41" column="42" selection-start="1470" selection-end="1470" vertical-scroll-proportion="0.0">
-          <folding>
-            <element signature="imports" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/common/comment/assembly/HasCommentsMixin.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="64" column="50" selection-start="2339" selection-end="2339" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/location/assembly/CityFactoryService.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="75" column="50" selection-start="3403" selection-end="3403" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/common/assembly/AbstractCommonTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="46" selection-start="1381" selection-end="1381" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/account/assembly/AbstractAccountTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="54" selection-start="1228" selection-end="1228" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/customer/assembly/AbstractCustomerTest.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="54" selection-start="1370" selection-end="1370" vertical-scroll-proportion="0.0">
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/common/comment/assembly/CommentFactoryTest.java">
       <provider selected="true" editor-type-id="text-editor">
         <state line="77" column="48" selection-start="2738" selection-end="2738" vertical-scroll-proportion="0.0">
@@ -639,23 +535,117 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/common/assembly/LegalConditionFactoryTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="30" column="60" selection-start="1116" selection-end="1116" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/common/assembly/AbstractCommonTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="28" selection-start="1382" selection-end="1382" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/location/assembly/CountryBootstrapTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="55" selection-start="1220" selection-end="1220" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/location/assembly/AbstractLocationTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="34" column="54" selection-start="1236" selection-end="1236" vertical-scroll-proportion="0.0">
-          <folding />
+        <state line="37" column="28" selection-start="1385" selection-end="1385" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/project/AbstractProjectTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="36" column="54" selection-start="1383" selection-end="1383" vertical-scroll-proportion="0.0">
+        <state line="39" column="28" selection-start="1533" selection-end="1533" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/account/assembly/AccountFactoryTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="31" column="60" selection-start="1132" selection-end="1132" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/account/assembly/AbstractAccountTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="37" column="60" selection-start="1409" selection-end="1409" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/customer/assembly/AbstractCustomerTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="32" column="15" selection-start="1236" selection-end="1236" vertical-scroll-proportion="0.0">
+          <folding>
+            <element signature="imports" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/project/role/assembly/ProjectRoleFactoryTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="35" column="22" selection-start="1286" selection-end="1286" vertical-scroll-proportion="0.0">
           <folding />
         </state>
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/project/role/assembly/ProjectRoleRepositoryTest.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state line="90" column="61" selection-start="3485" selection-end="3485" vertical-scroll-proportion="0.71460927">
+        <state line="46" column="16" selection-start="1808" selection-end="1808" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/customer/assembly/CustomerRepositoryTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="38" column="22" selection-start="1406" selection-end="1406" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$M2_REPO$/org/qi4j/core/qi4j-core-runtime/0.8-SNAPSHOT/qi4j-core-runtime-0.8-SNAPSHOT-sources.jar!/org/qi4j/runtime/unitofwork/UnitOfWorkInstance.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="508" column="0" selection-start="16965" selection-end="16965" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="jar://$M2_REPO$/org/qi4j/core/qi4j-core-spi/0.8-SNAPSHOT/qi4j-core-spi-0.8-SNAPSHOT-sources.jar!/org/qi4j/entitystore/memory/MemoryMapEntityStoreMixin.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="73" column="48" selection-start="2433" selection-end="2433" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/main/java/org/qi4j/chronos/domain/model/location/assembly/CityFactoryService.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="64" column="35" selection-start="2670" selection-end="2670" vertical-scroll-proportion="0.0">
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/core/src/test/java/org/qi4j/chronos/domain/model/location/assembly/CityFactoryTest.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state line="38" column="29" selection-start="1452" selection-end="1452" vertical-scroll-proportion="0.2736842">
           <folding />
         </state>
       </provider>

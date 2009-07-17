@@ -20,9 +20,10 @@ import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.chronos.domain.model.location.assembly.LocationAssembler;
 import org.qi4j.chronos.domain.model.user.assembly.UserAssembler;
-import org.qi4j.index.rdf.assembly.RdfMemoryStoreAssembler;
 import org.qi4j.entitystore.memory.MemoryEntityStoreService;
-import org.qi4j.spi.entity.helpers.UuidIdentityGeneratorService;
+import org.qi4j.index.rdf.assembly.RdfMemoryStoreAssembler;
+import org.qi4j.spi.uuid.UuidIdentityGeneratorService;
+import org.qi4j.spi.entity.typeregistry.EntityTypeRegistryService;
 import org.qi4j.test.AbstractQi4jTest;
 
 /**
@@ -35,7 +36,9 @@ abstract class AbstractCustomerTest extends AbstractQi4jTest
         throws AssemblyException
     {
         new RdfMemoryStoreAssembler().assemble( module );
-        module.addServices( MemoryEntityStoreService.class, UuidIdentityGeneratorService.class );
+        module.addServices( MemoryEntityStoreService.class,
+                            EntityTypeRegistryService.class,
+                            UuidIdentityGeneratorService.class );
 
         new UserAssembler().assemble( module );
         new LocationAssembler().assemble( module );

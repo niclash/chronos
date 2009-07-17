@@ -20,8 +20,9 @@ import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.index.rdf.assembly.RdfMemoryStoreAssembler;
 import org.qi4j.entitystore.memory.MemoryEntityStoreService;
-import org.qi4j.spi.entity.helpers.UuidIdentityGeneratorService;
 import org.qi4j.test.AbstractQi4jTest;
+import org.qi4j.spi.uuid.UuidIdentityGeneratorService;
+import org.qi4j.spi.entity.typeregistry.EntityTypeRegistryService;
 
 /**
  * @author edward.yakop@gmail.com
@@ -33,7 +34,9 @@ abstract class AbstractAccountTest extends AbstractQi4jTest
         throws AssemblyException
     {
         new RdfMemoryStoreAssembler().assemble( module );
-        module.addServices( MemoryEntityStoreService.class, UuidIdentityGeneratorService.class );
+        module.addServices( MemoryEntityStoreService.class,
+                            EntityTypeRegistryService.class,
+                            UuidIdentityGeneratorService.class );
         new AccountAssembler().assemble( module );
     }
 }
