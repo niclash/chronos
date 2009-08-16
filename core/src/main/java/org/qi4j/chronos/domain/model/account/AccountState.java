@@ -16,6 +16,9 @@
 */
 package org.qi4j.chronos.domain.model.account;
 
+import org.qi4j.api.common.Optional;
+import org.qi4j.api.entity.association.Association;
+import org.qi4j.api.entity.association.ManyAssociation;
 import org.qi4j.chronos.domain.model.common.name.NameState;
 import org.qi4j.chronos.domain.model.common.priceRate.PriceRateSchedule;
 import org.qi4j.chronos.domain.model.customer.Customer;
@@ -23,10 +26,6 @@ import org.qi4j.chronos.domain.model.location.address.Address;
 import org.qi4j.chronos.domain.model.project.Project;
 import org.qi4j.chronos.domain.model.project.role.ProjectRole;
 import org.qi4j.chronos.domain.model.user.staff.Staff;
-import org.qi4j.api.common.Optional;
-import org.qi4j.api.entity.association.Association;
-import org.qi4j.api.entity.association.ManyAssociation;
-import org.qi4j.api.property.Property;
 
 /**
  * @author edward.yakop@gmail.com
@@ -34,8 +33,6 @@ import org.qi4j.api.property.Property;
  */
 public interface AccountState extends NameState
 {
-    @Optional Property<String> referenceName();
-
     @Optional Association<Address> address();
 
     ManyAssociation<Staff> staffs();

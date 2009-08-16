@@ -32,13 +32,13 @@ public final class SampleDataLayerAssembler
     public LayerAssembly createLayerAssembly( ApplicationAssembly anApplicationAssembly )
         throws AssemblyException
     {
-        LayerAssembly layerAssembly = anApplicationAssembly.newLayerAssembly( "sample data" );
+        LayerAssembly layerAssembly = anApplicationAssembly.layerAssembly( "sample data" );
         addSampleDataModule( layerAssembly );
         return layerAssembly;
     }
 
     private void addSampleDataModule( LayerAssembly layerAssembly )
     {
-        ModuleAssembly moduleAssembly = layerAssembly.newModuleAssembly( "sample data" );
+        ModuleAssembly moduleAssembly = layerAssembly.moduleAssembly( "sample data" );
     }
 }

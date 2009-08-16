@@ -33,15 +33,15 @@ public class DomainLayerAssembler
     public LayerAssembly createLayerAssembly( ApplicationAssembly anApplicationAssembly )
         throws AssemblyException
     {
-        LayerAssembly domainLayer = anApplicationAssembly.newLayerAssembly( LAYER_DOMAIN );
+        LayerAssembly domainLayer = anApplicationAssembly.layerAssembly( LAYER_DOMAIN );
 
-        ModuleAssembly accountModule = domainLayer.newModuleAssembly( MODULE_ACCOUNT );
+        ModuleAssembly accountModule = domainLayer.moduleAssembly( MODULE_ACCOUNT );
         new AccountAssembler().assemble( accountModule );
 
-        ModuleAssembly commonModule = domainLayer.newModuleAssembly( MODULE_COMMON );
+        ModuleAssembly commonModule = domainLayer.moduleAssembly( MODULE_COMMON );
         new CommonAssembler().assemble( commonModule );
 
-        ModuleAssembly projectModule = domainLayer.newModuleAssembly( MODULE_PROJECT );
+        ModuleAssembly projectModule = domainLayer.moduleAssembly( MODULE_PROJECT );
         new ProjectAssembler().assemble( projectModule );
 
         return domainLayer;

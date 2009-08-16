@@ -24,7 +24,6 @@ import org.qi4j.index.rdf.assembly.RdfMemoryStoreAssembler;
 import org.qi4j.entitystore.memory.MemoryEntityStoreService;
 import org.qi4j.test.AbstractQi4jTest;
 import org.qi4j.spi.uuid.UuidIdentityGeneratorService;
-import org.qi4j.spi.entity.typeregistry.EntityTypeRegistryService;
 
 /**
  * @author edward.yakop@gmail.com
@@ -37,7 +36,6 @@ public abstract class AbstractProjectTest extends AbstractQi4jTest
     {
         new RdfMemoryStoreAssembler().assemble( module );
         module.addServices( MemoryEntityStoreService.class,
-                            EntityTypeRegistryService.class, 
                             UuidIdentityGeneratorService.class );
         new ProjectAssembler().assemble( module );
         new CommentAssembler().assemble( module );
