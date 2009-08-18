@@ -76,7 +76,7 @@ public interface AdminBootstrap extends Activatable, ServiceComposite
             throws UnitOfWorkCompletionException
         {
             EntityBuilder<Admin> adminBuilder = uow.newEntityBuilder( Admin.class, ID_ADMIN );
-            UserState userState = adminBuilder.prototypeFor( UserState.class );
+            UserState userState = adminBuilder.instanceFor( UserState.class );
             userState.firstName().set( "Admin" );
             userState.lastName().set( "Admin" );
             userState.isLoginEnabled().set( true );

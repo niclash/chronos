@@ -45,7 +45,7 @@ interface ProjectAssigneeFactory extends ServiceComposite
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
             EntityBuilder<ProjectAssignee> builder = uow.newEntityBuilder( ProjectAssignee.class );
-            ProjectAssigneeState state = builder.prototypeFor( ProjectAssigneeState.class );
+            ProjectAssigneeState state = builder.instanceFor( ProjectAssigneeState.class );
             state.projectRole().set( role );
             state.project().set( project );
             return builder.newInstance();

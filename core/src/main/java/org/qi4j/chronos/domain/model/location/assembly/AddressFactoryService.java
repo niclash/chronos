@@ -45,7 +45,7 @@ interface AddressFactoryService extends AddressFactory, ServiceComposite
             UnitOfWork uow = uowf.currentUnitOfWork();
 
             EntityBuilder<Address> builder = uow.newEntityBuilder( Address.class );
-            AddressState state = builder.prototypeFor( AddressState.class );
+            AddressState state = builder.instanceFor( AddressState.class );
             state.firstLine().set( firstLine );
             state.secondLine().set( secondLine );
             state.zipCode().set( zipCode );

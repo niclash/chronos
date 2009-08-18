@@ -76,7 +76,7 @@ interface SystemRoleBootstrap extends Activatable, ServiceComposite
             catch( NoSuchEntityException e )
             {
                 EntityBuilder<SystemRole> roleBuilder = uow.newEntityBuilder( SystemRole.class, aSystemRoleId );
-                NameState nameState = roleBuilder.prototypeFor( NameState.class );
+                NameState nameState = roleBuilder.instanceFor( NameState.class );
                 nameState.name().set( aSystemRoleName );
                 roleBuilder.newInstance();
             }

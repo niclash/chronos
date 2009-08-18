@@ -52,7 +52,7 @@ interface ProjectTaskFactory extends ServiceComposite
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
             EntityBuilder<ProjectTask> builder = uow.newEntityBuilder( ProjectTask.class );
-            ProjectTaskState state = builder.prototypeFor( ProjectTaskState.class );
+            ProjectTaskState state = builder.instanceFor( ProjectTaskState.class );
 
             state.title().set( title );
             state.description().set( description );

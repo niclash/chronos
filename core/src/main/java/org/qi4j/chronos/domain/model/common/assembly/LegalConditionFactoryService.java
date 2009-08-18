@@ -42,7 +42,7 @@ interface LegalConditionFactoryService extends LegalConditionFactory, ServiceCom
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
             EntityBuilder<LegalCondition> builder = uow.newEntityBuilder( LegalCondition.class );
-            LegalConditionState state = builder.prototypeFor( LegalConditionState.class );
+            LegalConditionState state = builder.instanceFor( LegalConditionState.class );
             state.name().set( legalConditionName );
             return builder.newInstance();
         }

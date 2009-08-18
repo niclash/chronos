@@ -69,7 +69,7 @@ interface ProjectRoleFactoryService extends ProjectRoleFactory, ServiceComposite
         private ProjectRole createProjectRole( String projectRoleName, UnitOfWork uow )
         {
             EntityBuilder<ProjectRole> builder = uow.newEntityBuilder( ProjectRole.class );
-            builder.prototypeFor( ProjectRoleState.class ).name().set( projectRoleName );
+            builder.instanceFor( ProjectRoleState.class ).name().set( projectRoleName );
             return builder.newInstance();
         }
 

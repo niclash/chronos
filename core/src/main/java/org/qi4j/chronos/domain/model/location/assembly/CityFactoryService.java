@@ -127,7 +127,7 @@ interface CityFactoryService extends CityFactory, ServiceComposite
         private City createCity( String cityName, State state, Country country, UnitOfWork uow )
         {
             EntityBuilder<City> cityBuilder = uow.newEntityBuilder( City.class );
-            CityState cityState = cityBuilder.prototypeFor( CityState.class );
+            CityState cityState = cityBuilder.instanceFor( CityState.class );
             if( state != null )
             {
                 cityState.state().set( state );
