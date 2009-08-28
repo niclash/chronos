@@ -19,10 +19,6 @@ package org.qi4j.chronos.domain.model.location.country;
 import org.qi4j.chronos.domain.model.common.name.NameState;
 import org.qi4j.api.property.Property;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public interface CountryState extends NameState
 {
     Property<String> countryCodeNumeric();

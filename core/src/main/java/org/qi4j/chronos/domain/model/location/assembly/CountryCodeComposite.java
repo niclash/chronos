@@ -22,29 +22,25 @@ import org.qi4j.api.mixin.Mixins;
 import org.qi4j.chronos.domain.model.location.country.CountryCode;
 import org.qi4j.chronos.domain.model.location.country.CountryState;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( CountryCodeComposite.CountryCodeMixin.class )
 interface CountryCodeComposite extends CountryCode, TransientComposite
 {
-    class CountryCodeMixin
+    public class CountryCodeMixin
         implements CountryCode
     {
         @Uses private CountryState state;
 
-        public final String numeric()
+        public String numeric()
         {
             return state.countryCodeNumeric().get();
         }
 
-        public final String alpha2()
+        public String alpha2()
         {
             return state.countryCodeAlpha2().get();
         }
 
-        public final String alpha3()
+        public String alpha3()
         {
             return state.countryCodeAlpha3().get();
         }

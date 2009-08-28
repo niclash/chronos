@@ -16,11 +16,6 @@ package org.qi4j.chronos.domain.model.location.address;
 import org.qi4j.chronos.domain.model.location.city.City;
 import org.qi4j.api.common.Optional;
 
-/**
- * @author Muhd Kamil Mohd Baki
- * @author edward.yakop@gmail.com
- * @version 0.5
- */
 public interface Address
 {
     String firstLine();

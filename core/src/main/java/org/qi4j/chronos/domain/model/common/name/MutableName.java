@@ -18,10 +18,6 @@ package org.qi4j.chronos.domain.model.common.name;
 
 import org.qi4j.api.mixin.Mixins;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( MutableNameMixin.class )
 public interface MutableName extends Name
 {

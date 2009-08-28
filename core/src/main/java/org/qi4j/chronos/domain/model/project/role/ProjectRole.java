@@ -18,11 +18,6 @@ import org.qi4j.chronos.domain.model.Entity;
 import org.qi4j.chronos.domain.model.common.description.HasDescription;
 import org.qi4j.chronos.domain.model.common.name.Name;
 
-/**
- * @author Sianny Halim
- * @author Lan Boon Ping
- * @author edward.yakop@gmail.com
- */
 public interface ProjectRole extends Name, HasDescription, Entity<ProjectRole>
 {
     ProjectRoleId projectRoleId();

@@ -22,10 +22,6 @@ import org.qi4j.bootstrap.LayerAssembly;
 import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.chronos.util.assembler.LayerAssembler;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public final class SampleDataLayerAssembler
     implements LayerAssembler
 {

@@ -20,21 +20,17 @@ import org.qi4j.api.injection.scope.This;
 import org.qi4j.api.common.Optional;
 
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
-final class HasDescriptionMixin
+public class HasDescriptionMixin
     implements HasDescription
 {
-    @This HasDescriptionState state;
+    @This private HasDescriptionState state;
 
-    public final String description()
+    public String description()
     {
         return state.description().get();
     }
 
-    public final void updateDescription( @Optional String newDescription )
+    public void updateDescription( @Optional String newDescription )
     {
         state.description().set( newDescription );
     }

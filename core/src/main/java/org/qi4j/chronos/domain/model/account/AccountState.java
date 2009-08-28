@@ -27,10 +27,6 @@ import org.qi4j.chronos.domain.model.project.Project;
 import org.qi4j.chronos.domain.model.project.role.ProjectRole;
 import org.qi4j.chronos.domain.model.user.staff.Staff;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public interface AccountState extends NameState
 {
     @Optional Association<Address> address();

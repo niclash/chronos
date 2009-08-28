@@ -19,11 +19,7 @@ package org.qi4j.chronos.domain.model.common.name;
 import org.qi4j.api.common.Optional;
 import org.qi4j.api.injection.scope.This;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
-final class MutableReferenceNameMixin
+public class MutableReferenceNameMixin
     implements MutableReferenceName
 {
     @This private ReferenceState state;

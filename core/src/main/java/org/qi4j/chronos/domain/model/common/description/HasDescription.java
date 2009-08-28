@@ -20,10 +20,6 @@ import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.common.Optional;
 
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( HasDescriptionMixin.class )
 public interface HasDescription
 {

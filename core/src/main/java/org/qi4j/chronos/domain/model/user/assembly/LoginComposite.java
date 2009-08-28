@@ -22,10 +22,6 @@ import org.qi4j.api.composite.TransientComposite;
 import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.injection.scope.Uses;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( LoginComposite.LoginMixin.class )
 interface LoginComposite extends Login, TransientComposite
 {

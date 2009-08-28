@@ -33,10 +33,6 @@ import org.qi4j.chronos.domain.model.location.country.Country;
 import org.qi4j.chronos.domain.model.location.country.State;
 import org.qi4j.chronos.domain.model.location.country.StateState;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( StateEntity.StateMixin.class )
 interface StateEntity extends State, EntityComposite
 {

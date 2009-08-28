@@ -16,10 +16,6 @@
  */
 package org.qi4j.chronos.domain.model.customer;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public interface CustomerFactory
 {
     Customer create( String name, String referenceName );

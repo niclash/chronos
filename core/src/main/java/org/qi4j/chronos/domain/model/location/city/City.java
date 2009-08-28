@@ -18,11 +18,6 @@ import org.qi4j.chronos.domain.model.location.country.Country;
 import org.qi4j.chronos.domain.model.location.country.State;
 import org.qi4j.api.common.Optional;
 
-/**
- * @author Muhd Kamil Mohd Baki
- * @author edward.yakop@gmail.com
- * @version 0.5
- */
 public interface City extends Name
 {
     @Optional State state();

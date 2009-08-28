@@ -35,10 +35,6 @@ import org.qi4j.chronos.domain.model.customer.CustomerId;
 import org.qi4j.chronos.domain.model.customer.CustomerState;
 import org.qi4j.chronos.domain.model.user.contactPerson.ContactPerson;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( CustomerEntity.CustomerMixin.class )
 interface CustomerEntity extends Customer, EntityComposite
 {
@@ -59,12 +55,12 @@ interface CustomerEntity extends Customer, EntityComposite
             customerId = new CustomerId( identity.identity().get() );
         }
 
-        public final CustomerId customerId()
+        public CustomerId customerId()
         {
             return customerId;
         }
 
-        public final CustomerDetail customerDetail()
+        public CustomerDetail customerDetail()
         {
             if( customerDetail == null )
             {
@@ -76,31 +72,31 @@ interface CustomerEntity extends Customer, EntityComposite
             return customerDetail;
         }
 
-        public final Query<ContactPerson> contactPersons()
+        public Query<ContactPerson> contactPersons()
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
             QueryBuilder<ContactPerson> queryBuilder = qbf.newQueryBuilder( ContactPerson.class );
             return queryBuilder.newQuery( state.contactPersons() );
         }
 
-        public final void addContactPerson( ContactPerson contactPerson )
+        public void addContactPerson( ContactPerson contactPerson )
         {
             state.contactPersons().add( 0, contactPerson );
         }
 
-        public final void removeContactPerson( ContactPerson contactPerson )
+        public void removeContactPerson( ContactPerson contactPerson )
         {
             state.contactPersons().remove( contactPerson );
         }
 
-        public final Query<PriceRateSchedule> priceRateSchedules()
+        public Query<PriceRateSchedule> priceRateSchedules()
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
             QueryBuilder<PriceRateSchedule> queryBuilder = qbf.newQueryBuilder( PriceRateSchedule.class );
             return queryBuilder.newQuery( state.priceRateSchedules() );
         }
 
-        public final boolean sameIdentityAs( Customer other )
+        public boolean sameIdentityAs( Customer other )
         {
             return other != null && customerId.sameValueAs( other.customerId() );
         }

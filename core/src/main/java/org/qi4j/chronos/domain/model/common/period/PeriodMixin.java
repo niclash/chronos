@@ -20,10 +20,6 @@ import java.util.Date;
 import org.qi4j.api.injection.scope.This;
 import org.qi4j.api.common.Optional;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 final class PeriodMixin
     implements Period
 {

@@ -6,10 +6,6 @@ import org.qi4j.chronos.domain.model.project.role.ProjectRole;
 import org.qi4j.chronos.domain.model.user.staff.Staff;
 import org.qi4j.api.common.Optional;
 
-/**
- * @author edward.yakop@gmail.com
- * @version 0.5
- */
 public interface ProjectAssignee
 {
     Project project();

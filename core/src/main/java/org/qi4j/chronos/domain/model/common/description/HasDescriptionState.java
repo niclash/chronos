@@ -19,10 +19,6 @@ package org.qi4j.chronos.domain.model.common.description;
 import org.qi4j.api.common.Optional;
 import org.qi4j.api.property.Property;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public interface HasDescriptionState
 {
     @Optional Property<String> description();

@@ -18,21 +18,17 @@ package org.qi4j.chronos.domain.model.common.name;
 
 import org.qi4j.api.injection.scope.This;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
-final class MutableNameMixin
+public class MutableNameMixin
     implements MutableName
 {
     @This private NameState state;
 
-    public final String name()
+    public String name()
     {
         return state.name().get();
     }
 
-    public final void changeName( String aNewName )
+    public void changeName( String aNewName )
     {
         state.name().set( aNewName );
     }

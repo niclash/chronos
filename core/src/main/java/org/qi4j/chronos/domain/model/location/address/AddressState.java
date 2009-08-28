@@ -20,10 +20,6 @@ import org.qi4j.chronos.domain.model.location.city.City;
 import org.qi4j.api.common.Optional;
 import org.qi4j.api.property.Property;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public interface AddressState
 {
     Property<String> firstLine();

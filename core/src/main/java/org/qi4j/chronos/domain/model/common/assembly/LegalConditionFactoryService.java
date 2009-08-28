@@ -26,19 +26,15 @@ import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.service.ServiceComposite;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( LegalConditionFactoryService.LegalConditionFactoryMixin.class )
 interface LegalConditionFactoryService extends LegalConditionFactory, ServiceComposite
 {
-    class LegalConditionFactoryMixin
+    public class LegalConditionFactoryMixin
         implements LegalConditionFactory
     {
         @Structure private UnitOfWorkFactory uowf;
 
-        public final LegalCondition create( String legalConditionName )
+        public LegalCondition create( String legalConditionName )
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
             EntityBuilder<LegalCondition> builder = uow.newEntityBuilder( LegalCondition.class );

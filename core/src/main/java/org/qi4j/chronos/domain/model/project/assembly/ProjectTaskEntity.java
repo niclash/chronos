@@ -26,10 +26,6 @@ import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.injection.scope.This;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( ProjectTaskEntity.ProjectTaskMixin.class )
 interface ProjectTaskEntity extends ProjectTask, EntityComposite
 {

@@ -25,10 +25,6 @@ import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.api.service.ServiceFinder;
 import org.qi4j.api.service.ServiceReference;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public final class PeriodFactoryTest extends AbstractCommonTest
 {
     @Test

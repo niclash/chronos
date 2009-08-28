@@ -30,10 +30,6 @@ import static org.qi4j.chronos.domain.model.user.assembly.Constants.CONTACT_PERS
 import static org.qi4j.chronos.domain.model.user.assembly.Constants.STAFF_ID;
 import static org.qi4j.chronos.domain.model.user.assembly.Constants.SYSTEM_ADMIN_ID;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( SystemRoleRepositoryService.SystemRoleRepositoryMixin.class )
 interface SystemRoleRepositoryService extends SystemRoleRepository, ServiceComposite
 {

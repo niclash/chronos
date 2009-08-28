@@ -30,10 +30,6 @@ import org.qi4j.chronos.domain.model.common.assembly.AbstractCommonTest;
 import org.qi4j.chronos.domain.model.user.admin.Admin;
 import org.qi4j.chronos.domain.model.user.assembly.UserAssembler;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public final class CommentFactoryTest extends AbstractCommonTest
 {
     public final void assemble( ModuleAssembly module )

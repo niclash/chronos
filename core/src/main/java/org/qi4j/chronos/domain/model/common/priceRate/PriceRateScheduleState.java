@@ -19,10 +19,6 @@ package org.qi4j.chronos.domain.model.common.priceRate;
 import org.qi4j.api.entity.association.ManyAssociation;
 import org.qi4j.api.property.Property;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public interface PriceRateScheduleState
 {
     Property<String> defaultCurrencyCode();

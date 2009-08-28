@@ -26,10 +26,6 @@ import org.qi4j.api.common.Optional;
 import org.qi4j.api.entity.association.Association;
 import org.qi4j.api.entity.association.ManyAssociation;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public interface CustomerState extends NameState, ReferenceState, EnableState
 {
     @Optional Association<Address> address();

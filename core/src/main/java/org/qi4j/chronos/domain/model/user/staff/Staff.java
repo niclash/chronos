@@ -16,10 +16,6 @@ package org.qi4j.chronos.domain.model.user.staff;
 import org.qi4j.chronos.domain.model.common.money.Money;
 import org.qi4j.chronos.domain.model.user.User;
 
-/**
- * @author Sianny Halim
- * @author edward.yakop@gmail.com
- */
 public interface Staff extends User
 {
     Money salary();

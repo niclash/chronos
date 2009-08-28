@@ -19,10 +19,6 @@ package org.qi4j.chronos.domain.model.common.comment.association;
 import org.qi4j.chronos.domain.model.common.comment.Comment;
 import org.qi4j.api.entity.association.ManyAssociation;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public interface HasCommentsState
 {
     ManyAssociation<Comment> comments();

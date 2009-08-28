@@ -22,10 +22,6 @@ import org.qi4j.bootstrap.ModuleAssembly;
 import static org.qi4j.api.common.Visibility.application;
 import static org.qi4j.api.common.Visibility.layer;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public final class CustomerAssembler
     implements Assembler
 {

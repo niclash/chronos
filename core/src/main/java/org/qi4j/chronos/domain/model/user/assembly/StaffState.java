@@ -19,10 +19,6 @@ package org.qi4j.chronos.domain.model.user.assembly;
 import org.qi4j.chronos.domain.model.common.money.Money;
 import org.qi4j.api.property.Property;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 interface StaffState
 {
     Property<Money> salary();

@@ -25,10 +25,6 @@ import org.qi4j.index.rdf.assembly.RdfMemoryStoreAssembler;
 import org.qi4j.spi.uuid.UuidIdentityGeneratorService;
 import org.qi4j.test.AbstractQi4jTest;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 abstract class AbstractCustomerTest extends AbstractQi4jTest
 {
     public void assemble( ModuleAssembly module )

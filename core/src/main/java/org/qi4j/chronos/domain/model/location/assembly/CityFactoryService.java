@@ -41,10 +41,6 @@ import org.qi4j.api.query.grammar.EqualsPredicate;
 import org.qi4j.api.query.grammar.VariableValueExpression;
 import org.qi4j.api.service.ServiceComposite;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( CityFactoryService.CityFactoryMixin.class )
 interface CityFactoryService extends CityFactory, ServiceComposite
 {

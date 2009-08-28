@@ -16,54 +16,49 @@
  */
 package org.qi4j.chronos.domain.model.customer.assembly;
 
+import org.qi4j.api.common.Optional;
+import org.qi4j.api.composite.TransientComposite;
+import org.qi4j.api.injection.scope.Uses;
+import org.qi4j.api.mixin.Mixins;
 import org.qi4j.chronos.domain.model.customer.CustomerDetail;
 import org.qi4j.chronos.domain.model.customer.CustomerState;
 import org.qi4j.chronos.domain.model.location.address.Address;
-import org.qi4j.api.composite.Composite;
-import org.qi4j.api.composite.TransientComposite;
-import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.common.Optional;
-import org.qi4j.api.injection.scope.Uses;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( CustomerDetailComposite.CustomerDetailMixin.class )
 interface CustomerDetailComposite extends CustomerDetail, TransientComposite
 {
-    class CustomerDetailMixin
+    public class CustomerDetailMixin
         implements CustomerDetail
     {
         @Uses private CustomerState state;
 
-        public final String name()
+        public String name()
         {
             return state.name().get();
         }
 
-        public final void changeName( String name )
+        public void changeName( String name )
         {
             state.name().set( name );
         }
 
         @Optional
-        public final String referenceName()
+        public String referenceName()
         {
             return state.referenceName().get();
         }
 
-        public final void changeReferenceName( @Optional String newReferenceName )
+        public void changeReferenceName( @Optional String newReferenceName )
         {
             state.referenceName().set( newReferenceName );
         }
 
-        public final Address address()
+        public Address address()
         {
             return state.address().get();
         }
 
-        public final void changeAddress( Address address )
+        public void changeAddress( Address address )
         {
             state.address().set( address );
         }

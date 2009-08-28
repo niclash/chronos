@@ -26,10 +26,6 @@ import org.qi4j.api.unitofwork.NoSuchEntityException;
 import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.api.service.ServiceFinder;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public final class ProjectRoleAssemblerTest extends AbstractProjectTest
 {
     @Test

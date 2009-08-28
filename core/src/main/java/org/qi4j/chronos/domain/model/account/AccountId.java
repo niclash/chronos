@@ -19,10 +19,6 @@ package org.qi4j.chronos.domain.model.account;
 import org.qi4j.chronos.domain.model.ValueObject;
 import static org.qi4j.api.util.NullArgumentException.validateNotNull;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public class AccountId
     implements ValueObject<AccountId>
 {
@@ -35,12 +31,12 @@ public class AccountId
         idString = anIdString;
     }
 
-    public final String idString()
+    public String idString()
     {
         return idString;
     }
 
-    public final boolean sameValueAs( AccountId other )
+    public boolean sameValueAs( AccountId other )
     {
         return other != null && idString.equals( other.idString );
     }

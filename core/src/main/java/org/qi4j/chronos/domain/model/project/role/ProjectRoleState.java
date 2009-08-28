@@ -19,10 +19,6 @@ package org.qi4j.chronos.domain.model.project.role;
 import org.qi4j.chronos.domain.model.common.description.HasDescriptionState;
 import org.qi4j.chronos.domain.model.common.name.NameState;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public interface ProjectRoleState extends NameState, HasDescriptionState
 {
 }

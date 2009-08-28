@@ -27,10 +27,6 @@ import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.api.entity.EntityBuilder;
 import org.qi4j.api.mixin.Mixins;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( CommentFactory.CommentFactoryMixin.class )
 interface CommentFactory extends ServiceComposite
 {

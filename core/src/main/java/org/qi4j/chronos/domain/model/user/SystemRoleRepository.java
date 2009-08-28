@@ -16,10 +16,6 @@
 */
 package org.qi4j.chronos.domain.model.user;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public interface SystemRoleRepository
 {
     SystemRole systemAdmin();

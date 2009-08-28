@@ -19,10 +19,6 @@ package org.qi4j.chronos.domain.model.customer;
 import java.io.Serializable;
 import org.qi4j.chronos.domain.model.ValueObject;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public final class CustomerId
     implements ValueObject<CustomerId>, Serializable
 {
@@ -35,12 +31,12 @@ public final class CustomerId
         idString = customerIdString;
     }
 
-    public final String idString()
+    public String idString()
     {
         return idString;
     }
 
-    public final boolean sameValueAs( CustomerId other )
+    public boolean sameValueAs( CustomerId other )
     {
         return other != null && idString.equals( other.idString );
     }

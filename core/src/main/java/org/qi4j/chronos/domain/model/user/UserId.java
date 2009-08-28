@@ -19,10 +19,6 @@ package org.qi4j.chronos.domain.model.user;
 import org.qi4j.chronos.domain.model.ValueObject;
 import static org.qi4j.api.util.NullArgumentException.validateNotNull;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public final class UserId
     implements ValueObject<UserId>
 {

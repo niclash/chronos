@@ -18,10 +18,6 @@ package org.qi4j.chronos.domain.model.user.admin;
 
 import org.qi4j.chronos.domain.model.user.UserId;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public interface AdminRepository
 {
     Admin find( UserId aUserId );

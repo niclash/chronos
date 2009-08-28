@@ -16,10 +16,6 @@
  */
 package org.qi4j.chronos.domain.model.project.role;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public interface ProjectRoleFactory
 {
     ProjectRole create( String roleName )

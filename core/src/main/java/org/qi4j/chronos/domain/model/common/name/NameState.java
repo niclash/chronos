@@ -18,9 +18,6 @@ package org.qi4j.chronos.domain.model.common.name;
 
 import org.qi4j.api.property.Property;
 
-/**
- * @author edward.yakop@gmail.com
- */
 public interface NameState
 {
     Property<String> name();

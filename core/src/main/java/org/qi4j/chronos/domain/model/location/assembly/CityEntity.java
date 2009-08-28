@@ -25,10 +25,6 @@ import org.qi4j.chronos.domain.model.location.city.CityState;
 import org.qi4j.chronos.domain.model.location.country.Country;
 import org.qi4j.chronos.domain.model.location.country.State;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( CityEntity.CityMixin.class )
 interface CityEntity extends City, EntityComposite
 {

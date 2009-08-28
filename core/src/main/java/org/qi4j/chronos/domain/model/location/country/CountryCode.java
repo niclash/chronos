@@ -19,8 +19,6 @@ package org.qi4j.chronos.domain.model.location.country;
 /**
  * ISO 3166-1
  *
- * @author edward.yakop@gmail.com
- * @since 0.5
  */
 public interface CountryCode
 {

@@ -32,10 +32,6 @@ import org.qi4j.api.query.QueryBuilderFactory;
 import org.qi4j.api.query.QueryBuilder;
 import org.qi4j.api.entity.EntityBuilder;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public class HasCommentsMixin
     implements HasComments
 {

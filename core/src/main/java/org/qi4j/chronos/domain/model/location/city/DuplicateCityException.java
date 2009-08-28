@@ -16,10 +16,6 @@
  */
 package org.qi4j.chronos.domain.model.location.city;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public class DuplicateCityException extends Exception
 {
     private static final long serialVersionUID = 1L;

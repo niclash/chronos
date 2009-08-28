@@ -16,10 +16,6 @@ import org.qi4j.chronos.domain.model.common.name.Name;
 import org.qi4j.chronos.domain.model.location.city.City;
 import org.qi4j.api.query.Query;
 
-/**
- * @author Muhd Kamil Mohd Baki
- * @since 0.5
- */
 public interface Country extends Name
 {
     CountryCode countryCode();

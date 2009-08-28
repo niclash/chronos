@@ -24,29 +24,25 @@ import org.qi4j.api.common.Optional;
 import org.qi4j.api.entity.EntityComposite;
 import org.qi4j.api.injection.scope.This;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( PeriodEntity.PeriodMixin.class )
 interface PeriodEntity extends Period, EntityComposite
 {
-    class PeriodMixin
+    public class PeriodMixin
         implements Period
     {
         @This private PeriodState state;
 
-        public final Date startTime()
+        public Date startTime()
         {
             return state.startTime().get();
         }
 
-        public final Date endTime()
+        public Date endTime()
         {
             return state.endTime().get();
         }
 
-        public final void updateTimeRange( @Optional Date startTime, @Optional Date endTime )
+        public void updateTimeRange( @Optional Date startTime, @Optional Date endTime )
         {
             state.startTime().set( startTime );
             state.endTime().set( endTime );

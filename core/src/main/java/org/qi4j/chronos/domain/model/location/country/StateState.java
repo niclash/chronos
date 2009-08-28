@@ -18,10 +18,6 @@ package org.qi4j.chronos.domain.model.location.country;
 
 import org.qi4j.api.entity.association.Association;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public interface StateState
 {
     Association<Country> country();

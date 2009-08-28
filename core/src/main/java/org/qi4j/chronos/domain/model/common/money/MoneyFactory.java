@@ -18,10 +18,6 @@ package org.qi4j.chronos.domain.model.common.money;
 
 import java.util.Currency;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public interface MoneyFactory
 {
     Money create( Currency currency, long amount );

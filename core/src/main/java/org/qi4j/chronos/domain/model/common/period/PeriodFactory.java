@@ -18,10 +18,6 @@ package org.qi4j.chronos.domain.model.common.period;
 
 import java.util.Date;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public interface PeriodFactory
 {
     Period create( Date startTime, Date endTime );

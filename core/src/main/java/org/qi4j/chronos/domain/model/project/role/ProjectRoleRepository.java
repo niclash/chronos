@@ -18,10 +18,6 @@ package org.qi4j.chronos.domain.model.project.role;
 
 import org.qi4j.api.query.Query;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public interface ProjectRoleRepository
 {
     Query<ProjectRole> findAll();

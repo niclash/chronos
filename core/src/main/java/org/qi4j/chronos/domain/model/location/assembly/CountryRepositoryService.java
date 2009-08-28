@@ -28,20 +28,16 @@ import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.chronos.domain.model.location.country.Country;
 import org.qi4j.chronos.domain.model.location.country.CountryRepository;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( CountryRepositoryService.CountryRepositoryMixin.class )
 interface CountryRepositoryService extends CountryRepository, ServiceComposite
 {
-    class CountryRepositoryMixin
+    public class CountryRepositoryMixin
         implements CountryRepository
     {
         @Structure UnitOfWorkFactory uowf;
         @Structure QueryBuilderFactory qbf;
 
-        public final Query<Country> findAll()
+        public Query<Country> findAll()
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
 
@@ -49,7 +45,7 @@ interface CountryRepositoryService extends CountryRepository, ServiceComposite
             return qb.newQuery(uow);
         }
 
-        public final Country findByNumericCode( String aCode )
+        public Country findByNumericCode( String aCode )
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
 

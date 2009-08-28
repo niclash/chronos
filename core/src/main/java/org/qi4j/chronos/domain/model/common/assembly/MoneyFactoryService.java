@@ -27,19 +27,15 @@ import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.service.ServiceComposite;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( MoneyFactoryService.MoneyFactoryMixin.class )
 interface MoneyFactoryService extends MoneyFactory, ServiceComposite
 {
-    class MoneyFactoryMixin
+    public class MoneyFactoryMixin
         implements MoneyFactory
     {
         @Structure private UnitOfWorkFactory uowf;
 
-        public final Money create( Currency currency, long amount )
+        public Money create( Currency currency, long amount )
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
 

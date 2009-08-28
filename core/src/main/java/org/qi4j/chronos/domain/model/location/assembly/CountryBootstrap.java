@@ -28,10 +28,6 @@ import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.service.Activatable;
 import org.qi4j.api.service.ServiceComposite;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( CountryBootstrap.CountryBootstrapMixin.class )
 interface CountryBootstrap extends Activatable, ServiceComposite
 {

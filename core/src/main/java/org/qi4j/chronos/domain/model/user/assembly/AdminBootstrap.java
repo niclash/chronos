@@ -30,10 +30,6 @@ import org.qi4j.chronos.domain.model.user.SystemRole;
 import org.qi4j.chronos.domain.model.user.SystemRoleRepository;
 import org.qi4j.chronos.domain.model.user.admin.Admin;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( AdminBootstrap.AdminBootstrapMixin.class )
 public interface AdminBootstrap extends Activatable, ServiceComposite
 {

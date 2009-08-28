@@ -17,11 +17,6 @@ import org.qi4j.chronos.domain.model.associations.HasContacts;
 import org.qi4j.chronos.domain.model.associations.HasRelationship;
 import org.qi4j.chronos.domain.model.user.User;
 
-/**
- * @author Sianny Halim
- * @author edward.yakop@gmail.com
- * @version 0.5
- */
 public interface ContactPerson extends User, HasRelationship, HasContacts
 {
 }

@@ -19,10 +19,6 @@ package org.qi4j.chronos.domain.model.common.assembly;
 import org.qi4j.chronos.domain.model.common.legalCondition.LegalCondition;
 import org.qi4j.api.entity.EntityComposite;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 interface LegalConditionEntity extends LegalCondition, EntityComposite
 {
 }

@@ -20,10 +20,6 @@ import java.util.Date;
 import org.qi4j.api.common.Optional;
 import org.qi4j.api.property.Property;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public interface PeriodState
 {
     @Optional Property<Date> startTime();

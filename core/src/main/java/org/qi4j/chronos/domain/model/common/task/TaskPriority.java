@@ -16,10 +16,6 @@
 */
 package org.qi4j.chronos.domain.model.common.task;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public enum TaskPriority
 {
     blocker,

@@ -13,11 +13,6 @@
  */
 package org.qi4j.chronos.domain.model.common.task;
 
-/**
- * @author Lan Boon Ping
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public enum TaskStatus
 {
     open,

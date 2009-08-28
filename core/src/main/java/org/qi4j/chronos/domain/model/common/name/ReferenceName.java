@@ -17,12 +17,6 @@ package org.qi4j.chronos.domain.model.common.name;
 import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.common.Optional;
 
-/**
- * @author Sianny Halim
- * @author Lan Boon Ping
- * @author edward.yakop@gmail.com
- * @version 0.5
- */
 @Mixins( MutableReferenceNameMixin.class )
 public interface ReferenceName
 {

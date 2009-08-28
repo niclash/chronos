@@ -18,10 +18,6 @@ package org.qi4j.chronos.application.sampleData;
 
 import org.qi4j.api.unitofwork.UnitOfWorkCompletionException;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public interface SampleDataService
 {
     void populate()

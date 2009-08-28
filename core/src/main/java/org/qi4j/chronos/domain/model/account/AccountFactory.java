@@ -14,11 +14,6 @@
 package org.qi4j.chronos.domain.model.account;
 
 
-/**
- * @author Muhd Kamil Mohd Baki
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public interface AccountFactory
 {
     Account newAccount( String accountName );

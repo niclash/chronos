@@ -21,10 +21,6 @@ import org.qi4j.chronos.domain.model.common.task.TaskStatus;
 import org.qi4j.api.injection.scope.This;
 import org.qi4j.api.common.Optional;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 class HasTaskStatusMixin
     implements HasTaskStatus
 {

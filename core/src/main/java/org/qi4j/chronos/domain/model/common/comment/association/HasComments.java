@@ -22,10 +22,6 @@ import org.qi4j.chronos.domain.model.user.User;
 import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.query.Query;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( HasCommentsMixin.class )
 public interface HasComments
 {

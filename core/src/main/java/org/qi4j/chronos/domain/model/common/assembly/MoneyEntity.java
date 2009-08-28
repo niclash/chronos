@@ -23,20 +23,16 @@ import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.entity.EntityComposite;
 import org.qi4j.api.injection.scope.This;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( MoneyEntity.MoneyMixin.class )
 interface MoneyEntity extends Money, EntityComposite
 {
-    final class MoneyMixin
+    public class MoneyMixin
         implements Money
     {
         @This private MoneyState state;
         private Currency currency;
 
-        public final Currency currency()
+        public Currency currency()
         {
             if( currency == null )
             {
@@ -46,7 +42,7 @@ interface MoneyEntity extends Money, EntityComposite
             return currency;
         }
 
-        public final long amount()
+        public long amount()
         {
             return state.amount().get();
         }

@@ -20,10 +20,6 @@ import org.qi4j.chronos.domain.model.common.task.Task;
 import org.qi4j.chronos.domain.model.project.Project;
 import org.qi4j.chronos.domain.model.project.assignee.ProjectAssignee;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public interface ProjectTask extends Task
 {
     Project project();

@@ -20,10 +20,6 @@ import org.qi4j.chronos.domain.model.user.admin.Admin;
 import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.entity.EntityComposite;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( UserMixin.class )
 interface AdminEntity extends Admin, EntityComposite
 {

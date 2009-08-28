@@ -30,14 +30,10 @@ import org.qi4j.api.query.Query;
 import org.qi4j.api.query.QueryBuilder;
 import org.qi4j.api.query.QueryBuilderFactory;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( PriceRateScheduleEntity.PriceRateScheduleMixin.class )
 interface PriceRateScheduleEntity extends PriceRateSchedule, EntityComposite
 {
-    final class PriceRateScheduleMixin
+    public class PriceRateScheduleMixin
         implements PriceRateSchedule
     {
         @Structure private UnitOfWorkFactory uowf;
@@ -46,7 +42,7 @@ interface PriceRateScheduleEntity extends PriceRateSchedule, EntityComposite
         @This private PriceRateScheduleState state;
         private Currency defaultPriceRateCurrency;
 
-        public final Currency defaultCurrency()
+        public Currency defaultCurrency()
         {
             if( defaultPriceRateCurrency == null )
             {
@@ -57,7 +53,7 @@ interface PriceRateScheduleEntity extends PriceRateSchedule, EntityComposite
             return defaultPriceRateCurrency;
         }
 
-        public final Query<PriceRate> priceRates()
+        public Query<PriceRate> priceRates()
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
             QueryBuilder<PriceRate> builder = qbf.newQueryBuilder( PriceRate.class );

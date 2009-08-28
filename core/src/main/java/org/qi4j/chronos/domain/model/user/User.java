@@ -18,10 +18,6 @@ import org.qi4j.api.query.Query;
 /**
  * User represents a chronos user.
  *
- * @author Sianny Halim
- * @author Lan Boon Ping
- * @author edward.yakop@gmail.com
- * @version 0.5
  */
 public interface User
 {

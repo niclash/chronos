@@ -29,27 +29,23 @@ import org.qi4j.api.query.QueryBuilder;
 import org.qi4j.api.query.QueryBuilderFactory;
 import org.qi4j.api.service.ServiceComposite;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( AccountRepositoryService.AccountRepositoryMixin.class )
 interface AccountRepositoryService extends AccountRepository, ServiceComposite
 {
-    class AccountRepositoryMixin
+    public class AccountRepositoryMixin
         implements AccountRepository
     {
         @Structure UnitOfWorkFactory uowf;
         @Structure QueryBuilderFactory qbf;
 
-        public final Query<Account> findAll()
+        public Query<Account> findAll()
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
             QueryBuilder<Account> builder = qbf.newQueryBuilder( Account.class );
             return builder.newQuery( uow );
         }
 
-        public final Account find( AccountId accountId )
+        public Account find( AccountId accountId )
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
             String accountIdString = accountId.idString();

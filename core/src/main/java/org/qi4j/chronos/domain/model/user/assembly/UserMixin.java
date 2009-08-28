@@ -30,11 +30,7 @@ import org.qi4j.chronos.domain.model.user.User;
 import org.qi4j.chronos.domain.model.user.UserDetail;
 import org.qi4j.chronos.domain.model.user.UserId;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
-final class UserMixin
+public class UserMixin
     implements User
 {
     @This private UserState state;
@@ -55,7 +51,7 @@ final class UserMixin
         return userId;
     }
 
-    public final Login login()
+    public Login login()
     {
         if( login == null )
         {
@@ -66,7 +62,7 @@ final class UserMixin
         return login;
     }
 
-    public final UserDetail userDetail()
+    public UserDetail userDetail()
     {
         if( userDetail == null )
         {
@@ -77,18 +73,18 @@ final class UserMixin
         return userDetail;
     }
 
-    public final Query<SystemRole> systemRoles()
+    public Query<SystemRole> systemRoles()
     {
         QueryBuilder<SystemRole> systemRoleBuilder = qbf.newQueryBuilder( SystemRole.class );
         return systemRoleBuilder.newQuery( state.systemRoles() );
     }
 
-    public final void addSystemRole( SystemRole role )
+    public void addSystemRole( SystemRole role )
     {
         state.systemRoles().add( 0, role );
     }
 
-    public final void removeSystemRole( SystemRole role )
+    public void removeSystemRole( SystemRole role )
     {
         state.systemRoles().remove( role );
     }

@@ -37,10 +37,6 @@ import static org.qi4j.chronos.domain.model.user.assembly.Constants.STAFF_NAME;
 import static org.qi4j.chronos.domain.model.user.assembly.Constants.SYSTEM_ADMIN_ID;
 import static org.qi4j.chronos.domain.model.user.assembly.Constants.SYSTEM_ADMIN_NAME;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( SystemRoleBootstrap.SystemRoleBootstrapMixin.class )
 interface SystemRoleBootstrap extends Activatable, ServiceComposite
 {

@@ -16,10 +16,6 @@
 */
 package org.qi4j.chronos.domain.model.user.assembly;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 final class Constants
 {
     static final String SYSTEM_ADMIN_ID = "SystemRole.SystemAdmin";

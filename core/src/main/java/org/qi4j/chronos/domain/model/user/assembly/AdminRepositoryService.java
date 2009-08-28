@@ -31,10 +31,6 @@ import org.qi4j.chronos.domain.model.user.UserId;
 import org.qi4j.chronos.domain.model.user.admin.Admin;
 import org.qi4j.chronos.domain.model.user.admin.AdminRepository;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( AdminRepositoryService.AdminRepositoryMixin.class )
 interface AdminRepositoryService extends AdminRepository, ServiceComposite
 {

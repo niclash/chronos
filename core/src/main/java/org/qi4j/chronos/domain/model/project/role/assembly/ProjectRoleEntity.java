@@ -24,10 +24,6 @@ import org.qi4j.chronos.domain.model.project.role.ProjectRole;
 import org.qi4j.chronos.domain.model.project.role.ProjectRoleId;
 import org.qi4j.chronos.domain.model.project.role.ProjectRoleState;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( ProjectRoleEntity.ProjectRoleMixin.class )
 interface ProjectRoleEntity extends ProjectRole, EntityComposite
 {

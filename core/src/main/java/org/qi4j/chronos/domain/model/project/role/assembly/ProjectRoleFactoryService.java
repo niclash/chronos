@@ -36,14 +36,10 @@ import org.qi4j.api.query.grammar.EqualsPredicate;
 import org.qi4j.api.query.grammar.VariableValueExpression;
 import org.qi4j.api.service.ServiceComposite;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( ProjectRoleFactoryService.ProjectRoleFactoryMixin.class )
 interface ProjectRoleFactoryService extends ProjectRoleFactory, ServiceComposite
 {
-    class ProjectRoleFactoryMixin
+    public class ProjectRoleFactoryMixin
         implements ProjectRoleFactory
     {
         private static EqualsPredicate<String> PREDICATE_ROLE_NAME;
@@ -58,7 +54,7 @@ interface ProjectRoleFactoryService extends ProjectRoleFactory, ServiceComposite
         @Structure private UnitOfWorkFactory uowf;
         @Structure private QueryBuilderFactory qbf;
 
-        public final ProjectRole create( String projectRoleName )
+        public ProjectRole create( String projectRoleName )
             throws ProjectRoleExistsException
         {
             UnitOfWork uow = uowf.currentUnitOfWork();

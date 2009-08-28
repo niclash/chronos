@@ -18,10 +18,6 @@ package org.qi4j.chronos.domain.model.common.enable;
 
 import org.qi4j.api.mixin.Mixins;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( EnableMixin.class )
 public interface Enable
 {

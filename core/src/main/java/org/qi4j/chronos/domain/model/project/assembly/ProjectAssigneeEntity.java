@@ -27,10 +27,6 @@ import org.qi4j.api.common.Optional;
 import org.qi4j.api.entity.EntityComposite;
 import org.qi4j.api.injection.scope.This;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( ProjectAssigneeEntity.ProjectAssigneeMixin.class )
 interface ProjectAssigneeEntity extends ProjectAssignee, EntityComposite
 {

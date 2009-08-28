@@ -29,27 +29,23 @@ import org.qi4j.chronos.domain.model.project.role.ProjectRole;
 import org.qi4j.chronos.domain.model.project.role.ProjectRoleId;
 import org.qi4j.chronos.domain.model.project.role.ProjectRoleRepository;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( ProjectRoleRepositoryService.ProjectRoleRepositoryMixin.class )
 interface ProjectRoleRepositoryService extends ProjectRoleRepository, ServiceComposite
 {
-    class ProjectRoleRepositoryMixin
+    public class ProjectRoleRepositoryMixin
         implements ProjectRoleRepository
     {
         @Structure private UnitOfWorkFactory uowf;
         @Structure private QueryBuilderFactory qbf;
 
-        public final Query<ProjectRole> findAll()
+        public Query<ProjectRole> findAll()
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
             QueryBuilder<ProjectRole> builder = qbf.newQueryBuilder( ProjectRole.class );
             return builder.newQuery( uow );
         }
 
-        public final ProjectRole find( ProjectRoleId roleId )
+        public ProjectRole find( ProjectRoleId roleId )
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
             try

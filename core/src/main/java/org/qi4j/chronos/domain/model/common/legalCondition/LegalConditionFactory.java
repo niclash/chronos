@@ -16,10 +16,6 @@
  */
 package org.qi4j.chronos.domain.model.common.legalCondition;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public interface LegalConditionFactory
 {
     LegalCondition create( String legalConditionName );

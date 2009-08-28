@@ -29,10 +29,6 @@ import org.qi4j.api.entity.association.Association;
 import org.qi4j.api.entity.association.ManyAssociation;
 import org.qi4j.api.property.Property;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public interface ProjectState extends NameState, ReferenceState
 {
     Property<Period> estimateTime();

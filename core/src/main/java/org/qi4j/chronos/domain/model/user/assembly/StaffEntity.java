@@ -22,10 +22,6 @@ import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.entity.EntityComposite;
 import org.qi4j.api.injection.scope.This;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( { UserMixin.class, StaffEntity.StaffMixin.class } )
 interface StaffEntity extends Staff, EntityComposite
 {

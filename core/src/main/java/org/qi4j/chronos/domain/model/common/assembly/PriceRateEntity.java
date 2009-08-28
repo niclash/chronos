@@ -26,34 +26,30 @@ import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.entity.EntityComposite;
 import org.qi4j.api.injection.scope.This;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( PriceRateEntity.PriceRateMixin.class )
 interface PriceRateEntity extends PriceRate, EntityComposite
 {
-    final class PriceRateMixin
+    public class PriceRateMixin
         implements PriceRate
     {
         @This private PriceRateState state;
 
-        public final Money price()
+        public Money price()
         {
             return state.price().get();
         }
 
-        public final PriceRateType priceRateType()
+        public PriceRateType priceRateType()
         {
             return state.type().get();
         }
 
-        public final ProjectRole projectRole()
+        public ProjectRole projectRole()
         {
             return state.projectRole().get();
         }
 
-        public final Period validPeriod()
+        public Period validPeriod()
         {
             return state.validPeriod().get();
         }

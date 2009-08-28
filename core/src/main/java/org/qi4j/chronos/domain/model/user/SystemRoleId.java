@@ -19,10 +19,6 @@ package org.qi4j.chronos.domain.model.user;
 import java.io.Serializable;
 import org.qi4j.chronos.domain.model.ValueObject;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public final class SystemRoleId
     implements ValueObject<SystemRoleId>, Serializable
 {

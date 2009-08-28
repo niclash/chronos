@@ -24,40 +24,36 @@ import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.entity.EntityComposite;
 import org.qi4j.api.injection.scope.This;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( CommentEntity.CommentMixin.class )
 interface CommentEntity extends Comment, EntityComposite
 {
-    class CommentMixin
+    public class CommentMixin
         implements Comment
     {
         @This private CommentState state;
 
-        public final String content()
+        public String content()
         {
             return state.comment().get();
         }
 
-        public final void updateContent( String newContent )
+        public void updateContent( String newContent )
         {
             state.lastUpdatedDate().set( new Date() );
             state.comment().set( newContent );
         }
 
-        public final Date createdDate()
+        public Date createdDate()
         {
             return state.createdDate().get();
         }
 
-        public final Date lastUpdatedDate()
+        public Date lastUpdatedDate()
         {
             return state.lastUpdatedDate().get();
         }
 
-        public final User createdBy()
+        public User createdBy()
         {
             return state.createdBy().get();
         }

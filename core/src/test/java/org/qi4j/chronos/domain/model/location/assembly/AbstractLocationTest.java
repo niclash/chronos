@@ -23,10 +23,6 @@ import org.qi4j.entitystore.memory.MemoryEntityStoreService;
 import org.qi4j.test.AbstractQi4jTest;
 import org.qi4j.spi.uuid.UuidIdentityGeneratorService;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 abstract class AbstractLocationTest extends AbstractQi4jTest
 {
     public final void assemble( ModuleAssembly module )

@@ -29,26 +29,23 @@ import org.qi4j.chronos.domain.model.customer.Customer;
 import org.qi4j.chronos.domain.model.customer.CustomerId;
 import org.qi4j.chronos.domain.model.customer.CustomerRepository;
 
-/**
- * @author edward.yakop@gmail.com
- */
 @Mixins( CustomerRepositoryService.CustomerRepositoryMixin.class )
 interface CustomerRepositoryService extends CustomerRepository, ServiceComposite
 {
-    class CustomerRepositoryMixin
+    public class CustomerRepositoryMixin
         implements CustomerRepository
     {
         @Structure private UnitOfWorkFactory uowf;
         @Structure private QueryBuilderFactory qbf;
 
-        public final Query<Customer> findAll()
+        public Query<Customer> findAll()
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
             QueryBuilder<Customer> builder = qbf.newQueryBuilder( Customer.class );
             return builder.newQuery( uow );
         }
 
-        public final Customer find( CustomerId customerId )
+        public Customer find( CustomerId customerId )
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
             try

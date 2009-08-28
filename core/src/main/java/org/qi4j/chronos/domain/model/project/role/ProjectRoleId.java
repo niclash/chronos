@@ -20,11 +20,7 @@ import java.io.Serializable;
 import org.qi4j.chronos.domain.model.ValueObject;
 import static org.qi4j.api.util.NullArgumentException.validateNotNull;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
-public final class ProjectRoleId
+public class ProjectRoleId
     implements ValueObject<ProjectRoleId>, Serializable
 {
     private static final long serialVersionUID = 1L;
@@ -38,17 +34,17 @@ public final class ProjectRoleId
         idString = projectRoleId;
     }
 
-    public final String idString()
+    public String idString()
     {
         return idString;
     }
 
-    public final boolean sameValueAs( ProjectRoleId other )
+    public boolean sameValueAs( ProjectRoleId other )
     {
         return other != null && idString.equals( other.idString() );
     }
 
-    public final boolean equals( Object o )
+    public boolean equals( Object o )
     {
         if( this == o )
         {
@@ -63,7 +59,7 @@ public final class ProjectRoleId
         return idString.equals( that.idString );
     }
 
-    public final int hashCode()
+    public int hashCode()
     {
         return idString.hashCode();
     }

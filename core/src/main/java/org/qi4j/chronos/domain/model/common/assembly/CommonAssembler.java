@@ -23,10 +23,6 @@ import org.qi4j.chronos.domain.model.common.comment.assembly.CommentAssembler;
 import static org.qi4j.api.common.Visibility.application;
 import static org.qi4j.api.common.Visibility.layer;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public final class CommonAssembler
     implements Assembler
 {

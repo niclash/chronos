@@ -23,11 +23,6 @@ import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.common.Optional;
 import org.qi4j.api.query.Query;
 
-/**
- * @author Lan Boon Ping
- * @author edward.yakop@gmail.com
- * @version 0.5
- */
 @Mixins( TaskMixin.class )
 public interface Task extends HasDescription, HasComments, Entity<Task>
 {

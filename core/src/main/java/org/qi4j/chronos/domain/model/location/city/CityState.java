@@ -21,10 +21,6 @@ import org.qi4j.chronos.domain.model.location.country.Country;
 import org.qi4j.chronos.domain.model.location.country.State;
 import org.qi4j.api.entity.association.Association;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public interface CityState extends NameState
 {
     Association<State> state();

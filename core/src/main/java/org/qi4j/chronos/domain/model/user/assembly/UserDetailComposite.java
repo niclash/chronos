@@ -21,10 +21,6 @@ import org.qi4j.api.injection.scope.Uses;
 import org.qi4j.api.mixin.Mixins;
 import org.qi4j.chronos.domain.model.user.UserDetail;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( UserDetailComposite.UserDetailMixin.class )
 interface UserDetailComposite extends UserDetail, TransientComposite
 {

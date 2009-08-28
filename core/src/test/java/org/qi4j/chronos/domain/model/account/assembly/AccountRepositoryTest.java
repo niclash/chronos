@@ -29,10 +29,6 @@ import org.qi4j.api.query.Query;
 import org.qi4j.api.service.ServiceFinder;
 import org.qi4j.api.service.ServiceReference;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public final class AccountRepositoryTest extends AbstractAccountTest
 {
     @Test

@@ -33,10 +33,6 @@ import org.qi4j.chronos.domain.model.common.task.TaskStatus;
 import org.qi4j.chronos.domain.model.common.task.WorkEntry;
 import org.qi4j.chronos.domain.model.user.User;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public abstract class TaskMixin
     implements Task
 {

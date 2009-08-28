@@ -25,12 +25,12 @@ import org.qi4j.api.service.ServiceComposite;
 @Mixins( AccountFactoryService.AccountFactoryMixin.class )
 interface AccountFactoryService extends AccountFactory, ServiceComposite
 {
-    class AccountFactoryMixin
+    public class AccountFactoryMixin
         implements AccountFactory
     {
         @Structure private UnitOfWorkFactory uowf;
 
-        public final Account newAccount( String accountName )
+        public Account newAccount( String accountName )
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
             EntityBuilder<Account> accountBuilder = uow.newEntityBuilder( Account.class );

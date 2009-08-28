@@ -20,9 +20,6 @@ import org.qi4j.bootstrap.ApplicationAssembly;
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.LayerAssembly;
 
-/**
- * @author edward.yakop@gmail.com
- */
 public interface LayerAssembler
 {
     LayerAssembly createLayerAssembly( ApplicationAssembly anApplicationAssembly )

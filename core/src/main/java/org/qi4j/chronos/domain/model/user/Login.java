@@ -18,10 +18,6 @@ package org.qi4j.chronos.domain.model.user;
 
 import org.qi4j.chronos.domain.model.common.enable.Enable;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public interface Login extends Enable
 {
     String loginName();

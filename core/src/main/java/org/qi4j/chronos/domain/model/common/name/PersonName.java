@@ -16,10 +16,6 @@
  */
 package org.qi4j.chronos.domain.model.common.name;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public interface PersonName
 {
     String firstName();

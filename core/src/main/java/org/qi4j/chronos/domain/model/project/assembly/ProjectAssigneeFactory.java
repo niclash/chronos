@@ -27,10 +27,6 @@ import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.service.ServiceComposite;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( ProjectAssigneeFactory.ProjectAssigneeFactoryMixin.class )
 interface ProjectAssigneeFactory extends ServiceComposite
 {

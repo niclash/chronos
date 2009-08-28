@@ -28,19 +28,15 @@ import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.service.ServiceComposite;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( PeriodFactoryService.PeriodFactoryMixin.class )
 interface PeriodFactoryService extends PeriodFactory, ServiceComposite
 {
-    class PeriodFactoryMixin
+    public class PeriodFactoryMixin
         implements PeriodFactory
     {
         @Structure private UnitOfWorkFactory uowf;
 
-        public final Period create( @Optional Date startTime, @Optional Date endTime )
+        public Period create( @Optional Date startTime, @Optional Date endTime )
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
 

@@ -21,10 +21,6 @@ import org.qi4j.chronos.domain.model.common.name.MutableReferenceName;
 import org.qi4j.chronos.domain.model.location.address.Address;
 import org.qi4j.api.common.Optional;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 public interface CustomerDetail extends MutableName, MutableReferenceName
 {
     @Optional Address address();

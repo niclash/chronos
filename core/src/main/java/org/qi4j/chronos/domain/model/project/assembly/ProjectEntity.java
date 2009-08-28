@@ -43,10 +43,6 @@ import org.qi4j.chronos.domain.model.project.task.ProjectTask;
 import org.qi4j.chronos.domain.model.user.User;
 import org.qi4j.chronos.domain.model.user.contactPerson.ContactPerson;
 
-/**
- * @author edward.yakop@gmail.com
- * @since 0.5
- */
 @Mixins( ProjectEntity.ProjectMixin.class )
 interface ProjectEntity extends Project, EntityComposite
 {
