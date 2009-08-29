@@ -17,11 +17,11 @@
 package org.qi4j.chronos.domain.model.common.assembly;
 
 import java.util.Currency;
-import org.qi4j.chronos.domain.model.common.money.Money;
-import org.qi4j.chronos.domain.model.common.money.MoneyState;
-import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.entity.EntityComposite;
 import org.qi4j.api.injection.scope.This;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.chronos.domain.model.common.money.Money;
+import org.qi4j.chronos.domain.model.common.money.MoneyState;
 
 @Mixins( MoneyEntity.MoneyMixin.class )
 interface MoneyEntity extends Money, EntityComposite

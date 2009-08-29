@@ -25,10 +25,7 @@ import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.chronos.domain.model.user.SystemRole;
 import org.qi4j.chronos.domain.model.user.SystemRoleId;
 import org.qi4j.chronos.domain.model.user.SystemRoleRepository;
-import static org.qi4j.chronos.domain.model.user.assembly.Constants.ACCOUNT_DEVELOPER_ID;
-import static org.qi4j.chronos.domain.model.user.assembly.Constants.CONTACT_PERSON_ID;
-import static org.qi4j.chronos.domain.model.user.assembly.Constants.STAFF_ID;
-import static org.qi4j.chronos.domain.model.user.assembly.Constants.SYSTEM_ADMIN_ID;
+import static org.qi4j.chronos.domain.model.user.assembly.Constants.*;
 
 @Mixins( SystemRoleRepositoryService.SystemRoleRepositoryMixin.class )
 interface SystemRoleRepositoryService extends SystemRoleRepository, ServiceComposite
@@ -56,22 +53,22 @@ interface SystemRoleRepositoryService extends SystemRoleRepository, ServiceCompo
             }
         }
 
-        public final SystemRole contactPerson()
+        public SystemRole contactPerson()
         {
             return findSystemRoleById( CONTACT_PERSON_ID );
         }
 
-        public final SystemRole staff()
+        public SystemRole staff()
         {
             return findSystemRoleById( STAFF_ID );
         }
 
-        public final SystemRole developer()
+        public SystemRole developer()
         {
             return findSystemRoleById( ACCOUNT_DEVELOPER_ID );
         }
 
-        public final SystemRole find( SystemRoleId systemRoleId )
+        public SystemRole find( SystemRoleId systemRoleId )
         {
             return findSystemRoleById( systemRoleId.idString() );
         }

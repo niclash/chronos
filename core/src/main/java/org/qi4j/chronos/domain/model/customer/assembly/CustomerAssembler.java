@@ -16,16 +16,15 @@
  */
 package org.qi4j.chronos.domain.model.customer.assembly;
 
+import static org.qi4j.api.common.Visibility.*;
 import org.qi4j.bootstrap.Assembler;
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.ModuleAssembly;
-import static org.qi4j.api.common.Visibility.application;
-import static org.qi4j.api.common.Visibility.layer;
 
-public final class CustomerAssembler
+public class CustomerAssembler
     implements Assembler
 {
-    public final void assemble( ModuleAssembly module )
+    public void assemble( ModuleAssembly module )
         throws AssemblyException
     {
         module.addEntities( CustomerEntity.class ).visibleIn( layer );

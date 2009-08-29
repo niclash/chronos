@@ -16,17 +16,17 @@
  */
 package org.qi4j.chronos.domain.model.location.assembly;
 
+import org.qi4j.api.entity.EntityBuilder;
+import org.qi4j.api.injection.scope.Service;
+import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.service.Activatable;
+import org.qi4j.api.service.ServiceComposite;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.chronos.domain.model.location.country.Country;
 import org.qi4j.chronos.domain.model.location.country.CountryRepository;
 import org.qi4j.chronos.domain.model.location.country.CountryState;
-import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.entity.EntityBuilder;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.unitofwork.UnitOfWorkFactory;
-import org.qi4j.api.injection.scope.Service;
-import org.qi4j.api.injection.scope.Structure;
-import org.qi4j.api.service.Activatable;
-import org.qi4j.api.service.ServiceComposite;
 
 @Mixins( CountryBootstrap.CountryBootstrapMixin.class )
 interface CountryBootstrap extends Activatable, ServiceComposite
@@ -286,7 +286,7 @@ interface CountryBootstrap extends Activatable, ServiceComposite
         @Service private CountryRepository repository;
         @Structure private UnitOfWorkFactory uowf;
 
-        public final void activate()
+        public void activate()
             throws Exception
         {
             UnitOfWork uow = uowf.newUnitOfWork();
@@ -324,7 +324,7 @@ interface CountryBootstrap extends Activatable, ServiceComposite
             countryBuilder.newInstance();
         }
 
-        public final void passivate()
+        public void passivate()
             throws Exception
         {
             // Do nothing

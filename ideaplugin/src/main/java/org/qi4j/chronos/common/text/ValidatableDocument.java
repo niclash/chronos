@@ -18,7 +18,7 @@ import javax.swing.text.PlainDocument;
 
 public abstract class ValidatableDocument extends PlainDocument
 {
-    public final void insertString( int offs, String str, AttributeSet a ) throws BadLocationException
+    public void insertString( int offs, String str, AttributeSet a ) throws BadLocationException
     {
         if( str == null )
         {

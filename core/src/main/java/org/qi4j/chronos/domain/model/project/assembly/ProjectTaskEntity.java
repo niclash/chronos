@@ -16,15 +16,15 @@
 */
 package org.qi4j.chronos.domain.model.project.assembly;
 
+import org.qi4j.api.entity.EntityComposite;
+import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.injection.scope.This;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.chronos.domain.model.project.Project;
 import org.qi4j.chronos.domain.model.project.assignee.ProjectAssignee;
 import org.qi4j.chronos.domain.model.project.task.ProjectTask;
 import org.qi4j.chronos.domain.model.project.task.ProjectTaskState;
-import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.entity.EntityComposite;
-import org.qi4j.api.unitofwork.UnitOfWorkFactory;
-import org.qi4j.api.injection.scope.Structure;
-import org.qi4j.api.injection.scope.This;
 
 @Mixins( ProjectTaskEntity.ProjectTaskMixin.class )
 interface ProjectTaskEntity extends ProjectTask, EntityComposite
@@ -36,12 +36,12 @@ interface ProjectTaskEntity extends ProjectTask, EntityComposite
 
         @Structure private UnitOfWorkFactory uowf;
 
-        public final Project project()
+        public Project project()
         {
             return state.project().get();
         }
 
-        public final void reAssignTo( ProjectAssignee assignee )
+        public void reAssignTo( ProjectAssignee assignee )
         {
             if( project().equals( assignee.project() ) )
             {

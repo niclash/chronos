@@ -16,8 +16,7 @@
  */
 package org.qi4j.chronos.domain.model.common.comment.assembly;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import org.junit.Test;
 import org.qi4j.api.query.QueryBuilder;
 import org.qi4j.api.service.ServiceFinder;
@@ -25,14 +24,14 @@ import org.qi4j.api.service.ServiceReference;
 import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.ModuleAssembly;
-import org.qi4j.chronos.domain.model.common.comment.Comment;
 import org.qi4j.chronos.domain.model.common.assembly.AbstractCommonTest;
+import org.qi4j.chronos.domain.model.common.comment.Comment;
 import org.qi4j.chronos.domain.model.user.admin.Admin;
 import org.qi4j.chronos.domain.model.user.assembly.UserAssembler;
 
-public final class CommentFactoryTest extends AbstractCommonTest
+public class CommentFactoryTest extends AbstractCommonTest
 {
-    public final void assemble( ModuleAssembly module )
+    public void assemble( ModuleAssembly module )
         throws AssemblyException
     {
         super.assemble( module );
@@ -40,7 +39,7 @@ public final class CommentFactoryTest extends AbstractCommonTest
     }
 
     @Test
-    public final void createCommentTest()
+    public void createCommentTest()
     {
         UnitOfWork uow = unitOfWorkFactory.newUnitOfWork();
 

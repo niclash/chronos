@@ -18,21 +18,21 @@ package org.qi4j.chronos.domain.model.customer.assembly;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
+import org.qi4j.api.query.Query;
+import org.qi4j.api.service.ServiceFinder;
+import org.qi4j.api.service.ServiceReference;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkCompletionException;
 import org.qi4j.chronos.domain.model.customer.Customer;
 import org.qi4j.chronos.domain.model.customer.CustomerDetail;
 import org.qi4j.chronos.domain.model.customer.CustomerFactory;
 import org.qi4j.chronos.domain.model.customer.CustomerId;
 import org.qi4j.chronos.domain.model.customer.CustomerRepository;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.unitofwork.UnitOfWorkCompletionException;
-import org.qi4j.api.query.Query;
-import org.qi4j.api.service.ServiceFinder;
-import org.qi4j.api.service.ServiceReference;
 
-public final class CustomerRepositoryTest extends AbstractCustomerTest
+public class CustomerRepositoryTest extends AbstractCustomerTest
 {
     @Test
-    public final void findTest()
+    public void findTest()
         throws UnitOfWorkCompletionException
     {
         UnitOfWork uow = unitOfWorkFactory.newUnitOfWork();

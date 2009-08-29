@@ -16,25 +16,23 @@
  */
 package org.qi4j.chronos.domain.model.project.role.assembly;
 
+import org.qi4j.api.entity.EntityBuilder;
+import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.query.Query;
+import org.qi4j.api.query.QueryBuilder;
+import org.qi4j.api.query.QueryBuilderFactory;
+import static org.qi4j.api.query.QueryExpressions.*;
+import org.qi4j.api.query.grammar.EqualsPredicate;
+import org.qi4j.api.query.grammar.VariableValueExpression;
+import org.qi4j.api.service.ServiceComposite;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.chronos.domain.model.common.name.NameState;
 import org.qi4j.chronos.domain.model.project.role.ProjectRole;
 import org.qi4j.chronos.domain.model.project.role.ProjectRoleExistsException;
 import org.qi4j.chronos.domain.model.project.role.ProjectRoleFactory;
 import org.qi4j.chronos.domain.model.project.role.ProjectRoleState;
-import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.entity.EntityBuilder;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.unitofwork.UnitOfWorkFactory;
-import org.qi4j.api.injection.scope.Structure;
-import org.qi4j.api.query.Query;
-import org.qi4j.api.query.QueryBuilder;
-import org.qi4j.api.query.QueryBuilderFactory;
-import static org.qi4j.api.query.QueryExpressions.eq;
-import static org.qi4j.api.query.QueryExpressions.templateFor;
-import static org.qi4j.api.query.QueryExpressions.variable;
-import org.qi4j.api.query.grammar.EqualsPredicate;
-import org.qi4j.api.query.grammar.VariableValueExpression;
-import org.qi4j.api.service.ServiceComposite;
 
 @Mixins( ProjectRoleFactoryService.ProjectRoleFactoryMixin.class )
 interface ProjectRoleFactoryService extends ProjectRoleFactory, ServiceComposite

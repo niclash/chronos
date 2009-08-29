@@ -42,7 +42,7 @@ interface CountryRepositoryService extends CountryRepository, ServiceComposite
             UnitOfWork uow = uowf.currentUnitOfWork();
 
             QueryBuilder<Country> qb = qbf.newQueryBuilder( Country.class );
-            return qb.newQuery(uow);
+            return qb.newQuery( uow );
         }
 
         public Country findByNumericCode( String aCode )

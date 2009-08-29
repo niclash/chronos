@@ -22,7 +22,7 @@ import org.qi4j.bootstrap.LayerAssembly;
 import org.qi4j.bootstrap.ModuleAssembly;
 import org.qi4j.chronos.util.assembler.LayerAssembler;
 
-public final class SampleDataLayerAssembler
+public class SampleDataLayerAssembler
     implements LayerAssembler
 {
     public LayerAssembly createLayerAssembly( ApplicationAssembly anApplicationAssembly )

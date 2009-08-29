@@ -17,9 +17,9 @@
 package org.qi4j.chronos.domain.model.common.comment;
 
 import java.util.Date;
-import org.qi4j.chronos.domain.model.user.User;
 import org.qi4j.api.entity.association.Association;
 import org.qi4j.api.property.Property;
+import org.qi4j.chronos.domain.model.user.User;
 
 public interface CommentState
 {

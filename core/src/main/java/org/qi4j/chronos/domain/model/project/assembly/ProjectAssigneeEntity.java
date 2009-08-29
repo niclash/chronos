@@ -16,16 +16,16 @@
 */
 package org.qi4j.chronos.domain.model.project.assembly;
 
+import org.qi4j.api.common.Optional;
+import org.qi4j.api.entity.EntityComposite;
+import org.qi4j.api.injection.scope.This;
+import org.qi4j.api.mixin.Mixins;
 import org.qi4j.chronos.domain.model.common.priceRate.PriceRate;
 import org.qi4j.chronos.domain.model.project.Project;
 import org.qi4j.chronos.domain.model.project.assignee.ProjectAssignee;
 import org.qi4j.chronos.domain.model.project.assignee.ProjectAssigneeState;
 import org.qi4j.chronos.domain.model.project.role.ProjectRole;
 import org.qi4j.chronos.domain.model.user.staff.Staff;
-import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.common.Optional;
-import org.qi4j.api.entity.EntityComposite;
-import org.qi4j.api.injection.scope.This;
 
 @Mixins( ProjectAssigneeEntity.ProjectAssigneeMixin.class )
 interface ProjectAssigneeEntity extends ProjectAssignee, EntityComposite
@@ -35,28 +35,28 @@ interface ProjectAssigneeEntity extends ProjectAssignee, EntityComposite
     {
         @This private ProjectAssigneeState state;
 
-        public final Project project()
+        public Project project()
         {
             return state.project().get();
         }
 
-        public final ProjectRole projectRole()
+        public ProjectRole projectRole()
         {
             return state.projectRole().get();
         }
 
-        public final PriceRate priceRate()
+        public PriceRate priceRate()
         {
             return state.priceRate().get();
         }
 
-        public final void updatePriceRate( PriceRate priceRate )
+        public void updatePriceRate( PriceRate priceRate )
         {
             state.priceRate().set( priceRate );
         }
 
         @Optional
-        public final Staff staff()
+        public Staff staff()
         {
             return state.staff().get();
         }

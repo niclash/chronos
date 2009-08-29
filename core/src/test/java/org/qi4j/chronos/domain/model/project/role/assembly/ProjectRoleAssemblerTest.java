@@ -18,18 +18,18 @@ package org.qi4j.chronos.domain.model.project.role.assembly;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
+import org.qi4j.api.service.ServiceFinder;
+import org.qi4j.api.unitofwork.NoSuchEntityException;
+import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.chronos.domain.model.project.AbstractProjectTest;
 import org.qi4j.chronos.domain.model.project.role.ProjectRole;
 import org.qi4j.chronos.domain.model.project.role.ProjectRoleFactory;
 import org.qi4j.chronos.domain.model.project.role.ProjectRoleRepository;
-import org.qi4j.api.unitofwork.NoSuchEntityException;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.service.ServiceFinder;
 
-public final class ProjectRoleAssemblerTest extends AbstractProjectTest
+public class ProjectRoleAssemblerTest extends AbstractProjectTest
 {
     @Test
-    public final void servicesAvailabilityTest()
+    public void servicesAvailabilityTest()
     {
         ServiceFinder serviceFinder = moduleInstance.serviceFinder();
         assertNotNull( serviceFinder.findService( ProjectRoleFactory.class ) );
@@ -37,7 +37,7 @@ public final class ProjectRoleAssemblerTest extends AbstractProjectTest
     }
 
     @Test
-    public final void entityAvailabilityTest()
+    public void entityAvailabilityTest()
     {
         UnitOfWork uow = unitOfWorkFactory.newUnitOfWork();
         try

@@ -17,18 +17,18 @@
 package org.qi4j.chronos.domain.model.project.assembly;
 
 import java.util.Date;
+import org.qi4j.api.entity.EntityBuilder;
+import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.service.ServiceComposite;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.chronos.domain.model.common.task.TaskPriority;
-import static org.qi4j.chronos.domain.model.common.task.TaskStatus.open;
+import static org.qi4j.chronos.domain.model.common.task.TaskStatus.*;
 import org.qi4j.chronos.domain.model.project.Project;
 import org.qi4j.chronos.domain.model.project.task.ProjectTask;
 import org.qi4j.chronos.domain.model.project.task.ProjectTaskState;
 import org.qi4j.chronos.domain.model.user.User;
-import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.entity.EntityBuilder;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.unitofwork.UnitOfWorkFactory;
-import org.qi4j.api.injection.scope.Structure;
-import org.qi4j.api.service.ServiceComposite;
 
 @Mixins( ProjectTaskFactory.ProjectTaskFactoryMixin.class )
 interface ProjectTaskFactory extends ServiceComposite
@@ -42,9 +42,9 @@ interface ProjectTaskFactory extends ServiceComposite
     {
         @Structure private UnitOfWorkFactory uowf;
 
-        public final ProjectTask create( Project project,
-                                         String title, String description, TaskPriority priority,
-                                         User createdBy, User assignedTo )
+        public ProjectTask create( Project project,
+                                   String title, String description, TaskPriority priority,
+                                   User createdBy, User assignedTo )
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
             EntityBuilder<ProjectTask> builder = uow.newEntityBuilder( ProjectTask.class );

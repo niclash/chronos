@@ -16,8 +16,8 @@
  */
 package org.qi4j.chronos.domain.model.location.country;
 
-import org.qi4j.chronos.domain.model.common.name.NameState;
 import org.qi4j.api.property.Property;
+import org.qi4j.chronos.domain.model.common.name.NameState;
 
 public interface CountryState extends NameState
 {

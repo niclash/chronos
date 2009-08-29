@@ -16,8 +16,8 @@
  */
 package org.qi4j.chronos.domain.model.common.description;
 
-import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.common.Optional;
+import org.qi4j.api.mixin.Mixins;
 
 
 @Mixins( HasDescriptionMixin.class )

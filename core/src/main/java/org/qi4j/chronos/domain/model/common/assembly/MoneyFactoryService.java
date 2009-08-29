@@ -17,15 +17,15 @@
 package org.qi4j.chronos.domain.model.common.assembly;
 
 import java.util.Currency;
+import org.qi4j.api.entity.EntityBuilder;
+import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.service.ServiceComposite;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.chronos.domain.model.common.money.Money;
 import org.qi4j.chronos.domain.model.common.money.MoneyFactory;
 import org.qi4j.chronos.domain.model.common.money.MoneyState;
-import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.entity.EntityBuilder;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.unitofwork.UnitOfWorkFactory;
-import org.qi4j.api.injection.scope.Structure;
-import org.qi4j.api.service.ServiceComposite;
 
 @Mixins( MoneyFactoryService.MoneyFactoryMixin.class )
 interface MoneyFactoryService extends MoneyFactory, ServiceComposite

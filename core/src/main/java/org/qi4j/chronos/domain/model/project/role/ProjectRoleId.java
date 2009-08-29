@@ -17,8 +17,8 @@
 package org.qi4j.chronos.domain.model.project.role;
 
 import java.io.Serializable;
+import static org.qi4j.api.util.NullArgumentException.*;
 import org.qi4j.chronos.domain.model.ValueObject;
-import static org.qi4j.api.util.NullArgumentException.validateNotNull;
 
 public class ProjectRoleId
     implements ValueObject<ProjectRoleId>, Serializable

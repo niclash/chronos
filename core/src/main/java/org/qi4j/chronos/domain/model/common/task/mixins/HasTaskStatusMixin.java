@@ -16,22 +16,22 @@
 */
 package org.qi4j.chronos.domain.model.common.task.mixins;
 
+import org.qi4j.api.common.Optional;
+import org.qi4j.api.injection.scope.This;
 import org.qi4j.chronos.domain.model.common.comment.Comment;
 import org.qi4j.chronos.domain.model.common.task.TaskStatus;
-import org.qi4j.api.injection.scope.This;
-import org.qi4j.api.common.Optional;
 
-class HasTaskStatusMixin
+public class HasTaskStatusMixin
     implements HasTaskStatus
 {
     @This private HasTaskStatusState state;
 
-    public final TaskStatus status()
+    public TaskStatus status()
     {
         return state.status().get();
     }
 
-    public final void updateTaskStatus( TaskStatus newStatus, @Optional Comment comment )
+    public void updateTaskStatus( TaskStatus newStatus, @Optional Comment comment )
     {
         state.status().set( newStatus );
         state.comments().add( 0, comment );

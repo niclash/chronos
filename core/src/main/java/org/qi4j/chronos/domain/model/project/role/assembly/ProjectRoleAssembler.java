@@ -16,13 +16,12 @@
  */
 package org.qi4j.chronos.domain.model.project.role.assembly;
 
+import static org.qi4j.api.common.Visibility.*;
 import org.qi4j.bootstrap.Assembler;
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.ModuleAssembly;
-import static org.qi4j.api.common.Visibility.application;
-import static org.qi4j.api.common.Visibility.layer;
 
-public final class ProjectRoleAssembler
+public class ProjectRoleAssembler
     implements Assembler
 {
     public void assemble( ModuleAssembly module )

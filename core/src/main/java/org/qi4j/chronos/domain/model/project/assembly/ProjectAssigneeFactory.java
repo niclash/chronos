@@ -16,16 +16,16 @@
 */
 package org.qi4j.chronos.domain.model.project.assembly;
 
+import org.qi4j.api.entity.EntityBuilder;
+import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.service.ServiceComposite;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.chronos.domain.model.project.Project;
 import org.qi4j.chronos.domain.model.project.assignee.ProjectAssignee;
 import org.qi4j.chronos.domain.model.project.assignee.ProjectAssigneeState;
 import org.qi4j.chronos.domain.model.project.role.ProjectRole;
-import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.entity.EntityBuilder;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.unitofwork.UnitOfWorkFactory;
-import org.qi4j.api.injection.scope.Structure;
-import org.qi4j.api.service.ServiceComposite;
 
 @Mixins( ProjectAssigneeFactory.ProjectAssigneeFactoryMixin.class )
 interface ProjectAssigneeFactory extends ServiceComposite
@@ -37,7 +37,7 @@ interface ProjectAssigneeFactory extends ServiceComposite
     {
         @Structure private UnitOfWorkFactory uowf;
 
-        public final ProjectAssignee create( Project project, ProjectRole role )
+        public ProjectAssignee create( Project project, ProjectRole role )
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
             EntityBuilder<ProjectAssignee> builder = uow.newEntityBuilder( ProjectAssignee.class );

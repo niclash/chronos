@@ -16,11 +16,11 @@
 */
 package org.qi4j.chronos.domain.model.common.comment.association;
 
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.query.Query;
 import org.qi4j.chronos.domain.model.common.comment.Comment;
 import org.qi4j.chronos.domain.model.common.comment.assembly.HasCommentsMixin;
 import org.qi4j.chronos.domain.model.user.User;
-import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.query.Query;
 
 @Mixins( HasCommentsMixin.class )
 public interface HasComments

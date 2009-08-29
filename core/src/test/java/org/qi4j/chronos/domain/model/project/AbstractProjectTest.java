@@ -18,16 +18,16 @@ package org.qi4j.chronos.domain.model.project;
 
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.ModuleAssembly;
-import org.qi4j.chronos.domain.model.project.assembly.ProjectAssembler;
 import org.qi4j.chronos.domain.model.common.comment.assembly.CommentAssembler;
-import org.qi4j.index.rdf.assembly.RdfMemoryStoreAssembler;
+import org.qi4j.chronos.domain.model.project.assembly.ProjectAssembler;
 import org.qi4j.entitystore.memory.MemoryEntityStoreService;
-import org.qi4j.test.AbstractQi4jTest;
+import org.qi4j.index.rdf.assembly.RdfMemoryStoreAssembler;
 import org.qi4j.spi.uuid.UuidIdentityGeneratorService;
+import org.qi4j.test.AbstractQi4jTest;
 
 public abstract class AbstractProjectTest extends AbstractQi4jTest
 {
-    public final void assemble( ModuleAssembly module )
+    public void assemble( ModuleAssembly module )
         throws AssemblyException
     {
         new RdfMemoryStoreAssembler().assemble( module );

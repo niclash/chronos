@@ -18,13 +18,13 @@ package org.qi4j.chronos.domain.model.customer.assembly;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
+import org.qi4j.api.service.ServiceReference;
+import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.chronos.domain.model.customer.Customer;
 import org.qi4j.chronos.domain.model.customer.CustomerDetail;
 import org.qi4j.chronos.domain.model.customer.CustomerFactory;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.service.ServiceReference;
 
-public final class CustomerFactoryTest extends AbstractCustomerTest
+public class CustomerFactoryTest extends AbstractCustomerTest
 {
     @Test
     public void createCustomerTest()

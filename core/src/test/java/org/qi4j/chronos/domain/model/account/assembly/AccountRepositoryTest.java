@@ -16,23 +16,22 @@
  */
 package org.qi4j.chronos.domain.model.account.assembly;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import org.junit.Test;
+import org.qi4j.api.query.Query;
+import org.qi4j.api.service.ServiceFinder;
+import org.qi4j.api.service.ServiceReference;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkCompletionException;
 import org.qi4j.chronos.domain.model.account.Account;
 import org.qi4j.chronos.domain.model.account.AccountFactory;
 import org.qi4j.chronos.domain.model.account.AccountId;
 import org.qi4j.chronos.domain.model.account.AccountRepository;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.unitofwork.UnitOfWorkCompletionException;
-import org.qi4j.api.query.Query;
-import org.qi4j.api.service.ServiceFinder;
-import org.qi4j.api.service.ServiceReference;
 
-public final class AccountRepositoryTest extends AbstractAccountTest
+public class AccountRepositoryTest extends AbstractAccountTest
 {
     @Test
-    public final void findTest()
+    public void findTest()
         throws UnitOfWorkCompletionException
     {
         UnitOfWork uow = unitOfWorkFactory.newUnitOfWork();

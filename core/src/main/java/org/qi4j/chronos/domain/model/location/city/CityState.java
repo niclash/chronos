@@ -16,10 +16,10 @@
  */
 package org.qi4j.chronos.domain.model.location.city;
 
+import org.qi4j.api.entity.association.Association;
 import org.qi4j.chronos.domain.model.common.name.NameState;
 import org.qi4j.chronos.domain.model.location.country.Country;
 import org.qi4j.chronos.domain.model.location.country.State;
-import org.qi4j.api.entity.association.Association;
 
 public interface CityState extends NameState
 {

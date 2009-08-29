@@ -16,9 +16,9 @@
 */
 package org.qi4j.chronos.domain.model.user.assembly;
 
-import org.qi4j.chronos.domain.model.user.admin.Admin;
-import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.entity.EntityComposite;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.chronos.domain.model.user.admin.Admin;
 
 @Mixins( UserMixin.class )
 interface AdminEntity extends Admin, EntityComposite

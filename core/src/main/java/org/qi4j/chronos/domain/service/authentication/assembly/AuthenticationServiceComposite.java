@@ -43,7 +43,7 @@ interface AuthenticationServiceComposite extends AuthenticationService, ServiceC
         @Structure private UnitOfWorkFactory uowf;
         @Service private AdminRepository adminRepository;
 
-        public final User authenticate( @Optional Account anAccount, String aUserName, final String aPassword )
+        public User authenticate( @Optional Account anAccount, String aUserName, final String aPassword )
             throws UserAuthenticationFailException
         {
             UnitOfWork uow = uowf.currentUnitOfWork();

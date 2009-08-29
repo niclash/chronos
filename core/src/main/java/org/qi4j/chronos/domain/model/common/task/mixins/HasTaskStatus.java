@@ -16,11 +16,10 @@
 */
 package org.qi4j.chronos.domain.model.common.task.mixins;
 
+import org.qi4j.api.common.Optional;
+import org.qi4j.api.mixin.Mixins;
 import org.qi4j.chronos.domain.model.common.comment.Comment;
 import org.qi4j.chronos.domain.model.common.task.TaskStatus;
-import org.qi4j.chronos.domain.model.common.task.mixins.HasTaskStatusMixin;
-import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.common.Optional;
 
 @Mixins( HasTaskStatusMixin.class )
 public interface HasTaskStatus

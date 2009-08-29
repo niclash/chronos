@@ -12,8 +12,8 @@
  */
 package org.qi4j.chronos.domain.model.associations;
 
-import org.qi4j.chronos.domain.model.user.staff.Staff;
 import org.qi4j.api.entity.association.Association;
+import org.qi4j.chronos.domain.model.user.staff.Staff;
 
 public interface HasStaff
 {

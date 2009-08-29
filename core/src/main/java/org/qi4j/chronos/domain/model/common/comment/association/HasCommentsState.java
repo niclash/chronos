@@ -16,8 +16,8 @@
 */
 package org.qi4j.chronos.domain.model.common.comment.association;
 
-import org.qi4j.chronos.domain.model.common.comment.Comment;
 import org.qi4j.api.entity.association.ManyAssociation;
+import org.qi4j.chronos.domain.model.common.comment.Comment;
 
 public interface HasCommentsState
 {

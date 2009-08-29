@@ -18,7 +18,6 @@ package org.qi4j.chronos.domain.model.location.country;
 
 /**
  * ISO 3166-1
- *
  */
 public interface CountryCode
 {

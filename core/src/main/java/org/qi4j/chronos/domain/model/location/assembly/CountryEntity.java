@@ -25,8 +25,7 @@ import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.query.Query;
 import org.qi4j.api.query.QueryBuilder;
 import org.qi4j.api.query.QueryBuilderFactory;
-import static org.qi4j.api.query.QueryExpressions.eq;
-import static org.qi4j.api.query.QueryExpressions.templateFor;
+import static org.qi4j.api.query.QueryExpressions.*;
 import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.chronos.domain.model.common.name.Name;
@@ -52,7 +51,7 @@ interface CountryEntity extends Country, Name, EntityComposite
         @Structure private UnitOfWorkFactory uowf;
         @This private CountryEntity meAsEntity;
 
-        public final CountryCode countryCode()
+        public CountryCode countryCode()
         {
             if( countryCode == null )
             {
@@ -64,7 +63,7 @@ interface CountryEntity extends Country, Name, EntityComposite
             return countryCode;
         }
 
-        public final Query<State> states()
+        public Query<State> states()
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
             QueryBuilder<State> builder = qbf.newQueryBuilder( State.class );
@@ -72,7 +71,7 @@ interface CountryEntity extends Country, Name, EntityComposite
             return builder.newQuery( uow );
         }
 
-        public final Query<City> cities()
+        public Query<City> cities()
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
             QueryBuilder<City> builder = qbf.newQueryBuilder( City.class );

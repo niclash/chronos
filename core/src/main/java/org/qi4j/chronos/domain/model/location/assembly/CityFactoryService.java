@@ -16,6 +16,20 @@
  */
 package org.qi4j.chronos.domain.model.location.assembly;
 
+import org.qi4j.api.common.Optional;
+import org.qi4j.api.entity.EntityBuilder;
+import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.query.Query;
+import org.qi4j.api.query.QueryBuilder;
+import org.qi4j.api.query.QueryBuilderFactory;
+import static org.qi4j.api.query.QueryExpressions.*;
+import org.qi4j.api.query.grammar.Conjunction;
+import org.qi4j.api.query.grammar.EqualsPredicate;
+import org.qi4j.api.query.grammar.VariableValueExpression;
+import org.qi4j.api.service.ServiceComposite;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.chronos.domain.model.common.name.NameState;
 import org.qi4j.chronos.domain.model.location.city.City;
 import org.qi4j.chronos.domain.model.location.city.CityFactory;
@@ -23,23 +37,6 @@ import org.qi4j.chronos.domain.model.location.city.CityState;
 import org.qi4j.chronos.domain.model.location.city.DuplicateCityException;
 import org.qi4j.chronos.domain.model.location.country.Country;
 import org.qi4j.chronos.domain.model.location.country.State;
-import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.common.Optional;
-import org.qi4j.api.entity.EntityBuilder;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.unitofwork.UnitOfWorkFactory;
-import org.qi4j.api.injection.scope.Structure;
-import org.qi4j.api.query.Query;
-import org.qi4j.api.query.QueryBuilder;
-import org.qi4j.api.query.QueryBuilderFactory;
-import static org.qi4j.api.query.QueryExpressions.and;
-import static org.qi4j.api.query.QueryExpressions.eq;
-import static org.qi4j.api.query.QueryExpressions.templateFor;
-import static org.qi4j.api.query.QueryExpressions.variable;
-import org.qi4j.api.query.grammar.Conjunction;
-import org.qi4j.api.query.grammar.EqualsPredicate;
-import org.qi4j.api.query.grammar.VariableValueExpression;
-import org.qi4j.api.service.ServiceComposite;
 
 @Mixins( CityFactoryService.CityFactoryMixin.class )
 interface CityFactoryService extends CityFactory, ServiceComposite
@@ -71,7 +68,7 @@ interface CityFactoryService extends CityFactory, ServiceComposite
         @Structure private UnitOfWorkFactory uowf;
         @Structure private QueryBuilderFactory qbf;
 
-        public final City create( String cityName, @Optional State state, @Optional Country country )
+        public City create( String cityName, @Optional State state, @Optional Country country )
             throws DuplicateCityException
         {
             validateArguments( state, country );

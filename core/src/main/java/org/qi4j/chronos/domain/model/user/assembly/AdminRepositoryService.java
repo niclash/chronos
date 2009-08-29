@@ -21,8 +21,7 @@ import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.query.Query;
 import org.qi4j.api.query.QueryBuilder;
 import org.qi4j.api.query.QueryBuilderFactory;
-import static org.qi4j.api.query.QueryExpressions.eq;
-import static org.qi4j.api.query.QueryExpressions.templateFor;
+import static org.qi4j.api.query.QueryExpressions.*;
 import org.qi4j.api.service.ServiceComposite;
 import org.qi4j.api.unitofwork.NoSuchEntityException;
 import org.qi4j.api.unitofwork.UnitOfWork;
@@ -40,7 +39,7 @@ interface AdminRepositoryService extends AdminRepository, ServiceComposite
         @Structure private UnitOfWorkFactory uowf;
         @Structure private QueryBuilderFactory qbf;
 
-        public final Admin find( UserId aUserId )
+        public Admin find( UserId aUserId )
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
 
@@ -54,7 +53,7 @@ interface AdminRepositoryService extends AdminRepository, ServiceComposite
             }
         }
 
-        public final Admin findByLoginName( String aLoginName )
+        public Admin findByLoginName( String aLoginName )
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
 

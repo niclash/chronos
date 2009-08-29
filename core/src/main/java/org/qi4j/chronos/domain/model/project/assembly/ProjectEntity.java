@@ -67,27 +67,27 @@ interface ProjectEntity extends Project, EntityComposite
             projectId = new ProjectId( projectIdString );
         }
 
-        public final ProjectId projectId()
+        public ProjectId projectId()
         {
             return projectId;
         }
 
-        public final ProjectStatus status()
+        public ProjectStatus status()
         {
             return state.projectStatus().get();
         }
 
-        public final Period estimateTime()
+        public Period estimateTime()
         {
             return state.estimateTime().get();
         }
 
-        public final Customer customer()
+        public Customer customer()
         {
             return state.customer().get();
         }
 
-        public final Query<ContactPerson> contactPersons()
+        public Query<ContactPerson> contactPersons()
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
             QueryBuilder<ContactPerson> builder = qbf.newQueryBuilder( ContactPerson.class );
@@ -95,25 +95,25 @@ interface ProjectEntity extends Project, EntityComposite
             return builder.newQuery( uow );
         }
 
-        public final ContactPerson primaryContactPerson()
+        public ContactPerson primaryContactPerson()
         {
             return state.primaryContactPerson().get();
         }
 
-        public final Query<ProjectAssignee> projectAssignees()
+        public Query<ProjectAssignee> projectAssignees()
         {
             QueryBuilder<ProjectAssignee> builder = qbf.newQueryBuilder( ProjectAssignee.class );
             return builder.newQuery( state.projectAssignees() );
         }
 
-        public final ProjectAssignee addProjectAssignee( ProjectRole role )
+        public ProjectAssignee addProjectAssignee( ProjectRole role )
         {
             ProjectAssignee projectAssignee = assigneeFactory.create( meAsProject, role );
             state.projectAssignees().add( 0, projectAssignee );
             return projectAssignee;
         }
 
-        public final void removeProjectAssignee( ProjectAssignee assignee )
+        public void removeProjectAssignee( ProjectAssignee assignee )
         {
             state.projectAssignees().remove( assignee );
 
@@ -121,40 +121,40 @@ interface ProjectEntity extends Project, EntityComposite
             uow.remove( assignee );
         }
 
-        public final ProjectAssignee projectLeader()
+        public ProjectAssignee projectLeader()
         {
             return state.projectLeader().get();
         }
 
-        public final Query<ProjectTask> tasks()
+        public Query<ProjectTask> tasks()
         {
             QueryBuilder<ProjectTask> builder = qbf.newQueryBuilder( ProjectTask.class );
             return builder.newQuery( state.tasks() );
         }
 
-        public final void createTask( String name, String description, TaskPriority priority,
-                                      User createdBy, User assignedTo )
+        public void createTask( String name, String description, TaskPriority priority,
+                                User createdBy, User assignedTo )
         {
             taskFactory.create( meAsProject, name, description, priority, createdBy, assignedTo );
         }
 
-        public final Query<LegalCondition> legalConditions()
+        public Query<LegalCondition> legalConditions()
         {
             QueryBuilder<LegalCondition> builder = qbf.newQueryBuilder( LegalCondition.class );
             return builder.newQuery( state.legalConditions() );
         }
 
-        public final PriceRateSchedule priceRateSchedule()
+        public PriceRateSchedule priceRateSchedule()
         {
             return state.priceRateSchedule().get();
         }
 
-        public final void updatePriceRateSchedule( PriceRateSchedule newSchedule )
+        public void updatePriceRateSchedule( PriceRateSchedule newSchedule )
         {
             state.priceRateSchedule().set( newSchedule );
         }
 
-        public final boolean sameIdentityAs( Project other )
+        public boolean sameIdentityAs( Project other )
         {
             return other != null && projectId.sameValueAs( other.projectId() );
         }

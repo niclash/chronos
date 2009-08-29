@@ -17,12 +17,12 @@
 package org.qi4j.chronos.domain.model.common.comment.assembly;
 
 import java.util.Date;
+import org.qi4j.api.entity.EntityComposite;
+import org.qi4j.api.injection.scope.This;
+import org.qi4j.api.mixin.Mixins;
 import org.qi4j.chronos.domain.model.common.comment.Comment;
 import org.qi4j.chronos.domain.model.common.comment.CommentState;
 import org.qi4j.chronos.domain.model.user.User;
-import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.entity.EntityComposite;
-import org.qi4j.api.injection.scope.This;
 
 @Mixins( CommentEntity.CommentMixin.class )
 interface CommentEntity extends Comment, EntityComposite

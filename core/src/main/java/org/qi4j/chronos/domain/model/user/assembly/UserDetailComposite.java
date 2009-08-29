@@ -29,17 +29,17 @@ interface UserDetailComposite extends UserDetail, TransientComposite
     {
         @Uses private UserState state;
 
-        public final String firstName()
+        public String firstName()
         {
             return state.firstName().get();
         }
 
-        public final String lastName()
+        public String lastName()
         {
             return state.lastName().get();
         }
 
-        public final void changeName( String firstName, String lastName )
+        public void changeName( String firstName, String lastName )
         {
             state.firstName().set( firstName );
             state.lastName().set( lastName );

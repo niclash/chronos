@@ -16,8 +16,8 @@
  */
 package org.qi4j.chronos.domain.model.common.assembly;
 
-import org.qi4j.chronos.domain.model.common.legalCondition.LegalCondition;
 import org.qi4j.api.entity.EntityComposite;
+import org.qi4j.chronos.domain.model.common.legalCondition.LegalCondition;
 
 interface LegalConditionEntity extends LegalCondition, EntityComposite
 {

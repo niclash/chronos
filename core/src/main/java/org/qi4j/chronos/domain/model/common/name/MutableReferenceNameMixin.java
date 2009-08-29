@@ -24,12 +24,12 @@ public class MutableReferenceNameMixin
 {
     @This private ReferenceState state;
 
-    public final String referenceName()
+    public String referenceName()
     {
         return state.referenceName().get();
     }
 
-    public final void changeReferenceName( @Optional String aReferenceName )
+    public void changeReferenceName( @Optional String aReferenceName )
     {
         state.referenceName().set( aReferenceName );
     }

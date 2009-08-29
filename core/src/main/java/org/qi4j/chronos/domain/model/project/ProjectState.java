@@ -16,6 +16,9 @@
  */
 package org.qi4j.chronos.domain.model.project;
 
+import org.qi4j.api.entity.association.Association;
+import org.qi4j.api.entity.association.ManyAssociation;
+import org.qi4j.api.property.Property;
 import org.qi4j.chronos.domain.model.common.legalCondition.LegalCondition;
 import org.qi4j.chronos.domain.model.common.name.NameState;
 import org.qi4j.chronos.domain.model.common.name.ReferenceState;
@@ -25,9 +28,6 @@ import org.qi4j.chronos.domain.model.customer.Customer;
 import org.qi4j.chronos.domain.model.project.assignee.ProjectAssignee;
 import org.qi4j.chronos.domain.model.project.task.ProjectTask;
 import org.qi4j.chronos.domain.model.user.contactPerson.ContactPerson;
-import org.qi4j.api.entity.association.Association;
-import org.qi4j.api.entity.association.ManyAssociation;
-import org.qi4j.api.property.Property;
 
 public interface ProjectState extends NameState, ReferenceState
 {

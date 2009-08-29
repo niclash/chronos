@@ -18,16 +18,16 @@ package org.qi4j.chronos.domain.model.common.assembly;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
-import org.qi4j.chronos.domain.model.common.legalCondition.LegalCondition;
-import org.qi4j.chronos.domain.model.common.legalCondition.LegalConditionFactory;
-import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.api.service.ServiceFinder;
 import org.qi4j.api.service.ServiceReference;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.chronos.domain.model.common.legalCondition.LegalCondition;
+import org.qi4j.chronos.domain.model.common.legalCondition.LegalConditionFactory;
 
-public final class LegalConditionFactoryTest extends AbstractCommonTest
+public class LegalConditionFactoryTest extends AbstractCommonTest
 {
     @Test
-    public final void createLegalConditionTest()
+    public void createLegalConditionTest()
     {
         UnitOfWork uow = unitOfWorkFactory.newUnitOfWork();
 

@@ -18,10 +18,10 @@ package org.qi4j.chronos.domain.model.common.assembly;
 
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.ModuleAssembly;
-import org.qi4j.index.rdf.assembly.RdfMemoryStoreAssembler;
 import org.qi4j.entitystore.memory.MemoryEntityStoreService;
-import org.qi4j.test.AbstractQi4jTest;
+import org.qi4j.index.rdf.assembly.RdfMemoryStoreAssembler;
 import org.qi4j.spi.uuid.UuidIdentityGeneratorService;
+import org.qi4j.test.AbstractQi4jTest;
 
 public abstract class AbstractCommonTest extends AbstractQi4jTest
 {
@@ -31,7 +31,7 @@ public abstract class AbstractCommonTest extends AbstractQi4jTest
         new RdfMemoryStoreAssembler().assemble( module );
         module.addServices( MemoryEntityStoreService.class,
                             UuidIdentityGeneratorService.class
-        ); 
+        );
         new CommonAssembler().assemble( module );
     }
 }

@@ -17,18 +17,18 @@
 package org.qi4j.chronos.domain.model.common.assembly;
 
 import java.util.Currency;
-import org.qi4j.chronos.domain.model.common.priceRate.PriceRate;
-import org.qi4j.chronos.domain.model.common.priceRate.PriceRateSchedule;
-import org.qi4j.chronos.domain.model.common.priceRate.PriceRateScheduleState;
-import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.entity.EntityComposite;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.injection.scope.This;
+import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.query.Query;
 import org.qi4j.api.query.QueryBuilder;
 import org.qi4j.api.query.QueryBuilderFactory;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkFactory;
+import org.qi4j.chronos.domain.model.common.priceRate.PriceRate;
+import org.qi4j.chronos.domain.model.common.priceRate.PriceRateSchedule;
+import org.qi4j.chronos.domain.model.common.priceRate.PriceRateScheduleState;
 
 @Mixins( PriceRateScheduleEntity.PriceRateScheduleMixin.class )
 interface PriceRateScheduleEntity extends PriceRateSchedule, EntityComposite

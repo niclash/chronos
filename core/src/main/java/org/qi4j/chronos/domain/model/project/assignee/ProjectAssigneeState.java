@@ -16,11 +16,11 @@
 */
 package org.qi4j.chronos.domain.model.project.assignee;
 
+import org.qi4j.api.entity.association.Association;
 import org.qi4j.chronos.domain.model.common.priceRate.PriceRate;
 import org.qi4j.chronos.domain.model.project.Project;
 import org.qi4j.chronos.domain.model.project.role.ProjectRole;
 import org.qi4j.chronos.domain.model.user.staff.Staff;
-import org.qi4j.api.entity.association.Association;
 
 public interface ProjectAssigneeState
 {

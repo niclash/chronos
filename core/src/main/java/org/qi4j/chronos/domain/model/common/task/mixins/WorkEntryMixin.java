@@ -17,27 +17,27 @@
 package org.qi4j.chronos.domain.model.common.task.mixins;
 
 import java.util.Date;
+import org.qi4j.api.injection.scope.This;
 import org.qi4j.chronos.domain.model.common.task.TaskStatus;
 import org.qi4j.chronos.domain.model.common.task.WorkEntry;
 import org.qi4j.chronos.domain.model.common.task.WorkEntryState;
-import org.qi4j.api.injection.scope.This;
 
 public abstract class WorkEntryMixin
     implements WorkEntry
 {
     @This private WorkEntryState state;
 
-    public final Date createdDate()
+    public Date createdDate()
     {
         return state.createdDate().get();
     }
 
-    public final String summary()
+    public String summary()
     {
         return state.summary().get();
     }
 
-    public final String description()
+    public String description()
     {
         return state.description().get();
     }

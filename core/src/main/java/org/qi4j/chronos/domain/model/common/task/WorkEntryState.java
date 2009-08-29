@@ -17,8 +17,8 @@
 package org.qi4j.chronos.domain.model.common.task;
 
 import java.util.Date;
-import org.qi4j.chronos.domain.model.common.task.mixins.HasTaskStatusState;
 import org.qi4j.api.property.Property;
+import org.qi4j.chronos.domain.model.common.task.mixins.HasTaskStatusState;
 
 public interface WorkEntryState extends HasTaskStatusState
 {

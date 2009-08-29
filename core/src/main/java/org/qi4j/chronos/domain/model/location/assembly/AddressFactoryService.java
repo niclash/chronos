@@ -16,17 +16,17 @@
  */
 package org.qi4j.chronos.domain.model.location.assembly;
 
+import org.qi4j.api.common.Optional;
+import org.qi4j.api.entity.EntityBuilder;
+import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.service.ServiceComposite;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.chronos.domain.model.location.address.Address;
 import org.qi4j.chronos.domain.model.location.address.AddressFactory;
 import org.qi4j.chronos.domain.model.location.address.AddressState;
 import org.qi4j.chronos.domain.model.location.city.City;
-import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.common.Optional;
-import org.qi4j.api.entity.EntityBuilder;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.unitofwork.UnitOfWorkFactory;
-import org.qi4j.api.injection.scope.Structure;
-import org.qi4j.api.service.ServiceComposite;
 
 @Mixins( AddressFactoryService.AddressFactoryMixin.class )
 interface AddressFactoryService extends AddressFactory, ServiceComposite

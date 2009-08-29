@@ -16,11 +16,11 @@
  */
 package org.qi4j.chronos.domain.model.user.assembly;
 
-import org.qi4j.chronos.domain.model.common.money.Money;
-import org.qi4j.chronos.domain.model.user.staff.Staff;
-import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.entity.EntityComposite;
 import org.qi4j.api.injection.scope.This;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.chronos.domain.model.common.money.Money;
+import org.qi4j.chronos.domain.model.user.staff.Staff;
 
 @Mixins( { UserMixin.class, StaffEntity.StaffMixin.class } )
 interface StaffEntity extends Staff, EntityComposite
@@ -30,7 +30,7 @@ interface StaffEntity extends Staff, EntityComposite
     {
         @This private StaffState state;
 
-        public final Money salary()
+        public Money salary()
         {
             return state.salary().get();
         }

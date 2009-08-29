@@ -17,25 +17,25 @@
 package org.qi4j.chronos.domain.model.common.period;
 
 import java.util.Date;
-import org.qi4j.api.injection.scope.This;
 import org.qi4j.api.common.Optional;
+import org.qi4j.api.injection.scope.This;
 
-final class PeriodMixin
+public class PeriodMixin
     implements Period
 {
     @This private PeriodState state;
 
-    public final Date startTime()
+    public Date startTime()
     {
         return state.startTime().get();
     }
 
-    public final Date endTime()
+    public Date endTime()
     {
         return state.endTime().get();
     }
 
-    public final void updateTimeRange( @Optional Date startTime, @Optional Date endTime )
+    public void updateTimeRange( @Optional Date startTime, @Optional Date endTime )
     {
         state.startTime().set( startTime );
         state.endTime().set( endTime );

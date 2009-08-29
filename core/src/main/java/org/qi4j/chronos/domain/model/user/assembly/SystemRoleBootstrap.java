@@ -26,16 +26,7 @@ import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.chronos.domain.model.common.name.NameState;
 import org.qi4j.chronos.domain.model.user.SystemRole;
-import static org.qi4j.chronos.domain.model.user.assembly.Constants.ACCOUNT_ADMIN_ID;
-import static org.qi4j.chronos.domain.model.user.assembly.Constants.ACCOUNT_ADMIN_NAME;
-import static org.qi4j.chronos.domain.model.user.assembly.Constants.ACCOUNT_DEVELOPER_ID;
-import static org.qi4j.chronos.domain.model.user.assembly.Constants.ACCOUNT_DEVELOPER_NAME;
-import static org.qi4j.chronos.domain.model.user.assembly.Constants.CONTACT_PERSON_ID;
-import static org.qi4j.chronos.domain.model.user.assembly.Constants.CONTACT_PERSON_NAME;
-import static org.qi4j.chronos.domain.model.user.assembly.Constants.STAFF_ID;
-import static org.qi4j.chronos.domain.model.user.assembly.Constants.STAFF_NAME;
-import static org.qi4j.chronos.domain.model.user.assembly.Constants.SYSTEM_ADMIN_ID;
-import static org.qi4j.chronos.domain.model.user.assembly.Constants.SYSTEM_ADMIN_NAME;
+import static org.qi4j.chronos.domain.model.user.assembly.Constants.*;
 
 @Mixins( SystemRoleBootstrap.SystemRoleBootstrapMixin.class )
 interface SystemRoleBootstrap extends Activatable, ServiceComposite
@@ -45,7 +36,7 @@ interface SystemRoleBootstrap extends Activatable, ServiceComposite
     {
         @Structure private UnitOfWorkFactory uowf;
 
-        public final void activate()
+        public void activate()
             throws Exception
         {
             UnitOfWork uow = uowf.newUnitOfWork();

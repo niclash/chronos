@@ -17,15 +17,15 @@
 package org.qi4j.chronos.domain.model.common.comment.assembly;
 
 import java.util.Date;
+import org.qi4j.api.entity.EntityBuilder;
+import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.service.ServiceComposite;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.chronos.domain.model.common.comment.Comment;
 import org.qi4j.chronos.domain.model.common.comment.CommentState;
 import org.qi4j.chronos.domain.model.user.User;
-import org.qi4j.api.service.ServiceComposite;
-import org.qi4j.api.injection.scope.Structure;
-import org.qi4j.api.unitofwork.UnitOfWorkFactory;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.entity.EntityBuilder;
-import org.qi4j.api.mixin.Mixins;
 
 @Mixins( CommentFactory.CommentFactoryMixin.class )
 interface CommentFactory extends ServiceComposite
@@ -37,7 +37,7 @@ interface CommentFactory extends ServiceComposite
     {
         @Structure private UnitOfWorkFactory uowf;
 
-        public final Comment create( String commentContent, User user )
+        public Comment create( String commentContent, User user )
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
 

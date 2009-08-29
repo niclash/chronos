@@ -16,9 +16,9 @@
 */
 package org.qi4j.chronos.domain.model.user.assembly;
 
-import org.qi4j.chronos.domain.model.user.SystemRole;
 import org.qi4j.api.entity.association.ManyAssociation;
 import org.qi4j.api.property.Property;
+import org.qi4j.chronos.domain.model.user.SystemRole;
 
 interface UserState
 {

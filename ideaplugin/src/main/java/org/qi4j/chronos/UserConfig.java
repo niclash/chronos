@@ -20,7 +20,7 @@ import java.io.IOException;
 import java.util.Properties;
 import org.qi4j.chronos.util.ChronosUtil;
 
-public final class UserConfig
+public class UserConfig
 {
     private final static String USER_CONFIG_FILE = "userConfig.properties";
 

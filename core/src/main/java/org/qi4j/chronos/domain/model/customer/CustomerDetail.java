@@ -16,10 +16,10 @@
  */
 package org.qi4j.chronos.domain.model.customer;
 
+import org.qi4j.api.common.Optional;
 import org.qi4j.chronos.domain.model.common.name.MutableName;
 import org.qi4j.chronos.domain.model.common.name.MutableReferenceName;
 import org.qi4j.chronos.domain.model.location.address.Address;
-import org.qi4j.api.common.Optional;
 
 public interface CustomerDetail extends MutableName, MutableReferenceName
 {

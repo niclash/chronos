@@ -16,11 +16,11 @@
  */
 package org.qi4j.chronos.domain.model.common.priceRate;
 
+import org.qi4j.api.entity.association.Association;
+import org.qi4j.api.property.Property;
 import org.qi4j.chronos.domain.model.common.money.Money;
 import org.qi4j.chronos.domain.model.common.period.Period;
 import org.qi4j.chronos.domain.model.project.role.ProjectRole;
-import org.qi4j.api.entity.association.Association;
-import org.qi4j.api.property.Property;
 
 public interface PriceRateState
 {

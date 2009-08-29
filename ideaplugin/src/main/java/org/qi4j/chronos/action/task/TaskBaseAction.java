@@ -20,7 +20,7 @@ import org.qi4j.chronos.task.TaskListComponent;
 
 public abstract class TaskBaseAction extends AbstractAction
 {
-    public final void actionPerformed( AnActionEvent e )
+    public void actionPerformed( AnActionEvent e )
     {
         Object obj = e.getDataContext().getData( DataConstants.CONTEXT_COMPONENT );
 

@@ -16,15 +16,15 @@
  */
 package org.qi4j.chronos.domain.model.common.assembly;
 
+import org.qi4j.api.entity.EntityBuilder;
+import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.service.ServiceComposite;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.chronos.domain.model.common.legalCondition.LegalCondition;
 import org.qi4j.chronos.domain.model.common.legalCondition.LegalConditionFactory;
 import org.qi4j.chronos.domain.model.common.legalCondition.LegalConditionState;
-import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.entity.EntityBuilder;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.unitofwork.UnitOfWorkFactory;
-import org.qi4j.api.injection.scope.Structure;
-import org.qi4j.api.service.ServiceComposite;
 
 @Mixins( LegalConditionFactoryService.LegalConditionFactoryMixin.class )
 interface LegalConditionFactoryService extends LegalConditionFactory, ServiceComposite

@@ -52,7 +52,7 @@ public abstract class AbstractToolWindow
         return toolWindowManager;
     }
 
-    public final void register()
+    public void register()
     {
         JPanel panel = createToolWindowComponent();
 
@@ -68,7 +68,7 @@ public abstract class AbstractToolWindow
 //        toolWindow.setIcon( IconLoader.getIcon( "/general/toolWindowPalette.png" ) );
     }
 
-    public final void unregister()
+    public void unregister()
     {
         if( toolWindowManager != null )
         {
@@ -81,7 +81,7 @@ public abstract class AbstractToolWindow
         disposeComponent();
     }
 
-    public final void expandToolWindow()
+    public void expandToolWindow()
     {
         final Semaphore semaphore = new Semaphore( 1 );
         semaphore.tryAcquire();

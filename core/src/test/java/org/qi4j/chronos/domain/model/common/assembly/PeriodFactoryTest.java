@@ -19,16 +19,16 @@ package org.qi4j.chronos.domain.model.common.assembly;
 import java.util.Date;
 import static org.junit.Assert.*;
 import org.junit.Test;
-import org.qi4j.chronos.domain.model.common.period.Period;
-import org.qi4j.chronos.domain.model.common.period.PeriodFactory;
-import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.api.service.ServiceFinder;
 import org.qi4j.api.service.ServiceReference;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.chronos.domain.model.common.period.Period;
+import org.qi4j.chronos.domain.model.common.period.PeriodFactory;
 
-public final class PeriodFactoryTest extends AbstractCommonTest
+public class PeriodFactoryTest extends AbstractCommonTest
 {
     @Test
-    public final void createTimeRangeTest()
+    public void createTimeRangeTest()
     {
         UnitOfWork uow = unitOfWorkFactory.newUnitOfWork();
 

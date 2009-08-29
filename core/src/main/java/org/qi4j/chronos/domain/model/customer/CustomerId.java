@@ -19,7 +19,7 @@ package org.qi4j.chronos.domain.model.customer;
 import java.io.Serializable;
 import org.qi4j.chronos.domain.model.ValueObject;
 
-public final class CustomerId
+public class CustomerId
     implements ValueObject<CustomerId>, Serializable
 {
     private static final long serialVersionUID = 1L;

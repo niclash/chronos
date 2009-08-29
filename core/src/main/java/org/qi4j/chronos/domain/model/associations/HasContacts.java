@@ -13,8 +13,8 @@
  */
 package org.qi4j.chronos.domain.model.associations;
 
-import org.qi4j.chronos.domain.model.user.contactPerson.Contact;
 import org.qi4j.api.entity.association.ManyAssociation;
+import org.qi4j.chronos.domain.model.user.contactPerson.Contact;
 
 /**
  * Generic interface to describe association with {@link org.qi4j.chronos.domain.model.composites.ContactEntity}

@@ -19,7 +19,7 @@ package org.qi4j.chronos.domain.model.user;
 import java.io.Serializable;
 import org.qi4j.chronos.domain.model.ValueObject;
 
-public final class SystemRoleId
+public class SystemRoleId
     implements ValueObject<SystemRoleId>, Serializable
 {
     private static final long serialVersionUID = 1L;
@@ -31,12 +31,12 @@ public final class SystemRoleId
         idString = systemRoleIdString;
     }
 
-    public final String idString()
+    public String idString()
     {
         return idString;
     }
 
-    public final boolean sameValueAs( SystemRoleId other )
+    public boolean sameValueAs( SystemRoleId other )
     {
         return other != null && idString.equals( other.idString );
     }

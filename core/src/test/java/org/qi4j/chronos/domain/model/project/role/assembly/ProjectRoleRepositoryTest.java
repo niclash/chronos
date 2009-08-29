@@ -32,7 +32,7 @@ import org.qi4j.chronos.domain.model.project.role.ProjectRoleFactory;
 import org.qi4j.chronos.domain.model.project.role.ProjectRoleId;
 import org.qi4j.chronos.domain.model.project.role.ProjectRoleRepository;
 
-public final class ProjectRoleRepositoryTest extends AbstractProjectTest
+public class ProjectRoleRepositoryTest extends AbstractProjectTest
 {
     private static final String PROJECT_MANAGER = "Project Manager";
     private static final String QA = "QA";

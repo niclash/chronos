@@ -16,12 +16,12 @@
  */
 package org.qi4j.chronos.domain.model.location.assembly;
 
+import org.qi4j.api.entity.EntityComposite;
+import org.qi4j.api.injection.scope.This;
+import org.qi4j.api.mixin.Mixins;
 import org.qi4j.chronos.domain.model.location.address.Address;
 import org.qi4j.chronos.domain.model.location.address.AddressState;
 import org.qi4j.chronos.domain.model.location.city.City;
-import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.entity.EntityComposite;
-import org.qi4j.api.injection.scope.This;
 
 @Mixins( AddressEntity.AddressMixin.class )
 interface AddressEntity extends Address, EntityComposite
@@ -31,22 +31,22 @@ interface AddressEntity extends Address, EntityComposite
     {
         @This private AddressState state;
 
-        public final String firstLine()
+        public String firstLine()
         {
             return state.firstLine().get();
         }
 
-        public final String secondLine()
+        public String secondLine()
         {
             return state.secondLine().get();
         }
 
-        public final String zipCode()
+        public String zipCode()
         {
             return state.zipCode().get();
         }
 
-        public final City city()
+        public City city()
         {
             return state.city().get();
         }

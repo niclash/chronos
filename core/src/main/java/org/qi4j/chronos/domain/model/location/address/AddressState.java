@@ -16,9 +16,9 @@
  */
 package org.qi4j.chronos.domain.model.location.address;
 
-import org.qi4j.chronos.domain.model.location.city.City;
 import org.qi4j.api.common.Optional;
 import org.qi4j.api.property.Property;
+import org.qi4j.chronos.domain.model.location.city.City;
 
 public interface AddressState
 {

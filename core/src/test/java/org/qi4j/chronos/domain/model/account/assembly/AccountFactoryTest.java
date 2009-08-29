@@ -16,19 +16,18 @@
  */
 package org.qi4j.chronos.domain.model.account.assembly;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.*;
 import org.junit.Test;
-import org.qi4j.chronos.domain.model.account.Account;
-import org.qi4j.chronos.domain.model.account.AccountFactory;
-import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.api.service.ServiceFinder;
 import org.qi4j.api.service.ServiceReference;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.chronos.domain.model.account.Account;
+import org.qi4j.chronos.domain.model.account.AccountFactory;
 
-public final class AccountFactoryTest extends AbstractAccountTest
+public class AccountFactoryTest extends AbstractAccountTest
 {
     @Test
-    public final void createAccountTest()
+    public void createAccountTest()
     {
         UnitOfWork uow = unitOfWorkFactory.newUnitOfWork();
 

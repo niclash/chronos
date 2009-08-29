@@ -1,5 +1,6 @@
 package org.qi4j.chronos.domain.model.project;
 
+import org.qi4j.api.query.Query;
 import org.qi4j.chronos.domain.model.Entity;
 import org.qi4j.chronos.domain.model.common.legalCondition.LegalCondition;
 import org.qi4j.chronos.domain.model.common.name.MutableReferenceName;
@@ -13,7 +14,6 @@ import org.qi4j.chronos.domain.model.project.role.ProjectRole;
 import org.qi4j.chronos.domain.model.project.task.ProjectTask;
 import org.qi4j.chronos.domain.model.user.User;
 import org.qi4j.chronos.domain.model.user.contactPerson.ContactPerson;
-import org.qi4j.api.query.Query;
 
 public interface Project extends Name, MutableReferenceName, Entity<Project>
 {

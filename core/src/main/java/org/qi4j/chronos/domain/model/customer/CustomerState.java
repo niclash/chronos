@@ -16,15 +16,15 @@
  */
 package org.qi4j.chronos.domain.model.customer;
 
+import org.qi4j.api.common.Optional;
+import org.qi4j.api.entity.association.Association;
+import org.qi4j.api.entity.association.ManyAssociation;
 import org.qi4j.chronos.domain.model.common.enable.EnableState;
 import org.qi4j.chronos.domain.model.common.name.NameState;
 import org.qi4j.chronos.domain.model.common.name.ReferenceState;
 import org.qi4j.chronos.domain.model.common.priceRate.PriceRateSchedule;
 import org.qi4j.chronos.domain.model.location.address.Address;
 import org.qi4j.chronos.domain.model.user.contactPerson.ContactPerson;
-import org.qi4j.api.common.Optional;
-import org.qi4j.api.entity.association.Association;
-import org.qi4j.api.entity.association.ManyAssociation;
 
 public interface CustomerState extends NameState, ReferenceState, EnableState
 {

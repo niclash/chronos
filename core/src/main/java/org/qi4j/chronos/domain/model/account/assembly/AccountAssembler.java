@@ -16,16 +16,15 @@
 */
 package org.qi4j.chronos.domain.model.account.assembly;
 
+import static org.qi4j.api.common.Visibility.*;
 import org.qi4j.bootstrap.Assembler;
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.ModuleAssembly;
-import static org.qi4j.api.common.Visibility.application;
-import static org.qi4j.api.common.Visibility.layer;
 
-public final class AccountAssembler
+public class AccountAssembler
     implements Assembler
 {
-    public final void assemble( ModuleAssembly aModule )
+    public void assemble( ModuleAssembly aModule )
         throws AssemblyException
     {
         aModule.addEntities( AccountEntity.class )

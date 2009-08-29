@@ -12,15 +12,15 @@
  */
 package org.qi4j.chronos.application.sampleData.assembly;
 
-import org.qi4j.chronos.application.sampleData.SampleDataService;
-import org.qi4j.chronos.domain.model.account.AccountFactory;
+import org.qi4j.api.injection.scope.Service;
+import org.qi4j.api.injection.scope.Structure;
 import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.service.ServiceComposite;
 import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.api.unitofwork.UnitOfWorkCompletionException;
 import org.qi4j.api.unitofwork.UnitOfWorkFactory;
-import org.qi4j.api.injection.scope.Service;
-import org.qi4j.api.injection.scope.Structure;
-import org.qi4j.api.service.ServiceComposite;
+import org.qi4j.chronos.application.sampleData.SampleDataService;
+import org.qi4j.chronos.domain.model.account.AccountFactory;
 
 @Mixins( SampleDataServiceComposite.SampleDataServiceMixin.class )
 interface SampleDataServiceComposite extends SampleDataService, ServiceComposite
@@ -31,7 +31,7 @@ interface SampleDataServiceComposite extends SampleDataService, ServiceComposite
         @Structure private UnitOfWorkFactory uowf;
         @Service private AccountFactory accountFactory;
 
-        public final void populate()
+        public void populate()
             throws UnitOfWorkCompletionException
         {
             UnitOfWork uow = uowf.newUnitOfWork();

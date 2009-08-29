@@ -13,15 +13,15 @@
 package org.qi4j.chronos.domain.model.common.task;
 
 import java.util.Date;
+import org.qi4j.api.common.Optional;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.query.Query;
 import org.qi4j.chronos.domain.model.Entity;
 import org.qi4j.chronos.domain.model.common.comment.Comment;
 import org.qi4j.chronos.domain.model.common.comment.association.HasComments;
 import org.qi4j.chronos.domain.model.common.description.HasDescription;
 import org.qi4j.chronos.domain.model.common.task.assembly.TaskMixin;
 import org.qi4j.chronos.domain.model.user.User;
-import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.common.Optional;
-import org.qi4j.api.query.Query;
 
 @Mixins( TaskMixin.class )
 public interface Task extends HasDescription, HasComments, Entity<Task>

@@ -16,8 +16,8 @@
  */
 package org.qi4j.chronos.domain.model.user.assembly;
 
-import org.qi4j.chronos.domain.model.common.money.Money;
 import org.qi4j.api.property.Property;
+import org.qi4j.chronos.domain.model.common.money.Money;
 
 interface StaffState
 {

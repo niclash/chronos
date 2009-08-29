@@ -46,33 +46,33 @@ public abstract class TaskMixin
         taskId = new TaskId( identity.identity().get() );
     }
 
-    public final TaskId taskId()
+    public TaskId taskId()
     {
         return taskId;
     }
 
-    public final String title()
+    public String title()
     {
         return state.title().get();
     }
 
-    public final TaskStatus status()
+    public TaskStatus status()
     {
         return state.status().get();
     }
 
-    public final void updateTaskStatus( TaskStatus newStatus, @Optional Comment comment )
+    public void updateTaskStatus( TaskStatus newStatus, @Optional Comment comment )
     {
         state.status().set( newStatus );
         state.comments().add( 0, comment );
     }
 
-    public final TaskPriority priority()
+    public TaskPriority priority()
     {
         return state.priority().get();
     }
 
-    public final void updatePriority( TaskPriority newPriority )
+    public void updatePriority( TaskPriority newPriority )
     {
         if( status().equals( TaskStatus.open ) )
         {
@@ -80,28 +80,28 @@ public abstract class TaskMixin
         }
     }
 
-    public final Date createdDate()
+    public Date createdDate()
     {
         return state.createdDate().get();
     }
 
-    public final User createdBy()
+    public User createdBy()
     {
         return state.createdBy().get();
     }
 
-    public final Query<WorkEntry> workEntries()
+    public Query<WorkEntry> workEntries()
     {
         QueryBuilder<WorkEntry> builder = qbf.newQueryBuilder( WorkEntry.class );
         return builder.newQuery( state.workEntries() );
     }
 
-    public final User assignedTo()
+    public User assignedTo()
     {
         return state.assignedTo().get();
     }
 
-    public final boolean sameIdentityAs( Task other )
+    public boolean sameIdentityAs( Task other )
     {
         return other != null && taskId.sameValueAs( other.taskId() );
     }

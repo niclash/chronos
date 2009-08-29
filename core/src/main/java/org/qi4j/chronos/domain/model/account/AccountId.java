@@ -16,8 +16,8 @@
 */
 package org.qi4j.chronos.domain.model.account;
 
+import static org.qi4j.api.util.NullArgumentException.*;
 import org.qi4j.chronos.domain.model.ValueObject;
-import static org.qi4j.api.util.NullArgumentException.validateNotNull;
 
 public class AccountId
     implements ValueObject<AccountId>

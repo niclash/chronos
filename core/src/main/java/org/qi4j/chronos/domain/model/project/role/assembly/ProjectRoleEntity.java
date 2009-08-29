@@ -39,12 +39,12 @@ interface ProjectRoleEntity extends ProjectRole, EntityComposite
             projectRoleId = new ProjectRoleId( identity.identity().get() );
         }
 
-        public final ProjectRoleId projectRoleId()
+        public ProjectRoleId projectRoleId()
         {
             return projectRoleId;
         }
 
-        public final boolean sameIdentityAs( ProjectRole other )
+        public boolean sameIdentityAs( ProjectRole other )
         {
             return other != null && projectRoleId.sameValueAs( other.projectRoleId() );
         }

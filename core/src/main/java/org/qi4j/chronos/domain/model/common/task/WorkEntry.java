@@ -14,10 +14,10 @@
 package org.qi4j.chronos.domain.model.common.task;
 
 import java.util.Date;
+import org.qi4j.api.mixin.Mixins;
 import org.qi4j.chronos.domain.model.common.comment.association.HasComments;
 import org.qi4j.chronos.domain.model.common.description.HasDescription;
 import org.qi4j.chronos.domain.model.common.task.mixins.WorkEntryMixin;
-import org.qi4j.api.mixin.Mixins;
 
 @Mixins( WorkEntryMixin.class )
 public interface WorkEntry extends HasComments, HasDescription

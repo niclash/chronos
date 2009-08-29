@@ -18,14 +18,14 @@ package org.qi4j.chronos.domain.model.location.assembly;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
+import org.qi4j.api.service.ServiceReference;
+import org.qi4j.api.unitofwork.UnitOfWork;
 import static org.qi4j.chronos.domain.model.location.assembly.CountryBootstrap.CountryBootstrapMixin.*;
 import org.qi4j.chronos.domain.model.location.country.Country;
 import org.qi4j.chronos.domain.model.location.country.CountryCode;
 import org.qi4j.chronos.domain.model.location.country.CountryRepository;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.service.ServiceReference;
 
-public final class CountryBootstrapTest extends AbstractLocationTest
+public class CountryBootstrapTest extends AbstractLocationTest
 {
     @Test
     public void testBootstrap()

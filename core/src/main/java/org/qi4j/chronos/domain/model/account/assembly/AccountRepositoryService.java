@@ -16,18 +16,18 @@
 */
 package org.qi4j.chronos.domain.model.account.assembly;
 
-import org.qi4j.chronos.domain.model.account.Account;
-import org.qi4j.chronos.domain.model.account.AccountId;
-import org.qi4j.chronos.domain.model.account.AccountRepository;
-import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.unitofwork.UnitOfWorkFactory;
-import org.qi4j.api.unitofwork.NoSuchEntityException;
 import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.query.Query;
 import org.qi4j.api.query.QueryBuilder;
 import org.qi4j.api.query.QueryBuilderFactory;
 import org.qi4j.api.service.ServiceComposite;
+import org.qi4j.api.unitofwork.NoSuchEntityException;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkFactory;
+import org.qi4j.chronos.domain.model.account.Account;
+import org.qi4j.chronos.domain.model.account.AccountId;
+import org.qi4j.chronos.domain.model.account.AccountRepository;
 
 @Mixins( AccountRepositoryService.AccountRepositoryMixin.class )
 interface AccountRepositoryService extends AccountRepository, ServiceComposite

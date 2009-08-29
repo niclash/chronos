@@ -52,51 +52,51 @@ interface AccountEntity extends Account, EntityComposite
             accountId = new AccountId( anIdentity.identity().get() );
         }
 
-        public final AccountId accountId()
+        public AccountId accountId()
         {
             return accountId;
         }
 
-        public final Address address()
+        public Address address()
         {
             return state.address().get();
         }
 
-        public final void changeAddress( Address address )
+        public void changeAddress( Address address )
         {
             state.address().set( address );
         }
 
-        public final boolean sameIdentityAs( Account other )
+        public boolean sameIdentityAs( Account other )
         {
             return other != null && accountId.sameValueAs( other.accountId() );
         }
 
-        public final Query<Staff> staffs()
+        public Query<Staff> staffs()
         {
             QueryBuilder<Staff> builder = qbf.newQueryBuilder( Staff.class );
             return builder.newQuery( state.staffs() );
         }
 
-        public final Query<Customer> customers()
+        public Query<Customer> customers()
         {
             QueryBuilder<Customer> builder = qbf.newQueryBuilder( Customer.class );
             return builder.newQuery( state.customers() );
         }
 
-        public final Query<Project> projects()
+        public Query<Project> projects()
         {
             QueryBuilder<Project> builder = qbf.newQueryBuilder( Project.class );
             return builder.newQuery( state.projects() );
         }
 
-        public final Query<ProjectRole> projectRoles()
+        public Query<ProjectRole> projectRoles()
         {
             QueryBuilder<ProjectRole> builder = qbf.newQueryBuilder( ProjectRole.class );
             return builder.newQuery( state.projectRoles() );
         }
 
-        public final Query<PriceRateSchedule> priceRateSchedules()
+        public Query<PriceRateSchedule> priceRateSchedules()
         {
             QueryBuilder<PriceRateSchedule> builder = qbf.newQueryBuilder( PriceRateSchedule.class );
             return builder.newQuery( state.priceRateSchedules() );

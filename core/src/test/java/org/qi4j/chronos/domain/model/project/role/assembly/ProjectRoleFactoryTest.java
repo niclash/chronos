@@ -18,18 +18,18 @@ package org.qi4j.chronos.domain.model.project.role.assembly;
 
 import static org.junit.Assert.*;
 import org.junit.Test;
+import org.qi4j.api.service.ServiceFinder;
+import org.qi4j.api.service.ServiceReference;
+import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.chronos.domain.model.project.AbstractProjectTest;
 import org.qi4j.chronos.domain.model.project.role.ProjectRole;
 import org.qi4j.chronos.domain.model.project.role.ProjectRoleExistsException;
 import org.qi4j.chronos.domain.model.project.role.ProjectRoleFactory;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.service.ServiceFinder;
-import org.qi4j.api.service.ServiceReference;
 
-public final class ProjectRoleFactoryTest extends AbstractProjectTest
+public class ProjectRoleFactoryTest extends AbstractProjectTest
 {
     @Test
-    public final void createTest()
+    public void createTest()
         throws Throwable
     {
         UnitOfWork uow = unitOfWorkFactory.newUnitOfWork();

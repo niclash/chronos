@@ -17,20 +17,20 @@
 package org.qi4j.chronos.domain.model.common.comment.assembly;
 
 import java.util.Date;
+import org.qi4j.api.entity.EntityBuilder;
+import org.qi4j.api.injection.scope.Service;
+import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.injection.scope.This;
+import org.qi4j.api.query.Query;
+import org.qi4j.api.query.QueryBuilder;
+import org.qi4j.api.query.QueryBuilderFactory;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.chronos.domain.model.common.comment.Comment;
 import org.qi4j.chronos.domain.model.common.comment.CommentState;
 import org.qi4j.chronos.domain.model.common.comment.association.HasComments;
 import org.qi4j.chronos.domain.model.common.comment.association.HasCommentsState;
 import org.qi4j.chronos.domain.model.user.User;
-import org.qi4j.api.injection.scope.This;
-import org.qi4j.api.injection.scope.Structure;
-import org.qi4j.api.injection.scope.Service;
-import org.qi4j.api.unitofwork.UnitOfWorkFactory;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.query.Query;
-import org.qi4j.api.query.QueryBuilderFactory;
-import org.qi4j.api.query.QueryBuilder;
-import org.qi4j.api.entity.EntityBuilder;
 
 public class HasCommentsMixin
     implements HasComments
@@ -40,13 +40,13 @@ public class HasCommentsMixin
     @Structure private QueryBuilderFactory qbf;
     @Service CommentFactory commentFactory;
 
-    public final Query<Comment> comments()
+    public Query<Comment> comments()
     {
         QueryBuilder<Comment> builder = qbf.newQueryBuilder( Comment.class );
         return builder.newQuery( state.comments() );
     }
 
-    public final Comment addComment( String commentContent, User user )
+    public Comment addComment( String commentContent, User user )
     {
         Comment comment = create( commentContent, user );
         state.comments().add( 0, comment );

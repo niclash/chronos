@@ -16,9 +16,9 @@
 */
 package org.qi4j.chronos.domain.model.project.task;
 
+import org.qi4j.api.entity.association.Association;
 import org.qi4j.chronos.domain.model.common.task.TaskState;
 import org.qi4j.chronos.domain.model.project.Project;
-import org.qi4j.api.entity.association.Association;
 
 public interface ProjectTaskState extends TaskState
 {

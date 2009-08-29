@@ -20,7 +20,7 @@ import org.qi4j.chronos.workentry.WorkEntryListComponent;
 
 public abstract class WorkEntryBasedAction extends AbstractAction
 {
-    public final void actionPerformed( AnActionEvent e )
+    public void actionPerformed( AnActionEvent e )
     {
         Object obj = e.getDataContext().getData( DataConstants.CONTEXT_COMPONENT );
 

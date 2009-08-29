@@ -17,12 +17,12 @@
 package org.qi4j.chronos.domain.model.common.assembly;
 
 import java.util.Date;
-import org.qi4j.chronos.domain.model.common.period.Period;
-import org.qi4j.chronos.domain.model.common.period.PeriodState;
-import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.common.Optional;
 import org.qi4j.api.entity.EntityComposite;
 import org.qi4j.api.injection.scope.This;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.chronos.domain.model.common.period.Period;
+import org.qi4j.chronos.domain.model.common.period.PeriodState;
 
 @Mixins( PeriodEntity.PeriodMixin.class )
 interface PeriodEntity extends Period, EntityComposite

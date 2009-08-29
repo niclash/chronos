@@ -44,7 +44,7 @@ public interface AdminBootstrap extends Activatable, ServiceComposite
         // Don't remove, we need the system role to be bootstrap first
         @Service private SystemRoleBootstrap bootstrap;
 
-        public final void activate()
+        public void activate()
             throws Exception
         {
             UnitOfWork uow = uowf.newUnitOfWork();
@@ -86,7 +86,7 @@ public interface AdminBootstrap extends Activatable, ServiceComposite
             uow.complete();
         }
 
-        public final void passivate()
+        public void passivate()
             throws Exception
         {
             // Do nothing

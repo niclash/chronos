@@ -12,9 +12,9 @@
  */
 package org.qi4j.chronos.domain.model.location.country;
 
+import org.qi4j.api.query.Query;
 import org.qi4j.chronos.domain.model.common.name.Name;
 import org.qi4j.chronos.domain.model.location.city.City;
-import org.qi4j.api.query.Query;
 
 public interface Country extends Name
 {

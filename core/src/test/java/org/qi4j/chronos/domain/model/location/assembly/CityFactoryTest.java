@@ -19,20 +19,20 @@ package org.qi4j.chronos.domain.model.location.assembly;
 import static org.junit.Assert.*;
 import org.junit.Ignore;
 import org.junit.Test;
+import org.qi4j.api.service.ServiceFinder;
+import org.qi4j.api.service.ServiceReference;
+import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.chronos.domain.model.location.city.City;
 import org.qi4j.chronos.domain.model.location.city.CityFactory;
 import org.qi4j.chronos.domain.model.location.city.DuplicateCityException;
 import org.qi4j.chronos.domain.model.location.country.Country;
 import org.qi4j.chronos.domain.model.location.country.CountryRepository;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.service.ServiceFinder;
-import org.qi4j.api.service.ServiceReference;
 
-public final class CityFactoryTest extends AbstractLocationTest
+public class CityFactoryTest extends AbstractLocationTest
 {
     @Test
-    @Ignore( "Association querying is not implement. Waiting for QI-67 to be resolved.")
-    public final void testCreate()
+    @Ignore( "Association querying is not implement. Waiting for QI-67 to be resolved." )
+    public void testCreate()
     {
         ServiceFinder serviceFinder = moduleInstance.serviceFinder();
         ServiceReference<CountryRepository> countryRepositoryRef = serviceFinder.findService( CountryRepository.class );

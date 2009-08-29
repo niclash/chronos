@@ -17,7 +17,6 @@ import org.qi4j.api.query.Query;
 
 /**
  * User represents a chronos user.
- *
  */
 public interface User
 {

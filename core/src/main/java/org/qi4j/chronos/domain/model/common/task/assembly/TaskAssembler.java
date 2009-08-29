@@ -16,15 +16,15 @@
 */
 package org.qi4j.chronos.domain.model.common.task.assembly;
 
+import static org.qi4j.api.common.Visibility.*;
 import org.qi4j.bootstrap.Assembler;
 import org.qi4j.bootstrap.AssemblyException;
 import org.qi4j.bootstrap.ModuleAssembly;
-import static org.qi4j.api.common.Visibility.layer;
 
 public class TaskAssembler
     implements Assembler
 {
-    public final void assemble( ModuleAssembly module )
+    public void assemble( ModuleAssembly module )
         throws AssemblyException
     {
         module.addEntities( WorkEntryEntity.class )

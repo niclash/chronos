@@ -17,16 +17,16 @@
 package org.qi4j.chronos.domain.model.common.assembly;
 
 import java.util.Date;
+import org.qi4j.api.common.Optional;
+import org.qi4j.api.entity.EntityBuilder;
+import org.qi4j.api.injection.scope.Structure;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.api.service.ServiceComposite;
+import org.qi4j.api.unitofwork.UnitOfWork;
+import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.chronos.domain.model.common.period.Period;
 import org.qi4j.chronos.domain.model.common.period.PeriodFactory;
 import org.qi4j.chronos.domain.model.common.period.PeriodState;
-import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.common.Optional;
-import org.qi4j.api.entity.EntityBuilder;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.unitofwork.UnitOfWorkFactory;
-import org.qi4j.api.injection.scope.Structure;
-import org.qi4j.api.service.ServiceComposite;
 
 @Mixins( PeriodFactoryService.PeriodFactoryMixin.class )
 interface PeriodFactoryService extends PeriodFactory, ServiceComposite

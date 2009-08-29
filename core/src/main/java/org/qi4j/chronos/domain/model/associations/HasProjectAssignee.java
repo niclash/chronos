@@ -12,8 +12,8 @@
  */
 package org.qi4j.chronos.domain.model.associations;
 
-import org.qi4j.chronos.domain.model.project.assignee.ProjectAssignee;
 import org.qi4j.api.entity.association.Association;
+import org.qi4j.chronos.domain.model.project.assignee.ProjectAssignee;
 
 public interface HasProjectAssignee
 {

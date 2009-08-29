@@ -23,8 +23,7 @@ import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.query.Query;
 import org.qi4j.api.query.QueryBuilder;
 import org.qi4j.api.query.QueryBuilderFactory;
-import static org.qi4j.api.query.QueryExpressions.eq;
-import static org.qi4j.api.query.QueryExpressions.templateFor;
+import static org.qi4j.api.query.QueryExpressions.*;
 import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.api.unitofwork.UnitOfWorkFactory;
 import org.qi4j.chronos.domain.model.location.city.City;
@@ -45,12 +44,12 @@ interface StateEntity extends State, EntityComposite
         @Structure private QueryBuilderFactory qbf;
         @This private StateEntity meAsEntity;
 
-        public final Country country()
+        public Country country()
         {
             return state.country().get();
         }
 
-        public final Query<City> cities()
+        public Query<City> cities()
         {
             UnitOfWork uow = uowf.currentUnitOfWork();
             QueryBuilder<City> builder = qbf.newQueryBuilder( City.class );

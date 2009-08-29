@@ -16,10 +16,10 @@
 */
 package org.qi4j.chronos.domain.model.user;
 
+import static org.qi4j.api.util.NullArgumentException.*;
 import org.qi4j.chronos.domain.model.ValueObject;
-import static org.qi4j.api.util.NullArgumentException.validateNotNull;
 
-public final class UserId
+public class UserId
     implements ValueObject<UserId>
 {
     private final String idString;
@@ -31,12 +31,12 @@ public final class UserId
         idString = aUserIdString;
     }
 
-    public final String idString()
+    public String idString()
     {
         return idString;
     }
 
-    public final boolean sameValueAs( UserId other )
+    public boolean sameValueAs( UserId other )
     {
         return other != null && idString.equals( other.idString() );
     }

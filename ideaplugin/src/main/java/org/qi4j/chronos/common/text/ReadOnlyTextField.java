@@ -25,7 +25,7 @@ public class ReadOnlyTextField extends JTextField
         super( text );
     }
 
-    public final boolean isEditable()
+    public boolean isEditable()
     {
         return false;
     }

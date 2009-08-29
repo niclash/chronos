@@ -17,10 +17,10 @@
 package org.qi4j.chronos.domain.model.project;
 
 import java.io.Serializable;
+import static org.qi4j.api.util.NullArgumentException.*;
 import org.qi4j.chronos.domain.model.ValueObject;
-import static org.qi4j.api.util.NullArgumentException.validateNotNull;
 
-public final class ProjectId
+public class ProjectId
     implements ValueObject<ProjectId>, Serializable
 {
     private static final long serialVersionUID = 1L;
@@ -34,17 +34,17 @@ public final class ProjectId
         idString = projectIdString;
     }
 
-    public final String idString()
+    public String idString()
     {
         return idString;
     }
 
-    public final boolean sameValueAs( ProjectId other )
+    public boolean sameValueAs( ProjectId other )
     {
         return other != null && idString.equals( other.idString );
     }
 
-    public final boolean equals( Object o )
+    public boolean equals( Object o )
     {
         if( this == o )
         {
@@ -60,7 +60,7 @@ public final class ProjectId
         return idString.equals( projectId.idString );
     }
 
-    public final int hashCode()
+    public int hashCode()
     {
         return idString.hashCode();
     }

@@ -28,12 +28,12 @@ public class EnableMixin
         return state.enabled().get();
     }
 
-    public final void enable()
+    public void enable()
     {
         state.enabled().set( true );
     }
 
-    public final void disable()
+    public void disable()
     {
         state.enabled().set( false );
     }

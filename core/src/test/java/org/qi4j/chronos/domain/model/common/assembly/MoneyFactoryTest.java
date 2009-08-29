@@ -19,12 +19,12 @@ package org.qi4j.chronos.domain.model.common.assembly;
 import java.util.Currency;
 import static org.junit.Assert.*;
 import org.junit.Test;
+import org.qi4j.api.service.ServiceReference;
+import org.qi4j.api.unitofwork.UnitOfWork;
 import org.qi4j.chronos.domain.model.common.money.Money;
 import org.qi4j.chronos.domain.model.common.money.MoneyFactory;
-import org.qi4j.api.unitofwork.UnitOfWork;
-import org.qi4j.api.service.ServiceReference;
 
-public final class MoneyFactoryTest extends AbstractCommonTest
+public class MoneyFactoryTest extends AbstractCommonTest
 {
     @Test
     public void createMoneyTest()

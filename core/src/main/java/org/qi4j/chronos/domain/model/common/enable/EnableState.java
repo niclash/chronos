@@ -21,6 +21,5 @@ import org.qi4j.api.property.Property;
 
 public interface EnableState
 {
-    @UseDefaults
-    Property<Boolean> enabled();
+    @UseDefaults Property<Boolean> enabled();
 }

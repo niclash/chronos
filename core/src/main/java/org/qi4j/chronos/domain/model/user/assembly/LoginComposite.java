@@ -16,11 +16,10 @@
  */
 package org.qi4j.chronos.domain.model.user.assembly;
 
-import org.qi4j.chronos.domain.model.user.Login;
-import org.qi4j.api.composite.Composite;
 import org.qi4j.api.composite.TransientComposite;
-import org.qi4j.api.mixin.Mixins;
 import org.qi4j.api.injection.scope.Uses;
+import org.qi4j.api.mixin.Mixins;
+import org.qi4j.chronos.domain.model.user.Login;
 
 @Mixins( LoginComposite.LoginMixin.class )
 interface LoginComposite extends Login, TransientComposite
@@ -30,17 +29,17 @@ interface LoginComposite extends Login, TransientComposite
     {
         @Uses private UserState state;
 
-        public final String loginName()
+        public String loginName()
         {
             return state.loginName().get();
         }
 
-        public final void changePassword( String aNewPassword )
+        public void changePassword( String aNewPassword )
         {
             state.loginPassword().set( aNewPassword );
         }
 
-        public final boolean authenticate( String aPassword )
+        public boolean authenticate( String aPassword )
         {
             if( isEnabled() )
             {
@@ -54,17 +53,17 @@ interface LoginComposite extends Login, TransientComposite
             return false;
         }
 
-        public final boolean isEnabled()
+        public boolean isEnabled()
         {
             return state.isLoginEnabled().get();
         }
 
-        public final void enable()
+        public void enable()
         {
             state.isLoginEnabled().set( true );
         }
 
-        public final void disable()
+        public void disable()
         {
             state.isLoginEnabled().set( false );
         }

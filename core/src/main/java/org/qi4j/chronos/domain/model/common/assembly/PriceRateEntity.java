@@ -16,15 +16,15 @@
  */
 package org.qi4j.chronos.domain.model.common.assembly;
 
+import org.qi4j.api.entity.EntityComposite;
+import org.qi4j.api.injection.scope.This;
+import org.qi4j.api.mixin.Mixins;
 import org.qi4j.chronos.domain.model.common.money.Money;
 import org.qi4j.chronos.domain.model.common.period.Period;
 import org.qi4j.chronos.domain.model.common.priceRate.PriceRate;
 import org.qi4j.chronos.domain.model.common.priceRate.PriceRateState;
 import org.qi4j.chronos.domain.model.common.priceRate.PriceRateType;
 import org.qi4j.chronos.domain.model.project.role.ProjectRole;
-import org.qi4j.api.mixin.Mixins;
-import org.qi4j.api.entity.EntityComposite;
-import org.qi4j.api.injection.scope.This;
 
 @Mixins( PriceRateEntity.PriceRateMixin.class )
 interface PriceRateEntity extends PriceRate, EntityComposite

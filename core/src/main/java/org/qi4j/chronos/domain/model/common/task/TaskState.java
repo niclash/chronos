@@ -17,13 +17,13 @@
 package org.qi4j.chronos.domain.model.common.task;
 
 import java.util.Date;
-import org.qi4j.chronos.domain.model.common.comment.Comment;
-import org.qi4j.chronos.domain.model.common.task.mixins.HasTaskStatusState;
-import org.qi4j.chronos.domain.model.common.description.HasDescriptionState;
-import org.qi4j.chronos.domain.model.user.User;
 import org.qi4j.api.entity.association.Association;
 import org.qi4j.api.entity.association.ManyAssociation;
 import org.qi4j.api.property.Property;
+import org.qi4j.chronos.domain.model.common.comment.Comment;
+import org.qi4j.chronos.domain.model.common.description.HasDescriptionState;
+import org.qi4j.chronos.domain.model.common.task.mixins.HasTaskStatusState;
+import org.qi4j.chronos.domain.model.user.User;
 
 public interface TaskState extends HasDescriptionState, HasTaskStatusState
 {
