@@ -18,7 +18,7 @@
 </properties>
 
 <scm>
-  <connection>scm:git://dscm.ops4j.org/qi4j-chronos.git</connection>
+  <connection>scm:git:git://dscm.ops4j.org/qi4j-chronos.git</connection>
   <developerConnection>scm:git:git@dscm.ops4j.org:qi4j-chronos.git</developerConnection>
 </scm>
 
