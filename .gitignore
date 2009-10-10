@@ -1,3 +1,6 @@
 target
 core/target
-.idea/workspace.xml
+.idea
+*.iws
+*.ipr
+*.iml
