@@ -6,7 +6,7 @@
 <groupId>org.qi4j.app</groupId>
 <artifactId>qi4j-chronos</artifactId>
 <name>Qi4j Chronos Application</name>
-<version>1.0-RC1-SNAPSHOT</version>
+<version>1.0-RC2-SNAPSHOT</version>
 <packaging>pom</packaging>
 <inceptionYear>2007</inceptionYear>
 <url>http://www.qi4j.org/</url>
