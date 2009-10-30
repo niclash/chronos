@@ -8,13 +8,8 @@
   <groupId>org.qi4j.app.chronos</groupId>
   <artifactId>qi4j-chronos-core</artifactId>
   <name>Qi4j Apps Chronos - Core</name>
-  <version>0.8-SNAPSHOT</version>
+  <version>1.0-RC3-SNAPSHOT</version>
 
-  <properties>
-    <version.qi4j.core>1.0-RC1</version.qi4j.core>
-    <version.qi4j.library>1.0-RC1</version.qi4j.library>
-    <version.qi4j.extension>1.0-RC1</version.qi4j.extension>
-  </properties>
   <build>
     <plugins>
       <plugin>
