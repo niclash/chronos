@@ -71,7 +71,7 @@ interface ProjectRoleFactoryService extends ProjectRoleFactory, ServiceComposite
             throws ProjectRoleExistsException
         {
             QueryBuilder<ProjectRole> builder = qbf.newQueryBuilder( ProjectRole.class );
-            builder.where( PREDICATE_ROLE_NAME );
+            builder = builder.where( PREDICATE_ROLE_NAME );
             Query<ProjectRole> query = builder.newQuery( uow );
             query.setVariable( VARIABLE_ROLE_NAME, projectRoleName );
             ProjectRole role = query.find();
