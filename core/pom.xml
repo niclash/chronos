@@ -3,7 +3,7 @@
   <parent>
     <groupId>org.qi4j.app</groupId>
     <artifactId>qi4j-chronos</artifactId>
-    <version>1.0-RC2-SNAPSHOT</version>
+    <version>1.0-RC3-SNAPSHOT</version>
   </parent>
   <groupId>org.qi4j.app.chronos</groupId>
   <artifactId>qi4j-chronos-core</artifactId>
