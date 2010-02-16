@@ -1,110 +1,109 @@
-
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-<modelVersion>4.0.0</modelVersion>
+  <modelVersion>4.0.0</modelVersion>
 
-<groupId>org.qi4j.app</groupId>
-<artifactId>qi4j-chronos</artifactId>
-<name>Qi4j Chronos Application</name>
-<version>1.0-RC3-SNAPSHOT</version>
-<packaging>pom</packaging>
-<inceptionYear>2007</inceptionYear>
-<url>http://www.qi4j.org/</url>
+  <groupId>org.qi4j.app</groupId>
+  <artifactId>qi4j-chronos</artifactId>
+  <name>Qi4j Chronos Application</name>
+  <version>1.1-SNAPSHOT</version>
+  <packaging>pom</packaging>
+  <inceptionYear>2007</inceptionYear>
+  <url>http://www.qi4j.org/</url>
 
-<properties>
-  <version.qi4j-core>1.0-RC3-SNAPSHOT</version.qi4j-core>
-  <version.qi4j-libraries>1.0-RC3-SNAPSHOT</version.qi4j-libraries>
-  <version.qi4j-extensions>1.0-RC3-SNAPSHOT</version.qi4j-extensions>
-</properties>
+  <properties>
+    <version.qi4j-core>1.1-SNAPSHOT</version.qi4j-core>
+    <version.qi4j-libraries>1.1-SNAPSHOT</version.qi4j-libraries>
+    <version.qi4j-extensions>1.1-SNAPSHOT</version.qi4j-extensions>
+  </properties>
 
-<scm>
-  <connection>scm:git:git://dscm.ops4j.org/qi4j-chronos.git</connection>
-  <developerConnection>scm:git:git@dscm.ops4j.org:qi4j-chronos.git</developerConnection>
-</scm>
+  <scm>
+    <connection>scm:git:git://dscm.ops4j.org/qi4j-chronos.git</connection>
+    <developerConnection>scm:git:git@dscm.ops4j.org:qi4j-chronos.git</developerConnection>
+  </scm>
 
-<!-- This POM is ONLY to initiate the modules to be built. -->
-<modules>
-  <module>core</module>
-</modules>
+  <!-- This POM is ONLY to initiate the modules to be built. -->
+  <modules>
+    <module>core</module>
+  </modules>
 
-<repositories>
-  <repository>
-    <id>ops4j-repository</id>
-    <url>http://repository.ops4j.org/maven2</url>
-  </repository>
-</repositories>
+  <repositories>
+    <repository>
+      <id>ops4j-repository</id>
+      <url>http://repository.ops4j.org/maven2</url>
+    </repository>
+  </repositories>
 
-<developers>
-  <developer>
-    <id>niclas@hedhman.org</id>
-    <name>Niclas Hedhman</name>
-    <email>niclas@hedhman.org</email>
-    <organization>CodeDragons</organization>
-    <organizationUrl>http://www.codedragons.com</organizationUrl>
-    <roles>
-      <role>Developer</role>
-      <role>Release Manager</role>
-    </roles>
-    <timezone>UTC+8</timezone>
-  </developer>
-  <developer>
-    <id>edward.yakop@gmail.com</id>
-    <name>Edward Yakop</name>
-    <email>efy@codedragons.com</email>
-    <url>http://www.codedragons.com</url>
-    <organization>CodeDragons</organization>
-    <organizationUrl>http://www.codedragons.com</organizationUrl>
-    <roles>
-      <role>Developer</role>
-    </roles>
-    <timezone>UTC+8</timezone>
-  </developer>
-  <developer>
-    <id>boon</id>
-    <name>Lan Boon Ping</name>
-    <organization>CodeDragons</organization>
-    <email>boonping81@gmail.com</email>
-    <timezone>UTC+8</timezone>
-  </developer>
-  <developer>
-    <id>siannyhalim@gmail.com</id>
-    <name>Sianny Halim</name>
-    <organization>CodeDragons</organization>
-    <email>siannyhalim@gmail.com</email>
-    <timezone>UTC+8</timezone>
-  </developer>
-</developers>
+  <developers>
+    <developer>
+      <id>niclas@hedhman.org</id>
+      <name>Niclas Hedhman</name>
+      <email>niclas@hedhman.org</email>
+      <organization>CodeDragons</organization>
+      <organizationUrl>http://www.codedragons.com</organizationUrl>
+      <roles>
+        <role>Developer</role>
+        <role>Release Manager</role>
+      </roles>
+      <timezone>UTC+8</timezone>
+    </developer>
+    <developer>
+      <id>edward.yakop@gmail.com</id>
+      <name>Edward Yakop</name>
+      <email>efy@codedragons.com</email>
+      <url>http://www.codedragons.com</url>
+      <organization>CodeDragons</organization>
+      <organizationUrl>http://www.codedragons.com</organizationUrl>
+      <roles>
+        <role>Developer</role>
+      </roles>
+      <timezone>UTC+8</timezone>
+    </developer>
+    <developer>
+      <id>boon</id>
+      <name>Lan Boon Ping</name>
+      <organization>CodeDragons</organization>
+      <email>boonping81@gmail.com</email>
+      <timezone>UTC+8</timezone>
+    </developer>
+    <developer>
+      <id>siannyhalim@gmail.com</id>
+      <name>Sianny Halim</name>
+      <organization>CodeDragons</organization>
+      <email>siannyhalim@gmail.com</email>
+      <timezone>UTC+8</timezone>
+    </developer>
+  </developers>
 
-<build>
-  <extensions>
-    <extension>
-      <groupId>org.apache.maven.wagon</groupId>
-      <artifactId>wagon-ssh-external</artifactId>
-      <version>1.0-alpha-6</version>
-    </extension>
-  </extensions>
-  <plugins>
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-source-plugin</artifactId>
-      <executions>
-        <execution>
-          <id>attach-sources</id>
-          <phase>verify</phase>
-          <goals>
-            <goal>jar</goal>
-          </goals>
-        </execution>
-      </executions>
-    </plugin>
-    <plugin>
-      <artifactId>maven-compiler-plugin</artifactId>
-      <configuration>
-        <source>1.5</source>
-        <target>1.5</target>
-      </configuration>
-    </plugin>
-    <plugin>
+  <build>
+    <extensions>
+      <extension>
+        <groupId>org.apache.maven.wagon</groupId>
+        <artifactId>wagon-ssh-external</artifactId>
+        <version>1.0-alpha-6</version>
+      </extension>
+    </extensions>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-source-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>attach-sources</id>
+            <phase>verify</phase>
+            <goals>
+              <goal>jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>
+      <plugin>
+        <artifactId>maven-compiler-plugin</artifactId>
+        <configuration>
+          <source>1.5</source>
+          <target>1.5</target>
+        </configuration>
+      </plugin>
+      <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-checkstyle-plugin</artifactId>
         <!-- Note: dependency needed to locate the configuration -->
@@ -117,47 +116,47 @@
         </dependencies>
       </plugin>
 
-    <plugin>
-      <groupId>org.apache.felix</groupId>
-      <artifactId>maven-bundle-plugin</artifactId>
-      <version>2.0.0</version>
-      <extensions>true</extensions>
-      <configuration>
-        <instructions>
-          <Bundle-DocURL>${pom.url}</Bundle-DocURL>
-          <_include>-osgi.bundle</_include>
-        </instructions>
-      </configuration>
-    </plugin>
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-release-plugin</artifactId>
-      <dependencies>
-        <dependency>
-          <groupId>org.apache.maven.scm</groupId>
-          <artifactId>maven-scm-provider-gitexe</artifactId>
-          <version>1.2</version>
-        </dependency>
-      </dependencies>
-    </plugin>
+      <plugin>
+        <groupId>org.apache.felix</groupId>
+        <artifactId>maven-bundle-plugin</artifactId>
+        <version>2.0.0</version>
+        <extensions>true</extensions>
+        <configuration>
+          <instructions>
+            <Bundle-DocURL>${pom.url}</Bundle-DocURL>
+            <_include>-osgi.bundle</_include>
+          </instructions>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-release-plugin</artifactId>
+        <dependencies>
+          <dependency>
+            <groupId>org.apache.maven.scm</groupId>
+            <artifactId>maven-scm-provider-gitexe</artifactId>
+            <version>1.2</version>
+          </dependency>
+        </dependencies>
+      </plugin>
 
-    <plugin>
-      <groupId>org.apache.maven.plugins</groupId>
-      <artifactId>maven-surefire-plugin</artifactId>
-      <configuration>
-        <forkMode>once</forkMode>
-        <includes>
-          <include>**/*Test.java</include>
-          <include>**/*TestCase.java</include>
-        </includes>
-      </configuration>
-    </plugin>
-    <plugin>
-      <groupId>com.atlassian.maven.plugins</groupId>
-      <artifactId>maven-clover2-plugin</artifactId>
-    </plugin>
-  </plugins>
-</build>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <configuration>
+          <forkMode>once</forkMode>
+          <includes>
+            <include>**/*Test.java</include>
+            <include>**/*TestCase.java</include>
+          </includes>
+        </configuration>
+      </plugin>
+      <plugin>
+        <groupId>com.atlassian.maven.plugins</groupId>
+        <artifactId>maven-clover2-plugin</artifactId>
+      </plugin>
+    </plugins>
+  </build>
 
   <distributionManagement>
     <repository>
@@ -235,61 +234,61 @@
     </plugins>
   </reporting>
 
-<dependencyManagement>
-  <dependencies>
-    <dependency>
-      <groupId>org.qi4j.core</groupId>
-      <artifactId>qi4j-core-api</artifactId>
-      <version>${version.qi4j-core}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.qi4j.core</groupId>
-      <artifactId>qi4j-core-spi</artifactId>
-      <version>${version.qi4j-core}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.qi4j.core</groupId>
-      <artifactId>qi4j-core-bootstrap</artifactId>
-      <version>${version.qi4j-core}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.qi4j.core</groupId>
-      <artifactId>qi4j-core-runtime</artifactId>
-      <version>${version.qi4j-core}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.qi4j.core</groupId>
-      <artifactId>qi4j-core-testsupport</artifactId>
-      <version>${version.qi4j-core}</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.qi4j.library</groupId>
-      <artifactId>qi4j-lib-constraints</artifactId>
-      <version>${version.qi4j-libraries}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.qi4j.library</groupId>
-      <artifactId>qi4j-lib-locking</artifactId>
-      <version>${version.qi4j-libraries}</version>
-    </dependency>
-    <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>4.5</version>
-      <scope>test</scope>
-    </dependency>
-    <dependency>
-      <groupId>org.qi4j.extension</groupId>
-      <artifactId>qi4j-indexing-rdf</artifactId>
-      <version>${version.qi4j-extensions}</version>
-    </dependency>
-    <dependency>
-      <groupId>org.jmock</groupId>
-      <artifactId>jmock</artifactId>
-      <scope>test</scope>
-      <version>2.5.1</version>
-    </dependency>
-  </dependencies>
-</dependencyManagement>
+  <dependencyManagement>
+    <dependencies>
+      <dependency>
+        <groupId>org.qi4j.core</groupId>
+        <artifactId>qi4j-core-api</artifactId>
+        <version>${version.qi4j-core}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.qi4j.core</groupId>
+        <artifactId>qi4j-core-spi</artifactId>
+        <version>${version.qi4j-core}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.qi4j.core</groupId>
+        <artifactId>qi4j-core-bootstrap</artifactId>
+        <version>${version.qi4j-core}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.qi4j.core</groupId>
+        <artifactId>qi4j-core-runtime</artifactId>
+        <version>${version.qi4j-core}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.qi4j.core</groupId>
+        <artifactId>qi4j-core-testsupport</artifactId>
+        <version>${version.qi4j-core}</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.qi4j.library</groupId>
+        <artifactId>qi4j-lib-constraints</artifactId>
+        <version>${version.qi4j-libraries}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.qi4j.library</groupId>
+        <artifactId>qi4j-lib-locking</artifactId>
+        <version>${version.qi4j-libraries}</version>
+      </dependency>
+      <dependency>
+        <groupId>junit</groupId>
+        <artifactId>junit</artifactId>
+        <version>4.5</version>
+        <scope>test</scope>
+      </dependency>
+      <dependency>
+        <groupId>org.qi4j.extension</groupId>
+        <artifactId>qi4j-indexing-rdf</artifactId>
+        <version>${version.qi4j-extensions}</version>
+      </dependency>
+      <dependency>
+        <groupId>org.jmock</groupId>
+        <artifactId>jmock</artifactId>
+        <scope>test</scope>
+        <version>2.5.1</version>
+      </dependency>
+    </dependencies>
+  </dependencyManagement>
 </project>
