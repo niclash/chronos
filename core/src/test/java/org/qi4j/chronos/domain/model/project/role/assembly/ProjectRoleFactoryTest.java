@@ -16,7 +16,6 @@
  */
 package org.qi4j.chronos.domain.model.project.role.assembly;
 
-import static org.junit.Assert.*;
 import org.junit.Test;
 import org.qi4j.api.service.ServiceFinder;
 import org.qi4j.api.service.ServiceReference;
@@ -26,7 +25,10 @@ import org.qi4j.chronos.domain.model.project.role.ProjectRole;
 import org.qi4j.chronos.domain.model.project.role.ProjectRoleExistsException;
 import org.qi4j.chronos.domain.model.project.role.ProjectRoleFactory;
 
-public class ProjectRoleFactoryTest extends AbstractProjectTest
+import static org.junit.Assert.*;
+
+public class ProjectRoleFactoryTest
+    extends AbstractProjectTest
 {
     @Test
     public void createTest()
@@ -38,27 +40,28 @@ public class ProjectRoleFactoryTest extends AbstractProjectTest
         ServiceReference<ProjectRoleFactory> factoryRef = serviceFinder.findService( ProjectRoleFactory.class );
         ProjectRoleFactory factory = factoryRef.get();
 
+        ProjectRole role = factory.create( "Project Manager" );
+        assertNotNull( role );
+        uow.complete();
+        uow = unitOfWorkFactory.newUnitOfWork();
         try
         {
-            ProjectRole role = factory.create( "Project Manager" );
-            assertNotNull( role );
-            uow.apply();
-
-            try
-            {
-                factory.create( "Project Manager" );
-                fail( "Creating role with the same name must fail." );
-            }
-            catch( ProjectRoleExistsException e )
-            {
-                // Expected
-            }
-
+            factory.create( "Project Manager" );
+            fail( "Creating role with the same name must fail." );
+        }
+        catch( ProjectRoleExistsException e )
+        {
+            // Expected
+            role = uow.get( role );
             uow.remove( role );
+            uow.complete();
         }
         finally
         {
-            uow.complete();
+            if( uow.isOpen() )
+            {
+                uow.discard();
+            }
         }
     }
 }

@@ -54,8 +54,6 @@ public class AccountRepositoryTest extends AbstractAccountTest
             String accountName = account.name();
             assertEquals( "My Account", accountName );
 
-            uow.apply();
-
             Account account1 = accountRepository.find( accountId );
             assertNotNull( account1 );
             accountId.sameValueAs( account1.accountId() );

@@ -45,6 +45,8 @@ public class ProjectRoleRepositoryTest extends AbstractProjectTest
         UnitOfWork uow = unitOfWorkFactory.newUnitOfWork();
 
         bootstrapSomeData( uow );
+        uow.complete();
+        uow = unitOfWorkFactory.newUnitOfWork();
         testFind();
         removeAllRoles( uow );
     }
@@ -58,7 +60,6 @@ public class ProjectRoleRepositoryTest extends AbstractProjectTest
         ProjectRoleFactory roleFactory = factoryRef.get();
         roleFactory.create( PROJECT_MANAGER );
         roleFactory.create( QA );
-        uow.apply();
     }
 
     private void testFind()

@@ -46,8 +46,6 @@ public class CustomerTest extends AbstractCustomerTest
             assertNotNull( customer );
             assertNotNull( customer.customerId() );
 
-            uow.apply();
-
             CustomerDetail customerDetail = customer.customerDetail();
             assertNotNull( customerDetail );
             assertEquals( "Joe Smith", customerDetail.name() );

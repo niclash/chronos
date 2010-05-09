@@ -16,7 +16,6 @@
  */
 package org.qi4j.chronos.domain.model.customer.assembly;
 
-import static org.junit.Assert.*;
 import org.junit.Test;
 import org.qi4j.api.query.Query;
 import org.qi4j.api.service.ServiceFinder;
@@ -29,7 +28,10 @@ import org.qi4j.chronos.domain.model.customer.CustomerFactory;
 import org.qi4j.chronos.domain.model.customer.CustomerId;
 import org.qi4j.chronos.domain.model.customer.CustomerRepository;
 
-public class CustomerRepositoryTest extends AbstractCustomerTest
+import static org.junit.Assert.*;
+
+public class CustomerRepositoryTest
+    extends AbstractCustomerTest
 {
     @Test
     public void findTest()
@@ -49,7 +51,8 @@ public class CustomerRepositoryTest extends AbstractCustomerTest
             Customer joeCustomer = customerFactory.create( "Joe Smith", "Sir Joe Smith" );
             CustomerId joeCustomerId = joeCustomer.customerId();
             Customer johnCustomer = customerFactory.create( "John Smith", "Captain John Smith" );
-            uow.apply();
+            uow.complete();
+            uow = unitOfWorkFactory.newUnitOfWork();
 
             // Find individual
             Customer customer1 = customerRepository.find( joeCustomerId );
@@ -62,13 +65,19 @@ public class CustomerRepositoryTest extends AbstractCustomerTest
             Query<Customer> query = customerRepository.findAll();
             assertEquals( 2, query.count() );
 
+            joeCustomer = uow.get( joeCustomer );
             uow.remove( joeCustomer );
+
+            johnCustomer = uow.get( johnCustomer );
             uow.remove( johnCustomer );
-            uow.apply();
+            uow.complete();
         }
         finally
         {
-            uow.discard();
+            if( uow.isOpen() )
+            {
+                uow.discard();
+            }
         }
     }
 }
