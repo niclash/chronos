@@ -28,7 +28,7 @@ import org.qi4j.chronos.domain.model.common.comment.CommentState;
 import org.qi4j.chronos.domain.model.user.User;
 
 @Mixins( CommentFactory.CommentFactoryMixin.class )
-interface CommentFactory extends ServiceComposite
+public interface CommentFactory extends ServiceComposite
 {
     Comment create( String comment, User user );
 
