@@ -5,15 +5,15 @@
   <groupId>org.qi4j.app</groupId>
   <artifactId>qi4j-chronos</artifactId>
   <name>Qi4j Chronos Application</name>
-  <version>1.1-SNAPSHOT</version>
+  <version>1.2-SNAPSHOT</version>
   <packaging>pom</packaging>
   <inceptionYear>2007</inceptionYear>
   <url>http://www.qi4j.org/</url>
 
   <properties>
-    <version.qi4j-core>1.1-SNAPSHOT</version.qi4j-core>
-    <version.qi4j-libraries>1.1-SNAPSHOT</version.qi4j-libraries>
-    <version.qi4j-extensions>1.1-SNAPSHOT</version.qi4j-extensions>
+    <version.qi4j-core>1.2-SNAPSHOT</version.qi4j-core>
+    <version.qi4j-libraries>1.2-SNAPSHOT</version.qi4j-libraries>
+    <version.qi4j-extensions>1.2-SNAPSHOT</version.qi4j-extensions>
   </properties>
 
   <scm>
