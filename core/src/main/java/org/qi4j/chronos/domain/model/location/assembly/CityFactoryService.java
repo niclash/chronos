@@ -55,13 +55,13 @@ interface CityFactoryService extends CityFactory, ServiceComposite
         {
             VariableValueExpression<State> stateVariable = variable( VARIABLE_STATE );
             CityState stateTemplate = templateFor( CityState.class );
-            EqualsPredicate<State> statePredicate = eq( stateTemplate.state(), stateVariable );
+            EqualsPredicate<String> statePredicate = eq( stateTemplate.state(), stateVariable );
             VariableValueExpression<String> cityNameVariable = variable( VARIABLE_CITY_NAME );
             EqualsPredicate<String> cityNamePredicate = eq( templateFor( NameState.class ).name(), cityNameVariable );
             cityWithinState = and( statePredicate, cityNamePredicate );
 
             VariableValueExpression<Country> countryVariable = variable( VARIABLE_COUNTRY );
-            EqualsPredicate<Country> countryPredicate = eq( stateTemplate.country(), countryVariable );
+            EqualsPredicate<String> countryPredicate = eq( stateTemplate.country(), countryVariable );
             cityWithinCountry = and( countryPredicate, cityNamePredicate );
         }
 
